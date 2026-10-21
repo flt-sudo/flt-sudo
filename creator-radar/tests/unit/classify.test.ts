@@ -68,3 +68,15 @@ describe("extractClaimedLaunchDate", () => {
     expect(extractClaimedLaunchDate("launched my page", POSTED_AT)).toBeNull();
   });
 });
+
+describe("needs_review scores", () => {
+  it("never reads as high certainty", () => {
+    const r = classifyPost({
+      text: "My old account got banned so I just made a new onlyfans today, backup account",
+      publishedAt: POSTED_AT,
+      evidence: "post",
+    });
+    expect(r.classification).toBe("needs_review");
+    expect(r.confidence).toBeLessThanOrEqual(0.6);
+  });
+});

@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
+/* Dark-only design tokens (shadcn/ui naming). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: oklch(0.145 0.008 265);
+  --foreground: oklch(0.96 0.005 265);
+  --card: oklch(0.185 0.01 265);
+  --card-foreground: var(--foreground);
+  --muted: oklch(0.235 0.012 265);
+  --muted-foreground: oklch(0.7 0.015 265);
+  --border: oklch(0.29 0.012 265);
+  --input: oklch(0.31 0.012 265);
+  --ring: oklch(0.7 0.14 250);
+  --primary: oklch(0.72 0.15 250);
+  --primary-foreground: oklch(0.16 0.02 265);
+  --secondary: oklch(0.26 0.012 265);
+  --secondary-foreground: var(--foreground);
+  --destructive: oklch(0.64 0.2 25);
+  --success: oklch(0.74 0.16 155);
+  --warning: oklch(0.8 0.15 80);
+  --info: oklch(0.72 0.12 230);
+  --violet: oklch(0.7 0.15 300);
+  --radius: 0.625rem;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-violet: var(--violet);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
 }

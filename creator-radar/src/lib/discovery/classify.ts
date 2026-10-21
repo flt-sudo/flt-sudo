@@ -198,6 +198,9 @@ export function classifyPost(input: ClassifyInput): ClassificationResult {
     classification = "needs_review";
   }
 
+  // "Needs review" means the signals conflict, so the score must not read as high certainty.
+  if (classification === "needs_review") score = Math.min(score, 0.6);
+
   const explanation = `${reasons.slice(0, 6).join("; ")}.`.replace(/^./, (c) => c.toUpperCase());
   return {
     classification,

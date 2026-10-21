@@ -52,6 +52,11 @@ export class PgRepository implements DiscoveryRepository {
   }
 
   async createRun(input: { trigger: string; provider: ProviderName; isSimulated: boolean; triggeredBy?: string | null }): Promise<string> {
+    // Called while holding the scan lock, so any older "running" run died without finishing.
+    await this.sql`
+      update public.scan_runs
+      set status = 'failed', completed_at = now(), error_summary = 'Interrupted before completion (process exited or timed out)'
+      where status = 'running'`;
     const [row] = await this.sql`
       insert into public.scan_runs (trigger, provider, is_simulated, triggered_by)
       values (${input.trigger}, ${input.provider}, ${input.isSimulated}, ${input.triggeredBy ?? null})
@@ -191,6 +196,7 @@ export class PgRepository implements DiscoveryRepository {
     const rows = await this.sql`
       select source_post_id from public.discovery_events
       where not is_simulated
+        and (compliance_checked_at is null or compliance_checked_at < now() - interval '1 day')
       order by compliance_checked_at asc nulls first, discovered_at asc
       limit ${limit}`;
     return rows.map((r) => r.source_post_id as string);

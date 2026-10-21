@@ -147,7 +147,7 @@ export class MemoryRepository implements DiscoveryRepository {
 
   async postsForComplianceCheck(limit: number) {
     return this.events
-      .filter((e) => !e.is_simulated)
+      .filter((e) => !e.is_simulated && (!e.compliance_checked_at || e.compliance_checked_at.getTime() < this.now() - 86_400_000))
       .sort((a, b) => (a.compliance_checked_at?.getTime() ?? 0) - (b.compliance_checked_at?.getTime() ?? 0))
       .slice(0, limit)
       .map((e) => e.source_post_id);

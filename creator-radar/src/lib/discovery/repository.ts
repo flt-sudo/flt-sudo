@@ -44,6 +44,7 @@ export interface DiscoveryRepository {
   isSuppressed(keyHashes: string[]): Promise<boolean>;
   recordDiscovery(input: DiscoveryInput, opts: { allowCreate: boolean }): Promise<RecordOutcome>;
   updateProviderHealth(provider: ProviderName, patch: ProviderHealthPatch): Promise<void>;
+  /** Live post ids not checked against the source in the last 24 hours. */
   postsForComplianceCheck(limit: number): Promise<string[]>;
   removePosts(postIds: string[]): Promise<number>;
   markComplianceChecked(postIds: string[]): Promise<void>;

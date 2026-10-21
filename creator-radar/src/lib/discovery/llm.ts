@@ -64,7 +64,8 @@ export function mergeLlmResult(
     classification = "possible_new_launch";
   }
   if (rules.thirdParty && classification !== "existing_creator_promotion") classification = "needs_review";
-  const confidence = Math.round(Math.min(0.95, 0.5 * rules.confidence + 0.5 * llmConf) * 1000) / 1000;
+  const cap = classification === "needs_review" ? 0.6 : 0.95;
+  const confidence = Math.round(Math.min(cap, 0.5 * rules.confidence + 0.5 * llmConf) * 1000) / 1000;
 
   let claimed = rules.claimedLaunchDate;
   if (!claimed && out.claimed_launch_date && /^\d{4}-\d{2}-\d{2}$/.test(out.claimed_launch_date)) {

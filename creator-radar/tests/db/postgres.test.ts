@@ -133,6 +133,8 @@ describe.skipIf(!TEST_DB_URL)("postgres", () => {
       await repo.recordDiscovery(input("1", "fixture_a", "fixture_a"), { allowCreate: true });
       await repo.recordDiscovery(input("2", "fixture_b", "fixture_b"), { allowCreate: true });
       expect((await repo.postsForComplianceCheck(10)).sort()).toEqual(["1", "2"]);
+      await repo.markComplianceChecked(["2"]);
+      expect(await repo.postsForComplianceCheck(10)).toEqual(["1"]);
       expect(await repo.removePosts(["1"])).toBe(1);
       const rows = await sql`select public_x_handle from public.creators`;
       expect(rows.map((r) => r.public_x_handle)).toEqual(["fixture_b"]);

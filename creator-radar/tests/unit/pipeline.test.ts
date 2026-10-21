@@ -173,7 +173,11 @@ describe("runScan", () => {
       post("802", "fixture_b", LAUNCH, { link: "https://onlyfans.com/fixture_b" }),
     ]);
     await runScan(deps(repo, provider), { trigger: "manual" });
+    // Checked within the last day → not re-checked yet.
     provider.available = new Set(["802"]);
+    await runScan(deps(repo, provider), { trigger: "manual" });
+    expect(repo.events).toHaveLength(2);
+    for (const e of repo.events) e.compliance_checked_at = new Date(Date.now() - 2 * 86_400_000);
     await runScan(deps(repo, provider), { trigger: "manual" });
     expect(repo.events.map((e) => e.source_post_id)).toEqual(["802"]);
     expect(repo.creators.map((c) => c.public_x_handle)).toEqual(["fixture_b"]);

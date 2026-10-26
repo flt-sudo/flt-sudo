@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import pg from "pg";
 import { build } from "../src/bootstrap.js";
 import { loadConfig } from "../src/config.js";
 import { openDatabase, migrateToLatest } from "../src/db/index.js";
@@ -22,8 +23,24 @@ export function testConfig(extra: Record<string, string> = {}) {
   });
 }
 
+/**
+ * In-memory SQLite by default. Set TEST_DATABASE_URL (a Postgres server URL) to
+ * run the same suites against PostgreSQL; each call gets a fresh database.
+ */
 export async function testDb() {
-  const db = openDatabase(":memory:");
+  const base = process.env.TEST_DATABASE_URL;
+  let target = ":memory:";
+  if (base) {
+    const name = `ymc_test_${crypto.randomBytes(6).toString("hex")}`;
+    const admin = new pg.Client({ connectionString: base });
+    await admin.connect();
+    await admin.query(`create database ${name}`);
+    await admin.end();
+    const u = new URL(base);
+    u.pathname = `/${name}`;
+    target = u.toString();
+  }
+  const db = openDatabase(target);
   await migrateToLatest(db);
   return db;
 }

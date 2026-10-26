@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build:web",
+  "outputDirectory": "dist/web",
+  "functions": {
+    "api/server.ts": { "maxDuration": 300, "includeFiles": "src/**" },
+    "api/ytm.py": { "maxDuration": 60, "includeFiles": "adapter/**" }
+  },
+  "rewrites": [
+    { "source": "/api/ytm", "destination": "/api/ytm" },
+    { "source": "/api/:path*", "destination": "/api/server" },
+    { "source": "/mcp", "destination": "/api/server" },
+    { "source": "/oauth/:path*", "destination": "/api/server" },
+    { "source": "/authorize", "destination": "/api/server" },
+    { "source": "/token", "destination": "/api/server" },
+    { "source": "/register", "destination": "/api/server" },
+    { "source": "/revoke", "destination": "/api/server" },
+    { "source": "/.well-known/:path*", "destination": "/api/server" },
+    { "source": "/((?!assets/|icons/|sw\\.js|manifest\\.webmanifest).*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    { "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+  ]
+}

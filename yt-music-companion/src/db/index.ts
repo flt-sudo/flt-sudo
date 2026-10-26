@@ -1,18 +1,25 @@
 import fs from "node:fs";
 import path from "node:path";
 import SQLite from "better-sqlite3";
-import { Kysely, SqliteDialect } from "kysely";
+import { Kysely, PostgresDialect, SqliteDialect } from "kysely";
 import { Migrator } from "kysely/migration";
+import pg from "pg";
 import { migrationProvider } from "./migrations.js";
 import type { Database } from "./schema.js";
 
 export type DB = Kysely<Database>;
 
 /**
- * Opens the SQLite database. To move to PostgreSQL, replace SqliteDialect with
- * Kysely's PostgresDialect here; queries and migrations are dialect-neutral.
+ * Opens the database. A `postgres://` / `postgresql://` URL selects PostgreSQL
+ * (used for hosted deployments); anything else is a SQLite file path. Queries
+ * and migrations are dialect-neutral.
  */
 export function openDatabase(file: string): DB {
+  if (/^postgres(ql)?:\/\//.test(file)) {
+    const local = /@(localhost|127\.0\.0\.1)[:/]/.test(file);
+    const pool = new pg.Pool({ connectionString: file, max: 3, ssl: local ? undefined : { rejectUnauthorized: false } });
+    return new Kysely<Database>({ dialect: new PostgresDialect({ pool }) });
+  }
   if (file !== ":memory:") fs.mkdirSync(path.dirname(path.resolve(file)), { recursive: true });
   const sqlite = new SQLite(file);
   sqlite.pragma("journal_mode = WAL");

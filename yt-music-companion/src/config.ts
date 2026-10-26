@@ -23,6 +23,12 @@ const EnvSchema = z.object({
   YTM_ADAPTER_PATH: z.string().default("./adapter/ytm_adapter.py"),
   /** Minimum ms between calls to YouTube Music (client-side rate limit). */
   YTM_MIN_INTERVAL_MS: z.coerce.number().int().nonnegative().default(350),
+  /**
+   * Hosted mode: call the adapter over HTTPS (api/ytm.py on Vercel) instead of a
+   * local subprocess. Requests are authenticated with YTM_ADAPTER_SECRET.
+   */
+  YTM_ADAPTER_URL: z.string().url().optional(),
+  YTM_ADAPTER_SECRET: z.string().min(32).optional(),
 
   LLM_PROVIDER: z.enum(["anthropic", "openai", "none"]).default("none"),
   ANTHROPIC_API_KEY: z.string().optional(),
@@ -49,7 +55,11 @@ const EnvSchema = z.object({
 export type Config = z.infer<typeof EnvSchema> & { masterKey: Buffer };
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
-  const parsed = EnvSchema.safeParse(env);
+  const merged = { ...env };
+  // Hosted conveniences: DATABASE_URL and Vercel's production domain.
+  if (merged.DATABASE_URL && !merged.DATABASE_PATH) merged.DATABASE_PATH = merged.DATABASE_URL;
+  if (!merged.PUBLIC_BASE_URL && merged.VERCEL_PROJECT_PRODUCTION_URL) merged.PUBLIC_BASE_URL = `https://${merged.VERCEL_PROJECT_PRODUCTION_URL}`;
+  const parsed = EnvSchema.safeParse(merged);
   if (!parsed.success) {
     // Only report which variables are wrong, never their values.
     const issues = parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("\n  ");
@@ -65,6 +75,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   }
   if (cfg.LLM_PROVIDER === "openai" && !cfg.OPENAI_API_KEY) {
     throw new Error("LLM_PROVIDER=openai requires OPENAI_API_KEY");
+  }
+  if (cfg.YTM_ADAPTER_URL && !cfg.YTM_ADAPTER_SECRET) {
+    throw new Error("YTM_ADAPTER_URL requires YTM_ADAPTER_SECRET (>= 32 chars)");
   }
   if (cfg.NODE_ENV === "production" && cfg.HOST !== "127.0.0.1" && !cfg.PUBLIC_BASE_URL) {
     throw new Error("PUBLIC_BASE_URL is required when binding to a non-loopback host in production");

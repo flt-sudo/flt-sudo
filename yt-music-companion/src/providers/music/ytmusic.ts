@@ -29,7 +29,7 @@ export class YTMusicProvider implements MusicProvider {
   private proc: ChildProcessWithoutNullStreams | null = null;
   private nextId = 1;
   private pending = new Map<number, Pending>();
-  private auth: string | null = null;
+  protected auth: string | null = null;
   private initialized = false;
   private throttle: Throttle;
 
@@ -76,7 +76,7 @@ export class YTMusicProvider implements MusicProvider {
     else p.resolve(msg.result);
   }
 
-  private rawCall<T>(method: string, params: Record<string, unknown> = {}): Promise<T> {
+  protected rawCall<T>(method: string, params: Record<string, unknown> = {}): Promise<T> {
     const proc = this.start();
     const id = this.nextId++;
     return new Promise<T>((resolve, reject) => {
@@ -89,7 +89,7 @@ export class YTMusicProvider implements MusicProvider {
     });
   }
 
-  private async ensureInit() {
+  protected async ensureInit() {
     if (this.initialized && this.proc) return;
     await this.rawCall("init", this.auth ? { auth: this.auth } : {});
     this.initialized = true;

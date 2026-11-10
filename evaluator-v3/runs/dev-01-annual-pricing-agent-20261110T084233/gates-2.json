@@ -1,0 +1,408 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [furtherResearchThatCouldChangeConclusion[0], [1]; compare verdict and C2] furtherResearchThatCouldChangeConclusion items 1-2 say that confirming the pilot's 91% is a renewal rate, together with tenured monthly churn above about 0.9% (or tenured monthly retention of about 70-75%), 'would make the pilot favorable evidence and support a broader launch' and 'would imply a real causal effect'. That treats tenure-matching as enough to remove selection. Per E4, sales hand-picked the pilot accounts, which adds a second selection layer on top of tenure, and the draft itself says in C2 and CL6 that selection beyond observables cannot be ruled out (E11, the E12 limitations). This also contradicts the verdict, which allows scaling only after a randomized or holdout-controlled test. A decision-maker could skip the test after a quick internal data pull."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [C3 assessment; K31-K33, K39-K41; CL15] K31-K33 and the scenario grid K36-K41 value would-have-churned converters at the blended 3.2% hazard ($299.56 counterfactual revenue). The draft argues converters are tenured and lower-churn, so their would-have-churned members probably churn later and would have paid more, which lowers the $190 gain and the 66% break-even share. The grid's positive cells (+$4.62 to +$13.87) are therefore likely overstated for the converter pool the draft expects. The draft does not flag this."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [alternatives[3]; correctedUserAssumptions[4]] Alternative 4 (offer annual billing to new or early-tenure accounts or at cancellation intent) values these converters at a +$190 per seat year-one gain (K32). That figure assumes they prepay the full $490 with no refund. The draft argues elsewhere (correctedUserAssumptions[4], citing E11) that early-tenure and low-commitment accounts are unlikely to prepay, and that would-be churners prepaying is the scenario selection makes least likely. The alternative does not resolve this tension and mentions only 'lower uptake'. It also leaves out a common B2B option, an annual commitment billed monthly, which gives lock-in with a smaller discount."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict (Recommendation); practicalImplications[4], [5]; alternatives[0]] The recommendation ties scale-up to a measured month-12 renewal rate beating 1 - 10c. That metric cannot be observed for at least 12 months after enrollment, and enrollment itself runs up to 6 months per E2. The draft gives no test size, though at n=40 the Wilson interval is 78-97% (K43, K44), which cannot separate the 68%/90%/92% thresholds the draft sets. It also gives no interim leading indicators (uptake rate, converter tenure mix versus the 66% would-have-stayed threshold in K33, in-term seat contraction) and no interim decision rule. The decision-maker does not learn what to do in the next 12-18 months or how many accounts the test needs."
+        },
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [verdict] The verdict is a dense block of about 25 figures and hedges. The bottom line (do not launch broadly; run a controlled $490 test after two data pulls) is buried after the bounding arithmetic."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [CL18; C2 mechanisms/strengths; C4 strengths; counterarguments[2]] CL18, the C2 mechanisms, the C2 strengths and the C4 strengths cite E15 for the claim that annual prepay cuts involuntary churn from failed card payments. E15 covers only Stripe fee rates and fee arithmetic. It says nothing about payment-failure rates or involuntary churn. C2 also calls this 'the strongest version of the pro-launch case' without any supporting evidence in the packet."
+        },
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [verdict; C2 assessment] The claim that '9% churn inside a prepaid 12-month term is unusual' has no citation where it appears. The only support is E17's back-loading claim, which is a single snippet from a mobile-app vendor, and the draft does not cite it there."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 490/(49*12))*100",
+      "claimed": 16.6667,
+      "actual": 16.666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "49*12*0.75",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.968^12",
+      "claimed": 0.67687,
+      "actual": 0.67686847547098,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "49*(1-0.968^12)/0.032",
+      "claimed": 494.79,
+      "actual": 494.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "49*12-490",
+      "claimed": 98,
+      "actual": 98,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(49*12-490)*8",
+      "claimed": 784,
+      "actual": 784,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "12*(0.029*392+0.30)",
+      "claimed": 140.016,
+      "actual": 140.01600000000002,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.029*3920+0.30",
+      "claimed": 113.98,
+      "actual": 113.98,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "12*(0.029*392+0.30)-(0.029*3920+0.30)",
+      "claimed": 26.036,
+      "actual": 26.036000000000016,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "49*(1-(1-0.0338)^12)/0.0338",
+      "claimed": 490.12,
+      "actual": 490.11841950970717,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "49*(1-0.99^12)/0.01",
+      "claimed": 556.71,
+      "actual": 556.7141285909673,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "49*(1-0.99^12)/0.01-490",
+      "claimed": 66.71,
+      "actual": 66.71412859096733,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-0.91^(1/12)",
+      "claimed": 0.007828,
+      "actual": 0.007828420342483211,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "40*(1-0.91)",
+      "claimed": 3.6,
+      "actual": 3.5999999999999988,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "1.96*sqrt(0.91*0.09/40)",
+      "claimed": 0.0887,
+      "actual": 0.08868864639851033,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "0.3*98",
+      "claimed": 29.4,
+      "actual": 29.4,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8",
+      "claimed": 94.7455,
+      "actual": 94.74549999999999,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "490-49*(1-0.968^12)/0.032",
+      "claimed": -4.795,
+      "actual": -4.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "49/0.032",
+      "claimed": 1531.25,
+      "actual": 1531.25,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "1-490/(49/0.032)",
+      "claimed": 0.68,
+      "actual": 0.6799999999999999,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "49/0.01",
+      "claimed": 4900,
+      "actual": 4900,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "1-490/(49/0.01)",
+      "claimed": 0.9,
+      "actual": 0.9,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "1-490*(1-0.91^(1/12))/49",
+      "claimed": 0.92172,
+      "actual": 0.9217157965751679,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "(1-0.91)*49/490",
+      "claimed": 0.009,
+      "actual": 0.008999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "0.991^12",
+      "claimed": 0.89719,
+      "actual": 0.8971888214154765,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "490/(1-0.91)",
+      "claimed": 5444.44,
+      "actual": 5444.444444444446,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "49*(1-0.968^24)/0.032",
+      "claimed": 829.71,
+      "actual": 829.7063837114368,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "49*(1-0.968^24)/0.032/490-1",
+      "claimed": 0.69328,
+      "actual": 0.6932783341049731,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "49*(1-0.99^24)/0.01",
+      "claimed": 1050.18,
+      "actual": 1050.177110044628,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "2*490",
+      "claimed": 980,
+      "actual": 980,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 299.56,
+      "actual": 299.5575362051453,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "490-(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 190.44,
+      "actual": 190.4424637948547,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "190.44/(98+190.44)",
+      "claimed": 0.6602,
+      "actual": 0.6602412980169186,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "0.1*(-98)",
+      "claimed": -9.8,
+      "actual": -9.8,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "0.2*(-98)",
+      "claimed": -19.6,
+      "actual": -19.6,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "0.1*(0.9*(-98)+0.1*190.44)",
+      "claimed": -6.9156,
+      "actual": -6.915600000000001,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.2*(0.9*(-98)+0.1*190.44)",
+      "claimed": -13.8312,
+      "actual": -13.831200000000003,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "0.3*(0.9*(-98)+0.1*190.44)",
+      "claimed": -20.7468,
+      "actual": -20.7468,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "0.1*(0.5*(-98)+0.5*190.44)",
+      "claimed": 4.622,
+      "actual": 4.622,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "0.2*(0.5*(-98)+0.5*190.44)",
+      "claimed": 9.244,
+      "actual": 9.244,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "0.3*(0.5*(-98)+0.5*190.44)",
+      "claimed": 13.866,
+      "actual": 13.866,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "0.3*(490-49*(1-0.968^12)/0.032)",
+      "claimed": -1.4385,
+      "actual": -1.4385440805185852,
+      "ok": true
+    },
+    {
+      "id": "K43",
+      "expression": "((0.91+1.96^2/80)-1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.78206,
+      "actual": 0.7820569207517788,
+      "ok": true
+    },
+    {
+      "id": "K44",
+      "expression": "((0.91+1.96^2/80)+1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.96609,
+      "actual": 0.9660909570628997,
+      "ok": true
+    },
+    {
+      "id": "K45",
+      "expression": "490*0.08*5.5/12",
+      "claimed": 17.967,
+      "actual": 17.96666666666667,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [furtherResearchThatCouldChangeConclusion[0], [1]; compare verdict and C2] furtherResearchThatCouldChangeConclusion items 1-2 say that confirming the pilot's 91% is a renewal rate, together with tenured monthly churn above about 0.9% (or tenured monthly retention of about 70-75%), 'would make the pilot favorable evidence and support a broader launch' and 'would imply a real causal effect'. That treats tenure-matching as enough to remove selection. Per E4, sales hand-picked the pilot accounts, which adds a second selection layer on top of tenure, and the draft itself says in C2 and CL6 that selection beyond observables cannot be ruled out (E11, the E12 limitations). This also contradicts the verdict, which allows scaling only after a randomized or holdout-controlled test. A decision-maker could skip the test after a quick internal data pull."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict (Recommendation); practicalImplications[4], [5]; alternatives[0]] The recommendation ties scale-up to a measured month-12 renewal rate beating 1 - 10c. That metric cannot be observed for at least 12 months after enrollment, and enrollment itself runs up to 6 months per E2. The draft gives no test size, though at n=40 the Wilson interval is 78-97% (K43, K44), which cannot separate the 68%/90%/92% thresholds the draft sets. It also gives no interim leading indicators (uptake rate, converter tenure mix versus the 66% would-have-stayed threshold in K33, in-term seat contraction) and no interim decision rule. The decision-maker does not learn what to do in the next 12-18 months or how many accounts the test needs."
+    }
+  ]
+}

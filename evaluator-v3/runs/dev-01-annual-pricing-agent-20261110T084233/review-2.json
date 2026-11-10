@@ -1,0 +1,110 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "furtherResearchThatCouldChangeConclusion items 1-2 say that confirming the pilot's 91% is a renewal rate, together with tenured monthly churn above about 0.9% (or tenured monthly retention of about 70-75%), 'would make the pilot favorable evidence and support a broader launch' and 'would imply a real causal effect'. That treats tenure-matching as enough to remove selection. Per E4, sales hand-picked the pilot accounts, which adds a second selection layer on top of tenure, and the draft itself says in C2 and CL6 that selection beyond observables cannot be ruled out (E11, the E12 limitations). This also contradicts the verdict, which allows scaling only after a randomized or holdout-controlled test. A decision-maker could skip the test after a quick internal data pull.",
+      "location": "furtherResearchThatCouldChangeConclusion[0], [1]; compare verdict and C2",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The recommendation ties scale-up to a measured month-12 renewal rate beating 1 - 10c. That metric cannot be observed for at least 12 months after enrollment, and enrollment itself runs up to 6 months per E2. The draft gives no test size, though at n=40 the Wilson interval is 78-97% (K43, K44), which cannot separate the 68%/90%/92% thresholds the draft sets. It also gives no interim leading indicators (uptake rate, converter tenure mix versus the 66% would-have-stayed threshold in K33, in-term seat contraction) and no interim decision rule. The decision-maker does not learn what to do in the next 12-18 months or how many accounts the test needs.",
+      "location": "verdict (Recommendation); practicalImplications[4], [5]; alternatives[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "CL18, the C2 mechanisms, the C2 strengths and the C4 strengths cite E15 for the claim that annual prepay cuts involuntary churn from failed card payments. E15 covers only Stripe fee rates and fee arithmetic. It says nothing about payment-failure rates or involuntary churn. C2 also calls this 'the strongest version of the pro-launch case' without any supporting evidence in the packet.",
+      "location": "CL18; C2 mechanisms/strengths; C4 strengths; counterarguments[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The claim that '9% churn inside a prepaid 12-month term is unusual' has no citation where it appears. The only support is E17's back-loading claim, which is a single snippet from a mobile-app vendor, and the draft does not cite it there.",
+      "location": "verdict; C2 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "Alternative 4 (offer annual billing to new or early-tenure accounts or at cancellation intent) values these converters at a +$190 per seat year-one gain (K32). That figure assumes they prepay the full $490 with no refund. The draft argues elsewhere (correctedUserAssumptions[4], citing E11) that early-tenure and low-commitment accounts are unlikely to prepay, and that would-be churners prepaying is the scenario selection makes least likely. The alternative does not resolve this tension and mentions only 'lower uptake'. It also leaves out a common B2B option, an annual commitment billed monthly, which gives lock-in with a smaller discount.",
+      "location": "alternatives[3]; correctedUserAssumptions[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K31-K33 and the scenario grid K36-K41 value would-have-churned converters at the blended 3.2% hazard ($299.56 counterfactual revenue). The draft argues converters are tenured and lower-churn, so their would-have-churned members probably churn later and would have paid more, which lowers the $190 gain and the 66% break-even share. The grid's positive cells (+$4.62 to +$13.87) are therefore likely overstated for the converter pool the draft expects. The draft does not flag this.",
+      "location": "C3 assessment; K31-K33, K39-K41; CL15",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict is a dense block of about 25 figures and hedges. The bottom line (do not launch broadly; run a controlled $490 test after two data pulls) is buried after the bounding arithmetic.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is this company's 12-month retention for monthly customers with more than a year of tenure, and what is its churn by tenure cohort?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Was the pilot's 91% measured in-term or as the month-12 renewal rate, what refund terms applied, and how did sales choose the 40 accounts?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What share of the 3.2% monthly churn is involuntary (payment failure)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which customers (by tenure and seat count) express intent to take an annual plan at $490, for example from a survey or a fake-door test? This would bound the converter mix before a full test.",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, the discount premise, the pilot's validity, cannibalization, fees and cash, conversion, positioning and operational terms are addressed in depth, and the price/condition alternatives are answered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-level and vendor evidence is consistently flagged, confidence is set to low, and unknowns E9 and E14 are surfaced. The remaining issues are minor (the E15 involuntary-churn citation)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All 45 calculations recompute correctly within tolerance. However, the further-research section treats tenure-matched comparison as enough to show a causal effect despite sales hand-picking, which contradicts the verdict's test requirement (D1). The grid's positive cells also use blended-hazard churner revenue (D6)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The strongest pro-launch arguments (the industry gap, the pilot as a renewal rate, involuntary churn, lock-in) are engaged fairly. Five alternatives are compared. The tension in the early-tenure targeting option is minor (D5)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict gives a clear direction, but the recommended test has no size, no timeline and no interim decision rule, while its success metric takes 12 months or more to observe (D2)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All E and K IDs exist and claims generally match the packet text. The exceptions are minor: E15 cited for involuntary churn, and one uncited claim (D3, D4)."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "critical",
+      "description": "The scale-up rule says to scale if month-12 renewal beats 1 - 10 x the holdout's measured monthly churn. That rule brings back the selection bias the draft warns about everywhere else. The break-even derived in K20/K22 uses c, the converter's own counterfactual monthly churn. A randomized holdout's average churn is the blended base rate (about 3.2%), so the threshold comes out near 68%. The draft itself argues that converters are likely tenured, lower-churn accounts, whose break-even is about 90-92% (K22, K23). Under the stated rule, a renewal rate of about 70-89% would pass even though it destroys LTV for a 1%-churn converter pool. The practical-implications bullet lists 68/90/92% as alternatives, but the operative rule in the verdict and in practicalImplications[6] fixes c as holdout churn. A correct rule would either (a) compare revenue per offered account against revenue per holdout account (intention-to-treat, the proper use of randomization), or (b) estimate c from holdout accounts matched to the converters' characteristics, such as tenure and seat count.",
+      "location": "verdict step (4); practicalImplications[6] ('Final success rule'); alternatives[0]; tradeoffs[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "K52 sizes the test to detect a 5-point difference in 12-month logo retention between offered and holdout arms (68% vs 73%). There are two problems. First, 12-month logo retention in the offered arm is pushed up mechanically by prepaid in-term lock-in, which the draft says elsewhere must not be the success metric (E17, practicalImplications[6]). Second, at 10-30% uptake, a 5-point difference between arms means converters would need a retention gain of about 17-50 points, so the sizing does not match a plausible effect size. Sizing the test on per-account revenue or retention measured after renewal (for example at 24 months) would match the draft's own decision logic. The stated feasibility figure of about 1,302 accounts per arm, and the conclusion drawn from it, are therefore unreliable.",
+      "location": "K52; claim CL20; practicalImplications[4]; alternatives[0]; edgeCasesAndFailureModes[last]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The month-6 interim rule says to pause if more than about 64-66% of converters 'would have stayed'. That counterfactual cannot be observed. The draft substitutes an undefined proxy, 'tenured accounts with no churn-risk signals', without saying how that proxy maps to would-have-stayed probability. The 64-66% threshold is also a year-one break-even only (K33, K48). Across a lifetime the plan can still lose value at a lower stayed share when renewal falls short of 1 - 10c, and gain value at a higher one when it exceeds it. As written, the interim gate cannot be put into practice and may conflict with the lifetime rule.",
+      "location": "verdict step (3); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The year-one grid (K34-K42) treats every converter as converting at month 0. The memo has conversion happening over 6 months (E2), so converters must first survive to the point of conversion, and part of each converter's revenue is already earned at monthly prices. That changes both the stayed/churned mix and the per-base-seat figures. Separately, the range of +$441 to -$49 for would-have-churned converters (K53, K54) leaves out the -$98 case. Under the K31 definition, a seat that pays all 12 monthly payments and then churns at the 12-month boundary counts as 'churned within 12 months'.",
+      "location": "K34-K42; K53/K54; claim CL19; remainingUncertainty[7]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K45 (time value of about $18 per seat) assumes the monthly counterfactual customer pays all 12 months. For the expected monthly seat (about 10.1 paid months, K4), the cash advanced is smaller. The figure is labelled illustrative and does not change any conclusion.",
+      "location": "K45; C4 assessment",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is this company's 12-month retention, or monthly churn, for monthly customers with more than a year of tenure, and its churn by tenure cohort? This sets the converter's counterfactual c and therefore the break-even renewal threshold.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Was the pilot's 91% in-term retention or the month-12 renewal rate, what refund terms applied, and what criteria did sales use to pick the 40 accounts?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How many active customers or accounts does the company have? This decides whether a randomized test with enough statistical power is feasible, or whether a staged launch with matched-cohort analysis is the only option.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What share of the 3.2% monthly churn is involuntary (payment failure), which annual prepay could remove causally?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "The draft addresses all six criteria and every part of the request: whether the discount is correct, whether annual billing actually cuts churn, and whether to launch at $490. It includes a scenario grid, LTV and 24-month views, fees, operational terms and a test design."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Confidence is set to low. Snippet-level external evidence is flagged as such. Unknowns (E9, E14) are stated openly. The involuntary-churn mechanism is labelled as reasoning only and not material."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed the arithmetic (K1-K54) and it checks out. However, the operative scale-up threshold uses the holdout's blended churn instead of the converters' counterfactual churn (D1), and the power calculation is built on a metric the draft itself rejects (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The draft covers six alternatives: a test, $441, $539, a targeted offer, an annual commitment billed monthly, and not launching. The strongest counterarguments (the industry retention gap, the pilot as a renewal rate, involuntary churn, test duration) are steelmanned and answered."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict gives a clear answer: not a broad launch, a controlled test instead. However, its two decision gates are flawed. The final scaling rule is too lenient toward launching (D1), and the interim gate depends on an unobservable counterfactual (D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited E and K ID exists. I spot-checked the claims against the packet and the sources (memo and churn data) and they match. Claims with no evidence are labelled as such, and I saw no sign that the draft followed instructions embedded in a document."
+    }
+  ]
+}

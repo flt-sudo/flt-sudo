@@ -1,0 +1,463 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "critical",
+          "source": "reviewer",
+          "detail": "D1 [verdict step (4); practicalImplications[6] ('Final success rule'); alternatives[0]; tradeoffs[3]] The scale-up rule says to scale if month-12 renewal beats 1 - 10 x the holdout's measured monthly churn. That rule brings back the selection bias the draft warns about everywhere else. The break-even derived in K20/K22 uses c, the converter's own counterfactual monthly churn. A randomized holdout's average churn is the blended base rate (about 3.2%), so the threshold comes out near 68%. The draft itself argues that converters are likely tenured, lower-churn accounts, whose break-even is about 90-92% (K22, K23). Under the stated rule, a renewal rate of about 70-89% would pass even though it destroys LTV for a 1%-churn converter pool. The practical-implications bullet lists 68/90/92% as alternatives, but the operative rule in the verdict and in practicalImplications[6] fixes c as holdout churn. A correct rule would either (a) compare revenue per offered account against revenue per holdout account (intention-to-treat, the proper use of randomization), or (b) estimate c from holdout accounts matched to the converters' characteristics, such as tenure and seat count."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [K52; claim CL20; practicalImplications[4]; alternatives[0]; edgeCasesAndFailureModes[last]] K52 sizes the test to detect a 5-point difference in 12-month logo retention between offered and holdout arms (68% vs 73%). There are two problems. First, 12-month logo retention in the offered arm is pushed up mechanically by prepaid in-term lock-in, which the draft says elsewhere must not be the success metric (E17, practicalImplications[6]). Second, at 10-30% uptake, a 5-point difference between arms means converters would need a retention gain of about 17-50 points, so the sizing does not match a plausible effect size. Sizing the test on per-account revenue or retention measured after renewal (for example at 24 months) would match the draft's own decision logic. The stated feasibility figure of about 1,302 accounts per arm, and the conclusion drawn from it, are therefore unreliable."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [K34-K42; K53/K54; claim CL19; remainingUncertainty[7]] The year-one grid (K34-K42) treats every converter as converting at month 0. The memo has conversion happening over 6 months (E2), so converters must first survive to the point of conversion, and part of each converter's revenue is already earned at monthly prices. That changes both the stayed/churned mix and the per-base-seat figures. Separately, the range of +$441 to -$49 for would-have-churned converters (K53, K54) leaves out the -$98 case. Under the K31 definition, a seat that pays all 12 monthly payments and then churns at the 12-month boundary counts as 'churned within 12 months'."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [K45; C4 assessment] K45 (time value of about $18 per seat) assumes the monthly counterfactual customer pays all 12 months. For the expected monthly seat (about 10.1 paid months, K4), the cash advanced is smaller. The figure is labelled illustrative and does not change any conclusion."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict step (3); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[2]] The month-6 interim rule says to pause if more than about 64-66% of converters 'would have stayed'. That counterfactual cannot be observed. The draft substitutes an undefined proxy, 'tenured accounts with no churn-risk signals', without saying how that proxy maps to would-have-stayed probability. The 64-66% threshold is also a year-one break-even only (K33, K48). Across a lifetime the plan can still lose value at a lower stayed share when renewal falls short of 1 - 10c, and gain value at a higher one when it exceeds it. As written, the interim gate cannot be put into practice and may conflict with the lifetime rule."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 490/(49*12))*100",
+      "claimed": 16.6667,
+      "actual": 16.666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "49*12*0.75",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.968^12",
+      "claimed": 0.67687,
+      "actual": 0.67686847547098,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "49*(1-0.968^12)/0.032",
+      "claimed": 494.79,
+      "actual": 494.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "49*12-490",
+      "claimed": 98,
+      "actual": 98,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(49*12-490)*8",
+      "claimed": 784,
+      "actual": 784,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "12*(0.029*392+0.30)",
+      "claimed": 140.016,
+      "actual": 140.01600000000002,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.029*3920+0.30",
+      "claimed": 113.98,
+      "actual": 113.98,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "12*(0.029*392+0.30)-(0.029*3920+0.30)",
+      "claimed": 26.036,
+      "actual": 26.036000000000016,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "49*(1-(1-0.0338)^12)/0.0338",
+      "claimed": 490.12,
+      "actual": 490.11841950970717,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "49*(1-0.99^12)/0.01",
+      "claimed": 556.71,
+      "actual": 556.7141285909673,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "49*(1-0.99^12)/0.01-490",
+      "claimed": 66.71,
+      "actual": 66.71412859096733,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-0.91^(1/12)",
+      "claimed": 0.007828,
+      "actual": 0.007828420342483211,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "40*(1-0.91)",
+      "claimed": 3.6,
+      "actual": 3.5999999999999988,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "1.96*sqrt(0.91*0.09/40)",
+      "claimed": 0.0887,
+      "actual": 0.08868864639851033,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "0.3*98",
+      "claimed": 29.4,
+      "actual": 29.4,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8",
+      "claimed": 94.7455,
+      "actual": 94.74549999999999,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "490-49*(1-0.968^12)/0.032",
+      "claimed": -4.795,
+      "actual": -4.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "49/0.032",
+      "claimed": 1531.25,
+      "actual": 1531.25,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "1-490/(49/0.032)",
+      "claimed": 0.68,
+      "actual": 0.6799999999999999,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "49/0.01",
+      "claimed": 4900,
+      "actual": 4900,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "1-490/(49/0.01)",
+      "claimed": 0.9,
+      "actual": 0.9,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "1-490*(1-0.91^(1/12))/49",
+      "claimed": 0.92172,
+      "actual": 0.9217157965751679,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "(1-0.91)*49/490",
+      "claimed": 0.009,
+      "actual": 0.008999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "0.991^12",
+      "claimed": 0.89719,
+      "actual": 0.8971888214154765,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "490/(1-0.91)",
+      "claimed": 5444.44,
+      "actual": 5444.444444444446,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "49*(1-0.968^24)/0.032",
+      "claimed": 829.71,
+      "actual": 829.7063837114368,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "49*(1-0.968^24)/0.032/490-1",
+      "claimed": 0.69328,
+      "actual": 0.6932783341049731,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "49*(1-0.99^24)/0.01",
+      "claimed": 1050.18,
+      "actual": 1050.177110044628,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "2*490",
+      "claimed": 980,
+      "actual": 980,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 299.56,
+      "actual": 299.5575362051453,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "490-(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 190.44,
+      "actual": 190.4424637948547,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "190.44/(98+190.44)",
+      "claimed": 0.6602,
+      "actual": 0.6602412980169186,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "0.1*(-98)",
+      "claimed": -9.8,
+      "actual": -9.8,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "0.2*(-98)",
+      "claimed": -19.6,
+      "actual": -19.6,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "0.1*(0.9*(-98)+0.1*190.44)",
+      "claimed": -6.9156,
+      "actual": -6.915600000000001,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.2*(0.9*(-98)+0.1*190.44)",
+      "claimed": -13.8312,
+      "actual": -13.831200000000003,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "0.3*(0.9*(-98)+0.1*190.44)",
+      "claimed": -20.7468,
+      "actual": -20.7468,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "0.1*(0.5*(-98)+0.5*190.44)",
+      "claimed": 4.622,
+      "actual": 4.622,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "0.2*(0.5*(-98)+0.5*190.44)",
+      "claimed": 9.244,
+      "actual": 9.244,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "0.3*(0.5*(-98)+0.5*190.44)",
+      "claimed": 13.866,
+      "actual": 13.866,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "0.3*(490-49*(1-0.968^12)/0.032)",
+      "claimed": -1.4385,
+      "actual": -1.4385440805185852,
+      "ok": true
+    },
+    {
+      "id": "K43",
+      "expression": "((0.91+1.96^2/80)-1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.78206,
+      "actual": 0.7820569207517788,
+      "ok": true
+    },
+    {
+      "id": "K44",
+      "expression": "((0.91+1.96^2/80)+1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.96609,
+      "actual": 0.9660909570628997,
+      "ok": true
+    },
+    {
+      "id": "K45",
+      "expression": "490*0.08*5.5/12",
+      "claimed": 17.967,
+      "actual": 17.96666666666667,
+      "ok": true
+    },
+    {
+      "id": "K46",
+      "expression": "(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimed": 312.633,
+      "actual": 312.63287344213586,
+      "ok": true
+    },
+    {
+      "id": "K47",
+      "expression": "490-(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimed": 177.367,
+      "actual": 177.36712655786414,
+      "ok": true
+    },
+    {
+      "id": "K48",
+      "expression": "177.367/(98+177.367)",
+      "claimed": 0.64411,
+      "actual": 0.6441113132655693,
+      "ok": true
+    },
+    {
+      "id": "K49",
+      "expression": "0.3*(0.5*(-98)+0.5*177.367)",
+      "claimed": 11.905,
+      "actual": 11.905049999999997,
+      "ok": true
+    },
+    {
+      "id": "K50",
+      "expression": "1.96^2*0.8*0.2/0.05^2",
+      "claimed": 245.86,
+      "actual": 245.86239999999998,
+      "ok": true
+    },
+    {
+      "id": "K51",
+      "expression": "1.96^2*0.9*0.1/0.03^2",
+      "claimed": 384.16,
+      "actual": 384.16,
+      "ok": true
+    },
+    {
+      "id": "K52",
+      "expression": "(1.96+0.8416)^2*(0.68*0.32+0.73*0.27)/0.05^2",
+      "claimed": 1302,
+      "actual": 1301.9859094528,
+      "ok": true
+    },
+    {
+      "id": "K53",
+      "expression": "490-11*49",
+      "claimed": -49,
+      "actual": -49,
+      "ok": true
+    },
+    {
+      "id": "K54",
+      "expression": "490-49",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    }
+  ],
+  "criticalCount": 1,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "critical",
+      "source": "reviewer",
+      "detail": "D1 [verdict step (4); practicalImplications[6] ('Final success rule'); alternatives[0]; tradeoffs[3]] The scale-up rule says to scale if month-12 renewal beats 1 - 10 x the holdout's measured monthly churn. That rule brings back the selection bias the draft warns about everywhere else. The break-even derived in K20/K22 uses c, the converter's own counterfactual monthly churn. A randomized holdout's average churn is the blended base rate (about 3.2%), so the threshold comes out near 68%. The draft itself argues that converters are likely tenured, lower-churn accounts, whose break-even is about 90-92% (K22, K23). Under the stated rule, a renewal rate of about 70-89% would pass even though it destroys LTV for a 1%-churn converter pool. The practical-implications bullet lists 68/90/92% as alternatives, but the operative rule in the verdict and in practicalImplications[6] fixes c as holdout churn. A correct rule would either (a) compare revenue per offered account against revenue per holdout account (intention-to-treat, the proper use of randomization), or (b) estimate c from holdout accounts matched to the converters' characteristics, such as tenure and seat count."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [K52; claim CL20; practicalImplications[4]; alternatives[0]; edgeCasesAndFailureModes[last]] K52 sizes the test to detect a 5-point difference in 12-month logo retention between offered and holdout arms (68% vs 73%). There are two problems. First, 12-month logo retention in the offered arm is pushed up mechanically by prepaid in-term lock-in, which the draft says elsewhere must not be the success metric (E17, practicalImplications[6]). Second, at 10-30% uptake, a 5-point difference between arms means converters would need a retention gain of about 17-50 points, so the sizing does not match a plausible effect size. Sizing the test on per-account revenue or retention measured after renewal (for example at 24 months) would match the draft's own decision logic. The stated feasibility figure of about 1,302 accounts per arm, and the conclusion drawn from it, are therefore unreliable."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict step (3); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[2]] The month-6 interim rule says to pause if more than about 64-66% of converters 'would have stayed'. That counterfactual cannot be observed. The draft substitutes an undefined proxy, 'tenured accounts with no churn-risk signals', without saying how that proxy maps to would-have-stayed probability. The 64-66% threshold is also a year-one break-even only (K33, K48). Across a lifetime the plan can still lose value at a lower stayed share when renewal falls short of 1 - 10c, and gain value at a higher one when it exceeds it. As written, the interim gate cannot be put into practice and may conflict with the lifetime rule."
+    }
+  ]
+}

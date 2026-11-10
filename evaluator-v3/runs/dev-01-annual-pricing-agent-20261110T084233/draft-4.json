@@ -1,0 +1,969 @@
+{
+  "verdict": "Bottom line: do not launch $490/year broadly now. Run it as a controlled test instead. The evidence cannot show whether the plan raises net revenue and LTV, because that depends on who converts and on the month-12 renewal rate, and only the company's own data can supply those (E14, E9, E4). Next steps. (1) Within weeks, pull 12-month retention for tenured monthly customers and churn by tenure band and seat count (E14). Confirm how the pilot's 91% was defined and how sales picked the 40 accounts (E4). (2) Offer $490, framed as '2 months free', to a randomized subset of accounts with a holdout. Use no-refund cancellation at term end, prorated mid-term seat adds and no refunds on mid-term seat reductions (E18, E19). (3) At month 6, when the enrollment window in the memo closes (E2), read uptake and converter mix. Estimate the converters' would-have-stayed share from the step-(1) historical retention of accounts with the same tenure band and seat count, checked against the holdout's first six months. If that predicted share exceeds about 64-66%, the year-one break-even (K33, K48), do not widen the offer beyond the test cohort. This is an early warning only; the scale decision is made in step (4). (4) At about month 19, after every converter has passed its first renewal, compare the offered and holdout arms as randomized (intention-to-treat): cumulative revenue per account and the share still paying. Scale up only if the offered arm is ahead, with the confidence interval excluding a loss. Randomization keeps this comparison free of selection. If the base is too small to power it (about 9,700 accounts per arm under illustrative assumptions, K52), use the fallback: converters' month-12 renewal, measured on at least about 250 converted accounts, must beat 1 - 10c, with c taken from holdout accounts matched to the converters on tenure band and seat count, not from the holdout's blended churn. Blended churn gives about 68%, but a tenured pool at 1% or 0.78% churn needs about 90% or 92% (K20, K22, K23, K50). Why: the memo's premise is wrong. $490 is a 16.7% discount, not 25%, and a true 25% discount would be $441 (E1, E5; K1, K2). 16.7% is a common market level (E6, E7). In year one, converting an average-churn seat is roughly neutral (-$4.80 per seat, K18), and a converter who would have stayed costs $98 per seat (K5). Across 10-30% conversion the year-one effect ranges from -$29.40 to about +$13.87 per base seat. The positive end is likely overstated for the tenured converter pool the evidence points to (K16, K41, K49). Over a lifetime the plan pays off only if renewal exceeds 1 - 10c, where c is the converter's counterfactual monthly churn: about 68% at average churn and 90% at 1% churn (K20, K22). The pilot's 91% cannot settle this. Its accounts were hand-picked and tenured, its definition is unclear, and with n=40 its 95% interval is about 78-97% (E4; K43, K44).",
+  "confidence": "low",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The memo misstates the discount. $49 x 12 = $588, and $490/$588 = 83.3%, so the discount is 16.7% (exactly two months free), not 25% (E1, E5; K1). A real 25% discount would be $441 (K2). The memo's '25% is the sweet spot' rationale therefore does not describe the proposed price. Recurly's benchmark data reports 16.7% as the most common annual discount, and it sits inside the typical 15-20% band (E6, E7). That support is a single unfetched, undated search snippet plus vendor marketing. E6 also notes that lower-priced plans tend to carry larger annual discounts, which for a $49 tool partly cuts against calling $490 'well placed'.",
+      "mechanisms": "The effective annual price drives every revenue comparison. The gap between the true and stated discount changes which benchmarks apply. It also shows the memo's numbers were not checked, which weakens trust in its other unsourced figures (the 30% conversion, the 'benchmarks').",
+      "strengths": [
+        "The price ($490) matches a common market convention, 'two months free' (E6, E7).",
+        "It is easy to market as '2 months free'. One unverified claim says this framing outperforms an equivalent percentage discount (E8)."
+      ],
+      "weaknesses": [
+        "The memo's stated 25% discount is arithmetically wrong (E5).",
+        "The '25% sweet spot' rationale cites no source (E1), and some vendors that do use 20-25% are enterprise products that may not compare (E8).",
+        "The positioning evidence is snippet-level, and E6 notes that lower-priced plans tend to discount more, so market data does not rule out a somewhat deeper discount for a $49 tool (E6, E7)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E5",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "There is no reliable causal evidence that annual billing reduces churn for this customer base. Sales hand-picked the 40 pilot accounts (91% '12-month logo retention') from customers with more than a year of tenure (E4). How that retention was defined is unclear (E4). If it is in-term retention, it is odd. The packet's own note on E4 says churn inside a prepaid term implies refunds or non-payment. Annual-plan churn is also reported to fall mostly at renewal rather than mid-term (E17), though that comes from a single mobile-app vendor snippet. On that reading it says nothing about renewal. If it is the month-12 renewal rate, it is materially favorable: 91% is well above the roughly 68% renewal rate at which an average-churn converter is LTV-neutral (K20). Even then it beats monthly LTV for tenured accounts only if their counterfactual monthly churn exceeds about 0.9% (K24, K25), and this company's tenured monthly retention is unknown (E14). A tenure-matched comparison would still not isolate the effect, because sales picked these accounts on criteria beyond tenure that are not recorded (E4, E11). As a monthly-equivalent rate, 91% corresponds to about 0.78% churn (K13). The sample is small: about 3.6 churned accounts (K14), with a Wilson 95% interval of about 78% to 97% (K43, K44). The pilot's 91% versus the base's 67.7% (K3) resembles the observational gap Baremetrics reports (92% vs 68%) (E10). That resemblance fits either selection or a real effect and does not show how the gap splits between them. E11 attributes much of such gaps to self-selection, while one vendor matched-pair analysis claims a residual causal effect (E12). Neither covers B2B seat-based SaaS directly.",
+      "mechanisms": "Several mechanisms can raise measured annual retention. Three do so without annual billing changing customer behavior. (1) Selection: committed customers choose, or are picked for, annual plans (E11). In the pilot, sales picking adds a layer on top of tenure (E4). (2) Tenure: tenured accounts churn less regardless of billing (E13). (3) Mechanical lock-in: if retention is measured in-term, a prepaid account cannot churn voluntarily mid-term, and the real loss shows up at renewal (E17). Whether (3) applies to the pilot depends on its retention definition, which is unclear (E4). Two possibly causal mechanisms also exist. (a) Sunk-cost commitment and more time to adopt the product (E12). (b) Possibly fewer involuntary churn events: one charge a year instead of twelve removes eleven chances for a failed card payment. (b) is reasoning only. The packet has no evidence on payment-failure rates or on the share of the 3.2% churn that is involuntary, so it cannot be sized and should not be treated as established.",
+      "strengths": [
+        "Several observational sources agree on the direction: annual customers retain better (E10).",
+        "One matched-pair study suggests some effect remains after controlling for observables (E12).",
+        "Fewer card charges is a plausible non-selection mechanism, although the packet has no evidence on its size.",
+        "If the pilot's 91% is a renewal rate, it exceeds the blended LTV break-even renewal rate (K20)."
+      ],
+      "weaknesses": [
+        "The pilot was hand-picked by sales and tenure-selected, with no control group (E4, E14).",
+        "The pilot is too small to estimate an effect precisely (K14, K43, K44).",
+        "The pilot's retention definition (in-term vs month-12 renewal) is unclear, and the renewal rate is not reported separately (E4, E17).",
+        "The selection-versus-treatment question is contested (E11 vs E12).",
+        "The share of churn that is involuntary is unknown, and the packet has no payment-failure evidence, so that mechanism cannot be sized."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "The net effect cannot be determined without the converter mix and the renewal rate, but it can be bounded. Year one: at blended 3.2% churn a monthly seat is expected to earn $494.79 (K4), so converting an average-churn seat to $490 is roughly neutral at -$4.80 (K18). Break-even is about 3.38% monthly churn (K10). Splitting converters into two types: a would-have-stayed converter forgoes $98 per seat (K5). A would-have-churned converter would have paid about $299.56 on average at the blended hazard, so prepaying $490 gains about $190.44 (K31, K32), provided no refund is given. Year one is positive only if fewer than about 66% of converters would have stayed (K33). Scenario grid, as year-one change per seat across the whole base, before fees. If all converters would have stayed: -$9.80 / -$19.60 / -$29.40 at 10% / 20% / 30% conversion (K34, K35, K16). If 90% would have stayed: -$6.92 / -$13.83 / -$20.75 (K36-K38). If 50% would have stayed: +$4.62 / +$9.24 / +$13.87 (K39-K41). If converters mirror the blended base: about -$1.44 at 30% (K42). Timing caveat: the grid treats every converter as converting at month 0. In the memo, conversion happens over 6 months (E2), so converters must first survive to the point of conversion, and they earn monthly prices until then. Survival to conversion shifts the mix toward would-have-stayed accounts, and part of each converter's revenue is unaffected by the switch, so the grid's per-base-seat figures are approximations, not forecasts. Caveat on the positive cells: they value would-have-churned converters at the blended 3.2% hazard. Converters are expected to be tenured and lower-churn, so those who would still have churned probably leave later and would have paid more. At an illustrative 1% hazard, a would-have-churned seat would have paid about $312.63, so the gain falls to about $177.37 (K46, K47). The break-even would-have-stayed share falls to about 64% (K48), and the 30%-conversion, 50%-stayed cell falls to about +$11.91 (K49). If tenured churn is back-loaded rather than constant, the gain shrinks further. It ranges from +$441 for a seat that would have left after one month, through -$49 for one that would have left after eleven, to -$98 for one that pays all twelve monthly payments and leaves at the 12-month boundary (K54, K53, K5). The positive cells are therefore upper-end values for the expected pool. Lifetime: monthly LTV per seat is 49/c, which is $1,531.25 at 3.2% and $4,900 at an illustrative 1% (K19, K21). Annual LTV is 490/(1-r). The plan is therefore LTV-neutral at renewal rate r = 1 - 10c: 68% for an average converter and 90% for a 1%-churn converter (K20, K22). For a converter churning at the pilot-implied 0.78%, it is 92.2% (K23). At a 91% renewal rate annual LTV is $5,444 (K26). 24-month view: a 3.2%-churn monthly seat earns $829.71, so the annual plan needs about 69.3% renewal to match it within 24 months (K27, K28). A 1%-churn seat earns $1,050.18, more than the $980 maximum an annual seat can pay in 24 months (K29, K30), so its payback lies beyond two years. Converters are plausibly lower-churn than average, since self-selection favors committed buyers (E11) and churn tends to concentrate early (E13). That is not established for this base, and the pilot shows which accounts sales picked, not which would self-select (E4).",
+      "mechanisms": "In year one an annual converter pays a fixed $490 whatever they would otherwise have done. The plan's year-one value therefore depends only on the converter's counterfactual monthly revenue. Its lifetime value depends on whether annual renewal beats the converter's counterfactual monthly survival by enough to repay the 16.7% discount. The break-even renewal rate r = 1 - 10c follows directly from 490/(1-r) = 49/c. Cannibalization is worst when converters are self-selected loyal accounts (E11, E13). The same lower churn also shrinks the gain from the would-have-churned minority, because those accounts would have paid for more months before leaving (K47). The gain from would-have-churned converters relies on the prepaid cash being kept, so it depends on no-refund terms (E19).",
+      "strengths": [
+        "Converters who would otherwise have churned early add about $177-190 per seat in year one, depending on their hazard (K32, K47, E16).",
+        "If annual billing causally lifts renewal above 1 - 10c, multi-year LTV rises (K20, K22, E12).",
+        "The break-even renewal rates are computable from packet data and give the test a concrete fallback threshold once c is estimated for matched accounts (K20, K22)."
+      ],
+      "weaknesses": [
+        "For low-churn converters, year one is negative (illustrative 1% churn: -$66.71 per seat, K12), and payback lies beyond 24 months (K29, K30).",
+        "The grid's positive cells use blended-hazard churner revenue and are likely overstated for a tenured converter pool (K46-K49).",
+        "The grid assumes every converter converts at month 0; with conversion spread over 6 months (E2), survival to conversion and pre-conversion monthly revenue change both the mix and the per-base-seat figures.",
+        "The model applies 3.2% logo churn as if it were seat churn, and ignores seat expansion and contraction within 8-seat accounts (E3).",
+        "The constant-hazard model is a simplification. Early-concentrated churn would make tenured converters lower-churn still (E16, E13).",
+        "Comparisons are undiscounted and gross of fees. The fee saving (+$3.25 per seat, K17) and the time value of the upfront cash (at most about $18 per seat at an illustrative 8% cost of capital, K45, and less for an expected seat paying about 10.1 months, K4) are small next to the $98 discount.",
+        "The converter mix and renewal rates are unknown (E14, E17)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E4",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E16",
+        "E17",
+        "E19"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "The payment-cost benefit is real but small. For an 8-seat account, monthly fees come to about $140.02 a year versus $113.98 for one annual charge, a saving of about $26.04 per account per year (K7, K8, K9; E3, E15). That is roughly 3% of the $784 an 8-seat would-have-stayed account gives up (K6). The cash benefit is larger: $3,920 per 8-seat account arrives upfront rather than over 12 months. At an illustrative 8% annual cost of capital (an assumption, not packet data), the time value is at most about $18 per seat per year (K45). K45 assumes the monthly customer would have paid all 12 months; an expected monthly seat pays about 10.1 months ($494.79 / $49, K4), so the cash actually advanced, and its time value, are smaller. Either way it is well below the $98 discount. Under ASC 606, recognized revenue still accrues straight-line, so the P&L gains nothing from the timing (E20).",
+      "mechanisms": "The fixed $0.30 per-charge fee falls from 12 charges to 1. The 2.9% percentage fee scales with the amount and does not change. Prepayment improves working capital. It also removes eleven recurring card charges. Any resulting fall in involuntary churn is plausible but has no evidence in the packet; it is discussed under C2.",
+      "strengths": [
+        "Cash comes in earlier (E20).",
+        "There are fewer charges, so the fixed per-charge fee is paid once rather than twelve times (E15)."
+      ],
+      "weaknesses": [
+        "The fee saving (K9) and the illustrative time value (K45, an upper bound) are immaterial next to the discount given up (K5, K6).",
+        "B2B annual deals often move to ACH or invoice, and international cards cost more, so actual fees could differ (E15)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E15",
+        "E20"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "The 30% conversion assumption is unsourced (E2), and no verifiable benchmark for monthly-to-annual conversion exists in the evidence (E9). The only vendor figures conflict: about 15% adoption when monthly is the default versus 35-45% when annual is the default (E9). Conversion scales both the benefit and the cannibalization. The grid shows that converter mix, not conversion rate, sets the sign: at 30% conversion the result ranges from -$29.40 to +$13.87 per base seat (K16, K41). A higher rate is therefore not automatically better. On price positioning, 16.7% is a common norm (E6, E7), but the evidence is snippet-level, and E6 notes that lower-priced plans tend to carry larger discounts. Deepening to 25% would raise the cost of every would-have-stayed converter to $147 per seat and could draw in less committed buyers who renew worse (E11). So $490 is a reasonable test price, but the evidence does not show it is optimal.",
+      "mechanisms": "Deeper discounts or annual-by-default presentation pull in marginal, less committed buyers. That raises uptake but lowers the quality of the converter pool (E11). The '2 months free' framing may lift uptake without changing the price (E8).",
+      "strengths": [
+        "The price is within reported market norms (E6, E7).",
+        "The framing lever is available at no extra discount (E8)."
+      ],
+      "weaknesses": [
+        "The 30% conversion figure is unsupported (E2, E9).",
+        "The memo does not say who is expected to convert (E2).",
+        "The memo's benchmark references are untraceable (E1).",
+        "The price-positioning evidence is a single unfetched snippet plus vendor marketing (E6, E7)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "These risks are manageable with standard terms, but the supplied documents define none of them. Common practice is to prorate seat additions to the term end, to give a credit or a reduction at renewal (rather than a refund) on seat reductions, and to end a cancelled subscription at term end with no refund. Some vendors allow a short refund window (E18, E19). Generous refunds or mid-term downgrades would undo the lock-in and the year-one gain from would-have-churned converters (K32). Prepayment creates deferred revenue, and seat changes require contract-modification accounting under ASC 606 (E20).",
+      "mechanisms": "The in-term retention benefit, and the year-one gain from would-have-churned converters, exist only because cash is locked in. Refund policy therefore directly sets how much 'retention' the plan delivers. Seat true-ups decide whether expansion revenue during the term is captured.",
+      "strengths": [
+        "Market templates exist for seat proration and no-refund cancellation (E18, E19)."
+      ],
+      "weaknesses": [
+        "The company's intended terms are unknown (G6).",
+        "Consumer-protection rules in some jurisdictions may limit no-refund terms (E19).",
+        "Deferred-revenue accounting and modification handling add work (E20)."
+      ],
+      "evidenceIds": [
+        "E18",
+        "E19",
+        "E20"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "$490 per year is a 16.7% discount versus $588 per year at monthly pricing, not 25%. A 25% discount would be $441.",
+      "material": true,
+      "evidenceIds": [
+        "E1",
+        "E5"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "A 16.7% ('two months free') discount is reported as the most common SaaS annual discount and lies within the typical 15-20% band. The evidence is snippet-level, and lower-priced plans reportedly carry larger discounts, so $490 is a reasonable price but not shown to be optimal.",
+      "material": true,
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "At 3.2% monthly churn, 12-month retention is about 67.7%, and expected year-one revenue per monthly seat is about $494.79, roughly equal to the $490 annual price (an average converter loses about $4.80).",
+      "material": true,
+      "evidenceIds": [
+        "E3",
+        "E16"
+      ],
+      "calculationIds": [
+        "K3",
+        "K4",
+        "K18"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Under a constant-hazard model, converting a monthly seat to $490/year loses revenue in year one whenever that seat's monthly churn is below about 3.4%.",
+      "material": true,
+      "evidenceIds": [
+        "E16"
+      ],
+      "calculationIds": [
+        "K10"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "Illustrative assumption (not evidence-backed): a converter with 1% monthly churn would have yielded about $556.71 in year one on monthly billing, so converting them costs about $66.71 per seat.",
+      "material": false,
+      "evidenceIds": [
+        "E16"
+      ],
+      "calculationIds": [
+        "K11",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "The pilot's 91% retention cannot be attributed to annual billing. Sales hand-picked the accounts from customers with more than a year of tenure, there is no control group, and n=40 means only about 3.6 churned accounts, with a Wilson 95% interval of about 78-97%.",
+      "material": true,
+      "evidenceIds": [
+        "E4",
+        "E14"
+      ],
+      "calculationIds": [
+        "K14",
+        "K43",
+        "K44"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "91% annual retention is equivalent to about 0.78% monthly churn. Tenured monthly customers could plausibly churn at a similar rate, because SaaS churn concentrates early, but this company's tenured monthly retention is unknown.",
+      "material": true,
+      "evidenceIds": [
+        "E4",
+        "E13",
+        "E14"
+      ],
+      "calculationIds": [
+        "K13"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "Observational annual-versus-monthly retention gaps are confounded by self-selection (and, for in-term measures, by contractual lock-in). That the pilot's gap matches the industry gap does not show how much of it is causal. Evidence for a residual causal effect is limited to one vendor matched-pair claim, and the split remains unresolved.",
+      "material": true,
+      "evidenceIds": [
+        "E10",
+        "E11",
+        "E12",
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "The memo's 30% six-month conversion assumption has no source, and no verifiable benchmark was found.",
+      "material": true,
+      "evidenceIds": [
+        "E2",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Payment-fee savings are about $26.04 per 8-seat account per year, small next to the $784 a would-have-stayed 8-seat account gives up.",
+      "material": false,
+      "evidenceIds": [
+        "E3",
+        "E15"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "If all 30% of converters were would-have-stayed accounts, the plan would cost about $29.40 per seat per year averaged across the whole base (before fee savings).",
+      "material": false,
+      "evidenceIds": [
+        "E2",
+        "E16"
+      ],
+      "calculationIds": [
+        "K5",
+        "K16"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "Under ASC 606, annual prepayment improves cash timing but not recognized revenue timing, and it adds deferred-revenue and modification accounting.",
+      "material": false,
+      "evidenceIds": [
+        "E20"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "Standard annual terms (prorated seat adds, no mid-term refunds on reductions, cancellation effective at term end) preserve the lock-in. Generous refund terms would weaken it.",
+      "material": false,
+      "evidenceIds": [
+        "E18",
+        "E19"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "The annual plan is LTV-neutral when the annual renewal rate equals 1 - 10 x the converter's counterfactual monthly churn: about 68% at 3.2%, 90% at 1%, and 92.2% at the pilot-implied 0.78%.",
+      "material": true,
+      "evidenceIds": [
+        "E3",
+        "E16"
+      ],
+      "calculationIds": [
+        "K19",
+        "K20",
+        "K21",
+        "K22",
+        "K23"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "Across 10-30% conversion, the year-one effect per base seat ranges from -$29.40 to +$13.87, and it is positive only if fewer than about 66% of converters would have stayed monthly anyway. Both the positive cells and the 66% threshold assume would-have-churned converters churn at the blended 3.2% hazard, so they are upper-end values for a tenured converter pool.",
+      "material": true,
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E16"
+      ],
+      "calculationIds": [
+        "K31",
+        "K32",
+        "K33",
+        "K34",
+        "K35",
+        "K16",
+        "K36",
+        "K37",
+        "K38",
+        "K39",
+        "K40",
+        "K41",
+        "K42"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "How the pilot's 91% retention was defined is unclear. If it is the month-12 renewal rate, it clears the 68% blended LTV break-even, and for tenured accounts it beats monthly LTV only if their monthly churn exceeds about 0.9% (12-month retention below about 89.7%).",
+      "material": true,
+      "evidenceIds": [
+        "E4",
+        "E14",
+        "E17"
+      ],
+      "calculationIds": [
+        "K20",
+        "K24",
+        "K25",
+        "K26"
+      ]
+    },
+    {
+      "id": "CL17",
+      "text": "Over 24 months, an average-churn converter breaks even at about 69.3% renewal. A 1%-churn converter cannot break even within 24 months even at 100% renewal ($980 vs $1,050.18).",
+      "material": false,
+      "evidenceIds": [
+        "E3",
+        "E16"
+      ],
+      "calculationIds": [
+        "K27",
+        "K28",
+        "K29",
+        "K30"
+      ]
+    },
+    {
+      "id": "CL18",
+      "text": "Reasoning only, with no packet evidence: annual prepay may cut involuntary churn by removing eleven of twelve card charges. The packet does not report payment-failure rates or the involuntary share of churn, so this mechanism can be neither sized nor relied on.",
+      "material": false,
+      "evidenceIds": [],
+      "calculationIds": []
+    },
+    {
+      "id": "CL19",
+      "text": "If would-have-churned converters churn at an illustrative 1% hazard rather than 3.2%, their year-one gain falls from about $190 to about $177 per seat, the break-even would-have-stayed share falls from about 66% to about 64%, and the best 30%-conversion cell falls from +$13.87 to about +$11.91 per base seat. The gain ranges from +$441 to -$98 depending on when such a seat would have churned (-$49 after eleven paid months; -$98 for a seat that pays all twelve monthly payments and leaves at the 12-month boundary).",
+      "material": false,
+      "evidenceIds": [
+        "E3",
+        "E13",
+        "E16"
+      ],
+      "calculationIds": [
+        "K46",
+        "K47",
+        "K48",
+        "K49",
+        "K53",
+        "K54",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL20",
+      "text": "A useful test needs far more than the pilot's 40 accounts. Estimating converters' month-12 renewal within about ±5 points needs about 246 converted accounts, and within ±3 points near 90% about 384. The randomized offered-versus-holdout comparison must use a post-renewal outcome, not in-term retention, and its effect is diluted by uptake: at an illustrative 20% uptake, a 10-point lift among converters moves the arm-level share still paying at month 19 by only about 2 points from about 53.9%, which needs about 9,700 accounts per arm. The final read arrives about 19 months after launch, given a 6-month enrollment window.",
+      "material": true,
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E17"
+      ],
+      "calculationIds": [
+        "K50",
+        "K51",
+        "K52",
+        "K55",
+        "K56"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Launch at $490 (16.7%, 'two months free') as a randomized or holdout-controlled test on a subset of accounts",
+      "comparison": "It uses a common market discount (E6, E7) and produces the missing causal and renewal evidence (E14, E17). Primary read: an intention-to-treat comparison of cumulative revenue per account and the share still paying at about month 19, after all first renewals, between offered and holdout arms; randomization keeps this free of selection. Detecting an illustrative 2-point arm-level difference (20% uptake x 10-point converter lift) needs about 9,700 accounts per arm (K52, K55, K56). If the base is smaller, the fallback is converters' month-12 renewal, measured on at least about 246 converted accounts (K50), against 1 - 10c with c taken from holdout accounts matched to the converters on tenure band and seat count (K20, K22, K23). The packet does not give the customer count, so feasibility must be checked. Timeline: enrollment over months 0-6 (E2), an interim read at month 6, renewals from month 12 to month 18, and a final read at about month 19. It limits cannibalization exposure to the test cohort. It is preferred over a full launch."
+    },
+    {
+      "option": "Launch at $441 (a true 25% discount, as the memo intended)",
+      "comparison": "Each would-have-stayed converter would then cost $147 per seat instead of $98. It sits at the high end of market practice (E7, E8), and deeper discounts attract less committed buyers who renew worse (E11). E6's note that lower-priced plans discount more means it is not unreasonable, but on this evidence it is inferior to $490 unless tested as a separate arm."
+    },
+    {
+      "option": "Smaller discount, e.g. $539 ('one month free', 8.3%)",
+      "comparison": "This is the second most common discount level (E6). It halves the cannibalization cost per would-have-stayed seat to $49, but uptake is likely lower. It is reasonable if the test shows mostly tenured, low-churn converters."
+    },
+    {
+      "option": "Offer annual billing only to new or early-tenure customers, or at the point of a cancellation attempt",
+      "comparison": "It targets the cohort where churn is concentrated (E13) and avoids discounting already-loyal accounts. Its value rests on a tension. The roughly $190 per seat year-one gain (K32) arises only if accounts that would have churned actually prepay the full $490 and receive no refund. Yet self-selection evidence says low-commitment accounts are the least likely to prepay upfront (E11). Uptake may therefore be very low. Accounts that do take it at a cancellation moment may push for refunds, which a no-refund policy must withstand (E19). It fits the value mechanism best on paper but is unproven, and it should be a separate test arm rather than the default."
+    },
+    {
+      "option": "Annual commitment billed monthly (12-month contract, monthly invoices) at a smaller discount",
+      "comparison": "A common B2B alternative, though the packet has no evidence on its uptake or retention effect. It keeps the in-term commitment while asking for no upfront cash, so it may suit early-tenure accounts that will not prepay. A smaller discount (e.g. the 8.3% level, E6) would cut cannibalization. It gives up the upfront cash and time value (E20, K45) and the fee saving, because there are still 12 charges (E15). Enforcing payment for the rest of the term after a customer cancels is harder than keeping a prepayment. It is worth testing as an arm if prepay uptake is low."
+    },
+    {
+      "option": "Do not launch. Invest in onboarding or early-life retention instead",
+      "comparison": "If churn is concentrated in the first 90 days (E13), fixing onboarding addresses churn directly without discounting loyal customers. The tradeoff is losing the cash-flow benefits of prepayment (E20)."
+    }
+  ],
+  "tradeoffs": [
+    "Upfront cash and in-term lock-in, versus about $98 per seat per year given up on every would-have-stayed converter (K5, E20).",
+    "Higher uptake through deeper discounts or annual-by-default presentation, versus a worse converter mix and lower renewal (E11).",
+    "Strict no-refund terms protect the lock-in and the year-one gain from would-have-churned converters, but they may add friction to the sale and run into consumer-protection rules in some jurisdictions (E18, E19, K32).",
+    "In-term retention will look excellent by construction, so the test's success metric must be measured after renewal: the randomized offered-versus-holdout comparison of revenue per account and share still paying at about month 19, or, as a fallback, converters' month-12 renewal against 1 - 10c with c from tenure- and seat-matched holdout accounts, never the holdout's blended churn (E17, K20, K22).",
+    "A test large enough to decide (K50, K52) delays the scale decision to about month 19, versus acting now on a pilot that cannot separate selection from effect (E4)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Mostly tenured, low-churn accounts convert, so the plan cuts revenue with little effect on churn (E11, E13; K12, K38).",
+    "If the pilot's 91% was in-term retention, a renewal cliff at month 12 may be hidden. If it was a renewal rate, retention on a hand-picked cohort may not carry over to self-selected converters. Either way the pilot figure can mislead (E4, E17).",
+    "An 8-seat account cuts seats mid-term and demands a refund. A generous policy erodes the benefit (E18).",
+    "An account adds seats mid-term without proration rules, so expansion revenue is lost until renewal (E18).",
+    "Seat churn and contraction inside accounts differ from the 3.2% logo churn, so per-seat estimates are off (E3).",
+    "International cards or invoice/ACH payment change the fee comparison (E15).",
+    "Contract modifications create deferred-revenue remeasurement errors (E20).",
+    "A no-refund policy conflicts with local consumer-protection law in some markets (E19).",
+    "Annual customers churn at renewal in a batch, which makes revenue lumpier and forecasts harder.",
+    "The customer base is too small to power the randomized comparison (about 9,700 accounts per arm under illustrative assumptions, K52), so the team must rely on the matched-c renewal fallback, which still carries selection on unrecorded criteria (E4, E11), or the test stays inconclusive and the team launches anyway on the pilot."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Industry data consistently shows annual plans retain far better (92% vs 68%), so the plan will cut churn.",
+      "response": "That gap is observational and confounded by self-selection (E10, E11). Our own 67.7% versus the pilot's 91% resembles it (K3, E10), but the resemblance does not show how the gap splits between selection and a real effect. The industry gap may itself contain a causal part, and one vendor matched analysis claims one (E12). The honest position is that the pilot is not proof of an effect, not that there is no effect. What matters is whether converters' renewal beats 1 - 10c at their own counterfactual churn (K20, K22), and only a controlled test can show that."
+    },
+    {
+      "argument": "If the pilot's 91% is a month-12 renewal rate, it already clears the 68% break-even, so launch.",
+      "response": "It clears the blended threshold (K20), but the pilot accounts were tenured and hand-picked (E4). Their relevant break-even is 1 - 10c at their own counterfactual churn. 91% beats it only if tenured monthly churn exceeds about 0.9% a month (K24, K25), which is unknown (E14). Even a tenure-matched comparison would not remove the sales-picking layer of selection (E4, E11). The Wilson interval of 78-97% (K43, K44) also straddles the 90% threshold for a 1%-churn account (K22). It is a strong reason to run the test, not to skip it."
+    },
+    {
+      "argument": "Annual prepay causally removes involuntary churn from failed card payments, independent of selection.",
+      "response": "Eleven fewer charges a year is a plausible mechanism, but the packet has no evidence on payment-failure rates; E15 covers only fee rates. Its size depends on the share of the 3.2% churn that is involuntary, which the packet does not report. It should be measured in the data pull and the test, but it cannot be credited without data."
+    },
+    {
+      "argument": "Even if converters are loyal, locking them in for a year guarantees revenue and cash.",
+      "response": "A loyal account would have paid more than the $490 it now locks in (illustrative: $556.71 at 1% monthly churn, K11, K12). Over 24 months it cannot be recovered even at 100% renewal (K29, K30). The cash-timing benefit is real but small, at most about $18 per seat at an illustrative 8% cost of capital (K45, E20)."
+    },
+    {
+      "argument": "The memo's 25% figure comes from benchmarks that call it the sweet spot.",
+      "response": "The plan is not 25% off (K1), the memo cites no benchmark (E1), and no conversion benchmark could be verified (E9). Market data shows 16.7% is the most common level (E6)."
+    },
+    {
+      "argument": "Payment-fee savings and fewer failed payments partly offset the discount.",
+      "response": "The fee saving is about $26 per 8-seat account per year, against $784 given up by a would-have-stayed account (K9, K6). The failed-payment effect has no evidence in the packet (see above)."
+    },
+    {
+      "argument": "A 19-month test is too slow; competitors already offer annual plans.",
+      "response": "The test does not withhold annual billing from the market. Every offered account in the test can buy it, and a 6-month interim read on uptake and the predicted converter mix (K33, K48) allows the offer to be narrowed early. What waits for the post-renewal read at about month 19 is only the decision to scale to the whole base, which is where the cannibalization risk sits (K16)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "$490 per year is a 25% discount versus the monthly plan.",
+      "correction": "It is a 16.7% discount ($490/$588), exactly two months free. A 25% discount would be $441.",
+      "evidenceIds": [
+        "E1",
+        "E5"
+      ]
+    },
+    {
+      "assumption": "The pilot's 91% 12-month retention shows annual billing reduces churn.",
+      "correction": "The pilot accounts were customers with more than a year of tenure, hand-picked by sales, with no control group and n=40, so the result cannot be attributed to annual billing. How retention was defined (in-term vs month-12 renewal) is unclear. If it was in-term, it largely reflects prepaid lock-in. If it was renewal, it is favorable but still confounded by selection and tenure.",
+      "evidenceIds": [
+        "E4",
+        "E10",
+        "E11",
+        "E14",
+        "E17"
+      ]
+    },
+    {
+      "assumption": "30% of monthly customers will convert within 6 months, per benchmarks.",
+      "correction": "The figure is unsourced and no verifiable benchmark exists. Vendor claims range from about 15% to 45% depending on which plan is the default.",
+      "evidenceIds": [
+        "E2",
+        "E9"
+      ]
+    },
+    {
+      "assumption": "A 25% discount is the 'sweet spot' for annual conversion.",
+      "correction": "The most common annual discount in market data is 16.7%, and the typical band is 15-20%. Lower-priced plans reportedly discount more, but deeper discounts also tend to attract weaker-commitment buyers.",
+      "evidenceIds": [
+        "E6",
+        "E7",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "Annual billing will substantially reduce churn across the base.",
+      "correction": "Churn likely concentrates in early-tenure accounts that may be less likely to prepay, so the plan may mainly discount already-loyal accounts. This company's tenure breakdown is unknown.",
+      "evidenceIds": [
+        "E13",
+        "E14",
+        "E3"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Actual discount (%) of $490/year versus $49 x 12",
+      "expression": "(1 - 490/(49*12))*100",
+      "claimedResult": 16.6667,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K2",
+      "purpose": "Annual price that would be a true 25% discount",
+      "expression": "49*12*0.75",
+      "claimedResult": 441,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K3",
+      "purpose": "12-month retention at 3.2% monthly churn",
+      "expression": "0.968^12",
+      "claimedResult": 0.67687,
+      "tolerance": 0.0005
+    },
+    {
+      "id": "K4",
+      "purpose": "Expected year-one revenue per monthly seat at 3.2% churn (payments at start of each month); equivalent to about 10.1 paid months at $49",
+      "expression": "49*(1-0.968^12)/0.032",
+      "claimedResult": 494.79,
+      "tolerance": 0.5
+    },
+    {
+      "id": "K5",
+      "purpose": "Revenue given up per seat per year by a would-have-stayed converter (also the year-one change for a would-have-churned seat that pays all 12 monthly payments and leaves at the 12-month boundary)",
+      "expression": "49*12-490",
+      "claimedResult": 98,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K6",
+      "purpose": "Revenue given up per 8-seat would-have-stayed account per year",
+      "expression": "(49*12-490)*8",
+      "claimedResult": 784,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K7",
+      "purpose": "Annual payment fees on monthly billing, 8-seat account ($392 per charge)",
+      "expression": "12*(0.029*392+0.30)",
+      "claimedResult": 140.016,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K8",
+      "purpose": "Payment fee on a single annual charge, 8-seat account ($3,920)",
+      "expression": "0.029*3920+0.30",
+      "claimedResult": 113.98,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K9",
+      "purpose": "Annual fee saving per 8-seat account from annual billing",
+      "expression": "12*(0.029*392+0.30)-(0.029*3920+0.30)",
+      "claimedResult": 26.036,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K10",
+      "purpose": "Check that monthly churn of about 3.38% is the year-one break-even, where expected monthly revenue equals $490",
+      "expression": "49*(1-(1-0.0338)^12)/0.0338",
+      "claimedResult": 490.12,
+      "tolerance": 0.5
+    },
+    {
+      "id": "K11",
+      "purpose": "Expected year-one revenue per monthly seat for an illustrative low-churn (1% monthly) account",
+      "expression": "49*(1-0.99^12)/0.01",
+      "claimedResult": 556.71,
+      "tolerance": 0.5
+    },
+    {
+      "id": "K12",
+      "purpose": "Year-one revenue lost per seat by converting an illustrative 1%-monthly-churn account to $490",
+      "expression": "49*(1-0.99^12)/0.01-490",
+      "claimedResult": 66.71,
+      "tolerance": 0.5
+    },
+    {
+      "id": "K13",
+      "purpose": "Monthly-equivalent churn implied by the pilot's 91% 12-month retention",
+      "expression": "1-0.91^(1/12)",
+      "claimedResult": 0.007828,
+      "tolerance": 0.00005
+    },
+    {
+      "id": "K14",
+      "purpose": "Expected number of churned accounts in the n=40 pilot at 91% retention",
+      "expression": "40*(1-0.91)",
+      "claimedResult": 3.6,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K15",
+      "purpose": "Approximate 95% margin of error (normal approximation, superseded by the Wilson interval K43/K44) on the pilot's 91% retention, n=40",
+      "expression": "1.96*sqrt(0.91*0.09/40)",
+      "claimedResult": 0.0887,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K16",
+      "purpose": "Revenue given up per seat across the whole base per year if all 30% of converters would have stayed (before fees)",
+      "expression": "0.3*98",
+      "claimedResult": 29.4,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K17",
+      "purpose": "Net revenue given up per would-have-stayed seat per year after per-seat fee savings",
+      "expression": "98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8",
+      "claimedResult": 94.7455,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K18",
+      "purpose": "Year-one revenue change per seat from converting an average-churn (3.2%) seat to $490",
+      "expression": "490-49*(1-0.968^12)/0.032",
+      "claimedResult": -4.795,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K19",
+      "purpose": "Undiscounted monthly LTV per seat at 3.2% monthly churn",
+      "expression": "49/0.032",
+      "claimedResult": 1531.25,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K20",
+      "purpose": "Annual renewal rate at which annual LTV 490/(1-r) equals monthly LTV for a 3.2%-churn converter",
+      "expression": "1-490/(49/0.032)",
+      "claimedResult": 0.68,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K21",
+      "purpose": "Undiscounted monthly LTV per seat at an illustrative 1% monthly churn",
+      "expression": "49/0.01",
+      "claimedResult": 4900,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K22",
+      "purpose": "Break-even annual renewal rate for an illustrative 1%-churn converter",
+      "expression": "1-490/(49/0.01)",
+      "claimedResult": 0.9,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K23",
+      "purpose": "Break-even annual renewal rate for a converter churning at the pilot-implied 0.78% monthly",
+      "expression": "1-490*(1-0.91^(1/12))/49",
+      "claimedResult": 0.92172,
+      "tolerance": 0.0005
+    },
+    {
+      "id": "K24",
+      "purpose": "Monthly churn above which a 91% annual renewal rate gives higher LTV than monthly billing",
+      "expression": "(1-0.91)*49/490",
+      "claimedResult": 0.009,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K25",
+      "purpose": "12-month monthly-billing retention at 0.9% monthly churn",
+      "expression": "0.991^12",
+      "claimedResult": 0.89719,
+      "tolerance": 0.0005
+    },
+    {
+      "id": "K26",
+      "purpose": "Undiscounted annual LTV per seat at a 91% renewal rate",
+      "expression": "490/(1-0.91)",
+      "claimedResult": 5444.44,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K27",
+      "purpose": "Expected 24-month revenue per monthly seat at 3.2% churn",
+      "expression": "49*(1-0.968^24)/0.032",
+      "claimedResult": 829.71,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K28",
+      "purpose": "Renewal rate at which 24-month annual revenue 490*(1+r) equals 24-month monthly revenue at 3.2% churn",
+      "expression": "49*(1-0.968^24)/0.032/490-1",
+      "claimedResult": 0.69328,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K29",
+      "purpose": "Expected 24-month revenue per monthly seat at an illustrative 1% churn",
+      "expression": "49*(1-0.99^24)/0.01",
+      "claimedResult": 1050.18,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K30",
+      "purpose": "Maximum 24-month revenue per annual seat (100% renewal)",
+      "expression": "2*490",
+      "claimedResult": 980,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K31",
+      "purpose": "Expected year-one monthly revenue of a seat that churns within 12 months, at 3.2% churn",
+      "expression": "(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimedResult": 299.56,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K32",
+      "purpose": "Year-one gain per seat from converting a would-have-churned seat to $490 (no refund)",
+      "expression": "490-(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimedResult": 190.44,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K33",
+      "purpose": "Break-even share of converters who would have stayed, at which year-one gains and losses cancel",
+      "expression": "190.44/(98+190.44)",
+      "claimedResult": 0.6602,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K34",
+      "purpose": "Year-one change per base seat at 10% conversion, all converters would have stayed",
+      "expression": "0.1*(-98)",
+      "claimedResult": -9.8,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K35",
+      "purpose": "Year-one change per base seat at 20% conversion, all converters would have stayed",
+      "expression": "0.2*(-98)",
+      "claimedResult": -19.6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K36",
+      "purpose": "Year-one change per base seat at 10% conversion, 90% of converters would have stayed",
+      "expression": "0.1*(0.9*(-98)+0.1*190.44)",
+      "claimedResult": -6.9156,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K37",
+      "purpose": "Year-one change per base seat at 20% conversion, 90% of converters would have stayed",
+      "expression": "0.2*(0.9*(-98)+0.1*190.44)",
+      "claimedResult": -13.8312,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K38",
+      "purpose": "Year-one change per base seat at 30% conversion, 90% of converters would have stayed",
+      "expression": "0.3*(0.9*(-98)+0.1*190.44)",
+      "claimedResult": -20.7468,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K39",
+      "purpose": "Year-one change per base seat at 10% conversion, 50% of converters would have stayed",
+      "expression": "0.1*(0.5*(-98)+0.5*190.44)",
+      "claimedResult": 4.622,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K40",
+      "purpose": "Year-one change per base seat at 20% conversion, 50% of converters would have stayed",
+      "expression": "0.2*(0.5*(-98)+0.5*190.44)",
+      "claimedResult": 9.244,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K41",
+      "purpose": "Year-one change per base seat at 30% conversion, 50% of converters would have stayed",
+      "expression": "0.3*(0.5*(-98)+0.5*190.44)",
+      "claimedResult": 13.866,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K42",
+      "purpose": "Year-one change per base seat at 30% conversion when converters mirror the blended 3.2% churn",
+      "expression": "0.3*(490-49*(1-0.968^12)/0.032)",
+      "claimedResult": -1.4385,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K43",
+      "purpose": "Wilson 95% interval lower bound for the pilot's 91% retention, n=40",
+      "expression": "((0.91+1.96^2/80)-1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimedResult": 0.78206,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K44",
+      "purpose": "Wilson 95% interval upper bound for the pilot's 91% retention, n=40",
+      "expression": "((0.91+1.96^2/80)+1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimedResult": 0.96609,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K45",
+      "purpose": "Upper-bound illustrative time value per seat of receiving $490 upfront rather than spread monthly (average 5.5-month advance), at an assumed 8% annual cost of capital; assumes the monthly counterfactual pays all 12 months, so it overstates the value for an expected seat paying about 10.1 months (K4)",
+      "expression": "490*0.08*5.5/12",
+      "claimedResult": 17.967,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K46",
+      "purpose": "Expected year-one monthly revenue of a seat that churns within 12 months, at an illustrative 1% hazard (tenured would-have-churned converter)",
+      "expression": "(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimedResult": 312.633,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K47",
+      "purpose": "Year-one gain per seat from converting a would-have-churned seat at a 1% hazard to $490 (no refund)",
+      "expression": "490-(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimedResult": 177.367,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K48",
+      "purpose": "Break-even would-have-stayed share of converters when would-have-churned converters churn at a 1% hazard",
+      "expression": "177.367/(98+177.367)",
+      "claimedResult": 0.64411,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K49",
+      "purpose": "Year-one change per base seat at 30% conversion, 50% would have stayed, with would-have-churned converters at a 1% hazard",
+      "expression": "0.3*(0.5*(-98)+0.5*177.367)",
+      "claimedResult": 11.905,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K50",
+      "purpose": "Converted accounts needed to estimate month-12 renewal within ±5 points (95% confidence), conservatively at p=0.8",
+      "expression": "1.96^2*0.8*0.2/0.05^2",
+      "claimedResult": 245.86,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K51",
+      "purpose": "Converted accounts needed to estimate month-12 renewal within ±3 points (95% confidence) near p=0.9",
+      "expression": "1.96^2*0.9*0.1/0.03^2",
+      "claimedResult": 384.16,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K52",
+      "purpose": "Accounts per arm to detect a 2-point difference in the share still paying at month 19, after all converters' first renewal (53.9% holdout vs 55.9% offered arm; illustrative 20% uptake x 10-point converter lift; two-sided 5%, 80% power)",
+      "expression": "(1.96+0.8416)^2*(0.539*0.461+0.559*0.441)/0.02^2",
+      "claimedResult": 9713,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K53",
+      "purpose": "Year-one change per seat for a would-have-churned converter who would have paid 11 months before leaving",
+      "expression": "490-11*49",
+      "claimedResult": -49,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K54",
+      "purpose": "Year-one change per seat for a would-have-churned converter who would have paid 1 month before leaving",
+      "expression": "490-49",
+      "claimedResult": 441,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K55",
+      "purpose": "Illustrative holdout baseline: share of monthly accounts still paying at month 19 at blended 3.2% monthly churn",
+      "expression": "0.968^19",
+      "claimedResult": 0.53905,
+      "tolerance": 0.0005
+    },
+    {
+      "id": "K56",
+      "purpose": "Arm-level difference in share still paying produced by an illustrative 10-point retention lift among converters at 20% uptake",
+      "expression": "0.2*0.10",
+      "claimedResult": 0.02,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Correct the memo: market the plan as '2 months free' (16.7%), not '25% off' (E5, E8).",
+    "Use $490 as the test price rather than cutting to $441. A deeper discount raises cannibalization to $147 per would-have-stayed seat and may worsen converter quality (E7, E11). Test a deeper arm only if uptake at $490 is too low (E6).",
+    "Before any launch, confirm whether the pilot's 91% is in-term retention or the month-12 renewal rate, what refund terms applied, and how sales chose the 40 accounts (E4).",
+    "Pull 12-month retention for monthly customers by tenure band and seat count, the share of churn that is involuntary, and the active customer count. The count decides whether a powered randomized comparison is feasible, and the tenure and seat-count retention feeds both the month-6 interim read and the fallback threshold (E14, K52).",
+    "Run the plan as a randomized offer against a holdout, treating accounts as the unit. Size the primary comparison on a post-renewal outcome, not in-term retention (E17). Uptake dilutes the arm-level effect: at an illustrative 20% uptake, a 10-point retention lift among converters moves the share still paying at month 19 by only about 2 points (K56) from about 53.9% at blended churn (K55), which needs about 9,700 accounts per arm (K52); lower uptake or a smaller lift needs more. Per-account revenue variance is not in the packet, so the revenue comparison cannot be sized directly and the retention sizing serves as a proxy. Separately, target at least about 246 converted accounts so month-12 renewal is known within ±5 points (K50), or about 384 for ±3 points near 90% (K51). If the base cannot supply the randomized sample, rely on the matched-c fallback rule below and accept a wider uncertainty band and residual selection (E4, E11).",
+    "Timeline and interim rule. Months 0-6: enroll (E2). At month 6, read uptake, refund and seat-reduction requests, and the converters' mix by tenure band and seat count. Estimate the converters' would-have-stayed share as the average of each converter's predicted 12-month retention on monthly billing, taken from the historical retention of accounts with the same tenure band and seat count (E14) and checked against the holdout's observed churn in those bands over its first six months. If that predicted share exceeds about 64-66% (K33, K48), do not widen the offer beyond the test cohort; consider moving new enrollment to $539 or to a targeted arm. This gate covers year one only and is an early warning, not a verdict: the scale decision is taken solely by the final rule, so a pool that trips this gate can still be scaled if it clears the final rule, and one that passes can still be stopped. If uptake is negligible, test the framing or an annual-commitment-billed-monthly arm. Months 12-18: converters' first renewals fall due. About month 19: final read.",
+    "Final success rule. Primary (intention-to-treat): at about month 19, counting every randomized account whether or not it converted, scale only if the offered arm is ahead of the holdout on cumulative revenue per account and on the share still paying, with the confidence interval for the revenue difference excluding a loss. Randomization makes this comparison free of selection. Fallback, if the base cannot power it (K52): scale only if converters' month-12 renewal, with its lower confidence bound, exceeds 1 - 10c, where c is the monthly churn of holdout accounts matched to the converters on tenure band and seat count. Do not use the holdout's blended churn: it gives a threshold near 68% (K20), whereas a tenured pool at 1% or 0.78% churn needs about 90% or 92% (K22, K23). Matching removes only observable selection, so treat a fallback pass as weaker evidence than a randomized one (E4, E11). Do not use in-term retention as the success metric (E17).",
+    "Adopt standard terms: prorated seat adds, no mid-term refunds on reductions (credit at renewal), and cancellation effective at term end. Check local consumer-protection rules (E18, E19).",
+    "Set up deferred-revenue accounting and contract-modification handling before launch (E20).",
+    "Consider steering a separate test arm to newer accounts or to cancellation-intent moments, but expect low prepay uptake there (E11, E13, K32)."
+  ],
+  "remainingUncertainty": [
+    "The definition of the pilot's 91% retention (in-term vs month-12 renewal), the pilot's refund terms, and the criteria sales used to pick accounts (E4). This needs the company's internal data.",
+    "This company's retention for tenured monthly customers, and its churn by tenure and segment (E14). This needs the company's internal data.",
+    "The true causal effect of annual billing on B2B seat-based churn: E11 (selection) conflicts with E12 (matched effect). E11 is more directly relevant to the pilot's selection problem. E12 offers larger-scale matching but its method is unseen and its customer base is likely consumer, so the conflict remains unresolved.",
+    "The actual conversion rate and converter mix at $490 (E2, E9).",
+    "The renewal rate for annual customers at month 12, relative to the 1 - 10c break-even (E17, K20).",
+    "The share of churn that is involuntary (payment failure), which annual prepay might remove. The packet has no evidence on it.",
+    "The active customer count, which decides whether a test can reach the sample sizes in K50-K52.",
+    "When would-have-churned converters would have left, which moves their year-one value between +$441 and -$98 per seat (K54, K53, K5).",
+    "Seat-level versus logo-level churn and in-account seat changes for 8-seat accounts (E3).",
+    "Payment method mix (card, ACH or invoice) for annual deals (E15).",
+    "The constant-hazard churn model is a simplification. Early-concentrated churn would make the case against discounting tenured accounts stronger (E13, E16)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Confirming that the pilot's 91% is a month-12 renewal rate, together with tenured monthly churn above about 0.9% a month, would make the pilot more encouraging. It would justify prioritizing and enlarging the controlled test, not replacing it. Sales hand-picked the pilot accounts, a layer of selection that tenure-matching does not remove (E4, E11; K24, K25).",
+    "If tenured monthly customers retain well below 91% (for example about 70-75%), the pilot gap would be larger than tenure alone explains. That is consistent with a real effect but still not proof, because of the sales-picking selection. It would raise the expected payoff of the test rather than justify skipping it (E4, E14).",
+    "A randomized annual-offer test in which the offered arm leads the holdout on revenue per account and on the share still paying at about month 19 would support launching; if the base cannot power that, converters' month-12 renewal above 1 - 10c with c from tenure- and seat-matched holdout accounts would support it more weakly. A month-6 predicted would-have-stayed share well below about 64-66% would be an early positive sign (K20, K22, K33, K48, K52).",
+    "Evidence that a large share of the 3.2% is involuntary churn would strengthen the causal case for annual prepay.",
+    "Data showing that churn is spread evenly across tenure rather than concentrated early would reduce the cannibalization concern (E13).",
+    "A survey or fake-door test showing which accounts (by tenure and seat count) intend to take $490 would bound the converter mix before the full test.",
+    "Primary ProfitWell/Paddle or Recurly reports on monthly-to-annual conversion and annual renewal rates for B2B SaaS at roughly $49 per seat (E9, E10).",
+    "Peer-reviewed or methodologically transparent evidence on annual-billing treatment effects in B2B SaaS (E11, E12)."
+  ]
+}

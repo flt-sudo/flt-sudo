@@ -34,6 +34,55 @@ function parseFile<T>(schema: { safeParse: (x: unknown) => { success: true; data
   return r.data;
 }
 
+/** Find a subagent transcript under ~/.claude/projects and return its last hand-back and usage totals. */
+function readHandback(agentId: string): { found: boolean; text: string | null; usage: { models: string[]; inputTokens: number; outputTokens: number; cacheReadTokens: number; cacheCreationTokens: number; webSearchRequests: number; assistantMessages: number } } {
+  if (!/^[\w-]+$/.test(agentId)) die("bad agent id");
+  const base = path.join(process.env.HOME ?? "/root", ".claude", "projects");
+  let file: string | null = null;
+  const walk = (d: string, depth: number) => {
+    if (file || depth > 4 || !fs.existsSync(d)) return;
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      const p = path.join(d, e.name);
+      if (e.isDirectory()) walk(p, depth + 1);
+      else if (e.name === `agent-${agentId}.jsonl`) file = p;
+    }
+  };
+  walk(base, 0);
+  const usage = { models: [] as string[], inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheCreationTokens: 0, webSearchRequests: 0, assistantMessages: 0 };
+  if (!file) return { found: false, text: null, usage };
+  let text: string | null = null;
+  const seenIds = new Set<string>();
+  for (const line of fs.readFileSync(file, "utf8").split("\n")) {
+    if (!line.trim()) continue;
+    let d: { message?: { id?: string; model?: string; usage?: Record<string, number & { web_search_requests?: number }>; content?: unknown } };
+    try {
+      d = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    const m = d.message;
+    if (!m || typeof m !== "object") continue;
+    // A single API response can span several transcript lines; count its usage once.
+    if (m.usage && m.id && !seenIds.has(m.id)) {
+      seenIds.add(m.id);
+      const u = m.usage as unknown as { input_tokens?: number; output_tokens?: number; cache_read_input_tokens?: number; cache_creation_input_tokens?: number; server_tool_use?: { web_search_requests?: number } };
+      usage.inputTokens += u.input_tokens ?? 0;
+      usage.outputTokens += u.output_tokens ?? 0;
+      usage.cacheReadTokens += u.cache_read_input_tokens ?? 0;
+      usage.cacheCreationTokens += u.cache_creation_input_tokens ?? 0;
+      usage.webSearchRequests += u.server_tool_use?.web_search_requests ?? 0;
+      usage.assistantMessages++;
+      if (m.model && !usage.models.includes(m.model)) usage.models.push(m.model);
+    }
+    if (Array.isArray(m.content)) {
+      for (const b of m.content as { type?: string; name?: string; input?: { message?: string } }[]) {
+        if (b.type === "tool_use" && b.name === "SubagentHandback" && typeof b.input?.message === "string") text = b.input.message;
+      }
+    }
+  }
+  return { found: true, text, usage };
+}
+
 const [cmd, ...rest] = process.argv.slice(2);
 const pos = rest.filter((x, i) => !x.startsWith("--") && !(i > 0 && rest[i - 1]!.startsWith("--")));
 
@@ -103,6 +152,32 @@ switch (cmd) {
     fs.writeFileSync(path.join(runDir(id), ".stage"), stage);
     fs.appendFileSync(path.join(runDir(id), "stages.jsonl"), JSON.stringify({ ts: new Date().toISOString(), stage }) + "\n");
     console.log(`stage ${stage} declared for ${id}`);
+    break;
+  }
+  case "stage:save": {
+    // Copy a stage subagent's final hand-back VERBATIM from its transcript into a run file,
+    // and record its model and token usage. The orchestrator never retypes stage output.
+    const id = pos[0] ?? die("run id required");
+    const agentId = pos[1] ?? die("agent id required");
+    const outName = pos[2] ?? die("output file name required");
+    if (!/^[\w.-]+$/.test(outName)) die("bad output file name");
+    const format = arg("format") ?? (outName.endsWith(".md") ? "markdown" : "json");
+    const { found, text, usage } = readHandback(agentId);
+    if (!found) die(`no transcript for agent ${agentId}`);
+    if (text === null) die(`agent ${agentId} has not handed back a report`);
+    let body = text.trim().replace(/^```(?:json|markdown|md)?\s*\n/, "").replace(/\n```\s*$/, "");
+    if (format === "json") {
+      try {
+        body = JSON.stringify(JSON.parse(body), null, 2);
+      } catch (e) {
+        die(`hand-back is not valid JSON: ${(e as Error).message}`);
+      }
+    }
+    const dir = runDir(id);
+    fs.writeFileSync(path.join(dir, outName), body + "\n");
+    const stage = fs.existsSync(path.join(dir, ".stage")) ? fs.readFileSync(path.join(dir, ".stage"), "utf8").trim() : null;
+    fs.appendFileSync(path.join(dir, "usage.jsonl"), JSON.stringify({ ts: new Date().toISOString(), stage, output: outName, agentId, ...usage }) + "\n");
+    console.log(`saved ${outName} (${body.length} chars) from agent ${agentId}; model ${usage.models.join(",")}; tokens in ${usage.inputTokens} (+cache read ${usage.cacheReadTokens}, cache write ${usage.cacheCreationTokens}), out ${usage.outputTokens}`);
     break;
   }
   case "stage:clear": {

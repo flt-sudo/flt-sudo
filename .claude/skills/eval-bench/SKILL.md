@@ -15,11 +15,11 @@ Work from `evaluator-v3/`. Commands: `npm run ev -- <command>`.
 
 ## Per case
 1. **Agent:** follow the `evaluate` skill with `run:new --case <CASE> --system agent`.
-2. **Baseline:** `npm run ev -- run:new --case <CASE> --system baseline` (same budgets) → `npm run ev -- stage <RUN> eval-baseline` → launch the `eval-baseline` stage (or the general-purpose fallback described in the `evaluate` skill) with "Run directory: <abs dir>." → save its Markdown reply verbatim as `report.md` → `npm run ev -- stage:clear <RUN>` → `npm run ev -- baseline:finalize <RUN>`.
+2. **Baseline:** `npm run ev -- run:new --case <CASE> --system baseline` (same budgets) → `npm run ev -- stage <RUN> eval-baseline` → launch the `eval-baseline` stage (or the general-purpose fallback described in the `evaluate` skill) with "Run directory: <abs dir>." → `stage:save <RUN> <agentId> report.md` → `npm run ev -- stage:clear <RUN>` → `npm run ev -- baseline:finalize <RUN>`.
 3. **For each of the two runs:**
    - `npm run ev -- bench:check <RUN>` (deterministic checks)
    - `npm run ev -- bench:grade-input <RUN>` (blinded packet)
-   - `npm run ev -- run:activate <RUN>` → `npm run ev -- stage <RUN> eval-grader` → launch a **fresh** `eval-grader` with "Grade the packet at <abs path to grade-input.md>." → save the JSON verbatim as `grade-raw.json` → `npm run ev -- stage:clear <RUN>` → `npm run ev -- run:deactivate`
+   - `npm run ev -- run:activate <RUN>` → `npm run ev -- stage <RUN> eval-grader` → launch a **fresh** `eval-grader` with "Grade the packet at <abs path to grade-input.md>." → `stage:save <RUN> <agentId> grade-raw.json` → `npm run ev -- stage:clear <RUN>` → `npm run ev -- run:deactivate`
    - `npm run ev -- bench:grade-record <RUN> --grader "<agent type and model>"`
 4. Do not re-run a case to get a better score. A run that crashed before producing a report may be re-run once; record why in the results.
 

@@ -1,0 +1,134 @@
+{
+  "subject": "Launching an annual billing plan at $490 per seat per year alongside the existing $49 per seat per month plan for a B2B SaaS tool",
+  "domain": "B2B SaaS pricing and packaging, retention economics",
+  "decisionObjective": "Decide whether to launch an annual plan at $490 per seat per year, paid upfront. If not at that price, decide what price or discount and what conditions to use. The test is whether the plan raises net revenue and customer lifetime value once three things are weighed: the cash and retention gains, the revenue given up by moving monthly customers who would have stayed anyway to a lower effective price, and how reliable the evidence is that annual billing actually cuts churn for this customer base.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Correctness of the discount and effective price",
+      "weight": 15,
+      "rationale": "The proposal rests on the claim that it is a 25% discount. $49 x 12 = $588 per year, and $490/$588 is about 83.3%, which is a discount of about 16.7%. If the stated discount is wrong, the conversion benchmarks the memo relies on ('25% is the sweet spot') may not apply. Every revenue projection depends on getting the effective price right."
+    },
+    {
+      "id": "C2",
+      "name": "Causal evidence that annual billing reduces churn here",
+      "weight": 25,
+      "rationale": "The main promise is that churn will fall substantially. The only internal evidence is a 40-account pilot with 91% 12-month retention, and those accounts were hand-picked from customers with more than a year of tenure. That is severe selection bias against a monthly base churning 3.2% per month (about 67.6% 12-month retention). How much of the retention gain is caused by annual billing, rather than by who was picked, decides whether the plan meets its stated purpose."
+    },
+    {
+      "id": "C3",
+      "name": "Net revenue and LTV impact including cannibalization",
+      "weight": 25,
+      "rationale": "Converting a customer who would have stayed 12 months anyway loses $98 per seat per year. Converting a customer who would have churned gains revenue. Whether the plan adds value depends on this mix and on the assumed 30% conversion rate, so this criterion carries the decision."
+    },
+    {
+      "id": "C4",
+      "name": "Cash flow and payment-cost effects",
+      "weight": 10,
+      "rationale": "Upfront annual payment brings cash in earlier and replaces 12 charges with 1. At 8 seats, the fixed $0.30 per-charge fee drops from 12 charges to 1, though the 2.9% fee scales with the amount charged. These are real but secondary benefits that partly offset the discount."
+    },
+    {
+      "id": "C5",
+      "name": "Robustness of the conversion assumption and price positioning",
+      "weight": 15,
+      "rationale": "The memo assumes 30% of monthly customers move to annual within 6 months, and gives no source. The outcome is very sensitive to this rate and to which customers convert (likely the already-loyal ones, which makes cannibalization worse). Competitive norms for annual discounts, often about 15-20%, i.e. '2 months free', affect whether $490 is positioned well."
+    },
+    {
+      "id": "C6",
+      "name": "Operational and contractual risk of annual billing",
+      "weight": 10,
+      "rationale": "Annual prepaid plans bring refund and cancellation policy questions, seat true-up rules for 8-seat accounts that add or remove seats mid-term, revenue recognition (deferred revenue) and renewal workflows. Each of these can erode the benefit or add support cost."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the actual discount of $490 per year compared with $49 x 12 = $588 per year, and how do the memo's benchmark conversion rates change at about 16.7% versus 25%?",
+      "whyItMatters": "It checks the central user premise directly. If the discount is 16.7%, benchmark-based conversion expectations and the claimed 'sweet spot' rationale do not carry over as stated.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "What 12-month retention would a tenure-matched comparison group of monthly customers (customers with more than a year of tenure) show, compared with the pilot cohort's 91%?",
+      "whyItMatters": "It separates the causal effect of annual billing from selection bias. If tenured monthly customers already retain at about 85-90%, the plan's effect on churn is small and the plan mostly gives away revenue.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "How is the 3.2% monthly churn distributed by customer tenure and segment, i.e. is churn concentrated in early-life customers who are unlikely to prepay annually?",
+      "whyItMatters": "If churn sits mostly among new or low-engagement accounts that will not choose annual, the plan cannot meaningfully lower overall churn. It would then mainly discount the loyal accounts.",
+      "criteria": [
+        "C2",
+        "C3",
+        "C5"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Under realistic conversion rates (for example 10%, 20% or 30%) and realistic mixes of would-have-stayed versus would-have-churned converters, what is the net change in 12- and 24-month revenue per seat, including the payment-fee difference? Recompute: monthly fees on 8 seats ($392 per charge) are about $11.67 x 12 = $140 per year, compared with about $113.98 once per year for an annual charge of $3,920.",
+      "whyItMatters": "It shows whether the plan creates or destroys value, and the break-even share of converters who would otherwise have churned.",
+      "criteria": [
+        "C3",
+        "C4",
+        "C5"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What is the source of the assumption that 30% of customers convert to annual within 6 months, and what annual-discount levels and conversion rates do comparable B2B SaaS tools at roughly a $49 per seat price point use?",
+      "whyItMatters": "The conversion rate drives both the size of the benefit and the cannibalization. Market norms show whether the $490 price is reasonable or leaves money on the table.",
+      "criteria": [
+        "C5",
+        "C1"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What refund, cancellation and mid-term seat-change terms would the annual plan have?",
+      "whyItMatters": "Generous refunds weaken the churn lock-in. Seat true-up rules affect realized revenue for multi-seat accounts.",
+      "criteria": [
+        "C6",
+        "C2"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "$490 per year is a 25% discount versus the monthly plan.",
+      "source": "user",
+      "howToCheck": "Recompute: 1 - 490/(49 x 12) = 1 - 490/588, which is about 16.7%. A true 25% discount would be $441 per year."
+    },
+    {
+      "assumption": "A 25% discount (or the actual discount) will be enough to cut churn substantially.",
+      "source": "user",
+      "howToCheck": "Compare the pilot's retention with a tenure-matched monthly cohort. Review published evidence on how annual contracts affect churn, and on how much of that effect comes from contractual lock-in rather than changed behavior."
+    },
+    {
+      "assumption": "The pilot's 91% 12-month retention reflects the effect of annual billing.",
+      "source": "user",
+      "howToCheck": "Confirm the selection method in the churn data (hand-picked accounts with more than a year of tenure). Benchmark against retention of monthly customers with more than a year of tenure. Note the small sample of n=40 (about 3-4 churned accounts)."
+    },
+    {
+      "assumption": "30% of monthly customers will convert to annual within 6 months, which 'benchmarks suggest' at a 25% discount.",
+      "source": "user",
+      "howToCheck": "Ask for the benchmark source, check industry data on annual-plan uptake, and run a sensitivity analysis across conversion rates."
+    },
+    {
+      "assumption": "The 3.2% monthly churn applies evenly across customers, so annual conversion would reduce it in proportion.",
+      "source": "planner",
+      "howToCheck": "Ask for a churn breakdown by tenure cohort and segment."
+    },
+    {
+      "assumption": "Payment processing savings from annual billing are material.",
+      "source": "planner",
+      "howToCheck": "Compute the fees for an average 8-seat account: monthly is 12 x (0.029 x 392 + 0.30), about $140.03 per year; annual is 0.029 x 3,920 + 0.30, about $113.98. That saves about $26 per account per year, which is small next to the $784 per year an 8-seat account forgoes ($98 x 8)."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

@@ -10,7 +10,8 @@ You are the orchestrator. You do **not** write the evaluation yourself: stage su
 All commands run from `evaluator-v3/`: `npm run ev -- <command> ...`. Paths below are relative to the run directory `evaluator-v3/runs/<RUN>/`; give subagents the **absolute** run directory path.
 
 ## Rules
-- Save each subagent's JSON reply **verbatim** to the named file with the Write tool. Do not edit, fix or embellish subagent output. If it is not valid JSON or fails a `*:check`, re-run that subagent once with the error message appended; if it fails again, stop and report the failure.
+- Save each subagent's reply with `npm run ev -- stage:save <RUN> <agentId> <file>` (agentId from the Agent tool result). It copies the hand-back verbatim from the subagent transcript and logs model and token usage to `usage.jsonl`. Never retype, edit, fix or embellish subagent output. If it is not valid JSON or fails a `*:check`, send the error to the same subagent once (SendMessage) and save again; if it fails again, stop and report the failure.
+- Tell each stage subagent to deliver ONLY its JSON (or Markdown) as its final report.
 - Never read `evaluator-v3/bench/cases/**` directly. For a benchmark case use `bench:view` (the expected outcomes are hidden from you and the agents).
 - Do not perform research yourself, and do not add evidence. Only `eval-researcher` researches.
 - Only one run may be active at a time (the hooks log to the active run).
@@ -25,15 +26,15 @@ All commands run from `evaluator-v3/`: `npm run ev -- <command> ...`. Paths belo
    - Add `--webfetch yes` only if WebFetch works in this environment.
    Note the `runId` and `dir` it prints.
 
-2. **Plan.** Agent `eval-planner`: "Run directory: <abs dir>. Produce the plan." → save to `plan.json` → `npm run ev -- plan:check <RUN>`.
+2. **Plan.** Agent `eval-planner`: "Run directory: <abs dir>. Produce the plan." → `stage:save` to `plan.json` → `npm run ev -- plan:check <RUN>`.
 
-3. **Research.** Agent `eval-researcher`: "Run directory: <abs dir>. Research the plan in plan.json. Budgets: <from run:new>." → save to `research.json` → `npm run ev -- evidence:validate <RUN>`.
+3. **Research.** Agent `eval-researcher`: "Run directory: <abs dir>. Research the plan in plan.json. Budgets: <from run:new>." → `stage:save` to `research.json` → `npm run ev -- evidence:validate <RUN>`.
 
 4. **Compile.** `npm run ev -- packet <RUN>`.
 
-5. **Analyse.** Agent `eval-analyst`: "Run directory: <abs dir>. Write draft N=1." → save to `draft-1.json` → `npm run ev -- draft:check <RUN> 1`.
+5. **Analyse.** Agent `eval-analyst`: "Run directory: <abs dir>. Write draft N=1." → `stage:save` to `draft-1.json` → `npm run ev -- draft:check <RUN> 1`.
 
-6. **Review.** Agent `eval-adversary` (a fresh agent every time): "Run directory: <abs dir>. Review draft N." → save to `review-N.json` → `npm run ev -- review:check <RUN> N`.
+6. **Review.** Agent `eval-adversary` (a fresh agent every time): "Run directory: <abs dir>. Review draft N." → `stage:save` to `review-N.json` → `npm run ev -- review:check <RUN> N`.
 
 7. **Gates.** `npm run ev -- gates <RUN> N`.
    - If `certified: true` and `revision recommended: false` → go to step 9.
@@ -43,7 +44,7 @@ All commands run from `evaluator-v3/`: `npm run ev -- <command> ...`. Paths belo
 8. **Revise (bounded).**
    - Decide the remedy from the failing findings: if any target needs new facts (`remedy: research`/`both`, or an unresolved decisive gap), action is `research`/`both`; otherwise `reanalysis`.
    - `npm run ev -- revision:log <RUN> --action <action>` (it refuses after the revision limit and when there is nothing to fix).
-   - For `research`/`both`: run `eval-researcher` again with "Targeted follow-up research for these defects only: <paste the revision targets>. Existing evidence is in research.json; continue numbering after the last E-id and return the COMPLETE evidence list (existing + new)." → overwrite `research.json` → `evidence:validate` → `packet`.
+   - For `research`/`both`: run `eval-researcher` again with "Targeted follow-up research for these defects only: <paste the revision targets>. Existing evidence is in research.json; continue numbering after the last E-id and return the COMPLETE evidence list (existing + new)." → `stage:save` to `research.json` (overwrites) → `evidence:validate` → `packet`.
    - Run `eval-analyst` for draft N+1 → `draft:check`, then back to step 6 with N+1.
 
 9. **Finalize.** `npm run ev -- stage:clear <RUN>`, then `npm run ev -- finalize <RUN>` → writes `report.md` and `validation-record.json`, and deactivates the run.

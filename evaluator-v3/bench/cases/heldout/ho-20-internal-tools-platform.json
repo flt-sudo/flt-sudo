@@ -1,0 +1,87 @@
+{
+  "id": "ho-20-internal-tools-platform",
+  "split": "heldout",
+  "domain": "technical product evaluation",
+  "difficulty": [
+    "competing_alternatives",
+    "missing_information",
+    "misleading_assumption"
+  ],
+  "request": "We're standardising on a low-code platform for about 30 internal tools. IT has narrowed it to Brickwork and Formline and recommends Formline because it is '$4,800 a month flat versus $6,600 for Brickwork - 27% cheaper'. We have 12 builders and about 400 end users, and our security requirements are attached along with both vendors' pricing and documentation excerpts. Is Formline the right choice, and if there are gaps in what we know, what must we ask before signing?",
+  "fixtures": [
+    {
+      "name": "requirements.md",
+      "content": "# Internal tools platform - requirements (Security + IT, 2026-10)\n1. SAML SSO and SCIM user provisioning (mandatory)\n2. Audit logs of app and data changes, retained 1 year (mandatory)\n3. Connect to on-prem PostgreSQL that has no public IP, via private connectivity (mandatory)\n4. 12 builders, ~400 end users, growth to ~550 end users in 2 years\n"
+    },
+    {
+      "name": "brickwork-pricing-and-docs.md",
+      "content": "# Brickwork\nPricing: $50 per builder per month + $15 per end user per month. All plans include SAML SSO, SCIM, audit logs (1-year retention).\nDocs: 'Brickwork Relay' agent runs inside your network and connects outbound to Brickwork, enabling access to private databases without inbound firewall rules.\n"
+    },
+    {
+      "name": "formline-pricing-and-docs.md",
+      "content": "# Formline\nTeam plan: $4,800/month flat, up to 500 users. Includes SAML SSO.\nEnterprise plan: $9,500/month flat, up to 1,000 users. Adds SCIM provisioning, audit logs (1-year retention), priority support.\nDocs (Data sources): 'Connect to any database reachable over the internet. Add Formline's egress IPs to your allowlist.'\n"
+    },
+    {
+      "name": "it-memo.md",
+      "content": "Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The comparison uses the wrong Formline plan: SCIM and audit logs are mandatory and are only in Formline Enterprise at $9,500/month, so the like-for-like comparison is $9,500 versus Brickwork's $6,600 (12 x $50 + 400 x $15), making Brickwork about 30% cheaper today. Brickwork's per-user pricing scales with growth: at 550 end users it costs $8,850, still below $9,500; break-even is about 593 end users. Formline's documentation only describes internet-reachable databases with IP allowlisting, and says nothing about private connectivity to a database with no public IP, so it is unknown whether Formline can meet requirement 3 at all, whereas Brickwork documents a relay agent. Recommendation: Brickwork is the better fit on current evidence; before any Formline decision, ask the vendor in writing about private connectivity options and Enterprise pricing discounts.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Formline needs Enterprise ($9,500) for SCIM/audit logs",
+        "pattern": "9,?500|enterprise (plan|tier)"
+      },
+      {
+        "id": "F2",
+        "description": "Formline private connectivity unknown/undocumented",
+        "pattern": "(private (connectivity|network)|no public ip)[^.]{0,120}(unknown|unclear|not (documented|mentioned|stated|addressed)|says nothing|silent)|(unknown|unclear|undocumented|silent)[^.]{0,80}(private|no public ip)"
+      },
+      {
+        "id": "F3",
+        "description": "Brickwork is cheaper like-for-like / recommended",
+        "pattern": "brickwork[^.]{0,80}(cheaper|less expensive|better fit|recommend)|recommend[^.]{0,40}brickwork"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses Formline as 27% cheaper",
+        "pattern": "formline\\s+is\\s+(about\\s+|roughly\\s+)?27\\s*%\\s+cheaper"
+      },
+      {
+        "id": "N2",
+        "description": "Recommends Formline Team plan",
+        "pattern": "(recommend|choose|go with)\\s+(the\\s+)?formline\\s+team\\s+plan"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Brickwork monthly cost at 12 builders / 400 end users (USD)",
+        "value": 6600,
+        "tolerance": 0.5
+      },
+      {
+        "id": "V2",
+        "description": "Brickwork cost at 550 end users (USD)",
+        "value": 8850,
+        "tolerance": 0.5
+      },
+      {
+        "id": "V3",
+        "description": "End-user count where Brickwork equals Formline Enterprise",
+        "value": 593.3,
+        "tolerance": 1
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Recommends Formline Team plan, which lacks mandatory SCIM and audit logs",
+      "Assumes Formline supports private connectivity to the no-public-IP database without evidence"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

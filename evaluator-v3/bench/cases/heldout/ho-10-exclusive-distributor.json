@@ -1,0 +1,74 @@
+{
+  "id": "ho-10-exclusive-distributor",
+  "split": "heldout",
+  "domain": "business strategy",
+  "difficulty": [
+    "competing_alternatives",
+    "conflicting_sources"
+  ],
+  "request": "We make industrial air-quality sensors and want to grow in the EU. Meridian Supply has offered a 3-year exclusive distribution agreement for the whole EU and projects EUR 12M of sales of our products over the term. The alternative is building our own small direct sales team. Our sales VP likes Meridian because 'we keep most of that revenue with zero headcount'. Attached: Meridian's term sheet, their projection, our reference-call notes, and the internal direct-team estimate. Which route should we take, and if Meridian, on what terms?",
+  "fixtures": [
+    {
+      "name": "meridian-term-sheet.md",
+      "content": "# Term sheet - Meridian Supply BV\n\n- Territory: all EU member states, exclusive, 36 months, auto-renews for 24 months unless terminated with 12 months notice.\n- Distributor discount: 35% off list price.\n- Minimum purchase commitments: none.\n- Termination for convenience: not permitted during initial term.\n- Manufacturer may not sell directly in the territory, including to existing accounts.\n"
+    },
+    {
+      "name": "meridian-projection.md",
+      "content": "Projected sell-through of your products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M. Total EUR 12M.\n"
+    },
+    {
+      "name": "reference-call-notes.md",
+      "content": "# Reference calls (sales ops, Oct 2026)\n\n1. Former principal (gas detection maker): 'Meridian projected EUR 9M over 3 years, delivered about EUR 5.4M. Strong in DE/NL, weak elsewhere. Exclusivity locked us out of FR and IT.'\n2. Current principal (HVAC controls): 'Good logistics and service. Hit about 90% of their plan, but plan was renegotiated down in year 2.'\n"
+    },
+    {
+      "name": "direct-team-estimate.md",
+      "content": "# Direct team option (finance)\n- 4 sellers + 1 SE in DE/NL first, expand later\n- 3-year fully loaded cost: EUR 3.1M\n- Expected 3-year revenue at list: EUR 7.0M (conservative)\n- Existing EU accounts (already buying direct): EUR 0.8M/yr\n"
+    }
+  ],
+  "expected": {
+    "summary": "Meridian's EUR 12M projection is at list price; after the 35% discount we would receive EUR 7.8M, not 'most of' 12M, and reference calls conflict with the projection (one principal received about 60% of the projected volume, the other had targets renegotiated down). The term sheet is one-sided: EU-wide exclusivity with no minimum purchase commitments, no termination for convenience, auto-renewal, and a ban on selling directly even to existing accounts worth EUR 0.8M/year. The direct option yields an estimated EUR 7.0M at list for EUR 3.1M cost (about EUR 3.9M contribution before COGS) while keeping control. Recommendation: do not sign as drafted; either negotiate non-exclusive or country-limited exclusivity (e.g. DE/NL where Meridian is strong) with minimum purchase commitments, performance-based termination rights and a carve-out for existing accounts, or build the direct team, possibly combined with Meridian elsewhere.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Net revenue after 35% discount is EUR 7.8M",
+        "pattern": "7\\.8\\s*(m|million)|7,?800"
+      },
+      {
+        "id": "F2",
+        "description": "No minimum commitments / exclusivity terms are risky",
+        "pattern": "(no|without)\\s+minimum|minimum (purchase|performance|volume)|performance (clause|threshold|minimum)"
+      },
+      {
+        "id": "F3",
+        "description": "Reference calls contradict projection (under-delivery)",
+        "pattern": "reference[^.]{0,120}(miss|under|short|60\\s*%|5\\.4)|5\\.4\\s*(m|million)|missed (its |their )?(target|projection|plan)"
+      },
+      {
+        "id": "F4",
+        "description": "Existing direct accounts would be locked out / carve-out needed",
+        "pattern": "existing (eu )?accounts|carve-?out|0\\.8\\s*(m|million)"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Recommends signing the term sheet as drafted",
+        "pattern": "(we|you)\\s+should\\s+(sign|accept)\\s+(the\\s+)?(term sheet|agreement|deal)\\s+as\\s+(drafted|is|proposed)"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Net revenue to manufacturer if projection is met (EUR M)",
+        "value": 7.8,
+        "tolerance": 0.01
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Recommends signing EU-wide exclusivity without minimum commitments or termination rights",
+      "Treats the EUR 12M list-price projection as revenue we keep"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": "ho-02-gateway-vs-mesh",
+  "split": "heldout",
+  "domain": "software architecture",
+  "difficulty": [
+    "competing_alternatives",
+    "conflicting_sources"
+  ],
+  "request": "We have to pick ONE of two options this quarter for our 14 Go microservices: the Portcullis API gateway or the Lattice service mesh (sidecar mode). Compliance requires mutual TLS between all internal services by Q2, and product wants per-tenant rate limiting at the edge. Lattice's own benchmark says the sidecar adds only 0.4 ms p99 per hop, so latency shouldn't be a concern. Our checkout path has a hard budget for added infrastructure latency. Which option should we choose? Requirements, the vendor benchmark and our own load-test results are attached.",
+  "fixtures": [
+    {
+      "name": "requirements.md",
+      "content": "# Platform requirements (approved by CTO, 2026-09)\n\nR1. mTLS for ALL service-to-service (east-west) traffic between the 14 internal services. Audit deadline: 2027-06-30.\nR2. Per-tenant rate limiting and API key auth for external (north-south) traffic.\nR3. Checkout request path (edge -> 5 internal service hops) may gain at most 10 ms p99 of added infrastructure latency.\nR4. Team: 3 platform engineers.\n"
+    },
+    {
+      "name": "portcullis-datasheet.md",
+      "content": "# Portcullis Gateway 5.2 - datasheet\n\n- Edge/north-south API gateway: routing, API keys, OAuth2, per-consumer and per-tenant rate limiting.\n- TLS termination at the edge; optional mTLS from gateway to first upstream.\n- Does not proxy service-to-service traffic between upstream services.\n- Added latency: 0.8 ms p99 (edge, 2 KB payloads).\n"
+    },
+    {
+      "name": "lattice-vendor-benchmark.md",
+      "content": "# Lattice Mesh 3.x performance (vendor whitepaper, 2026)\n\nSidecar proxy adds 0.4 ms p99 latency per hop.*\n\nLattice also supports per-route rate limiting at its ingress component.\n\n* Test setup: 1 KB payloads, 1,000 rps, mTLS disabled, telemetry disabled.\n"
+    },
+    {
+      "name": "internal-loadtest-2026-10.md",
+      "content": "# Internal load test - Lattice Mesh 3.4 on staging (platform team, 2026-10-21)\n\nConfig: mTLS STRICT, telemetry on, realistic checkout payloads (6-40 KB), 3,500 rps.\n\n| Mode | Added p99 latency per hop |\n|---|---|\n| Sidecar proxy | 2.6 ms |\n| Node-proxy (per-node shared proxy) mode | 0.9 ms |\n\nNotes: node-proxy mode is GA since Lattice 3.2; it provides the same mTLS identity guarantees but L7 policies are coarser.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The two products are not true alternatives: Portcullis covers north-south traffic (R2) but cannot provide east-west mTLS, so choosing only the gateway fails the compliance requirement R1. The vendor's 0.4 ms figure was measured with mTLS and telemetry disabled and small payloads, which conflicts with the internal load test of 2.6 ms per hop in sidecar mode; across the 5-hop checkout path that is 13 ms, exceeding the 10 ms budget. Node-proxy mode measured 0.9 ms per hop (4.5 ms over 5 hops) and still meets mTLS. Recommendation: use Lattice in node-proxy mode for east-west mTLS (Lattice ingress or Portcullis can cover edge rate limiting), rather than sidecar mode or the gateway alone; library-level mTLS in the shared Go framework is a fallback alternative.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Gateway alone does not satisfy east-west mTLS requirement",
+        "pattern": "(gateway|portcullis)[^.]{0,120}(not|cannot|doesn'?t|does not|fails?)[^.]{0,80}(east-?west|service-to-service|mtls|R1)"
+      },
+      {
+        "id": "F2",
+        "description": "Vendor benchmark had mTLS disabled / conflicts with internal test",
+        "pattern": "mtls\\s+disabled|disabled\\s+mtls|without\\s+mtls|2\\.6\\s*ms"
+      },
+      {
+        "id": "F3",
+        "description": "Sidecar mode exceeds 10 ms budget on 5 hops (13 ms)",
+        "pattern": "13\\s*ms|exceeds?[^.]{0,40}(10\\s*ms|budget)|over\\s+(the\\s+)?(10\\s*ms\\s+)?budget"
+      },
+      {
+        "id": "F4",
+        "description": "Node-proxy mode (0.9 ms / 4.5 ms) as viable option",
+        "pattern": "node-?proxy|4\\.5\\s*ms|0\\.9\\s*ms"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses vendor's 0.4 ms as the realistic latency",
+        "pattern": "(latency|overhead)\\s+(is|will be)\\s+(only|just)\\s+0\\.4\\s*ms"
+      },
+      {
+        "id": "N2",
+        "description": "Recommends gateway alone as satisfying all requirements",
+        "pattern": "portcullis\\s+(alone\\s+)?(meets|satisfies|covers)\\s+all\\s+(the\\s+)?requirements"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Sidecar-mode added p99 over 5-hop checkout path (ms)",
+        "value": 13,
+        "tolerance": 0.1
+      },
+      {
+        "id": "V2",
+        "description": "Node-proxy-mode added p99 over 5-hop checkout path (ms)",
+        "value": 4.5,
+        "tolerance": 0.05
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Recommends Portcullis gateway alone, leaving east-west mTLS (compliance requirement) unmet",
+      "Accepts the vendor 0.4 ms/hop figure and recommends sidecar mode without noticing it breaks the 10 ms checkout budget"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

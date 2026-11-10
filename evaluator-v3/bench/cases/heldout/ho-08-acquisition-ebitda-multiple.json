@@ -1,0 +1,77 @@
+{
+  "id": "ho-08-acquisition-ebitda-multiple",
+  "split": "heldout",
+  "domain": "financial analysis",
+  "difficulty": [
+    "conflicting_sources",
+    "incorrect_numbers",
+    "misleading_assumption"
+  ],
+  "request": "We have a signed LOI to acquire Tamarind Field Services for $30M. The banker's CIM shows adjusted EBITDA of $5.0M, so the deal is a 'disciplined 6x', in line with our board's cap of 7x EBITDA for bolt-on acquisitions. The quality-of-earnings report just came back and I've attached it alongside the CIM excerpt. Can we proceed to signing at $30M within the board mandate, or do we need to renegotiate? I need a clear answer for the deal committee tomorrow.",
+  "fixtures": [
+    {
+      "name": "cim-excerpt.md",
+      "content": "# Confidential Information Memorandum - Tamarind Field Services (excerpt)\n\n| FY2025 ($000) | |\n|---|---|\n| Reported EBITDA | 3,800 |\n| Add-back: owner/CEO compensation | 600 |\n| Add-back: 'one-time' marketing campaign | 400 |\n| Add-back: legal settlement | 200 |\n| Adjusted EBITDA | 5,000 |\n\nPurchase price $30.0M = 6.0x Adjusted EBITDA.\n"
+    },
+    {
+      "name": "qoe-report-summary.md",
+      "content": "# Quality of Earnings - summary (Arbor & Lyle Transaction Services, 2026-11-04)\n\nStarting point: reported EBITDA 3,800 ($000)\n\n1. Owner compensation add-back (600): owner departs at close; a market-rate replacement CEO will cost ~350. Accept net add-back of 250.\n2. 'One-time' marketing (400): equivalent campaigns ran in FY2023, FY2024 and FY2025; recurring. Reject add-back.\n3. Legal settlement (200): genuinely non-recurring. Accept.\n4. Diligence adjustment: unbilled warranty reserve shortfall reduces EBITDA by 350.\n\nQoE-adjusted EBITDA: 3,800 + 250 + 200 - 350 = 3,900 ($000)\n"
+    },
+    {
+      "name": "board-mandate.md",
+      "content": "Bolt-on acquisitions: maximum 7.0x diligence-adjusted (QoE) EBITDA without returning to the full board.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The CIM and the QoE conflict, and the board mandate is defined on QoE-adjusted EBITDA, which is $3.9M, not $5.0M: the owner add-back must be net of a ~$350k replacement CEO, the marketing 'one-time' spend recurs annually, and a $350k warranty reserve shortfall reduces EBITDA. At $30M the multiple is 30 / 3.9 = about 7.7x, above the 7.0x cap, so the deal cannot be signed at $30M within the mandate. At 7.0x the maximum price is about $27.3M; options are to renegotiate toward that level (or use an earn-out/escrow for the disputed items) or take the deal to the full board.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "QoE EBITDA $3.9M governs",
+        "pattern": "3\\.9\\s*(m|million)|3,?900"
+      },
+      {
+        "id": "F2",
+        "description": "Actual multiple ~7.7x exceeds 7x cap",
+        "pattern": "7\\.69|7\\.7\\s*x|exceeds?[^.]{0,40}7(\\.0)?\\s*x|above[^.]{0,30}7(\\.0)?\\s*x"
+      },
+      {
+        "id": "F3",
+        "description": "Marketing add-back is recurring / owner add-back needs replacement cost",
+        "pattern": "recurr|replacement (ceo|cost)|not one-?time"
+      },
+      {
+        "id": "F4",
+        "description": "Renegotiate (~$27.3M) or go to board",
+        "pattern": "27\\.3|renegotiat|full board|earn-?out"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "States the deal is within the 7x mandate at $30M",
+        "pattern": "(is|remains|falls)\\s+within\\s+(the\\s+)?(board('s)?\\s+)?(7\\s*x\\s+)?(mandate|cap)"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Purchase multiple on QoE EBITDA",
+        "value": 7.69,
+        "tolerance": 0.02
+      },
+      {
+        "id": "V2",
+        "description": "Maximum price at 7.0x QoE EBITDA ($M)",
+        "value": 27.3,
+        "tolerance": 0.05
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Concludes the $30M price is within the board's 7x mandate using the CIM's $5.0M adjusted EBITDA",
+      "Ignores the QoE adjustments (recurring marketing, replacement CEO cost, warranty reserve)"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

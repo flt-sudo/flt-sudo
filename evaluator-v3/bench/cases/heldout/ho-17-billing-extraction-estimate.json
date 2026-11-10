@@ -1,0 +1,79 @@
+{
+  "id": "ho-17-billing-extraction-estimate",
+  "split": "heldout",
+  "domain": "software architecture",
+  "difficulty": [
+    "unanswerable",
+    "missing_information"
+  ],
+  "request": "Our auditors require billing to be 'logically segregated' from the rest of our Rails monolith by 30 April 2027. Engineering leadership wants to extract billing into its own service to satisfy this. I need two things for the exec meeting: exactly how many engineer-months the extraction will take, and a firm yes/no on whether it will be finished before the audit deadline. Our planning notes, dependency analysis, past estimate history and the auditor's finding are attached.",
+  "fixtures": [
+    {
+      "name": "billing-extraction-plan.md",
+      "content": "# Billing extraction plan (draft)\n\nPhase 1: identify boundaries - TBD\nPhase 2: dual-write ledger - estimate TBD\nPhase 3: cut over invoices - TBD\nPhase 4: decommission monolith billing code - TBD\n\nOwner: unassigned. Staffing: 4 engineers at 50% from January.\n"
+    },
+    {
+      "name": "dependency-analysis.md",
+      "content": "# Static analysis of billing coupling (partial, 2026-10)\n- Files referencing Billing:: namespace: 214\n- Shared DB tables between billing and other domains: not yet analysed\n- Background jobs touching invoices: at least 17 (scan incomplete)\n"
+    },
+    {
+      "name": "estimate-history.csv",
+      "content": "project,estimated_eng_months,actual_eng_months\nsearch-service extraction,10,18\nnotifications extraction,5,13\nauth extraction,7,16.8\n"
+    },
+    {
+      "name": "audit-finding.md",
+      "content": "# Audit finding AF-2026-09\nRequirement: access to billing data and billing code paths must be restricted to authorised roles, with segregation of duties and audit logging of changes. The auditors do not prescribe an architecture; database-level access controls, separate schemas with restricted roles, or service extraction are all acceptable if controls are demonstrable.\n"
+    }
+  ],
+  "expected": {
+    "summary": "Neither an exact engineer-month figure nor a firm yes/no can be given: every phase estimate is TBD, the shared-table analysis has not been done, the job scan is incomplete, and past extractions overran estimates by 1.8x, 2.6x and 2.4x (about 2.27x on average). The available capacity is also limited (4 engineers at 50% from January is roughly 8 engineer-months before the deadline). Crucially, the audit finding does not require extraction: schema separation with restricted roles, database access controls and audit logging would satisfy it. Recommendation: meet the audit deadline with access-control measures, run a time-boxed scoping spike to produce a real extraction estimate with ranges, and decide on extraction as a separate, non-deadline-driven project.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "States an exact estimate / firm yes-no cannot be given",
+        "pattern": "cannot (be )?(give|provid|determin|estimat|commit)|can'?t (give|provide|determine|estimate|commit)|not possible to (give|estimate|say)|no (reliable|defensible|credible) (estimate|basis)|unanswerable|neither[^.]{0,120}nor[^.]{0,120}can be (given|provided|made)"
+      },
+      {
+        "id": "F2",
+        "description": "Historical overrun ~1.8-2.6x",
+        "pattern": "2\\.27|2\\.3\\s*x|overr?un|1\\.8\\s*x|2\\.6\\s*x"
+      },
+      {
+        "id": "F3",
+        "description": "Audit doesn't require extraction; access controls/schema separation suffice",
+        "pattern": "(does not|doesn'?t|not)\\s+(require|prescribe|mandate)[^.]{0,40}(extraction|architecture)|access controls?|separate schemas?|restricted roles"
+      },
+      {
+        "id": "F4",
+        "description": "Recommend scoping spike / discovery",
+        "pattern": "spike|time-?box|scoping|discovery"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Gives a confident completion verdict",
+        "pattern": "(yes|no)[,.]?\\s+(it|the extraction)\\s+will\\s+(be finished|finish|complete|not finish|not be finished)"
+      },
+      {
+        "id": "N2",
+        "description": "States an exact engineer-month total as fact",
+        "pattern": "will\\s+take\\s+(exactly\\s+)?\\d+(\\.\\d+)?\\s+engineer-?months"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Average actual/estimate overrun ratio",
+        "value": 2.267,
+        "tolerance": 0.01
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Provides a precise engineer-month estimate or a firm yes/no as if supported by the evidence",
+      "Assumes service extraction is required to pass the audit"
+    ],
+    "expectedAnswerability": "unanswerable"
+  }
+}

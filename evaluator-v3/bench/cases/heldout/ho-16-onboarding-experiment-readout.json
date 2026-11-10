@@ -1,0 +1,75 @@
+{
+  "id": "ho-16-onboarding-experiment-readout",
+  "split": "heldout",
+  "domain": "research synthesis",
+  "difficulty": [
+    "incorrect_numbers",
+    "misleading_assumption"
+  ],
+  "request": "Finance is about to raise next year's revenue forecast because our product team reports that the redesigned onboarding flow lifted 30-day retention by 18%. Before that goes into the plan, I want a synthesis of what our evidence actually shows: the A/B test readout, the PM's summary slide, the user interview notes and the support-ticket trend are attached. What retention effect should finance use, and how confident should we be?",
+  "fixtures": [
+    {
+      "name": "ab-test-readout.md",
+      "content": "# Experiment ONB-27: redesigned onboarding (2026-07-01 to 2026-08-31)\n\nRandomisation: user-level, 50/50.\n\n| Arm | Users | Retained at day 30 | 30-day retention |\n|---|---|---|---|\n| Control (old flow) | 2,400 | 984 | 41.0% |\n| Treatment (new flow) | 2,350 | 1,039 | 44.2% |\n\nPre-registered primary metric: 30-day retention. Two-sided test.\n"
+    },
+    {
+      "name": "pm-summary-slide.md",
+      "content": "# Onboarding v2 - results\n\n30-day retention: 37.5% (Q2 baseline, all users, old flow) -> 44.2% (new flow) = **+18% retention**\n"
+    },
+    {
+      "name": "interview-notes.md",
+      "content": "# User interviews (n=8, Aug 2026)\n6 of 8 found the new checklist helpful; 2 said it felt long. Recruited from users who completed onboarding.\n"
+    },
+    {
+      "name": "support-ticket-trend.md",
+      "content": "Onboarding-related tickets: Q2 1,240 -> Q3 1,090 (-12%). Note: a new pricing page and plan change launched 2026-07-01 for all users.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The 18% figure compares the treatment arm to a Q2 pre-period baseline (44.2 / 37.5), which mixes the onboarding effect with everything else that changed on 2026-07-01, including the pricing/plan launch that hit both arms. The randomised, contemporaneous comparison is 44.2% vs 41.0%: a 3.2 percentage-point, about 7.8% relative lift. With about 2,400 users per arm the standard error of the difference is about 1.43 points (z of about 2.2, p of about 0.03), so the effect is likely real but its 95% interval is roughly 0.4 to 6.0 points. The interviews (n=8, completers only) and the ticket decline are weak, confounded corroboration. Finance should use about a 7.8% relative lift (3.2 points) with a range, not 18%, and the team should ship the new flow and monitor retention.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Correct relative lift ~7.8% (3.2 pp) vs contemporaneous control",
+        "pattern": "7\\.8\\s*%|3\\.2\\s*(percentage|pp|points?)"
+      },
+      {
+        "id": "F2",
+        "description": "18% compares to pre-period baseline (confounded)",
+        "pattern": "(q2|pre-?period|historical|before)[^.]{0,40}baseline|37\\.5|not (the )?(randomi[sz]ed|contemporaneous|concurrent) control"
+      },
+      {
+        "id": "F3",
+        "description": "Notes confounder: pricing change on same date / interviews biased",
+        "pattern": "pricing|plan change|confound"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses using 18% lift in the forecast",
+        "pattern": "(finance|forecast)\\s+(should|can)\\s+use\\s+(the\\s+)?(an?\\s+)?18\\s*%"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Relative lift (percent) treatment vs control",
+        "value": 7.8,
+        "tolerance": 0.1
+      },
+      {
+        "id": "V2",
+        "description": "Absolute lift (percentage points)",
+        "value": 3.2,
+        "tolerance": 0.01
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Endorses the 18% retention lift for the revenue forecast",
+      "Fails to distinguish the randomised control comparison from the Q2 pre-period comparison"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

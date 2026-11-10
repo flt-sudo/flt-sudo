@@ -1,0 +1,77 @@
+{
+  "id": "ho-05-active-active-region",
+  "split": "heldout",
+  "domain": "cloud infrastructure",
+  "difficulty": [
+    "misleading_assumption",
+    "incorrect_numbers",
+    "missing_information"
+  ],
+  "request": "Our biggest customer contract (attached) has an availability SLA and our VP Engineering wants us to go active-active across two cloud regions next quarter at about $41k/month extra. Her reasoning: we should target 99.99%, which 'still gives us around 52 minutes of downtime a month', and region failure is our biggest risk. I've attached the contract clause, our incident log for the last 12 months and the cost estimate. Should we approve the multi-region project?",
+  "fixtures": [
+    {
+      "name": "contract-sla-clause.md",
+      "content": "## Schedule C - Service Levels (Customer: Halvorsen Logistics)\n\nC.1 Provider shall make the Service available 99.95% of the time in each calendar month, measured over a 30-day month for SLA calculation purposes, excluding scheduled maintenance announced 72h in advance.\nC.2 Service credits: 10% of monthly fees for each full 0.1% below target.\n"
+    },
+    {
+      "name": "incident-log-12m.csv",
+      "content": "month,incident,cause_category,customer_facing_minutes\n2025-11,INC-311,bad deploy (config),18\n2026-01,INC-327,bad deploy (schema migration),38\n2026-02,INC-330,third-party payment API,9\n2026-04,INC-344,bad deploy (feature flag),14\n2026-06,INC-358,single AZ outage (auto-failover worked),3\n2026-08,INC-371,bad deploy (config),22\n2026-09,INC-379,certificate expiry,11\n# region-wide outages affecting us in last 12 months: 0\n"
+    },
+    {
+      "name": "multi-region-estimate.md",
+      "content": "# Active-active estimate (platform team)\n- Incremental infra: ~$41,000/month\n- Engineering: 2 engineers x 2 quarters\n- Ledger DB: needs multi-region writes; consistency model and RPO/RTO targets: TBD with product/finance\n"
+    }
+  ],
+  "expected": {
+    "summary": "The downtime math is wrong: 99.99% over a 30-day month allows only about 4.3 minutes, not 52 (52.6 minutes is the yearly allowance), and the contract actually requires 99.95%, i.e. 21.6 minutes per 30-day month. The incident log shows zero region-wide outages; bad deploys caused 92 of 115 customer-facing minutes (80%), and the two months that exceeded 21.6 minutes (January, 38; August, 22) were both deploy-driven, so active-active would not have prevented most downtime and adds deployment complexity. Key information is also missing: RPO/RTO and the ledger consistency model are TBD. Recommendation: do not approve active-active now; invest first in deploy safety (progressive delivery, automated rollback, migration checks) and certificate automation, define RPO/RTO, and consider a cheaper warm-standby DR option.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "99.99% monthly allows ~4.3 min, not 52 (52 is yearly)",
+        "pattern": "4\\.3\\d?\\s*min|52(\\.6)?\\s*min[^.]{0,60}(year|annual)|(year|annual)[^.]{0,60}52"
+      },
+      {
+        "id": "F2",
+        "description": "Contract requires 99.95% (21.6 min/month)",
+        "pattern": "99\\.95|21\\.6"
+      },
+      {
+        "id": "F3",
+        "description": "Dominant cause is deploys, not region failures",
+        "pattern": "(deploy|release)[^.]{0,120}(dominant|majority|most|80\\s*%|92)|(no|zero)\\s+region(al)?[- ](wide )?(outage|failure)"
+      },
+      {
+        "id": "F4",
+        "description": "RPO/RTO / consistency model undefined",
+        "pattern": "rpo|rto|consistency model"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Accepts 52 minutes per month for 99.99%",
+        "pattern": "99\\.99\\s*%[^.]{0,60}(allows|gives|permits)[^.]{0,30}52\\s*min[^.]{0,20}(per|a|each)\\s+month"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Allowed downtime at 99.99% in 30-day month (minutes)",
+        "value": 4.32,
+        "tolerance": 0.02
+      },
+      {
+        "id": "V2",
+        "description": "Allowed downtime at contractual 99.95% in 30-day month (minutes)",
+        "value": 21.6,
+        "tolerance": 0.05
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Endorses the claim that 99.99% allows ~52 minutes of downtime per month",
+      "Approves active-active on the premise that region failure is the main risk without noting deploys caused most downtime"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

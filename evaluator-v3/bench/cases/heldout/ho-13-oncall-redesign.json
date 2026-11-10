@@ -1,0 +1,75 @@
+{
+  "id": "ho-13-oncall-redesign",
+  "split": "heldout",
+  "domain": "operational workflows",
+  "difficulty": [
+    "standard"
+  ],
+  "request": "Our platform on-call is burning people out. Nine engineers share a weekly 24/7 primary rotation: five are in San Francisco and four in Berlin. Two options are on the table: (a) keep weekly 24/7 but add a secondary on-call, or (b) switch to follow-the-sun 12-hour shifts split between the two offices. Using the attached page data, roster and HR notes, recommend a design and the rollout steps. I'd like the reasoning to cover workload, fairness and anything that could block or complicate the rollout.",
+  "fixtures": [
+    {
+      "name": "pages-last-90-days.csv",
+      "content": "alert_name,pages,led_to_human_action\ndisk-usage-warning-80pct,148,0\nqueue-lag-warning,121,2\ncert-check-flap,66,0\napi-5xx-rate-high,71,63\ndb-replica-lag,48,41\npayment-webhook-failures,39,37\nother (14 alerts),47,30\n# total pages: 540; 58% of pages fired between 20:00 and 08:00 US Pacific time\n"
+    },
+    {
+      "name": "roster.md",
+      "content": "# Platform team roster\n- San Francisco (US Pacific): 5 engineers\n- Berlin (Central European Time): 4 engineers\n- Current: 1 primary, weekly 24/7 handoff Mondays 10:00 PT; no secondary.\n"
+    },
+    {
+      "name": "hr-notes.md",
+      "content": "# HR notes\n- Berlin entity: any change to on-call schedules requires consultation with and approval by the works council (Betriebsrat). Typical lead time 4-8 weeks.\n- Berlin entity: a call-out during the night interrupts the statutory 11-hour rest period; the engineer may not start regular work until 11 hours after the call-out ends.\n- US: on-call stipend $400/week primary; Germany: on-call allowance per collective policy.\n- Burnout survey (Sep 2026): 7 of 9 cite night pages as the main stressor.\n"
+    }
+  ],
+  "expected": {
+    "summary": "Fix alert noise first: three alerts (disk-usage-warning, queue-lag-warning, cert-check-flap) produced 335 of 540 pages (62%) with only 2 leading to action, so tuning or demoting them cuts pages from about 42 to about 16 per week. Then prefer follow-the-sun: with roughly 08:00-20:00 Pacific covered by San Francisco and 20:00-08:00 Pacific covered by Berlin (about 05:00-17:00 Berlin time), the 58% of pages that hit US nights land in Berlin daytime, removing most night pages for everyone; adding only a secondary (option a) does not remove night pages. Complications: the Berlin works council must approve the schedule change (4-8 weeks), the early Berlin start and 11-hour rest rule must be respected, the offset between the cities shifts for a few weeks each year because the US and EU change daylight saving time on different dates, and with 5 vs 4 engineers Berlin members are on shift more often, so fairness and compensation need balancing (e.g. weekend rotation shared across both sites).",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Identifies alert noise: 3 alerts = 62% of pages, almost never actionable",
+        "pattern": "62\\s*%|335|noise|non-?actionable|not actionable"
+      },
+      {
+        "id": "F2",
+        "description": "Recommends follow-the-sun (after noise reduction)",
+        "pattern": "follow[- ]the[- ]sun"
+      },
+      {
+        "id": "F3",
+        "description": "Works council approval needed in Berlin",
+        "pattern": "works council|betriebsrat"
+      },
+      {
+        "id": "F4",
+        "description": "Mentions DST mismatch or 5-vs-4 fairness imbalance",
+        "pattern": "daylight sav|\\bdst\\b|clock change|5 vs\\.? 4|five (vs\\.?|versus) four|more often|fairness"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Recommends option (a) as best",
+        "pattern": "(recommend|best option is)\\s+(option\\s+)?\\(?a\\)?\\s*[:,-]?\\s*(keep(ing)?|weekly 24/7)"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Current pages per week (540 over 90 days)",
+        "value": 42,
+        "tolerance": 0.1
+      },
+      {
+        "id": "V2",
+        "description": "Pages per week after removing the three noisy alerts",
+        "value": 15.94,
+        "tolerance": 0.1
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Recommends a rotation design without addressing that 62% of pages come from three non-actionable alerts",
+      "Proposes changing the Berlin on-call schedule without noting works-council approval"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

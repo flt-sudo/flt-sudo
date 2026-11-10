@@ -1,0 +1,64 @@
+{
+  "id": "ho-09-brazil-market-share",
+  "split": "heldout",
+  "domain": "business strategy",
+  "difficulty": [
+    "unanswerable",
+    "missing_information",
+    "misleading_assumption"
+  ],
+  "request": "Our board meets in two weeks and the CEO wants a specific number: what market share will our fleet-telematics product reach in Brazil by year three if we enter in 2027? He's confident it'll be around 15% because 64% of Brazilian fleet managers in our survey said they would consider switching to us. Attached are our market notes, the survey summary and the expansion budget draft. Please give me the year-3 market share figure and tell us whether we should enter Brazil.",
+  "fixtures": [
+    {
+      "name": "brazil-market-notes.md",
+      "content": "# Brazil market notes (strategy team, draft)\n\n- Total addressable fleets: unknown; estimates found range from 180k to 900k commercial fleets depending on definition.\n- Competitors: 3 local incumbents (names known), market shares not available. One incumbent rumoured to bundle hardware free.\n- Pricing in market: not yet researched.\n- Regulatory: ANATEL device certification required for hardware; timeline unknown (6-18 months anecdotally).\n- Local partner: none identified.\n"
+    },
+    {
+      "name": "survey-summary.md",
+      "content": "# Survey: 'Would you consider switching telematics provider to [us]?'\n\n- Respondents: 14 fleet managers, recruited at our booth at a Sao Paulo logistics trade show (Aug 2026)\n- 'Yes, would consider': 9 of 14 (64%)\n- Price was not mentioned in the survey.\n"
+    },
+    {
+      "name": "expansion-budget-draft.md",
+      "content": "# Draft budget: Brazil entry\n- Year 1: $2.4M (team of 9, certification, marketing)\n- Break-even requires ~4,000 paying fleets (assumes current US pricing)\n"
+    }
+  ],
+  "expected": {
+    "summary": "A defensible year-3 market share figure cannot be produced from this evidence: the market size is uncertain by 5x (180k-900k fleets), competitor shares and local pricing are unknown, the certification timeline is unknown, and there is no local partner. The 64% figure is 9 of 14 self-selected booth visitors answering a 'would consider' question with no price, which is far too small and biased a sample to support a 15% share. The useful answer for the board is that the share is unknowable today and the entry decision should be staged: fund a limited discovery phase (pricing research, sized TAM, ANATEL timeline, partner search, paid pilots) with explicit go/no-go criteria such as the ~4,000-fleet break-even, rather than committing the full budget on a share forecast.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "States the year-3 share cannot be reliably determined",
+        "pattern": "cannot (be )?(reliably |credibly |defensibly )?(determin|estimat|forecast|predict|produc)|can'?t (be )?(determin|estimat|forecast|predict)|not (possible|feasible) to (forecast|estimate|predict)|unknowable|no defensible"
+      },
+      {
+        "id": "F2",
+        "description": "Survey is tiny/biased (n=14, booth visitors, 'would consider')",
+        "pattern": "\\b14\\b|9 of 14|small sample|sample size|self-?selected|selection bias|booth"
+      },
+      {
+        "id": "F3",
+        "description": "Missing market size / pricing / competitor data",
+        "pattern": "(market size|tam|pricing|competitor)[^.]{0,80}(unknown|uncertain|missing|not (yet )?(researched|available))|180k|900k"
+      },
+      {
+        "id": "F4",
+        "description": "Recommends staged entry / discovery / pilot with go-no-go criteria",
+        "pattern": "stag(ed|e-gated)|pilot|go/no-?go|discovery phase|phased"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Provides a confident share forecast (e.g. 'will reach 15%')",
+        "pattern": "(will|would|can expect to)\\s+(reach|achieve|capture)\\s+(about\\s+|around\\s+|roughly\\s+|~)?\\d+(\\.\\d+)?\\s*%\\s*(market\\s+)?share"
+      }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Gives a specific year-3 market share forecast as if it were supported by the evidence",
+      "Treats the 64% 'would consider' figure from 14 booth respondents as evidence of likely adoption"
+    ],
+    "expectedAnswerability": "unanswerable"
+  }
+}

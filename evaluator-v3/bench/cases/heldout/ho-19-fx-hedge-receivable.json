@@ -1,0 +1,75 @@
+{
+  "id": "ho-19-fx-hedge-receivable",
+  "split": "heldout",
+  "domain": "financial analysis",
+  "difficulty": [
+    "unanswerable",
+    "outdated_documentation"
+  ],
+  "request": "We're a US company with a confirmed EUR 8M receivable from a German customer due 15 June 2027. Our treasurer wants to know where EUR/USD will be in June 2027 so we can decide whether hedging is worth it; if the euro is going to strengthen, she'd rather stay unhedged. Our treasury policy says we hedge 50% of exposures anyway. The policy documents and the bank's forward quote are attached. What will the rate be, and how much should we hedge?",
+  "fixtures": [
+    {
+      "name": "treasury-policy-v1-2021.md",
+      "content": "# Treasury Policy v1 (approved 2021-03)\nFX: hedge 50% of confirmed foreign-currency receivables above USD 1M equivalent.\n"
+    },
+    {
+      "name": "treasury-policy-v3-2025.md",
+      "content": "# Treasury Policy v3 (board-approved 2025-04-22; supersedes v1 and v2)\n4.1 Hedge 75% of each confirmed foreign-currency receivable above USD 1M equivalent with maturity of 12 months or less, using forward contracts.\n4.2 Hedge ratios are not to be varied based on management's views of future exchange rates.\n4.3 Deviations require Audit Committee approval.\n"
+    },
+    {
+      "name": "bank-forward-quote.md",
+      "content": "# Indicative FX quote - Northbridge Bank\nDate: 2026-09-25\nEUR/USD spot: 1.1650\nEUR/USD outright forward, value 2027-06-15: 1.1810\nIndicative only; valid on the date of issue. Request a live quote to deal.\n"
+    }
+  ],
+  "expected": {
+    "summary": "Nobody can reliably say where EUR/USD will be in June 2027; exchange-rate forecasts at that horizon are not reliable, and the forward rate reflects interest-rate differentials rather than a prediction (well-known finance fact), so the rate question is unanswerable. It also should not drive the decision: the current policy is v3 (2025), which supersedes the 50% rule in v1 and requires hedging 75% of confirmed receivables above USD 1M with maturity under 12 months, and explicitly forbids varying the ratio on rate views. The receivable matures in about 7 months, so EUR 6.0M should be hedged with forwards. The bank quote is from 2026-09-25 and indicative only, so a live quote is needed; any deviation from 75% requires Audit Committee approval.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Future rate cannot be predicted reliably",
+        "pattern": "(cannot|can'?t|no one can|nobody can)\\s+(reliably\\s+)?(predict|forecast|know|say)|unpredictable|not (reliably )?(predictable|forecastable)|unanswerable"
+      },
+      {
+        "id": "F2",
+        "description": "Policy v1 (50%) is superseded by v3 (75%)",
+        "pattern": "75\\s*%|supersed|v3"
+      },
+      {
+        "id": "F3",
+        "description": "Hedge EUR 6.0M",
+        "pattern": "(eur|€)\\s?6(\\.0)?\\s*(m|million)|6,000,000|6\\.0\\s*m"
+      },
+      {
+        "id": "F4",
+        "description": "Bank quote is stale/indicative; get live quote",
+        "pattern": "stale|indicative|live quote|fresh quote|2026-09-25|out of date"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Predicts a specific June 2027 rate",
+        "pattern": "(eur/?usd|the (euro|rate))\\s+(will|is going to)\\s+(be|trade|reach|end)\\s+(at\\s+|around\\s+|about\\s+|near\\s+)?1\\.\\d{2}"
+      },
+      {
+        "id": "N2",
+        "description": "Recommends hedging only 50%",
+        "pattern": "(should|recommend)\\s+hedg(e|ing)\\s+(only\\s+)?50\\s*%"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Amount to hedge under current policy (EUR)",
+        "value": 6000000,
+        "tolerance": 1
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Provides a confident point forecast of EUR/USD for June 2027",
+      "Applies the superseded 50% ratio or recommends staying unhedged based on a rate view"
+    ],
+    "expectedAnswerability": "unanswerable"
+  }
+}

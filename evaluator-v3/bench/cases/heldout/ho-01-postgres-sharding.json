@@ -1,0 +1,85 @@
+{
+  "id": "ho-01-postgres-sharding",
+  "split": "heldout",
+  "domain": "software architecture",
+  "difficulty": [
+    "misleading_assumption",
+    "incorrect_numbers"
+  ],
+  "request": "Our main Postgres cluster (orders platform) is at 92% disk. Our staff engineer says we are growing about 80 GB a month, which leaves us roughly two months before we hit the wall, and that the only durable fix is to shard the database into 16 shards by customer_id starting next sprint. That's a 2-3 quarter project that would freeze most feature work. Attached are the capacity report and the table-size breakdown. Should we commit to sharding now, and if not, what should we do instead? I need a recommendation I can take to the architecture review on Thursday.",
+  "fixtures": [
+    {
+      "name": "capacity-report-2026-10.md",
+      "content": "# Orders DB capacity report (prod-orders-pg, primary)\n\nGenerated: 2026-11-02 by platform-sre\n\n## Storage\n- Provisioned volume: 2,000 GB (gp-ssd, online-resizable up to 16,000 GB, no downtime)\n- Used at month end:\n\n| Month end | Used (GB) |\n|---|---|\n| 2026-07 | 1,690 |\n| 2026-08 | 1,725 |\n| 2026-09 | 1,760 |\n| 2026-10 | 1,840 |\n\nNote: October includes a one-off 45 GB backfill of the `shipment_events` table (migration ORD-2231). Not expected to recur.\n\n## Compute (30-day p95)\n- CPU: 34%\n- Write TPS: 2,150 (tested headroom on current instance: 9,000)\n- Read replicas: 2, replica lag p99 140 ms\n- Connections: 410 / 1,000\n\n## Summary\nStorage is the only resource trending toward a limit. Compute and write throughput have >3x headroom.\n"
+    },
+    {
+      "name": "table-sizes.csv",
+      "content": "table,total_size_gb,rows_millions,notes\naudit_events,1020,8900,append-only; rows older than 13 months = 780 GB\norders,310,410,\norder_items,240,1300,\nshipment_events,150,620,includes Oct backfill\ncustomers,40,18,\nother (62 tables),80,,\n"
+    },
+    {
+      "name": "data-retention-policy-excerpt.md",
+      "content": "# Data retention policy v3 (Legal + Security, approved 2026-03)\n\n4.2 Audit events must be retained online for 12 months and may then be moved to cold archive (object storage) for 6 years.\nThere is no requirement for archived audit events to be queryable from the transactional database.\n"
+    },
+    {
+      "name": "slack-thread-staff-eng.txt",
+      "content": "[staff-eng] We went from 1,760 to 1,840 last month, that's 80 GB/month. 160 GB free / 80 = 2 months. We need to shard, nothing else scales. Proposing 16 shards on customer_id via Citus-style routing.\n[sre-lead] fwiw the volume can be grown online\n[staff-eng] that's just kicking the can\n"
+    }
+  ],
+  "expected": {
+    "summary": "The 80 GB/month figure comes from a single month inflated by a one-off 45 GB backfill; average growth July-October is (1,840 - 1,690)/3 = 50 GB/month, giving about 3.2 months of runway on the current 160 GB free (and ~35 GB/month excluding the backfill). More importantly the bottleneck is storage, not compute or write throughput, which have more than 3x headroom, so sharding does not address a real scaling limit. The volume can be resized online, and about 780 GB of audit_events older than 13 months can be archived to cold storage under the retention policy (or the table partitioned by time), which frees roughly 40% of the disk. Recommendation: do not commit to sharding now; grow the volume, archive/partition audit_events, and revisit sharding only if write throughput or single-node limits become binding.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Growth rate is ~50 GB/month (or less), not 80; runway ~3.2 months",
+        "pattern": "50\\s*GB|3\\.2\\s*months|35\\s*GB|one-?off|backfill"
+      },
+      {
+        "id": "F2",
+        "description": "Bottleneck is storage, not compute/write throughput",
+        "pattern": "(storage|disk)[^.]{0,80}(not|rather than|isn'?t)[^.]{0,40}(compute|cpu|throughput|write)|(cpu|compute|throughput)[^.]{0,60}headroom"
+      },
+      {
+        "id": "F3",
+        "description": "Archive/partition old audit_events (~780 GB) per retention policy",
+        "pattern": "archiv|partition[^.]{0,40}audit|780\\s*GB|cold storage"
+      },
+      {
+        "id": "F4",
+        "description": "Volume can be resized online as immediate mitigation",
+        "pattern": "resiz|grow the volume|expand the volume|increase the volume|online[^.]{0,30}(resize|grow|expan)"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses committing to sharding now as necessary",
+        "pattern": "(we|you)\\s+should\\s+(commit to|start|begin|proceed with)\\s+shard"
+      },
+      {
+        "id": "N2",
+        "description": "Accepts the two-month runway",
+        "pattern": "\\bonly\\s+(about\\s+)?two months (of runway|left|before)"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Average monthly growth Jul-Oct in GB",
+        "value": 50,
+        "tolerance": 0.5
+      },
+      {
+        "id": "V2",
+        "description": "Runway in months at average growth (160 GB free / 50)",
+        "value": 3.2,
+        "tolerance": 0.05
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Recommends starting the 16-shard project now on the basis of the 80 GB/month / two-month runway figure",
+      "Fails to notice that compute and write throughput have ample headroom, i.e. treats the problem as a throughput scaling problem"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

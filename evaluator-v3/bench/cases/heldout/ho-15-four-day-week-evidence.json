@@ -1,0 +1,67 @@
+{
+  "id": "ho-15-four-day-week-evidence",
+  "split": "heldout",
+  "domain": "research synthesis",
+  "difficulty": [
+    "conflicting_sources",
+    "misleading_assumption"
+  ],
+  "request": "Our COO wants to move our 300-person customer support organisation to a four-day, 32-hour week from Q2. She says 'the research is clear: a four-day week raises productivity by 40%'. Before the leadership offsite I need an honest synthesis of the evidence I've collected (attached) - what does it actually show about productivity, wellbeing and retention, how strong is each source, and what should we do for a support org specifically?",
+  "fixtures": [
+    {
+      "name": "source-A-kestrel-blog.md",
+      "content": "# How we got 40% more productive with a 4-day week (Kestrel Software company blog, 2025)\n\nSingle company, 60 employees (engineering and design). Productivity measured by an employee self-assessment survey before and after the switch. No comparison group. 40% average increase in self-rated productivity.\n"
+    },
+    {
+      "name": "source-B-nordvik-2026.md",
+      "content": "# Nordvik, Achebe & Lund (2026), working paper - cluster-randomised trial\n\n112 teams in 9 firms (incl. 31 customer-service teams) randomised to 32-hour week vs. control for 9 months.\n- Output per team (objective: tickets resolved, billable output): -2% (95% CI -7% to +3%)\n- Customer-service teams subgroup: first-response time +11% slower (95% CI +4% to +18%) unless staggered schedules used\n- Wellbeing (validated burnout scale): improved by 0.4 SD\n- Voluntary attrition: 9.1% vs 13.0% annualised\n"
+    },
+    {
+      "name": "source-C-workforce-pulse.md",
+      "content": "# Workforce Pulse Survey 2025 (HR software vendor)\n71% of 4,000 respondents say they *would* be more productive on a 4-day week.\n"
+    },
+    {
+      "name": "source-D-varmland-trial.md",
+      "content": "# Varmland municipal working-time trial (public report, 2024)\nWeekly hours reduced from 40 to 36 (not four days). Service levels 'maintained' per management assessment; overtime costs rose 6%.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The evidence does not support a 40% productivity gain. The 40% figure comes from a single company's self-reported survey without a control group (weakest evidence), and the 71% figure is a stated-intention survey. The strongest source, the cluster-randomised trial, found objective output roughly unchanged (-2%, CI -7% to +3%) with clear wellbeing gains (+0.4 SD) and lower attrition (9.1% vs 13.0%), while customer-service teams saw first-response times about 11% slower unless schedules were staggered; the municipal trial reduced hours rather than days and saw overtime costs rise. For a support organisation the realistic case is a retention and wellbeing benefit with coverage risk, so a staggered-schedule pilot on a subset of teams with pre-defined SLA, output and attrition metrics is advisable before any org-wide rollout.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "40% is self-reported, single company, no control",
+        "pattern": "self-?(reported|rated|assess)|no (control|comparison) group|single (company|firm)"
+      },
+      {
+        "id": "F2",
+        "description": "RCT shows output roughly unchanged (-2%)",
+        "pattern": "-\\s?2\\s*%|−2\\s*%|roughly (unchanged|flat)|no (significant|meaningful) (change|gain|improvement)|not (statistically )?significant"
+      },
+      {
+        "id": "F3",
+        "description": "Support-specific coverage risk: response times slower / staggering",
+        "pattern": "11\\s*%|first-?response|stagger|coverage"
+      },
+      {
+        "id": "F4",
+        "description": "Recommends a pilot with metrics",
+        "pattern": "pilot|trial (with|on) (a )?subset|phased"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses 40% productivity gain as established",
+        "pattern": "(research|evidence|studies)\\s+(shows?|proves?|confirms?)\\s+(that\\s+)?(a\\s+)?(four|4)[- ]day\\s+week\\s+(raises|increases|boosts)\\s+productivity"
+      }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Accepts the 40% productivity gain as supported by the research",
+      "Recommends org-wide rollout for the support org without addressing coverage/response-time risk"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

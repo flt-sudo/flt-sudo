@@ -1,0 +1,87 @@
+{
+  "id": "ho-07-lease-vs-buy-sequencer",
+  "split": "heldout",
+  "domain": "financial analysis",
+  "difficulty": [
+    "incorrect_numbers",
+    "competing_alternatives"
+  ],
+  "request": "Our genomics lab needs a new sequencer. We can buy it for $480,000 or lease it for $11,500 a month over 48 months. Our controller's memo says the lease 'costs the same $480k in total, so it's effectively free financing and an easy yes'. Our cost of capital is 8% per year. The vendor quote and the controller's memo are attached. Should we lease or buy? Please show the numbers I can put in front of the CFO.",
+  "fixtures": [
+    {
+      "name": "vendor-quote.md",
+      "content": "# Quote Q-88412 - Helix NovaSeq-class sequencer (fictional: 'Corvid S4')\n\nOption A - Purchase: $480,000 upfront. Service contract (required for warranty) $1,500/month, billed monthly in arrears.\nExpected resale value after 48 months: $90,000.\n\nOption B - Operating lease: $11,500/month for 48 months, payments monthly in arrears, service contract INCLUDED. Equipment returned at end of term; no purchase option. Early termination: 70% of remaining payments.\n"
+    },
+    {
+      "name": "controller-memo.md",
+      "content": "# Memo - sequencer financing\n\nLease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.\n"
+    },
+    {
+      "name": "finance-assumptions.md",
+      "content": "- Discount rate: 8% nominal annual, use 8%/12 per month, end-of-month cash flows\n- Ignore taxes for this comparison\n- Lab expects to use the instrument for at least 6 years\n"
+    }
+  ],
+  "expected": {
+    "summary": "The memo's arithmetic is wrong: $11,500 x 48 = $552,000 in nominal lease payments, $72,000 more than the purchase price, so the lease is not free financing. On a present-value basis at 8%/12 monthly, the lease costs about $471,062, while buying costs about $476,020 ($480,000 + PV of $1,500/month service ~$61,443 - PV of $90,000 resale ~$65,423). Over the 48-month horizon the two are within about $5,000 (roughly 1%), slightly favouring the lease, so the decision turns on non-price factors: the lab expects to use the instrument for at least 6 years (favouring purchase, since lease ends with return and no purchase option), the steep early-termination penalty, and cash preservation. The CFO should see both PVs, and a 6-year comparison including the extra years of use.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Nominal lease total is $552,000, not $480k",
+        "pattern": "552,?000|\\$?552k"
+      },
+      {
+        "id": "F2",
+        "description": "PV of lease ~ $471k",
+        "pattern": "47[01],?\\d{3}|\\$?471k|\\$?47[01]\\.\\d\\s*k"
+      },
+      {
+        "id": "F3",
+        "description": "Buy PV includes service and resale (~$476k)",
+        "pattern": "47[56],?\\d{3}|\\$?476k|resale"
+      },
+      {
+        "id": "F4",
+        "description": "Usage horizon beyond 48 months / no purchase option matters",
+        "pattern": "6 years|six years|beyond (the )?48|no purchase option|longer than (the )?(lease|48)"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses lease costing the same $480k total",
+        "pattern": "lease\\s+(costs?|totals?)\\s+(the same|\\$?480)"
+      },
+      {
+        "id": "N2",
+        "description": "Endorses 'free financing'",
+        "pattern": "(is|it'?s)\\s+(effectively\\s+)?free financing"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Nominal total lease payments (USD)",
+        "value": 552000,
+        "tolerance": 1
+      },
+      {
+        "id": "V2",
+        "description": "PV of lease payments at 8%/12, 48 months, arrears (USD)",
+        "value": 471062,
+        "tolerance": 300
+      },
+      {
+        "id": "V3",
+        "description": "PV cost of buying incl. service and resale (USD)",
+        "value": 476020,
+        "tolerance": 300
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Accepts that 48 x $11,500 equals about $480,000 or that the lease is free financing",
+      "Compares options on nominal totals only, ignoring service costs, resale value or time value of money"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

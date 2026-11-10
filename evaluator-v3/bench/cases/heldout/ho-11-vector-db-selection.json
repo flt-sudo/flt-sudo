@@ -1,0 +1,73 @@
+{
+  "id": "ho-11-vector-db-selection",
+  "split": "heldout",
+  "domain": "technical product evaluation",
+  "difficulty": [
+    "outdated_documentation",
+    "conflicting_sources",
+    "competing_alternatives"
+  ],
+  "request": "We're choosing a vector database for semantic search over 300M document embeddings (768-dim) with metadata filters, targeting p95 under 50 ms at 400 QPS, self-hosted in our VPC. The shortlist is Quiver and Tessellate. One of our engineers wants to drop Quiver immediately because its documentation says collections are capped at 100M vectors, and Tessellate's benchmark shows Quiver is 4x slower on filtered queries. Attached are the docs page, Quiver's changelog and two benchmark reports. Which should we choose, or what do we need to do to decide?",
+  "fixtures": [
+    {
+      "name": "quiver-docs-limits.md",
+      "content": "# Quiver documentation > Limits\n\n_Last updated: 2024-06-03 (applies to Quiver 2.x)_\n\n| Resource | Limit |\n|---|---|\n| Vectors per collection | 100,000,000 |\n| Dimensions | 4,096 |\n| Metadata fields per vector | 64 |\n"
+    },
+    {
+      "name": "quiver-changelog.md",
+      "content": "# Quiver changelog\n\n## 3.2.0 (2026-07-14)\n- Private/VPC deployment via Helm chart is GA.\n\n## 3.0.0 (2026-02-02)\n- Per-collection limit raised to 1,000,000,000 vectors (sharded collections).\n- New filtered-HNSW index: metadata filters applied during graph traversal instead of post-filtering.\n\n## 2.1.0 (2024-04-30)\n- Metadata filtering (post-filter).\n"
+    },
+    {
+      "name": "tessellate-benchmark.md",
+      "content": "# Tessellate vs. Quiver: filtered vector search (published by Tessellate Inc., 2026-05)\n\nDataset: 50M vectors, 768-dim, 10% selectivity filter.\n\n| Engine | Version | Filtered p95 (ms) |\n|---|---|---|\n| Tessellate | 4.0 | 34 |\n| Quiver | 2.1 | 141 |\n\nConclusion: Tessellate is over 4x faster for filtered search.\n"
+    },
+    {
+      "name": "openann-bench-2026-09.md",
+      "content": "# OpenANN-Bench 2026-09 (community benchmark, reproducible configs published)\n\nDataset: 200M vectors, 768-dim, 10% selectivity filter, 400 QPS, 3-node clusters of identical hardware.\n\n| Engine | Version | Filtered p95 (ms) | Recall@10 |\n|---|---|---|---|\n| Tessellate | 4.0 | 31 | 0.95 |\n| Quiver | 3.1 | 38 | 0.97 |\n\nNot tested above 200M vectors. Results depend heavily on filter selectivity.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The 100M-vector cap comes from a 2024 docs page for Quiver 2.x and is outdated: Quiver 3.0 (Feb 2026) raised the limit to 1B vectors and 3.2 made VPC deployment GA. Tessellate's benchmark is vendor-authored and compares against Quiver 2.1, which used post-filtering, at only 50M vectors; it conflicts with the independent OpenANN-Bench run (Quiver 3.1: 38 ms, Tessellate 4.0: 31 ms, both under 50 ms, Quiver with slightly higher recall). Both products therefore remain viable, but neither has been tested at our 300M scale or our filter selectivity, so the decision cannot be fully made from these documents. Recommend a time-boxed proof of concept on both at 300M vectors with our real filters, then decide on measured latency/recall plus operational cost and team familiarity.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "100M limit is outdated (raised to 1B in 3.0)",
+        "pattern": "(1,000,000,000|1\\s*b(illion)?\\b|3\\.0)[^.]{0,120}(limit|cap|vectors)|(outdated|out of date|stale|2024)[^.]{0,100}(doc|limit|cap|100\\s*m)"
+      },
+      {
+        "id": "F2",
+        "description": "Vendor benchmark is biased / used old Quiver 2.1",
+        "pattern": "(vendor|tessellate)[- ](authored|published|run)|quiver\\s+2\\.1|old(er)?\\s+(quiver\\s+)?version|biased"
+      },
+      {
+        "id": "F3",
+        "description": "Independent benchmark shows both under 50 ms",
+        "pattern": "openann|independent[^.]{0,40}bench|38\\s*ms"
+      },
+      {
+        "id": "F4",
+        "description": "Recommend POC at 300M scale with own filters",
+        "pattern": "proof of concept|\\bpoc\\b|bake-?off|(own|real|our)\\s+(data|filters|workload)[^.]{0,40}(test|benchmark)|test[^.]{0,40}300\\s*m"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Asserts Quiver is limited to 100M vectors per collection today",
+        "pattern": "quiver\\s+(is|remains)\\s+(capped|limited)\\s+(at|to)\\s+100\\s*m"
+      },
+      {
+        "id": "N2",
+        "description": "Asserts Quiver is 4x slower as established fact",
+        "pattern": "quiver\\s+is\\s+(over\\s+)?4\\s*x\\s+slower"
+      }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Eliminates Quiver based on the outdated 100M-vector limit",
+      "Relies on the vendor-authored benchmark against Quiver 2.1 as decisive without noting its bias and staleness"
+    ],
+    "expectedAnswerability": "partially_answerable"
+  }
+}

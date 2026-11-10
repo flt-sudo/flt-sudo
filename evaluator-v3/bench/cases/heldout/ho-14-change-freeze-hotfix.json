@@ -1,0 +1,68 @@
+{
+  "id": "ho-14-change-freeze-hotfix",
+  "split": "heldout",
+  "domain": "operational workflows",
+  "difficulty": [
+    "outdated_documentation",
+    "conflicting_sources",
+    "misleading_assumption"
+  ],
+  "request": "We're in the holiday change freeze (Dec 15 - Jan 5). A bug is causing about 0.3% of refunds over EUR 10,000 to fail; finance is processing those manually for now. I've classified it as Sev-2. Our runbook says Sev-2 fixes may bypass CAB during the freeze with just the on-call lead's approval, so I plan to deploy the hotfix tonight once she signs off. Can you confirm that's the right process? The runbook page, current change policy, severity definitions and the incident ticket are attached.",
+  "fixtures": [
+    {
+      "name": "wiki-runbook-holiday-freeze.md",
+      "content": "# Runbook: Holiday change freeze\n_Last edited 2023-11-20_\n\nDuring the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.\n"
+    },
+    {
+      "name": "change-management-policy-v4.md",
+      "content": "# Change Management Policy v4\nEffective: 2026-09-01. Supersedes v3 and all team runbooks that conflict with it.\n\n6.1 Freeze periods: no production changes except as below.\n6.2 Sev-1 incidents: may deploy via Emergency CAB (minimum two approvers, one of whom is VP Engineering or delegate). Post-implementation review within 2 business days.\n6.3 Sev-2 and lower: deferred until the freeze ends, unless a written freeze exception is granted by the CAB chair AND VP Engineering.\n6.4 On-call leads may approve rollbacks only, not forward fixes.\n"
+    },
+    {
+      "name": "severity-definitions-v4.md",
+      "content": "- Sev-1: full outage of a tier-1 service, data loss, or active security incident.\n- Sev-2: partial degradation of a tier-1 service with a workaround available.\n- Sev-3: minor impact.\n"
+    },
+    {
+      "name": "incident-ticket-PAY-4471.md",
+      "content": "PAY-4471 | Sev-2 | Refunds > EUR 10k intermittently fail with timeout from ledger service (0.3% of such refunds).\nWorkaround: finance processes manually via back-office tool; ~6 per day.\nFix: PR #8812 (timeout config + retry), reviewed, passing CI.\n"
+    }
+  ],
+  "expected": {
+    "summary": "No - the wiki runbook (last edited 2023) is outdated and conflicts with Change Management Policy v4, effective 2026-09-01, which explicitly supersedes conflicting runbooks. Under v4, Sev-2 changes are deferred during the freeze unless a written freeze exception is granted by both the CAB chair and VP Engineering, and on-call leads may approve only rollbacks, not forward fixes. PAY-4471 is correctly Sev-2 (partial degradation with a manual workaround), so it does not qualify for the Emergency CAB Sev-1 path. The options are to request a written freeze exception (making the case with the manual workload and customer impact) or keep the workaround until January 5; deploying tonight on the on-call lead's approval alone would violate policy.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Runbook is outdated / superseded by policy v4",
+        "pattern": "supersed|outdated|out of date|stale|2023|no longer (valid|current)"
+      },
+      {
+        "id": "F2",
+        "description": "Sev-2 requires written exception from CAB chair and VP Eng",
+        "pattern": "(cab chair|vp eng)[^.]{0,80}(vp eng|cab chair)|freeze exception|written exception"
+      },
+      {
+        "id": "F3",
+        "description": "On-call lead can approve only rollbacks",
+        "pattern": "(on-?call lead)[^.]{0,80}(only|rollback|cannot|can'?t|not sufficient|insufficient)"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Confirms on-call lead approval is sufficient",
+        "pattern": "on-?call lead'?s?\\s+approval\\s+is\\s+(sufficient|enough|all you need)"
+      },
+      {
+        "id": "N2",
+        "description": "Confirms plan to deploy tonight",
+        "pattern": "(yes|correct)[,.]?\\s+(you can|go ahead and)\\s+deploy"
+      }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Confirms the hotfix can ship during the freeze with only the on-call lead's approval",
+      "Follows the outdated runbook without noticing policy v4 supersedes it"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

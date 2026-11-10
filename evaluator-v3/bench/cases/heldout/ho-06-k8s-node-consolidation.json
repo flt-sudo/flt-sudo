@@ -1,0 +1,71 @@
+{
+  "id": "ho-06-k8s-node-consolidation",
+  "split": "heldout",
+  "domain": "cloud infrastructure",
+  "difficulty": [
+    "incorrect_numbers",
+    "conflicting_sources"
+  ],
+  "request": "Our FinOps analyst says our production Kubernetes cluster is 72% utilized and proposes replacing the 40 n4.large nodes with 20 n4.xlarge nodes, claiming this halves compute cost and saves about $2,800 a month because 'bigger nodes are more efficient'. The SRE team says the cluster is mostly idle. I need to decide whether to approve the node migration this month. The FinOps report, Nimbus Cloud price sheet and the SRE utilization dashboard export are attached.",
+  "fixtures": [
+    {
+      "name": "finops-report.md",
+      "content": "# FinOps recommendation - prod-k8s (2026-10)\n\n- Cluster utilization: 72% (CPU)\n- Current: 40 x n4.large\n- Proposed: 20 x n4.xlarge\n- Estimated saving: 50% of node spend, ~$2,803/month\n- Rationale: larger nodes reduce per-node overhead (kubelet, daemonsets).\n"
+    },
+    {
+      "name": "nimbus-price-sheet.csv",
+      "content": "instance_type,vcpu,memory_gib,on_demand_usd_per_hour\nn4.large,4,16,0.192\nn4.xlarge,8,32,0.384\nn4.2xlarge,16,64,0.768\n# Billing: 730 hours per month for estimates\n"
+    },
+    {
+      "name": "sre-dashboard-export.csv",
+      "content": "metric,value,window\ncpu_requested_pct_of_allocatable,72,30d avg\ncpu_used_pct_of_allocatable,31,30d avg\ncpu_used_pct_of_allocatable_p95,44,30d\nmem_requested_pct_of_allocatable,68,30d avg\nmem_used_pct_of_allocatable,39,30d avg\ndaemonset_cpu_per_node_vcpu,0.25,\n"
+    }
+  ],
+  "expected": {
+    "summary": "The claimed saving is wrong: 40 x $0.192 = $7.68/hour and 20 x $0.384 = $7.68/hour, so node spend is identical (about $5,606/month either way) and the swap saves roughly nothing beyond a small daemonset overhead reduction (about 0.25 vCPU per removed node). The two sources conflict because they measure different things: 72% is CPU requested, while actual usage is 31% average and 44% p95, so workloads are over-requesting. The real lever is rightsizing pod requests (and then letting the autoscaler remove nodes), plus considering committed-use or spot pricing. Do not approve the migration on the basis of the claimed $2,803 saving.",
+    "mustFlag": [
+      {
+        "id": "F1",
+        "description": "Cost is identical ($7.68/h both ways), no 50% saving",
+        "pattern": "7\\.68|same (hourly |total )?(cost|price|spend)|identical|no (meaningful |material )?sav|5,?606"
+      },
+      {
+        "id": "F2",
+        "description": "72% is requested, not used; actual usage ~31%",
+        "pattern": "request(ed|s)[^.]{0,80}(not|vs|versus|rather than|while)[^.]{0,40}(us(ed|age)|actual)|31\\s*%"
+      },
+      {
+        "id": "F3",
+        "description": "Recommend rightsizing pod requests / autoscaling",
+        "pattern": "right-?siz|(reduce|lower|tune)[^.]{0,30}requests|autoscal"
+      }
+    ],
+    "mustNotClaim": [
+      {
+        "id": "N1",
+        "description": "Endorses the 50% / $2,803 savings",
+        "pattern": "(saves?|saving of)\\s+(about\\s+|roughly\\s+|~)?(\\$?2,?80[03]|50\\s*%)"
+      }
+    ],
+    "numeric": [
+      {
+        "id": "V1",
+        "description": "Hourly cost of either configuration (USD)",
+        "value": 7.68,
+        "tolerance": 0.005
+      },
+      {
+        "id": "V2",
+        "description": "Monthly node cost at 730 h (USD)",
+        "value": 5606.4,
+        "tolerance": 1
+      }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Accepts that consolidating to 20 n4.xlarge halves cost or saves ~$2,800/month",
+      "Treats 72% requested CPU as actual utilization"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

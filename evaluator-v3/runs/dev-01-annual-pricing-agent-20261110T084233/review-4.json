@@ -1,0 +1,98 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The primary success rule is to scale only if the offered arm is ahead on cumulative revenue per account at about month 19, with the CI excluding a loss. That rule conflicts with the draft's own lifetime analysis and with the decision objective (net revenue AND LTV). The draft shows that a 1%-churn converter cannot break even within 24 months even at 100% renewal ($980 vs $1,050.18, K29/K30). Its LTV break-even for such a converter is 90% renewal (K22). So for the tenured, low-churn converter pool the draft expects, the 19-month revenue comparison is built to reject the plan, even in cases where renewal above 1-10c makes lifetime LTV positive. The primary rule and the fallback (renewal > 1-10c) can therefore give opposite answers on the same data, and the draft does not say which governs or why. A truncated revenue horizon is labelled 'free of selection' but is biased against the very outcome it is meant to judge.",
+      "location": "verdict step (4); practicalImplications 'Final success rule'; alternatives[0]; CL17 vs CL14",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The fallback rule is not able to decide what it is meant to decide. It needs the lower confidence bound of converters' month-12 renewal to exceed 1-10c, measured on about 250 converted accounts (K50, ±5 points). The relevant thresholds for a tenured pool are 90-92% (K22, K23). With ±5-point precision, observed renewal would have to be about 95-97% to pass, so a true 92-94% renewal, which is LTV-positive, would usually fail. The threshold 1-10c also multiplies the estimation error in c, taken from matched holdout accounts, by 10. An error of 0.2 points in monthly churn moves the threshold by 2 points. The draft sizes only the renewal estimate and ignores the uncertainty in c and in the difference. So 'at least about 250 accounts' is presented as sufficient when it is not.",
+      "location": "verdict step (4) fallback; practicalImplications sample-size item and 'Final success rule'; CL20; K50/K51",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The month-6 interim gate (do not widen the offer if predicted would-have-stayed share > ~64-66%) trips for essentially any realistic converter pool. Even a pool that exactly mirrors the blended base has a would-have-stayed share of 67.7% (K3), which is above the gate. Any tenured pool, the expected case, will be far above it. The gate therefore carries almost no information, and the draft does not note this.",
+      "location": "verdict step (3); practicalImplications 'Timeline and interim rule'; K33/K48",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "91% retention on exactly 40 accounts is not possible as a logo count: 36/40 = 90% and 37/40 = 92.5%. The draft computes '3.6 churned accounts' (K14) and a Wilson interval on p=0.91, n=40 without noting the inconsistency. The inconsistency itself suggests that the denominator, the weighting (seat or revenue) or the definition differs from what is stated. That strengthens the draft's 'definition unclear' point, but it is not used, and the interval figures treat the data as exact.",
+      "location": "C2 assessment; CL6; K14, K43, K44",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The draft never notes that the source does not state the price or discount the 2025 pilot accounts paid. Extrapolating the pilot's retention to a $490 (16.7%) offer depends on that price. The draft lists the pilot's definition, refund terms and selection criteria as unknowns but omits its price.",
+      "location": "remainingUncertainty; practicalImplications item on confirming the pilot",
+      "remedy": "research"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The test's power calculation (K52, K55) uses blended 3.2% churn for the holdout baseline (53.9% still paying at month 19). The test population is existing accounts, and the draft itself argues that churn is concentrated in new accounts (E13). Using the blended rate misstates the baseline, and therefore the required sample, for a sample drawn from the existing base.",
+      "location": "K52, K55; CL20; practicalImplications sample-size item",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is this company's 12-month retention for monthly customers with more than a year of tenure, broken down by seat count? If tenured churn is close to the blended 3.2%, converters would be about LTV-neutral at roughly 68% renewal, and a pilot renewal near 91% would argue for launching rather than testing.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the pilot's 91% a month-12 renewal rate or in-term retention? What was the true denominator or weighting, given that 91% of 40 is not an integer count? What price did the pilot accounts pay?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How many active accounts does the company have? This determines whether the randomized test is feasible or whether only the weaker fallback can be used.",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and the corrected premises are addressed in depth. The only gap is the unstated pilot price (minor)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Confidence is set to low, snippet-level and vendor evidence is flagged throughout, and the unknowns (E9, E14) are stated openly. The only issue is that the 91%/n=40 inconsistency was missed (minor)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed the arithmetic and it checks out (K1-K56, including the Wilson interval, K31-K33 and K52). However, the primary 19-month cumulative-revenue success rule is biased against the LTV objective and conflicts with the draft's own K29/K30 result, and the fallback rule is underpowered and ignores the 10x amplification of error in c."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Covers $441, $539, targeted offers, annual commitment billed monthly, and not launching. The strongest pro-launch arguments (industry gap, the pilot as a renewal rate, involuntary churn) are engaged fairly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Gives a clear verdict (no broad launch; a controlled test with explicit gates), although the flaws in the test's decision rules (D1, D2) reduce how actionable the scale decision is."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E- and K-IDs exist, and the claims match the packet text. Content not backed by evidence (involuntary churn, the 8% cost of capital) is explicitly labelled as reasoning or illustrative."
+    }
+  ]
+}

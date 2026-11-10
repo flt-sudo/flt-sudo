@@ -1,0 +1,30 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Actual discount is ~16.7% (two months free), not 25%",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Pilot cohort retention is subject to selection bias (hand-picked tenured accounts)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses the 25% discount figure as correct",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Monthly-equivalent annual price $588",
+    "pass": true,
+    "detail": "value ≈ 588 present"
+  }
+]

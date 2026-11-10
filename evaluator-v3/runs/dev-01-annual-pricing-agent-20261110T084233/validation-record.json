@@ -1,0 +1,359 @@
+{
+  "runId": "dev-01-annual-pricing-agent-20261110T084233",
+  "generatedAt": "2026-11-10T09:11:35.290Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "SaaS annual plan discount benchmark percentage \"2 months free\" typical annual discount 2025",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 18
+      },
+      {
+        "query": "annual vs monthly billing churn rate B2B SaaS benchmark annual contracts lower churn",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 18
+      },
+      {
+        "query": "percentage of SaaS customers choosing annual plan when offered discount conversion rate benchmark",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 18
+      },
+      {
+        "query": "annual plan retention self-selection bias loyal customers choose annual cannibalization monthly revenue",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 10
+      },
+      {
+        "query": "SaaS churn concentrated in first 90 days early-life churn by customer tenure cohort",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 10
+      },
+      {
+        "query": "Stripe pricing 2.9% + 30¢ per successful card charge US",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 20
+      },
+      {
+        "query": "SaaS annual subscription mid-term seat additions proration true-up refund policy annual prepaid cancellation",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 15
+      },
+      {
+        "query": "ASC 606 annual upfront SaaS subscription deferred revenue recognized ratably over term",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 10
+      },
+      {
+        "query": "ProfitWell annual plans churn lower than monthly study retention by tenure monthly subscribers churn decreases with age",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 17
+      },
+      {
+        "query": "what share of SaaS subscribers are on annual plans vs monthly ProfitWell proportion annual plans SMB",
+        "ok": true,
+        "agentType": "general-purpose",
+        "resultCount": 19
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://recurly.com/research/saas-benchmarks-for-subscription-plans",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND recurly.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not"
+      }
+    ],
+    "fixturesRead": [],
+    "deniedByGuard": [
+      {
+        "tool": "Bash",
+        "reason": "stage eval-planner is not permitted to use Bash"
+      },
+      {
+        "tool": "SubagentHandback",
+        "reason": "stage eval-planner is not permitted to use SubagentHandback"
+      },
+      {
+        "tool": "SubagentHandback",
+        "reason": "stage eval-planner is not permitted to use SubagentHandback"
+      },
+      {
+        "tool": "SubagentHandback",
+        "reason": "stage eval-planner is not permitted to use SubagentHandback"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-researcher is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-analyst is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-adversary is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-analyst is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-adversary is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-analyst is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-adversary is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-analyst is not permitted to use Bash"
+      },
+      {
+        "tool": "Bash",
+        "reason": "stage eval-adversary is not permitted to use Bash"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 stage A planner",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 stage B researcher",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 stage E analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 stage F adversary review 1",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 analyst draft 2 revision",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 adversary review 2",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 analyst draft 3 revision",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 adversary review 3",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 analyst draft 4 final revision",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 adversary review 4",
+        "ok": true
+      },
+      {
+        "agentType": "general-purpose",
+        "description": "dev-01 agent blind grading",
+        "ok": true
+      }
+    ]
+  },
+  "sourcesInspected": [],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://recurly.com/research/saas-benchmarks-for-subscription-plans",
+    "https://www.getmonetizely.com/faqs/what-s-the-standard-discount-percentage-for-annual-versus-monthly-subscriptions-in-saas",
+    "https://www.getmonetizely.com/articles/why-does-docusigns-annual-discount-strategy-work-so-well",
+    "https://baremetrics.com/blog/annual-vs-monthly-pricing-better-retention",
+    "https://churnkey.co/growth/library/monthly-to-annual-conversion",
+    "https://usetandem.ai/blog/customer-onboarding-statistics-2026",
+    "https://www.nerdwallet.com/business/software/learn/stripe-fees",
+    "https://adapty.io/blog/why-churn-rate-looks-different-what-youre-measuring/",
+    "https://www.intercom.com/help/en/articles/8367468-understand-how-billing-works-for-a-monthly-or-annual-subscription",
+    "https://conductatlas.com/platform/ramp/ramp-terms-of-service/prorated-charge-for-seats-added-mid-billing-period/",
+    "https://www.numeric.io/blog/revenue-recognition-saas"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 20 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 4 draft(s)",
+    "Calculation K1 re-executed: (1 - 490/(49*12))*100 = 16.666666666666664 (claimed 16.6667) → match",
+    "Calculation K2 re-executed: 49*12*0.75 = 441 (claimed 441) → match",
+    "Calculation K3 re-executed: 0.968^12 = 0.67686847547098 (claimed 0.67687) → match",
+    "Calculation K4 re-executed: 49*(1-0.968^12)/0.032 = 494.79514693506195 (claimed 494.79) → match",
+    "Calculation K5 re-executed: 49*12-490 = 98 (claimed 98) → match",
+    "Calculation K6 re-executed: (49*12-490)*8 = 784 (claimed 784) → match",
+    "Calculation K7 re-executed: 12*(0.029*392+0.30) = 140.01600000000002 (claimed 140.016) → match",
+    "Calculation K8 re-executed: 0.029*3920+0.30 = 113.98 (claimed 113.98) → match",
+    "Calculation K9 re-executed: 12*(0.029*392+0.30)-(0.029*3920+0.30) = 26.036000000000016 (claimed 26.036) → match",
+    "Calculation K10 re-executed: 49*(1-(1-0.0338)^12)/0.0338 = 490.11841950970717 (claimed 490.12) → match",
+    "Calculation K11 re-executed: 49*(1-0.99^12)/0.01 = 556.7141285909673 (claimed 556.71) → match",
+    "Calculation K12 re-executed: 49*(1-0.99^12)/0.01-490 = 66.71412859096733 (claimed 66.71) → match",
+    "Calculation K13 re-executed: 1-0.91^(1/12) = 0.007828420342483211 (claimed 0.007828) → match",
+    "Calculation K14 re-executed: 40*(1-0.91) = 3.5999999999999988 (claimed 3.6) → match",
+    "Calculation K15 re-executed: 1.96*sqrt(0.91*0.09/40) = 0.08868864639851033 (claimed 0.0887) → match",
+    "Calculation K16 re-executed: 0.3*98 = 29.4 (claimed 29.4) → match",
+    "Calculation K17 re-executed: 98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8 = 94.74549999999999 (claimed 94.7455) → match",
+    "Calculation K18 re-executed: 490-49*(1-0.968^12)/0.032 = -4.79514693506195 (claimed -4.795) → match",
+    "Calculation K19 re-executed: 49/0.032 = 1531.25 (claimed 1531.25) → match",
+    "Calculation K20 re-executed: 1-490/(49/0.032) = 0.6799999999999999 (claimed 0.68) → match",
+    "Calculation K21 re-executed: 49/0.01 = 4900 (claimed 4900) → match",
+    "Calculation K22 re-executed: 1-490/(49/0.01) = 0.9 (claimed 0.9) → match",
+    "Calculation K23 re-executed: 1-490*(1-0.91^(1/12))/49 = 0.9217157965751679 (claimed 0.92172) → match",
+    "Calculation K24 re-executed: (1-0.91)*49/490 = 0.008999999999999996 (claimed 0.009) → match",
+    "Calculation K25 re-executed: 0.991^12 = 0.8971888214154765 (claimed 0.89719) → match",
+    "Calculation K26 re-executed: 490/(1-0.91) = 5444.444444444446 (claimed 5444.44) → match",
+    "Calculation K27 re-executed: 49*(1-0.968^24)/0.032 = 829.7063837114368 (claimed 829.71) → match",
+    "Calculation K28 re-executed: 49*(1-0.968^24)/0.032/490-1 = 0.6932783341049731 (claimed 0.69328) → match",
+    "Calculation K29 re-executed: 49*(1-0.99^24)/0.01 = 1050.177110044628 (claimed 1050.18) → match",
+    "Calculation K30 re-executed: 2*490 = 980 (claimed 980) → match",
+    "Calculation K31 re-executed: (49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12) = 299.5575362051453 (claimed 299.56) → match",
+    "Calculation K32 re-executed: 490-(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12) = 190.4424637948547 (claimed 190.44) → match",
+    "Calculation K33 re-executed: 190.44/(98+190.44) = 0.6602412980169186 (claimed 0.6602) → match",
+    "Calculation K34 re-executed: 0.1*(-98) = -9.8 (claimed -9.8) → match",
+    "Calculation K35 re-executed: 0.2*(-98) = -19.6 (claimed -19.6) → match",
+    "Calculation K36 re-executed: 0.1*(0.9*(-98)+0.1*190.44) = -6.915600000000001 (claimed -6.9156) → match",
+    "Calculation K37 re-executed: 0.2*(0.9*(-98)+0.1*190.44) = -13.831200000000003 (claimed -13.8312) → match",
+    "Calculation K38 re-executed: 0.3*(0.9*(-98)+0.1*190.44) = -20.7468 (claimed -20.7468) → match",
+    "Calculation K39 re-executed: 0.1*(0.5*(-98)+0.5*190.44) = 4.622 (claimed 4.622) → match",
+    "Calculation K40 re-executed: 0.2*(0.5*(-98)+0.5*190.44) = 9.244 (claimed 9.244) → match",
+    "Calculation K41 re-executed: 0.3*(0.5*(-98)+0.5*190.44) = 13.866 (claimed 13.866) → match",
+    "Calculation K42 re-executed: 0.3*(490-49*(1-0.968^12)/0.032) = -1.4385440805185852 (claimed -1.4385) → match",
+    "Calculation K43 re-executed: ((0.91+1.96^2/80)-1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40) = 0.7820569207517788 (claimed 0.78206) → match",
+    "Calculation K44 re-executed: ((0.91+1.96^2/80)+1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40) = 0.9660909570628997 (claimed 0.96609) → match",
+    "Calculation K45 re-executed: 490*0.08*5.5/12 = 17.96666666666667 (claimed 17.967) → match",
+    "Calculation K46 re-executed: (49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12) = 312.63287344213586 (claimed 312.633) → match",
+    "Calculation K47 re-executed: 490-(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12) = 177.36712655786414 (claimed 177.367) → match",
+    "Calculation K48 re-executed: 177.367/(98+177.367) = 0.6441113132655693 (claimed 0.64411) → match",
+    "Calculation K49 re-executed: 0.3*(0.5*(-98)+0.5*177.367) = 11.905049999999997 (claimed 11.905) → match",
+    "Calculation K50 re-executed: 1.96^2*0.8*0.2/0.05^2 = 245.86239999999998 (claimed 245.86) → match",
+    "Calculation K51 re-executed: 1.96^2*0.9*0.1/0.03^2 = 384.16 (claimed 384.16) → match",
+    "Calculation K52 re-executed: (1.96+0.8416)^2*(0.539*0.461+0.559*0.441)/0.02^2 = 9713.0519231872 (claimed 9713) → match",
+    "Calculation K53 re-executed: 490-11*49 = -49 (claimed -49) → match",
+    "Calculation K54 re-executed: 490-49 = 441 (claimed 441) → match",
+    "Calculation K55 re-executed: 0.968^19 = 0.5390533990397439 (claimed 0.53905) → match",
+    "Calculation K56 re-executed: 0.2*0.10 = 0.020000000000000004 (claimed 0.02) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://recurly.com/research/saas-benchmarks-for-subscription-plans — getaddrinfo ENOTFOUND recurly.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G2 unresolved: The supplied data has no tenure-matched monthly control group (retention of monthly customers with more than a year of tenure), and no outside source can supply it. External evidence on whether annual billing causes lower churn conflicts: E11 attributes the gap to selection, E12 claims a matched effect. The pilot (n=40, hand-picked) cannot separate cause from selection.",
+    "Knowledge gap G3 unresolved: There is no internal breakdown of the 3.2% churn by tenure or segment. Only directional industry evidence (E13) suggests churn is concentrated early.",
+    "Knowledge gap G4 unresolved: Only the break-even framing (E16) and fee arithmetic (E15) could be computed. Sensitivity at 10%, 20% and 30% conversion needs the converter mix (would-have-stayed versus would-have-churned) and renewal rates, which are not available. The 24-month view depends on unknown renewal behavior (E17).",
+    "Knowledge gap G5 unresolved: The memo's 30% conversion assumption and its 'benchmarks' are unsourced. No verifiable industry benchmark for monthly-to-annual conversion was found (E9). Primary Recurly and ProfitWell reports could not be fetched (WebFetch failed: recurly.com not resolvable under the network policy), so no further fetches were attempted.",
+    "Knowledge gap G6 unresolved: The company's intended refund, cancellation and seat true-up terms are not in the supplied documents. Only market examples were found (E18, E19)."
+  ],
+  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "remainingUncertainty": [
+    "The definition of the pilot's 91% retention (in-term vs month-12 renewal), the pilot's refund terms, and the criteria sales used to pick accounts (E4). This needs the company's internal data.",
+    "This company's retention for tenured monthly customers, and its churn by tenure and segment (E14). This needs the company's internal data.",
+    "The true causal effect of annual billing on B2B seat-based churn: E11 (selection) conflicts with E12 (matched effect). E11 is more directly relevant to the pilot's selection problem. E12 offers larger-scale matching but its method is unseen and its customer base is likely consumer, so the conflict remains unresolved.",
+    "The actual conversion rate and converter mix at $490 (E2, E9).",
+    "The renewal rate for annual customers at month 12, relative to the 1 - 10c break-even (E17, K20).",
+    "The share of churn that is involuntary (payment failure), which annual prepay might remove. The packet has no evidence on it.",
+    "The active customer count, which decides whether a test can reach the sample sizes in K50-K52.",
+    "When would-have-churned converters would have left, which moves their year-one value between +$441 and -$98 per seat (K54, K53, K5).",
+    "Seat-level versus logo-level churn and in-account seat changes for 8-seat accounts (E3).",
+    "Payment method mix (card, ACH or invoice) for annual deals (E15).",
+    "The constant-hazard churn model is a simplification. Early-concentrated churn would make the case against discounting tenured accounts stronger (E13, E16).",
+    "E9 UNKNOWN: No verifiable benchmark was found for the share of B2B SaaS customers who convert from monthly to annual plans at a given discount, so the memo's 30%-within-6-months assumption remains unsupported. Search results contained only inconsistent vendor claims, for example about 15% annual adoption when monthly is the default versus 35-45% when annual is the default, with no traceable methodology. Recurly's research reports discount prevalence and trial conversion, not adoption of annual plans.",
+    "E14 UNKNOWN: Neither the supplied documents nor the web research gives this company's 12-month retention for monthly customers with more than a year of tenure, or its churn broken down by tenure or segment."
+  ],
+  "revisions": {
+    "count": 3,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-10T08:54:36.803Z",
+        "reasons": [
+          "[coverage/major] D1 [criteriaAssessments C3; verdict; practicalImplications item 5; calculations (no LTV or 24-month calc)] The decision objective and C3 ask about net revenue and LTV, and G4 asks for a 24-month view. The draft only works out year-one break-even (K4, K10-K12) and says any LTV gain 'has to come in year two and later' without putting a number on it. The missing calculation is simple and decides the case. Monthly LTV at 3.2% churn is 49/0.032 = about $1,531, and annual LTV is 490/(1-r) for annual renewal rate r. The plan is LTV-neutral at r of about 68% for an average-churn converter. For a 1%-churn tenured converter, monthly LTV is about $4,900, so r must be at least about 90%. Without this renewal-rate threshold the test's success criterion is incomplete. The draft's vague 'renewal gains must recover about $94.75 per seat per year' cannot be acted on.",
+          "[coverage/major] D2 [criteriaAssessments C3; claims CL11; calculations K16] G4 asks for sensitivity at 10%, 20% and 30% conversion across converter mixes. The draft gives one extreme case: 30% conversion, all would-have-stayed (K16 = $29.40 per seat). It has no scenario grid with mixed shares of would-have-churned converters, so the decision-maker cannot see how the result moves with the two key unknowns. A grid can be computed with no new data, using the per-seat deltas the draft already has (-$98 for a stayer, roughly +$5 for a blended converter, gains for early churners).",
+          "[reasoning_validity/major] D3 [criteriaAssessments C2 (mechanisms), verdict, edgeCasesAndFailureModes[1], tradeoffs[3], correctedUserAssumptions[1]] The draft states as fact that the pilot's 91% is in-term retention inflated by prepaid lock-in, and that renewal 'was never measured' (C2 mechanisms, edgeCasesAndFailureModes item 2, tradeoffs item 4, verdict). Packet E4 explicitly flags the definition as unclear. A prepaid 12-month term should show near-zero in-term logo churn, so 9% churn within the term is odd. The 2025 cohort's '12-month retention' may well be the month-12 renewal rate. If it is, 91% exceeds the roughly 68% LTV break-even renewal rate (see D1) and is materially favorable evidence, even allowing for selection. The draft resolves an open ambiguity in the direction that supports its conclusion, without justification.",
+          "[reasoning_validity/major] D4 [counterarguments[0].response; CL8] The first counterargument response says the company's 67.7% versus the pilot's 91% 'reproduces the same generic gap ... which is what selection alone would produce'. That does not follow. An observational gap that matches an industry observational gap says nothing about how it splits between selection and treatment, because the industry gap may itself contain a causal part (E12). Packet E10 says only that this 'suggests' the pilot is not proof of causation. The draft turns 'not proof of an effect' into 'consistent with no effect', which strawmans the strongest pro-launch argument."
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-10T09:00:20.686Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [furtherResearchThatCouldChangeConclusion[0], [1]; compare verdict and C2] furtherResearchThatCouldChangeConclusion items 1-2 say that confirming the pilot's 91% is a renewal rate, together with tenured monthly churn above about 0.9% (or tenured monthly retention of about 70-75%), 'would make the pilot favorable evidence and support a broader launch' and 'would imply a real causal effect'. That treats tenure-matching as enough to remove selection. Per E4, sales hand-picked the pilot accounts, which adds a second selection layer on top of tenure, and the draft itself says in C2 and CL6 that selection beyond observables cannot be ruled out (E11, the E12 limitations). This also contradicts the verdict, which allows scaling only after a randomized or holdout-controlled test. A decision-maker could skip the test after a quick internal data pull.",
+          "[decision_usefulness/major] D2 [verdict (Recommendation); practicalImplications[4], [5]; alternatives[0]] The recommendation ties scale-up to a measured month-12 renewal rate beating 1 - 10c. That metric cannot be observed for at least 12 months after enrollment, and enrollment itself runs up to 6 months per E2. The draft gives no test size, though at n=40 the Wilson interval is 78-97% (K43, K44), which cannot separate the 68%/90%/92% thresholds the draft sets. It also gives no interim leading indicators (uptake rate, converter tenure mix versus the 66% would-have-stayed threshold in K33, in-term seat contraction) and no interim decision rule. The decision-maker does not learn what to do in the next 12-18 months or how many accounts the test needs."
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 3,
+        "ts": "2026-11-10T09:05:26.116Z",
+        "reasons": [
+          "[reasoning_validity/critical] D1 [verdict step (4); practicalImplications[6] ('Final success rule'); alternatives[0]; tradeoffs[3]] The scale-up rule says to scale if month-12 renewal beats 1 - 10 x the holdout's measured monthly churn. That rule brings back the selection bias the draft warns about everywhere else. The break-even derived in K20/K22 uses c, the converter's own counterfactual monthly churn. A randomized holdout's average churn is the blended base rate (about 3.2%), so the threshold comes out near 68%. The draft itself argues that converters are likely tenured, lower-churn accounts, whose break-even is about 90-92% (K22, K23). Under the stated rule, a renewal rate of about 70-89% would pass even though it destroys LTV for a 1%-churn converter pool. The practical-implications bullet lists 68/90/92% as alternatives, but the operative rule in the verdict and in practicalImplications[6] fixes c as holdout churn. A correct rule would either (a) compare revenue per offered account against revenue per holdout account (intention-to-treat, the proper use of randomization), or (b) estimate c from holdout accounts matched to the converters' characteristics, such as tenure and seat count.",
+          "[reasoning_validity/major] D2 [K52; claim CL20; practicalImplications[4]; alternatives[0]; edgeCasesAndFailureModes[last]] K52 sizes the test to detect a 5-point difference in 12-month logo retention between offered and holdout arms (68% vs 73%). There are two problems. First, 12-month logo retention in the offered arm is pushed up mechanically by prepaid in-term lock-in, which the draft says elsewhere must not be the success metric (E17, practicalImplications[6]). Second, at 10-30% uptake, a 5-point difference between arms means converters would need a retention gain of about 17-50 points, so the sizing does not match a plausible effect size. Sizing the test on per-account revenue or retention measured after renewal (for example at 24 months) would match the draft's own decision logic. The stated feasibility figure of about 1,302 accounts per arm, and the conclusion drawn from it, are therefore unreliable.",
+          "[decision_usefulness/major] D3 [verdict step (3); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[2]] The month-6 interim rule says to pause if more than about 64-66% of converters 'would have stayed'. That counterfactual cannot be observed. The draft substitutes an undefined proxy, 'tenured accounts with no churn-risk signals', without saying how that proxy maps to would-have-stayed probability. The 64-66% threshold is also a year-one break-even only (K33, K48). Across a lifetime the plan can still lose value at a lower stayed share when renewal falls short of 1 - 10c, and gain value at a higher one when it exceeds it. As written, the interim gate cannot be put into practice and may conflict with the lifetime rule."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D5 [remainingUncertainty; practicalImplications item on confirming the pilot] The draft never notes that the source does not state the price or discount the 2025 pilot accounts paid. Extrapolating the pilot's retention to a $490 (16.7%) offer depends on that price. The draft lists the pilot's definition, refund terms and selection criteria as unknowns but omits its price."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D4 [C2 assessment; CL6; K14, K43, K44] 91% retention on exactly 40 accounts is not possible as a logo count: 36/40 = 90% and 37/40 = 92.5%. The draft computes '3.6 churned accounts' (K14) and a Wilson interval on p=0.91, n=40 without noting the inconsistency. The inconsistency itself suggests that the denominator, the weighting (seat or revenue) or the definition differs from what is stated. That strengthens the draft's 'definition unclear' point, but it is not used, and the interval figures treat the data as exact."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        "[major/reviewer] D1 [verdict step (4); practicalImplications 'Final success rule'; alternatives[0]; CL17 vs CL14] The primary success rule is to scale only if the offered arm is ahead on cumulative revenue per account at about month 19, with the CI excluding a loss. That rule conflicts with the draft's own lifetime analysis and with the decision objective (net revenue AND LTV). The draft shows that a 1%-churn converter cannot break even within 24 months even at 100% renewal ($980 vs $1,050.18, K29/K30). Its LTV break-even for such a converter is 90% renewal (K22). So for the tenured, low-churn converter pool the draft expects, the 19-month revenue comparison is built to reject the plan, even in cases where renewal above 1-10c makes lifetime LTV positive. The primary rule and the fallback (renewal > 1-10c) can therefore give opposite answers on the same data, and the draft does not say which governs or why. A truncated revenue horizon is labelled 'free of selection' but is biased against the very outcome it is meant to judge.",
+        "[major/reviewer] D2 [verdict step (4) fallback; practicalImplications sample-size item and 'Final success rule'; CL20; K50/K51] The fallback rule is not able to decide what it is meant to decide. It needs the lower confidence bound of converters' month-12 renewal to exceed 1-10c, measured on about 250 converted accounts (K50, ±5 points). The relevant thresholds for a tenured pool are 90-92% (K22, K23). With ±5-point precision, observed renewal would have to be about 95-97% to pass, so a true 92-94% renewal, which is LTV-positive, would usually fail. The threshold 1-10c also multiplies the estimation error in c, taken from matched holdout accounts, by 10. An error of 0.2 points in monthly churn moves the threshold by 2 points. The draft sizes only the renewal estimate and ignores the uncertainty in c and in the difference. So 'at least about 250 accounts' is presented as sufficient when it is not.",
+        "[minor/reviewer] D3 [verdict step (3); practicalImplications 'Timeline and interim rule'; K33/K48] The month-6 interim gate (do not widen the offer if predicted would-have-stayed share > ~64-66%) trips for essentially any realistic converter pool. Even a pool that exactly mirrors the blended base has a would-have-stayed share of 67.7% (K3), which is above the gate. Any tenured pool, the expected case, will be far above it. The gate therefore carries almost no information, and the draft does not note this.",
+        "[minor/reviewer] D6 [K52, K55; CL20; practicalImplications sample-size item] The test's power calculation (K52, K55) uses blended 3.2% churn for the holdout baseline (53.9% still paying at month 19). The test population is existing accounts, and the draft itself argues that churn is concentrated in new accounts (E13). Using the blended rate misstates the baseline, and therefore the required sample, for a sample drawn from the existing base."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": false
+}

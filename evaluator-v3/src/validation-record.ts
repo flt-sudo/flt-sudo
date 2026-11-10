@@ -73,7 +73,7 @@ export function buildValidationRecord(dir: string): ValidationRecord {
   } else checksNotExecuted.push("Quality gates (never run)");
   if (fs.existsSync(path.join(dir, "packet.json"))) checksExecuted.push("Context packet contradiction-retention assertion");
   for (const f of webFetches.filter((x) => !x.ok)) checksNotExecuted.push(`Fetch failed: ${f.url} — ${f.error ?? "error"}`);
-  for (const d of deniedByGuard) checksNotExecuted.push(`Blocked by guard: ${d.tool} — ${d.reason}`);
+  for (const d of deniedByGuard.filter((x) => x.tool === "WebSearch" || x.tool === "WebFetch")) checksNotExecuted.push(`Research call blocked by budget guard: ${d.tool} — ${d.reason}`);
   if (!meta.environment.webFetchAvailable) checksNotExecuted.push("Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched");
   for (const g of research?.unresolvedGaps ?? []) checksNotExecuted.push(`Knowledge gap ${g.gapId} unresolved: ${g.reason}`);
 

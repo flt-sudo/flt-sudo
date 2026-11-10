@@ -1,0 +1,478 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [remainingUncertainty; practicalImplications item on confirming the pilot] The draft never notes that the source does not state the price or discount the 2025 pilot accounts paid. Extrapolating the pilot's retention to a $490 (16.7%) offer depends on that price. The draft lists the pilot's definition, refund terms and selection criteria as unknowns but omits its price."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [C2 assessment; CL6; K14, K43, K44] 91% retention on exactly 40 accounts is not possible as a logo count: 36/40 = 90% and 37/40 = 92.5%. The draft computes '3.6 churned accounts' (K14) and a Wilson interval on p=0.91, n=40 without noting the inconsistency. The inconsistency itself suggests that the denominator, the weighting (seat or revenue) or the definition differs from what is stated. That strengthens the draft's 'definition unclear' point, but it is not used, and the interval figures treat the data as exact."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict step (4); practicalImplications 'Final success rule'; alternatives[0]; CL17 vs CL14] The primary success rule is to scale only if the offered arm is ahead on cumulative revenue per account at about month 19, with the CI excluding a loss. That rule conflicts with the draft's own lifetime analysis and with the decision objective (net revenue AND LTV). The draft shows that a 1%-churn converter cannot break even within 24 months even at 100% renewal ($980 vs $1,050.18, K29/K30). Its LTV break-even for such a converter is 90% renewal (K22). So for the tenured, low-churn converter pool the draft expects, the 19-month revenue comparison is built to reject the plan, even in cases where renewal above 1-10c makes lifetime LTV positive. The primary rule and the fallback (renewal > 1-10c) can therefore give opposite answers on the same data, and the draft does not say which governs or why. A truncated revenue horizon is labelled 'free of selection' but is biased against the very outcome it is meant to judge."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict step (4) fallback; practicalImplications sample-size item and 'Final success rule'; CL20; K50/K51] The fallback rule is not able to decide what it is meant to decide. It needs the lower confidence bound of converters' month-12 renewal to exceed 1-10c, measured on about 250 converted accounts (K50, ±5 points). The relevant thresholds for a tenured pool are 90-92% (K22, K23). With ±5-point precision, observed renewal would have to be about 95-97% to pass, so a true 92-94% renewal, which is LTV-positive, would usually fail. The threshold 1-10c also multiplies the estimation error in c, taken from matched holdout accounts, by 10. An error of 0.2 points in monthly churn moves the threshold by 2 points. The draft sizes only the renewal estimate and ignores the uncertainty in c and in the difference. So 'at least about 250 accounts' is presented as sufficient when it is not."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict step (3); practicalImplications 'Timeline and interim rule'; K33/K48] The month-6 interim gate (do not widen the offer if predicted would-have-stayed share > ~64-66%) trips for essentially any realistic converter pool. Even a pool that exactly mirrors the blended base has a would-have-stayed share of 67.7% (K3), which is above the gate. Any tenured pool, the expected case, will be far above it. The gate therefore carries almost no information, and the draft does not note this."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [K52, K55; CL20; practicalImplications sample-size item] The test's power calculation (K52, K55) uses blended 3.2% churn for the holdout baseline (53.9% still paying at month 19). The test population is existing accounts, and the draft itself argues that churn is concentrated in new accounts (E13). Using the blended rate misstates the baseline, and therefore the required sample, for a sample drawn from the existing base."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 490/(49*12))*100",
+      "claimed": 16.6667,
+      "actual": 16.666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "49*12*0.75",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.968^12",
+      "claimed": 0.67687,
+      "actual": 0.67686847547098,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "49*(1-0.968^12)/0.032",
+      "claimed": 494.79,
+      "actual": 494.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "49*12-490",
+      "claimed": 98,
+      "actual": 98,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(49*12-490)*8",
+      "claimed": 784,
+      "actual": 784,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "12*(0.029*392+0.30)",
+      "claimed": 140.016,
+      "actual": 140.01600000000002,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.029*3920+0.30",
+      "claimed": 113.98,
+      "actual": 113.98,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "12*(0.029*392+0.30)-(0.029*3920+0.30)",
+      "claimed": 26.036,
+      "actual": 26.036000000000016,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "49*(1-(1-0.0338)^12)/0.0338",
+      "claimed": 490.12,
+      "actual": 490.11841950970717,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "49*(1-0.99^12)/0.01",
+      "claimed": 556.71,
+      "actual": 556.7141285909673,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "49*(1-0.99^12)/0.01-490",
+      "claimed": 66.71,
+      "actual": 66.71412859096733,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-0.91^(1/12)",
+      "claimed": 0.007828,
+      "actual": 0.007828420342483211,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "40*(1-0.91)",
+      "claimed": 3.6,
+      "actual": 3.5999999999999988,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "1.96*sqrt(0.91*0.09/40)",
+      "claimed": 0.0887,
+      "actual": 0.08868864639851033,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "0.3*98",
+      "claimed": 29.4,
+      "actual": 29.4,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8",
+      "claimed": 94.7455,
+      "actual": 94.74549999999999,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "490-49*(1-0.968^12)/0.032",
+      "claimed": -4.795,
+      "actual": -4.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "49/0.032",
+      "claimed": 1531.25,
+      "actual": 1531.25,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "1-490/(49/0.032)",
+      "claimed": 0.68,
+      "actual": 0.6799999999999999,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "49/0.01",
+      "claimed": 4900,
+      "actual": 4900,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "1-490/(49/0.01)",
+      "claimed": 0.9,
+      "actual": 0.9,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "1-490*(1-0.91^(1/12))/49",
+      "claimed": 0.92172,
+      "actual": 0.9217157965751679,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "(1-0.91)*49/490",
+      "claimed": 0.009,
+      "actual": 0.008999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "0.991^12",
+      "claimed": 0.89719,
+      "actual": 0.8971888214154765,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "490/(1-0.91)",
+      "claimed": 5444.44,
+      "actual": 5444.444444444446,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "49*(1-0.968^24)/0.032",
+      "claimed": 829.71,
+      "actual": 829.7063837114368,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "49*(1-0.968^24)/0.032/490-1",
+      "claimed": 0.69328,
+      "actual": 0.6932783341049731,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "49*(1-0.99^24)/0.01",
+      "claimed": 1050.18,
+      "actual": 1050.177110044628,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "2*490",
+      "claimed": 980,
+      "actual": 980,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 299.56,
+      "actual": 299.5575362051453,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "490-(49*(1-0.968^12)/0.032-588*0.968^12)/(1-0.968^12)",
+      "claimed": 190.44,
+      "actual": 190.4424637948547,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "190.44/(98+190.44)",
+      "claimed": 0.6602,
+      "actual": 0.6602412980169186,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "0.1*(-98)",
+      "claimed": -9.8,
+      "actual": -9.8,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "0.2*(-98)",
+      "claimed": -19.6,
+      "actual": -19.6,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "0.1*(0.9*(-98)+0.1*190.44)",
+      "claimed": -6.9156,
+      "actual": -6.915600000000001,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.2*(0.9*(-98)+0.1*190.44)",
+      "claimed": -13.8312,
+      "actual": -13.831200000000003,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "0.3*(0.9*(-98)+0.1*190.44)",
+      "claimed": -20.7468,
+      "actual": -20.7468,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "0.1*(0.5*(-98)+0.5*190.44)",
+      "claimed": 4.622,
+      "actual": 4.622,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "0.2*(0.5*(-98)+0.5*190.44)",
+      "claimed": 9.244,
+      "actual": 9.244,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "0.3*(0.5*(-98)+0.5*190.44)",
+      "claimed": 13.866,
+      "actual": 13.866,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "0.3*(490-49*(1-0.968^12)/0.032)",
+      "claimed": -1.4385,
+      "actual": -1.4385440805185852,
+      "ok": true
+    },
+    {
+      "id": "K43",
+      "expression": "((0.91+1.96^2/80)-1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.78206,
+      "actual": 0.7820569207517788,
+      "ok": true
+    },
+    {
+      "id": "K44",
+      "expression": "((0.91+1.96^2/80)+1.96*sqrt(0.91*0.09/40+1.96^2/6400))/(1+1.96^2/40)",
+      "claimed": 0.96609,
+      "actual": 0.9660909570628997,
+      "ok": true
+    },
+    {
+      "id": "K45",
+      "expression": "490*0.08*5.5/12",
+      "claimed": 17.967,
+      "actual": 17.96666666666667,
+      "ok": true
+    },
+    {
+      "id": "K46",
+      "expression": "(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimed": 312.633,
+      "actual": 312.63287344213586,
+      "ok": true
+    },
+    {
+      "id": "K47",
+      "expression": "490-(49*(1-0.99^12)/0.01-588*0.99^12)/(1-0.99^12)",
+      "claimed": 177.367,
+      "actual": 177.36712655786414,
+      "ok": true
+    },
+    {
+      "id": "K48",
+      "expression": "177.367/(98+177.367)",
+      "claimed": 0.64411,
+      "actual": 0.6441113132655693,
+      "ok": true
+    },
+    {
+      "id": "K49",
+      "expression": "0.3*(0.5*(-98)+0.5*177.367)",
+      "claimed": 11.905,
+      "actual": 11.905049999999997,
+      "ok": true
+    },
+    {
+      "id": "K50",
+      "expression": "1.96^2*0.8*0.2/0.05^2",
+      "claimed": 245.86,
+      "actual": 245.86239999999998,
+      "ok": true
+    },
+    {
+      "id": "K51",
+      "expression": "1.96^2*0.9*0.1/0.03^2",
+      "claimed": 384.16,
+      "actual": 384.16,
+      "ok": true
+    },
+    {
+      "id": "K52",
+      "expression": "(1.96+0.8416)^2*(0.539*0.461+0.559*0.441)/0.02^2",
+      "claimed": 9713,
+      "actual": 9713.0519231872,
+      "ok": true
+    },
+    {
+      "id": "K53",
+      "expression": "490-11*49",
+      "claimed": -49,
+      "actual": -49,
+      "ok": true
+    },
+    {
+      "id": "K54",
+      "expression": "490-49",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    },
+    {
+      "id": "K55",
+      "expression": "0.968^19",
+      "claimed": 0.53905,
+      "actual": 0.5390533990397439,
+      "ok": true
+    },
+    {
+      "id": "K56",
+      "expression": "0.2*0.10",
+      "claimed": 0.02,
+      "actual": 0.020000000000000004,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": false,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict step (4); practicalImplications 'Final success rule'; alternatives[0]; CL17 vs CL14] The primary success rule is to scale only if the offered arm is ahead on cumulative revenue per account at about month 19, with the CI excluding a loss. That rule conflicts with the draft's own lifetime analysis and with the decision objective (net revenue AND LTV). The draft shows that a 1%-churn converter cannot break even within 24 months even at 100% renewal ($980 vs $1,050.18, K29/K30). Its LTV break-even for such a converter is 90% renewal (K22). So for the tenured, low-churn converter pool the draft expects, the 19-month revenue comparison is built to reject the plan, even in cases where renewal above 1-10c makes lifetime LTV positive. The primary rule and the fallback (renewal > 1-10c) can therefore give opposite answers on the same data, and the draft does not say which governs or why. A truncated revenue horizon is labelled 'free of selection' but is biased against the very outcome it is meant to judge."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict step (4) fallback; practicalImplications sample-size item and 'Final success rule'; CL20; K50/K51] The fallback rule is not able to decide what it is meant to decide. It needs the lower confidence bound of converters' month-12 renewal to exceed 1-10c, measured on about 250 converted accounts (K50, ±5 points). The relevant thresholds for a tenured pool are 90-92% (K22, K23). With ±5-point precision, observed renewal would have to be about 95-97% to pass, so a true 92-94% renewal, which is LTV-positive, would usually fail. The threshold 1-10c also multiplies the estimation error in c, taken from matched holdout accounts, by 10. An error of 0.2 points in monthly churn moves the threshold by 2 points. The draft sizes only the renewal estimate and ignores the uncertainty in c and in the difference. So 'at least about 250 accounts' is presented as sufficient when it is not."
+    }
+  ]
+}

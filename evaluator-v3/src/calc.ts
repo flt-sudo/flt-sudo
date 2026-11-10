@@ -87,6 +87,23 @@ export function evaluate(src: string): number {
 
 export function withinTolerance(actual: number, claimed: number, relTol: number): boolean {
   if (actual === claimed) return true;
+  if (isCorrectRounding(actual, claimed)) return true;
   const scale = Math.max(Math.abs(actual), Math.abs(claimed), 1e-12);
   return Math.abs(actual - claimed) / scale <= relTol;
+}
+
+/**
+ * A stated value that is the correct rounding of the exact result (to the precision it is
+ * written with, at least 3 significant figures) is never an arithmetic error.
+ * e.g. actual 0.0078284 vs claimed 0.007828 -> true; actual 14400 vs claimed 15000 -> false.
+ */
+export function isCorrectRounding(actual: number, claimed: number): boolean {
+  if (!Number.isFinite(actual) || !Number.isFinite(claimed) || claimed === 0) return false;
+  const s = Math.abs(claimed).toExponential(); // e.g. "7.828e-3"
+  const [mant, expStr] = s.split("e");
+  const decimals = (mant!.split(".")[1] ?? "").length;
+  const sig = decimals + 1;
+  if (sig < 3) return false;
+  const step = 10 ** (Number(expStr) - decimals);
+  return Math.abs(actual - claimed) <= step / 2 + Number.EPSILON * Math.abs(actual);
 }

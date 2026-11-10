@@ -19,3 +19,17 @@ Initial prompts: planner, researcher, analyst, adversary, grader, baseline.
 
 - Architecture moved from direct API calls to Claude Code subagents at the user's request (no API key). Research uses Claude Code WebSearch/WebFetch; WebFetch is blocked by this environment's network policy, so web evidence is search-snippet level unless fetched.
 - Added a stage lease in the guard hook: custom agent types load only at session start, so stages may run as general-purpose subagents; the lease applies the same tool allowlist to any subagent while a stage is declared.
+
+## v2 (2026-11-10) — from dev-01 (dev set only)
+
+Evidence: dev-01 draft 1, gates-1. The calculation K13 (`1-0.91^(1/12)`, stated 0.007828) was flagged
+**critical** although 0.007828 is the correct 4-significant-figure rounding of 0.0078284. The analyst had
+supplied `tolerance: 0.00005` intending an absolute tolerance; the gate treats tolerance as relative.
+
+Changes:
+- Code (`src/calc.ts`): a stated value that is the correct rounding of the computed result (≥ 3 significant figures) always passes. A wrong value still fails. Test added with the exact dev-01 case.
+- Prompt (`eval-analyst.md`): states that `tolerance` is relative and that correctly rounded values pass.
+- Audit: the original gate output is kept as `gates-1.pre-v2-fix.json`; `gates-1.json` was recomputed with the fixed checker on the same draft and review.
+
+Earlier harness fixes in the same dev run (no prompt change): the guard hook blocked the stage's
+`SubagentHandback` (report delivery) and `ToolSearch`; both are now allowed for all stages.

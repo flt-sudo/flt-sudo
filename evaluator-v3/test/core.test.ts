@@ -45,6 +45,14 @@ describe("calc", () => {
     expect(withinTolerance(100, 100.4, 0.005)).toBe(true);
     expect(withinTolerance(100, 101, 0.005)).toBe(false);
   });
+  it("a correctly rounded stated value always passes; a wrong one never does", () => {
+    // dev-01 K13: 1-0.91^(1/12) = 0.0078284203..., stated 0.007828 with a tight tolerance
+    expect(withinTolerance(evaluate("1-0.91^(1/12)"), 0.007828, 0.00005)).toBe(true);
+    expect(withinTolerance(494.7866, 494.79, 0)).toBe(true);
+    expect(withinTolerance(14400, 15000, 0.001)).toBe(false);
+    expect(withinTolerance(0.0078284, 0.0079, 0)).toBe(false); // 2 sig figs: not accepted as rounding
+    expect(withinTolerance(16.6667, 16.7, 0)).toBe(true);
+  });
 });
 
 describe("evidence registry", () => {

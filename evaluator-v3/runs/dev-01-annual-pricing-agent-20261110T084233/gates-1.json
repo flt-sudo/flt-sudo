@@ -1,0 +1,237 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C3; verdict; practicalImplications item 5; calculations (no LTV or 24-month calc)] The decision objective and C3 ask about net revenue and LTV, and G4 asks for a 24-month view. The draft only works out year-one break-even (K4, K10-K12) and says any LTV gain 'has to come in year two and later' without putting a number on it. The missing calculation is simple and decides the case. Monthly LTV at 3.2% churn is 49/0.032 = about $1,531, and annual LTV is 490/(1-r) for annual renewal rate r. The plan is LTV-neutral at r of about 68% for an average-churn converter. For a 1%-churn tenured converter, monthly LTV is about $4,900, so r must be at least about 90%. Without this renewal-rate threshold the test's success criterion is incomplete. The draft's vague 'renewal gains must recover about $94.75 per seat per year' cannot be acted on."
+        },
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C3; claims CL11; calculations K16] G4 asks for sensitivity at 10%, 20% and 30% conversion across converter mixes. The draft gives one extreme case: 30% conversion, all would-have-stayed (K16 = $29.40 per seat). It has no scenario grid with mixed shares of would-have-churned converters, so the decision-maker cannot see how the result moves with the two key unknowns. A grid can be computed with no new data, using the per-seat deltas the draft already has (-$98 for a stayer, roughly +$5 for a blended converter, gains for early churners)."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict; criteriaAssessments C3 weaknesses[0]] The verdict says the customers most likely to convert are tenured and lower-churn, and C3 says 'likely converters churn well below' the 3.4% break-even. The support is a hand-picked pilot (E4, which shows how sales picked accounts, not who would self-select), a consumer-app snippet (E11) and secondhand snippet-level onboarding statistics (E13). 'Well below' and 'lean negative' are stronger than this evidence allows. The overall confidence of 'low' partly offsets this."
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [claims CL2; criteriaAssessments C1, C5; practicalImplications[1]] CL2 and the 'keep $490, do not deepen' recommendation rest on one Recurly search snippet (E6) that could not be fetched and has no date, plus vendor marketing (E7). The draft also leaves out E6's own point that lower-priced plans tend to carry larger annual discounts. That point applies to a $49 tool and partly cuts against the claim that $490 is well placed."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C2 (mechanisms), verdict, edgeCasesAndFailureModes[1], tradeoffs[3], correctedUserAssumptions[1]] The draft states as fact that the pilot's 91% is in-term retention inflated by prepaid lock-in, and that renewal 'was never measured' (C2 mechanisms, edgeCasesAndFailureModes item 2, tradeoffs item 4, verdict). Packet E4 explicitly flags the definition as unclear. A prepaid 12-month term should show near-zero in-term logo churn, so 9% churn within the term is odd. The 2025 cohort's '12-month retention' may well be the month-12 renewal rate. If it is, 91% exceeds the roughly 68% LTV break-even renewal rate (see D1) and is materially favorable evidence, even allowing for selection. The draft resolves an open ambiguity in the direction that supports its conclusion, without justification."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D4 [counterarguments[0].response; CL8] The first counterargument response says the company's 67.7% versus the pilot's 91% 'reproduces the same generic gap ... which is what selection alone would produce'. That does not follow. An observational gap that matches an industry observational gap says nothing about how it splits between selection and treatment, because the industry gap may itself contain a causal part (E12). Packet E10 says only that this 'suggests' the pilot is not proof of causation. The draft turns 'not proof of an effect' into 'consistent with no effect', which strawmans the strongest pro-launch argument."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [calculations K4, K10-K12, K15; criteriaAssessments C4] Per-seat revenue maths applies the 3.2% logo-churn rate as if it were seat churn, and ignores seat expansion and contraction in 8-seat accounts (E3 says it is logo churn). Year-one comparisons (K4, K10-K12) are gross of fees and ignore the time value of the upfront cash, which the draft never quantifies. K15 uses a normal approximation at n=40 with about 3.6 events, where a Wilson or exact interval would be more appropriate. None of these is likely to change the verdict."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D8 [criteriaAssessments C2, C4] The draft does not weigh how annual prepay reduces involuntary churn (failed card payments across 11 fewer charges). That is a causal, non-selection retention mechanism and the strongest version of the 'annual billing really cuts churn' case. It is mentioned in passing in C4 only as fewer failure points and is not considered in C2."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D9 [claims CL5; criteriaAssessments C3] CL5 cites E13 to support a 1% monthly churn rate for converters. E13 gives no such figure, so 1% is an illustrative assumption and should be labelled that way rather than presented as evidence-backed."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 490/(49*12))*100",
+      "claimed": 16.6667,
+      "actual": 16.666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "49*12*0.75",
+      "claimed": 441,
+      "actual": 441,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.968^12",
+      "claimed": 0.67687,
+      "actual": 0.67686847547098,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "49*(1-0.968^12)/0.032",
+      "claimed": 494.79,
+      "actual": 494.79514693506195,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "49*12-490",
+      "claimed": 98,
+      "actual": 98,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(49*12-490)*8",
+      "claimed": 784,
+      "actual": 784,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "12*(0.029*392+0.30)",
+      "claimed": 140.016,
+      "actual": 140.01600000000002,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.029*3920+0.30",
+      "claimed": 113.98,
+      "actual": 113.98,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "12*(0.029*392+0.30)-(0.029*3920+0.30)",
+      "claimed": 26.036,
+      "actual": 26.036000000000016,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "49*(1-(1-0.0338)^12)/0.0338",
+      "claimed": 490.12,
+      "actual": 490.11841950970717,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "49*(1-0.99^12)/0.01",
+      "claimed": 556.71,
+      "actual": 556.7141285909673,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "49*(1-0.99^12)/0.01-490",
+      "claimed": 66.71,
+      "actual": 66.71412859096733,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-0.91^(1/12)",
+      "claimed": 0.007828,
+      "actual": 0.007828420342483211,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "40*(1-0.91)",
+      "claimed": 3.6,
+      "actual": 3.5999999999999988,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "1.96*sqrt(0.91*0.09/40)",
+      "claimed": 0.0887,
+      "actual": 0.08868864639851033,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "0.3*98",
+      "claimed": 29.4,
+      "actual": 29.4,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "98-(12*(0.029*392+0.30)-(0.029*3920+0.30))/8",
+      "claimed": 94.7455,
+      "actual": 94.74549999999999,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C3; verdict; practicalImplications item 5; calculations (no LTV or 24-month calc)] The decision objective and C3 ask about net revenue and LTV, and G4 asks for a 24-month view. The draft only works out year-one break-even (K4, K10-K12) and says any LTV gain 'has to come in year two and later' without putting a number on it. The missing calculation is simple and decides the case. Monthly LTV at 3.2% churn is 49/0.032 = about $1,531, and annual LTV is 490/(1-r) for annual renewal rate r. The plan is LTV-neutral at r of about 68% for an average-churn converter. For a 1%-churn tenured converter, monthly LTV is about $4,900, so r must be at least about 90%. Without this renewal-rate threshold the test's success criterion is incomplete. The draft's vague 'renewal gains must recover about $94.75 per seat per year' cannot be acted on."
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [criteriaAssessments C3; claims CL11; calculations K16] G4 asks for sensitivity at 10%, 20% and 30% conversion across converter mixes. The draft gives one extreme case: 30% conversion, all would-have-stayed (K16 = $29.40 per seat). It has no scenario grid with mixed shares of would-have-churned converters, so the decision-maker cannot see how the result moves with the two key unknowns. A grid can be computed with no new data, using the per-seat deltas the draft already has (-$98 for a stayer, roughly +$5 for a blended converter, gains for early churners)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [criteriaAssessments C2 (mechanisms), verdict, edgeCasesAndFailureModes[1], tradeoffs[3], correctedUserAssumptions[1]] The draft states as fact that the pilot's 91% is in-term retention inflated by prepaid lock-in, and that renewal 'was never measured' (C2 mechanisms, edgeCasesAndFailureModes item 2, tradeoffs item 4, verdict). Packet E4 explicitly flags the definition as unclear. A prepaid 12-month term should show near-zero in-term logo churn, so 9% churn within the term is odd. The 2025 cohort's '12-month retention' may well be the month-12 renewal rate. If it is, 91% exceeds the roughly 68% LTV break-even renewal rate (see D1) and is materially favorable evidence, even allowing for selection. The draft resolves an open ambiguity in the direction that supports its conclusion, without justification."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D4 [counterarguments[0].response; CL8] The first counterargument response says the company's 67.7% versus the pilot's 91% 'reproduces the same generic gap ... which is what selection alone would produce'. That does not follow. An observational gap that matches an industry observational gap says nothing about how it splits between selection and treatment, because the industry gap may itself contain a causal part (E12). Packet E10 says only that this 'suggests' the pilot is not proof of causation. The draft turns 'not proof of an effect' into 'consistent with no effect', which strawmans the strongest pro-launch argument."
+    }
+  ]
+}

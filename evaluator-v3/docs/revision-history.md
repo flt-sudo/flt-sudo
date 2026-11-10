@@ -33,3 +33,19 @@ Changes:
 
 Earlier harness fixes in the same dev run (no prompt change): the guard hook blocked the stage's
 `SubagentHandback` (report delivery) and `ToolSearch`; both are now allowed for all stages.
+
+### dev-01 outcome and further harness changes (prompts still v2)
+
+- dev-01 agent run: 3 revisions (all reanalysis), final gates 5/6 (reasoning_validity failed on two major
+  test-design defects found by review 4), 0 critical, **not certified**. Deterministic case checks 4/4.
+  Independent grader: **100/100, high confidence**, no critical failures.
+- **Grader leniency signal.** The in-pipeline adversary found defects in the final draft's decision rules
+  that the blind grader did not penalise. `bench:grade-record` now flags a dispute for human adjudication
+  whenever a run is not certified by its own gates but the grader scores it >= 95. Scores are unchanged.
+- **Moving-target revisions.** Each revision fixed the previous review's defects but added new material
+  (scenario grid, then a test plan) that the next review found new defects in. Candidate prompt change for
+  the analyst: limit revisions to the named defects. Not applied yet; to be decided after more dev cases.
+- Validation record: guard denials of non-research tools (every stage attempted Bash and was blocked) are
+  no longer listed as "checks not executed"; they remain in `researchPerformed.deniedByGuard`.
+- Cost of one full agent run (dev-01, incl. 3 planner re-deliveries caused by the handback bug):
+  ~176k output tokens, 4.27M cache-read, 0.71M cache-write input tokens on claude-opus-5-5, roughly $8 at API list prices.

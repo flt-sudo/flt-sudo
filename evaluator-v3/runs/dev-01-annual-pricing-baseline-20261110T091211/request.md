@@ -1,0 +1,1 @@
+We sell a B2B SaaS tool at $49/month. Our growth lead proposes an annual plan at $490/year and says it gives customers a 25% discount, which should be enough to cut churn substantially. Using the attached pricing memo and churn data, evaluate whether we should launch the annual plan at this price.

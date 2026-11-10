@@ -386,9 +386,13 @@ switch (cmd) {
       const adj = g.mustFlagAdjudication.find((x) => x.id === m.id)?.flagged ?? false;
       return { id: m.id, deterministic: det, grader: adj, flagged: det || adj, disagreement: det !== adj };
     });
+    const vrFile = path.join(dir, "validation-record.json");
+    const pipelineCertified = fs.existsSync(vrFile) ? readJson<{ certified: boolean }>(vrFile).certified : null;
     const disputes = [
       ...flagged.filter((f) => f.disagreement).map((f) => `mustFlag ${f.id}: regex=${f.deterministic} grader=${f.grader}`),
       ...(g.graderConfidence === "low" ? ["grader confidence low"] : []),
+      // The in-pipeline gates left open defects that the grader did not penalise: a human should decide who is right.
+      ...(pipelineCertified === false && total >= PASS_STANDARD.targetMeanScore ? [`grader score ${total} conflicts with in-pipeline quality gates (not certified); see final gates-N.json`] : []),
     ];
     const criticalFailures = [...detCritical, ...graderCritical];
     const pass = criticalFailures.length === 0 && flagged.every((f) => f.flagged) && total >= PASS_STANDARD.casePassMinScore;

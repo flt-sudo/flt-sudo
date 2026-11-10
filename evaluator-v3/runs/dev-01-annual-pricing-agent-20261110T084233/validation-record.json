@@ -1,6 +1,6 @@
 {
   "runId": "dev-01-annual-pricing-agent-20261110T084233",
-  "generatedAt": "2026-11-10T09:11:35.290Z",
+  "generatedAt": "2026-11-10T09:12:03.730Z",
   "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
   "researchPerformed": {
     "webSearches": [
@@ -72,7 +72,10 @@
         "error": "getaddrinfo ENOTFOUND recurly.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not"
       }
     ],
-    "fixturesRead": [],
+    "fixturesRead": [
+      "pricing-memo.md",
+      "churn-data.md"
+    ],
     "deniedByGuard": [
       {
         "tool": "Bash",
@@ -185,7 +188,16 @@
       }
     ]
   },
-  "sourcesInspected": [],
+  "sourcesInspected": [
+    {
+      "ref": "pricing-memo.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "churn-data.md",
+      "how": "fixture_read"
+    }
+  ],
   "sourcesCitedFromSearchSnippetsOnly": [
     "https://recurly.com/research/saas-benchmarks-for-subscription-plans",
     "https://www.getmonetizely.com/faqs/what-s-the-standard-discount-percentage-for-annual-versus-monthly-subscriptions-in-saas",
@@ -269,7 +281,7 @@
     "Knowledge gap G5 unresolved: The memo's 30% conversion assumption and its 'benchmarks' are unsourced. No verifiable industry benchmark for monthly-to-annual conversion was found (E9). Primary Recurly and ProfitWell reports could not be fetched (WebFetch failed: recurly.com not resolvable under the network policy), so no further fetches were attempted.",
     "Knowledge gap G6 unresolved: The company's intended refund, cancellation and seat true-up terms are not in the supplied documents. Only market examples were found (E18, E19)."
   ],
-  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (general-purpose subagent, claude-opus-5-5), prompts v2); total 100/100; critical failures: none. Grader is the same model family as the agent.",
   "remainingUncertainty": [
     "The definition of the pilot's 91% retention (in-term vs month-12 renewal), the pilot's refund terms, and the criteria sales used to pick accounts (E4). This needs the company's internal data.",
     "This company's retention for tenured monthly customers, and its churn by tenure and segment (E14). This needs the company's internal data.",

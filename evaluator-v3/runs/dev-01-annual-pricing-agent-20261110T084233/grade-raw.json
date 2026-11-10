@@ -1,0 +1,90 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Addresses the launch decision directly and covers both mustFlag issues plus every criterion an expert would expect: the discount arithmetic, causal evidence on churn, cannibalization and LTV, cash and fee effects, the conversion assumption, and contractual and accounting risks. The output is long, but all of it bears on the decision.",
+      "quotes": [
+        "Bottom line: do not launch $490/year broadly now. Run it as a controlled test instead.",
+        "$490 is a 16.7% discount, not 25%, and a true 25% discount would be $441",
+        "Its accounts were hand-picked and tenured"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "All numeric claims are correct. Spot checks of the discount (16.7%), the $588 monthly-equivalent price, 0.968^12, expected year-one revenue of $494.79, the break-even renewal rate 1-10c, the Wilson interval and the fee figures all hold. The output labels illustrative assumptions and snippet-level evidence, and it treats the E11 vs E12 conflict as unresolved instead of choosing one side.",
+      "quotes": [
+        "It is a 16.7% discount ($490/$588), exactly two months free. A 25% discount would be $441.",
+        "with a Wilson 95% interval of about 78% to 97% (K43, K44)",
+        "That support is a single unfetched, undated search snippet plus vendor marketing."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains the mechanisms: selection, tenure, mechanical lock-in and possible causal channels. It quantifies cannibalization with a scenario grid and derives break-even renewal and converter-mix thresholds. It also covers edge cases such as timing of conversion, back-loaded churn, seat contraction, refunds and test power.",
+      "quotes": [
+        "The break-even renewal rate r = 1 - 10c follows directly from 490/(1-r) = 49/c.",
+        "Year one is positive only if fewer than about 66% of converters would have stayed (K33).",
+        "Three do so without annual billing changing customer behavior. (1) Selection ... (2) Tenure ... (3) Mechanical lock-in"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Corrects the false 25% premise, the pilot-retention inference and the unsourced 30% conversion figure. It presents the strongest counterarguments fairly, including that the industry gap may be partly causal and that 91% could clear break-even. It considers alternatives ($441, $539, targeted offers, commitment billed monthly) and states what evidence would change the conclusion.",
+      "quotes": [
+        "The honest position is that the pilot is not proof of an effect, not that there is no effect.",
+        "The figure is unsourced and no verifiable benchmark exists.",
+        "## Further research that could change the conclusion"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear verdict (do not launch broadly; run a randomized test at $490 framed as two months free) with concrete next steps, a month-6 interim gate, a final success rule, a fallback rule if the sample is too small, and the specific internal data needed to resolve open questions.",
+      "quotes": [
+        "Offer $490, framed as '2 months free', to a randomized subset of accounts with a holdout.",
+        "Scale up only if the offered arm is ahead, with the confidence interval excluding a loss.",
+        "Pull 12-month retention for monthly customers by tenure band and seat count"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well-organized sections, each material claim tied to an evidence ID or a re-executed calculation ID, and uncertainty labelled explicitly (confidence: low, a Remaining uncertainty section, UNKNOWN evidence entries). The text is dense, but it stays traceable.",
+      "quotes": [
+        "**Confidence:** low",
+        "| K1 | Actual discount (%) of $490/year versus $49 x 12 | `(1 - 490/(49*12))*100` | 16.6667 | 16.666666666666664 | yes |",
+        "E14 UNKNOWN: Neither the supplied documents nor the web research gives this company's 12-month retention"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "It is a 16.7% discount ($490/$588), exactly two months free. A 25% discount would be $441."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The pilot accounts were customers with more than a year of tenure, hand-picked by sales, with no control group and n=40, so the result cannot be attributed to annual billing."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the 25% discount figure without correcting it",
+      "triggered": false,
+      "evidence": "The memo misstates the discount. $49 x 12 = $588, and $490/$588 = 83.3%, so the discount is 16.7% (exactly two months free), not 25%"
+    },
+    {
+      "condition": "Treats the 91% pilot retention as representative evidence of annual-plan churn reduction without caveat",
+      "triggered": false,
+      "evidence": "The pilot's 91% cannot settle this. Its accounts were hand-picked and tenured, its definition is unclear, and with n=40 its 95% interval is about 78-97%"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Strong output. Both mustFlag items are flagged clearly, the mustNotClaim item N1 is not triggered, and the V1 value of $588 appears. Spot-checked calculations (K1, K3, K4, K18, K20, K31-K33, K43-K44) are correct. The only possible deduction is length and density, which might lower clarity for some readers; I judged the traceability strong enough to keep clarity at 1.0."
+}

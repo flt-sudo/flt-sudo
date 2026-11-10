@@ -1,0 +1,39 @@
+{
+  "runId": "dev-01-annual-pricing-agent-20261110T084233",
+  "caseId": "dev-01-annual-pricing",
+  "system": "agent",
+  "grader": "eval-grader (general-purpose subagent, claude-opus-5-5), prompts v2",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "grader score 100 conflicts with in-pipeline quality gates (not certified); see final gates-N.json"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "Strong output. Both mustFlag items are flagged clearly, the mustNotClaim item N1 is not triggered, and the V1 value of $588 appears. Spot-checked calculations (K1, K3, K4, K18, K20, K31-K33, K43-K44) are correct. The only possible deduction is length and density, which might lower clarity for some readers; I judged the traceability strong enough to keep clarity at 1.0."
+}

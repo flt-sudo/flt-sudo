@@ -1,0 +1,23 @@
+{
+  "runId": "dev-01-annual-pricing-baseline-20261110T091211",
+  "caseId": "dev-01-annual-pricing",
+  "system": "baseline",
+  "createdAt": "2026-11-10T09:12:11.411Z",
+  "request": "We sell a B2B SaaS tool at $49/month. Our growth lead proposes an annual plan at $490/year and says it gives customers a 25% discount, which should be enough to cut churn substantially. Using the attached pricing memo and churn data, evaluate whether we should launch the annual plan at this price.",
+  "fixtures": [
+    "pricing-memo.md",
+    "churn-data.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 3
+  },
+  "promptVersion": "v2",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "dev-01-annual-pricing",
+  "split": "dev",
+  "domain": "financial analysis",
+  "difficulty": ["incorrect_numbers", "misleading_assumption"],
+  "request": "We sell a B2B SaaS tool at $49/month. Our growth lead proposes an annual plan at $490/year and says it gives customers a 25% discount, which should be enough to cut churn substantially. Using the attached pricing memo and churn data, evaluate whether we should launch the annual plan at this price.",
+  "fixtures": [
+    {
+      "name": "pricing-memo.md",
+      "content": "# Pricing memo (Growth, Oct 2026)\n\nCurrent plan: $49 per seat per month, billed monthly.\nProposed: Annual plan at $490 per seat per year, paid upfront.\nThis is a 25% discount versus monthly, which benchmarks suggest is the sweet spot for annual conversion.\n\nAssumption: 30% of monthly customers convert to annual within 6 months.\n"
+    },
+    {
+      "name": "churn-data.md",
+      "content": "# Churn data (Finance, trailing 12 months)\n\n- Monthly logo churn, monthly-billed customers: 3.2% per month\n- Average seats per customer: 8\n- Payment processing fee: 2.9% of each charge + $0.30 per charge\n- Annual customers (pilot cohort of 40 accounts, 2025): 12-month logo retention 91%\n- Note: pilot cohort accounts were hand-picked by sales from accounts that had already been customers for over a year.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The discount is 16.7%, not 25% (490 / (49*12) = 0.833). A 25% discount would be $441/year. Retention evidence from the pilot is biased by selection (tenured accounts). Annual still has merits (cash upfront, fewer payment fees, lower churn exposure) but the claim and conversion assumption need correction and testing.",
+    "mustFlag": [
+      { "id": "F1", "description": "Actual discount is ~16.7% (two months free), not 25%", "pattern": "16\\.[67]\\s*%|16\\.67|two months free|2 months free" },
+      { "id": "F2", "description": "Pilot cohort retention is subject to selection bias (hand-picked tenured accounts)", "pattern": "selection bias|hand-?picked|cherry-?picked|survivorship|not representative|tenured" }
+    ],
+    "mustNotClaim": [
+      { "id": "N1", "description": "Endorses the 25% discount figure as correct", "pattern": "(the|a|this)\\s+25\\s*%\\s+discount\\s+is\\s+(correct|accurate)" }
+    ],
+    "numeric": [
+      { "id": "V1", "description": "Monthly-equivalent annual price $588", "value": 588, "tolerance": 0.5 }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Accepts the 25% discount figure without correcting it",
+      "Treats the 91% pilot retention as representative evidence of annual-plan churn reduction without caveat"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

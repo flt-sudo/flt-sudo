@@ -1,0 +1,24 @@
+{
+  "id": "dev-04-future-price",
+  "split": "dev",
+  "domain": "cloud infrastructure",
+  "difficulty": ["unanswerable", "missing_information"],
+  "request": "What will the AWS on-demand hourly price of an m7i.large instance in us-east-1 be in January 2028? We want to decide whether to buy a 3-year commitment now based on that number.",
+  "fixtures": [],
+  "expected": {
+    "summary": "The January 2028 on-demand price cannot be known; AWS does not publish future prices. A useful answer says so, explains how to decide without it (current price, Savings Plans/Reserved discount levels, utilisation certainty, flexibility of Compute Savings Plans vs instance-specific commitments, break-even utilisation), and what data to gather.",
+    "mustFlag": [
+      { "id": "F1", "description": "States the future price cannot be determined/known", "pattern": "cannot (be )?(know|determin|predict)|can't (be )?(know|predict)|not (knowable|possible to (know|predict))|unknowable|no (way|one) (to know|can know)|not publicly (known|available)" },
+      { "id": "F2", "description": "Reframes around commitment decision factors (savings plans/utilisation/break-even)", "pattern": "savings plan|break-?even|utili[sz]ation" }
+    ],
+    "mustNotClaim": [
+      { "id": "N1", "description": "Asserts a specific January 2028 price as fact", "pattern": "(in|by) january 2028[^.\\n]{0,60}(will be|costs?)\\s*\\$\\s*0?\\.\\d+" }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Presents a specific January 2028 price as a fact or confident prediction"
+    ],
+    "expectedAnswerability": "unanswerable"
+  }
+}

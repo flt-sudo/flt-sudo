@@ -34,7 +34,28 @@
       "Bash(tail:*)",
       "Bash(grep:*)",
       "Bash(find:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(npm run ev:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/evaluator-v3/hooks/guard.mjs\"", "timeout": 10 }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "WebSearch|WebFetch|Read|Agent|Task",
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/evaluator-v3/hooks/log-tool.mjs\"", "timeout": 10 }]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "WebSearch|WebFetch|Read|Agent|Task",
+        "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/evaluator-v3/hooks/log-tool.mjs\"", "timeout": 10 }]
+      }
     ]
   }
 }

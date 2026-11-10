@@ -1,0 +1,34 @@
+{
+  "id": "dev-03-outdated-wiki",
+  "split": "dev",
+  "domain": "software architecture",
+  "difficulty": ["outdated_documentation", "conflicting_sources"],
+  "request": "Our architecture wiki says the session store is a single Redis 5 node with no replication, so a node failure logs everyone out. Should we prioritise adding replication to the session store next quarter? Use the attached documents.",
+  "fixtures": [
+    {
+      "name": "wiki-session-store.md",
+      "content": "# Session store (architecture wiki)\nLast edited: 2021-06-02\n\nSessions are stored in a single Redis 5.0 node (`sess-redis-01`), no replicas, no persistence (RDB disabled). A node restart logs out all users. TODO: add replication.\n"
+    },
+    {
+      "name": "platform-changelog-2025.md",
+      "content": "# Platform changelog (excerpt)\n\n2025-02-18 — Sessions migrated from sess-redis-01 to managed Valkey 8 cluster `sessions-prod` (3 shards x 1 primary + 1 replica each, multi-AZ, automatic failover). sess-redis-01 decommissioned 2025-03-04.\n2025-03-10 — Session TTL reduced from 30d to 14d.\n2025-07-22 — Incident INC-2291: failover of shard 2 primary took 41s; ~6% of active sessions saw errors during failover; no logouts. Action item: client retry/backoff on MOVED/failover errors (OPEN).\n"
+    }
+  ],
+  "expected": {
+    "summary": "The wiki (2021) is outdated: since Feb 2025 sessions run on a replicated multi-AZ Valkey cluster with automatic failover, and the single node was decommissioned. Adding replication is already done; the real remaining risk is client handling during failover (open action item from INC-2291, ~41s failover, ~6% errors). Recommend updating the wiki and prioritising client retry/backoff, verifying current config rather than trusting either doc blindly.",
+    "mustFlag": [
+      { "id": "F1", "description": "Wiki is outdated (2021) relative to 2025 migration", "pattern": "outdated|out of date|stale|superseded|no longer (accurate|current)" },
+      { "id": "F2", "description": "Replication/failover already exists in the Valkey cluster", "pattern": "valkey" },
+      { "id": "F3", "description": "Open client retry/backoff action item from INC-2291 is the remaining risk", "pattern": "retry|backoff|INC-2291" }
+    ],
+    "mustNotClaim": [
+      { "id": "N1", "description": "Recommends adding replication as if none exists", "pattern": "(yes|should)[^.\\n]{0,40}(prioriti[sz]e|add)[^.\\n]{0,30}replication(?![^.\\n]{0,80}(already|exist))" }
+    ],
+    "numeric": [],
+    "canaries": [],
+    "criticalFailures": [
+      "Treats the 2021 wiki as current and recommends adding replication without noting the 2025 migration"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

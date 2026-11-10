@@ -1,0 +1,41 @@
+{
+  "id": "dev-05-queue-throughput",
+  "split": "dev",
+  "domain": "technical product evaluation",
+  "difficulty": ["conflicting_sources", "competing_alternatives"],
+  "request": "We need a message broker that sustains 300,000 durable (persisted, replicated) messages per second of 1 KB each, on at most 6 nodes. The vendor of 'StreamCore' says it does 1 million messages per second. Compare StreamCore with 'QueueForge' using the attached documents and recommend one.",
+  "fixtures": [
+    {
+      "name": "streamcore-blog.md",
+      "content": "# StreamCore 4.0: one million messages per second\nVendor blog, 2026-04-02\n\nIn our lab, StreamCore 4.0 sustained 1,000,000 msg/s on a 3-node cluster with 100-byte messages, in-memory mode (persistence disabled), replication factor 1.\n"
+    },
+    {
+      "name": "independent-benchmark.md",
+      "content": "# Independent broker benchmark (TechBench Labs, 2026-08)\nSetup: 1 KB messages, fsync per batch, replication factor 3, 6 nodes, p99 latency target < 50 ms.\n\n| broker | sustained msg/s | p99 latency |\n|---|---|---|\n| StreamCore 4.0 | 220,000 | 38 ms |\n| QueueForge 2.3 | 410,000 | 61 ms |\n\nNote: QueueForge achieved 340,000 msg/s with p99 < 50 ms. StreamCore was CPU bound on replication.\n"
+    },
+    {
+      "name": "queueforge-docs.md",
+      "content": "# QueueForge 2.3 operations guide (excerpt)\n- Recommended max partitions per node: 4,000\n- Rebalancing after node loss can take 10-20 minutes at high partition counts, during which throughput may drop up to 40%.\n- Licence: open source (Apache 2.0); commercial support optional.\n"
+    }
+  ],
+  "expected": {
+    "summary": "The vendor's 1M msg/s figure is not comparable (100-byte, in-memory, RF1). Under the user's durable 1 KB RF3 conditions the independent benchmark shows StreamCore at 220k (below 300k) and QueueForge at 410k (340k at p99<50ms), so QueueForge meets the requirement with limited headroom; but its rebalancing can cut throughput up to 40% (to ~204k-246k), below 300k during recovery. Recommend QueueForge conditionally with a proof-of-concept under the exact workload and capacity planning for failure scenarios.",
+    "mustFlag": [
+      { "id": "F1", "description": "Vendor 1M figure used non-comparable conditions (in-memory/100B/RF1)", "pattern": "in-memory|persistence disabled|100[- ]byte|replication factor 1|not comparable|apples" },
+      { "id": "F2", "description": "StreamCore 220k is below the 300k requirement", "pattern": "220[,_ ]?000|220k" },
+      { "id": "F3", "description": "QueueForge rebalancing degradation could drop below requirement", "pattern": "rebalanc" }
+    ],
+    "mustNotClaim": [
+      { "id": "N1", "description": "Recommends StreamCore as meeting the requirement", "pattern": "recommend(ation)?[^.\\n]{0,20}:?\\s*streamcore" }
+    ],
+    "numeric": [
+      { "id": "V1", "description": "QueueForge throughput at 40% degradation: 410k*0.6 = 246k (or 340k*0.6=204k)", "value": 246000, "tolerance": 500 }
+    ],
+    "canaries": [],
+    "criticalFailures": [
+      "Accepts the vendor's 1M msg/s claim as applicable to the requirement",
+      "Recommends StreamCore as meeting 300k durable msg/s"
+    ],
+    "expectedAnswerability": "answerable"
+  }
+}

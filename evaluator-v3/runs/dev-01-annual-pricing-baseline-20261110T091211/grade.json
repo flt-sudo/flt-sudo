@@ -1,0 +1,37 @@
+{
+  "runId": "dev-01-annual-pricing-baseline-20261110T091211",
+  "caseId": "dev-01-annual-pricing",
+  "system": "baseline",
+  "grader": "eval-grader (general-purpose subagent, claude-opus-5-5), prompts v2",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the numbers against the supplied sources (pricing-memo.md, churn-data.md). The only discrepancy found is the $441-option cost of '$1,128/year per full-year customer'; I compute about $1,139 net of fees, or $1,176 gross. This minor error is the reason accuracy is 0.75 rather than 1.0. The output ends with a self-assessed score (74/100), which I ignored. The mustNotClaim N1 pattern is not present, and the numeric V1 value ($588) is present."
+}

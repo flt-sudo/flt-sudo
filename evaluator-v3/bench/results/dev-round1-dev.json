@@ -1,0 +1,113 @@
+{
+  "label": "dev-round1",
+  "split": "dev",
+  "generatedAt": "2026-11-10T09:14:58.151Z",
+  "summary": {
+    "agent": {
+      "n": 1,
+      "mean": 100,
+      "ci95": [
+        100,
+        100
+      ],
+      "passRate": 1,
+      "passCi95": [
+        0.20654329147389294,
+        1
+      ],
+      "casesWithCriticalFailure": 0
+    },
+    "baseline": {
+      "n": 1,
+      "mean": 93.75,
+      "ci95": [
+        93.75,
+        93.75
+      ],
+      "passRate": 1,
+      "passCi95": [
+        0.20654329147389294,
+        1
+      ],
+      "casesWithCriticalFailure": 0
+    }
+  },
+  "grades": [
+    {
+      "runId": "dev-01-annual-pricing-agent-20261110T084233",
+      "caseId": "dev-01-annual-pricing",
+      "system": "agent",
+      "grader": "eval-grader (general-purpose subagent, claude-opus-5-5), prompts v2",
+      "total": 100,
+      "byCategory": {
+        "scope": 20,
+        "accuracy": 25,
+        "depth": 20,
+        "critical": 15,
+        "usefulness": 10,
+        "clarity": 10
+      },
+      "criticalFailures": [],
+      "mustFlag": [
+        {
+          "id": "F1",
+          "deterministic": true,
+          "grader": true,
+          "flagged": true,
+          "disagreement": false
+        },
+        {
+          "id": "F2",
+          "deterministic": true,
+          "grader": true,
+          "flagged": true,
+          "disagreement": false
+        }
+      ],
+      "pass": true,
+      "disputes": [
+        "grader score 100 conflicts with in-pipeline quality gates (not certified); see final gates-N.json"
+      ],
+      "needsHumanAdjudication": true,
+      "graderConfidence": "high",
+      "notes": "Strong output. Both mustFlag items are flagged clearly, the mustNotClaim item N1 is not triggered, and the V1 value of $588 appears. Spot-checked calculations (K1, K3, K4, K18, K20, K31-K33, K43-K44) are correct. The only possible deduction is length and density, which might lower clarity for some readers; I judged the traceability strong enough to keep clarity at 1.0."
+    },
+    {
+      "runId": "dev-01-annual-pricing-baseline-20261110T091211",
+      "caseId": "dev-01-annual-pricing",
+      "system": "baseline",
+      "grader": "eval-grader (general-purpose subagent, claude-opus-5-5), prompts v2",
+      "total": 93.75,
+      "byCategory": {
+        "scope": 20,
+        "accuracy": 18.75,
+        "depth": 20,
+        "critical": 15,
+        "usefulness": 10,
+        "clarity": 10
+      },
+      "criticalFailures": [],
+      "mustFlag": [
+        {
+          "id": "F1",
+          "deterministic": true,
+          "grader": true,
+          "flagged": true,
+          "disagreement": false
+        },
+        {
+          "id": "F2",
+          "deterministic": true,
+          "grader": true,
+          "flagged": true,
+          "disagreement": false
+        }
+      ],
+      "pass": true,
+      "disputes": [],
+      "needsHumanAdjudication": false,
+      "graderConfidence": "high",
+      "notes": "I checked the numbers against the supplied sources (pricing-memo.md, churn-data.md). The only discrepancy found is the $441-option cost of '$1,128/year per full-year customer'; I compute about $1,139 net of fees, or $1,176 gross. This minor error is the reason accuracy is 0.75 rather than 1.0. The output ends with a self-assessed score (74/100), which I ignored. The mustNotClaim N1 pattern is not present, and the numeric V1 value ($588) is present."
+    }
+  ]
+}

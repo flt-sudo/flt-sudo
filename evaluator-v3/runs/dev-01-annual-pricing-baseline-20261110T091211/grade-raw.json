@@ -1,0 +1,90 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Addresses the launch decision directly and covers both mustFlag issues (true discount, pilot selection bias), plus the issues an expert would expect: unit economics, fees, cannibalization, the unsourced conversion assumption, cash flow, revenue recognition, refunds and seats. No irrelevant padding.",
+      "quotes": [
+        "$490 is a **16.7% discount**, which is \"two months free\". It is not 25%.",
+        "The only evidence that annual plans retain better is a hand-picked pilot of 40 tenured accounts.",
+        "the 30% conversion figure has no source"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked the core numbers against the supplied memo and churn data and they are correct: $588, 16.7%, $441, 0.968^12 = 67.7%, $3,841 vs $3,806, the $758 loss, LTV of about $11,885, break-even r of about 68%, and the 0.90%/month threshold. One secondary figure is slightly off: the cost of the $441 option per full-year customer is about $1,139 net of fees, not $1,128. External benchmarks come from search snippets, but the output says so.",
+      "quotes": [
+        "(588 − 490) / 588 = **16.7%**",
+        "costs about $1,128/year per full-year customer",
+        "The benchmark figures above come from search-result summaries, and many of them are vendor blogs whose methods I could not check."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains the mechanisms (prepaid customers cannot churn mid-year, self-selection, the compounding of churn), quantifies break-even renewal rates and the worst, neutral and upside scenarios, and covers failure modes specific to this case (dashboard artefacts, prorated refunds, seat lock-in, sales hand-picking).",
+      "quotes": [
+        "Break-even renewal rate for a typical customer: r ≈ 68.0%.",
+        "Early dashboards after an annual push will show churn falling for about 10 months whether or not anything really changed.",
+        "For self-selected (loyal) customers the comparison flips."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Corrects the 25% premise, notes that the memo's rationale contradicts its own price, and separates correlation from causation in the pilot. It answers its own counterarguments fairly and says what data would change the conclusion (monthly churn by tenure).",
+      "quotes": [
+        "So the data shows that annual customers *are* low-churn. It does not show that the annual plan *makes* customers low-churn.",
+        "The memo's reason for the price (\"benchmarks say 25% is the sweet spot\") therefore doesn't fit the price it proposes.",
+        "If it is below about 0.9%/month, the pilot shows no gain at all."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear conditional verdict, concrete next steps (copy fix, randomized holdout, primary metric, refund and seat policy) and a specific data request that would resolve the main open question.",
+      "quotes": [
+        "**Don't launch on the proposal as written. Launch only after fixing it, and as a measured experiment.**",
+        "Judge it on incremental net revenue retention against that holdout, not on how many customers switch.",
+        "Ask Finance for monthly churn broken down by tenure."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised. An inputs table ties the figures to the memo and churn data, the calculations are shown, and limitations are labelled in a dedicated uncertainty section.",
+      "quotes": [
+        "## 3. Inputs (from the memo and the churn data)",
+        "## 12. Remaining uncertainty",
+        "**Churn by tenure is unknown.** This is the most important missing number"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "$490 is a **16.7% discount**, which is \"two months free\". It is not 25%. A true 25% discount would be **$441**."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The 91% figure comes from 40 accounts that sales hand-picked from customers who had already stayed more than a year... **Survivorship and tenure bias.**"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the 25% discount figure without correcting it",
+      "triggered": false,
+      "evidence": "Explicitly corrected: \"The discount is wrong... $490 is a 16.7% discount... It is not 25%.\""
+    },
+    {
+      "condition": "Treats the 91% pilot retention as representative evidence of annual-plan churn reduction without caveat",
+      "triggered": false,
+      "evidence": "\"That evidence is too biased to project 'substantially lower churn'\" and a full section, \"4.5 The pilot is biased\"."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the numbers against the supplied sources (pricing-memo.md, churn-data.md). The only discrepancy found is the $441-option cost of '$1,128/year per full-year customer'; I compute about $1,139 net of fees, or $1,176 gross. This minor error is the reason accuracy is 0.75 rather than 1.0. The output ends with a self-assessed score (74/100), which I ignored. The mustNotClaim N1 pattern is not present, and the numeric V1 value ($588) is present."
+}

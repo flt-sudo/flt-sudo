@@ -1,0 +1,474 @@
+{
+  "subject": "Launching an annual billing plan at $490 per seat per year alongside the existing $49 per seat per month plan for a B2B SaaS tool",
+  "decisionObjective": "Decide whether to launch an annual plan at $490 per seat per year, paid upfront. If not at that price, decide what price or discount and what conditions to use. The test is whether the plan raises net revenue and customer lifetime value once three things are weighed: the cash and retention gains, the revenue given up by moving monthly customers who would have stayed anyway to a lower effective price, and how reliable the evidence is that annual billing actually cuts churn for this customer base.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Correctness of the discount and effective price",
+      "weight": 15,
+      "rationale": "The proposal rests on the claim that it is a 25% discount. $49 x 12 = $588 per year, and $490/$588 is about 83.3%, which is a discount of about 16.7%. If the stated discount is wrong, the conversion benchmarks the memo relies on ('25% is the sweet spot') may not apply. Every revenue projection depends on getting the effective price right."
+    },
+    {
+      "id": "C2",
+      "name": "Causal evidence that annual billing reduces churn here",
+      "weight": 25,
+      "rationale": "The main promise is that churn will fall substantially. The only internal evidence is a 40-account pilot with 91% 12-month retention, and those accounts were hand-picked from customers with more than a year of tenure. That is severe selection bias against a monthly base churning 3.2% per month (about 67.6% 12-month retention). How much of the retention gain is caused by annual billing, rather than by who was picked, decides whether the plan meets its stated purpose."
+    },
+    {
+      "id": "C3",
+      "name": "Net revenue and LTV impact including cannibalization",
+      "weight": 25,
+      "rationale": "Converting a customer who would have stayed 12 months anyway loses $98 per seat per year. Converting a customer who would have churned gains revenue. Whether the plan adds value depends on this mix and on the assumed 30% conversion rate, so this criterion carries the decision."
+    },
+    {
+      "id": "C4",
+      "name": "Cash flow and payment-cost effects",
+      "weight": 10,
+      "rationale": "Upfront annual payment brings cash in earlier and replaces 12 charges with 1. At 8 seats, the fixed $0.30 per-charge fee drops from 12 charges to 1, though the 2.9% fee scales with the amount charged. These are real but secondary benefits that partly offset the discount."
+    },
+    {
+      "id": "C5",
+      "name": "Robustness of the conversion assumption and price positioning",
+      "weight": 15,
+      "rationale": "The memo assumes 30% of monthly customers move to annual within 6 months, and gives no source. The outcome is very sensitive to this rate and to which customers convert (likely the already-loyal ones, which makes cannibalization worse). Competitive norms for annual discounts, often about 15-20%, i.e. '2 months free', affect whether $490 is positioned well."
+    },
+    {
+      "id": "C6",
+      "name": "Operational and contractual risk of annual billing",
+      "weight": 10,
+      "rationale": "Annual prepaid plans bring refund and cancellation policy questions, seat true-up rules for 8-seat accounts that add or remove seats mid-term, revenue recognition (deferred revenue) and renewal workflows. Each of these can erode the benefit or add support cost."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "$490 per year is a 25% discount versus the monthly plan.",
+      "source": "user",
+      "howToCheck": "Recompute: 1 - 490/(49 x 12) = 1 - 490/588, which is about 16.7%. A true 25% discount would be $441 per year."
+    },
+    {
+      "assumption": "A 25% discount (or the actual discount) will be enough to cut churn substantially.",
+      "source": "user",
+      "howToCheck": "Compare the pilot's retention with a tenure-matched monthly cohort. Review published evidence on how annual contracts affect churn, and on how much of that effect comes from contractual lock-in rather than changed behavior."
+    },
+    {
+      "assumption": "The pilot's 91% 12-month retention reflects the effect of annual billing.",
+      "source": "user",
+      "howToCheck": "Confirm the selection method in the churn data (hand-picked accounts with more than a year of tenure). Benchmark against retention of monthly customers with more than a year of tenure. Note the small sample of n=40 (about 3-4 churned accounts)."
+    },
+    {
+      "assumption": "30% of monthly customers will convert to annual within 6 months, which 'benchmarks suggest' at a 25% discount.",
+      "source": "user",
+      "howToCheck": "Ask for the benchmark source, check industry data on annual-plan uptake, and run a sensitivity analysis across conversion rates."
+    },
+    {
+      "assumption": "The 3.2% monthly churn applies evenly across customers, so annual conversion would reduce it in proportion.",
+      "source": "planner",
+      "howToCheck": "Ask for a churn breakdown by tenure cohort and segment."
+    },
+    {
+      "assumption": "Payment processing savings from annual billing are material.",
+      "source": "planner",
+      "howToCheck": "Compute the fees for an average 8-seat account: monthly is 12 x (0.029 x 392 + 0.30), about $140.03 per year; annual is 0.029 x 3,920 + 0.30, about $113.98. That saves about $26 per account per year, which is small next to the $784 per year an 8-seat account forgoes ($98 x 8)."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "What is the actual discount of $490 per year compared with $49 x 12 = $588 per year, and how do the memo's benchmark conversion rates change at about 16.7% versus 25%?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "The growth memo (Oct 2026) states the current plan is $49 per seat per month billed monthly and the proposed annual plan is $490 per seat per year paid upfront. It describes this as 'a 25% discount versus monthly, which benchmarks suggest is the sweet spot for annual conversion'. It names no benchmark source.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "pricing-memo.md",
+          "applicability": "This is the premise under evaluation. It shows exactly what the proposal claims.",
+          "limitations": "The memo cites unnamed 'benchmarks' with no source. 'Verified' here means only that the memo says this. The claim itself is not verified (see E5).",
+          "contradicts": [
+            "E5"
+          ]
+        },
+        {
+          "id": "E5",
+          "claim": "Arithmetic from the memo figures: $49 x 12 = $588 per year. $490 / $588 = 0.8333, so the discount is about 16.7% (exactly two months free), not 25%. A true 25% discount would be $441 per year.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "pricing-memo.md",
+          "applicability": "Directly refutes the user's premise that the plan is a 25% discount. The memo's '25% sweet spot' rationale does not apply to the price as proposed.",
+          "limitations": "Simple arithmetic on figures stated in the memo. No outside data was needed.",
+          "contradicts": [
+            "E1"
+          ]
+        },
+        {
+          "id": "E6",
+          "claim": "Recurly's SaaS subscription-plan benchmark research reports that the most popular annual-plan discount is 16.7%, which maps to a 'two months free' offer, and that the next most common is 8.3% (one month free). It also reports that lower-priced plans tend to carry larger annual discounts and higher-priced plans the smallest.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://recurly.com/research/saas-benchmarks-for-subscription-plans",
+          "applicability": "The proposed $490 (16.7% off) matches the most common market norm for annual discounts. So $490 is well positioned against market practice, even though it is not the 25% the memo claims.",
+          "limitations": "Taken from a search snippet only. WebFetch of recurly.com failed (ENOTFOUND, blocked by the network policy). The page also appeared at www-prod.recurly.com, which is the same publisher and not independent. No publication date was seen. The page reports how common each discount level is, not what conversion each level achieves.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Vendor and secondary pricing sources describe a typical annual-subscription discount of 15-20%, and say most companies that discount stay in that band.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.getmonetizely.com/faqs/what-s-the-standard-discount-percentage-for-annual-versus-monthly-subscriptions-in-saas",
+          "applicability": "Supports the view that a 16.7% discount is within normal market range. A 25% discount would sit at the high end.",
+          "limitations": "Both sources are vendor marketing or glossary content with no visible methodology. Search snippets only.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "What 12-month retention would a tenure-matched comparison group of monthly customers (customers with more than a year of tenure) show, compared with the pilot cohort's 91%?",
+      "evidence": [
+        {
+          "id": "E4",
+          "claim": "A 2025 pilot cohort of 40 annual accounts had 91% 12-month logo retention. The source notes that sales hand-picked these accounts from customers who had already been customers for over a year.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "churn-data.md",
+          "applicability": "This is the only internal evidence for the churn effect. The selection method is confirmed: hand-picked accounts with more than a year of tenure.",
+          "limitations": "With n=40, 91% retention means about 3-4 churned accounts, so the confidence interval is very wide. There is no tenure-matched monthly control group. Because the selection was non-random and favored tenured accounts, the retention gain cannot be attributed to annual billing. It is also unclear how 'retention' is defined for a prepaid 12-month term: churn inside the term implies refunds or non-payment, and renewal-point churn is not shown.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "Observational industry data shows annual plans retain better than monthly plans. Baremetrics reports annual plans retain 92% of customers versus 68% for monthly. ProfitWell/Paddle, drawing on data from about 2,500 subscription companies, reports that annual plans reduce churn substantially and that quarterly and annual customers had significantly better retention and LTV than monthly customers.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://baremetrics.com/blog/annual-vs-monthly-pricing-better-retention",
+          "applicability": "Supports the direction of the memo's churn claim. Notably, Baremetrics' 68% monthly figure is close to this company's implied 12-month monthly retention (about 67.7% at 3.2% per month), and its 92% annual figure is close to the pilot's 91%. This suggests the pilot result looks like a generic observational gap, not proof of a causal effect.",
+          "limitations": "Both sources are observational and do not control for self-selection into annual plans (see E11). The ProfitWell episode dates from 2019. Search snippets only. Some secondary pages also cite ProfitWell figures (10.7% versus 2% monthly churn) that could not be traced to a primary report.",
+          "contradicts": [
+            "E11"
+          ]
+        },
+        {
+          "id": "E11",
+          "claim": "Much of the annual-plan retention advantage reflects selection, not the plan itself. A RevenueCat analysis (quoted by Churnkey) says yearly plans retain better 'not because users are inherently more loyal, but because higher upfront commitment filters for stronger need'. It warns that pushing more users onto annual plans through defaults or deeper discounts adds the least committed buyers, who renew below the existing annual rate.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://churnkey.co/growth/library/monthly-to-annual-conversion",
+          "applicability": "Directly relevant to C2 and to the pilot's hand-picked tenured cohort. The observed retention gap overstates the causal effect, and marginal converters will retain worse than early adopters.",
+          "limitations": "Single source, search snippet only. The quote comes from a consumer-app subscription context (RevenueCat), not B2B seat-based SaaS. A Wharton Knowledge piece (https://knowledge.wharton.upenn.edu/article/why-retention-plans-dont-work/) makes the general methodological point about separating self-selection from treatment, but it does not address annual billing specifically.",
+          "contradicts": [
+            "E12"
+          ]
+        },
+        {
+          "id": "E12",
+          "claim": "Churnkey's library reports that across 50,000 matched subscriber pairs, subscribers on annual billing stayed an average of 189 days longer and were worth an average of $146 more each than their monthly 'twins'. It states that the matching controls for selection.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://churnkey.co/growth/library/monthly-to-annual-conversion",
+          "applicability": "Some evidence that annual billing has a causal retention effect beyond selection. If it holds for B2B, part of the gain is real even after matching.",
+          "limitations": "Vendor claim with no methodology seen. Matching on observables does not remove selection on unobservables. The customer base is likely to include consumer subscriptions. The $146 is per subscriber, not per B2B seat. Search snippet only.",
+          "contradicts": [
+            "E11"
+          ]
+        },
+        {
+          "id": "E14",
+          "claim": "Neither the supplied documents nor the web research gives this company's 12-month retention for monthly customers with more than a year of tenure, or its churn broken down by tenure or segment.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "This is the key missing comparison for estimating the causal effect of annual billing and the cannibalization share.",
+          "limitations": "Only the company's own data can answer this.",
+          "contradicts": []
+        },
+        {
+          "id": "E17",
+          "claim": "Annual-plan churn tends to be back-loaded: almost everyone is kept through year one, and the loss comes at renewal.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://adapty.io/blog/why-churn-rate-looks-different-what-youre-measuring/",
+          "applicability": "The pilot's 91% 12-month retention partly reflects contractual lock-in during the prepaid term. The real test is the renewal rate at month 12, which the data does not report. This matters for the 24-month revenue view in G4.",
+          "limitations": "Single source from a mobile-app subscription vendor, so applicability to B2B SaaS is uncertain. Search snippet only.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "How is the 3.2% monthly churn distributed by customer tenure and segment, i.e. is churn concentrated in early-life customers who are unlikely to prepay annually?",
+      "evidence": [
+        {
+          "id": "E3",
+          "claim": "Finance data (trailing 12 months): monthly logo churn for monthly-billed customers is 3.2% per month. The average customer has 8 seats. The payment processing fee is 2.9% of each charge plus $0.30 per charge.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "churn-data.md",
+          "applicability": "This is the baseline for the retention, LTV and payment-fee calculations.",
+          "limitations": "The 3.2% is a blended rate with no breakdown by tenure or segment, so G3 cannot be answered from it. It is logo churn, not revenue or seat churn.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "Much of the annual-plan retention advantage reflects selection, not the plan itself. A RevenueCat analysis (quoted by Churnkey) says yearly plans retain better 'not because users are inherently more loyal, but because higher upfront commitment filters for stronger need'. It warns that pushing more users onto annual plans through defaults or deeper discounts adds the least committed buyers, who renew below the existing annual rate.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://churnkey.co/growth/library/monthly-to-annual-conversion",
+          "applicability": "Directly relevant to C2 and to the pilot's hand-picked tenured cohort. The observed retention gap overstates the causal effect, and marginal converters will retain worse than early adopters.",
+          "limitations": "Single source, search snippet only. The quote comes from a consumer-app subscription context (RevenueCat), not B2B seat-based SaaS. A Wharton Knowledge piece (https://knowledge.wharton.upenn.edu/article/why-retention-plans-dont-work/) makes the general methodological point about separating self-selection from treatment, but it does not address annual billing specifically.",
+          "contradicts": [
+            "E12"
+          ]
+        },
+        {
+          "id": "E13",
+          "claim": "Industry sources say SaaS churn is concentrated early in the customer lifecycle. One cites an Optifai study of 939 B2B SaaS companies (Q2 2025 to Q1 2026) finding that 70% of churn happens in the first 90 days. Another reports that 43% of SMB customer losses occur within the first quarter after purchase.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://usetandem.ai/blog/customer-onboarding-statistics-2026",
+          "applicability": "If this company follows the pattern, most of its 3.2% monthly churn sits in new accounts that are unlikely to prepay annually. In that case the annual plan would mostly discount tenured, low-churn accounts, which matches the pilot's selection. A 2013 illustrative example (https://davidcummings.org/2013/11/04/cohort-analysis-for-analyzing-saas-churn/) shows about 10% monthly churn in the first 90 days versus about 2% afterwards, but it is hypothetical.",
+          "limitations": "Directional only. The Optifai figure is secondhand and the focus-digital page shows no methodology. This company's own churn by tenure is unknown (see E14). Search snippets only.",
+          "contradicts": []
+        },
+        {
+          "id": "E14",
+          "claim": "Neither the supplied documents nor the web research gives this company's 12-month retention for monthly customers with more than a year of tenure, or its churn broken down by tenure or segment.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "This is the key missing comparison for estimating the causal effect of annual billing and the cannibalization share.",
+          "limitations": "Only the company's own data can answer this.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "Under realistic conversion rates (for example 10%, 20% or 30%) and realistic mixes of would-have-stayed versus would-have-churned converters, what is the net change in 12- and 24-month revenue per seat, including the payment-fee difference? Recompute: monthly fees on 8 seats ($392 per charge) are about $11.67 x 12 = $140 per year, compared with about $113.98 once per year for an annual charge of $3,920.",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "The memo assumes 30% of monthly customers convert to annual within 6 months. It gives no source, data or segmentation for that figure.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "pricing-memo.md",
+          "applicability": "The conversion rate drives both the benefit and the cannibalization.",
+          "limitations": "Verified only as the memo's assumption. The memo does not say which customers (by tenure or segment) are expected to convert.",
+          "contradicts": []
+        },
+        {
+          "id": "E3",
+          "claim": "Finance data (trailing 12 months): monthly logo churn for monthly-billed customers is 3.2% per month. The average customer has 8 seats. The payment processing fee is 2.9% of each charge plus $0.30 per charge.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "churn-data.md",
+          "applicability": "This is the baseline for the retention, LTV and payment-fee calculations.",
+          "limitations": "The 3.2% is a blended rate with no breakdown by tenure or segment, so G3 cannot be answered from it. It is logo churn, not revenue or seat churn.",
+          "contradicts": []
+        },
+        {
+          "id": "E15",
+          "claim": "Stripe's standard US rate is 2.9% + 30 cents per successful domestic card charge, with +1.5% for international cards and +1% for currency conversion. This matches the fee structure in the churn data.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.nerdwallet.com/business/software/learn/stripe-fees",
+          "applicability": "Confirms the fee basis for C4. Recomputed for an 8-seat account: a monthly charge of $392 costs 0.029 x 392 + 0.30 = $11.668, which is $140.02 per year over 12 charges. An annual charge of $3,920 costs 0.029 x 3,920 + 0.30 = $113.98. The saving is about $26.04 per account per year, versus $784 per year forgone ($98 x 8 seats) if the account would have stayed monthly.",
+          "limitations": "The plan states $140.03, a rounding difference of about one cent. International cards and ACH or invoice payment (common for B2B annual deals) would change the fees. The real processor and contract are not stated. Search snippets only.",
+          "contradicts": []
+        },
+        {
+          "id": "E16",
+          "claim": "Derived from E3: at 3.2% monthly churn, 12-month retention is 0.968^12, about 67.7%, and expected paid months in year one are (1 - 0.968^12)/0.032, about 10.10. That is about $495 in expected revenue per monthly seat in year one, roughly equal to the $490 annual price. A converter who would have stayed all 12 months loses $98 per seat in year one. A converter who would have churned early adds revenue.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "churn-data.md",
+          "applicability": "Break-even framing for G4. The plan creates value in year one only if converters churn more than the blended average. Because likely converters are tenured, lower-churn accounts (E4, E11, E13), the year-one effect is probably negative unless annual billing causally lowers churn among them.",
+          "limitations": "Assumes a constant 3.2% hazard rate, which is unrealistic if churn is concentrated early (E13). Ignores payment fees, time value of money, renewal behavior and 24-month effects. The full sensitivity at 10%, 20% and 30% conversion cannot be computed without data on the converter mix (E14).",
+          "contradicts": []
+        },
+        {
+          "id": "E17",
+          "claim": "Annual-plan churn tends to be back-loaded: almost everyone is kept through year one, and the loss comes at renewal.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://adapty.io/blog/why-churn-rate-looks-different-what-youre-measuring/",
+          "applicability": "The pilot's 91% 12-month retention partly reflects contractual lock-in during the prepaid term. The real test is the renewal rate at month 12, which the data does not report. This matters for the 24-month revenue view in G4.",
+          "limitations": "Single source from a mobile-app subscription vendor, so applicability to B2B SaaS is uncertain. Search snippet only.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "What is the source of the assumption that 30% of customers convert to annual within 6 months, and what annual-discount levels and conversion rates do comparable B2B SaaS tools at roughly a $49 per seat price point use?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "The growth memo (Oct 2026) states the current plan is $49 per seat per month billed monthly and the proposed annual plan is $490 per seat per year paid upfront. It describes this as 'a 25% discount versus monthly, which benchmarks suggest is the sweet spot for annual conversion'. It names no benchmark source.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "pricing-memo.md",
+          "applicability": "This is the premise under evaluation. It shows exactly what the proposal claims.",
+          "limitations": "The memo cites unnamed 'benchmarks' with no source. 'Verified' here means only that the memo says this. The claim itself is not verified (see E5).",
+          "contradicts": [
+            "E5"
+          ]
+        },
+        {
+          "id": "E2",
+          "claim": "The memo assumes 30% of monthly customers convert to annual within 6 months. It gives no source, data or segmentation for that figure.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "pricing-memo.md",
+          "applicability": "The conversion rate drives both the benefit and the cannibalization.",
+          "limitations": "Verified only as the memo's assumption. The memo does not say which customers (by tenure or segment) are expected to convert.",
+          "contradicts": []
+        },
+        {
+          "id": "E6",
+          "claim": "Recurly's SaaS subscription-plan benchmark research reports that the most popular annual-plan discount is 16.7%, which maps to a 'two months free' offer, and that the next most common is 8.3% (one month free). It also reports that lower-priced plans tend to carry larger annual discounts and higher-priced plans the smallest.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://recurly.com/research/saas-benchmarks-for-subscription-plans",
+          "applicability": "The proposed $490 (16.7% off) matches the most common market norm for annual discounts. So $490 is well positioned against market practice, even though it is not the 25% the memo claims.",
+          "limitations": "Taken from a search snippet only. WebFetch of recurly.com failed (ENOTFOUND, blocked by the network policy). The page also appeared at www-prod.recurly.com, which is the same publisher and not independent. No publication date was seen. The page reports how common each discount level is, not what conversion each level achieves.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Vendor and secondary pricing sources describe a typical annual-subscription discount of 15-20%, and say most companies that discount stay in that band.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.getmonetizely.com/faqs/what-s-the-standard-discount-percentage-for-annual-versus-monthly-subscriptions-in-saas",
+          "applicability": "Supports the view that a 16.7% discount is within normal market range. A 25% discount would sit at the high end.",
+          "limitations": "Both sources are vendor marketing or glossary content with no visible methodology. Search snippets only.",
+          "contradicts": []
+        },
+        {
+          "id": "E8",
+          "claim": "Some larger vendors use deeper annual discounts. DocuSign's standard annual discount is reported at 20-25% and HubSpot offers up to 25% on certain tiers, while Zoom sits at about 15-20%. A Monetizely piece also cites an unverified ProfitWell finding that framing the discount as 'two months free' produced 30% higher conversion than an equivalent percentage discount.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.getmonetizely.com/articles/why-does-docusigns-annual-discount-strategy-work-so-well",
+          "applicability": "Some discounts of 20-25% exist in the market, so the memo's '25% sweet spot' is not baseless. The framing finding suggests marketing $490 as '2 months free' could help uptake.",
+          "limitations": "Single vendor-blog source, search snippet only. The ProfitWell framing statistic is secondhand and not traceable to the original study. Enterprise vendors such as DocuSign and HubSpot may not be comparable to a $49-per-seat tool.",
+          "contradicts": []
+        },
+        {
+          "id": "E9",
+          "claim": "No verifiable benchmark was found for the share of B2B SaaS customers who convert from monthly to annual plans at a given discount, so the memo's 30%-within-6-months assumption remains unsupported. Search results contained only inconsistent vendor claims, for example about 15% annual adoption when monthly is the default versus 35-45% when annual is the default, with no traceable methodology. Recurly's research reports discount prevalence and trial conversion, not adoption of annual plans.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "The conversion assumption cannot be validated externally. A sensitivity analysis or an A/B test is needed.",
+          "limitations": "Based on two searches. Primary ProfitWell/Paddle and Recurly reports could not be fetched.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "What refund, cancellation and mid-term seat-change terms would the annual plan have?",
+      "evidence": [
+        {
+          "id": "E18",
+          "claim": "Common SaaS practice for annual plans: seats added mid-term are prorated to the end of the annual term (examples: Intercom, Pipedrive). Seat removals mid-term usually get no cash refund, only credits or a reduction at renewal (examples: Qase, Koalendar, Pipedrive).",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.intercom.com/help/en/articles/8367468-understand-how-billing-works-for-a-monthly-or-annual-subscription",
+          "applicability": "Gives a template for G6 terms for 8-seat accounts: prorated upward true-ups, and no mid-term refunds for downward changes. Generous downgrade or refund terms would weaken the lock-in that drives the retention benefit.",
+          "limitations": "Examples of individual vendor policy, not a market standard. The company's own intended terms are not in the supplied documents. Search snippets only.",
+          "contradicts": []
+        },
+        {
+          "id": "E19",
+          "claim": "Cancellation of a prepaid annual subscription commonly stops renewal without refunding the current term. For example, Ramp's terms (via a clause-tracking database) let the customer use the service until the end of the current term with no renewal. Some vendors, such as Appxite, allow a prorated refund only within the first 7 days.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://conductatlas.com/platform/ramp/ramp-terms-of-service/prorated-charge-for-seats-added-mid-billing-period/",
+          "applicability": "Relevant to G6 and C6. A no-refund cancellation policy keeps the prepaid cash and the in-term lock-in.",
+          "limitations": "The search summary attributed the cancellation language to Ramp's terms but surfaced it via this provision URL. It was not inspected against the primary document. Policies vary by vendor and by jurisdiction (consumer-protection rules may apply in some markets).",
+          "contradicts": []
+        },
+        {
+          "id": "E20",
+          "claim": "Under ASC 606, cash from an upfront annual SaaS prepayment is booked as a contract liability (deferred revenue) and recognized over time, typically straight-line across the subscription term. Mid-contract modifications such as upgrades, downgrades and extensions require remeasurement.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.numeric.io/blog/revenue-recognition-saas",
+          "applicability": "For C4 and C6: annual prepay improves cash but not recognized revenue timing. It also adds deferred-revenue accounting and seat-change remeasurement work.",
+          "limitations": "Secondary accounting guides, not the standard text. Search snippets only.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E1",
+      "b": "E5",
+      "aClaim": "The growth memo (Oct 2026) states the current plan is $49 per seat per month billed monthly and the proposed annual plan is $490 per seat per year paid upfront. It describes this as 'a 25% discount versus monthly, which benchmarks suggest is the sweet spot for annual conversion'. It names no benchmark source.",
+      "bClaim": "Arithmetic from the memo figures: $49 x 12 = $588 per year. $490 / $588 = 0.8333, so the discount is about 16.7% (exactly two months free), not 25%. A true 25% discount would be $441 per year."
+    },
+    {
+      "a": "E10",
+      "b": "E11",
+      "aClaim": "Observational industry data shows annual plans retain better than monthly plans. Baremetrics reports annual plans retain 92% of customers versus 68% for monthly. ProfitWell/Paddle, drawing on data from about 2,500 subscription companies, reports that annual plans reduce churn substantially and that quarterly and annual customers had significantly better retention and LTV than monthly customers.",
+      "bClaim": "Much of the annual-plan retention advantage reflects selection, not the plan itself. A RevenueCat analysis (quoted by Churnkey) says yearly plans retain better 'not because users are inherently more loyal, but because higher upfront commitment filters for stronger need'. It warns that pushing more users onto annual plans through defaults or deeper discounts adds the least committed buyers, who renew below the existing annual rate."
+    },
+    {
+      "a": "E11",
+      "b": "E12",
+      "aClaim": "Much of the annual-plan retention advantage reflects selection, not the plan itself. A RevenueCat analysis (quoted by Churnkey) says yearly plans retain better 'not because users are inherently more loyal, but because higher upfront commitment filters for stronger need'. It warns that pushing more users onto annual plans through defaults or deeper discounts adds the least committed buyers, who renew below the existing annual rate.",
+      "bClaim": "Churnkey's library reports that across 50,000 matched subscriber pairs, subscribers on annual billing stayed an average of 189 days longer and were worth an average of $146 more each than their monthly 'twins'. It states that the matching controls for selection."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E9",
+      "claim": "No verifiable benchmark was found for the share of B2B SaaS customers who convert from monthly to annual plans at a given discount, so the memo's 30%-within-6-months assumption remains unsupported. Search results contained only inconsistent vendor claims, for example about 15% annual adoption when monthly is the default versus 35-45% when annual is the default, with no traceable methodology. Recurly's research reports discount prevalence and trial conversion, not adoption of annual plans.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "The conversion assumption cannot be validated externally. A sensitivity analysis or an A/B test is needed.",
+      "limitations": "Based on two searches. Primary ProfitWell/Paddle and Recurly reports could not be fetched.",
+      "contradicts": []
+    },
+    {
+      "id": "E14",
+      "claim": "Neither the supplied documents nor the web research gives this company's 12-month retention for monthly customers with more than a year of tenure, or its churn broken down by tenure or segment.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "This is the key missing comparison for estimating the causal effect of annual billing and the cannibalization share.",
+      "limitations": "Only the company's own data can answer this.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G2",
+      "reason": "The supplied data has no tenure-matched monthly control group (retention of monthly customers with more than a year of tenure), and no outside source can supply it. External evidence on whether annual billing causes lower churn conflicts: E11 attributes the gap to selection, E12 claims a matched effect. The pilot (n=40, hand-picked) cannot separate cause from selection."
+    },
+    {
+      "gapId": "G3",
+      "reason": "There is no internal breakdown of the 3.2% churn by tenure or segment. Only directional industry evidence (E13) suggests churn is concentrated early."
+    },
+    {
+      "gapId": "G4",
+      "reason": "Only the break-even framing (E16) and fee arithmetic (E15) could be computed. Sensitivity at 10%, 20% and 30% conversion needs the converter mix (would-have-stayed versus would-have-churned) and renewal rates, which are not available. The 24-month view depends on unknown renewal behavior (E17)."
+    },
+    {
+      "gapId": "G5",
+      "reason": "The memo's 30% conversion assumption and its 'benchmarks' are unsourced. No verifiable industry benchmark for monthly-to-annual conversion was found (E9). Primary Recurly and ProfitWell reports could not be fetched (WebFetch failed: recurly.com not resolvable under the network policy), so no further fetches were attempted."
+    },
+    {
+      "gapId": "G6",
+      "reason": "The company's intended refund, cancellation and seat true-up terms are not in the supplied documents. Only market examples were found (E18, E19)."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

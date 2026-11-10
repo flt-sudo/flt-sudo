@@ -224,6 +224,10 @@ describe("hooks (run as real processes)", () => {
     expect(hook("guard.mjs", { tool_name: "WebSearch", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("stage eval-analyst is not permitted");
     expect(hook("guard.mjs", { tool_name: "Write", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("deny");
     expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
+    // a stage must still be able to hand its report back and load deferred tool schemas
+    expect(hook("guard.mjs", { tool_name: "SubagentHandback", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
+    expect(hook("guard.mjs", { tool_name: "ToolSearch", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
+    expect(hook("guard.mjs", { tool_name: "SendMessage", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("deny");
     // the orchestrator itself (no agent_id) is not leased
     expect(hook("guard.mjs", { tool_name: "Write", tool_input: {} })).toBe("");
     fs.unlinkSync(path.join(runs, "r1", ".stage"));

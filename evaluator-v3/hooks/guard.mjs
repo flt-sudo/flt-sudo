@@ -20,6 +20,11 @@ const ALLOW = {
   "eval-baseline": ["Read", "Glob", "Grep", "WebSearch", "WebFetch"],
 };
 
+// Harness tools with no effect outside the conversation: returning the report to the
+// orchestrator, loading deferred tool schemas (the loaded tools are still guarded), task notes.
+const HARNESS = ["SubagentHandback", "ToolSearch", "TodoWrite"];
+for (const k of Object.keys(ALLOW)) ALLOW[k].push(...HARNESS);
+
 let raw = "";
 process.stdin.on("data", (c) => (raw += c));
 process.stdin.on("end", () => {

@@ -94,6 +94,23 @@ switch (cmd) {
     console.log(`active run: ${id}`);
     break;
   }
+  case "stage": {
+    // Declare the stage about to run; the guard hook holds every subagent to its allowlist.
+    const id = pos[0] ?? die("run id required");
+    const stage = pos[1] ?? die("stage required");
+    const allowed = ["eval-planner", "eval-researcher", "eval-analyst", "eval-adversary", "eval-grader", "eval-baseline"];
+    if (!allowed.includes(stage)) die(`stage must be one of ${allowed.join(", ")}`);
+    fs.writeFileSync(path.join(runDir(id), ".stage"), stage);
+    fs.appendFileSync(path.join(runDir(id), "stages.jsonl"), JSON.stringify({ ts: new Date().toISOString(), stage }) + "\n");
+    console.log(`stage ${stage} declared for ${id}`);
+    break;
+  }
+  case "stage:clear": {
+    const f = path.join(runDir(pos[0] ?? die("run id required")), ".stage");
+    if (fs.existsSync(f)) fs.unlinkSync(f);
+    console.log("stage cleared");
+    break;
+  }
   case "run:deactivate":
     if (fs.existsSync(ACTIVE)) fs.unlinkSync(ACTIVE);
     console.log("no active run");

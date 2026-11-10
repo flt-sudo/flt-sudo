@@ -36,12 +36,26 @@ process.stdin.on("end", () => {
     return deny(`${agentType} is not permitted to use ${tool}`);
   }
 
-  if (tool !== "WebSearch" && tool !== "WebFetch") return;
   const active = path.join(runsDir, ".active");
   if (!fs.existsSync(active)) return;
   const runId = fs.readFileSync(active, "utf8").trim();
   if (!/^[\w.-]+$/.test(runId)) return;
   const runDir = path.join(runsDir, runId);
+
+  // Stage lease: when the orchestrator has declared the current stage (runs/<id>/.stage), every
+  // subagent (ev.agent_id set) is held to that stage's allowlist, whatever its agent type.
+  // This enforces the same boundary when stages run as general-purpose subagents.
+  if (ev.agent_id) {
+    let stage = null;
+    try {
+      stage = fs.readFileSync(path.join(runDir, ".stage"), "utf8").trim();
+    } catch {}
+    if (stage && ALLOW[stage] && !ALLOW[stage].includes(tool)) {
+      return deny(`stage ${stage} is not permitted to use ${tool}`, runDir);
+    }
+  }
+
+  if (tool !== "WebSearch" && tool !== "WebFetch") return;
   let budgets = { maxWebSearches: 12, maxWebFetches: 8 };
   try {
     budgets = { ...budgets, ...JSON.parse(fs.readFileSync(path.join(runDir, "meta.json"), "utf8")).budgets };

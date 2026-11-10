@@ -219,6 +219,15 @@ describe("hooks (run as real processes)", () => {
     const out = hook("guard.mjs", { tool_name: "WebSearch", tool_input: { query: "3" } });
     expect(JSON.parse(out).hookSpecificOutput.permissionDecisionReason).toMatch(/budget exhausted: WebSearch 2\/2/);
   });
+  it("stage lease restricts any subagent to the declared stage's tools", () => {
+    fs.writeFileSync(path.join(runs, "r1", ".stage"), "eval-analyst");
+    expect(hook("guard.mjs", { tool_name: "WebSearch", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("stage eval-analyst is not permitted");
+    expect(hook("guard.mjs", { tool_name: "Write", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("deny");
+    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
+    // the orchestrator itself (no agent_id) is not leased
+    expect(hook("guard.mjs", { tool_name: "Write", tool_input: {} })).toBe("");
+    fs.unlinkSync(path.join(runs, "r1", ".stage"));
+  });
   it("does nothing when no run is active", () => {
     fs.unlinkSync(path.join(runs, ".active"));
     expect(hook("guard.mjs", { tool_name: "WebSearch", tool_input: {} })).toBe("");

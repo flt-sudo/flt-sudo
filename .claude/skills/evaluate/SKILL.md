@@ -14,6 +14,8 @@ All commands run from `evaluator-v3/`: `npm run ev -- <command> ...`. Paths belo
 - Never read `evaluator-v3/bench/cases/**` directly. For a benchmark case use `bench:view` (the expected outcomes are hidden from you and the agents).
 - Do not perform research yourself, and do not add evidence. Only `eval-researcher` researches.
 - Only one run may be active at a time (the hooks log to the active run).
+- **Before every stage subagent**, declare the stage: `npm run ev -- stage <RUN> <agent-name>`. The guard hook then holds every subagent to that stage's tool allowlist (e.g. only the researcher may search; nobody may write). Do not run any other subagents while a run is active.
+- **Launching a stage:** use `subagent_type: <agent-name>` (e.g. `eval-planner`). If that agent type is not available in this session (agents load at session start), launch `general-purpose` with the prompt: "Read /<repo>/.claude/agents/<agent-name>.md and follow its instructions exactly; ignore its frontmatter. <stage message>". The stage lease enforces the same tool boundary either way.
 
 ## Steps
 
@@ -44,6 +46,6 @@ All commands run from `evaluator-v3/`: `npm run ev -- <command> ...`. Paths belo
    - For `research`/`both`: run `eval-researcher` again with "Targeted follow-up research for these defects only: <paste the revision targets>. Existing evidence is in research.json; continue numbering after the last E-id and return the COMPLETE evidence list (existing + new)." → overwrite `research.json` → `evidence:validate` → `packet`.
    - Run `eval-analyst` for draft N+1 → `draft:check`, then back to step 6 with N+1.
 
-9. **Finalize.** `npm run ev -- finalize <RUN>` → writes `report.md` and `validation-record.json`, and deactivates the run.
+9. **Finalize.** `npm run ev -- stage:clear <RUN>`, then `npm run ev -- finalize <RUN>` → writes `report.md` and `validation-record.json`, and deactivates the run.
 
 10. **Report to the user.** Give the verdict, certification status, revision count and the key items from the validation record (checks not executed, independent-validation status). Link `report.md`. Do not claim the evaluation is independently validated; the record states its status.

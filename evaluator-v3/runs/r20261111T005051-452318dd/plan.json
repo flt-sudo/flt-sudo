@@ -1,0 +1,125 @@
+{
+  "subject": "AWS m7i.large on-demand price in us-east-1 (January 2028 forecast) and whether to buy a 3-year commitment now",
+  "domain": "Cloud cost management / AWS pricing and commitment strategy (FinOps)",
+  "decisionObjective": "Decide whether to buy a 3-year AWS commitment now (Standard or Convertible Reserved Instance, EC2 Instance Savings Plan, or Compute Savings Plan) for m7i.large-class capacity in us-east-1, or stay on on-demand or a shorter term. Nobody can know the January 2028 on-demand price; it is a future fact. The decision should instead rest on things we can find out: today's on-demand and commitment rates, AWS's historical record of on-demand price changes for previous-generation instances, how likely and how fast newer generations replace m7i, and how sure the requester is about their own usage over 36 months. The output should be a range of scenarios and a break-even analysis, not a single point forecast.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Effective discount and break-even of 3-year commitment options versus current on-demand",
+      "weight": 25,
+      "rationale": "How much the commitment saves at today's published rates, and the utilization level at which it breaks even, is the main thing that decides whether committing is worth it. Both can be checked exactly from the AWS Price List."
+    },
+    {
+      "id": "C2",
+      "name": "Historical behaviour of on-demand prices for prior EC2 generations (m4/m5/m6i) after newer generations launched",
+      "weight": 15,
+      "rationale": "The only evidence-based way to reason about a 2028 price is the base rate: has AWS ever cut on-demand prices for an existing instance type within about 3 years of launch, and how often? This sets the range of the scenarios. It cannot supply a point estimate."
+    },
+    {
+      "id": "C3",
+      "name": "Generation-obsolescence risk (m8i/Graviton successors) and commitment flexibility",
+      "weight": 20,
+      "rationale": "If newer instances such as m8i, m8g or m7g give better price-performance during the term, a rigid Standard RI or EC2 Instance Savings Plan tied to m7i loses value. Convertible RIs and Compute Savings Plans reduce that risk but give a smaller discount. This weighs heavily on the choice of commitment type."
+    },
+    {
+      "id": "C4",
+      "name": "Certainty of the requester's own m7i.large usage over 36 months",
+      "weight": 25,
+      "rationale": "Utilization risk usually matters more than any change in AWS list price. A commitment that goes unused wipes out the discount. This has to be stated as a requester input; it cannot be researched."
+    },
+    {
+      "id": "C5",
+      "name": "Payment option economics (No/Partial/All Upfront) and cost of capital",
+      "weight": 10,
+      "rationale": "Upfront payment raises the discount but ties up cash. A fair comparison needs the cash flows discounted at the requester's cost of capital."
+    },
+    {
+      "id": "C6",
+      "name": "Exit and resale options (RI Marketplace eligibility, Savings Plan non-cancellability)",
+      "weight": 5,
+      "rationale": "How easily a commitment can be undone limits the downside if usage or architecture changes. Savings Plans cannot be resold. Standard RIs can be listed on the Marketplace, with restrictions."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What are the current published us-east-1 Linux prices for m7i.large: on-demand hourly, 1-year and 3-year Standard and Convertible RI, EC2 Instance Savings Plan, and Compute Savings Plan rates, for each payment option?",
+      "whyItMatters": "These are needed to compute effective discounts and break-even utilization. Any remembered figure (for example about $0.1008/hr on-demand) must be checked against the AWS Price List API rather than assumed.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Has AWS reduced the on-demand price of any existing current- or previous-generation EC2 instance type (such as m5 or m6i) in the past 5 or more years, and if so, by how much and on what timeline after a successor launched?",
+      "whyItMatters": "This is the base rate for the 2028 scenarios. If AWS has effectively stopped cutting prices on existing instance types, the likely 2028 on-demand price is close to today's and the risk is mostly utilization and obsolescence. If cuts do happen, a commitment locked at today's price could become poor value.",
+      "criteria": [
+        "C2",
+        "C1"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What is the current availability and price-performance of successors to m7i (m8i, m8g, m7g and others) in us-east-1, and do they cost less per unit of performance?",
+      "whyItMatters": "This decides how serious obsolescence risk is and whether a flexible commitment (Compute Savings Plan or Convertible RI) beats an instance-locked one.",
+      "criteria": [
+        "C3"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What is the requester's expected steady-state m7i.large (or equivalent) usage across the 36-month term, and how confident are they in it?",
+      "whyItMatters": "This is the main input to the break-even analysis. If it is missing, the evaluation can only give conditional recommendations.",
+      "criteria": [
+        "C4",
+        "C1"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What are the current rules on canceling, exchanging and reselling Standard RIs, Convertible RIs and Savings Plans?",
+      "whyItMatters": "These rules limit the downside of committing if usage or architecture changes.",
+      "criteria": [
+        "C6",
+        "C3"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What discount rate or cost of capital should be used to compare All Upfront against No Upfront payment?",
+      "whyItMatters": "It changes which payment option is best, and the margin by which committing beats on-demand.",
+      "criteria": [
+        "C5"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The request assumes the January 2028 on-demand price can be known or forecast precisely enough to base a purchase on it.",
+      "source": "user",
+      "howToCheck": "It cannot be checked directly because it is a future price. Instead, record that AWS does not publish future prices, and replace the point forecast with scenarios built on G2's historical base rate. Say plainly that any single number would be speculation."
+    },
+    {
+      "assumption": "The request assumes the right basis for a 3-year commitment decision is the on-demand price at a single future date (January 2028).",
+      "source": "user",
+      "howToCheck": "Check against how commitments actually work: RI and Savings Plan rates are fixed at purchase for the whole term. The value of committing depends on usage across all 36 months and on the gap to on-demand over that whole period, not on one month. Recompute the break-even with G1 data."
+    },
+    {
+      "assumption": "m7i.large will still be offered and supported in us-east-1 through January 2028 and the full commitment term.",
+      "source": "planner",
+      "howToCheck": "Check AWS EC2 instance type pages and previous-generation instance lists. Use m4/m5 history as a reference for how long instances stay available."
+    },
+    {
+      "assumption": "The relevant price is Linux/UNIX, shared tenancy, with no extra licensing (Windows, RHEL, SQL Server).",
+      "source": "planner",
+      "howToCheck": "Confirm the operating system and tenancy with the requester. Pull the matching SKU from the AWS Price List API."
+    },
+    {
+      "assumption": "Any m7i.large on-demand price figure quoted from memory (for example about $0.1008/hr) is current.",
+      "source": "planner",
+      "howToCheck": "Recompute from the live AWS Price List API or the EC2 pricing page, and record the retrieval date."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

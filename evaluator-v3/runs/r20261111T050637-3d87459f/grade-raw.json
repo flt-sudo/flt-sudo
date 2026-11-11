@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual a-vs-b decision and covers every mustFlag item: alert noise, follow-the-sun, the works council, DST and the 5-vs-4 split. It also covers what an expert would expect: rest rules, weekends, compensation, handoffs, tooling and resilience. There is no irrelevant padding.",
+      "quotes": [
+        "Noise is the biggest lever, and neither option touches it.",
+        "Recommendation: go with option (b), follow-the-sun (FTS), but don't start with it.",
+        "The works council sets the timeline."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The central numbers check out against the reference: 540 pages, 42 per week, 335 (62%), about 205 remaining (about 16 per week), 58% at 20:00-08:00 PT mapping to 05:00-17:00 Berlin. The DST example and the per-person hours and stipend arithmetic are also internally correct. There are minor slips. The 'other' bucket is called '14 alerts' in the table but '17 alerts' later. It also says the Berlin night of 14:00-22:00 PT falls 'inside' the PT-daytime bucket, but 20:00-22:00 PT is in the night bucket.",
+      "quotes": [
+        "other (14 alerts) | 47 | 30 | 64%",
+        "Review the 17 alerts in \"other\" individually: 17 noise pages",
+        "A Berlin primary's night (roughly 23:00–07:00 Berlin, i.e. 14:00–22:00 PT) falls inside the 42% \"Pacific daytime\" bucket"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains mechanisms: why a secondary doesn't fix night pages, and how call-outs interact with the rest rule. It quantifies the shift-boundary variants, per-person hours, page loads and compensation. It also works through edge cases such as the DST gap hours, the 3-hour unsociable gap, Berlin leave and attrition, and handoff failure modes.",
+      "quotes": [
+        "Example: between 25 Oct and 1 Nov 2026, SF ending at 22:00 PDT (05:00 UTC) and Berlin starting at 07:00 CET (06:00 UTC) leaves 05:00–06:00 UTC uncovered.",
+        "B3 gives SF 13 hours and Berlin 11 hours, close to the head-count-proportional 13.3 / 10.7.",
+        "a 02:00 call-out means no regular work before 13:00 or later"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges the user's binary framing by putting noise reduction first and showing that option (a) isn't actually faster. It states the strongest counterarguments fairly, considers several alternatives, and gives go/no-go criteria and assumptions that would change the boundary choice.",
+      "quotes": [
+        "\"FTS just moves SF's nights onto Berlin.\" Partly true for page volume.",
+        "\"Option (a) is faster.\" Only for SF. Berlin still needs approval, so the speed advantage is mostly illusory",
+        "Engineer preferences are unknown. Some may prefer occasional full weeks to more frequent 12-hour weeks."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "There is a clear bottom line with conditions. The rollout table is week by week with owners, includes interim relief that avoids changing the Berlin schedule before approval, and comes with concrete pilot go/no-go criteria.",
+      "quotes": [
+        "Do not adopt option (a) as the long-term design.",
+        "| 0 | Share the data and the proposal with both teams. Open formal works council consultation",
+        "At most 2 pages per 12-hour shift on average at each site."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised with numbered sections. Calculations are shown, and claims are tied to fixtures or cited sources. Inferences and uncertainties are explicitly labelled, including legal points taken from background knowledge.",
+      "quotes": [
+        "Inference, not confirmed: alerts like disk-usage warnings and queue-lag warnings often cluster around overnight batch work.",
+        "Actionable: 0 + 2 + 0 + 63 + 41 + 37 + 30 = **173 (32%)**",
+        "Cited from background knowledge; not re-fetched in this run."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Three alerts (disk-usage-warning-80pct, queue-lag-warning, cert-check-flap) produced 335 of 540 pages (62%), and only 2 of those led to human action."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "go with option (b), follow-the-sun (FTS), but don't start with it. First, cut alert noise"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Any Berlin schedule change needs consultation and approval, typically 4–8 weeks."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Daylight saving transitions don't line up ... For roughly 3–4 weeks a year the gap is 8 hours."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends a rotation design without addressing that 62% of pages come from three non-actionable alerts",
+      "triggered": false,
+      "evidence": "It explicitly addresses the noise and puts hygiene first: \"Removing or downgrading the top three noisy alerts ... would remove 335 pages (62%)\"."
+    },
+    {
+      "condition": "Proposes changing the Berlin on-call schedule without noting works-council approval",
+      "triggered": false,
+      "evidence": "It has a dedicated section \"5.1 Berlin works council (Betriebsrat), the critical path\" and opens consultation in week 0 of the rollout."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The two numeric targets match: 42 per week, and about 16 per week from 205 remaining pages (reference 15.94). Accuracy gets 0.75 for small internal inconsistencies: the 'other' bucket is called both 14 and 17 alerts, and the description of when Berlin nights fall in PT is loose. A further looseness: it equates 1-in-4 weekly 12-hour rotation to the '25% ceiling' even though actual on-call time is about 12.5%. I checked fixture-derived figures for internal consistency only and did not re-read the source files. The German legal citations (BetrVG, ArbZG, CJEU) were not verified, but the output hedges them appropriately."
+}

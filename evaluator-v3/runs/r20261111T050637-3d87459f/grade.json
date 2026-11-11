@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T050637-3d87459f",
+  "caseId": "ho-13-oncall-redesign",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The two numeric targets match: 42 per week, and about 16 per week from 205 remaining pages (reference 15.94). Accuracy gets 0.75 for small internal inconsistencies: the 'other' bucket is called both 14 and 17 alerts, and the description of when Berlin nights fall in PT is loose. A further looseness: it equates 1-in-4 weekly 12-hour rotation to the '25% ceiling' even though actual on-call time is about 12.5%. I checked fixture-derived figures for internal consistency only and did not re-read the source files. The German legal citations (BetrVG, ArbZG, CJEU) were not verified, but the output hedges them appropriately."
+}

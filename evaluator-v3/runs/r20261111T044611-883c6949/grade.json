@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T044611-883c6949",
+  "caseId": "ho-13-oncall-redesign",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 97.5,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The output's shift split (Berlin 07:00-19:00, SF 10:00-22:00 PT) differs from the reference's (Berlin about 05:00-17:00). The output's reason is to keep Berlin out of the ArbZG night window of 23:00-06:00, and it names the reference's split as the alternative. I judged this a defensible refinement, not an error. N1 (recommending option a) was not triggered: the output says 'Do not adopt option (a) as the main fix.' Both numeric targets match: V1 is about 42 pages a week and V2 is about 15.9. The only deduction is clarity, for the very dense verdict paragraph."
+}

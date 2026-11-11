@@ -1,0 +1,69 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The text that was changed to fix the Saturday/s.9 problem now overreaches the other way. The verdict says call-outs 'on top of a normal working day, Saturday included, may exceed the s.3 daily ceiling'. C4 says 'On working days (Mon-Sat), call-outs on top of a normal 8-hour day could exceed the s.3 ceiling'. The draft's own working-hours assumption is 09:00-17:00 on weekdays only (K25-K30), so a Berlin engineer has no normal 8-hour day on Saturday. The 8 h + more than 2 h call-out breach scenario therefore applies Monday to Friday. On Saturday, s.3 is reached only by call-outs alone. The correct legal point is that s.3 covers Saturday and s.9 does not. Saying that Saturday call-outs sit on top of a normal workday overstates the Saturday s.3 risk.",
+      "location": "verdict ('Saturday included'); criteriaAssessments C4 assessment; edgeCasesAndFailureModes item 5 ('full 8-hour working day (Mon-Sat)'); rollout step 3 ('Berlin on-call working days (Mon-Sat)')",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The like-for-like comparison now counts primary duty only. Local-night duty is 6.2 h vs 0 (K39 = 56/9 = 6.22, checked). Out-of-hours duty is 14.2 h vs 9.8/11 h, which is 31%/23% less (K37 = 1-9.8/14.22 = 31.09%, K38 = 1-11/14.22 = 22.66%, both checked). Weekend duty is 5.3 h vs 4.8/6 h (K40 = 48/9 = 5.33, checked). This basis is used in the verdict, C1, C3, CL18, CL19, the 'Option (a) with noise tuning' and hybrid alternatives, and counterargument[0]. The combined figures K31, K32 and K36 are kept but labelled 'not like-for-like'. The secondary's unknown paging rate is now stated in CL8, in remainingUncertainty and as further research. The draft also openly concedes that the out-of-hours cut is moderate, weekend load is roughly unchanged, and the case for (b) rests mainly on removing night exposure. That concession is accurate: averaged over the team, weekend hours under (b) are (24+24)/9 = 5.33, the same as under (a)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the hour-of-day and weekday/weekend split of actionable pages after the three noise alerts are removed (from raw timestamped logs), and how does it divide between the Berlin 22:00-10:00 PT half and the SF half? The draft's case for (b) now rests mainly on removing local-night exposure (about 5.3 tuned night pages a week if pages are spread evenly), so this split directly decides whether a schedule change is worth its cost.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does labour counsel confirm that Sunday and holiday incident call-outs fall under ArbZG s.10(1) no.14, and does a collective agreement with s.7/s.12 opening clauses cover the Berlin entity?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How often would an option (a) secondary actually be paged, and what would a daytime same-office secondary within follow-the-sun add to reliability?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "Workload, fairness, legal constraints, handoffs, DST, holidays and rollout steps are all covered. Option (a) with tuning, tuning only, and the cross-office pair variant are all included."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-only legal and SRE sources and the HYPOTHETICAL statutory points (E23-E25) are flagged consistently. The 09:00-17:00 working-hours baseline is stated as an assumption. 'Moderate' confidence fits the lack of timestamps."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All new calculations (K37-K41) recompute correctly. The comparison is now like for like (primary duty only), and the draft concedes the modest out-of-hours gap and the roughly equal weekend load. The s.11 15-Sunday floor is correctly shown not to bind (52-13 = 39). The only remaining problem is a minor Saturday s.3 overstatement (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The strongest case for (a) with tuning is now presented fairly: no handoffs, parity between offices, a moderate out-of-hours gap and equal weekend load. The response correctly narrows the case against (a) to night exposure."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The recommendation is clear and staged, with the works council gate correctly sequenced, rollback criteria set in advance, and a credible tuning-only fallback. The basis for the decision (night exposure, not total hours) is stated honestly."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist in the packet or the draft and support the text. HYPOTHETICAL evidence is labelled, and there is no sign that any injected instruction was followed."
+    }
+  ]
+}

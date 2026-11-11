@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual decision: it picks a design and lays out rollout steps. It covers every mustFlag item (alert noise, follow-the-sun, works council, DST and 5-vs-4 fairness) and also handoffs, skills coverage, cost and German working-time law. The legal detail is long, but it bears directly on what could block the rollout.",
+      "quotes": [
+        "Step 1: remove alert noise first, as a precondition for any schedule change.",
+        "Both options change the Berlin on-call plan, so both need works council agreement before anything changes, pilots included.",
+        "It is 8 hours for about 28 days a year (8-29 March and 25 October to 1 November in 2026)"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "All the numbers I checked are correct: 540 pages, 335 (62%) from the three noisy alerts, 2 of them actioned, about 42 pages a week now and about 15.9 after tuning. The 2026 DST dates and the time-zone conversions are also right. Legal points that rest on background knowledge are marked HYPOTHETICAL or unverified rather than stated as fact.",
+      "quotes": [
+        "three alerts (disk-usage-warning-80pct, queue-lag-warning, cert-check-flap) produce 335 of 540 pages (about 62%) and only 2 of the 173 actions",
+        "about 2.3 pages a day (about 15.9 a week; about 1.1 per 12-hour shift instead of 3, on an even spread)",
+        "ArbZG s.3 (content not retrieved in this run; from general background knowledge only)"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why each option does or does not cut night pages. It quantifies workload per person (out-of-hours, night and weekend hours) for both options and analyses edge cases specific to this case: DST weeks, where the handoff overlap goes, Berlin rest restarts, and Sunday and holiday call-outs.",
+      "quotes": [
+        "Night interruptions = (pages that land in someone's local night) x (people exposed).",
+        "if the 30-minute overlap is added to the outgoing SF shift, SF runs to 22:30, or 23:30 in mismatch weeks",
+        "Splitting a fixed 168 h a week across unequal headcounts (4 vs 5) concentrates hours on the smaller office."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It rejects the two-option framing, questions the unverified 58% night figure, compares the options fairly with tuning applied to both, takes on strong counterarguments, and lists what would change the conclusion.",
+      "quotes": [
+        "Alert-noise removal is a stronger first lever than either schedule, and it applies to both.",
+        "Unverified. It is a free-text annotation with no timestamps, and 58% of 540 is 313.2, not a whole number.",
+        "Post-tuning page volume measured over 2-4 weeks. If residual night load is negligible, a schedule change may be unnecessary."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: tune alerts first, then pilot follow-the-sun once the works council approves. The rollout steps are concrete and sequenced, with success and rollback criteria set in advance, a fallback, and named data to settle the open questions.",
+      "quotes": [
+        "Rollout step 6: set success and rollback criteria in advance.",
+        "This is a credible fallback if the works council, legal review or skills audit blocks follow-the-sun.",
+        "Do not adopt option (a) as the main fix."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "The structure is good and traceability is excellent: an evidence registry, recomputed calculations and labelled uncertainty. But the verdict is one very dense block of several hundred words that is hard to read, so I chose the lower anchor.",
+      "quotes": [
+        "Calculations (re-executed by code)",
+        "The out-of-hours figures (K25-K31, K37-K40) assume 09:00-17:00 weekday working hours in both offices. That assumption is not in the packet."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The three noise alerts produce 335 of 540 pages (62.0%) with 2 actions (0.6% actionable)."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "only after the works council has agreed, run a time-boxed pilot of follow-the-sun 12-hour shifts"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Any change to the Berlin on-call plan, whether a secondary role, 12-hour shifts or a time-boxed pilot of either, needs works council agreement before it takes effect."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Berlin carries about 12% more out-of-hours hours per person than SF, and 25% more total hours (K14, K29)... about 28 days a year of DST drift"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends a rotation design without addressing that 62% of pages come from three non-actionable alerts",
+      "triggered": false,
+      "evidence": "Noise removal is Step 1 and a precondition: 'remove alert noise first, as a precondition for any schedule change.'"
+    },
+    {
+      "condition": "Proposes changing the Berlin on-call schedule without noting works-council approval",
+      "triggered": false,
+      "evidence": "'A pilot is itself a change to the Berlin on-call plan, so it cannot start before approval (E5, E15).'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output's shift split (Berlin 07:00-19:00, SF 10:00-22:00 PT) differs from the reference's (Berlin about 05:00-17:00). The output's reason is to keep Berlin out of the ArbZG night window of 23:00-06:00, and it names the reference's split as the alternative. I judged this a defensible refinement, not an error. N1 (recommending option a) was not triggered: the output says 'Do not adopt option (a) as the main fix.' Both numeric targets match: V1 is about 42 pages a week and V2 is about 15.9. The only deduction is clarity, for the very dense verdict paragraph."
+}

@@ -1,0 +1,530 @@
+{
+  "runId": "r20261111T044611-883c6949",
+  "generatedAt": "2026-11-11T05:06:37.326Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "Google SRE book \"Being On-Call\" maximum two incidents per 12-hour shift",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "ArbZG § 5 Ruhezeit 11 Stunden Rufbereitschaft Einsatz Unterbrechung",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "BetrVG § 87 Abs. 1 Nr. 2 Rufbereitschaft Mitbestimmung Betriebsrat",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "SRE book on-call 25% time limit minimum eight engineers single-site six per site multi-site",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "2026 daylight saving time dates US March 8 November 1 Europe March 29 October 25 time difference",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 4
+      },
+      {
+        "query": "follow-the-sun on-call handoff best practices shift handover checklist PagerDuty",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "\"Monitoring Distributed Systems\" SRE \"every page\" actionable \"symptoms\" pages should be urgent actionable",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "Nachtarbeit ArbZG § 2 Abs. 3 23 bis 6 Uhr Nachtzeit Definition Rufbereitschaft",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "Rufbereitschaft Vergütung Pauschale Tarifvertrag Höhe IT Rufbereitschaftszulage pro Tag Wochenende",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "§ 87 Abs. 2 BetrVG Einigungsstelle Einigung kommt nicht zustande Rufbereitschaftsplan",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Ruhezeit Unterbrechung Rufbereitschaft kurzer Anruf geringfügig neu beginnen Remote Einsatz IT",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "§ 10 ArbZG Sonn- und Feiertagsbeschäftigung Ausnahmen IT Rufbereitschaft Datenverarbeitung",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://sre.google/sre-book/being-on-call/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND sre.google. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not "
+      },
+      {
+        "url": "https://www.gesetze-im-internet.de/arbzg/__5.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai"
+      },
+      {
+        "url": "https://www.gesetze-im-internet.de/betrvg/__87.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai"
+      },
+      {
+        "url": "https://www.gesetze-im-internet.de/arbzg/__3.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai"
+      },
+      {
+        "url": "https://lxgesetze.de/arbzg/10",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND lxgesetze.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does no"
+      }
+    ],
+    "fixturesRead": [
+      "hr-notes.md",
+      "roster.md",
+      "pages-last-90-days.csv"
+    ],
+    "deniedByGuard": [
+      {
+        "tool": "WebSearch",
+        "reason": "research budget exhausted: WebSearch 12/12 for run r20261111T044611-883c6949"
+      },
+      {
+        "tool": "WebSearch",
+        "reason": "research budget exhausted: WebSearch 12/12 for run r20261111T044611-883c6949"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-13 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13420,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 43304,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 436
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 834,
+            "cache_read_input_tokens": 9016,
+            "output_tokens": 3568,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 834
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3568,
+                "cache_read_input_tokens": 9016,
+                "cache_creation_input_tokens": 834,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 834,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-13 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-13 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-13 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 47553,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 78182,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1955
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 812,
+            "cache_read_input_tokens": 41647,
+            "output_tokens": 5092,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 812
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5092,
+                "cache_read_input_tokens": 41647,
+                "cache_creation_input_tokens": 812,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 812,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-13 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-13 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-13 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 77423,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 63069,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2970
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 65377,
+            "cache_read_input_tokens": 6082,
+            "output_tokens": 5962,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 65377
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5962,
+                "cache_read_input_tokens": 6082,
+                "cache_creation_input_tokens": 65377,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 65377,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-13 analyst draft 3",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-13 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 86387,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 49667,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2452
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 72145,
+            "cache_read_input_tokens": 9828,
+            "output_tokens": 4412,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 72145
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4412,
+                "cache_read_input_tokens": 9828,
+                "cache_creation_input_tokens": 72145,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 72145,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-13 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 41865,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 43844,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1913
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 11703,
+            "cache_read_input_tokens": 26136,
+            "output_tokens": 4024,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 11703
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4024,
+                "cache_read_input_tokens": 26136,
+                "cache_creation_input_tokens": 11703,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 11703,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "hr-notes.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "roster.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "pages-last-90-days.csv",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://sre.google/sre-book/being-on-call/",
+    "https://sre.google/sre-book/monitoring-distributed-systems/",
+    "https://incident.io/blog/on-call-best-practices-guide-2026",
+    "https://www.universaltimedate.com/articles/daylight-saving-time-2026-when-clocks-change",
+    "https://www.haufe.de/id/beitrag/ruhezeiten-arbeitsrecht-HI727265.html",
+    "https://www.luther-lawfirm.com/uploads/tx_fwluther/2012_Smartphone_versus_Arbeitsrecht.pdf",
+    "https://www.dgb-bildungswerk-nrw.de/downloads/igm/2017/FMTagung/IG-Metall_Muster_BV_Notdienst_und_Rufbereitschaft_im_Elektro-Handwerk.pdf",
+    "https://lexetius.com/ArbZG/2",
+    "https://www.fachanwalt.de/magazin/arbeitsrecht/rufbereitschaft",
+    "https://www.komnet.nrw.de/_sitetools/dialog/19289",
+    "https://www.justiz.sachsen.de/ovgentschweb/documents/24A188.pdf"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 26 accepted, 0 rejected (source never retrieved / schema), 1 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 148+121+66+71+48+39+47 = 540 (claimed 540) → match",
+    "Calculation K2 re-executed: 0+2+0+63+41+37+30 = 173 (claimed 173) → match",
+    "Calculation K3 re-executed: 173/540*100 = 32.03703703703704 (claimed 32.04) → match",
+    "Calculation K4 re-executed: (148+121+66)/540*100 = 62.03703703703704 (claimed 62.04) → match",
+    "Calculation K5 re-executed: 2/(148+121+66)*100 = 0.5970149253731344 (claimed 0.597) → match",
+    "Calculation K6 re-executed: (63+41+37+30)/(71+48+39+47)*100 = 83.41463414634146 (claimed 83.41) → match",
+    "Calculation K7 re-executed: 540/90 = 6 (claimed 6) → match",
+    "Calculation K8 re-executed: (71+48+39+47)/90 = 2.2777777777777777 (claimed 2.278) → match",
+    "Calculation K9 re-executed: (71+48+39+47)/90*7 = 15.944444444444443 (claimed 15.94) → match",
+    "Calculation K10 re-executed: 540/90/2 = 3 (claimed 3) → match",
+    "Calculation K11 re-executed: (71+48+39+47)/90/2 = 1.1388888888888888 (claimed 1.139) → match",
+    "Calculation K12 re-executed: 84/5 = 16.8 (claimed 16.8) → match",
+    "Calculation K13 re-executed: 84/4 = 21 (claimed 21) → match",
+    "Calculation K14 re-executed: (21/16.8-1)*100 = 25 (claimed 25) → match",
+    "Calculation K15 re-executed: 0.58*540 = 313.2 (claimed 313.2) → match",
+    "Calculation K16 re-executed: (173-2)/173*100 = 98.84393063583815 (claimed 98.84) → match",
+    "Calculation K17 re-executed: 540-173 = 367 (claimed 367) → match",
+    "Calculation K18 re-executed: 0.58*540-173 = 140.2 (claimed 140.2) → match",
+    "Calculation K19 re-executed: 2/9*100 = 22.22222222222222 (claimed 22.22) → match",
+    "Calculation K20 re-executed: 540/90*7 = 42 (claimed 42) → match",
+    "Calculation K21 re-executed: 540/90*7*0.58 = 24.36 (claimed 24.36) → match",
+    "Calculation K22 re-executed: 21+7 = 28 (claimed 28) → match",
+    "Calculation K23 re-executed: 168/9 = 18.666666666666668 (claimed 18.67) → match",
+    "Calculation K24 re-executed: 2*168/9 = 37.333333333333336 (claimed 37.33) → match",
+    "Calculation K25 re-executed: 5*5+2*12 = 49 (claimed 49) → match",
+    "Calculation K26 re-executed: (5*5+2*12)/5 = 9.8 (claimed 9.8) → match",
+    "Calculation K27 re-executed: 5*4+2*12 = 44 (claimed 44) → match",
+    "Calculation K28 re-executed: (5*4+2*12)/4 = 11 (claimed 11) → match",
+    "Calculation K29 re-executed: (11/9.8-1)*100 = 12.244897959183664 (claimed 12.24) → match",
+    "Calculation K30 re-executed: (168-40)/9 = 14.222222222222221 (claimed 14.22) → match",
+    "Calculation K31 re-executed: 2*(168-40)/9 = 28.444444444444443 (claimed 28.44) → match",
+    "Calculation K32 re-executed: 2*8*7/9 = 12.444444444444445 (claimed 12.44) → match",
+    "Calculation K33 re-executed: (71+48+39+47)/90*7*8/24 = 5.314814814814814 (claimed 5.315) → match",
+    "Calculation K34 re-executed: 2*12/4 = 6 (claimed 6) → match",
+    "Calculation K35 re-executed: 2*12/5 = 4.8 (claimed 4.8) → match",
+    "Calculation K36 re-executed: 2*48/9 = 10.666666666666666 (claimed 10.67) → match",
+    "Calculation K37 re-executed: (1-9.8/((168-40)/9))*100 = 31.093749999999986 (claimed 31.09) → match",
+    "Calculation K38 re-executed: (1-11/((168-40)/9))*100 = 22.65625 (claimed 22.66) → match",
+    "Calculation K39 re-executed: 8*7/9 = 6.222222222222222 (claimed 6.222) → match",
+    "Calculation K40 re-executed: 48/9 = 5.333333333333333 (claimed 5.333) → match",
+    "Calculation K41 re-executed: 52-52/4 = 39 (claimed 39) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://sre.google/sre-book/being-on-call/ — getaddrinfo ENOTFOUND sre.google. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not ",
+    "Fetch failed: https://www.gesetze-im-internet.de/arbzg/__5.html — getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai",
+    "Fetch failed: https://www.gesetze-im-internet.de/betrvg/__87.html — getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai",
+    "Fetch failed: https://www.gesetze-im-internet.de/arbzg/__3.html — getaddrinfo ENOTFOUND www.gesetze-im-internet.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai",
+    "Fetch failed: https://lxgesetze.de/arbzg/10 — getaddrinfo ENOTFOUND lxgesetze.de. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does no",
+    "Research call blocked by budget guard: WebSearch — research budget exhausted: WebSearch 12/12 for run r20261111T044611-883c6949",
+    "Research call blocked by budget guard: WebSearch — research budget exhausted: WebSearch 12/12 for run r20261111T044611-883c6949",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G2 unresolved: The CSV has no per-page timestamps. The hour-of-day distribution of all pages and of actionable pages, and the 58% 20:00-08:00 PT claim, cannot be verified. Raw timestamped page logs are needed.",
+    "Knowledge gap G5 unresolved: The German collective on-call allowance amount is not in the HR notes, so it cannot be compared with the $400/week US stipend. No US secondary stipend is defined. The statute texts for ArbZG s.3, s.5, s.7, s.9-13 and BetrVG s.87 could not be fetched: www.gesetze-im-internet.de and lxgesetze.de were unreachable (ENOTFOUND), and both hosts have to be allowed in the session's network settings. The WebSearch budget ran out after one D1 search, so s.3 (8h/10h), s.11 (15 free Sundays, substitute rest days) and s.7/s.12 (collective-agreement deviations) rest only on background knowledge (E23-E25, HYPOTHETICAL/UNKNOWN). Several questions stay open: whether pure Sunday standby without a call-out counts as Sunday employment, whether the Berlin entity has a collective agreement with opening clauses, and the exact wording of s.10(1) no.14. All need labour-counsel confirmation. Whether alert-tuning changes need works council involvement was not researched.",
+    "Knowledge gap G6 unresolved: sre.google was unreachable (ENOTFOUND; needs to be allowed in network settings), so the SRE book figures (2 incidents per 12h shift, 8 single-site / 6 per site, 25% cap) come only from search snippets. No empirical study of handoff-related incident risk in follow-the-sun was found.",
+    "Knowledge gap G3 unresolved: Office skills, ownership and runbook coverage per office are unknown (E18). Weekend and public-holiday coverage under follow-the-sun is only partly addressed: E20-E26 cover the legal side, but no Berlin/US holiday calendar was retrieved and the weekend call-out load is not quantified for lack of timestamps."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 97.5/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "The hour-of-day and weekend distribution of all pages and of actionable pages is unknown, and the 58% figure is unverified (E3).",
+    "Per-office skills, ownership and runbook coverage are unknown (E18).",
+    "The German collective on-call allowance and any US secondary stipend are not specified, so pay fairness and the cost of a secondary cannot be quantified (E5, E17).",
+    "Legal points rest on search snippets or background knowledge. The statute texts were not retrieved, the trivial-interruption question is disputed (E13, E14, E15, E16), and the s.3, s.11 and s.7/s.12 points are unverified (E23, E24, E25).",
+    "Whether Sunday standby without a call-out counts as Sunday employment, and whether the Berlin entity has a collective agreement with opening clauses, are unknown (E24, E25).",
+    "The out-of-hours figures (K25-K31, K37-K40) assume 09:00-17:00 weekday working hours in both offices. That assumption is not in the packet.",
+    "How often an option (a) secondary would actually be paged is unknown (E12). The combined standby figures (K31, K32, K36) therefore cannot be converted into an interruption burden, and the like-for-like comparison uses primary duty only.",
+    "The SRE benchmarks (2 incidents per 12-hour shift, 6 per site) come from search snippets, count incidents rather than pages, and assume Google-scale services (E6, E7).",
+    "Whether led_to_human_action was recorded reliably, and whether the 'other (14 alerts)' row hides further noise, is unknown (E1, E2).",
+    "Boundary-crossing incident handling and handoff-related incident risk have no empirical evidence (E9).",
+    "E18 UNKNOWN: No evidence is available on whether both offices have equal skills, service ownership and runbook or access coverage for every alert type, which follow-the-sun requires.",
+    "E25 UNKNOWN: Collective-agreement deviations under ArbZG s.7 (daily maximum, rest periods, including extensions beyond 10h where working time regularly includes standby, and adjustment of rest periods for Rufbereitschaft) and s.12 (number of work-free Sundays, substitute rest days) may allow a collective agreement, or a works agreement based on one, to depart from the s.3, s.5 and s.11 defaults. Whether the Berlin entity is covered by any such collective agreement is unknown.",
+    "Open question the reviewer judged decisive: What is the hour-of-day and weekday/weekend split of actionable pages after the three noise alerts are removed (from raw timestamped logs), and how does it divide between the Berlin 22:00-10:00 PT half and the SF half? The draft's case for (b) now rests mainly on removing local-night exposure (about 5.3 tuned night pages a week if pages are spread evenly), so this split directly decides whether a schedule change is worth its cost.",
+    "Open question the reviewer judged decisive: Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+    "Open question the reviewer judged decisive: Does labour counsel confirm that Sunday and holiday incident call-outs fall under ArbZG s.10(1) no.14, and does a collective agreement with s.7/s.12 opening clauses cover the Berlin entity?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T04:53:48.109Z",
+        "reasons": [
+          "[coverage/major] D1 [criteriaAssessments C4; CL5, CL9, CL10; verdict; practicalImplications step 3] The legal analysis of the recommended Berlin 07:00-19:00 12-hour shift only checks the ArbZG night window (s.2) and the 11-hour rest rule (s.5). It leaves out the daily maximum working time in ArbZG s.3 (8 h, extendable to 10 h) and the Sunday and public-holiday work ban in ArbZG s.9-10. Under follow-the-sun, a Berlin engineer works a normal day and is also on call 07:00-19:00, every day of their on-call week including Saturday and Sunday. Call-outs at 07:00-09:00 or 17:00-19:00 count as working time and can push the day past 10 h. Any weekend or holiday call-out is Sunday or holiday work, which needs a statutory exception. The request asks for 'anything that could block or complicate the rollout', and the verdict calls the Berlin shift legally clean because it 'sits entirely outside the statutory night window'. That framing leaves out a plausible complication, and possibly a blocker, for the recommended design. The packet does not research it either, so the gap was not flagged.",
+          "[decision_usefulness/major] D2 [verdict (Step 2/Step 3 wording) vs practicalImplications step 3 and step 5] The verdict and the rollout steps disagree on when works council approval comes. The verdict says 'Step 2: run a time-boxed pilot... Step 3: confirm it only after the works council agrees', which implies the pilot can start before approval. practicalImplications step 5 says the pilot starts 'after approval'. HR notes (E5) and BetrVG s.87 (E15) say any change to the Berlin on-call schedule, a pilot included, needs works council approval first. A reader of the verdict alone could start an unlawful pilot in Berlin.",
+          "[coverage/major] D3 [criteriaAssessments C1, C3; CL7, CL8; K12-K14, K23-K24] C1 covers 'night-time and out-of-hours interruptions', but the draft only analyses the local-night window (22:00-06:00). Under the recommended split, SF is on call until 22:00 local on every on-call day, which covers the evening 18:00-22:00. Berlin covers 07:00-09:00 and 17:00-19:00 outside normal hours. Both offices also cover full 12-hour weekend days. The fairness comparison (CL7: 16.8 h vs 21 h vs 18.7 h today) treats business-hours on-call time the same as out-of-hours time. That makes the comparison apples-to-oranges: much of a 12-hour daytime shift overlaps normal working hours and costs far less than 24/7 hours. The draft does not quantify out-of-hours or weekend on-call hours per person per office, which is the metric that actually matters for burnout and fairness.",
+          "[alternatives_counterarguments/major] D4 [alternatives; counterarguments[0]; criteriaAssessments C1/C5] Option (a) is never assessed together with noise tuning. The alternatives list contains '(a) with no noise tuning', '(b) with no noise tuning', 'noise removal only' and 'hybrid = tuning + (b)'. The recommended hybrid therefore gets credit for tuning (1.1 pages per shift) that option (a) would get too. The fair comparison is (a)+tuning vs (b)+tuning, and it is missing. The counterargument response on (a) ('after tuning, load is about 2.3 pages a day') quietly uses tuning against (a) without scoring (a)+tuning. Variants of (a) are also not considered, such as a secondary in the opposite office who takes the primary's local-night pages. That variant would answer C1 without 12-hour shifts."
+        ],
+        "action": "both"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T05:01:04.679Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict; criteriaAssessments C1 (assessment, strengths), C3; CL18, CL19; alternatives 'Option (a) with noise tuning' and 'Recommended hybrid'; counterargument[0]; K31, K32, K36] The new out-of-hours comparison counts secondary standby hours the same as primary hours for option (a), and then sets that against follow-the-sun with no secondary. K31 (2*(168-40)/9 = 28.44 h), K32 (12.44 local-night h) and K36 (10.67 weekend h) all double the primary figure because a secondary is added. A secondary is only paged on escalation, so it carries far less interruption load than a primary. The draft itself says how often the secondary would be paged is unknown (E12 limitations). The draft's own rollout also allows a daytime secondary within follow-the-sun, so the comparison does not hold like for like. Even so, the 28.4 h vs 9.8-11 h gap is used as a main argument: the verdict, C1 strengths, alternatives ('less than half the out-of-hours load per person'), and the first counterargument response. The fairer like-for-like figure is the primary-only 14.2 h (K30) vs 9.8-11 h. That gap is still real but much smaller (about 23-31% lower). The ranking probably survives on the zero-local-night point, but the size of the out-of-hours advantage is overstated."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/deterministic] 1 evidence classification violation(s) downgraded by registry"
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict ('Saturday included'); criteriaAssessments C4 assessment; edgeCasesAndFailureModes item 5 ('full 8-hour working day (Mon-Sat)'); rollout step 3 ('Berlin on-call working days (Mon-Sat)')] The text that was changed to fix the Saturday/s.9 problem now overreaches the other way. The verdict says call-outs 'on top of a normal working day, Saturday included, may exceed the s.3 daily ceiling'. C4 says 'On working days (Mon-Sat), call-outs on top of a normal 8-hour day could exceed the s.3 ceiling'. The draft's own working-hours assumption is 09:00-17:00 on weekdays only (K25-K30), so a Berlin engineer has no normal 8-hour day on Saturday. The 8 h + more than 2 h call-out breach scenario therefore applies Monday to Friday. On Saturday, s.3 is reached only by call-outs alone. The correct legal point is that s.3 covers Saturday and s.9 does not. Saying that Saturday call-outs sit on top of a normal workday overstates the Saturday s.3 risk."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

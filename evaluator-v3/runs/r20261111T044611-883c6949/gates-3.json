@@ -1,0 +1,340 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "deterministic",
+          "detail": "1 evidence classification violation(s) downgraded by registry"
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict ('Saturday included'); criteriaAssessments C4 assessment; edgeCasesAndFailureModes item 5 ('full 8-hour working day (Mon-Sat)'); rollout step 3 ('Berlin on-call working days (Mon-Sat)')] The text that was changed to fix the Saturday/s.9 problem now overreaches the other way. The verdict says call-outs 'on top of a normal working day, Saturday included, may exceed the s.3 daily ceiling'. C4 says 'On working days (Mon-Sat), call-outs on top of a normal 8-hour day could exceed the s.3 ceiling'. The draft's own working-hours assumption is 09:00-17:00 on weekdays only (K25-K30), so a Berlin engineer has no normal 8-hour day on Saturday. The 8 h + more than 2 h call-out breach scenario therefore applies Monday to Friday. On Saturday, s.3 is reached only by call-outs alone. The correct legal point is that s.3 covers Saturday and s.9 does not. Saying that Saturday call-outs sit on top of a normal workday overstates the Saturday s.3 risk."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "148+121+66+71+48+39+47",
+      "claimed": 540,
+      "actual": 540,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0+2+0+63+41+37+30",
+      "claimed": 173,
+      "actual": 173,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "173/540*100",
+      "claimed": 32.04,
+      "actual": 32.03703703703704,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(148+121+66)/540*100",
+      "claimed": 62.04,
+      "actual": 62.03703703703704,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "2/(148+121+66)*100",
+      "claimed": 0.597,
+      "actual": 0.5970149253731344,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(63+41+37+30)/(71+48+39+47)*100",
+      "claimed": 83.41,
+      "actual": 83.41463414634146,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "540/90",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(71+48+39+47)/90",
+      "claimed": 2.278,
+      "actual": 2.2777777777777777,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(71+48+39+47)/90*7",
+      "claimed": 15.94,
+      "actual": 15.944444444444443,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "540/90/2",
+      "claimed": 3,
+      "actual": 3,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(71+48+39+47)/90/2",
+      "claimed": 1.139,
+      "actual": 1.1388888888888888,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "84/5",
+      "claimed": 16.8,
+      "actual": 16.8,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "84/4",
+      "claimed": 21,
+      "actual": 21,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(21/16.8-1)*100",
+      "claimed": 25,
+      "actual": 25,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "0.58*540",
+      "claimed": 313.2,
+      "actual": 313.2,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "(173-2)/173*100",
+      "claimed": 98.84,
+      "actual": 98.84393063583815,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "540-173",
+      "claimed": 367,
+      "actual": 367,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "0.58*540-173",
+      "claimed": 140.2,
+      "actual": 140.2,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "2/9*100",
+      "claimed": 22.22,
+      "actual": 22.22222222222222,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "540/90*7",
+      "claimed": 42,
+      "actual": 42,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "540/90*7*0.58",
+      "claimed": 24.36,
+      "actual": 24.36,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "21+7",
+      "claimed": 28,
+      "actual": 28,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "168/9",
+      "claimed": 18.67,
+      "actual": 18.666666666666668,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "2*168/9",
+      "claimed": 37.33,
+      "actual": 37.333333333333336,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "5*5+2*12",
+      "claimed": 49,
+      "actual": 49,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "(5*5+2*12)/5",
+      "claimed": 9.8,
+      "actual": 9.8,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "5*4+2*12",
+      "claimed": 44,
+      "actual": 44,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "(5*4+2*12)/4",
+      "claimed": 11,
+      "actual": 11,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "(11/9.8-1)*100",
+      "claimed": 12.24,
+      "actual": 12.244897959183664,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "(168-40)/9",
+      "claimed": 14.22,
+      "actual": 14.222222222222221,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "2*(168-40)/9",
+      "claimed": 28.44,
+      "actual": 28.444444444444443,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "2*8*7/9",
+      "claimed": 12.44,
+      "actual": 12.444444444444445,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "(71+48+39+47)/90*7*8/24",
+      "claimed": 5.315,
+      "actual": 5.314814814814814,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "2*12/4",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "2*12/5",
+      "claimed": 4.8,
+      "actual": 4.8,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "2*48/9",
+      "claimed": 10.67,
+      "actual": 10.666666666666666,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "(1-9.8/((168-40)/9))*100",
+      "claimed": 31.09,
+      "actual": 31.093749999999986,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "(1-11/((168-40)/9))*100",
+      "claimed": 22.66,
+      "actual": 22.65625,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "8*7/9",
+      "claimed": 6.222,
+      "actual": 6.222222222222222,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "48/9",
+      "claimed": 5.333,
+      "actual": 5.333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "52-52/4",
+      "claimed": 39,
+      "actual": 39,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What is the hour-of-day and weekday/weekend split of actionable pages after the three noise alerts are removed (from raw timestamped logs), and how does it divide between the Berlin 22:00-10:00 PT half and the SF half? The draft's case for (b) now rests mainly on removing local-night exposure (about 5.3 tuned night pages a week if pages are spread evenly), so this split directly decides whether a schedule change is worth its cost.",
+    "Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+    "Does labour counsel confirm that Sunday and holiday incident call-outs fall under ArbZG s.10(1) no.14, and does a collective agreement with s.7/s.12 opening clauses cover the Berlin entity?"
+  ]
+}

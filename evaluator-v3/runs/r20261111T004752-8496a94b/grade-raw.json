@@ -1,0 +1,91 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Answers the actual prioritisation decision and covers all three expected issues: the stale wiki, the existing Valkey replication, and the open INC-2291 client retry item. It also adds expert-level extras (failover duration, persistence/backup gaps) without padding.",
+      "quotes": [
+        "No. The premise is out of date.",
+        "Sessions now run on a managed Valkey 8 cluster",
+        "Client retry/backoff handling for cluster redirects and failover errors. This is the INC-2291 action item, still marked OPEN."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "Its claims from the supplied documents match the reference: the 2021 wiki, the Feb 2025 migration, the decommissioned node, and INC-2291's 41 s failover with about 6% errors. The output admits its external figures came only from search summaries but still states them precisely. It also asserts that the action item is still open more than a year later, while elsewhere conceding this is unknown. Both are minor sourcing weaknesses.",
+      "quotes": [
+        "Failover took 41 s, about 6% of active sessions saw errors, and nobody was logged out.",
+        "External sources were only summarised by search results (fetching pages wasn't possible in this environment).",
+        "The client retry/backoff fix from INC-2291 is still OPEN, more than a year after the incident.",
+        "It's unclear whether the INC-2291 action item has been fixed since and just not recorded."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains how cluster failover and MOVED redirects cause errors on the client side, and quantifies what the case allows (shards, 6%, 41 s against a ~20 s benchmark, +50% nodes). It also covers subject-specific tradeoffs and failure modes such as split-brain, double failure and region loss.",
+      "quotes": [
+        "After promotion, clients with an outdated map of which node holds which keys get MOVED redirects or connection errors",
+        "A lower `cluster-node-timeout` speeds failover but risks false failovers",
+        "Writes acknowledged by the old primary can be lost, because replication is asynchronous."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Directly corrects the user's outdated premise, considers fair counterarguments (the changelog is only an excerpt, the managed service could be misconfigured), and says what would change the conclusion (checking live config, persistence and backup settings).",
+      "quotes": [
+        "The premise is out of date.",
+        "\"The changelog is only an excerpt; maybe things changed later.\" Possible. Check the live configuration of `sessions-prod` before deciding.",
+        "The answer decides whether option 5 is ever needed."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear bottom line, a ranked list of alternatives with cost and value, concrete next steps (failover test, timeout investigation, wiki update) and the open questions to settle.",
+      "quotes": [
+        "Take \"add session-store replication\" off the candidate list.",
+        "Run a failover test (recommended): trigger a controlled failover",
+        "Add a question to settle: what are the persistence/backup settings and the stance on region-wide failure?"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised, with a comparison table that ties each fact to a dated document, a source list that classifies each source, and a section explicitly labelling remaining uncertainty.",
+      "quotes": [
+        "| Item | Wiki (2021-06-02) | Changelog (2025) |",
+        "wiki-session-store.md` (stale, 2021-06-02)",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The wiki page the question relies on was last edited on 2021-06-02... The platform changelog shows that node was replaced on 2025-02-18 and shut down on 2025-03-04."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Sessions now run on a managed Valkey 8 cluster, `sessions-prod`: 3 shards, each with 1 primary and 1 replica, spread across availability zones, with automatic failover. Replication already exists."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Client retry/backoff handling for cluster redirects and failover errors. This is the INC-2291 action item, still marked OPEN."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Treats the 2021 wiki as current and recommends adding replication without noting the 2025 migration",
+      "triggered": false,
+      "evidence": "The output explicitly rejects the premise: \"No. The premise is out of date.\" and \"\\\"Add replication\\\" (not recommended): already done.\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output closely matches the reference. The only deduction is accuracy at 0.75: the output admits its external figures (Keyspace ~20 s benchmark, GLIDE 250 ms to 1000 ms timeout) came only from search summaries but states them specifically. It also says the INC-2291 item is still open 'more than a year after the incident' while separately conceding this is unknown. I could not check the supplied documents' contents directly; I checked document-derived facts against the reference only. The output's self-assessed score of 85/100 was ignored."
+}

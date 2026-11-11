@@ -1,0 +1,46 @@
+{
+  "runId": "r20261111T004752-8496a94b",
+  "caseId": "dev-03-outdated-wiki",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"Should we prioritise adding replication\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "The output closely matches the reference. The only deduction is accuracy at 0.75: the output admits its external figures (Keyspace ~20 s benchmark, GLIDE 250 ms to 1000 ms timeout) came only from search summaries but states them specifically. It also says the INC-2291 item is still open 'more than a year after the incident' while separately conceding this is unknown. I could not check the supplied documents' contents directly; I checked document-derived facts against the reference only. The output's self-assessed score of 85/100 was ignored."
+}

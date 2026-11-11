@@ -1,0 +1,99 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "New text in C2 mechanisms and the K12-K14 scenarios applies the 'two proxies per hop' doubling only to node-proxy mode. E5 (sources/internal-loadtest-2026-10.md) reports both modes in one 'Added p99 latency per hop' column. There are two ways to read that column. (i) It counts one proxy traversal. Then sidecar, which the draft itself says has proxies on both the client and server side of every hop, should be doubled as well, giving 2.6 x 2 x 5 = 26 ms. (ii) It counts one service-to-service hop. Then the node-proxy figure already includes both node proxies on a cross-node call, unless the test only measured same-node calls. The two-proxy node-proxy scenario is only coherent under a third reading: same-node test traffic against cross-node production traffic. The draft never states this reading. The pessimistic node-proxy figures (9.0 and 10.8 ms) are still worth raising, but the asymmetry should be explained. The sidecar conclusion does not change, because doubling only makes sidecar worse.",
+      "location": "criteriaAssessments C2 mechanisms; C2 weaknesses[3]; edgeCasesAndFailureModes[0]; K12-K14",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The new strict-case fallback (4) prefers Lattice sidecar over Portcullis plus go-spiffe/SPIRE when sidecar passes an end-to-end test. The only reason given is central R1 enforcement. It does not weigh that sidecar leaves R2 unmet while the Portcullis route covers it, or the C4 burden of each route. Fallbacks (3) and (4) also choose Portcullis plus go-spiffe/SPIRE when sidecar fails R3, calling its risks 'unquantified but not known failures'. In-app Go TLS still adds handshake and encryption cost on every one of the 5-6 hops, so R3 is unverified for this route too. practicalImplications asks for end-to-end tests of node-proxy and sidecar only, not of the in-app route. The draft should say that the in-app route also needs an end-to-end R3 test before it is adopted.",
+      "location": "verdict fallbacks (3) and (4); alternatives[4]; practicalImplications[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict has grown into one very long paragraph. It mixes the recommendation, four combined readings of the latency headroom, a definition of 'one option' and a four-level fallback ladder, some of whose branches have their own sub-branches. The decision is still there, but a decision-maker would struggle to pull out the primary recommendation and its two gating conditions. Splitting it into a short headline recommendation, the gating conditions and a separate fallback list would fix this.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The verdict now defines 'one option' as one product adopted and run this quarter. It states that Portcullis plus go-spiffe needs a SPIRE deployment and that nobody has confirmed whether SPIRE counts against the limit (CL10 now cites E8 and E12). The phrase 'only single-product route' is gone. Fallback (4) now compares Lattice sidecar directly with Portcullis plus go-spiffe/SPIRE, says which to choose if the sidecar test passes or fails, and covers the case where SPIRE is not allowed. alternatives[4], counterarguments[2] and [3], and furtherResearch[5] are consistent with this. A residual minor gap in the new comparison is raised as D2."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "K12 now leaves out the Portcullis edge (0.9 x 2 x 5 = 9.0 ms). The draft adds K13 (1.0 ms edge headroom), K14 (10.8 ms with two proxies and 6 segments), K15 (5.4 ms) and K16 (4.6 ms). I recomputed all of these and they are correct. The verdict, CL4, CL11, C2 and alternatives[2] now say that the node-proxy pass on the summed figure holds only under the one-proxy reading, and that K5/K6 apply only to the phased Portcullis-edge combination. The asymmetric doubling is raised as minor D1."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The difference-of-p99s caveat is now in the verdict, CL2, CL5, the C2 mechanisms, counterarguments[1] and remainingUncertainty[1]."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the measured end-to-end added p99 (edge plus full checkout chain) for Lattice node-proxy and sidecar modes, and for the in-app go-spiffe route if it stays a fallback, at production peak rps with 6-40 KB payloads and the actual edge component?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "In the internal load test, does 'per hop' mean one proxy traversal or one service-to-service call, and were the node-proxy calls same-node or cross-node? Does R3 mean 5 or 6 proxied segments?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will the auditor accept Lattice node-proxy mTLS (per-workload identity, rotation, STRICT enforcement, credential custody in a shared proxy) as meeting R1?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the one-option limit firm, would SPIRE count as a second option, and does product need R2 before the June 2027 audit?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What added p99 does Lattice ingress (or the existing edge) contribute, and does it support per-tenant limits and API keys?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All criteria, user assumptions, the framing, the hop-count and proxy-count ambiguities, phasing, and the SPIRE status are addressed. Hybrid deployment and shared-proxy blast radius are explicitly listed as not assessed."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-level sourcing, the difference-of-p99s caveat and the missing variance data are all disclosed. Moderate confidence is appropriate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "The prior major defects are fixed, and I recomputed K1-K16 and found them correct. What remains is minor: asymmetric doubling of the per-hop figure (D1), and an incomplete strict-case comparison and missing R3 check for the in-app route (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Sidecar, node-proxy, phased, Portcullis alone and Portcullis plus SPIRE are all compared fairly. Counterarguments are engaged rather than strawmanned."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "There is a clear conditional recommendation with gating conditions and a consistent fallback ladder. The verdict is too dense to read easily (D3), but it does not dodge the decision."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited evidence and calculation IDs exist and match the packet and the sources (I checked the load-test and requirements wording). There are no fabricated citations and no sign of injection."
+    }
+  ]
+}

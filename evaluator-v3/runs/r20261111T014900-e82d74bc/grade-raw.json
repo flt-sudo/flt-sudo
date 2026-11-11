@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "It addresses the real decision and covers all four mustFlag issues, plus edge rate limiting, ops burden and phasing. It also spends a lot of space on quantile-additivity theory (Pareto VaR, Embrechts examples), which is minor padding for this decision.",
+      "quotes": [
+        "Portcullis 5.2 alone fails R1",
+        "The best-supported choice this quarter is Lattice Service Mesh in node-proxy mode, with conditions",
+        "For these the quantile of the sum exceeds the sum of the quantiles at every level alpha in (0,1)"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "All numbers check out against the reference (13 ms, 4.5 ms, 2.6 ms, 0.9 ms, the 0.4 ms vendor conditions) and the calculations are re-executed. There are minor weak spots. E7 is derived arithmetic but its provenance is listed as fixture_read. The claim that E5's per-hop figure is 'probably a difference of p99s' is speculation that then carries weight in the argument.",
+      "quotes": [
+        "2.6 ms x 5 hops = 13 ms before any edge cost",
+        "0.4 ms was measured with mTLS and telemetry off at 1 KB and 1,000 rps",
+        "E5's 'added p99 per hop' is probably a difference of p99s and not the p99 of the added delay"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the latency differs (proxy per pod vs per node, payload size, mTLS), quantifies thresholds and readings (K8, K11-K16), and analyses failure modes such as one vs two node proxies per hop, 5 vs 6 segments, tail compounding and node-proxy certificate custody.",
+      "quotes": [
+        "Sidecar mode puts proxies on both the client side and the server side of every hop",
+        "With two proxies and 6 segments the internal sum is 10.8 ms, which breaks R3 before any edge cost",
+        "If node-proxy certificates are per node rather than per workload, the auditor may reject it for R1"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges both the either/or framing and the vendor 0.4 ms premise, presents counterarguments fairly (sum may be conservative, node-proxy is not on the table, go-spiffe route) and says what would change the conclusion.",
+      "quotes": [
+        "Neither framed option meets both hard requirements with confidence, so the either/or framing is wrong",
+        "The vendor benchmark shows 0.4 ms per hop, so sidecar latency is fine. — That benchmark disabled mTLS and telemetry",
+        "An end-to-end sidecar test showing at most 10 ms total. That would make sidecar viable on R3"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (Lattice node-proxy now, Portcullis at the edge later). It comes with two explicit conditions, ranked fallbacks and specific next steps: auditor confirmation, and an end-to-end test at peak rps with 6-40 KB payloads and per-hop histograms.",
+      "quotes": [
+        "Two conditions must be confirmed before committing",
+        "Run an end-to-end edge plus full checkout-chain test in both node-proxy and sidecar modes at production peak rps with 6-40 KB payloads",
+        "Default: Lattice node-proxy now, and Portcullis at the edge in a later quarter for R2"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "Traceability is strong: every claim is tied to E/K identifiers and uncertainty is labelled. But the Verdict is one very dense paragraph with nested fallback logic and repeated reading permutations, which makes it hard to follow in places.",
+      "quotes": [
+        "(4) If the decision is held strictly to the two options as stated, compare Lattice sidecar with the Portcullis option in both forms.",
+        "On the summed figure the edge may add up to 5.5 ms with one proxy per hop and 5 segments (K10), 4.6 ms with one proxy and 6 segments (K15, K16), and only 1.0 ms with two proxies and 5 segments (K12, K13)"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Portcullis 5.2 alone fails R1. It does not proxy service-to-service traffic and offers mTLS only from the gateway to the first upstream"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "0.4 ms was measured with mTLS and telemetry off at 1 KB and 1,000 rps. With mTLS STRICT and checkout payloads, sidecar adds 2.6 ms per hop."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "That sums to 13 ms over 5 hops, which exceeds the 10 ms budget on the summed estimate."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "It measured 0.9 ms per hop with mTLS STRICT, which sums to about 4.5 ms over 5 internal hops"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends Portcullis gateway alone, leaving east-west mTLS (compliance requirement) unmet",
+      "triggered": false,
+      "evidence": "It explicitly rejects this: 'Do not adopt Portcullis alone as the R1 solution'."
+    },
+    {
+      "condition": "Accepts the vendor 0.4 ms/hop figure and recommends sidecar mode without noticing it breaks the 10 ms checkout budget",
+      "triggered": false,
+      "evidence": "It rejects the vendor figure and advises against sidecar on summed figures: 'Do not adopt Lattice in sidecar mode for the checkout path unless an end-to-end test shows its edge plus checkout-chain added p99 is at most 10 ms.'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output matches the reference recommendation (node-proxy, with Portcullis or Lattice ingress for the edge) and hits all mustFlags. Neither mustNotClaim pattern applies. It calls the sidecar R3 failure 'likely but not proven', which is softer than the reference's firm 13 ms > 10 ms. I did not treat that as an error because the 13 ms figure and the budget breach on the summed estimate are both stated. The anchors held below 1.0 (scope, accuracy, clarity) reflect padding on quantile theory, one speculative inference about E5's measurement method, and a very dense verdict paragraph."
+}

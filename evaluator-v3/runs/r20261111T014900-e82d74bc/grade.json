@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T014900-e82d74bc",
+  "caseId": "ho-02-gateway-vs-mesh",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 86.25,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The output matches the reference recommendation (node-proxy, with Portcullis or Lattice ingress for the edge) and hits all mustFlags. Neither mustNotClaim pattern applies. It calls the sidecar R3 failure 'likely but not proven', which is softer than the reference's firm 13 ms > 10 ms. I did not treat that as an error because the 13 ms figure and the budget breach on the summed estimate are both stated. The anchors held below 1.0 (scope, accuracy, clarity) reflect padding on quantile theory, one speculative inference about E5's measurement method, and a very dense verdict paragraph."
+}

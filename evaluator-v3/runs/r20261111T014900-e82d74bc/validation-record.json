@@ -1,0 +1,543 @@
+{
+  "runId": "r20261111T014900-e82d74bc",
+  "generatedAt": "2026-11-11T02:05:43.514Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "Portcullis API Gateway 5.2 Lattice Service Mesh node-proxy mode",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "go-spiffe v2 mTLS Go services workload API SVID rotation",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "percentile latency not additive p99 multiple hops tail latency compounding microservices",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "Istio ambient ztunnel per-workload SPIFFE identity mTLS node proxy L7 waypoint",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "value-at-risk not subadditive quantile of sum exceeds sum of quantiles comonotonic additive",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "p99 latency percentiles not additive sum of per-hop p99 end-to-end chain independent services",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "Embrechts VaR superadditive independent identically distributed example Pareto quantile of sum larger than sum of quantiles",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://github.com/spiffe/go-spiffe",
+        "ok": true
+      },
+      {
+        "url": "https://aggregate.readthedocs.io/en/stable/5_technical_guides/5_x_quantiles.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND aggregate.readthedocs.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains"
+      },
+      {
+        "url": "https://ar.casact.org/?p=264",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND ar.casact.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n"
+      }
+    ],
+    "fixturesRead": [
+      "requirements.md",
+      "internal-loadtest-2026-10.md",
+      "lattice-vendor-benchmark.md",
+      "portcullis-datasheet.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-02 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13134,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 39412,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 181
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1197,
+            "cache_read_input_tokens": 9096,
+            "output_tokens": 2839,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1197
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2839,
+                "cache_read_input_tokens": 9096,
+                "cache_creation_input_tokens": 1197,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1197,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-02 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 28442,
+          "totalToolUseCount": 13,
+          "totalDurationMs": 88219,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 239
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 2052,
+            "cache_read_input_tokens": 20221,
+            "output_tokens": 6167,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 2052
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 6167,
+                "cache_read_input_tokens": 20221,
+                "cache_creation_input_tokens": 2052,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 2052,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-02 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 35099,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 92051,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1437
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18497,
+            "cache_read_input_tokens": 6135,
+            "output_tokens": 10465,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 18497
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10465,
+                "cache_read_input_tokens": 6135,
+                "cache_creation_input_tokens": 18497,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 18497,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-02 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 39448,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 64133,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2223
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1197,
+            "cache_read_input_tokens": 33101,
+            "output_tokens": 5148,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1197
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5148,
+                "cache_read_input_tokens": 33101,
+                "cache_creation_input_tokens": 1197,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1197,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-02 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-02 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-02 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 59896,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 51748,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2241
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 48888,
+            "cache_read_input_tokens": 6084,
+            "output_tokens": 4922,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 48888
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4922,
+                "cache_read_input_tokens": 6084,
+                "cache_creation_input_tokens": 48888,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 48888,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-02 analyst draft 3",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-02 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 65664,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 51971,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 12
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 2767,
+            "cache_read_input_tokens": 60266,
+            "output_tokens": 2629,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 2767
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2629,
+                "cache_read_input_tokens": 60266,
+                "cache_creation_input_tokens": 2767,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 2767,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-02 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 32991,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 29163,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 756
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 24927,
+            "cache_read_input_tokens": 5070,
+            "output_tokens": 2992,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 24927
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2992,
+                "cache_read_input_tokens": 5070,
+                "cache_creation_input_tokens": 24927,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 24927,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "https://github.com/spiffe/go-spiffe",
+      "how": "fetched"
+    },
+    {
+      "ref": "requirements.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "internal-loadtest-2026-10.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "lattice-vendor-benchmark.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "portcullis-datasheet.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://dev.to/speed_engineer/why-chaining-five-fast-services-gives-you-one-slow-one-3hj3",
+    "https://istio.io/latest/blog/2022/ambient-security/",
+    "https://aggregate.readthedocs.io/en/stable/5_technical_guides/5_x_quantiles.html",
+    "https://arxiv.org/html/2512.07787v3",
+    "https://www.riskresearch.org/files/DanielssonVriesJorgensenSamorodnitskyMandira2005.pdf",
+    "https://tianpan.co/blog/2026-07-05-the-latency-budget-nobody-allocated-across-agent-hops"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 18 accepted, 1 rejected (source never retrieved / schema), 1 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 2.6 * 5 = 13 (claimed 13) → match",
+    "Calculation K2 re-executed: 2.6 * 5 + 0.8 = 13.8 (claimed 13.8) → match",
+    "Calculation K3 re-executed: 0.4 * 5 = 2 (claimed 2) → match",
+    "Calculation K4 re-executed: 0.9 * 5 = 4.5 (claimed 4.5) → match",
+    "Calculation K5 re-executed: 0.9 * 5 + 0.8 = 5.3 (claimed 5.3) → match",
+    "Calculation K6 re-executed: 10 - (0.9 * 5 + 0.8) = 4.7 (claimed 4.7) → match",
+    "Calculation K7 re-executed: 0.99 ^ 5 = 0.9509900498999999 (claimed 0.951) → match",
+    "Calculation K8 re-executed: (10 - 0.8) / 5 = 1.8399999999999999 (claimed 1.84) → match",
+    "Calculation K9 re-executed: 2.6 / 0.4 = 6.5 (claimed 6.5) → match",
+    "Calculation K10 re-executed: 10 - 0.9 * 5 = 5.5 (claimed 5.5) → match",
+    "Calculation K11 re-executed: 10 / 5 = 2 (claimed 2) → match",
+    "Calculation K12 re-executed: 0.9 * 2 * 5 = 9 (claimed 9) → match",
+    "Calculation K13 re-executed: 10 - 0.9 * 2 * 5 = 1 (claimed 1) → match",
+    "Calculation K14 re-executed: 0.9 * 2 * 6 = 10.8 (claimed 10.8) → match",
+    "Calculation K15 re-executed: 0.9 * 6 = 5.4 (claimed 5.4) → match",
+    "Calculation K16 re-executed: 10 - 0.9 * 6 = 4.6 (claimed 4.6) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://aggregate.readthedocs.io/en/stable/5_technical_guides/5_x_quantiles.html — getaddrinfo ENOTFOUND aggregate.readthedocs.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains",
+    "Fetch failed: https://ar.casact.org/?p=264 — getaddrinfo ENOTFOUND ar.casact.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G2 unresolved: No end-to-end measurement of edge plus 5 hops exists for any option. Lattice ingress edge latency is unknown. Portcullis latency at 6-40 KB payloads and checkout rps is untested. In-app mTLS overhead is unknown. The E7 totals are sums of per-hop p99s. Those sums are exact only for fully correlated hops, usually conservative for independent well-behaved tails, and can underestimate with rare per-hop spikes (E13-E18). No per-hop histograms are available to tell which regime applies. The segment count (5 vs 6) implied by R3 is ambiguous in the fixtures (E19). Fetches of aggregate.readthedocs.io and ar.casact.org failed because the hosts are not resolvable in this session (they would need to be allowed in the network settings), so the probability claims rest on search snippets.",
+    "Knowledge gap G3 unresolved: No Lattice ingress documentation was available, and the products are not publicly documented. Per-tenant rate limiting and API key auth in Lattice, in either mode, remain unconfirmed. Only per-route limiting is documented.",
+    "Knowledge gap G4 unresolved: Audit acceptability of node-proxy mode (per-workload certificates, rotation, STRICT enforcement) rests only on an internal note. The specific L7 policies lost in node-proxy mode are not described.",
+    "Knowledge gap G5 unresolved: The internal test reports no sample size, run length, repetitions or variance. It does not say whether the full checkout chain was exercised, how 3,500 rps compares with production peak, or whether 'per hop' covers one or two sidecars.",
+    "Knowledge gap G6 unresolved: No document confirms whether the one-option-per-quarter limit is firm or whether phasing (e.g. node-proxy mesh now, gateway later) is allowed. This needs stakeholder confirmation.",
+    "Knowledge gap G1 unresolved: The in-app go-spiffe/SPIRE route is technically feasible (E8). Engineering effort across 14 services, its latency cost, and auditor acceptance were not quantified."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 86.25/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Auditor acceptance of node-proxy mTLS rests only on an internal note (E6), and the per-workload identity support is an Istio analogy (E10)",
+    "No end-to-end checkout-chain latency measurement exists for any option. Without per-hop histograms it is unknown whether the summed p99s overstate or understate the true figure (E7, E18). E5's per-hop figures are probably differences of p99s, which further weakens any summation argument (E5, E18)",
+    "The probability sources on p99 summation (E13-E16) are search snippets, and E14 and E15 disagree on how often the sum understates in practice",
+    "The internal test does not report sample size, variance, how 3,500 rps compares with production peak, or whether 'per hop' covers one proxy or two (E5)",
+    "The latency of the edge in the recommended configuration (Lattice ingress or an existing edge) is unknown (E7)",
+    "Whether R3 means 5 or 6 proxied segments is not resolved by the fixtures (E19). Together with the one-or-two-proxy question, this decides whether node-proxy fits on the summed figure at all (K12-K16)",
+    "Lattice ingress support for per-tenant limits and API keys is unknown (E4, E11)",
+    "Portcullis latency at checkout payloads is untested (E2)",
+    "Whether the one-option limit is firm, and whether phasing is allowed, is unconfirmed (E12)",
+    "Whether a SPIRE deployment counts as a second option under the one-option limit is unconfirmed, and this decides whether Portcullis plus go-spiffe is admissible in fallbacks (2) to (4) (E8, E12)",
+    "The products have no public documentation, so all capability claims rest on the supplied fixtures (E11)",
+    "Effort and latency of the in-app go-spiffe route are unquantified (E8)",
+    "Not assessed for lack of packet evidence: a hybrid deployment (sidecar for non-checkout services, node-proxy on the checkout path), and the security cost of a shared per-node proxy holding credentials for many workloads, which could widen the blast radius if compromised and which an auditor may weigh",
+    "E11 UNKNOWN: No public documentation could be found for 'Portcullis API Gateway 5.2' or 'Lattice Service Mesh'. A web search returned no matching products.",
+    "Open question the reviewer judged decisive: What is the measured end-to-end added p99 (edge plus full checkout chain) for Lattice node-proxy and sidecar modes, and for the in-app go-spiffe route if it stays a fallback, at production peak rps with 6-40 KB payloads and the actual edge component?",
+    "Open question the reviewer judged decisive: In the internal load test, does 'per hop' mean one proxy traversal or one service-to-service call, and were the node-proxy calls same-node or cross-node? Does R3 mean 5 or 6 proxied segments?",
+    "Open question the reviewer judged decisive: Will the auditor accept Lattice node-proxy mTLS (per-workload identity, rotation, STRICT enforcement, credential custody in a shared proxy) as meeting R1?",
+    "Open question the reviewer judged decisive: Is the one-option limit firm, would SPIRE count as a second option, and does product need R2 before the June 2027 audit?",
+    "Open question the reviewer judged decisive: What added p99 does Lattice ingress (or the existing edge) contribute, and does it support per-tenant limits and API keys?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T01:54:43.000Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [CL2, CL5, criteriaAssessments C2 mechanisms, edgeCasesAndFailureModes[2], counterarguments[1], practicalImplications[0]] The draft gets the direction of the p99 summation error wrong. CL5, C2 mechanisms and edgeCasesAndFailureModes item 3 say summed per-hop p99s are 'an approximation, not a bound' and that correlated slowness can make end-to-end p99 'worse than the sum'. For positive latencies with independent hops, the p99 of the sum is normally below the sum of the p99s. Under perfect correlation the two are equal. So the sum is usually the conservative estimate. K7 (0.99^5 = 95.1% of requests avoid every hop's tail) measures how many requests hit at least one slow hop. It does not show the summed p99 is optimistic. This matters for the verdict. CL2 says sidecar mode 'fails R3' at 13 ms / 13.8 ms, but that rests only on summation, and the true end-to-end sidecar p99 could be materially lower, possibly near or under 10 ms. The counterargument response ('a plausible measurement error is unlikely to change the sidecar verdict') ignores this aggregation uncertainty. The sidecar failure should be stated as likely on a conservative sum, not as a finding. The end-to-end test should cover sidecar mode too, not only node-proxy.",
+          "[reasoning_validity/major] D2 [verdict; CL4; alternatives[2] ('Lattice node-proxy mode now'); K5, K6] The recommended option ('Lattice node-proxy mode now') does not include Portcullis this quarter. Yet its R3 headroom (5.3 ms total, 4.7 ms headroom, K5/K6) uses Portcullis's 0.8 ms datasheet edge figure. In the recommended configuration the edge would be Lattice ingress or some existing edge, and its latency is unknown (packet E7 limitations). The alternatives entry also quotes '4.5 to 5.3 ms', and the 4.5 ms lower end assumes zero edge cost, which CL11 itself says R3 does not allow. The verdict's '4.7 ms of headroom' is therefore attached to a configuration the draft is not recommending for this quarter. K10 (up to 5.5 ms of edge tolerated) is the correct framing for the recommended option and should replace the headroom figure there.",
+          "[decision_usefulness/major] D3 [verdict; furtherResearchThatCouldChangeConclusion[4]; alternatives] The user asked which of TWO options to pick. The draft recommends a third configuration, conditional on two unconfirmed items: auditor acceptance and an end-to-end test. It gives no ranked fallback if the conditions fail or the strict either/or holds. In particular, it never says which product to adopt if the one-product limit is firm, R2 is needed this quarter, or node-proxy is rejected by the auditor. furtherResearch[4] only says this 'would force a choice between leaving R2 or R1 at risk' and does not make that choice. Given R1's hard audit date and R2's lack of a deadline, the draft has what it needs to state a fallback, but it does not.",
+          "D1 (remedy both) needs evidence on how per-hop p99s aggregate end to end; D2/D3 reanalysis"
+        ],
+        "action": "both"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T02:01:09.486Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict fallbacks (2) and (4); alternatives[4]; counterarguments[3]; furtherResearchThatCouldChangeConclusion[5]] The new ranked fallbacks treat the Portcullis plus go-spiffe/SPIRE route inconsistently. Fallback (2), alternatives[4] and furtherResearch[5] call it 'the only single-product route in the packet that covers both R1 and R2'. But it needs a SPIRE deployment (a Workload API server the team must run, per E8) plus code changes in all 14 services. Calling it 'single-product' under a one-option-per-quarter limit is not justified, and the draft never checks whether SPIRE would count against that limit. Fallback (4) then drops the route: under the strict two-option framing it ranks Lattice over Portcullis because 'Portcullis alone fails the hard R1 requirement outright (E2)'. If Portcullis plus in-app mTLS counts as the Portcullis option in fallback (2), it should be compared with Lattice sidecar in fallback (4) too. It is not, and sidecar is itself likely to breach the hard R3 limit. Fallback (4) also recommends a configuration the draft expects to fail a hard requirement (CL2), and never says whether a likely R3 breach is better or worse than an R1 gap filled by in-app code. The fallback ladder needs one consistent definition of 'one option' and a direct comparison of sidecar against Portcullis plus go-spiffe in the strict case.",
+          "[reasoning_validity/major] D2 [criteriaAssessments C2 weaknesses[3]; edgeCasesAndFailureModes[0], [6]; verdict (K10 framing); CL4, CL11] The draft adds K12 ('with a 0.8 ms edge') and E19 (5 vs 6 segments) but never combines them, and it ties K12 to the Portcullis edge, which the recommended this-quarter setup does not include. I recomputed the numbers. With two node proxies per hop, the internal sum is 0.9 x 2 x 5 = 9.0 ms, so the unknown edge in the recommended setup (Lattice ingress or an existing edge) may add only 1.0 ms, not 5.5 ms (K10). Under the 6-segment reading with two proxies per hop, the internal sum is 0.9 x 2 x 6 = 10.8 ms, which breaks R3 with zero edge cost. With one proxy per hop and 6 segments, it is 5.4 ms, leaving 4.6 ms for the edge. So two ambiguities the draft lists separately can together reverse the node-proxy pass on the summed figure. The verdict's framing that the edge can add 'up to 5.5 ms' therefore overstates the headroom. This is the same kind of problem as prior D2, now appearing in changed material.",
+          "D1/D2 major reasoning_validity defects, both remedy reanalysis"
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/deterministic] 1 evidence classification violation(s) downgraded by registry"
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [criteriaAssessments C2 mechanisms; C2 weaknesses[3]; edgeCasesAndFailureModes[0]; K12-K14] New text in C2 mechanisms and the K12-K14 scenarios applies the 'two proxies per hop' doubling only to node-proxy mode. E5 (sources/internal-loadtest-2026-10.md) reports both modes in one 'Added p99 latency per hop' column. There are two ways to read that column. (i) It counts one proxy traversal. Then sidecar, which the draft itself says has proxies on both the client and server side of every hop, should be doubled as well, giving 2.6 x 2 x 5 = 26 ms. (ii) It counts one service-to-service hop. Then the node-proxy figure already includes both node proxies on a cross-node call, unless the test only measured same-node calls. The two-proxy node-proxy scenario is only coherent under a third reading: same-node test traffic against cross-node production traffic. The draft never states this reading. The pessimistic node-proxy figures (9.0 and 10.8 ms) are still worth raising, but the asymmetry should be explained. The sidecar conclusion does not change, because doubling only makes sidecar worse.",
+        "[minor/reviewer] D2 [verdict fallbacks (3) and (4); alternatives[4]; practicalImplications[3]] The new strict-case fallback (4) prefers Lattice sidecar over Portcullis plus go-spiffe/SPIRE when sidecar passes an end-to-end test. The only reason given is central R1 enforcement. It does not weigh that sidecar leaves R2 unmet while the Portcullis route covers it, or the C4 burden of each route. Fallbacks (3) and (4) also choose Portcullis plus go-spiffe/SPIRE when sidecar fails R3, calling its risks 'unquantified but not known failures'. In-app Go TLS still adds handshake and encryption cost on every one of the 5-6 hops, so R3 is unverified for this route too. practicalImplications asks for end-to-end tests of node-proxy and sidecar only, not of the in-app route. The draft should say that the in-app route also needs an end-to-end R3 test before it is adopted."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [verdict] The verdict has grown into one very long paragraph. It mixes the recommendation, four combined readings of the latency headroom, a definition of 'one option' and a four-level fallback ladder, some of whose branches have their own sub-branches. The decision is still there, but a decision-maker would struggle to pull out the primary recommendation and its two gating conditions. Splitting it into a short headline recommendation, the gating conditions and a separate fallback list would fix this."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

@@ -1,0 +1,381 @@
+{
+  "subject": "Whether a Sev-2 hotfix (PAY-4471, PR #8812) can be deployed during the holiday change freeze on the on-call lead's approval alone, without CAB",
+  "decisionObjective": "Decide which approval path is actually required to deploy the PAY-4471 hotfix tonight: on-call lead sign-off only per the runbook, a written freeze exception from the CAB chair and VP Engineering, Emergency CAB, deferral until the freeze ends, or the normal non-freeze change process if the freeze is not in effect yet. Also decide whether the Sev-2 classification and the stated impact justify an exception at all, given that a manual workaround exists.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Policy precedence and currency",
+      "weight": 30,
+      "rationale": "The runbook (last edited 2023-11-20) and Change Management Policy v4 (effective 2026-09-01, which says it supersedes conflicting runbooks) give different answers. Which document governs settles whether the planned process is valid."
+    },
+    {
+      "id": "C2",
+      "name": "Correct approval path for the severity under the governing policy",
+      "weight": 25,
+      "rationale": "Under v4, Sev-2 forward fixes are deferred unless the CAB chair and VP Engineering grant a written exception, and on-call leads may approve rollbacks only. The deploy is compliant only if it uses the path the governing policy assigns to this severity."
+    },
+    {
+      "id": "C3",
+      "name": "Accuracy of severity classification",
+      "weight": 15,
+      "rationale": "The approval path depends on severity. If the incident is really Sev-1 (for example data loss or financial integrity risk), Emergency CAB applies. If it is lower, the case for an exception gets weaker. The classification has to be checked against the v4 definitions, not taken as given."
+    },
+    {
+      "id": "C4",
+      "name": "Freeze applicability and timing",
+      "weight": 10,
+      "rationale": "The request says 'we're in the freeze' (Dec 15 to Jan 5) and plans a deploy 'tonight', but the current date is 2026-11-11. If the freeze is not active, freeze rules may not apply and the normal change process governs."
+    },
+    {
+      "id": "C5",
+      "name": "Business impact and adequacy of the workaround",
+      "weight": 10,
+      "rationale": "Whether an exception is justified, rather than deferring the fix, depends on the real financial, customer and operational cost and risk of manual processing (about 6 a day, refunds over EUR 10k) until Jan 5."
+    },
+    {
+      "id": "C6",
+      "name": "Change risk and rollback readiness",
+      "weight": 10,
+      "rationale": "An exception request, and the approvers deciding on it, need evidence that the fix (timeout config and retry) is low-risk: review, CI, testing, a rollback plan, and no double-refund risk from retries. A rollback is also the one action an on-call lead can approve."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The runbook rule allowing Sev-2 fixes to bypass CAB with the on-call lead's approval is the current, valid process.",
+      "source": "user",
+      "howToCheck": "Compare the runbook (last edited 2023-11-20) with Change Management Policy v4 sections 6.1 to 6.4 and its supersession clause. Confirm v4 is the published current version."
+    },
+    {
+      "assumption": "The incident is correctly classified as Sev-2.",
+      "source": "user",
+      "howToCheck": "Map the ticket facts to the v4 severity definitions. Check the service tier and whether there is any data loss or financial integrity impact."
+    },
+    {
+      "assumption": "The holiday freeze is currently in effect.",
+      "source": "user",
+      "howToCheck": "Compare the current date (2026-11-11) and the planned deploy time with the freeze window (Dec 15 to Jan 5) and any announced freeze calendar."
+    },
+    {
+      "assumption": "About 0.3% of refunds over EUR 10k are failing, with finance handling about 6 a day manually.",
+      "source": "user",
+      "howToCheck": "Recompute the implied daily volume (6 / 0.003 ≈ 2,000) and check it against refund volume metrics and the ticket's data."
+    },
+    {
+      "assumption": "On-call lead sign-off is enough authority for a forward fix.",
+      "source": "user",
+      "howToCheck": "Check v4 section 6.4 (on-call leads may approve rollbacks only) and any delegation records."
+    },
+    {
+      "assumption": "The fix in PR #8812 is low-risk because it has been reviewed and passes CI.",
+      "source": "planner",
+      "howToCheck": "Review the PR for idempotency of the retried ledger calls, test coverage of the timeout path, and a documented rollback plan."
+    },
+    {
+      "assumption": "The attached documents are complete, authentic, and the latest versions.",
+      "source": "planner",
+      "howToCheck": "Check the documents against the policy repository or wiki history for newer versions, amendments, or exceptions already granted."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "Is Change Management Policy v4 (effective 2026-09-01) the current, authoritative policy, and does its supersession clause override the 2023 holiday-freeze runbook?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Change Management Policy v4 is 'Effective: 2026-09-01. Supersedes v3 and all team runbooks that conflict with it.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "change-management-policy-v4.md",
+          "applicability": "G1/C1: v4 took effect before today (2026-11-11), and its supersession clause covers team runbooks that conflict with it. The holiday-freeze runbook conflicts with 6.3 and 6.4, so v4 governs.",
+          "limitations": "I could only check the supplied copy. I had no access to a policy repository or wiki history, so I could not confirm there is no v5 or amendment, or that this copy is authentic.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E2",
+          "claim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "wiki-runbook-holiday-freeze.md",
+          "applicability": "G1/C1/C2: this is the user's basis for the plan. It was last edited about 2 years and 10 months before v4 took effect, and it conflicts directly with v4 sections 6.2, 6.3 and 6.4.",
+          "limitations": "The runbook has not been updated since v4 was published. It is stale relative to v4.",
+          "contradicts": [
+            "E1",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "Under the governing policy, what exactly does a Sev-2 forward fix need during a freeze (a written exception from the CAB chair and VP Engineering), and can an on-call lead approve any part of it?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "wiki-runbook-holiday-freeze.md",
+          "applicability": "G1/C1/C2: this is the user's basis for the plan. It was last edited about 2 years and 10 months before v4 took effect, and it conflicts directly with v4 sections 6.2, 6.3 and 6.4.",
+          "limitations": "The runbook has not been updated since v4 was published. It is stale relative to v4.",
+          "contradicts": [
+            "E1",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        },
+        {
+          "id": "E3",
+          "claim": "v4 section 6.3: 'Sev-2 and lower: deferred until the freeze ends, unless a written freeze exception is granted by the CAB chair AND VP Engineering.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "change-management-policy-v4.md",
+          "applicability": "G2/C2: during an active freeze, a Sev-2 forward fix needs a written exception signed by both the CAB chair and the VP Engineering. Otherwise it is deferred.",
+          "limitations": "The policy does not say what an exception request must contain or what criteria decide it.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E4",
+          "claim": "v4 section 6.4: 'On-call leads may approve rollbacks only, not forward fixes.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "change-management-policy-v4.md",
+          "applicability": "G2/C2/C6: PR #8812 (timeout config + retry) is a forward fix, so the on-call lead's sign-off alone is not sufficient. Her authority covers rollbacks only.",
+          "limitations": "No delegation records were supplied. I could not check whether the on-call lead holds delegated CAB chair or VP Engineering authority.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E5",
+          "claim": "v4 section 6.2: 'Sev-1 incidents: may deploy via Emergency CAB (minimum two approvers, one of whom is VP Engineering or delegate). Post-implementation review within 2 business days.' Section 6.1: 'Freeze periods: no production changes except as below.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "change-management-policy-v4.md",
+          "applicability": "G2/G3/C2: even a Sev-1 needs Emergency CAB (at least two approvers, including the VP Engineering or a delegate), not one on-call lead. So the runbook's Sev-1 bypass is also void under v4.",
+          "limitations": "The text available is limited to sections 6.1 to 6.4. The rest of v4 (non-freeze standard change process, definitions of freeze periods) was not supplied.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E12",
+          "claim": "Could not determine whether the refund or ledger service is classified tier-1, or whether any freeze exception or delegation has already been granted.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "G3/G2: the service tier decides Sev-2 versus Sev-3. Existing exceptions or delegations would change the approval path.",
+          "limitations": "No service catalogue, CAB records or delegation records were supplied.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "Does PAY-4471 meet the v4 Sev-2 definition (partial degradation of a tier-1 service with a workaround), or does it meet Sev-1 criteria (for example data loss or a financial integrity issue from failed or retried refunds)? Is the refund/ledger service tier-1?",
+      "evidence": [
+        {
+          "id": "E5",
+          "claim": "v4 section 6.2: 'Sev-1 incidents: may deploy via Emergency CAB (minimum two approvers, one of whom is VP Engineering or delegate). Post-implementation review within 2 business days.' Section 6.1: 'Freeze periods: no production changes except as below.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "change-management-policy-v4.md",
+          "applicability": "G2/G3/C2: even a Sev-1 needs Emergency CAB (at least two approvers, including the VP Engineering or a delegate), not one on-call lead. So the runbook's Sev-1 bypass is also void under v4.",
+          "limitations": "The text available is limited to sections 6.1 to 6.4. The rest of v4 (non-freeze standard change process, definitions of freeze periods) was not supplied.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E6",
+          "claim": "Severity definitions v4: 'Sev-1: full outage of a tier-1 service, data loss, or active security incident.' 'Sev-2: partial degradation of a tier-1 service with a workaround available.' 'Sev-3: minor impact.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "severity-definitions-v4.md",
+          "applicability": "G3/C3: intermittent timeouts on 0.3% of refunds over EUR 10k, with a manual workaround, fit 'partial degradation ... with a workaround'. The Sev-1 criteria listed are full outage, data loss and active security incident. 'Financial integrity risk' is not one of them. Sev-2 requires a tier-1 service.",
+          "limitations": "The definitions do not say which services are tier-1. If the refund or ledger service is not tier-1, the incident may be Sev-3 rather than Sev-2. Sev-3 is still 'lower' and deferred under 6.3.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Incident ticket PAY-4471: 'Sev-2 | Refunds > EUR 10k intermittently fail with timeout from ledger service (0.3% of such refunds). Workaround: finance processes manually via back-office tool; ~6 per day. Fix: PR #8812 (timeout config + retry), reviewed, passing CI.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "incident-ticket-PAY-4471.md",
+          "applicability": "G3/G5/G6/C3/C5/C6: the ticket has the stated facts. It records no data loss, outage or security issue, and a workaround exists, which is consistent with Sev-2 or lower.",
+          "limitations": "The ticket does not give the service tier, refund volume, total value affected, a rollback plan, test coverage of the timeout path, or whether the retry is idempotent. It does not say whether the timed-out refunds were partially committed in the ledger.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "Could not determine whether the refund or ledger service is classified tier-1, or whether any freeze exception or delegation has already been granted.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "G3/G2: the service tier decides Sev-2 versus Sev-3. Existing exceptions or delegations would change the approval path.",
+          "limitations": "No service catalogue, CAB records or delegation records were supplied.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "Is the freeze actually in effect at the planned deployment time, given that today is 2026-11-11 and the freeze runs Dec 15 to Jan 5?",
+      "evidence": [
+        {
+          "id": "E8",
+          "claim": "The user says 'We're in the holiday change freeze (Dec 15 - Jan 5)' and plans to 'deploy the hotfix tonight'. The current date is 2026-11-11, so a deploy tonight (2026-11-11) would fall about 34 days before a Dec 15 freeze start. The freeze would not yet be in effect.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "user_input",
+          "ref": "request",
+          "applicability": "G4/C4: if the freeze is not active, v4 sections 6.1 to 6.3 (the freeze provisions) do not apply. The normal non-freeze change process, which was not supplied, would govern. Section 6.4 is not explicitly limited to freezes, so it may still bar on-call-only approval of forward fixes.",
+          "limitations": "The freeze dates come only from the user. Neither v4 nor the runbook defines them, and no freeze calendar was supplied. The user may be writing in a different time frame, or the scenario date may be hypothetical. Whether 6.4 applies outside freezes depends on context and is unconfirmed.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "Recompute the impact: 0.3% of refunds over EUR 10k at about 6 failures a day implies about 2,000 qualifying refunds a day. Is that consistent with actual volumes, and what is the total value and risk of manual handling through Jan 5?",
+      "evidence": [
+        {
+          "id": "E7",
+          "claim": "Incident ticket PAY-4471: 'Sev-2 | Refunds > EUR 10k intermittently fail with timeout from ledger service (0.3% of such refunds). Workaround: finance processes manually via back-office tool; ~6 per day. Fix: PR #8812 (timeout config + retry), reviewed, passing CI.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "incident-ticket-PAY-4471.md",
+          "applicability": "G3/G5/G6/C3/C5/C6: the ticket has the stated facts. It records no data loss, outage or security issue, and a workaround exists, which is consistent with Sev-2 or lower.",
+          "limitations": "The ticket does not give the service tier, refund volume, total value affected, a rollback plan, test coverage of the timeout path, or whether the retry is idempotent. It does not say whether the timed-out refunds were partially committed in the ledger.",
+          "contradicts": []
+        },
+        {
+          "id": "E9",
+          "claim": "If ~6 failures per day is 0.3% of refunds over EUR 10k, the implied volume is about 2,000 refunds over EUR 10k per day (6 / 0.003). That would be at least about EUR 20M per day in high-value refunds.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "incident-ticket-PAY-4471.md",
+          "applicability": "G5/C5: this is a plausibility check on the impact figures. Whether the implied volume is realistic cannot be checked without refund metrics.",
+          "limitations": "This is arithmetic only, flagged as suspect. It is ambiguous whether '~6 per day' counts failures or manual workload, and whether 0.3% is measured per day. No volume metrics were supplied. The total value and manual-handling cost through Jan 5 could not be determined.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "Does PR #8812 add retries to a money-moving call without idempotency guarantees, and is there a tested rollback plan?",
+      "evidence": [
+        {
+          "id": "E7",
+          "claim": "Incident ticket PAY-4471: 'Sev-2 | Refunds > EUR 10k intermittently fail with timeout from ledger service (0.3% of such refunds). Workaround: finance processes manually via back-office tool; ~6 per day. Fix: PR #8812 (timeout config + retry), reviewed, passing CI.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "incident-ticket-PAY-4471.md",
+          "applicability": "G3/G5/G6/C3/C5/C6: the ticket has the stated facts. It records no data loss, outage or security issue, and a workaround exists, which is consistent with Sev-2 or lower.",
+          "limitations": "The ticket does not give the service tier, refund volume, total value affected, a rollback plan, test coverage of the timeout path, or whether the retry is idempotent. It does not say whether the timed-out refunds were partially committed in the ledger.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "Payment API providers advise using idempotency keys when a timeout leaves the outcome of a state-changing request (including refunds) uncertain. Retrying with the same key returns the original result instead of creating a duplicate, and refunds should each have their own unique key.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.checkout.com/docs/developer-resources/api/idempotency",
+          "applicability": "G6/C6: PR #8812 adds a retry to a ledger call that times out on refunds over EUR 10k. Unless the call is idempotent, a retry after a timeout whose outcome is unknown could cause double refunds. Approvers should require evidence of idempotency.",
+          "limitations": "This is based on search-result summaries only. The fetch of checkout.com failed (host not allowed in this session's network settings), and no page was inspected directly. The guidance comes from external providers and may not match the internal ledger service. The PR itself was not available.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "No evidence was available on whether PR #8812's retry is idempotent, on test coverage of the timeout path, or on a documented rollback plan.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "G6/C6: the claim that the change is low-risk rests only on 'reviewed, passing CI'.",
+          "limitations": "The PR, its diff and the deploy plan were not supplied.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E1",
+      "b": "E2",
+      "aClaim": "Change Management Policy v4 is 'Effective: 2026-09-01. Supersedes v3 and all team runbooks that conflict with it.'",
+      "bClaim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'"
+    },
+    {
+      "a": "E2",
+      "b": "E3",
+      "aClaim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'",
+      "bClaim": "v4 section 6.3: 'Sev-2 and lower: deferred until the freeze ends, unless a written freeze exception is granted by the CAB chair AND VP Engineering.'"
+    },
+    {
+      "a": "E2",
+      "b": "E4",
+      "aClaim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'",
+      "bClaim": "v4 section 6.4: 'On-call leads may approve rollbacks only, not forward fixes.'"
+    },
+    {
+      "a": "E2",
+      "b": "E5",
+      "aClaim": "The holiday change freeze runbook, '_Last edited 2023-11-20_', says: 'During the freeze, Sev-1 and Sev-2 fixes may bypass CAB with approval of the on-call engineering lead. Log the change in #changes.'",
+      "bClaim": "v4 section 6.2: 'Sev-1 incidents: may deploy via Emergency CAB (minimum two approvers, one of whom is VP Engineering or delegate). Post-implementation review within 2 business days.' Section 6.1: 'Freeze periods: no production changes except as below.'"
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E11",
+      "claim": "No evidence was available on whether PR #8812's retry is idempotent, on test coverage of the timeout path, or on a documented rollback plan.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "G6/C6: the claim that the change is low-risk rests only on 'reviewed, passing CI'.",
+      "limitations": "The PR, its diff and the deploy plan were not supplied.",
+      "contradicts": []
+    },
+    {
+      "id": "E12",
+      "claim": "Could not determine whether the refund or ledger service is classified tier-1, or whether any freeze exception or delegation has already been granted.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "G3/G2: the service tier decides Sev-2 versus Sev-3. Existing exceptions or delegations would change the approval path.",
+      "limitations": "No service catalogue, CAB records or delegation records were supplied.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "I could not confirm that v4 is the latest published version with no amendments, because there was no access to a policy repository or wiki history. The conclusion that v4 governs rests on the supplied copy."
+    },
+    {
+      "gapId": "G3",
+      "reason": "The tier of the refund or ledger service is not documented in the supplied sources. It is also unknown whether timed-out refunds leave partial or inconsistent ledger state."
+    },
+    {
+      "gapId": "G4",
+      "reason": "The freeze dates are stated only by the user, and no freeze calendar was supplied. The non-freeze standard change process is not in the supplied v4 excerpt."
+    },
+    {
+      "gapId": "G5",
+      "reason": "No refund volume or value metrics were available, so the implied ~2,000 refunds over EUR 10k per day and the total exposure through Jan 5 could not be checked."
+    },
+    {
+      "gapId": "G6",
+      "reason": "PR #8812 was not available to inspect for idempotency, tests or a rollback plan. The external idempotency guidance is based on search snippets only, because the fetch of www.checkout.com failed (host not allowed in the session network settings)."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

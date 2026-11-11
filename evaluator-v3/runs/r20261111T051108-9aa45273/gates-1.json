@@ -1,0 +1,138 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C3; CL7] C3 considers Sev-3 only if the service is not tier-1. The Sev-3 definition is 'minor impact', and failures on 0.3% of one refund segment with a working workaround could reasonably count as minor impact even on a tier-1 service. That would weaken the exception case further. The draft does not test this reading."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; C4 assessment; E8 applicability] The verdict says 'In either case, do not deploy on the on-call lead's approval alone' and that section 6.4 'probably still bars on-call-only approval' outside the freeze. The supplied v4 excerpt has 6.4 directly after 6.1 to 6.3, which are all about freezes (6.1 opens with 'Freeze periods'). It is just as plausible that 6.4 is scoped to freezes. The draft itself says the non-freeze process was not supplied (CL6). In the non-freeze branch, the 'in either case' directive is advice, not something the evidence establishes, and it should be labelled that way. Recommendation (a), to use the normal process, is still sound."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [edgeCasesAndFailureModes item 2] One edge case says a refund finance already processed manually might 'later succeed on retry after the fix is deployed'. That only happens if failed refunds are re-queued or replayed. No evidence shows they are; a retry inside the request would apply to new requests. The case is presented without this condition."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict ('moderate at best'); alternatives 'Defer until the freeze ends'; counterarguments; criteriaAssessments C5] The draft argues one side of the second half of the decision objective (does the impact justify an exception at all?). The verdict says 'The case for an exception is moderate at best', and the Defer alternative cites 'low staffing' as a reason against deploying the retry. The same holiday staffing problem also weakens the manual workaround: finance staff are on leave, and manual handling of more than EUR 10k refunds carries a higher error risk. The draft never raises this. The counterarguments section also leaves out the strongest case for an exception: customers waiting on delayed high-value refunds, possible contractual, scheme or regulatory deadlines for refunds, and the reputational cost. Of the four counterarguments listed, none argues for an exception on impact grounds. The draft therefore downgrades the exception case without weighing the best evidence for it."
+        },
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [alternatives; C6] An obvious option is missing: split PR #8812 and request approval, or an exception, for the timeout-config change alone, without the retry. That would address the timeouts while removing the double-refund risk the draft identifies as the main change risk."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [CL8; K4; C5] CL8 (manual-handling exposure) is marked not material, yet it is the main quantitative input to whether an exception is justified, which the decision objective explicitly asks about. Also, the 132-case figure covers only the 22-day freeze. If the date premise holds and the fix were deferred from today rather than sent through the normal process, exposure runs from 2026-11-11 to Jan 5: 56 days, about 336 cases. That figure is not stated."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "6 / 0.003",
+      "claimed": 2000,
+      "actual": 2000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "30 - 11 + 15",
+      "claimed": 34,
+      "actual": 34,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "31 - 15 + 1 + 5",
+      "claimed": 22,
+      "actual": 22,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "6 * 22",
+      "claimed": 132,
+      "actual": 132,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(2026 - 2023) * 12 + (8 - 11)",
+      "claimed": 33,
+      "actual": 33,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "2000 * 10000",
+      "claimed": 20000000,
+      "actual": 20000000,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "132 * 10000",
+      "claimed": 1320000,
+      "actual": 1320000,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict ('moderate at best'); alternatives 'Defer until the freeze ends'; counterarguments; criteriaAssessments C5] The draft argues one side of the second half of the decision objective (does the impact justify an exception at all?). The verdict says 'The case for an exception is moderate at best', and the Defer alternative cites 'low staffing' as a reason against deploying the retry. The same holiday staffing problem also weakens the manual workaround: finance staff are on leave, and manual handling of more than EUR 10k refunds carries a higher error risk. The draft never raises this. The counterarguments section also leaves out the strongest case for an exception: customers waiting on delayed high-value refunds, possible contractual, scheme or regulatory deadlines for refunds, and the reputational cost. Of the four counterarguments listed, none argues for an exception on impact grounds. The draft therefore downgrades the exception case without weighing the best evidence for it."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Is the freeze actually active at the planned deploy time? Check the official freeze calendar and confirm whether 'tonight' is 2026-11-11.",
+    "What approvers does the non-freeze standard change process in v4 require, and is section 6.4 scoped to freezes or general?",
+    "Do timed-out refunds leave partially committed ledger entries? That could amount to Sev-1 data loss and open the Emergency CAB path.",
+    "Is the retried ledger call in PR #8812 idempotent, and is there a tested rollback plan?",
+    "What are the customer, contractual or regulatory costs of delayed refunds over EUR 10k, and what is finance's holiday staffing for the manual workaround?",
+    "Does the on-call lead hold delegated CAB chair or VP Engineering authority, or has an exception already been granted?"
+  ]
+}

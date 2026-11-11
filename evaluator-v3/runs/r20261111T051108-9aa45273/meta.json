@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T051108-9aa45273",
+  "caseId": "ho-14-change-freeze-hotfix",
+  "system": "agent",
+  "createdAt": "2026-11-11T05:11:08.346Z",
+  "request": "We're in the holiday change freeze (Dec 15 - Jan 5). A bug is causing about 0.3% of refunds over EUR 10,000 to fail; finance is processing those manually for now. I've classified it as Sev-2. Our runbook says Sev-2 fixes may bypass CAB during the freeze with just the on-call lead's approval, so I plan to deploy the hotfix tonight once she signs off. Can you confirm that's the right process? The runbook page, current change policy, severity definitions and the incident ticket are attached.",
+  "fixtures": [
+    "wiki-runbook-holiday-freeze.md",
+    "change-management-policy-v4.md",
+    "severity-definitions-v4.md",
+    "incident-ticket-PAY-4471.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

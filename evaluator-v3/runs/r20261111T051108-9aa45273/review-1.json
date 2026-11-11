@@ -1,0 +1,111 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "The draft argues one side of the second half of the decision objective (does the impact justify an exception at all?). The verdict says 'The case for an exception is moderate at best', and the Defer alternative cites 'low staffing' as a reason against deploying the retry. The same holiday staffing problem also weakens the manual workaround: finance staff are on leave, and manual handling of more than EUR 10k refunds carries a higher error risk. The draft never raises this. The counterarguments section also leaves out the strongest case for an exception: customers waiting on delayed high-value refunds, possible contractual, scheme or regulatory deadlines for refunds, and the reputational cost. Of the four counterarguments listed, none argues for an exception on impact grounds. The draft therefore downgrades the exception case without weighing the best evidence for it.",
+      "location": "verdict ('moderate at best'); alternatives 'Defer until the freeze ends'; counterarguments; criteriaAssessments C5",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict says 'In either case, do not deploy on the on-call lead's approval alone' and that section 6.4 'probably still bars on-call-only approval' outside the freeze. The supplied v4 excerpt has 6.4 directly after 6.1 to 6.3, which are all about freezes (6.1 opens with 'Freeze periods'). It is just as plausible that 6.4 is scoped to freezes. The draft itself says the non-freeze process was not supplied (CL6). In the non-freeze branch, the 'in either case' directive is advice, not something the evidence establishes, and it should be labelled that way. Recommendation (a), to use the normal process, is still sound.",
+      "location": "verdict; C4 assessment; E8 applicability",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "C3 considers Sev-3 only if the service is not tier-1. The Sev-3 definition is 'minor impact', and failures on 0.3% of one refund segment with a working workaround could reasonably count as minor impact even on a tier-1 service. That would weaken the exception case further. The draft does not test this reading.",
+      "location": "criteriaAssessments C3; CL7",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "An obvious option is missing: split PR #8812 and request approval, or an exception, for the timeout-config change alone, without the retry. That would address the timeouts while removing the double-refund risk the draft identifies as the main change risk.",
+      "location": "alternatives; C6",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "One edge case says a refund finance already processed manually might 'later succeed on retry after the fix is deployed'. That only happens if failed refunds are re-queued or replayed. No evidence shows they are; a retry inside the request would apply to new requests. The case is presented without this condition.",
+      "location": "edgeCasesAndFailureModes item 2",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "CL8 (manual-handling exposure) is marked not material, yet it is the main quantitative input to whether an exception is justified, which the decision objective explicitly asks about. Also, the 132-case figure covers only the 22-day freeze. If the date premise holds and the fix were deferred from today rather than sent through the normal process, exposure runs from 2026-11-11 to Jan 5: 56 days, about 336 cases. That figure is not stated.",
+      "location": "CL8; K4; C5",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Is the freeze actually active at the planned deploy time? Check the official freeze calendar and confirm whether 'tonight' is 2026-11-11.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What approvers does the non-freeze standard change process in v4 require, and is section 6.4 scoped to freezes or general?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do timed-out refunds leave partially committed ledger entries? That could amount to Sev-1 data loss and open the Emergency CAB path.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the retried ledger call in PR #8812 idempotent, and is there a tested rollback plan?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the customer, contractual or regulatory costs of delayed refunds over EUR 10k, and what is finance's holiday staffing for the manual workaround?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the on-call lead hold delegated CAB chair or VP Engineering authority, or has an exception already been granted?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and the user's direct question are answered, and the date premise is caught. The Sev-3 'minor impact' reading is shallow but does not change the outcome."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Policy claims quote the supplied sources accurately. Unknowns are flagged, and E10's snippet-only basis is disclosed. Confidence is 'moderate', which fits the evidence."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed every figure and all are correct: K1=2000, K2=34, K3=22, K4=132, K5=33, K6=20M, K7=1.32M. The precedence reasoning is sound. One minor overreach on the scope of 6.4 (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "The judgment on the exception case is one-sided. The strongest pro-exception arguments (customer and regulatory harm, holiday staffing for the manual workaround) are missing, and so is the split-PR option (D1, D4)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft clearly rejects the user's plan and gives branch-specific actions with named approvers. Exposure framing is incomplete (D6) but not misleading."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited E and K ID exists. Cited claims match the packet and the source text, and no injection was followed."
+    }
+  ]
+}

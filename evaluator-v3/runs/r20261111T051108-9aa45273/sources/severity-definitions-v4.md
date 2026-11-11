@@ -1,0 +1,3 @@
+- Sev-1: full outage of a tier-1 service, data loss, or active security incident.
+- Sev-2: partial degradation of a tier-1 service with a workaround available.
+- Sev-3: minor impact.

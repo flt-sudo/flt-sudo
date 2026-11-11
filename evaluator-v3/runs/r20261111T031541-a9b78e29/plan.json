@@ -1,0 +1,139 @@
+{
+  "subject": "Lease vs. buy decision for a genomics sequencer (vendor quote Q-88412, 'Corvid S4'): $480,000 purchase plus $1,500/month required service and $90,000 expected resale at month 48, versus an operating lease at $11,500/month for 48 months with service included, no purchase option, and early termination at 70% of remaining payments",
+  "domain": "Corporate finance / capital budgeting (lease-vs-buy analysis for laboratory capital equipment)",
+  "decisionObjective": "Decide whether to lease or buy the sequencer on a like-for-like present-value basis, and give the CFO numbers they can check and reproduce. The analysis must use the full cash flows (service contract, resale value, timing) discounted at the stated 8% nominal annual rate (8%/12 per month, end-of-month cash flows, taxes ignored), and must cover the lab's stated need of at least 6 years against a 48-month lease with no purchase option. The controller's claim that the lease 'costs the same $480k in total, so it's free financing' is a premise to test, not a basis for the decision.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Present-value cost over the 48-month term (like-for-like)",
+      "weight": 35,
+      "rationale": "This is the core lease-vs-buy test. Lease PV = $11,500 x 48-month annuity factor at 0.6667%/month. Buy PV = $480,000 + $1,500/month service annuity - PV of $90,000 resale at month 48. A rough planner check puts the two PVs within about 1% of each other (lease roughly $471k, buy roughly $476k). So the result depends on exact inputs and must be recomputed and shown step by step, not assumed."
+    },
+    {
+      "id": "C2",
+      "name": "Cost over the full 6+ year usage horizon",
+      "weight": 20,
+      "rationale": "The lab expects to use the instrument for at least 6 years, but the lease ends at month 48 with no purchase option. Buying gives 6+ years of use (minus resale foregone if kept). Leasing needs a replacement or re-lease for months 49-72+. Comparing only 48 months may favour the wrong option."
+    },
+    {
+      "id": "C3",
+      "name": "Accuracy of the controller memo's premises",
+      "weight": 15,
+      "rationale": "The CFO will see the memo. Its arithmetic ($11,500 x 48 = $552,000, not ~$480,000) and its leaving out service costs, resale value and time value of money must be corrected openly, so the recommendation does not rest on a flawed comparison."
+    },
+    {
+      "id": "C4",
+      "name": "Sensitivity of the conclusion to key inputs",
+      "weight": 15,
+      "rationale": "Because the 48-month PVs are close, the decision may flip with modest changes in resale value, discount rate, service cost escalation, or payment timing. Breakeven values (e.g. the resale value or discount rate at which the two options cost the same) tell the CFO how robust the choice is."
+    },
+    {
+      "id": "C5",
+      "name": "Flexibility, obsolescence and contractual risk",
+      "weight": 10,
+      "rationale": "Sequencer technology changes quickly. The lease moves residual-value and obsolescence risk to the vendor but is costly to exit (70% of remaining payments) and gives no ownership. Buying keeps residual risk and upgrade flexibility through resale. These qualitative factors matter most when the PV gap is small."
+    },
+    {
+      "id": "C6",
+      "name": "Liquidity and cash-flow profile",
+      "weight": 5,
+      "rationale": "The memo's 'preserves cash' argument is a real consideration, but only after cost is set on a PV basis. Upfront cash of $480k versus spread payments matters to the extent the lab has a capital constraint beyond the 8% cost of capital."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What are the exact present values of the lease and the purchase over 48 months, using 8%/12 monthly, end-of-month payments, and the purchase cash flows: $480k at t=0, $1,500/month service in arrears, $90k resale at month 48?",
+      "whyItMatters": "This is the headline comparison for the CFO. The margin looks narrow (a few thousand dollars), so precise, reproducible arithmetic decides the direction of the answer.",
+      "criteria": [
+        "C1",
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "How should months 49-72+ be modelled for each option? For the lease: what would a replacement lease or purchase cost at month 48? For the buy: what are service costs, and the resale value, if the instrument is kept to year 6 instead of sold at month 48?",
+      "whyItMatters": "The stated usage horizon is longer than the lease term. An equal-horizon comparison (or an equivalent-annual-cost approach) could reverse or widen the 48-month result.",
+      "criteria": [
+        "C2",
+        "C1"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "How reliable is the $90,000 expected resale value at 48 months (vendor estimate vs. secondary-market evidence for comparable sequencers), and at what resale value do the two options break even?",
+      "whyItMatters": "Resale is the largest uncertain input on the buy side. Its PV (roughly $65k) is much bigger than the PV gap between the options, so a modest error would change the recommendation.",
+      "criteria": [
+        "C1",
+        "C4",
+        "C5"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Are there costs or terms missing from the quote: service price escalation after warranty, installation, insurance, maintaining the instrument at its own expense, end-of-lease return or refurbishment charges, or whether the lease's 'included' service matches the $1,500/month purchase contract in scope?",
+      "whyItMatters": "Any unmodelled cost on one side moves a close comparison. Unequal service scope would mean the options are not like-for-like.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Is 8% the right discount rate for this comparison (the firm's cost of capital vs. its after-tax secured borrowing rate, which lease-vs-buy analysis normally uses), and what lease discount rate is implied by the payments?",
+      "whyItMatters": "Standard lease-vs-buy practice discounts at the cost of borrowing, not the WACC. A different rate changes the PVs. The implied rate also shows whether the lease is 'free financing' (it is not, if the implied rate is above 0%).",
+      "criteria": [
+        "C1",
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "Does the lab face a real capital or liquidity constraint, beyond the cost of capital, that would make the timing of cash outflows matter on its own?",
+      "whyItMatters": "This decides how much weight the 'preserves cash' argument deserves compared with PV cost.",
+      "criteria": [
+        "C6"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The lease costs 'the same $480k in total' as buying (controller memo; repeated in the request).",
+      "source": "user",
+      "howToCheck": "Recompute 11,500 x 48 = 552,000. Compare nominal totals including the purchase's 48 x $1,500 service ($72k) and the $90k resale, then compare on a PV basis."
+    },
+    {
+      "assumption": "The lease is 'effectively free financing' and 'an easy yes'.",
+      "source": "user",
+      "howToCheck": "Compute the lease's implied interest rate relative to the purchase-equivalent cash flows and compare it to 0% and to 8%. Check whether the PV comparison is a clear win or within sensitivity bounds."
+    },
+    {
+      "assumption": "The cost of capital is 8% per year and is the right discount rate.",
+      "source": "user",
+      "howToCheck": "Confirm with finance (finance-assumptions.md states 8% nominal, 8%/12 monthly). Run a sensitivity analysis at alternative rates, e.g. the secured borrowing rate, and report the breakeven discount rate."
+    },
+    {
+      "assumption": "Taxes can be ignored (finance-assumptions.md).",
+      "source": "planner",
+      "howToCheck": "Check whether the lab is tax-exempt or non-profit. If not, note that depreciation and lease-deductibility effects could change the answer, and flag this as a scope limitation for the CFO."
+    },
+    {
+      "assumption": "The $90,000 resale value at month 48 is realistic.",
+      "source": "planner",
+      "howToCheck": "Compare with secondary-market prices for 4-year-old high-throughput sequencers of a similar class and run a resale-value sensitivity analysis and breakeven."
+    },
+    {
+      "assumption": "The service included in the lease is equivalent to the $1,500/month purchase service contract, and that contract's price stays fixed for 48 months.",
+      "source": "planner",
+      "howToCheck": "Read the full quote and contract terms for service scope and escalation clauses. If unknown, model an escalation scenario."
+    },
+    {
+      "assumption": "A 48-month comparison is the right horizon even though the lab expects to use the instrument for at least 6 years.",
+      "source": "planner",
+      "howToCheck": "Build a second comparison over 72 months: buy and keep (no resale at month 48, an estimated year-6 resale, service for 72 months) versus lease plus replacement for months 49-72. Or compare equivalent annual costs."
+    }
+  ],
+  "answerability": "answerable"
+}

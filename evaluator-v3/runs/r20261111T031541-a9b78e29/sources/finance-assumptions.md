@@ -1,0 +1,3 @@
+- Discount rate: 8% nominal annual, use 8%/12 per month, end-of-month cash flows
+- Ignore taxes for this comparison
+- Lab expects to use the instrument for at least 6 years

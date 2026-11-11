@@ -1,0 +1,459 @@
+{
+  "subject": "Lease vs. buy decision for a genomics sequencer (vendor quote Q-88412, 'Corvid S4'): $480,000 purchase plus $1,500/month required service and $90,000 expected resale at month 48, versus an operating lease at $11,500/month for 48 months with service included, no purchase option, and early termination at 70% of remaining payments",
+  "decisionObjective": "Decide whether to lease or buy the sequencer on a like-for-like present-value basis, and give the CFO numbers they can check and reproduce. The analysis must use the full cash flows (service contract, resale value, timing) discounted at the stated 8% nominal annual rate (8%/12 per month, end-of-month cash flows, taxes ignored), and must cover the lab's stated need of at least 6 years against a 48-month lease with no purchase option. The controller's claim that the lease 'costs the same $480k in total, so it's free financing' is a premise to test, not a basis for the decision.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Present-value cost over the 48-month term (like-for-like)",
+      "weight": 35,
+      "rationale": "This is the core lease-vs-buy test. Lease PV = $11,500 x 48-month annuity factor at 0.6667%/month. Buy PV = $480,000 + $1,500/month service annuity - PV of $90,000 resale at month 48. A rough planner check puts the two PVs within about 1% of each other (lease roughly $471k, buy roughly $476k). So the result depends on exact inputs and must be recomputed and shown step by step, not assumed."
+    },
+    {
+      "id": "C2",
+      "name": "Cost over the full 6+ year usage horizon",
+      "weight": 20,
+      "rationale": "The lab expects to use the instrument for at least 6 years, but the lease ends at month 48 with no purchase option. Buying gives 6+ years of use (minus resale foregone if kept). Leasing needs a replacement or re-lease for months 49-72+. Comparing only 48 months may favour the wrong option."
+    },
+    {
+      "id": "C3",
+      "name": "Accuracy of the controller memo's premises",
+      "weight": 15,
+      "rationale": "The CFO will see the memo. Its arithmetic ($11,500 x 48 = $552,000, not ~$480,000) and its leaving out service costs, resale value and time value of money must be corrected openly, so the recommendation does not rest on a flawed comparison."
+    },
+    {
+      "id": "C4",
+      "name": "Sensitivity of the conclusion to key inputs",
+      "weight": 15,
+      "rationale": "Because the 48-month PVs are close, the decision may flip with modest changes in resale value, discount rate, service cost escalation, or payment timing. Breakeven values (e.g. the resale value or discount rate at which the two options cost the same) tell the CFO how robust the choice is."
+    },
+    {
+      "id": "C5",
+      "name": "Flexibility, obsolescence and contractual risk",
+      "weight": 10,
+      "rationale": "Sequencer technology changes quickly. The lease moves residual-value and obsolescence risk to the vendor but is costly to exit (70% of remaining payments) and gives no ownership. Buying keeps residual risk and upgrade flexibility through resale. These qualitative factors matter most when the PV gap is small."
+    },
+    {
+      "id": "C6",
+      "name": "Liquidity and cash-flow profile",
+      "weight": 5,
+      "rationale": "The memo's 'preserves cash' argument is a real consideration, but only after cost is set on a PV basis. Upfront cash of $480k versus spread payments matters to the extent the lab has a capital constraint beyond the 8% cost of capital."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The lease costs 'the same $480k in total' as buying (controller memo; repeated in the request).",
+      "source": "user",
+      "howToCheck": "Recompute 11,500 x 48 = 552,000. Compare nominal totals including the purchase's 48 x $1,500 service ($72k) and the $90k resale, then compare on a PV basis."
+    },
+    {
+      "assumption": "The lease is 'effectively free financing' and 'an easy yes'.",
+      "source": "user",
+      "howToCheck": "Compute the lease's implied interest rate relative to the purchase-equivalent cash flows and compare it to 0% and to 8%. Check whether the PV comparison is a clear win or within sensitivity bounds."
+    },
+    {
+      "assumption": "The cost of capital is 8% per year and is the right discount rate.",
+      "source": "user",
+      "howToCheck": "Confirm with finance (finance-assumptions.md states 8% nominal, 8%/12 monthly). Run a sensitivity analysis at alternative rates, e.g. the secured borrowing rate, and report the breakeven discount rate."
+    },
+    {
+      "assumption": "Taxes can be ignored (finance-assumptions.md).",
+      "source": "planner",
+      "howToCheck": "Check whether the lab is tax-exempt or non-profit. If not, note that depreciation and lease-deductibility effects could change the answer, and flag this as a scope limitation for the CFO."
+    },
+    {
+      "assumption": "The $90,000 resale value at month 48 is realistic.",
+      "source": "planner",
+      "howToCheck": "Compare with secondary-market prices for 4-year-old high-throughput sequencers of a similar class and run a resale-value sensitivity analysis and breakeven."
+    },
+    {
+      "assumption": "The service included in the lease is equivalent to the $1,500/month purchase service contract, and that contract's price stays fixed for 48 months.",
+      "source": "planner",
+      "howToCheck": "Read the full quote and contract terms for service scope and escalation clauses. If unknown, model an escalation scenario."
+    },
+    {
+      "assumption": "A 48-month comparison is the right horizon even though the lab expects to use the instrument for at least 6 years.",
+      "source": "planner",
+      "howToCheck": "Build a second comparison over 72 months: buy and keep (no resale at month 48, an estimated year-6 resale, service for 72 months) versus lease plus replacement for months 49-72. Or compare equivalent annual costs."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "What are the exact present values of the lease and the purchase over 48 months, using 8%/12 monthly, end-of-month payments, and the purchase cash flows: $480k at t=0, $1,500/month service in arrears, $90k resale at month 48?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Vendor quote Q-88412, Option A (Purchase): $480,000 upfront. A service contract is required for the warranty at $1,500/month, billed monthly in arrears. Expected resale value after 48 months: $90,000.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Buy-side cash flows for G1, G3 and G4.",
+          "limitations": "The $90,000 resale figure is the vendor's own expectation. The quote gives no basis for it, no guarantee and no buy-back commitment. The quote says nothing about service escalation, installation, insurance, or service terms beyond month 48.",
+          "contradicts": []
+        },
+        {
+          "id": "E2",
+          "claim": "Vendor quote Option B (Operating lease): $11,500/month for 48 months, paid monthly in arrears, with the service contract INCLUDED. The equipment is returned at end of term and there is no purchase option. Early termination costs 70% of remaining payments.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Lease-side cash flows for G1. Also covers term and exit risk (C5) and the horizon mismatch (G2).",
+          "limitations": "The quote does not say whether 'included' service has the same scope as the $1,500/month purchase contract. It states no return, refurbishment or shipping conditions, and gives no re-lease terms for months 49+.",
+          "contradicts": []
+        },
+        {
+          "id": "E3",
+          "claim": "Finance assumptions: discount rate 8% nominal annual, using 8%/12 per month with end-of-month cash flows. Taxes are ignored for this comparison. The lab expects to use the instrument for at least 6 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "finance-assumptions.md",
+          "applicability": "Sets the discounting convention for G1 and G5, the 72-month horizon for G2, and the tax scope.",
+          "limitations": "The file does not say whether 8% is WACC or the borrowing rate. It does not say whether the lab is tax-exempt. It says nothing about capital or liquidity constraints (G6).",
+          "contradicts": []
+        },
+        {
+          "id": "E4",
+          "claim": "The controller memo states: 'Lease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "controller-memo.md",
+          "applicability": "This is the premise to test under C3. The memo shows it was written; it does not show the claim is true.",
+          "limitations": "The memo's arithmetic is wrong (see E5). It leaves out service, resale and time value of money.",
+          "contradicts": [
+            "E5"
+          ]
+        },
+        {
+          "id": "E5",
+          "claim": "Nominal totals: lease = 11,500 x 48 = $552,000, not ~$480,000. Buy = 480,000 + 48 x 1,500 (= $72,000 service) - 90,000 resale = $462,000. On undiscounted totals the lease costs $90,000 more than buying, so the memo's 'same total' premise is false on its own arithmetic.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "C3: correcting the memo's premises.",
+          "limitations": "This is simple arithmetic on supplied inputs, done by the researcher. Downstream stages should recompute it.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E6",
+          "claim": "48-month PVs at r = 0.08/12 = 0.0066667/month with end-of-month flows (researcher's hand calculation). (1+r)^48 is about 1.37567. The PV factor at month 48 is about 0.726924. The 48-month annuity factor is about 40.9614. Lease PV = 11,500 x 40.9614 = about $471,056. Buy PV = 480,000 + 1,500 x 40.9614 (about $61,442) - 90,000 x 0.726924 (about $65,423) = about $476,019. The lease is cheaper by about $4,960 in PV, roughly 1% of the totals.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "G1/C1 headline comparison. It matches the planner's rough figures (lease about $471k, buy about $476k).",
+          "limitations": "Done by hand with series approximations for ln/exp, so the figures may be off by a few dollars. Downstream stages must recompute with a spreadsheet (PV(0.08/12,48,-11500) etc.). The result only holds if lease and purchase service scopes are equal and the resale value is $90k.",
+          "contradicts": [
+            "E4"
+          ]
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "How should months 49-72+ be modelled for each option? For the lease: what would a replacement lease or purchase cost at month 48? For the buy: what are service costs, and the resale value, if the instrument is kept to year 6 instead of sold at month 48?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "Vendor quote Option B (Operating lease): $11,500/month for 48 months, paid monthly in arrears, with the service contract INCLUDED. The equipment is returned at end of term and there is no purchase option. Early termination costs 70% of remaining payments.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Lease-side cash flows for G1. Also covers term and exit risk (C5) and the horizon mismatch (G2).",
+          "limitations": "The quote does not say whether 'included' service has the same scope as the $1,500/month purchase contract. It states no return, refurbishment or shipping conditions, and gives no re-lease terms for months 49+.",
+          "contradicts": []
+        },
+        {
+          "id": "E3",
+          "claim": "Finance assumptions: discount rate 8% nominal annual, using 8%/12 per month with end-of-month cash flows. Taxes are ignored for this comparison. The lab expects to use the instrument for at least 6 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "finance-assumptions.md",
+          "applicability": "Sets the discounting convention for G1 and G5, the 72-month horizon for G2, and the tax scope.",
+          "limitations": "The file does not say whether 8% is WACC or the borrowing rate. It does not say whether the lab is tax-exempt. It says nothing about capital or liquidity constraints (G6).",
+          "contradicts": []
+        },
+        {
+          "id": "E8",
+          "claim": "72-month horizon (researcher's calculation, illustrative). Buy and keep: PV = 480,000 + 1,500 x a72 (a72 about 57.034, so about $85,551) - PV(year-6 resale R) (v72 about 0.61977), which is about $565,551 - 0.61977R. Lease months 1-48 is about $471,056. Breakeven: the lease side's replacement for months 49-72 must cost less than about $94,495 in PV (about $5,879/month level, service included, over months 49-72) for leasing to match buy-and-keep even with R = 0. Hypothetically, re-leasing at the same $11,500/month for months 49-72 adds about $184,838 PV (11,500 x 16.0729), for a total of about $655,894. That is about $90k more than buy-and-keep before counting any year-6 resale.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "finance-assumptions.md",
+          "applicability": "G2/C2: the lab needs at least 6 years and the lease has no purchase option. The 6-year view likely reverses the 48-month result in favour of buying.",
+          "limitations": "Assumes the $1,500/month service price holds for months 49-72, which is not quoted. Re-lease terms for months 49-72 are hypothetical and no source gives them. Year-6 resale is unknown. Hand-computed.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No published annual service-contract price for comparable production-scale sequencers was found. An Illumina contract appendix shows service discounts that scale with installed-base size (0% for 1 instrument up to 20% for 100+). A state bid listing indicates the OEM is the sole authorized service provider for the NovaSeq 6000, which limits competition on service pricing after month 48.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://emea.Illumina.com/content/dam/illumina-marketing/documents/applications/cancer/09-29-2022_Addendum.pdf",
+          "applicability": "G4: escalation risk on the $1,500/month contract, especially in years 5-6 of buy-and-keep, is real but cannot be quantified from the evidence found.",
+          "limitations": "Search snippets only, and the 2022 document may be outdated. No dollar figures were found. Not specific to the Corvid S4.",
+          "contradicts": []
+        },
+        {
+          "id": "E14",
+          "claim": "For unequal horizons, the equivalent-annual-cost (EAC) method converts each option's PV cost into a level annual charge (NPV / annuity factor). It agrees with the replacement-chain method and implicitly assumes like-for-like replacement.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.accaglobal.com/uk/en/student/exam-support-resources/fundamentals-exams-study-resources/f9/technical-articles/eac.html",
+          "applicability": "G2/C2: a valid way to compare the 48-month lease with 6+ year ownership. On the 48-month figures, lease EAC is $11,500/month by construction and buy EAC is about 476,019/40.9614, or about $11,621/month (researcher calc). The like-for-like replacement assumption may not hold for months 49-72 given the obsolescence in E11.",
+          "limitations": "Snippets only. Applying EAC to lease-vs-buy is the researcher's own extrapolation. The EAC figure is hand-computed.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "How reliable is the $90,000 expected resale value at 48 months (vendor estimate vs. secondary-market evidence for comparable sequencers), and at what resale value do the two options break even?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Vendor quote Q-88412, Option A (Purchase): $480,000 upfront. A service contract is required for the warranty at $1,500/month, billed monthly in arrears. Expected resale value after 48 months: $90,000.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Buy-side cash flows for G1, G3 and G4.",
+          "limitations": "The $90,000 resale figure is the vendor's own expectation. The quote gives no basis for it, no guarantee and no buy-back commitment. The quote says nothing about service escalation, installation, insurance, or service terms beyond month 48.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Breakeven values (researcher's hand calculation). Resale breakeven: the 48-month PVs are equal at a resale of about $96,800 (90,000 + 4,960/0.726924). Above that, buying is cheaper over 48 months. Discount-rate breakeven / implied lease rate: subtract the $1,500/month service equivalent, so the lease's financing component is $10,000/month. Against an asset cost of $480,000 net of the $90,000 residual, the implied rate is about 7.5-7.55% nominal annual (f(7.5%) is about -$320, f(7.6%) about +$745, f(8%) about +$4,963). The lease is therefore not 'free financing' (the implied rate is well above 0%), but it is slightly below 8%. If the appropriate discount rate is below about 7.53%, buying wins over 48 months.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "C3 (tests 'free financing'), C4 sensitivity, G3 and G5.",
+          "limitations": "Hand-computed by linear interpolation between trial rates. Downstream stages must verify with RATE/IRR. A small resale shortfall or a discount rate near the borrowing rate could flip the 48-month result.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E10",
+          "claim": "Secondary-market asking prices for used NovaSeq 6000 units (a real instrument comparable in class to the fictional Corvid S4) vary widely. Examples: a dotmed listing asking $42,250, a surplus seller at $60,000, a European dealer at EUR 200,000 ex-VAT, and a UK spares/repair unit at GBP 8,000 ex-VAT. Illumina also runs a certified pre-owned program (the price was not visible in the snippet).",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.dotmed.com/listing/dna-related/illumina/novaseq-6000/sequencing-system/5323044",
+          "applicability": "G3: the vendor's $90k resale assumption is uncertain. Used-unit prices range from scrap level to above $90k, depending on age, condition and platform succession. Supports running a resale sensitivity.",
+          "limitations": "These are asking prices, not transaction prices. Age and condition of the units are unknown. The NovaSeq 6000 is a different instrument from the Corvid S4 (which is fictional), and its original list price may differ from $480k. Figures come from search snippets, not inspected pages.",
+          "contradicts": [
+            "E1"
+          ]
+        },
+        {
+          "id": "E11",
+          "claim": "Obsolescence signal: a successor platform (NovaSeq X Series) is reported to reduce cost per Gb by up to 60% compared with the NovaSeq 6000 and is not backward compatible with its chemistry. A service provider (Novogene) announced it would phase out NovaSeq 6000 services, stopping new projects from Dec 1, 2024 and closing all related services by Jun 1, 2025.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://web.novogene.com/Facebook_Phasing_out_NovaSeq_6000",
+          "applicability": "C5/G3: sequencer generations turn over within about 4-6 years, which can sharply depress resale values. That favours shifting residual risk to the lessor, but it also argues against owning a soon-obsolete platform through year 6.",
+          "limitations": "The Novogene dates are its own service schedule, not Illumina's end-of-support policy. The fetch of the Novogene page failed, so this rests on snippets. It is an analogy to a real platform, not to the Corvid S4.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "Are there costs or terms missing from the quote: service price escalation after warranty, installation, insurance, maintaining the instrument at its own expense, end-of-lease return or refurbishment charges, or whether the lease's 'included' service matches the $1,500/month purchase contract in scope?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Vendor quote Q-88412, Option A (Purchase): $480,000 upfront. A service contract is required for the warranty at $1,500/month, billed monthly in arrears. Expected resale value after 48 months: $90,000.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Buy-side cash flows for G1, G3 and G4.",
+          "limitations": "The $90,000 resale figure is the vendor's own expectation. The quote gives no basis for it, no guarantee and no buy-back commitment. The quote says nothing about service escalation, installation, insurance, or service terms beyond month 48.",
+          "contradicts": []
+        },
+        {
+          "id": "E2",
+          "claim": "Vendor quote Option B (Operating lease): $11,500/month for 48 months, paid monthly in arrears, with the service contract INCLUDED. The equipment is returned at end of term and there is no purchase option. Early termination costs 70% of remaining payments.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "Lease-side cash flows for G1. Also covers term and exit risk (C5) and the horizon mismatch (G2).",
+          "limitations": "The quote does not say whether 'included' service has the same scope as the $1,500/month purchase contract. It states no return, refurbishment or shipping conditions, and gives no re-lease terms for months 49+.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No published annual service-contract price for comparable production-scale sequencers was found. An Illumina contract appendix shows service discounts that scale with installed-base size (0% for 1 instrument up to 20% for 100+). A state bid listing indicates the OEM is the sole authorized service provider for the NovaSeq 6000, which limits competition on service pricing after month 48.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://emea.Illumina.com/content/dam/illumina-marketing/documents/applications/cancer/09-29-2022_Addendum.pdf",
+          "applicability": "G4: escalation risk on the $1,500/month contract, especially in years 5-6 of buy-and-keep, is real but cannot be quantified from the evidence found.",
+          "limitations": "Search snippets only, and the 2022 document may be outdated. No dollar figures were found. Not specific to the Corvid S4.",
+          "contradicts": []
+        },
+        {
+          "id": "E13",
+          "claim": "Equipment operating leases commonly require return in the delivered condition, excluding ordinary wear and tear. They often place crating, insurance and shipping costs on the lessee, and charge for missing or damaged items or excess usage.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.lawinsider.com/clause/condition-of-equipment-upon-return",
+          "applicability": "G4: possible unmodelled lease-side end-of-term costs (de-installation, crating, shipping, refurbishment) that would narrow or erase the roughly $5k PV lease advantage.",
+          "limitations": "General leasing guidance, mostly from vehicle and equipment sources, not this quote. Quote Q-88412 states no return conditions. Based on snippets.",
+          "contradicts": []
+        },
+        {
+          "id": "E15",
+          "claim": "Early-termination exposure under the lease: 70% of remaining payments. For example, exiting at month 24 leaves 24 x $11,500 = $276,000 of remaining payments, so the termination fee is $193,200. This limits the lease's flexibility advantage if a better platform appears mid-term.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "C5 flexibility and contractual risk.",
+          "limitations": "The month-24 exit is an illustrative scenario chosen by the researcher.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "Is 8% the right discount rate for this comparison (the firm's cost of capital vs. its after-tax secured borrowing rate, which lease-vs-buy analysis normally uses), and what lease discount rate is implied by the payments?",
+      "evidence": [
+        {
+          "id": "E3",
+          "claim": "Finance assumptions: discount rate 8% nominal annual, using 8%/12 per month with end-of-month cash flows. Taxes are ignored for this comparison. The lab expects to use the instrument for at least 6 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "finance-assumptions.md",
+          "applicability": "Sets the discounting convention for G1 and G5, the 72-month horizon for G2, and the tax scope.",
+          "limitations": "The file does not say whether 8% is WACC or the borrowing rate. It does not say whether the lab is tax-exempt. It says nothing about capital or liquidity constraints (G6).",
+          "contradicts": []
+        },
+        {
+          "id": "E4",
+          "claim": "The controller memo states: 'Lease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "controller-memo.md",
+          "applicability": "This is the premise to test under C3. The memo shows it was written; it does not show the claim is true.",
+          "limitations": "The memo's arithmetic is wrong (see E5). It leaves out service, resale and time value of money.",
+          "contradicts": [
+            "E5"
+          ]
+        },
+        {
+          "id": "E7",
+          "claim": "Breakeven values (researcher's hand calculation). Resale breakeven: the 48-month PVs are equal at a resale of about $96,800 (90,000 + 4,960/0.726924). Above that, buying is cheaper over 48 months. Discount-rate breakeven / implied lease rate: subtract the $1,500/month service equivalent, so the lease's financing component is $10,000/month. Against an asset cost of $480,000 net of the $90,000 residual, the implied rate is about 7.5-7.55% nominal annual (f(7.5%) is about -$320, f(7.6%) about +$745, f(8%) about +$4,963). The lease is therefore not 'free financing' (the implied rate is well above 0%), but it is slightly below 8%. If the appropriate discount rate is below about 7.53%, buying wins over 48 months.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "vendor-quote.md",
+          "applicability": "C3 (tests 'free financing'), C4 sensitivity, G3 and G5.",
+          "limitations": "Hand-computed by linear interpolation between trial rates. Downstream stages must verify with RATE/IRR. A small resale shortfall or a discount rate near the borrowing rate could flip the 48-month result.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E9",
+          "claim": "Under the textbook convention, lease-vs-buy is a financing decision. Lease flows should be discounted at the (after-tax) cost of secured borrowing, not WACC, because a lease payment is equivalent to debt service on a secured bond issued by the lessee.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://opentuition.com/topic/buy-or-lease-discount-factor",
+          "applicability": "G5: the stated 8% 'cost of capital' may not be the right rate. If the lab's secured borrowing rate is below about 7.53% (E7), buying wins over 48 months. With taxes ignored, the pre-tax borrowing rate applies.",
+          "limitations": "Based on search snippets only. Fetches were blocked (host resolution failures), so no page was inspected. The sources are exam-prep forums, an academic abstract and a blog, not formal standards. The lab's actual borrowing rate is unknown.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "Does the lab face a real capital or liquidity constraint, beyond the cost of capital, that would make the timing of cash outflows matter on its own?",
+      "evidence": [
+        {
+          "id": "E3",
+          "claim": "Finance assumptions: discount rate 8% nominal annual, using 8%/12 per month with end-of-month cash flows. Taxes are ignored for this comparison. The lab expects to use the instrument for at least 6 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "finance-assumptions.md",
+          "applicability": "Sets the discounting convention for G1 and G5, the 72-month horizon for G2, and the tax scope.",
+          "limitations": "The file does not say whether 8% is WACC or the borrowing rate. It does not say whether the lab is tax-exempt. It says nothing about capital or liquidity constraints (G6).",
+          "contradicts": []
+        },
+        {
+          "id": "E16",
+          "claim": "No information was available on whether the lab has a capital or liquidity constraint beyond the 8% cost of capital, or on whether it is tax-exempt.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "G6/C6, and the tax-scope assumption.",
+          "limitations": "Only the client can answer this.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E4",
+      "b": "E5",
+      "aClaim": "The controller memo states: 'Lease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.'",
+      "bClaim": "Nominal totals: lease = 11,500 x 48 = $552,000, not ~$480,000. Buy = 480,000 + 48 x 1,500 (= $72,000 service) - 90,000 resale = $462,000. On undiscounted totals the lease costs $90,000 more than buying, so the memo's 'same total' premise is false on its own arithmetic."
+    },
+    {
+      "a": "E6",
+      "b": "E4",
+      "aClaim": "48-month PVs at r = 0.08/12 = 0.0066667/month with end-of-month flows (researcher's hand calculation). (1+r)^48 is about 1.37567. The PV factor at month 48 is about 0.726924. The 48-month annuity factor is about 40.9614. Lease PV = 11,500 x 40.9614 = about $471,056. Buy PV = 480,000 + 1,500 x 40.9614 (about $61,442) - 90,000 x 0.726924 (about $65,423) = about $476,019. The lease is cheaper by about $4,960 in PV, roughly 1% of the totals.",
+      "bClaim": "The controller memo states: 'Lease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.'"
+    },
+    {
+      "a": "E7",
+      "b": "E4",
+      "aClaim": "Breakeven values (researcher's hand calculation). Resale breakeven: the 48-month PVs are equal at a resale of about $96,800 (90,000 + 4,960/0.726924). Above that, buying is cheaper over 48 months. Discount-rate breakeven / implied lease rate: subtract the $1,500/month service equivalent, so the lease's financing component is $10,000/month. Against an asset cost of $480,000 net of the $90,000 residual, the implied rate is about 7.5-7.55% nominal annual (f(7.5%) is about -$320, f(7.6%) about +$745, f(8%) about +$4,963). The lease is therefore not 'free financing' (the implied rate is well above 0%), but it is slightly below 8%. If the appropriate discount rate is below about 7.53%, buying wins over 48 months.",
+      "bClaim": "The controller memo states: 'Lease: $11,500 x 48 = ~$480,000 total. Buy: $480,000. Same total cost, so the lease is free financing and preserves cash. Recommend lease.'"
+    },
+    {
+      "a": "E10",
+      "b": "E1",
+      "aClaim": "Secondary-market asking prices for used NovaSeq 6000 units (a real instrument comparable in class to the fictional Corvid S4) vary widely. Examples: a dotmed listing asking $42,250, a surplus seller at $60,000, a European dealer at EUR 200,000 ex-VAT, and a UK spares/repair unit at GBP 8,000 ex-VAT. Illumina also runs a certified pre-owned program (the price was not visible in the snippet).",
+      "bClaim": "Vendor quote Q-88412, Option A (Purchase): $480,000 upfront. A service contract is required for the warranty at $1,500/month, billed monthly in arrears. Expected resale value after 48 months: $90,000."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E16",
+      "claim": "No information was available on whether the lab has a capital or liquidity constraint beyond the 8% cost of capital, or on whether it is tax-exempt.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "G6/C6, and the tax-scope assumption.",
+      "limitations": "Only the client can answer this.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "PVs were computed by hand with series approximations (E6). No software was available to reproduce them exactly, so downstream stages should recompute with spreadsheet PV/RATE functions."
+    },
+    {
+      "gapId": "G2",
+      "reason": "No source gives re-lease or replacement terms for months 49-72, a year-6 resale value, or service pricing after month 48. The 72-month comparison is only a breakeven/illustrative analysis (E8)."
+    },
+    {
+      "gapId": "G3",
+      "reason": "Only asking prices for a comparable real instrument were found (E10), not transaction data for the fictional Corvid S4. The $90k resale value cannot be validated. All WebFetch attempts failed (www.financialprofessionals.org, web.novogene.com and casrai.org returned ENOTFOUND; those hosts would need to be allowed in session network settings)."
+    },
+    {
+      "gapId": "G4",
+      "reason": "The quote does not specify lease service scope, escalation clauses, installation, insurance, or end-of-lease return charges. These need to come from the vendor."
+    },
+    {
+      "gapId": "G5",
+      "reason": "The lab's actual secured borrowing rate is unknown. The convention (E9) says to use the borrowing rate, and the implied breakeven of about 7.53% (E7) is close to 8%."
+    },
+    {
+      "gapId": "G6",
+      "reason": "There is no information on the lab's capital constraints or tax status (E16)."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

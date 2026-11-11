@@ -1,0 +1,279 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D5 [C4 assessment, CL9, CL16, correctedUserAssumptions (break-even)] The comodato cash requirement is described qualitatively but never quantified, even though the draft has the inputs. K18 gives 80,000 vehicles for 4,000 fleets. E13 gives R$1,200-2,500 hardware plus R$200-400 installation per basic unit, so R$1,400-2,900 per vehicle. That implies roughly R$112M-232M of hardware and installation outlay to reach break-even, which looks orders of magnitude larger than the $2.4M Year-1 budget even before FX. This is the strongest quantitative argument on C4 and on the budget-adequacy assumption, and it is left out. In addition, C4's phrase 'about R$1,200-2,500 per vehicle for basic hardware plus installation' understates the E13 figures: R$1,200-2,500 is hardware alone, and installation adds R$200-400."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D8 [confidence, verdict] Overall confidence is 'moderate' with no split between the two conclusions. The staged-entry recommendation is well supported. The numeric share anchor rests on a single undated snippet (E12), and no entrant benchmark exists (E21). The share figure warrants low confidence and should be labelled that way for the board."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [CL5, CL6, K12, verdict, practicalImplications[0], remainingUncertainty[1]] The 'optimistic upper anchor' of ~2,000 fleets (CL6, K12-K14, verdict, practicalImplications[0]) comes from Cobli's net client additions between July 2021 (>3,000) and an undated later report (~5,000). E12 marks that later figure as undated ('likely 2024-2025'), so the elapsed time is roughly 3-4 years and is not known. Calling 2,000 a 'net-add pace' that a new entrant matches 'by year 3' assumes a time base the evidence does not give. The draft also picks the slower phase of Cobli's history as its upper bound. Cobli's own early ramp (0 to >3,000 clients by 2021, implied by '~5,000 after about seven years' in E12) is the closer comparator for a new entrant, and it was faster than 2,000 in 3 years. Using it would weaken both the 'upper anchor' label and CL5's 'implausible' wording. The draft also does not discuss how Cobli's local-founder position and funding make it more or less favourable as a benchmark than this entrant."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [CL6 vs CL12, K13-K16, verdict] The year-3 fleet anchor ignores the draft's own time-to-market finding. CL12/K15-K16 say 17-50% of the 36-month window may be lost to entity setup and ANATEL certification. The 2,000-fleet anchor in CL6 still assumes a full 3 years of Cobli-like net adds. The two findings are never combined, for example by scaling to an effective selling window of 18-30 months. That would cut the anchor to roughly 1,000-1,700 fleets under the draft's own logic. The figure given to the board is therefore internally inconsistent with the rest of the analysis."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [edgeCasesAndFailureModes[4], C2, counterarguments[0]] The survey question wording ('Would you consider switching telematics provider to [us]?', survey-summary.md) presupposes that respondents already have a provider. The 64% therefore describes already-telematized fleets that face switching costs. The draft treats this only as a speculative failure mode ('disproportionately existing users of a competitor'). It does not use it to tie the survey to the switching (truck) segment, as distinct from the greenfield pool it cites in the counterarguments."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D4 [alternatives, tradeoffs] Obvious entry alternatives are missing. (a) Acquiring or taking a stake in a smaller local telematics player, which would buy installed base, ANATEL-certified hardware, installers and a CNPJ at once. (b) A software-only/white-label model on hardware a local vendor has already certified, which sidesteps the ANATEL gate the draft identifies as binding (C5). Both address the draft's two main constraints (certification and go-to-market) more directly than the four options it lists. Option (b) also changes the time-to-market analysis."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict, CL6, CL7, practicalImplications[0], C1] The user asked for a specific year-3 share figure. The packet objective asks for a defensible range with assumptions shown. The draft gives only an upper anchor (0.2%-1.1%) and states that the low end 'cannot be pinned'. It never offers even a scenario-based low case, such as fleets per salesperson for a 9-person team or a pilot-conversion-based case. It also gives no central planning figure. The board gets a ceiling but no usable range. The 0.2%-1.1% spread also comes entirely from the 5x denominator uncertainty, which the draft itself says should be narrowed (C1: the RNTRC ETC ~283k anchor would give ~0.7%). The share figure is not stated on the draft's own preferred denominator."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [CL10, correctedUserAssumptions[4], C1 strengths] Two claims overstate what the cited evidence shows. CL10 and correctedUserAssumptions say 'at least eight significant players are active' in Brazil and list Gurtam. E10 names Gurtam and Geotab as the largest in Latin America, not as confirmed Brazil players. C1 also cites 'several independent revenue-based estimates' (E20), but there are only two, both from low-authority market-research publishers."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.15 * 180000",
+      "claimed": 27000,
+      "actual": 27000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0.15 * 900000",
+      "claimed": 135000,
+      "actual": 135000,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "4000 / 180000",
+      "claimed": 0.0222,
+      "actual": 0.022222222222222223,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "4000 / 900000",
+      "claimed": 0.00444,
+      "actual": 0.0044444444444444444,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "4000 / 283393",
+      "claimed": 0.0141,
+      "actual": 0.014114674674392098,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.15 * 283393",
+      "claimed": 42509,
+      "actual": 42508.95,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "9 / 14",
+      "claimed": 0.643,
+      "actual": 0.6428571428571429,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "((9/14 + 1.96^2/28) - 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimed": 0.388,
+      "actual": 0.3876400468214041,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "((9/14 + 1.96^2/28) + 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimed": 0.837,
+      "actual": 0.8365550926279727,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "27000 / 5000",
+      "claimed": 5.4,
+      "actual": 5.4,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "4000 / 5000",
+      "claimed": 0.8,
+      "actual": 0.8,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "5000 - 3000",
+      "claimed": 2000,
+      "actual": 2000,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "2000 / 180000",
+      "claimed": 0.0111,
+      "actual": 0.011111111111111112,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "2000 / 900000",
+      "claimed": 0.00222,
+      "actual": 0.0022222222222222222,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(36 - 18) / 36",
+      "claimed": 0.5,
+      "actual": 0.5,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "(36 - 6) / 36",
+      "claimed": 0.833,
+      "actual": 0.8333333333333334,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "100000 / 5000",
+      "claimed": 20,
+      "actual": 20,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "4000 * 20",
+      "claimed": 80000,
+      "actual": 80000,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "4000 / 0.75",
+      "claimed": 5333,
+      "actual": 5333.333333333333,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "4000 / 0.5",
+      "claimed": 8000,
+      "actual": 8000,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "54.90 / 100",
+      "claimed": 0.549,
+      "actual": 0.5489999999999999,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "0.15 * 1120",
+      "claimed": 168,
+      "actual": 168,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [CL5, CL6, K12, verdict, practicalImplications[0], remainingUncertainty[1]] The 'optimistic upper anchor' of ~2,000 fleets (CL6, K12-K14, verdict, practicalImplications[0]) comes from Cobli's net client additions between July 2021 (>3,000) and an undated later report (~5,000). E12 marks that later figure as undated ('likely 2024-2025'), so the elapsed time is roughly 3-4 years and is not known. Calling 2,000 a 'net-add pace' that a new entrant matches 'by year 3' assumes a time base the evidence does not give. The draft also picks the slower phase of Cobli's history as its upper bound. Cobli's own early ramp (0 to >3,000 clients by 2021, implied by '~5,000 after about seven years' in E12) is the closer comparator for a new entrant, and it was faster than 2,000 in 3 years. Using it would weaken both the 'upper anchor' label and CL5's 'implausible' wording. The draft also does not discuss how Cobli's local-founder position and funding make it more or less favourable as a benchmark than this entrant."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [CL6 vs CL12, K13-K16, verdict] The year-3 fleet anchor ignores the draft's own time-to-market finding. CL12/K15-K16 say 17-50% of the 36-month window may be lost to entity setup and ANATEL certification. The 2,000-fleet anchor in CL6 still assumes a full 3 years of Cobli-like net adds. The two findings are never combined, for example by scaling to an effective selling window of 18-30 months. That would cut the anchor to roughly 1,000-1,700 fleets under the draft's own logic. The figure given to the board is therefore internally inconsistent with the rest of the analysis."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict, CL6, CL7, practicalImplications[0], C1] The user asked for a specific year-3 share figure. The packet objective asks for a defensible range with assumptions shown. The draft gives only an upper anchor (0.2%-1.1%) and states that the low end 'cannot be pinned'. It never offers even a scenario-based low case, such as fleets per salesperson for a 9-person team or a pilot-conversion-based case. It also gives no central planning figure. The board gets a ceiling but no usable range. The 0.2%-1.1% spread also comes entirely from the 5x denominator uncertainty, which the draft itself says should be narrowed (C1: the RNTRC ETC ~283k anchor would give ~0.7%). The share figure is not stated on the draft's own preferred denominator."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D4 [alternatives, tradeoffs] Obvious entry alternatives are missing. (a) Acquiring or taking a stake in a smaller local telematics player, which would buy installed base, ANATEL-certified hardware, installers and a CNPJ at once. (b) A software-only/white-label model on hardware a local vendor has already certified, which sidesteps the ANATEL gate the draft identifies as binding (C5). Both address the draft's two main constraints (certification and go-to-market) more directly than the four options it lists. Option (b) also changes the time-to-market analysis."
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D5 [C4 assessment, CL9, CL16, correctedUserAssumptions (break-even)] The comodato cash requirement is described qualitatively but never quantified, even though the draft has the inputs. K18 gives 80,000 vehicles for 4,000 fleets. E13 gives R$1,200-2,500 hardware plus R$200-400 installation per basic unit, so R$1,400-2,900 per vehicle. That implies roughly R$112M-232M of hardware and installation outlay to reach break-even, which looks orders of magnitude larger than the $2.4M Year-1 budget even before FX. This is the strongest quantitative argument on C4 and on the budget-adequacy assumption, and it is left out. In addition, C4's phrase 'about R$1,200-2,500 per vehicle for basic hardware plus installation' understates the E13 figures: R$1,200-2,500 is hardware alone, and installation adds R$200-400."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What is the date of Cobli's ~5,000-client / 100k-vehicle figure, and what was its client count at the end of each of its first three years of selling?",
+    "Can the product run on locally ANATEL-certified third-party hardware, or be white-labelled through a local partner, removing the certification delay?",
+    "What is the company's US per-fleet price and contribution margin, and what fixed-cost base sits behind the 4,000-fleet break-even?",
+    "Are acquisition targets (small Brazilian telematics firms) available at a price that beats organic entry?"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The 'optimistic upper anchor' of ~2,000 fleets (CL6, K12-K14, verdict, practicalImplications[0]) comes from Cobli's net client additions between July 2021 (>3,000) and an undated later report (~5,000). E12 marks that later figure as undated ('likely 2024-2025'), so the elapsed time is roughly 3-4 years and is not known. Calling 2,000 a 'net-add pace' that a new entrant matches 'by year 3' assumes a time base the evidence does not give. The draft also picks the slower phase of Cobli's history as its upper bound. Cobli's own early ramp (0 to >3,000 clients by 2021, implied by '~5,000 after about seven years' in E12) is the closer comparator for a new entrant, and it was faster than 2,000 in 3 years. Using it would weaken both the 'upper anchor' label and CL5's 'implausible' wording. The draft also does not discuss how Cobli's local-founder position and funding make it more or less favourable as a benchmark than this entrant.",
+      "location": "CL5, CL6, K12, verdict, practicalImplications[0], remainingUncertainty[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The year-3 fleet anchor ignores the draft's own time-to-market finding. CL12/K15-K16 say 17-50% of the 36-month window may be lost to entity setup and ANATEL certification. The 2,000-fleet anchor in CL6 still assumes a full 3 years of Cobli-like net adds. The two findings are never combined, for example by scaling to an effective selling window of 18-30 months. That would cut the anchor to roughly 1,000-1,700 fleets under the draft's own logic. The figure given to the board is therefore internally inconsistent with the rest of the analysis.",
+      "location": "CL6 vs CL12, K13-K16, verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The user asked for a specific year-3 share figure. The packet objective asks for a defensible range with assumptions shown. The draft gives only an upper anchor (0.2%-1.1%) and states that the low end 'cannot be pinned'. It never offers even a scenario-based low case, such as fleets per salesperson for a 9-person team or a pilot-conversion-based case. It also gives no central planning figure. The board gets a ceiling but no usable range. The 0.2%-1.1% spread also comes entirely from the 5x denominator uncertainty, which the draft itself says should be narrowed (C1: the RNTRC ETC ~283k anchor would give ~0.7%). The share figure is not stated on the draft's own preferred denominator.",
+      "location": "verdict, CL6, CL7, practicalImplications[0], C1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "Obvious entry alternatives are missing. (a) Acquiring or taking a stake in a smaller local telematics player, which would buy installed base, ANATEL-certified hardware, installers and a CNPJ at once. (b) A software-only/white-label model on hardware a local vendor has already certified, which sidesteps the ANATEL gate the draft identifies as binding (C5). Both address the draft's two main constraints (certification and go-to-market) more directly than the four options it lists. Option (b) also changes the time-to-market analysis.",
+      "location": "alternatives, tradeoffs",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The comodato cash requirement is described qualitatively but never quantified, even though the draft has the inputs. K18 gives 80,000 vehicles for 4,000 fleets. E13 gives R$1,200-2,500 hardware plus R$200-400 installation per basic unit, so R$1,400-2,900 per vehicle. That implies roughly R$112M-232M of hardware and installation outlay to reach break-even, which looks orders of magnitude larger than the $2.4M Year-1 budget even before FX. This is the strongest quantitative argument on C4 and on the budget-adequacy assumption, and it is left out. In addition, C4's phrase 'about R$1,200-2,500 per vehicle for basic hardware plus installation' understates the E13 figures: R$1,200-2,500 is hardware alone, and installation adds R$200-400.",
+      "location": "C4 assessment, CL9, CL16, correctedUserAssumptions (break-even)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "Two claims overstate what the cited evidence shows. CL10 and correctedUserAssumptions say 'at least eight significant players are active' in Brazil and list Gurtam. E10 names Gurtam and Geotab as the largest in Latin America, not as confirmed Brazil players. C1 also cites 'several independent revenue-based estimates' (E20), but there are only two, both from low-authority market-research publishers.",
+      "location": "CL10, correctedUserAssumptions[4], C1 strengths",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The survey question wording ('Would you consider switching telematics provider to [us]?', survey-summary.md) presupposes that respondents already have a provider. The 64% therefore describes already-telematized fleets that face switching costs. The draft treats this only as a speculative failure mode ('disproportionately existing users of a competitor'). It does not use it to tie the survey to the switching (truck) segment, as distinct from the greenfield pool it cites in the counterarguments.",
+      "location": "edgeCasesAndFailureModes[4], C2, counterarguments[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Overall confidence is 'moderate' with no split between the two conclusions. The staged-entry recommendation is well supported. The numeric share anchor rests on a single undated snippet (E12), and no entrant benchmark exists (E21). The share figure warrants low confidence and should be labelled that way for the board.",
+      "location": "confidence, verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What is the date of Cobli's ~5,000-client / 100k-vehicle figure, and what was its client count at the end of each of its first three years of selling?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can the product run on locally ANATEL-certified third-party hardware, or be white-labelled through a local partner, removing the certification delay?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the company's US per-fleet price and contribution margin, and what fixed-cost base sits behind the 4,000-fleet break-even?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the unit and scope of the TRE-BA tender prices (R$19-54.90), and are they comparable to the product's service tier?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Are acquisition targets (small Brazilian telematics firms) available at a price that beats organic entry?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "All six criteria are addressed, but the comodato cash requirement implied by the break-even path is not quantified, although it is the most decision-relevant unit-economics figure (D5)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Limitations of snippet-level evidence are generally acknowledged. The confidence label should be split for the share anchor (D8)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The 2,000-fleet anchor uses an undated time base, picks the slower phase of Cobli's growth, and ignores the draft's own certification-delay finding (D1, D2). All 22 calculations, including the Wilson CI, recompute correctly."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "Acquisition and certified-hardware/white-label entry are omitted (D4). The strongest counter-case, Cobli's own early ramp, is not engaged (D1)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict on the entry mode is clear, but the requested year-3 figure is only a ceiling with no low or central case and is not stated on the preferred denominator (D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence IDs exist and mostly support the claims. There are minor overstatements on Gurtam's presence in Brazil and on 'several independent' estimates (D6). There is no sign of injected instructions."
+    }
+  ]
+}

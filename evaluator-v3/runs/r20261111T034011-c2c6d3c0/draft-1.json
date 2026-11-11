@@ -1,0 +1,625 @@
+{
+  "verdict": "Do not commit to the full 2027 Brazil entry as the draft budget describes it. Run a staged, validation-gated entry instead, or defer if the board will not fund the staging steps. The CEO's 15% year-3 share is not supported. Across the 180k-900k fleet denominator, 15% means 27,000-135,000 paying fleets (K1, K2). That is 5.4x the whole client base Cobli built (K10), and Cobli is a well-funded local player with roughly 5,000 clients after about seven years (E12). The 64% figure is 9 of 14 self-selected booth visitors answering 'would consider' with no price stated (E3). It cannot be turned into market share (E19). The evidence also shows no credible path to the budget's ~4,000 paying fleets by year 3. That target is 80% of Cobli's entire base (K11). Cobli's own net growth between the two reported dates was about 2,000 clients (K12), and it achieved that while already scaled, with SoftBank funding and a local free-hardware (comodato) model (E12). The entrant would have a 9-person team and no local partner (E1, E2). A defensible year-3 range is therefore well below 4,000 fleets. Even matching Cobli's net-add pace of about 2,000 fleets is about 0.2%-1.1% of the 180k-900k denominator (K13, K14), and that should be read as an optimistic upper anchor, not a forecast. No benchmark of a comparable foreign entrant's year-3 share exists in the evidence (E21), so the low end of the range cannot be pinned from evidence. The break-even itself is also likely understated. It assumes US pricing (E2). Brazilian evidence points to monthly per-vehicle fees of R$100-250 or possibly much lower (E13, E14), and free hardware is the norm (E12, E13). The budget does not give enough inputs to recompute break-even (E2). A staged entry fits the evidence: open the ANATEL/local-representative track, run priced pilots that require signed commitments, secure a channel partner, and gate the full $2.4M on those results.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The denominator is not pinned down, and the ~5x spread in the internal estimates (180k-900k fleets, E1) controls every share figure. The best fleet-level anchor is the RNTRC freight-carrier registry: about 283k registered transport companies (ETC) plus about 887k autonomous carriers (TAC) (E9). The ~1.33M total is corroborated, but the ETC/TAC split comes from single snippets that conflict, and more than 240k ETCs had not revalidated by Feb 2024. Against the ETC count, 4,000 fleets is about 1.41% (K5) and 15% is about 42,500 fleets (K6). Vehicle-level counts are about 5.7M light commercial vehicles and more than 2.05M heavy trucks (E8). Regional installed-base figures are about 10.2M LatAm units in 2025 (E5). Revenue-based estimates put Brazilian fleet management at about USD 1.1-1.2B (E20), so a 15% share would mean roughly USD 168M a year (K22), far beyond a 4,000-fleet business.",
+      "mechanisms": "A market share depends on which population is counted. Owner-operators (TAC) seldom buy fleet SaaS. Many ETCs are very small or inactive, as the non-revalidation figures suggest. Non-freight fleets such as services, utilities and rental are missing from RNTRC altogether. Penetration differs by segment. Brazilian heavy trucks were about 40.6% telematized in 2021 (E6), against roughly 20% across LatAm overall (E7). So the truck segment is mostly a market where customers would have to switch, while lighter and service fleets are more likely to be first-time adopters.",
+      "strengths": [
+        "RNTRC provides a registry-based fleet count (about 280k-320k ETCs) that falls inside the internal 180k-900k range (E9).",
+        "Several independent revenue-based estimates are of similar size (E20)."
+      ],
+      "weaknesses": [
+        "No authoritative Brazil-specific fleet count by segment, and no penetration figure by segment (E1, E9).",
+        "Vehicle and unit figures (E5, E8, E11) cannot be converted to fleets without a fleet-size distribution.",
+        "Truck penetration data is from 2021 and trucks often carry several devices, so installed-base shares overlap (E6)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E20"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The demand evidence is very weak. It is 14 respondents recruited at the company's own trade-show booth, 9 of whom answered 'would consider' to a question with no price (E3). The point estimate is 64.3% (K7). A Wilson 95% interval is 38.8%-83.7% (K8, K9), and the exact interval noted in E3 is wider, at about 35-87%. That interval measures sampling error only. It does not cover the selection bias of booth visitors, who are already interested, and that bias cannot be quantified (E3). The CEO's framing, '64% of Brazilian fleet managers', generalizes from this sample to the whole population (E4 vs E3). Even top-box 'definitely would buy' intent is discounted in calibrated models: BASES reportedly assumes 75% of top-box respondents convert, with lower rates for lower boxes (E19). 'Would consider' with no price is weaker than top-box intent, and no B2B conversion benchmark was found (E19).",
+      "mechanisms": "People who choose to visit a vendor's booth are already more interested than the market as a whole. Questions about considering a hypothetical product with no price invite optimism and social-desirability bias (E19). Market share also needs completed switches through contract lock-in, pricing and installation, and none of those were tested.",
+      "strengths": [
+        "The survey document is verified and its method is stated openly (E3).",
+        "It does show that some Sao Paulo logistics attendees are curious about the product (E3)."
+      ],
+      "weaknesses": [
+        "n=14, self-selected, no price, measures 'consider' rather than intent to buy (E3).",
+        "No B2B intent-to-purchase conversion rate is available (E19).",
+        "The survey population does not match any market denominator (E3, E1)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E19",
+        "E1"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Competition is crowded and entrenched, and far stronger than the 'three incumbents' framing in the internal notes (E1). Global leaders Gurtam and Geotab are active, as are Brazilian players Positron (Stoneridge), Autotrac, Omnilink, Cobli, Sascar (Michelin) and OnixSat (E10). Geotab has a Brazilian subsidiary and reports 256% Brazil subscription growth but no absolute count (E17). Ituran has about 814k Brazilian subscribers, though mostly in stolen-vehicle recovery and insurance (E11). Free hardware is standard practice, not a rumour about one competitor (E12, E13). No Brazilian share data for incumbents and no foreign entrant's year-3 benchmark were found (E21). The best available anchors are Cobli at about 5,000 clients after about seven years (E12) and MiX's few large enterprise accounts (E18).",
+      "mechanisms": "Incumbents already offer comodato hardware and installation networks, which removes the price-of-hardware advantage a new entrant might have. Switching an already-telematized truck fleet means removing devices, reinstalling and retraining, all of which favours incumbents. Foreign entrants have grown through large enterprise accounts measured in vehicles (E18) and through resellers (E17), not by signing thousands of small fleets directly.",
+      "strengths": [
+        "The fragmented market (E10) suggests no single dominant player can shut out a niche entrant.",
+        "About 20% LatAm penetration (E7) suggests room among fleets with no telematics yet."
+      ],
+      "weaknesses": [
+        "The closest anchors (E12, E17, E18) all point to slow fleet-count accumulation.",
+        "No incumbent shares, contract terms or lock-in data are available (E21)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E7",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E17",
+        "E18"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "The ~4,000-fleet break-even assumes US pricing, and the draft budget gives no unit price, cost structure, years 2-3 costs, FX or tax inputs (E2). It therefore cannot be recomputed from the evidence. Local price evidence conflicts. A vendor blog gives R$100-150 a month per vehicle for basic service and R$180-250 for full service, with hardware typically on comodato (E13). A 2025 public tender lists R$19-54.90 with an unclear unit (E14). The top of the tender range is about 55% of the blog's basic floor (K21). Under the simplifying assumption that net contribution per fleet scales with price and fixed costs stay the same, a 25% lower contribution raises break-even to about 5,333 fleets (K19), and a 50% lower contribution raises it to 8,000 (K20). These are sensitivities, not estimates. Free hardware adds an up-front subsidy of about R$1,200-2,500 per vehicle for basic hardware plus installation (E13). This is a cash need that a break-even figure based on US pricing probably leaves out.",
+      "mechanisms": "Comodato moves the hardware cost from the customer to the vendor, which raises cash needs per new fleet and lengthens payback. Lower local subscription prices cut contribution per fleet, so more fleets are needed to cover the same fixed cost. BRL exchange risk and local taxes (not researched) reduce USD-denominated revenue further.",
+      "strengths": [
+        "Local price points exist and can be checked in pilots (E13).",
+        "Per-vehicle pricing can be converted to per-fleet figures using an observed average size: Cobli has about 20 vehicles per client (K17)."
+      ],
+      "weaknesses": [
+        "Pricing comes from one low-authority blog and one tender with an unclear unit, and they conflict (E13, E14).",
+        "The company's US price and cost base are missing (E2).",
+        "Taxes and FX were not researched."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E12",
+        "E13",
+        "E14"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "The ANATEL path is a real gating item, but its length is uncertain. Formal type approval may take about 8 weeks to 3 months, per single vendor snippets that are not specific to trackers (E16). The internal anecdote is 6-18 months (E1). A local representative with a CNPJ and testing in Brazil-accredited labs are reportedly required (E15), and with no local partner (E1) that setup has to come before the formal clock starts. If elapsed time reaches the internal 18-month upper end, half of a 36-month window is lost (K15). At the 6-month lower end, 83% of the window remains (K16). Timelines and costs for LGPD, NF-e invoicing and entity setup were not found (E21).",
+      "mechanisms": "The elapsed time is entity or representative setup, then a designated certification body (OCD), then lab testing in Brazil, then ANATEL issuing the certificate (E15). Lab queues and any required design changes add time beyond the formal approval step (E16). The new 'Certifica' platform may shorten timelines, but no figures are given (E16).",
+      "strengths": [
+        "The formal approval step may be shorter than the internal anecdote suggests (E16).",
+        "The government fee is reportedly small, about R$500 (E16)."
+      ],
+      "weaknesses": [
+        "No official ANATEL timeline for cellular vehicle trackers (E16).",
+        "Lab costs and the other local compliance costs are unknown (E16, E21)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E15",
+        "E16"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Go-to-market capability is the binding constraint. There is no local partner (E1) and the Year-1 plan is a 9-person team (E2). Comparable foreign entrants worked through channel partners before or alongside a local subsidiary. MiX had channel representation before its 2013 Sao Paulo office (E18). Geotab sells through resellers and spent years in the region before setting up its 2021 subsidiary (E17). At Cobli's average of about 20 vehicles per client (K17), 4,000 fleets would be about 80,000 vehicles to install (K18), which is close to Cobli's whole roughly 100k-vehicle base (E12). That installation load needs a field network the plan does not include.",
+      "mechanisms": "Every fleet needs sales, physical installation, support and invoicing in Brazil. A small direct team without installers or resellers limits how many fleets can be acquired, whatever the demand.",
+      "strengths": [
+        "Reseller and channel-partner models are proven routes for foreign entrants (E17, E18)."
+      ],
+      "weaknesses": [
+        "No partner identified (E1).",
+        "No current evidence on whether insurer, OEM or reseller channels are open to new entrants (E18)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E12",
+        "E17",
+        "E18"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Across the internal 180k-900k fleet denominator, a 15% share implies 27,000-135,000 paying fleets.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The lower end of the 15% implication, 27,000 fleets, is 5.4x Cobli's reported ~5,000 corporate clients. Cobli is a well-funded local player that has operated for about seven years.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": [
+        "K1",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The 64% figure is 9 of 14 booth-recruited respondents answering 'would consider' with no price. Its Wilson 95% interval is about 38.8%-83.7% before any allowance for selection bias, and it does not describe Brazilian fleet managers in general.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Stated intent is discounted even at top-box level (BASES reportedly about 75% conversion for top box), and 'would consider' with no price is weaker, so the survey cannot be mapped to a market-share figure.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E19",
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "The 4,000-fleet break-even is 80% of Cobli's entire client base. Cobli's reported net growth between July 2021 (more than 3,000 clients) and the later undated report (about 5,000) was about 2,000 clients. This makes 4,000 fleets within three years implausible for a new entrant with a 9-person team and no partner.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K11",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "An optimistic upper anchor of about 2,000 fleets by year 3, matching Cobli's net-add pace, is about 0.22%-1.11% of the 180k-900k denominator. This is a judgement anchor, not a forecast.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E1"
+      ],
+      "calculationIds": [
+        "K12",
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The year-3 share or fleet count achieved by a comparable foreign telematics entrant in Brazil cannot be determined from the evidence, so the low end of the year-3 range cannot be anchored.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E21"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "Break-even under Brazilian pricing cannot be recomputed because the budget draft gives no unit price, cost structure, years 2-3 costs, FX or tax inputs.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Brazilian price evidence (R$100-250 a month per vehicle in a vendor blog, R$19-54.90 with an unclear unit in a public tender) together with standard free-hardware comodato suggests the break-even based on US pricing is understated. Under proportional scaling, a 25% or 50% lower contribution per fleet raises break-even to about 5,333 or 8,000 fleets.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E13",
+        "E14",
+        "E12",
+        "E2"
+      ],
+      "calculationIds": [
+        "K19",
+        "K20",
+        "K21"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "Competition is much broader than three incumbents. It includes Geotab, Gurtam, Positron, Autotrac, Omnilink, Cobli, Sascar/Michelin and OnixSat, and Geotab has a Brazilian subsidiary.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E10",
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Free hardware (comodato) is a standard Brazilian commercial model, not just a rumour about one incumbent.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "ANATEL homologation reportedly needs a Brazil-registered representative with a CNPJ and testing in labs accredited in Brazil, so local setup must come before certification. If elapsed time reaches 18 months, half of a 36-month window is lost; at 6 months, 83% remains.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E15",
+        "E1",
+        "E16"
+      ],
+      "calculationIds": [
+        "K15",
+        "K16"
+      ]
+    },
+    {
+      "id": "CL13",
+      "text": "The heavy-truck segment is substantially telematized (about 40.6% in 2021), so selling into it is mainly a matter of winning customers from incumbents. Overall LatAm penetration is about 20%, which suggests a pool of first-time adopters outside trucks.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "A 15% share of the roughly USD 1.12B Brazilian fleet-management market would be about USD 168M a year in revenue, out of proportion to a 4,000-fleet break-even business.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E20",
+        "E2"
+      ],
+      "calculationIds": [
+        "K22"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "At Cobli's average of about 20 vehicles per client, 4,000 fleets is about 80,000 vehicles to install under comodato, which needs a field installation network that the plan lacks.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K17",
+        "K18"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "Costs and timelines for LGPD compliance, NF-e invoicing and local entity setup cannot be determined from the evidence, so whether the $2.4M Year-1 budget is adequate cannot be confirmed.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E21",
+        "E2"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Full 2027 commitment as budgeted ($2.4M Year 1, 9-person team, direct sales)",
+      "comparison": "This option has the fastest potential time to market. It rests on a 4,000-fleet break-even based on US pricing (E2) that is roughly Cobli's whole base (K11), and it has no partner or installation network (E1). It carries the most capital at risk on the least validated premises."
+    },
+    {
+      "option": "Staged/validation entry: start the ANATEL and local-representative track, run priced pilots requiring signed commitments, and sign a reseller or installer partner, with the full budget gated on results",
+      "comparison": "This option spends a fraction of the budget on the items that take longest to deliver (certification, E15, E16; channel, E17, E18). It also produces the missing inputs: real Brazilian price acceptance (E13, E14) and real conversion (E19). It shortens the year-3 selling window less than deferral does, because certification runs in parallel with validation."
+    },
+    {
+      "option": "Defer entry (e.g. to 2028) and buy the missing research first (Berg Insight Brazil split, ANTT registry, pricing study)",
+      "comparison": "This option is the lowest-cost way to close the evidence gaps (E5, E9, E21). It forgoes the time that could be spent starting certification, while incumbents including Geotab keep growing in Brazil (E17)."
+    },
+    {
+      "option": "Partner-led entry through an established reseller or incumbent channel (the Geotab/MiX pattern)",
+      "comparison": "Comparable foreign entrants used channel partners (E17, E18). This option exchanges margin for installation capacity and reach, which addresses the binding go-to-market constraint (E1). It still requires local homologation (E15)."
+    }
+  ],
+  "tradeoffs": [
+    "Speed against validation. Committing now saves months on certification but locks in $2.4M before price acceptance and conversion are known (E2, E13, E19).",
+    "Breadth of segment against winnability. Heavy trucks are already about 40% telematized and mean winning customers from incumbents (E6). Lighter and service fleets may be first-time adopters but are less well documented (E7, E8).",
+    "Matching comodato against preserving cash. Giving away hardware is the market norm (E12, E13), but it raises cash per fleet and lengthens payback.",
+    "Channel margin against acquisition rate. Resellers speed up acquisition (E17, E18) but lower revenue per fleet, which pushes break-even higher."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Elapsed time for ANATEL plus local-representative setup hits the 18-month anecdote, leaving only half the selling window (K15).",
+    "If the R$19-54.90 tender prices are monthly per-vehicle fees for comparable service, local prices are far below the blog band (K21) and break-even rises sharply.",
+    "Incumbents respond on price or with longer comodato contracts, raising switching costs in the truck segment that is already telematized (E6, E12).",
+    "The denominator shrinks after RNTRC revalidation, with more than 240k ETCs not revalidated (E9). That raises any share but does not change the fleet count needed.",
+    "Booth respondents are disproportionately existing users of a competitor who are unhappy with it, so interest does not generalize (E3).",
+    "Data-protection or invoicing requirements (LGPD, NF-e) add unbudgeted cost or delay (E21).",
+    "Exposure to BRL exchange rates erodes USD-denominated contribution even if local pricing holds."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Overall LatAm penetration is only about 20%, so there is a large first-time adopter pool where a newcomer does not need to displace incumbents.",
+      "response": "This partly holds for non-truck segments (E7). But that pool is also being targeted by Cobli, Geotab and others (E10, E12, E17). It also does not solve installation capacity or pricing, which limit fleet count whatever the demand (E1, E13)."
+    },
+    {
+      "argument": "The ANATEL process can take as little as 8 weeks, so the timeline risk is overstated.",
+      "response": "That figure is a single vendor snippet, not specific to trackers (E16). It also excludes local-representative setup (E15), and the company has no local partner (E1). The staged option captures the benefit if the process turns out to be fast."
+    },
+    {
+      "argument": "Geotab grew Brazil subscriptions by 256% in two years, showing foreign entrants can scale quickly.",
+      "response": "No absolute base was disclosed, so the growth may be from a small number (E17). Geotab is a global leader that sells through resellers and had been in the region since 2012. It is not comparable to a 9-person direct team."
+    },
+    {
+      "argument": "Even if 15% is too high, 64% interest shows strong product-market fit.",
+      "response": "The sample of 14 self-selected respondents gives an interval of roughly 39%-84% even before bias (K8, K9). Without a price, 'consider' does not show willingness to pay (E3, E19). It is a reason to run priced pilots, not evidence of fit."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The product will reach around 15% market share in Brazil by year three.",
+      "correction": "15% implies 27,000-135,000 fleets (K1, K2), at least 5.4x Cobli's total client base (K10). Even an optimistic year-3 anchor of about 2,000 fleets is only about 0.2%-1.1% of the denominator (K13, K14).",
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E12"
+      ]
+    },
+    {
+      "assumption": "64% of Brazilian fleet managers would consider switching to us.",
+      "correction": "The figure is 9 of 14 booth visitors at one trade show (Wilson 95% interval about 38.8%-83.7%), with no price stated. It does not describe Brazilian fleet managers in general.",
+      "evidenceIds": [
+        "E3"
+      ]
+    },
+    {
+      "assumption": "Survey 'would consider' intent translates into market share.",
+      "correction": "Even top-box purchase intent is discounted in calibrated models, and 'consider' with no price converts at an unknown and lower rate. No B2B conversion benchmark exists in the evidence.",
+      "evidenceIds": [
+        "E19",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "Break-even requires ~4,000 paying fleets.",
+      "correction": "This figure assumes US pricing. Brazilian fees and standard free-hardware comodato point to a higher break-even (sensitivity: about 5,333-8,000 fleets at 25-50% lower contribution), and it cannot be recomputed from the budget draft.",
+      "evidenceIds": [
+        "E2",
+        "E12",
+        "E13",
+        "E14"
+      ]
+    },
+    {
+      "assumption": "There are three local incumbents and one is rumoured to give hardware away free.",
+      "correction": "At least eight significant players are active, including Geotab with a Brazilian subsidiary, and free hardware is standard practice.",
+      "evidenceIds": [
+        "E10",
+        "E17",
+        "E12",
+        "E13"
+      ]
+    },
+    {
+      "assumption": "Entry in 2027 allows a full three years of selling by the year-3 horizon.",
+      "correction": "Selling requires ANATEL certification, which in turn requires a local representative. Depending on elapsed time (6-18 months by the internal anecdote), 50%-83% of a 36-month window remains.",
+      "evidenceIds": [
+        "E1",
+        "E15",
+        "E16"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Fleets implied by 15% share of the low denominator (180k fleets)",
+      "expression": "0.15 * 180000",
+      "claimedResult": 27000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Fleets implied by 15% share of the high denominator (900k fleets)",
+      "expression": "0.15 * 900000",
+      "claimedResult": 135000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Share that 4,000 fleets represents of 180k fleets",
+      "expression": "4000 / 180000",
+      "claimedResult": 0.0222,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Share that 4,000 fleets represents of 900k fleets",
+      "expression": "4000 / 900000",
+      "claimedResult": 0.00444,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Share that 4,000 fleets represents of 283,393 RNTRC transport companies (ETC)",
+      "expression": "4000 / 283393",
+      "claimedResult": 0.0141,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Fleets implied by 15% of 283,393 RNTRC transport companies",
+      "expression": "0.15 * 283393",
+      "claimedResult": 42509,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Survey point estimate, 9 of 14",
+      "expression": "9 / 14",
+      "claimedResult": 0.643,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Wilson 95% interval lower bound for 9/14",
+      "expression": "((9/14 + 1.96^2/28) - 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimedResult": 0.388,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Wilson 95% interval upper bound for 9/14",
+      "expression": "((9/14 + 1.96^2/28) + 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimedResult": 0.837,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Ratio of the low 15% implication (27,000 fleets) to Cobli's ~5,000 clients",
+      "expression": "27000 / 5000",
+      "claimedResult": 5.4,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Break-even fleets as a fraction of Cobli's ~5,000 clients",
+      "expression": "4000 / 5000",
+      "claimedResult": 0.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Cobli net client additions between the >3,000 (July 2021) and ~5,000 (later, undated) reports",
+      "expression": "5000 - 3000",
+      "claimedResult": 2000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K13",
+      "purpose": "Share that a 2,000-fleet upper anchor represents of 180k fleets",
+      "expression": "2000 / 180000",
+      "claimedResult": 0.0111,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "Share that a 2,000-fleet upper anchor represents of 900k fleets",
+      "expression": "2000 / 900000",
+      "claimedResult": 0.00222,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Fraction of a 36-month window remaining after 18 months of certification and setup",
+      "expression": "(36 - 18) / 36",
+      "claimedResult": 0.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K16",
+      "purpose": "Fraction of a 36-month window remaining after 6 months of certification and setup",
+      "expression": "(36 - 6) / 36",
+      "claimedResult": 0.833,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "Cobli average vehicles per client (100k vehicles / 5,000 clients)",
+      "expression": "100000 / 5000",
+      "claimedResult": 20,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K18",
+      "purpose": "Vehicles to install for 4,000 fleets at 20 vehicles per fleet",
+      "expression": "4000 * 20",
+      "claimedResult": 80000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K19",
+      "purpose": "Sensitivity: break-even fleets if contribution per fleet is 25% lower (proportional scaling, fixed costs unchanged)",
+      "expression": "4000 / 0.75",
+      "claimedResult": 5333,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K20",
+      "purpose": "Sensitivity: break-even fleets if contribution per fleet is 50% lower",
+      "expression": "4000 / 0.5",
+      "claimedResult": 8000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K21",
+      "purpose": "Top of tender price range (R$54.90) relative to vendor-blog basic floor (R$100)",
+      "expression": "54.90 / 100",
+      "claimedResult": 0.549,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K22",
+      "purpose": "Revenue (USD millions) implied by 15% of a USD 1,120M market",
+      "expression": "0.15 * 1120",
+      "claimedResult": 168,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Present the board with a range, not 15%. The evidence supports year-3 paying fleets well below 4,000, with about 2,000 fleets (0.2%-1.1% share) as an optimistic upper anchor (K12, K13, K14).",
+    "Replace the ~4,000 break-even based on US pricing with a model built on Brazilian per-vehicle pricing, comodato hardware subsidy, installation, FX and taxes over three years before any full commitment (E2, E13).",
+    "Treat a local representative or entity and the ANATEL application as the first funded workstream, because certification cannot start without them (E15).",
+    "Make a channel or installer partner a gating condition, since comparable foreign entrants relied on partners (E17, E18).",
+    "Replace the booth survey with priced pilots or letters of intent from a defined segment. Conversion is the unknown that matters (E3, E19).",
+    "Decide on a target segment, such as small and mid-size fleets that are not yet telematized versus heavy trucks where customers must be won from incumbents (E6, E7), before setting any share target."
+  ],
+  "remainingUncertainty": [
+    "No year-3 benchmark for a comparable foreign entrant in Brazil or Mexico, and no Brazilian incumbent shares (E21).",
+    "The date of Cobli's ~5,000-client figure is not given, so its net-add pace is approximate (E12).",
+    "Local pricing evidence conflicts. The tender unit is unclear and the blog is a single low-authority source (E13, E14). This conflict is unresolved.",
+    "The ANATEL elapsed time is unresolved. The formal step may take 2-3 months (E16) against the 6-18 month anecdote (E1). Neither is authoritative or specific to trackers. The anecdote is retained as the planning range for total elapsed time because it includes setup.",
+    "The truck penetration figure (E6, Brazil trucks, 2021, about 40.6%) and the regional figure (E7, LatAm, 2024, about 20%) are best explained by different scope, not real disagreement. Brazil's penetration by segment remains unknown.",
+    "The company's US price, cost structure and fleet-size mix are unknown, so break-even cannot be recomputed (E2).",
+    "Costs for LGPD, NF-e and entity setup are unknown (E21)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Berg Insight's Brazil installed-base and vendor-share data, which could show faster entrant growth than the Cobli anchor implies (E5, E10).",
+    "The ANTT Anuario TRC 2024, to fix the active fleet-count denominator after revalidation (E9).",
+    "A priced pilot or letter-of-intent campaign in a defined segment showing conversion rates far above typical intent discounts.",
+    "A confirmed Brazilian reseller or installer partner with an existing customer base, which could make a 4,000-fleet path credible.",
+    "An official ANATEL or lab quote for the tracker hardware confirming certification in under 6 months.",
+    "The company's own unit economics showing Brazilian-priced contribution close to US levels, which would keep break-even near 4,000."
+  ]
+}

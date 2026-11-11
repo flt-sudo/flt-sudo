@@ -1,0 +1,157 @@
+{
+  "subject": "Choosing between Quiver and Tessellate as a self-hosted vector database for filtered semantic search over 300M 768-dim embeddings at p95 < 50 ms and 400 QPS",
+  "domain": "Data infrastructure / approximate nearest neighbour (ANN) vector search",
+  "decisionObjective": "Decide whether Quiver, Tessellate, or both should go forward to a proof-of-concept, and what evidence would settle the choice. The workload is 300M x 768-dim vectors with metadata filters, filtered p95 under 50 ms at 400 QPS with acceptable recall, self-hosted in the team's VPC. A second decision sits inside this one: whether the engineer's two reasons for dropping Quiver right away (a 100M-per-collection cap and filtered queries 4x slower) still hold for current versions.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Scale fit at 300M vectors (with growth headroom)",
+      "weight": 20,
+      "rationale": "This is a hard gate. If an engine cannot hold 300M 768-dim vectors in one logical collection, or in a sharded setup that queries cleanly, without heavy application-side work, it is out. The claimed 100M cap is the main reason given for dropping Quiver."
+    },
+    {
+      "id": "C2",
+      "name": "Filtered-query latency and throughput at target load (p95 < 50 ms @ 400 QPS)",
+      "weight": 25,
+      "rationale": "This is the stated performance target. It has to be measured on filtered queries at roughly 300M scale across a realistic range of filter selectivities, because filtered ANN performance can drop sharply at low selectivity. Unfiltered numbers or small-dataset numbers are not enough."
+    },
+    {
+      "id": "C3",
+      "name": "Recall/quality under filters at the operating point",
+      "weight": 15,
+      "rationale": "Latency only means something at a fixed recall. An engine can hit 50 ms by giving up recall on filtered queries, and lower recall makes semantic search results worse."
+    },
+    {
+      "id": "C4",
+      "name": "Self-hosted VPC deployment maturity and operability",
+      "weight": 15,
+      "rationale": "The system must run inside the team's VPC. Production readiness depends on GA status of the self-hosted or Helm deployment, the HA and replication model, behaviour during rolling upgrades, backup and restore, and observability."
+    },
+    {
+      "id": "C5",
+      "name": "Infrastructure cost at target scale",
+      "weight": 10,
+      "rationale": "300M x 768-dim float32 is about 920 GB of raw vectors before index overhead. Memory and disk footprint, support for quantization or on-disk indexes, and node count together decide whether either option is affordable."
+    },
+    {
+      "id": "C6",
+      "name": "Ingestion, updates and index rebuild behaviour",
+      "weight": 8,
+      "rationale": "Loading 300M vectors and keeping up with upserts and deletes while filtered latency holds steady affects time-to-production and day-to-day reliability. Benchmarks usually measure static indexes only."
+    },
+    {
+      "id": "C7",
+      "name": "Vendor/project viability, licensing and support for self-hosted use",
+      "weight": 7,
+      "rationale": "For long-term lock-in risk, the licence must permit self-hosting at this scale, and the release cadence and support options matter."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the current per-collection (or per-cluster) vector limit for the latest Quiver release? Does the 2024-06-03 limits page (Quiver 2.x, 100M) still apply, or was it superseded by the 3.0.0 changelog entry (2026-02-02) that raises the limit to 1B via sharded collections? Do sharded collections have caveats such as filter support, cross-shard recall or extra latency?",
+      "whyItMatters": "If the 100M cap is out of date, the engineer's main reason for dropping Quiver goes away. If sharding has caveats, C1 and C2 may still count against Quiver.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Which Quiver version did the Tessellate-published benchmark test? It lists Quiver 2.1, which uses post-filtering, while filtered-HNSW arrived in 3.0. Does the 4x gap hold for Quiver 3.x? Recompute the ratio from the source table (141/34 ≈ 4.1x) and check the methodology: hardware parity, QPS, recall and tuning.",
+      "whyItMatters": "The vendor-published 4x claim compares Tessellate 4.0 with a Quiver version that predates filtered-HNSW. If it does not apply to current Quiver, the latency argument against Quiver disappears.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "How do both engines perform at 300M vectors with filters and realistic selectivities (e.g. 1%, 10%, 50%) at 400 QPS? The independent OpenANN-Bench 2026-09 run (Tessellate 4.0 at 31 ms / 0.95 recall vs. Quiver 3.1 at 38 ms / 0.97) stopped at 200M vectors and one 10% selectivity.",
+      "whyItMatters": "At 200M both engines meet the target with little separating them. The 300M scale and the team's own filter selectivity distribution are untested, and either could push one engine past 50 ms. A proof-of-concept on representative data is probably needed to settle this.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C5"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What is the team's actual filter selectivity distribution and filter complexity (number of fields, range vs. equality, combined predicates)? Does it fit within Quiver's 64-metadata-fields limit and Tessellate's equivalent limit?",
+      "whyItMatters": "Filtered ANN latency depends heavily on selectivity, as OpenANN notes. Benchmarks at 10% selectivity may not reflect this workload.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "How mature is self-hosted VPC deployment for each engine? Quiver's Helm/VPC deployment became GA only in 3.2.0 (2026-07-14), and no Tessellate deployment details are in the sources. Also needed: HA, replication, upgrade and backup features for both.",
+      "whyItMatters": "Quiver's VPC option is only a few months old, which is an operational risk. Tessellate's self-hosted story is unknown.",
+      "criteria": [
+        "C4",
+        "C7"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What memory, storage and node footprint does each engine need for 300M x 768-dim at the target recall and latency, and is quantization or a disk-based index supported without breaking the latency target?",
+      "whyItMatters": "Even if both engines meet the latency target, cost at this scale could decide the choice.",
+      "criteria": [
+        "C5",
+        "C2"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "How do bulk ingestion time and filtered query latency behave during concurrent upserts and deletes, and during index rebuilds, for each engine at 300M scale?",
+      "whyItMatters": "Static benchmarks hide degradation while writes are happening, which matters for production SLOs.",
+      "criteria": [
+        "C6",
+        "C2"
+      ]
+    },
+    {
+      "id": "G8",
+      "question": "What are the licensing terms and support options for self-hosting each engine at this scale?",
+      "whyItMatters": "A restrictive licence or no enterprise support for self-hosting could rule out an engine regardless of performance.",
+      "criteria": [
+        "C7"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Quiver collections are capped at 100M vectors.",
+      "source": "user",
+      "howToCheck": "Compare the limits page date and version scope (2024-06-03, Quiver 2.x) with the 3.0.0 changelog entry (1B, sharded) and the current official docs for the latest Quiver release. Confirm whether sharded collections fully support filters."
+    },
+    {
+      "assumption": "Quiver is 4x slower than Tessellate on filtered queries.",
+      "source": "user",
+      "howToCheck": "Recompute from the Tessellate table (141/34). Note that it tested Quiver 2.1, which used post-filtering, that Tessellate itself published it, and that it ran on 50M vectors. Cross-check against independent OpenANN-Bench 2026-09 (Quiver 3.1 at 38 ms vs. Tessellate 31 ms, about 1.2x) and against a proof-of-concept on current versions."
+    },
+    {
+      "assumption": "Dropping Quiver immediately is justified.",
+      "source": "user",
+      "howToCheck": "Follows from checking the two premises above. It holds only if both stand for current Quiver versions."
+    },
+    {
+      "assumption": "Benchmark results at 200M vectors and 10% selectivity carry over to 300M and the team's filter mix.",
+      "source": "planner",
+      "howToCheck": "Run a proof-of-concept on a representative 300M-vector sample (or extrapolate cautiously from scaling tests) using the team's real filters, at 400 QPS with a fixed recall target."
+    },
+    {
+      "assumption": "OpenANN-Bench 2026-09 is independent and reproducible as claimed.",
+      "source": "planner",
+      "howToCheck": "Confirm that published configs exist, check for vendor sponsorship or contributor ties, and look at tuning parity and hardware specs."
+    },
+    {
+      "assumption": "The latest Quiver (3.2) performs at least as well as the benchmarked 3.1, and Tessellate 4.0 is current.",
+      "source": "planner",
+      "howToCheck": "Check both vendors' current release notes for regressions or newer versions since the benchmarks were run."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

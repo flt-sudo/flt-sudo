@@ -1,0 +1,512 @@
+{
+  "verdict": "Take both Quiver (current 3.2.x) and Tessellate 4.0 forward to a proof-of-concept. Do not drop Quiver now. Neither of the engineer's two reasons holds up for current Quiver versions. (1) The 100M cap comes from a limits page that says it applies to Quiver 2.x and was last updated 2024-06-03 (E1). The Quiver 3.0.0 changelog (2026-02-02) raises the per-collection limit to 1B vectors on sharded collections (E2), and 300M is 30% of that limit (K4). (2) The 4x figure is arithmetically right for its own table: 141/34 is about 4.15x (K1). But that table tested Quiver 2.1, which filtered after the search (post-filtering) (E3, E5). It came from Tessellate's own benchmark, at 50M vectors, and gave no recall, QPS or hardware details (E5). The community benchmark OpenANN-Bench 2026-09 ran 200M vectors at 400 QPS with 10% selectivity. It measured Quiver 3.1 at 38 ms p95 and Tessellate 4.0 at 31 ms p95, about 1.23x apart (K2). Both met the 50 ms target, and Quiver had higher Recall@10 (0.97 vs 0.95) (E6). The evidence cannot pick a winner. Nothing covers 300M vectors, other selectivities, memory or cost, ingestion, HA, licensing or support (E11). Neither product shows up in public web searches (E7), and OpenANN-Bench's independence could not be checked (E8). What would settle it: a PoC on both engines at about 300M vectors (or a careful scaling series up to it), using the team's real filter mix at 1%, 10% and 50% selectivity, run at 400 QPS with recall fixed at the same target for both, and with concurrent upserts. Add vendor answers on sharding caveats, HA and backup, memory footprint and quantization, and licensing.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Quiver: the stated limit no longer rules it out. The 100M-per-collection figure (E1) says it covers Quiver 2.x only. The 3.0.0 changelog raises the limit to 1,000,000,000 vectors on sharded collections (E2). That puts 300M at 30% of the limit, leaving about 3.33x headroom (K4). The open question is whether sharded collections are as usable as a single collection: filter support, recall across shards, extra latency, and whether sharding is automatic. The one-line changelog entry says nothing about these (E2). There is also no current 3.x limits page (E1). Tessellate: the packet has no stated vector limit. The Tessellate benchmark tested 50M (E5) and OpenANN-Bench tested 200M on 3 nodes (E6). Neither went to 300M, so Tessellate's scale fit at 300M is no better documented than Quiver's (E11).",
+      "mechanisms": "Sharding splits the vectors across separate sub-indexes. A filtered top-k query then has to fan out to every shard, search each one, and merge the results. Tail latency becomes roughly the slowest shard plus the merge cost, and recall depends on how many candidates each shard returns. So '1B supported' is a capacity claim, not a performance claim.",
+      "strengths": [
+        "Quiver 3.x has a documented 1B sharded-collection limit, which leaves about 3.33x headroom over 300M (E2, K4)",
+        "Both engines have been run at 200M on 3-node clusters, which is 2/3 of the target scale (E6)"
+      ],
+      "weaknesses": [
+        "No Quiver 3.x limits or sharding documentation, and filter and recall behaviour on sharded collections is unknown (E1, E2)",
+        "No documented vector limit for Tessellate in the evidence (E11)",
+        "Neither engine has been shown working at 300M (E6, E11)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E5",
+        "E6",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "At 200M vectors, 10% selectivity and 400 QPS on identical 3-node hardware, both engines met the target. Tessellate 4.0 ran at 31 ms p95, leaving 19 ms under the target (K7b). Quiver 3.1 ran at 38 ms p95, leaving 12 ms (K7a). The ratio is about 1.23x (K2), not 4x (E6). The 4x figure (141/34 is about 4.15, K1) compares against Quiver 2.1's post-filtering, which Quiver 3.0 replaced with filtering during graph traversal (E3, E5). It does not describe current Quiver. Nothing is known about how either engine performs at 300M (1.5x the benchmarked size, K5) or at selectivities other than 10% (E6, E9, E11). Also, the latest Quiver release is 3.2, which has not been benchmarked (E4, E6).",
+      "mechanisms": "Post-filtering runs the ANN search first and then drops results that fail the filter. At 10% selectivity, about 90% of candidates are thrown away. The engine has to fetch many more candidates or re-search, and that inflates latency, which explains Quiver 2.1's 141 ms. Filtering during graph traversal skips non-matching nodes while walking the graph, so much less work is wasted. With very restrictive filters (low selectivity), graph search can still slow down because the graph of matching nodes becomes poorly connected. Research snippets report partition-based (IVF) indexes beating HNSW in that regime (E9). Going from 200M to 300M adds graph depth or more shards and more memory per node, so 12 ms of headroom is not a guarantee.",
+      "strengths": [
+        "Both engines met p95 < 50 ms at 400 QPS at 200M on matched hardware (E6)",
+        "Quiver 3.x's filtered-HNSW removes the post-filter penalty that drove the 141 ms result (E3)"
+      ],
+      "weaknesses": [
+        "Only one selectivity (10%) was tested, and OpenANN-Bench itself says results depend heavily on selectivity (E6, E9)",
+        "Not tested above 200M (E6)",
+        "The latencies were measured at different recall levels, so they are not strictly comparable (E6)",
+        "Quiver 3.2, the version with GA VPC deployment, was not benchmarked (E4, E6)",
+        "OpenANN-Bench's independence and published configs could not be verified (E8)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E8",
+        "E9",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Only OpenANN-Bench reports recall. Quiver 3.1 reached Recall@10 0.97 and Tessellate 4.0 reached 0.95 (E6). Put another way, Tessellate missed about 5% of true top-10 neighbours and Quiver about 3%, so Tessellate missed roughly 1.67x as often (K8). Tessellate's latency lead was therefore measured at lower recall. On equal recall the gap could narrow or flip. The Tessellate-published benchmark gives no recall at all, so its 4x latency figure cannot be judged on quality (E5). The team has not stated a recall target (E10).",
+      "mechanisms": "ANN engines trade recall against latency through search-breadth settings such as ef or the number of probes. Raising Tessellate's search breadth to reach 0.97 would add latency. Lowering Quiver's to 0.95 would cut latency. Without curves at matched recall, the 31 vs 38 ms comparison is partly a tuning artefact.",
+      "strengths": [
+        "Quiver showed higher filtered recall at 400 QPS (E6)",
+        "Both engines reached at least 0.95 Recall@10 under a 10% filter (E6)"
+      ],
+      "weaknesses": [
+        "No measurement at matched recall (E6)",
+        "No recall data in the vendor benchmark (E5)",
+        "No team recall target was given (E10)"
+      ],
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E10"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Quiver: private/VPC deployment via Helm became GA in 3.2.0 on 2026-07-14 (E4). That is about 120 days (about 4 months) before 2026-11-11 (K6), so the track record is short. The changelog has no details on HA, replication, rolling upgrades, backup or observability (E4). Tessellate: the packet has nothing on self-hosted deployment, and web searches found no deployment documentation (E7). On this criterion Quiver at least has a documented GA, while Tessellate's maturity is unknown rather than proven. The packet cannot settle C4 for either engine (E7, E11).",
+      "mechanisms": "A newly GA Helm chart usually has less field testing of failure handling: pod rescheduling with large in-memory indexes, rolling upgrades that force index reloads, and snapshot or restore of hundreds of GB. At 300M x 768-dim, an index reload or rebuild after a node failure can take a long time, so HA design matters a lot.",
+      "strengths": [
+        "Quiver has an explicitly GA self-hosted/VPC option (E4)"
+      ],
+      "weaknesses": [
+        "Quiver's VPC GA is only about 120 days old (E4, K6)",
+        "No HA, upgrade or backup details for either engine (E4, E7)",
+        "Tessellate's self-hosted deployment is entirely undocumented in the evidence (E7)"
+      ],
+      "evidenceIds": [
+        "E4",
+        "E7",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Cost cannot be determined from the evidence. The raw float32 vectors alone are about 921.6 GB (K3), before index graph overhead, metadata and replication. Spread evenly over 3 nodes with no replication, that is about 307.2 GB of raw vectors per node (K9). This is an illustrative floor, not a sizing. No evidence covers either engine's memory or disk footprint, quantization or on-disk index support (E11). OpenANN-Bench does not report hardware specs or memory footprint (E6).",
+      "mechanisms": "An in-memory HNSW index holds the full vectors plus the graph links in RAM. Quantization (for example scalar or product quantization) or a disk-resident index can cut RAM several-fold, but usually costs recall or tail latency. Whichever engine reaches the target recall and latency with less RAM will likely be cheaper at this scale.",
+      "strengths": [],
+      "weaknesses": [
+        "No footprint, quantization or node-count data for either engine (E11)",
+        "Benchmark hardware is unspecified, so cost per QPS cannot be derived (E6)"
+      ],
+      "evidenceIds": [
+        "E6",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Cannot be determined. No evidence covers bulk ingestion time, upsert or delete behaviour, or index rebuilds for either engine (E11). Both benchmarks appear to use static indexes (E5, E6). The team's write rate is not stated (E10).",
+      "mechanisms": "Graph indexes take inserts incrementally, but this competes with queries for CPU and memory bandwidth. Deletes are often tombstoned, which degrades filtered recall and latency until compaction runs. On sharded collections, rebalancing can add further load.",
+      "strengths": [],
+      "weaknesses": [
+        "No ingestion or concurrent-write data for either engine (E11)",
+        "Write rate unknown (E10)"
+      ],
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C7",
+      "assessment": "Cannot be determined. No licensing or support information was found for either engine, and neither could be identified in public web searches (E7, E11). Quiver's changelog shows ongoing releases: 2.1.0 (2024-04), 3.0.0 (2026-02) and 3.2.0 (2026-07) (E3, E4). That suggests an active project, but it says nothing about licence terms. Tessellate Inc. publishes benchmarks of its own product (E5), which shows a commercial vendor but nothing about its terms.",
+      "mechanisms": "Licences that restrict self-hosting, or that gate HA or sharding features behind enterprise tiers, can change the effective cost and lock-in more than performance differences do.",
+      "strengths": [
+        "Quiver shows a steady release cadence through 2026 (E3, E4)"
+      ],
+      "weaknesses": [
+        "No licence or support terms for either engine (E7, E11)",
+        "The products could not be found in public sources, so viability cannot be checked independently (E7)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E7",
+        "E11"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The 100M-per-collection cap comes from a Quiver limits page last updated 2024-06-03 that says it applies to Quiver 2.x. For Quiver 3.0+ it is superseded by the changelog, which raises the per-collection limit to 1B vectors on sharded collections. 300M is 30% of that limit.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K4"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The packet does not show whether Quiver's sharded collections fully support filters, or what recall and latency cost they carry across shards. The 1B figure is a capacity statement only.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E2",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "The 4x claim is arithmetically consistent with its source: 141 ms / 34 ms is about 4.15x. But it compares Tessellate 4.0 with Quiver 2.1, which used post-filtering. Quiver 3.0 replaced post-filtering with filtered-HNSW that filters during graph traversal, so the 4x figure does not describe current Quiver.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "On OpenANN-Bench 2026-09 (200M vectors, 768-dim, 10% selectivity, 400 QPS, identical 3-node clusters), Tessellate 4.0 reached 31 ms p95 and Quiver 3.1 reached 38 ms p95. That is a ratio of about 1.23x, and both are under the 50 ms target.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6"
+      ],
+      "calculationIds": [
+        "K2",
+        "K7a",
+        "K7b"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "In OpenANN-Bench, Quiver 3.1 reached higher filtered recall (Recall@10 0.97) than Tessellate 4.0 (0.95). Tessellate missed about 1.67x as many true top-10 neighbours, so its latency lead was measured at lower recall.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6"
+      ],
+      "calculationIds": [
+        "K8"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "The Tessellate benchmark is vendor-published, ran at 50M vectors (one-sixth of the 300M target), and gives no recall, QPS, hardware or tuning details. It is less reliable for this decision than OpenANN-Bench.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E6"
+      ],
+      "calculationIds": [
+        "K10"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "Neither engine has evidence of performance at 300M vectors (1.5x the largest benchmarked size) or at filter selectivities other than 10%. Whether either meets p95 < 50 ms at 400 QPS on the team's workload cannot be determined from the packet.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E6",
+        "E9",
+        "E11"
+      ],
+      "calculationIds": [
+        "K5"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "The independence and reproducibility of OpenANN-Bench could not be verified externally. No benchmark by that name was found and its published configs were not located.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Quiver's private/VPC deployment via Helm became GA in 3.2.0 on 2026-07-14, about 120 days before 2026-11-11. Its HA, upgrade and backup behaviour is undocumented in the evidence.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E4"
+      ],
+      "calculationIds": [
+        "K6"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "Tessellate's self-hosted deployment, licensing and support, and both engines' memory and cost footprint, ingestion behaviour and licensing, cannot be determined from the evidence.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E7",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Raw float32 storage for 300M x 768-dim vectors is about 921.6 GB before index overhead, metadata and replication. That is about 307.2 GB per node if spread evenly over 3 nodes with no replication.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E10"
+      ],
+      "calculationIds": [
+        "K3",
+        "K9"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "Filter selectivity strongly affects filtered-ANN performance, and graph-based HNSW can lose to partition-based indexes at low selectivity. So results at 10% selectivity may not carry over to the team's filter mix.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The latest Quiver release (3.2, which brings the VPC Helm GA) has not been benchmarked. Whether it performs at least as well as 3.1, and whether Tessellate has a release newer than 4.0, cannot be determined.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E4",
+        "E6",
+        "E11"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Drop Quiver now and evaluate Tessellate only (the engineer's proposal)",
+      "comparison": "Not supported. Both premises are out of date for Quiver 3.x (E1, E2, E3, E5). On the most relevant benchmark the two engines are about 1.23x apart on latency (K2), and Quiver has higher recall (E6). Dropping Quiver would leave the team relying on one engine whose scale limits, self-hosted deployment, licensing and cost are all undocumented (E7, E11)."
+    },
+    {
+      "option": "Take both forward to a time-boxed head-to-head PoC (recommended)",
+      "comparison": "Costs PoC effort for two engines. It is the only option that can settle C2 and C3 at 300M with the team's real filters and matched recall, which no evidence currently covers (E6, E11). It also surfaces C4, C5 and C6 behaviour that neither engine documents."
+    },
+    {
+      "option": "Pick Tessellate on the 31 ms vs 38 ms result without a PoC",
+      "comparison": "The latency lead is small (about 1.23x, K2), was measured at lower recall (0.95 vs 0.97, E6), at 200M and 10% selectivity only, and comes from a benchmark whose independence is unverified (E8)."
+    },
+    {
+      "option": "Pick Quiver on its recall lead and documented 1B sharded limit without a PoC",
+      "comparison": "Sharded-collection filter and recall behaviour is undocumented (E2). Version 3.2 has not been benchmarked (E6). The VPC GA is only about 120 days old (E4, K6). Not justified without testing."
+    },
+    {
+      "option": "Widen the shortlist to a third engine with publicly documented filtered-search behaviour",
+      "comparison": "The research snippets mention other filterable-HNSW designs (E9), but the packet has no evidence on any third engine for this workload. Consider it only if both engines fail the PoC or their licensing turns out to be unacceptable (E7)."
+    }
+  ],
+  "tradeoffs": [
+    "Tessellate showed about 7 ms lower p95 at 200M (31 vs 38 ms, E6), while Quiver showed higher recall (0.97 vs 0.95, E6). Which matters more depends on the team's recall target, which is not stated (E10).",
+    "Quiver reaches 300M through sharded collections (E2). That buys capacity headroom (about 3.33x, K4) but may cost fan-out latency and cross-shard recall, and neither is documented.",
+    "Quiver has a documented but recent VPC GA (E4, K6). Tessellate's self-hosted story is undocumented (E7). One is known to be young, the other is unknown.",
+    "Running a two-engine PoC costs more time up front, but it avoids locking in on vendor-published or unverified benchmark claims (E5, E8)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Low-selectivity filters (for example 1% or less): graph-based filtered search can degrade sharply as the graph of matching nodes becomes poorly connected. Either engine could exceed 50 ms p95 here even though both pass at 10% (E6, E9).",
+    "High-selectivity or near-unfiltered queries, or combinations of several predicates: behaviour is untested and may favour different index strategies (E9).",
+    "Sharded Quiver collections: tail latency is set by the slowest shard, and too few candidates per shard can lower recall after the merge (E2).",
+    "Moving from 200M to 300M (1.5x, K5) may push per-node memory past what is available, forcing quantization or disk-resident indexes that trade away recall or latency (E11, K3).",
+    "Concurrent upserts and deletes at 400 QPS: tombstones and incremental inserts can degrade filtered p95 and recall, and the static benchmarks do not show this (E11).",
+    "Node failure or rolling upgrade with hundreds of GB of index per node: reload or rebuild time may break the SLO. Quiver's HA and upgrade behaviour after its recent VPC GA is undocumented (E4).",
+    "Metadata schema with more than 64 fields per vector would exceed the documented Quiver 2.x limit. Whether 3.x changes it, and what Tessellate's limit is, is unknown (E1, E11).",
+    "Regressions in Quiver 3.2 relative to the benchmarked 3.1, or a newer Tessellate release, could change the latency comparison (E4, E6)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The 4x number is real. The engineer read it directly from a published benchmark table.",
+      "response": "The arithmetic checks out (141/34 is about 4.15x, K1), but the comparison is with Quiver 2.1's post-filtering (E5). Filtered-HNSW shipped in Quiver 3.0 on 2026-02-02 (E3), months before that 2026-05 benchmark. On current versions the measured gap is about 1.23x (K2, E6)."
+    },
+    {
+      "argument": "OpenANN-Bench might itself be biased or unreproducible, so it shouldn't overturn the vendor benchmark.",
+      "response": "That is fair. Its independence could not be verified (E8). But it is still more informative than the vendor benchmark: it tests current versions of both engines, at 4x the scale, at the stated 400 QPS, on identical hardware, and it reports recall (E5, E6). Even setting OpenANN-Bench aside, the vendor figure only shows that Quiver 2.1 was slower. It says nothing about 3.x. The right conclusion is to verify with a PoC, not to eliminate Quiver."
+    },
+    {
+      "argument": "Tessellate is faster on the one fair comparison, so pick it and skip the second PoC.",
+      "response": "The lead is about 7 ms and was measured at lower recall (E6). It covers 200M vectors and a single selectivity, and OpenANN-Bench itself says results depend heavily on selectivity (E6, E9). Nothing is known about Tessellate's scale limits, self-hosting, licensing or cost (E7, E11). These are bigger risks than a 7 ms difference."
+    },
+    {
+      "argument": "A 1B limit 'via sharded collections' may be just application-side sharding under another name, so Quiver still fails the scale gate.",
+      "response": "Possibly. The changelog entry is one line and does not say whether sharding is automatic or whether filters work across shards (E2). That is a reason to test sharded filtered queries first in the PoC, not to treat the out-of-date 100M figure as current."
+    },
+    {
+      "argument": "Quiver's VPC deployment is only months old, so it is too immature for production.",
+      "response": "The roughly 120-day GA history is a real risk (E4, K6). But Tessellate's self-hosted maturity is not documented at all in the evidence (E7). The PoC should include failover, upgrade and backup drills on both engines."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Quiver collections are capped at 100M vectors.",
+      "correction": "That limit comes from a 2024-06-03 limits page that says it covers Quiver 2.x. The Quiver 3.0.0 changelog (2026-02-02) raises the per-collection limit to 1B on sharded collections, which comfortably covers 300M. Caveats on filters and recall across shards are undocumented and should be tested.",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "assumption": "Quiver is 4x slower than Tessellate on filtered queries.",
+      "correction": "The 4x figure (141/34 is about 4.15x) compares against Quiver 2.1 with post-filtering, and comes from a benchmark Tessellate published on its own product at 50M vectors without recall or hardware details. On OpenANN-Bench 2026-09 (200M vectors, 400 QPS), Quiver 3.1 ran at 38 ms against Tessellate's 31 ms, about 1.23x slower but at higher recall (0.97 vs 0.95), and both met the 50 ms target.",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "assumption": "Dropping Quiver immediately is justified.",
+      "correction": "Not justified. Neither premise holds for current Quiver versions, so Quiver should go forward to the PoC alongside Tessellate.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "assumption": "Benchmark results at 200M vectors and 10% selectivity carry over to 300M and the team's filter mix.",
+      "correction": "Not established. OpenANN-Bench was not run above 200M and says results depend heavily on selectivity. Filtered-ANN research shows graph indexes can degrade at low selectivity.",
+      "evidenceIds": [
+        "E6",
+        "E9"
+      ]
+    },
+    {
+      "assumption": "OpenANN-Bench 2026-09 is independent and reproducible as claimed.",
+      "correction": "Unverified. No external page or published configs were found. The page's own description is the only support.",
+      "evidenceIds": [
+        "E6",
+        "E8"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Recompute the vendor benchmark ratio: Quiver 2.1 filtered p95 (141 ms) divided by Tessellate 4.0 filtered p95 (34 ms)",
+      "expression": "141 / 34",
+      "claimedResult": 4.15,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "OpenANN-Bench latency ratio: Quiver 3.1 filtered p95 (38 ms) divided by Tessellate 4.0 filtered p95 (31 ms)",
+      "expression": "38 / 31",
+      "claimedResult": 1.23,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Raw float32 storage in GB for 300M vectors x 768 dimensions x 4 bytes",
+      "expression": "300_000_000 * 768 * 4 / 1_000_000_000",
+      "claimedResult": 921.6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "Fraction of Quiver 3.x's 1B sharded-collection limit used by 300M vectors (the headroom multiple is 1000/300, about 3.33x)",
+      "expression": "300_000_000 / 1_000_000_000",
+      "claimedResult": 0.3,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "Scale-up factor from the largest benchmarked size (200M) to the target (300M)",
+      "expression": "300 / 200",
+      "claimedResult": 1.5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "Days from Quiver 3.2.0 VPC GA (2026-07-14) to 2026-11-11: 17 remaining days in July, plus August 31, September 30, October 31 and November 11",
+      "expression": "17 + 31 + 30 + 31 + 11",
+      "claimedResult": 120,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7a",
+      "purpose": "Quiver 3.1 latency headroom under the 50 ms p95 target on OpenANN-Bench, in ms",
+      "expression": "50 - 38",
+      "claimedResult": 12,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7b",
+      "purpose": "Tessellate 4.0 latency headroom under the 50 ms p95 target on OpenANN-Bench, in ms",
+      "expression": "50 - 31",
+      "claimedResult": 19,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "Ratio of Tessellate's top-10 miss rate (1 - 0.95) to Quiver's (1 - 0.97) on OpenANN-Bench",
+      "expression": "(1 - 0.95) / (1 - 0.97)",
+      "claimedResult": 1.67,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Illustrative raw float32 vector storage per node in GB if 300M x 768-dim vectors are spread evenly over 3 nodes with no replication",
+      "expression": "300_000_000 * 768 * 4 / 1_000_000_000 / 3",
+      "claimedResult": 307.2,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K10",
+      "purpose": "Target scale (300M) as a multiple of the vendor benchmark scale (50M)",
+      "expression": "300 / 50",
+      "claimedResult": 6,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Keep Quiver on the shortlist. Run a time-boxed head-to-head PoC on Quiver 3.2 (the version with GA VPC Helm deployment) and Tessellate 4.0 (or newer, if one exists).",
+    "PoC design: about 300M representative 768-dim vectors (or a 100M, 200M, 300M scaling series), the team's real filter predicates at about 1%, 10% and 50% selectivity, 400 QPS sustained, and p95 and p99 reported at a fixed Recall@10 target such as 0.95 or 0.97 for both engines.",
+    "On Quiver, test sharded collections explicitly: filter correctness, recall after cross-shard merge, and the p95 cost of fan-out.",
+    "Include a concurrent upsert and delete load in the PoC, and record bulk-load time for 300M vectors.",
+    "Size memory from measured footprints, not from raw vectors: raw vectors alone are about 921.6 GB (K3). Test quantization or on-disk index modes if either engine offers them.",
+    "Run failover, rolling-upgrade and backup/restore drills in the VPC for both engines.",
+    "Before the PoC, ask both vendors in writing about licence terms for self-hosting at this scale, support tiers, Quiver 3.x limits and sharding documentation, Tessellate's vector and metadata-field limits, and HA architecture.",
+    "Define the team's recall target and filter selectivity distribution before the PoC so both engines are tuned to the same operating point."
+  ],
+  "remainingUncertainty": [
+    "Whether Quiver's sharded collections support filters fully and without recall or latency penalties (E2).",
+    "Performance of either engine at 300M vectors and at selectivities other than 10% (E6, E11).",
+    "Whether OpenANN-Bench is truly independent and reproducible (E8).",
+    "Whether Quiver 3.2 matches 3.1's performance, and whether Tessellate has a newer release (E4, E6).",
+    "Memory, disk, node count and cost for either engine (E11).",
+    "Ingestion and concurrent-write behaviour (E11).",
+    "Licensing, support, and Tessellate's self-hosted deployment maturity. Neither product could be identified in public sources (E7, E11).",
+    "The team's recall target, filter selectivity distribution, filter complexity and write rate (E10)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "A PoC at 300M with real filters at matched recall: if one engine misses p95 < 50 ms at 400 QPS on low-selectivity filters, that alone could decide the choice.",
+    "Quiver 3.x sharding documentation showing that filters are unsupported or degraded on sharded collections would reinstate a scale-gate concern for Quiver.",
+    "Licence terms that bar or heavily restrict self-hosting at this scale for either engine would rule that engine out regardless of performance.",
+    "Locating OpenANN-Bench's published configs and checking them for vendor ties or tuning disparities could strengthen or weaken the 1.23x result.",
+    "Measured memory footprints and quantization support could make one engine much cheaper at the target recall.",
+    "Release notes showing a Quiver 3.2 performance regression or a faster Tessellate release would shift the latency comparison."
+  ]
+}

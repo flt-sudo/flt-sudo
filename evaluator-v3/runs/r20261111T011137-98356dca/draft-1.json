@@ -44,7 +44,7 @@
     },
     {
       "criterionId": "C3",
-      "assessment": "This criterion cannot be determined for either broker. It may disqualify QueueForge. QueueForge's operations guide says rebalancing after node loss can take 10-20 minutes at high partition counts, with throughput dropping by up to 40% (E6). Applied to its benchmark figures, the worst case is 204k msg/s from the 340k point (K8) and 246k from the 410k point (K9), both below 300k. As an illustration only, if capacity scaled linearly with node count (an assumption no source supports), 5 surviving nodes would give about 283k at the sub-50 ms point (K15). StreamCore's failure behaviour is undocumented (E12). Starting from 220k, it is below the requirement even before any failure (E1).",
+      "assessment": "This criterion cannot be determined for either broker. It may disqualify QueueForge. QueueForge's operations guide says rebalancing after node loss can take 10-20 minutes at high partition counts, with throughput dropping by up to 40% (E6). Applied to its benchmark figures, the worst case is 204k msg/s from the 340k point (K8) and 246k from the 410k point (K19), both below 300k. As an illustration only, if capacity scaled linearly with node count (an assumption no source supports), 5 surviving nodes would give about 283k at the sub-50 ms point (K15). StreamCore's failure behaviour is undocumented (E12). Starting from 220k, it is below the requirement even before any failure (E1).",
       "mechanisms": "Losing a node at RF3 does two things at once. Surviving nodes take over leadership and write load: about 180 MB/s per node across 5 nodes instead of 150 MB/s across 6 (K3, K11, E11). The cluster also has to re-replicate the lost node's partition replicas, which competes for the same disk, network and replication CPU. At high partition counts more metadata and data must move, so rebalancing takes longer and the throughput dip lasts longer (E6). The 40% figure is a documented ceiling, not a measured typical value.",
       "strengths": [
         "QueueForge at least documents its degraded-mode behaviour and bounds it (up to 40%, 10-20 minutes) (E6)."
@@ -186,7 +186,7 @@
       ],
       "calculationIds": [
         "K8",
-        "K9b"
+        "K19"
       ]
     },
     {
@@ -303,7 +303,7 @@
   "alternatives": [
     {
       "option": "QueueForge 2.3 on 6 nodes, conditional on a proof-of-concept",
-      "comparison": "It is the only option shown to exceed 300k in steady state: 340k under 50 ms p99 and 410k at 61 ms (E2). The risk is the documented rebalance dip of up to 40%, which would leave about 204k-246k msg/s (K8, K9b), and headroom of only 13.3% under a 50 ms SLO (K6). It is the right choice if the requester can tolerate a backlog for 10-20 minutes during rebalances, or if a PoC shows the dip is much smaller at the needed partition count."
+      "comparison": "It is the only option shown to exceed 300k in steady state: 340k under 50 ms p99 and 410k at 61 ms (E2). The risk is the documented rebalance dip of up to 40%, which would leave about 204k-246k msg/s (K8, K19), and headroom of only 13.3% under a 50 ms SLO (K6). It is the right choice if the requester can tolerate a backlog for 10-20 minutes during rebalances, or if a PoC shows the dip is much smaller at the needed partition count."
     },
     {
       "option": "QueueForge 2.3 on more than 6 nodes",
@@ -348,7 +348,7 @@
     },
     {
       "argument": "QueueForge clearly wins at 410k, so just pick it.",
-      "response": "410k misses the benchmark's own 50 ms p99 target (E2). The worst-case documented rebalance dip takes it below 300k (K8, K9b, E6). It wins the comparison, but whether it meets the requirement through failures is undetermined."
+      "response": "410k misses the benchmark's own 50 ms p99 target (E2). The worst-case documented rebalance dip takes it below 300k (K8, K19, E6). It wins the comparison, but whether it meets the requirement through failures is undetermined."
     },
     {
       "argument": "The 40% drop is an 'up to' figure for 'high partition counts' and may not apply.",
@@ -435,7 +435,7 @@
       "tolerance": 0.005
     },
     {
-      "id": "K9b",
+      "id": "K19",
       "purpose": "QueueForge worst-case rebalance throughput from 410k with a 40% drop",
       "expression": "410000*(1-0.4)",
       "claimedResult": 246000,

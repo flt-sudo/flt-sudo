@@ -42,7 +42,7 @@ Outputs in `runs/<RUN>/`:
 
 ## Budgets and limits
 
-Defaults: 12 web searches, 8 fetches, 3 revisions per run (`run:new --max-searches/--max-fetches/--max-revisions`). The guard hook denies calls past the budget; denials appear under "checks not executed".
+Defaults: 12 web searches, 8 fetches, 2 revisions per run (`run:new --max-searches/--max-fetches/--max-revisions`). The guard hook denies calls past the budget; denials appear under "checks not executed". Known defect: parallel calls issued together can overrun the budget by a few (see docs/results.md).
 
 ## Benchmark
 

@@ -146,3 +146,12 @@ regenerate whole drafts (dev-05).
 ## Configuration frozen for the held-out run
 Prompts v5; pass standard as pre-registered with amendment A1; default budgets 12 searches / 8 fetches / 2 revisions;
 grader unchanged since v1 except the anchor-format normalisation. No further changes until the held-out run is reported.
+
+## Held-out run (2026-11-11) — no prompt or code changes
+
+All 20 held-out cases were run on the frozen v5 configuration; results in `docs/results.md`.
+Process notes recorded there: two schema resends (ho-11 calc IDs, ho-12 truncated plan), each within the one-retry rule.
+After them, the orchestrator's stage messages added format-only reminders (`K12, never K7a`; gap IDs `/^G\d+$/`),
+with no change to agent prompts, schemas or code. Observations from held-out cases (reviewer over-steering on
+"unanswerable" questions; the search budget being a soft cap under parallel calls) are recorded as future work
+and must not be tuned against this held-out set.

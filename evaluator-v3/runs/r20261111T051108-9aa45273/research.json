@@ -165,7 +165,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "G3/G5/G6/C3/C5/C6: the ticket has the stated facts. It records no data loss, outage or security issue, and a workaround exists, which is consistent with Sev-2 or lower.",
-      "limitations": "The ticket does not give the service tier, refund volume, total value affected, a rollback plan, test coverage of the timeout path, or whether the retry is idempotent. It does not say whether the timed-out refunds were partially committed in the ledger.",
+      "limitations": "The ticket does not give the service tier, refund volume, total value affected, a rollback plan, test coverage of the timeout path, or whether the retry is idempotent. It does not say whether the timed-out refunds were partially committed in the ledger. It also does not say which payment rail the back-office tool uses.",
       "contradicts": [],
       "gapIds": [
         "G3",
@@ -306,8 +306,8 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "G5/C5 (pro-exception case): if the failing refunds are EU consumer withdrawals from distance or off-premises contracts, there is a hard 14-day legal deadline to refund, and the refund must go back through the original payment method. Manual back-office handling still has to meet that deadline and the same-means rule. A manual backlog during holiday staffing over a 22-day freeze, or 56 days if deferral runs from 2026-11-11, could breach it. This is the strongest regulatory time limit found. It applies to the merchant (trader), and to the user's company only if the company is the trader or contractually carries the trader's obligation.",
-      "limitations": "Search snippets only. They quote the legislation.gov.uk copy of the text, but the fetch failed because the host is not allowed in this session's network settings. legislation.gov.uk is a UK republication, not EUR-Lex. The ticket does not say whether refunds over EUR 10k are consumer withdrawals, B2B refunds, or something else. B2B refunds are outside this Directive. The clock runs per refund, so it is breached only if a manual refund is not completed within 14 days. A working manual workaround satisfies it.",
+      "applicability": "G5/C5 (pro-exception case): if the failing refunds are EU consumer withdrawals from distance or off-premises contracts, there is a hard 14-day legal deadline to refund, and the refund must go back through the original payment method. Manual back-office handling has to meet both the deadline and the same-means rule (see E24, E31). It applies to the merchant (trader), and to the user's company only if the company is the trader or contractually carries the trader's obligation.",
+      "limitations": "Search snippets only. They quote the legislation.gov.uk copy of the text, but the fetch failed because the host is not allowed in this session's network settings. legislation.gov.uk is a UK republication, not EUR-Lex. The ticket does not say whether refunds over EUR 10k are consumer withdrawals, B2B refunds, or something else. B2B refunds are outside this Directive.",
       "contradicts": [],
       "gapIds": [
         "G5"
@@ -332,7 +332,7 @@
         "https://durangomerchantservices.com/issuing-credit-card-refunds-visa-policies-explained/"
       ],
       "applicability": "G5/C5 (pro-exception case): if these refunds go back to Visa cards, card-scheme expectations put refund processing in days, not weeks. Refunds that time out and wait in a manual queue that is thinly staffed over the holidays risk missing that window.",
-      "limitations": "Search snippets only. The Visa PDF fetch failed (host not allowed). The two sources start the five-day clock from different events (the agreement to refund versus the transaction date). The Visa document is from 2021 and was written for COVID-era dispute handling, so it may be outdated. The current Visa Core Rules were not inspected. The ticket does not say whether these refunds are card refunds at all; a 'ledger service' plus a 'back-office tool' could mean bank transfers.",
+      "limitations": "Search snippets only. The Visa PDF fetch failed (host not allowed). The two sources start the five-day clock from different events (the agreement to refund versus the transaction date); see E28 to E30. The Visa document is from 2021 and was written for COVID-era dispute handling, so it may be outdated. The current Visa Core Rules were not inspected (E30). The ticket does not say whether these refunds are card refunds at all.",
       "contradicts": [],
       "gapIds": [
         "G5"
@@ -432,8 +432,8 @@
         "https://www.legislation.gov.uk/eudr/2015/2366/article/83/data.htm",
         "https://www.eba.europa.eu/regulation-and-policy/single-rulebook/interactive-single-rulebook/14681"
       ],
-      "applicability": "G5/C5: limited relevance. Article 83 sets execution time for a payment service provider after a payment order is received. It does not limit how long a merchant or platform can take to decide on or initiate a refund. It matters only if the user's company is itself the payer's payment service provider and the failing refunds are payment orders it has already accepted. In that case, timeouts or a manual queue that pushes execution past D+1 could breach PSD2 execution-time rules, which would make this a much stronger regulatory case for an exception.",
-      "limitations": "Search snippets only. The ECB document is a 2017 discussion paper, and the legislation.gov.uk text is a UK republication. EUR-Lex was not consulted. The ticket does not say whether the company is a payment service provider or what payment rail the refunds use. I found no PSD2 provision that sets a deadline for merchant-initiated refunds of purchases. PSD2 refund rules (Articles 73 and 76, from training knowledge, not retrieved in this run) cover unauthorised transactions and direct debits, not merchant refunds.",
+      "applicability": "G5/C5: limited relevance. Article 83 sets execution time for a payment service provider after a payment order is received. It does not limit how long a merchant or platform can take to decide on or initiate a refund. It matters only if the user's company is itself the payer's payment service provider and the failing refunds are payment orders it has already accepted.",
+      "limitations": "Search snippets only. The ECB document is a 2017 discussion paper, and the legislation.gov.uk text is a UK republication. EUR-Lex was not consulted. The ticket does not say whether the company is a payment service provider or what payment rail the refunds use. PSD2 refund rules (Articles 73 and 76, from training knowledge, not retrieved in this run) cover unauthorised transactions and direct debits, not merchant refunds.",
       "contradicts": [],
       "gapIds": [
         "G5"
@@ -457,7 +457,7 @@
       "corroboratingRefs": [
         "https://www.techmonitor.ai/?p=419456"
       ],
-      "applicability": "D1/G5/C5 (pro-exception case): the holiday staffing shortage that the draft cited against deploying a retry also weakens the manual workaround. Finance staff covering about 6 high-value refunds (over EUR 10k) a day manually during holiday cover face higher error and fraud exposure and less careful approvals.",
+      "applicability": "G5/C5 (pro-exception case), conditional: if finance staffing is thin over the holidays, the manual workaround (about 6 refunds over EUR 10k a day) faces higher error and fraud exposure and less careful approvals.",
       "limitations": "Search snippets from syndicated vendor or media content (ktvz.com and abc17news.com carry the same Stacker article, so they are not independent). The content is about accounts payable and wires, not refunds specifically. It is not specific to this company, and finance's actual holiday staffing is unknown.",
       "contradicts": [],
       "gapIds": [
@@ -480,7 +480,7 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "D1/G5/C5: supports the point that manually re-keying high-value refunds in a back-office tool carries more error risk (wrong amount, wrong account, duplicates) than automated processing. Each error on a refund over EUR 10k costs at least EUR 10k to correct or recover.",
+      "applicability": "G5/C5: supports the general point that manually re-keying high-value refunds carries more error risk than automated processing. The source gives no cost per error; any claim that an error costs the full refund amount is my inference and holds only for unrecovered duplicate or misdirected payments.",
       "limitations": "Single search snippet from bank marketing content about accounts payable, not refunds. No error rates were given, and the page was not inspected.",
       "contradicts": [],
       "gapIds": [
@@ -503,7 +503,7 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "D1/G5/C5: the manual workaround routes high-value outbound payments through humans during holiday coverage, which this guidance names as a time of elevated risk. If finance staffing is thin, segregation of duties (one person preparing, another approving) may be hard to keep for about 6 refunds over EUR 10k a day. That supports either an exception or extra controls on the workaround.",
+      "applicability": "G5/C5, conditional: the manual workaround routes high-value outbound payments through humans during holiday coverage, which this guidance names as a time of elevated risk. If finance staffing is thin, segregation of duties may be hard to keep.",
       "limitations": "Single source; the syndicated copies are not independent. The guidance is about wires and fraud in general, and its applicability to internal refund processing is my inference.",
       "contradicts": [],
       "gapIds": [
@@ -517,7 +517,7 @@
     },
     {
       "id": "E22",
-      "claim": "No evidence was available on: finance's actual holiday staffing and capacity for the manual workaround; whether the failing refunds are EU consumer refunds, B2B refunds or card refunds, and on which payment rail; any contractual refund SLAs with merchants or customers; customer complaints or reputational impact so far; whether the user's company is a regulated payment service provider; or the manual error rate to date.",
+      "claim": "No evidence was available on: finance's actual holiday staffing and capacity for the manual workaround; whether the failing refunds are EU consumer refunds, B2B refunds or card refunds, and on which payment rail; what payment rail the back-office tool uses and whether it credits the original card/payment instrument; any contractual refund SLAs with merchants or customers; customer complaints or reputational impact so far; whether the user's company is a regulated payment service provider; or the manual error rate to date.",
       "source": {
         "kind": "none",
         "ref": "none"
@@ -525,7 +525,7 @@
       "retrievedAt": "2026-11-11",
       "classification": "UNKNOWN",
       "corroboratingRefs": [],
-      "applicability": "D1/G5/C5: these facts decide whether the time limits in E13 to E18 actually apply and are at risk. The strongest impact-based case for an exception needs them: a documented finance staffing gap, the applicable refund deadline, and the expected backlog.",
+      "applicability": "G5/C5: these facts decide whether the time limits and same-means rules in E13 to E18 and E24 to E29 actually apply and are at risk.",
       "limitations": "Not in the ticket or the other supplied documents; internal data is needed.",
       "contradicts": [],
       "gapIds": [
@@ -539,7 +539,7 @@
     },
     {
       "id": "E23",
-      "claim": "Synthesis: the external refund time limits found (CRD 14 days, the Visa five-day credit expectation, PSD2 D+1 execution for payment service providers) govern when a refund is completed, not how it is processed. A manual workaround that is completed on time meets them. The impact-based case for an exception therefore depends on whether manual capacity holds through the freeze. If holiday staffing creates a backlog, deadlines may be breached, 'credit not processed' chargebacks may follow, and manual error and fraud risk on refunds over EUR 10k rises, which strengthens the case. If finance can keep pace with controls in place, the case stays moderate.",
+      "claim": "Synthesis (earlier draft): the external refund time limits found (CRD 14 days, the Visa five-day credit expectation, PSD2 D+1 execution for payment service providers) govern when a refund is completed, not how it is processed, so a manual workaround completed on time meets them.",
       "source": {
         "kind": "none",
         "ref": "none"
@@ -547,15 +547,212 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "D1/C5: the counterargument the draft is missing, together with the condition that decides it. An exception request to the CAB chair and VP Engineering should include finance's holiday roster, refund-type and deadline mapping, and backlog projections.",
-      "limitations": "My reasoning from E13 to E22, not a source claim. It rests on unknowns listed in E22.",
-      "contradicts": [],
+      "applicability": "C5: superseded in part by E31. The timing half holds, but the 'not how' half is wrong for CRD consumer refunds (same means of payment, E13/E24) and for card refunds (credit to the original card, E25/E26).",
+      "limitations": "My reasoning, not a source claim. Review D1 identified the 'when, not how' framing as contradicted by the same-means requirement.",
+      "contradicts": [
+        "E31"
+      ],
       "gapIds": [
         "G5"
       ],
       "verification": {
         "status": "unchecked",
         "method": "Reasoning over E13-E22"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E24",
+      "claim": "Directive 2011/83/EU Article 13(1), second subparagraph (as reproduced on legislation.gov.uk in search results): 'The trader shall carry out the reimbursement referred to in the first subparagraph using the same means of payment as the consumer used for the initial transaction, unless the consumer has expressly agreed otherwise and provided that the consumer does not incur any fees as a result of such reimbursement.' For sales contracts, the trader 'may withhold the reimbursement until he has received the goods back, or until the consumer has supplied evidence of having sent back the goods', unless the trader offered to collect them.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.legislation.gov.uk/eudr/2011/83/article/13/data.htm?view=plain",
+        "title": "Directive 2011/83/EU Article 13 (legislation.gov.uk, search result)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D1/G5/C5: for EU consumer withdrawal refunds, the method of refund is regulated as well as the timing. A manual back-office refund on a different rail (for example a bank transfer when the consumer paid by card) is lawful only if the consumer has expressly agreed and pays no fees. Finance keeping pace on timing does not by itself make the workaround compliant.",
+      "limitations": "Search-result text only. The legislation.gov.uk mirror pages and lawplayer.com (https://lawplayer.com/eu/article/32011L0083/art_13) appeared in results but were not inspected; the EUR-Lex fetch failed (eur-lex.europa.eu not allowed in this session's network settings). The rule applies only to consumer withdrawal refunds under distance or off-premises contracts. It does not cover B2B refunds or refunds made for other reasons such as goodwill, service failure or cancellation outside the withdrawal right. National transposition (for example Irish SI 484/2013, which appeared in results but was not read) was not checked. No CJEU case law on the same-means rule came back.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippet quoting primary text; WebFetch of eur-lex.europa.eu failed (host not allowed)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E25",
+      "claim": "Visa merchant refund guidance (as summarised in search results) says: process the refund to the account number used in the original purchase, and check the last four digits against the sales receipt. Refunds to a Visa account are permitted only when a Visa account was used for the original purchase. If the original account is no longer available or valid (for example after card replacement), and after confirming the original purchase was on Visa, the merchant may refund to a different (alternate) Visa account. Only when a refund cannot go to the original or an alternate Visa account may the merchant offer an alternate form of credit. Visa dispute guidance also says the credit message should carry data from the refund authorization so the issuer can match it to the original purchase.",
+      "source": {
+        "kind": "web",
+        "ref": "https://ae.review.visa.com/content/dam/VCOM/global/support-legal/documents/processing-refunds-vrm-2016-04-21.pdf",
+        "title": "Visa: Processing refunds (VRM, 2016-04-21), search result"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D1/G5/C5: for Visa card refunds, the scheme expects the credit to go back to the original card, with an alternate form of credit (such as a bank transfer) allowed only as a fallback when no original or alternate Visa account can be credited. A back-office refund on a non-card rail when the original card can still be credited would depart from this guidance. It would also leave the card purchase without a matched credit, so the 'credit not processed' chargeback exposure in E16 stays open and could mean a double payout.",
+      "limitations": "Search-result summary. The summary did not say which of several Visa documents in the results each statement came from (candidates included https://eu.review.visa.com/content/dam/VCOM/global/support-legal/documents/new-purchase-return-vbs-10-apr-17.pdf and https://eu.review.visa.com/content/dam/VCOM/global/support-legal/documents/merchant-dispute-resolution-best-practices.pdf), so the attribution to the 2016 document is uncertain. The documents are dated 2016 to 2017 and are not the current Visa Core Rules; no rule numbers were retrieved. Applies only if the refunds are Visa card refunds.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippet; Visa hosts not reachable for fetch (bo.review.visa.com and usa.review.visa.com failed)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E26",
+      "claim": "Secondary sources say card schemes expect refunds to go back to the card used for the purchase. An Elavon Mastercard reason-code guide tells merchants to process refunds on the same card and in the same way as the original transaction. Judopay's card-scheme-rules summary says refunds to a card account without a corresponding sale on that card are not permitted. A University of Michigan finance FAQ says card associations do not normally permit cash refunds for credit card transactions.",
+      "source": {
+        "kind": "web",
+        "ref": "https://uat5.elavon.co.uk/content/dam/elavon/en-gb/v2/documents/resource-center/chargebacks/13_Elavon_Chargeback-Hub-MasterCard-Reason-Codes_V03.pdf",
+        "title": "Elavon Chargeback Hub: Mastercard reason codes V03 (search result)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.judopay.com/card-scheme-rules",
+        "https://finance.umich.edu/node/260"
+      ],
+      "applicability": "D1/G5/C5: supports the view that, for card refunds generally (including Mastercard), the expected method is a credit to the original card. A manual refund paid out on a different rail risks breaching scheme or acquirer rules and leaves the 4853 'credit not processed' exposure (E17) open.",
+      "limitations": "Acquirer, PSP and university summaries via search snippets, not the Mastercard Transaction Processing Rules. The official Mastercard PDFs in the results showed only table-of-contents pages. The University of Michigan item is about cash refunds and is not scheme text. Contradicted in part by E27.",
+      "contradicts": [
+        "E27"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippets from three domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E27",
+      "claim": "A Stax developer refund guide says that for Mastercard, blind or unlinked credits are not expressly prohibited, although matched refunds matter in chargeback disputes.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.staxpayments.com/docs/refund-guidelines",
+        "title": "Stax Payments: Refund Guidelines (search result)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D1/C5: suggests the Mastercard same-card expectation may work through chargeback exposure in practice rather than as an outright ban. The consequence of a different-means refund would then be dispute risk, not a direct rule breach.",
+      "limitations": "Single secondary snippet from a US PSP. It addresses unlinked card credits, not refunds paid outside the card network. It does not affect the CRD same-means rule.",
+      "contradicts": [
+        "E26"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E28",
+      "claim": "Visa-published guidance (as summarised in search results) says acquirers must process returns and credit transactions within five calendar days from the transaction date. A 2016 Visa refund document says U.S. merchants must deposit the credit transaction with the acquirer that processed the original transaction, within 5 days of the date the credit was issued.",
+      "source": {
+        "kind": "web",
+        "ref": "https://ae.review.visa.com/content/dam/VCOM/global/support-legal/documents/processing-refunds-vrm-2016-04-21.pdf",
+        "title": "Visa: Processing refunds (VRM, 2016-04-21), search result"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D5/G5/C5: Visa's own documents (2016 and 2021, see E14) put a five-day window on credits, but tie it to different events: the transaction date (acquirer processing) versus the date the credit was issued (U.S. merchant deposit). Neither directly limits how long a refund decision can sit in a manual queue before a credit is issued. The 2016 'deposit with the original acquirer' wording also supports routing the credit back through the original card path (D1).",
+      "limitations": "Search snippets only; the 'transaction date' framing may come from https://by.visa.com/dam/VCOM/global/support-legal/documents/merchants-dispute-management-guidelines.pdf or the 2021 COVID document, and the summary did not say which. These are guidance documents dated 2016 to 2021, not the current Visa Core Rules. The 2016 deposit rule is stated as U.S.-only.",
+      "contradicts": [
+        "E29"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippets; fetch of Visa hosts failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E29",
+      "claim": "A merchant-services guide says Visa requires merchants to initiate a credit within five calendar days of agreeing to refund the customer.",
+      "source": {
+        "kind": "web",
+        "ref": "https://durangomerchantservices.com/issuing-credit-card-refunds-visa-policies-explained/",
+        "title": "Durango Merchant Services: Visa refund policies explained (search result)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D5/C5: if correct, this is the reading most relevant to a manual queue, because the clock would start when the refund is agreed, which is before the timeout. A refund that timed out and waits more than five days for manual handling would miss it.",
+      "limitations": "A single third-party merchant-services source; it does not cite a Visa rule number. It conflicts with Visa's own documents on when the clock starts (E28). It may be the vendor's interpretation.",
+      "contradicts": [
+        "E28"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E30",
+      "claim": "The current Visa Core Rules and Visa Product and Service Rules text on merchant or acquirer credit-processing time limits, and on crediting the original account, could not be retrieved or verified in this run. Three searches returned only older Visa guidance (2016, 2017, 2021) and third-party summaries, and the fetch of the public Visa rules PDF (https://bo.review.visa.com/content/dam/VCOM/download/visa-rules-public.pdf) failed because the host is not allowed in this session's network settings.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "D5: the 'roughly five-day' Visa credit expectation should be presented as unverified against current rules, with the clock-start event disputed (E28 versus E29). It should not be stated in the verdict without qualification.",
+      "limitations": "Visa rules PDFs are hosted on visa.com subdomains. The fetch failed for bo.review.visa.com and earlier for usa.review.visa.com. Those hosts would need to be allowed to inspect the current edition.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of bo.review.visa.com failed (ENOTFOUND, host not allowed); searches did not return current Core Rules text"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E31",
+      "claim": "Synthesis (replaces the 'when, not how' half of E23): external refund rules govern both timing and method. For EU consumer withdrawal refunds, CRD Art. 13(1) requires the same means of payment unless the consumer expressly agrees and pays no fees (E24). For card refunds, scheme guidance expects a credit to the original card, with an alternate form of credit only as a fallback (E25, E26; partly qualified by E27). So a manual back-office refund is compliant only if it either credits the original instrument (for example a card credit submitted through the original acquirer) or is backed by documented consumer agreement or a valid fallback reason. If the back-office tool pays out on a different rail, such as a bank transfer, the workaround may be non-compliant however quickly finance works. It would also leave the card purchase without a matched credit, keeping 13.6/4853 chargeback exposure open and creating a risk of double payout. The rail the back-office tool uses is unknown (E22).",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D1/G5/C5: the exception case depends on two conditions, not one: (1) whether finance can keep pace through the freeze, and (2) whether the back-office tool refunds by the same means or to the original card. If (2) fails for consumer or card refunds, the workaround has a compliance problem of its own, which strengthens the case for an exception or for fixing the workaround's routing. It does not change the v4 approval path (E3, E4). An exception request should state the back-office tool's payment rail.",
+      "limitations": "My reasoning from snippet-level evidence (E24 to E27), not a source claim. It depends on unknown facts: the refund type (consumer, B2B or card), the original payment method, and the back-office rail. B2B refunds fall outside the CRD; scheme expectations then still apply to card refunds.",
+      "contradicts": [
+        "E23"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Reasoning over E13, E16, E17, E22, E24-E27"
       },
       "untrustedInstructionsObserved": false
     }
@@ -575,7 +772,7 @@
     },
     {
       "gapId": "G5",
-      "reason": "No refund volume or value metrics were available. Finance's holiday staffing, the refund type and payment rail (consumer, B2B or card), contractual SLAs and regulated-PSP status are all unknown, so I could not confirm which external time limits apply. Primary texts could not be inspected: WebFetch failed for www.legislation.gov.uk and usa.review.visa.com (hosts not allowed in this session's network settings). The CRD, PSD2 and Visa claims rest on search snippets. Current Visa Core Rules and Mastercard rulebooks were not found or inspected, and no Mastercard merchant refund deadline or Visa 13.6 waiting period was confirmed."
+      "reason": "D1: the payment rail of the back-office tool, the original payment method, and whether the failing refunds are EU consumer withdrawals, card refunds or B2B are all unknown, so whether the workaround meets the CRD same-means rule or card-scheme original-card expectations cannot be determined. Primary texts could not be inspected because eur-lex.europa.eu, www.legislation.gov.uk, usa.review.visa.com and bo.review.visa.com are not allowed in this session's network settings. D5: the current Visa Core Rules text on credit-processing timing could not be retrieved. Only 2016 to 2021 Visa guidance and third-party summaries were found, and they disagree on when the five-day clock starts (E28 versus E29). The Mastercard Transaction Processing Rules text (section 3.7) was not inspected. Refund volume metrics, finance holiday staffing, contractual SLAs and regulated-PSP status also remain unknown. Web budget was not reported as exhausted; fetches failed on host restrictions."
     },
     {
       "gapId": "G6",

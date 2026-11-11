@@ -1,0 +1,242 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C4 assessment; CL8] C4 calls a $60,000 resale 'at the lower end of the E10 used-unit asking prices'. E10's listings include $42,250 and GBP 8,000, so $60k is mid-range, not the low end. E10 also concerns a NovaSeq 6000, whose original price is not known to be $480k, so the absolute asking prices are not scaled to this instrument. The resale downside is therefore understated as a percentage of cost."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [alternatives[4] 'Negotiate the lease'; alternatives[3] 'Lease 48 months, then buy a successor'] The month-48 purchase-option threshold is wrong. The draft says an option priced below about $94,490 PV (about $130k nominal, 94,490/0.72692) would make leasing competitive. But K16's $94,490 is the PV budget for all lease-side costs in months 49-72, and that budget includes service. If the lab exercised a purchase option at month 48, it would still pay $1,500/month service for months 49-72: 1,500 x (a72 - a48) = 1,500 x 16.0727, about $24,109 PV. So the option price must be below about 94,490 - 24,109 = $70,381 PV, which is about $96,820 nominal at month 48. That matches the K9 resale breakeven, as it should. The draft's $130k figure overstates the price at which a negotiated option makes leasing competitive by about $33k nominal, and a CFO could use it as a negotiating target. The 'lease then buy a successor' alternative has the same omission ('PV below about $94,490 plus any resale credit' leaves out the successor's service costs)."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [criteriaAssessments C1 mechanisms; CL3] The C1 mechanisms state as fact that 'both options carry the same 48-month service stream ($1,500/month is embedded in the lease)'. This is an unverified assumption (E2 limitations), not a fact. It is flagged later under weaknesses, but the mechanism text should present it as an assumption, because the whole like-for-like reduction to a financing comparison (and the 7.53% implied rate) depends on it."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C4 assessment; CL12; correctedUserAssumptions[2]; practicalImplications[3] ('buying wins on every horizon considered')] The discount-rate discussion uses the lease-vs-buy convention in one direction only. It points out that a secured borrowing rate below 7.53% would favour buying. It does not mention the standard counterpoint from the same framework: the uncertain $90k residual (which E10/E11 show is highly risky) should be discounted at a higher, risk-adjusted rate. That would lower its PV and widen the 48-month lease advantage. The statement 'the 48-month winner may already be buying' is therefore one-sided."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [edgeCasesAndFailureModes[6]] The edge case on advance payments says the lease PV would rise by about $3.1k and 'nearly erase' the $4,958 gap. The remaining gap would be about $1.8k, roughly a third of the original, so 'nearly erase' overstates the effect. The underlying arithmetic (about 0.667% x 471,062, or about $3,140) is correct."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "11500*48",
+      "claimed": 552000,
+      "actual": 552000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "480000+48*1500-90000",
+      "claimed": 462000,
+      "actual": 462000,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "11500*48-(480000+48*1500-90000)",
+      "claimed": 90000,
+      "actual": 90000,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(1+0.08/12)^(-48)",
+      "claimed": 0.726921,
+      "actual": 0.7269205802808321,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 40.9619,
+      "actual": 40.961912957875185,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 471062,
+      "actual": 471061.9990155647,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48)",
+      "claimed": 476020,
+      "actual": 476020.0172115379,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48)-11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 4958,
+      "actual": 4958.018195973244,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(480000-10000*(1-(1+0.08/12)^(-48))/(0.08/12))/((1+0.08/12)^(-48))",
+      "claimed": 96821,
+      "actual": 96820.5775575343,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "480000-90000*(1+0.075/12)^(-48)-10000*(1-(1+0.075/12)^(-48))/(0.075/12)",
+      "claimed": -319.7,
+      "actual": -319.6275953654549,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "480000-90000*(1+0.076/12)^(-48)-10000*(1-(1+0.076/12)^(-48))/(0.076/12)",
+      "claimed": 742.3,
+      "actual": 742.3077492312295,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "7.5+0.1*319.7/(319.7+742.3)",
+      "claimed": 7.53,
+      "actual": 7.530103578154425,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 57.0345,
+      "actual": 57.03452214750708,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(1+0.08/12)^(-72)",
+      "claimed": 0.61977,
+      "actual": 0.6197698523499527,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 565552,
+      "actual": 565551.7832212606,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)-11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 94490,
+      "actual": 94489.78420569596,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)-11500*(1-(1+0.08/12)^(-48))/(0.08/12))/((1-(1+0.08/12)^(-72))/(0.08/12)-(1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 5879,
+      "actual": 5878.932480150724,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "11500*(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 655897,
+      "actual": 655897.0046963315,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "11500*(1-(1+0.08/12)^(-72))/(0.08/12)-(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12))",
+      "claimed": 90345,
+      "actual": 90345.22147507081,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48))/((1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 11621,
+      "actual": 11621.039713186054,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12))/((1-(1+0.08/12)^(-72))/(0.08/12))",
+      "claimed": 9916,
+      "actual": 9915.955493737407,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "0.7*24*11500",
+      "claimed": 193200,
+      "actual": 193199.99999999997,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-60000*(1+0.08/12)^(-48)",
+      "claimed": 497828,
+      "actual": 497827.6346199629,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [alternatives[4] 'Negotiate the lease'; alternatives[3] 'Lease 48 months, then buy a successor'] The month-48 purchase-option threshold is wrong. The draft says an option priced below about $94,490 PV (about $130k nominal, 94,490/0.72692) would make leasing competitive. But K16's $94,490 is the PV budget for all lease-side costs in months 49-72, and that budget includes service. If the lab exercised a purchase option at month 48, it would still pay $1,500/month service for months 49-72: 1,500 x (a72 - a48) = 1,500 x 16.0727, about $24,109 PV. So the option price must be below about 94,490 - 24,109 = $70,381 PV, which is about $96,820 nominal at month 48. That matches the K9 resale breakeven, as it should. The draft's $130k figure overstates the price at which a negotiated option makes leasing competitive by about $33k nominal, and a CFO could use it as a negotiating target. The 'lease then buy a successor' alternative has the same omission ('PV below about $94,490 plus any resale credit' leaves out the successor's service costs)."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What renewal, re-lease or successor-platform terms will the vendor offer for months 49-72? (The breakeven is about $5,879/month including service.)",
+    "What is the vendor's written post-warranty service price and escalation cap for years 5-6 on a purchased unit?",
+    "Do Corvid S4 roadmap or end-of-support dates indicate the lab would replace the instrument at month 48 regardless? If so, the 48-month comparison, where the lease is marginally cheaper, becomes the relevant one.",
+    "Is the lab taxable, and does it face a binding capital budget limit?"
+  ]
+}

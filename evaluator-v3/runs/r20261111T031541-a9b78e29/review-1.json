@@ -1,0 +1,99 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The month-48 purchase-option threshold is wrong. The draft says an option priced below about $94,490 PV (about $130k nominal, 94,490/0.72692) would make leasing competitive. But K16's $94,490 is the PV budget for all lease-side costs in months 49-72, and that budget includes service. If the lab exercised a purchase option at month 48, it would still pay $1,500/month service for months 49-72: 1,500 x (a72 - a48) = 1,500 x 16.0727, about $24,109 PV. So the option price must be below about 94,490 - 24,109 = $70,381 PV, which is about $96,820 nominal at month 48. That matches the K9 resale breakeven, as it should. The draft's $130k figure overstates the price at which a negotiated option makes leasing competitive by about $33k nominal, and a CFO could use it as a negotiating target. The 'lease then buy a successor' alternative has the same omission ('PV below about $94,490 plus any resale credit' leaves out the successor's service costs).",
+      "location": "alternatives[4] 'Negotiate the lease'; alternatives[3] 'Lease 48 months, then buy a successor'",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The discount-rate discussion uses the lease-vs-buy convention in one direction only. It points out that a secured borrowing rate below 7.53% would favour buying. It does not mention the standard counterpoint from the same framework: the uncertain $90k residual (which E10/E11 show is highly risky) should be discounted at a higher, risk-adjusted rate. That would lower its PV and widen the 48-month lease advantage. The statement 'the 48-month winner may already be buying' is therefore one-sided.",
+      "location": "criteriaAssessments C4 assessment; CL12; correctedUserAssumptions[2]; practicalImplications[3] ('buying wins on every horizon considered')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "C4 calls a $60,000 resale 'at the lower end of the E10 used-unit asking prices'. E10's listings include $42,250 and GBP 8,000, so $60k is mid-range, not the low end. E10 also concerns a NovaSeq 6000, whose original price is not known to be $480k, so the absolute asking prices are not scaled to this instrument. The resale downside is therefore understated as a percentage of cost.",
+      "location": "criteriaAssessments C4 assessment; CL8",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The C1 mechanisms state as fact that 'both options carry the same 48-month service stream ($1,500/month is embedded in the lease)'. This is an unverified assumption (E2 limitations), not a fact. It is flagged later under weaknesses, but the mechanism text should present it as an assumption, because the whole like-for-like reduction to a financing comparison (and the 7.53% implied rate) depends on it.",
+      "location": "criteriaAssessments C1 mechanisms; CL3",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The edge case on advance payments says the lease PV would rise by about $3.1k and 'nearly erase' the $4,958 gap. The remaining gap would be about $1.8k, roughly a third of the original, so 'nearly erase' overstates the effect. The underlying arithmetic (about 0.667% x 471,062, or about $3,140) is correct.",
+      "location": "edgeCasesAndFailureModes[6]",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What renewal, re-lease or successor-platform terms will the vendor offer for months 49-72? (The breakeven is about $5,879/month including service.)",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the vendor's written post-warranty service price and escalation cap for years 5-6 on a purchased unit?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do Corvid S4 roadmap or end-of-support dates indicate the lab would replace the instrument at month 48 regardless? If so, the 48-month comparison, where the lease is marginally cheaper, becomes the relevant one.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the lease's included service match the $1,500/month purchase contract in scope, and what are the return-condition and de-installation charges?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Is the lab taxable, and does it face a binding capital budget limit?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed, including the 72-month horizon, the memo correction, breakevens, contractual risk and liquidity. The main assumptions to verify are covered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core figures rest on VERIFIED fixture inputs, and confidence is stated as moderate with explicit conditions. Snippet-based evidence (E9-E13) is labelled as such. The resale characterisation is slightly loose (D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed K1-K23 independently and all are correct within tolerance (v48 = 0.726921, a48 = 40.9619, lease $471,062, buy $476,020, a72 = 57.0346, K16 $94,490, K17 $5,879, K19 about $90,346). However, the purchase-option threshold leaves out post-month-48 service and overstates the competitive option price by about $33k (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Good coverage of the alternatives and the strongest counterargument (obsolescence). The discount-rate counterpoint about the risky residual is missing (D2, minor)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear (buy, given the 6-year need), the conditions are explicit, and the spreadsheet checks are reproducible for the CFO. Only the negotiation guidance is flawed (D1)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and support the claims. The small difference from E6/E8 is explained, and no injection was observed in the sources."
+    }
+  ]
+}

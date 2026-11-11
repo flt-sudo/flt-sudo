@@ -1,0 +1,234 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict vs criteriaAssessments C4 / CL12 / correctedUserAssumptions[2]] C4, CL12, correctedUserAssumptions[2] and practicalImplications[3] now say the 48-month winner 'cannot be called either way with confidence', because a lower borrowing rate and a risk-adjusted residual rate pull in opposite directions. The verdict text was not changed, and it still presents the discount-rate flip in one direction only ('It reverses ... if the right discount rate is below about 7.53% per year'). So the headline and the revised body now disagree on how the 48-month result responds to the discount rate. This does not change the 72-month recommendation."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C4 assessment and weaknesses; CL12; remainingUncertainty[4]] The new risk-adjusted-residual counterpoint is left purely qualitative ('net effect is not quantified'), but a one-line illustration is easy and would help the CFO. For example, discounting the $90k residual at 12%/12 gives v48 of about 0.6203, so the residual's PV falls from about $65.4k to about $55.8k and the lease's 48-month edge grows by about $9.6k. That is about twice the base gap. Without a number, the reader cannot tell whether this effect outweighs the borrowing-rate effect it is set against."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [alternatives[3] 'Lease 48 months, then buy a successor at month 48'] The revised 'Lease 48 months, then buy a successor' text mixes valuation bases. It gives the threshold as '$70,381 PV ... or about $96,821 paid at month 48, plus any resale credit'. The resale credit is a month-72 amount, so adding it to a month-48 nominal figure needs it converted to a month-48 value. The text also credits the successor's year-6 resale without netting the year-6 resale the buy-and-keep path would get for the old unit (K16 assumes R = 0 for buy-and-keep). The extra credit should be the difference between the two resale values, not the successor's whole resale."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "11500*48",
+      "claimed": 552000,
+      "actual": 552000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "480000+48*1500-90000",
+      "claimed": 462000,
+      "actual": 462000,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "11500*48-(480000+48*1500-90000)",
+      "claimed": 90000,
+      "actual": 90000,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(1+0.08/12)^(-48)",
+      "claimed": 0.726921,
+      "actual": 0.7269205802808321,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 40.9619,
+      "actual": 40.961912957875185,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 471062,
+      "actual": 471061.9990155647,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48)",
+      "claimed": 476020,
+      "actual": 476020.0172115379,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48)-11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 4958,
+      "actual": 4958.018195973244,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(480000-10000*(1-(1+0.08/12)^(-48))/(0.08/12))/((1+0.08/12)^(-48))",
+      "claimed": 96821,
+      "actual": 96820.5775575343,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "480000-90000*(1+0.075/12)^(-48)-10000*(1-(1+0.075/12)^(-48))/(0.075/12)",
+      "claimed": -319.7,
+      "actual": -319.6275953654549,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "480000-90000*(1+0.076/12)^(-48)-10000*(1-(1+0.076/12)^(-48))/(0.076/12)",
+      "claimed": 742.3,
+      "actual": 742.3077492312295,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "7.5+0.1*319.7/(319.7+742.3)",
+      "claimed": 7.53,
+      "actual": 7.530103578154425,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 57.0345,
+      "actual": 57.03452214750708,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(1+0.08/12)^(-72)",
+      "claimed": 0.61977,
+      "actual": 0.6197698523499527,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 565552,
+      "actual": 565551.7832212606,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)-11500*(1-(1+0.08/12)^(-48))/(0.08/12)",
+      "claimed": 94490,
+      "actual": 94489.78420569596,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)-11500*(1-(1+0.08/12)^(-48))/(0.08/12))/((1-(1+0.08/12)^(-72))/(0.08/12)-(1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 5879,
+      "actual": 5878.932480150724,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "11500*(1-(1+0.08/12)^(-72))/(0.08/12)",
+      "claimed": 655897,
+      "actual": 655897.0046963315,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "11500*(1-(1+0.08/12)^(-72))/(0.08/12)-(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12))",
+      "claimed": 90345,
+      "actual": 90345.22147507081,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-90000*(1+0.08/12)^(-48))/((1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 11621,
+      "actual": 11621.039713186054,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "(480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12))/((1-(1+0.08/12)^(-72))/(0.08/12))",
+      "claimed": 9916,
+      "actual": 9915.955493737407,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "0.7*24*11500",
+      "claimed": 193200,
+      "actual": 193199.99999999997,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-48))/(0.08/12)-60000*(1+0.08/12)^(-48)",
+      "claimed": 497828,
+      "actual": 497827.6346199629,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "480000+1500*(1-(1+0.08/12)^(-72))/(0.08/12)-11500*(1-(1+0.08/12)^(-48))/(0.08/12)-1500*((1-(1+0.08/12)^(-72))/(0.08/12)-(1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 70381,
+      "actual": 70380.87042124811,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "1500*((1-(1+0.08/12)^(-72))/(0.08/12)-(1-(1+0.08/12)^(-48))/(0.08/12))",
+      "claimed": 24109,
+      "actual": 24108.913784447846,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What renewal, re-lease or successor-platform terms (including service) will the vendor offer for months 49-72, compared with the breakeven of about $5,879/month?",
+    "What is the vendor's written post-warranty service price and escalation cap for years 5-6 on a purchased unit?",
+    "Do Corvid S4 roadmap or end-of-support dates mean the lab would replace the instrument at month 48 regardless? If so, the 48-month comparison, where the lease is marginally cheaper, becomes the relevant one.",
+    "Is the lab taxable, and does it face a binding capital budget limit?"
+  ]
+}

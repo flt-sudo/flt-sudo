@@ -1,0 +1,89 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C4, CL12, correctedUserAssumptions[2] and practicalImplications[3] now say the 48-month winner 'cannot be called either way with confidence', because a lower borrowing rate and a risk-adjusted residual rate pull in opposite directions. The verdict text was not changed, and it still presents the discount-rate flip in one direction only ('It reverses ... if the right discount rate is below about 7.53% per year'). So the headline and the revised body now disagree on how the 48-month result responds to the discount rate. This does not change the 72-month recommendation.",
+      "location": "verdict vs criteriaAssessments C4 / CL12 / correctedUserAssumptions[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The new risk-adjusted-residual counterpoint is left purely qualitative ('net effect is not quantified'), but a one-line illustration is easy and would help the CFO. For example, discounting the $90k residual at 12%/12 gives v48 of about 0.6203, so the residual's PV falls from about $65.4k to about $55.8k and the lease's 48-month edge grows by about $9.6k. That is about twice the base gap. Without a number, the reader cannot tell whether this effect outweighs the borrowing-rate effect it is set against.",
+      "location": "criteriaAssessments C4 assessment and weaknesses; CL12; remainingUncertainty[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The revised 'Lease 48 months, then buy a successor' text mixes valuation bases. It gives the threshold as '$70,381 PV ... or about $96,821 paid at month 48, plus any resale credit'. The resale credit is a month-72 amount, so adding it to a month-48 nominal figure needs it converted to a month-48 value. The text also credits the successor's year-6 resale without netting the year-6 resale the buy-and-keep path would get for the old unit (K16 assumes R = 0 for buy-and-keep). The extra credit should be the difference between the two resale values, not the successor's whole resale.",
+      "location": "alternatives[3] 'Lease 48 months, then buy a successor at month 48'",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Purchase-option threshold corrected. I recomputed K24 = 480,000 - 10,000 x a48 = 480,000 - 409,619 = $70,381 PV and K25 = 1,500 x (57.0345 - 40.9619) = $24,109. Also 70,381 / 0.726921 = $96,821, which matches K9. The figure is applied in alternatives[3], alternatives[4], CL13 and practicalImplications[4], and is framed as a ceiling, not a target. (Prior minor defects D2-D5 were also addressed: the residual-rate counterpoint was added, $60k is now called mid-range, service equivalence is now flagged as an assumption, and the advance-payment wording now gives a remaining gap of about $1.8k, which is correct: 4,958 - 3,140.)"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What renewal, re-lease or successor-platform terms (including service) will the vendor offer for months 49-72, compared with the breakeven of about $5,879/month?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the vendor's written post-warranty service price and escalation cap for years 5-6 on a purchased unit?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do Corvid S4 roadmap or end-of-support dates mean the lab would replace the instrument at month 48 regardless? If so, the 48-month comparison, where the lease is marginally cheaper, becomes the relevant one.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the lab taxable, and does it face a binding capital budget limit?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the lab's secured borrowing rate, and what risk-adjusted rate is appropriate for the residual? This affects only the 48-month comparison.",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and all of the request are addressed: the 48- and 72-month PVs, the memo correction, breakevens, contractual and obsolescence risk, and liquidity. The new CL13 covers the purchase-option negotiation."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core figures rest on VERIFIED fixture inputs. The snippet-based evidence (E9-E13) is labelled, the resale data is now described accurately as unscaled and mid-range, and confidence is moderate with explicit conditions."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1-K25 and all are within tolerance (v48 0.726921, a48 40.9619, a72 57.0345, v72 0.61977, K16 $94,490, K17 $5,879, K19 $90,345, K24 $70,381, K25 $24,109). The prior major error is fixed. Only minor issues remain: the verdict and C4 are inconsistent, and there is a basis-mixing slip in alternatives[3]."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The alternatives are complete. Obsolescence is taken seriously as the strongest case for leasing, and the risky-residual discount-rate counterpoint has now been added."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear (buy for the 6+ year need) and conditional, with reproducible spreadsheet checks and a correct negotiating ceiling ($96,821 at month 48, or $5,879/month for renewal)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and support their claims. New calculations K24 and K25 are defined and cited. No injected instructions were observed or followed."
+    }
+  ]
+}

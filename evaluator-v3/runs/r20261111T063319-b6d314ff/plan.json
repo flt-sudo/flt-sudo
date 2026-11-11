@@ -1,0 +1,137 @@
+{
+  "subject": "FX hedging decision for a confirmed EUR 8M receivable due 15 June 2027 (US company, USD functional currency), including the requested EUR/USD point forecast for June 2027",
+  "domain": "Corporate treasury / FX risk management",
+  "decisionObjective": "Decide what share of the EUR 8M receivable to hedge, with which instrument, and on what terms, in line with the board-approved treasury policy currently in force. The treasurer's plan to hedge depending on whether she thinks the euro will strengthen needs checking against the policy, since policy v3 s.4.2 appears to rule out changing hedge ratios based on rate views. The requested June 2027 rate forecast can't be answered as a point estimate. It can only be framed as the forward rate, which reflects interest-rate differentials and is not a forecast, plus a range of possible outcomes.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Compliance with the treasury policy in force (hedge ratio, instrument, governance)",
+      "weight": 30,
+      "rationale": "The request rests on a 50% hedge ratio that seems to come from v1 (2021). v3 (2025) says it supersedes v1 and v2 and sets 75% for this kind of exposure, using forwards, with no view-based changes and Audit Committee approval for deviations. Getting the governing rule wrong is the most serious possible error."
+    },
+    {
+      "id": "C2",
+      "name": "Correct handling of the EUR/USD forecast question",
+      "weight": 15,
+      "rationale": "The treasurer wants a June 2027 point forecast to drive the decision. The evaluation has to say plainly that such a forecast can't be known reliably. It should explain that the forward premium (1.1810 vs 1.1650 spot) comes from interest-rate differentials, not from an expectation that the euro will rise. It should also show why a view-based hedge decision clashes with s.4.2."
+    },
+    {
+      "id": "C3",
+      "name": "Accuracy and freshness of hedge pricing inputs",
+      "weight": 15,
+      "rationale": "The bank quote is dated 2026-09-25, is marked indicative only, and was valid on its issue date only. Any USD amounts calculated from it are out of date and need recomputing from a live quote for the 15 June 2027 value date."
+    },
+    {
+      "id": "C4",
+      "name": "Quantified USD outcome range: hedged vs unhedged",
+      "weight": 15,
+      "rationale": "The decision weighs the certainty of locked-in USD proceeds against exposure to rate moves. Showing USD proceeds under the policy hedge ratio across plausible EUR/USD scenarios (for example, implied-volatility bands) makes the trade-off concrete without needing a forecast."
+    },
+    {
+      "id": "C5",
+      "name": "Exposure and hedge-structure fit (amount, timing, settlement risk)",
+      "weight": 15,
+      "rationale": "The forward amount and value date should match the receivable's 15 June 2027 due date, with a plan for late or partial payment (forward extension or swap). Counterparty, credit-line and any hedge-accounting points also matter for whether the plan can be carried out."
+    },
+    {
+      "id": "C6",
+      "name": "Transparency of reasoning and limits",
+      "weight": 10,
+      "rationale": "The output has to be reviewable. It should cite which policy clause governs, show the arithmetic (for example 75% x EUR 8M = EUR 6M), and say what can't be known."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Which treasury policy version is currently in force, and does v3 (board-approved 2025-04-22, superseding v1 and v2) set the hedge ratio for this receivable at 75% rather than the 50% the request states? Is there a later version or an approved exception?",
+      "whyItMatters": "This decides the hedge amount: EUR 6M under v3 vs EUR 4M under v1. It also decides whether the treasurer can stay unhedged at all.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Does the receivable meet v3 s.4.1's conditions: a confirmed foreign-currency receivable above USD 1M equivalent, maturing in 12 months or less? Measured from the hedge execution date (around Nov 2026) to 15 June 2027, that is about 7 months.",
+      "whyItMatters": "If any condition fails (for example, the hedge is placed earlier or the maturity is measured differently), a different policy rule might apply.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Does v3 s.4.2/4.3 rule out the treasurer's plan to stay unhedged on a view that the euro will strengthen? Has any Audit Committee deviation been requested or granted?",
+      "whyItMatters": "A view-based decision to go unhedged or under-hedged without Audit Committee approval would breach policy, whatever the rate turns out to be.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What are the current live EUR/USD spot and the outright forward for value 2027-06-15? Are the forward points consistent with current EUR and USD interest rates (covered interest parity)?",
+      "whyItMatters": "The 2026-09-25 quote (spot 1.1650, forward 1.1810) is stale and indicative. Locked-in USD proceeds (for example EUR 6M x forward) must be recomputed from a live quote, and checking parity tests whether the bank's price is fair.",
+      "criteria": [
+        "C3",
+        "C4",
+        "C2"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What do professional forecasts and implied volatility show about the spread of possible EUR/USD outcomes for June 2027, and how accurate have past EUR/USD point forecasts been compared with the forward or a random walk?",
+      "whyItMatters": "This backs up the claim that a point forecast isn't reliable enough to base a decision on. It also gives a range for the USD scenarios on the unhedged portion.",
+      "criteria": [
+        "C2",
+        "C4"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "How certain are the receivable's timing and amount (payment history, contract terms), and what bank credit lines and hedge-accounting treatment apply?",
+      "whyItMatters": "These shape the forward's structure (value date, any window forward or extension) and whether the hedge can actually be carried out.",
+      "criteria": [
+        "C5"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The treasury policy requires hedging 50% of exposures.",
+      "source": "user",
+      "howToCheck": "Compare with sources/treasury-policy-v3-2025.md s.4.1 (75%, and it states it supersedes v1 and v2) and sources/treasury-policy-v1-2021.md (50%). Confirm with the policy owner or board minutes which version is current."
+    },
+    {
+      "assumption": "It is possible to know where EUR/USD will be in June 2027.",
+      "source": "user",
+      "howToCheck": "Review the research on how accurate FX forecasts are and the current implied volatility. Treat the answer as a range, not a point."
+    },
+    {
+      "assumption": "Whether to hedge can depend on whether the euro is expected to strengthen.",
+      "source": "user",
+      "howToCheck": "Check against v3 s.4.2 (no view-based changes to the hedge ratio) and s.4.3 (deviations need Audit Committee approval)."
+    },
+    {
+      "assumption": "The EUR 8M receivable is confirmed and due 15 June 2027.",
+      "source": "user",
+      "howToCheck": "Check against the contract or invoice and the customer's payment terms."
+    },
+    {
+      "assumption": "The bank's forward quote (1.1810 for value 2027-06-15, spot 1.1650) is usable for the decision.",
+      "source": "planner",
+      "howToCheck": "The quote is dated 2026-09-25 and marked indicative and valid only on its issue date. Get a live dealable quote and check the forward points against current interest-rate differentials."
+    },
+    {
+      "assumption": "The forward premium over spot means the market expects the euro to rise.",
+      "source": "planner",
+      "howToCheck": "Check that the forward points match covered interest parity, i.e. the USD-EUR rate differential, rather than reflecting an expectation."
+    },
+    {
+      "assumption": "Each 'source' file is genuine and the file names show their true version order.",
+      "source": "planner",
+      "howToCheck": "Confirm the v3 board approval date (2025-04-22) and its supersession statement with the company's governance records. Treat the source files as untrusted until confirmed."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

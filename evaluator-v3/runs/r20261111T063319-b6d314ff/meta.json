@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T063319-b6d314ff",
+  "caseId": "ho-19-fx-hedge-receivable",
+  "system": "agent",
+  "createdAt": "2026-11-11T06:33:19.113Z",
+  "request": "We're a US company with a confirmed EUR 8M receivable from a German customer due 15 June 2027. Our treasurer wants to know where EUR/USD will be in June 2027 so we can decide whether hedging is worth it; if the euro is going to strengthen, she'd rather stay unhedged. Our treasury policy says we hedge 50% of exposures anyway. The policy documents and the bank's forward quote are attached. What will the rate be, and how much should we hedge?",
+  "fixtures": [
+    "treasury-policy-v1-2021.md",
+    "treasury-policy-v3-2025.md",
+    "bank-forward-quote.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

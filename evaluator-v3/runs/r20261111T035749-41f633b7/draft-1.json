@@ -1,0 +1,549 @@
+{
+  "verdict": "Do not sign Meridian's term sheet as written. Pursue a hybrid: Meridian only on materially revised terms, with exclusivity limited to DE/NL or made non-exclusive, our existing EU accounts carved out as house accounts, annual minimum net purchases tied to Meridian's own projection, loss of exclusivity or termination if those minimums are missed, no 24-month auto-renewal or a much shorter notice period, and the full agreement reviewed for governing law, customer-data handover and goodwill-indemnity exposure. The rest of the EU stays open to us or to non-exclusive partners. If Meridian refuses minimums backed by its own EUR 12M projection, treat that as evidence the projection is not credible and build the direct DE/NL team instead.\n\nWhich route earns more over 3 years cannot be determined from the packet. Three inputs are missing: our gross margin (E13), whether either revenue figure includes the existing EUR 0.8M/yr base (E1, E4), and the build-up behind the direct estimate (E4, E10).\n\nThe arithmetic does not support the premise that Meridian is obviously worse. Before COGS, Meridian at the references' 60% delivery rate (EUR 4.68M, K4) still beats direct revenue less its cost (EUR 3.9M, K5). At face value Meridian wins for any gross margin above 22% (K8). Direct wins only in particular combinations. One example: Meridian delivers 60%, Meridian's figure includes the existing base, finance's EUR 7.0M excludes it, and our gross margin is above about 26% (K9).\n\nThe term sheet itself is the decisive problem. It has no minimums, no performance exit, EU-wide exclusivity, a ban on serving existing accounts, and 36+24 months with 12 months' notice (E2). That leaves all delivery risk with us and blocks the direct alternative for 3 to 5 years, against a counterparty whose references show under-delivery (E3).\n\nWhat would resolve the economics: finance's gross margin and the 7.0M build-up, Meridian's answer on including the existing base and on accepting minimums, and more references.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "We cannot yet say which route contributes more over the term. Meridian's EUR 12M is list-price sell-through, so at most EUR 7.8M reaches us before COGS (K1). At the 60% delivery rate from reference 1 (K2), that falls to EUR 7.2M sell-through (K3) and EUR 4.68M to us before COGS (K4). The direct route is EUR 7.0M revenue less EUR 3.1M cost, or EUR 3.9M before COGS (K5).\n\nComparing before COGS biases the result towards Meridian. Meridian ships more units for its sell-through, and COGS scales with units, not with the net price we receive. The correct form is Meridian contribution = sell-through x (gross margin at list - 0.35), against direct contribution = direct revenue x gross margin - 3.1. On that basis:\n- At face value (12 vs 7.0, same treatment of the existing base), Meridian is better for any gross margin above 22% (K8).\n- At 60% Meridian delivery, if both figures treat the base the same way, Meridian's channel cost (35% of EUR 7.2M = EUR 2.52M, K14) is below the direct team's fixed EUR 3.1M (gap EUR 0.58M, K17), so Meridian stays ahead.\n- Direct wins only when cannibalisation is counted against Meridian, for example when Meridian's figure includes the existing EUR 2.4M base, finance's 7.0M excludes it, and gross margin is above about 26% (K9).\n\nMeridian's unquantified internal costs (channel management, training, technical support, RMA; E12) and the direct route's uncosted logistics and service (E13) push the result in opposite directions.",
+      "mechanisms": "Meridian's cost to us is variable: 35% of whatever sells through (E2). The direct team's cost is largely fixed at EUR 3.1M (E4). So low volumes favour Meridian on cash. Higher gross margins and more cannibalisation of accounts we already serve at full price favour direct, because each unit sold direct keeps the full margin and the discount is only paid on channel sales.",
+      "strengths": [
+        "The cost structures and headline figures come from verified internal documents (E1, E2, E4).",
+        "Break-even margins (K8, K9) make the decision a lookup once finance supplies gross margin."
+      ],
+      "weaknesses": [
+        "Gross margin/COGS is unknown (E13), so no absolute contribution figure can be stated.",
+        "Neither figure says whether it includes the existing base (E1, E4).",
+        "Neither Meridian's internal support costs (E12) nor the direct route's logistics and service costs (E13) are quantified."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4",
+        "E12",
+        "E13"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Neither projection is well supported.\n\nMeridian's EUR 12M has no stated basis, pipeline or category history (E1). It is back-loaded, with 46% falling in Y3 (K10), and its Y1 alone is about 3.1x our existing direct base (K15). Both references delivered below the original plan: reference 1 delivered EUR 5.4M of EUR 9M, or 60% (K2), and reference 2 hit about 90% of a plan that was cut in Y2 (E3).\n\nFinance's EUR 7.0M is called 'conservative' without any build-up (E4). Generic benchmarks suggest 6-12+ month ramps for complex B2B roles (E10), which makes Y1 output small while the cost runs from hire. Weak as they are, the reference outcomes are the more reliable evidence on Meridian, because they record what Meridian actually delivered rather than what it projected.",
+      "mechanisms": "Distributors benefit from optimistic projections when they carry no minimums (E2): the projection wins exclusivity and nothing penalises a miss. Back-loading puts most of the promised volume after the point where we could still give notice to exit at month 36 (month 24, E2). Direct estimates are sensitive to hiring and ramp delays because cost is incurred before productivity (E10).",
+      "strengths": [
+        "The reference outcomes are concrete, verified notes (E3).",
+        "Meridian's year-by-year profile is explicit (E1)."
+      ],
+      "weaknesses": [
+        "Only two references, possibly chosen by Meridian, neither in our product category; reference 2 has no absolute figures (E3).",
+        "The ramp benchmarks are SaaS-centric snippets (E10).",
+        "There is no basis for finance's 7.0M (E4)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4",
+        "E10"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "The term sheet bars direct sales to existing accounts (E2). Our EUR 0.8M/yr (EUR 2.4M over 3 years, K6) would therefore move to Meridian. On that base alone we would give up EUR 0.84M of discount (K7) for revenue we already earn. If Meridian counts that base toward its EUR 12M, its real incremental sell-through is smaller, and this is exactly the case in which direct can win (K9). A carve-out reserving existing or house accounts to us is a recognised structure under VBER 2022/720 (E6).",
+      "mechanisms": "Cannibalisation turns full-margin revenue into discounted revenue without adding any volume. A carve-out removes that loss and also strips the base out of anything counted toward Meridian's minimums (E9).",
+      "strengths": [
+        "The base size is verified (E4).",
+        "There is a legal route to a carve-out (E6)."
+      ],
+      "weaknesses": [
+        "It is unknown whether either projection includes the base (E1, E4).",
+        "E6 rests on law-firm summaries, not the regulation text."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E6",
+        "E9",
+        "E1"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "As drafted, the terms are unacceptable. There are no minimum purchases, no termination for convenience during the 36 months, auto-renewal for 24 more months unless we give 12 months' notice (so notice by about month 24, E2), and EU-wide exclusivity. If Meridian underperforms we have no remedy for 36 to 60 months.\n\nMarket practice ties exclusivity to minimum purchases, with downgrade or termination when they are missed (E9). Further protections to secure:\n- Non-compete terms in the full agreement should stay within the VBER 5-year limit and the 30% market-share thresholds (E7).\n- Under German law, a distributor integrated like an agent may claim a goodwill indemnity at exit, and advance waivers are generally invalid (E8). Governing law (Meridian is a Dutch BV) and customer-data clauses therefore need review.\n- The full agreement must be obtained: payment terms, pricing rights and post-termination clauses are absent from the term sheet (E2).",
+      "mechanisms": "With no minimums, the downside of under-delivery falls entirely on us, while exclusivity blocks us from fixing it. Minimums on a net-purchase basis are verifiable (E9), and Meridian's willingness to accept them tests how much it believes its own projection.",
+      "strengths": [
+        "The term sheet is verified (E2).",
+        "There is corroborated support for minimums, exclusivity downgrade and carve-outs (E6, E9)."
+      ],
+      "weaknesses": [
+        "Whether Meridian will accept these terms is unknown (G5).",
+        "Dutch-law indemnity was not researched (E8).",
+        "The legal evidence is search snippets."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E6",
+        "E7",
+        "E8",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Meridian is reported as strong in DE/NL and weak elsewhere, and its EU-wide exclusivity locked a former principal out of France and Italy (E3). The direct team would also start in DE/NL only (E4). So EU-wide exclusivity buys little coverage beyond what direct would reach, and it forecloses other channels. Limiting exclusivity to DE/NL, or making Meridian non-exclusive outside DE/NL, is legally feasible (E6). Market size outside DE/NL is not established (E14).",
+      "mechanisms": "Exclusivity covering countries where the distributor is weak carries an opportunity cost but generates no matching sales effort. Passive sales cannot be blocked (E6), but active development by others would be.",
+      "strengths": [
+        "The reference evidence on the territory lockout is direct (E3)."
+      ],
+      "weaknesses": [
+        "The FR/IT/Nordics market size is unknown (E14).",
+        "Only one reference comments on presence outside DE/NL (E3)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E6",
+        "E14"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "A direct team builds customer relationships, pricing control and field feedback that we own and that survive the term (E4 scope). An exclusive distributor holds those relationships. Recovering them at exit may trigger a goodwill-indemnity claim under German law if Meridian is agent-like and hands over customer data (E8). On the other side, Meridian brings real logistics and service capability that the direct route would have to replace (E3).",
+      "mechanisms": "Whoever controls the customer relationship controls renewals and pricing information. Indemnity rules turn relationships recovered at exit into a cash cost.",
+      "strengths": [
+        "Corroborated legal evidence on the post-term cost (E8).",
+        "Verified reference on Meridian's service value (E3)."
+      ],
+      "weaknesses": [
+        "The size of the strategic value is not quantified.",
+        "Whether the indemnity applies depends on governing law (E8)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E8"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Meridian's EUR 12M is list-price sell-through; at the 35% discount at most EUR 7.8M reaches us, before COGS.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "Reference 1 delivered 60% of its projection. Applied to Meridian's projection, that gives EUR 7.2M sell-through and EUR 4.68M to us before COGS. This is still above the direct route's EUR 3.9M before COGS.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K2",
+        "K3",
+        "K4",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "With both figures on the same basis (same treatment of the existing base), Meridian at face value beats direct for any gross margin above 22%. At 60% delivery, Meridian's channel cost (EUR 2.52M) is EUR 0.58M below the direct team's fixed EUR 3.1M, so Meridian stays ahead at any margin.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K8",
+        "K14",
+        "K17"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Direct beats Meridian only under some combinations. One example: Meridian delivers 60%, its figure includes the existing EUR 2.4M base, finance's 7.0M excludes it, and our gross margin is above about 26.4%. So the ranking depends on facts the packet does not contain.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K6",
+        "K9"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "Which route gives the higher 3-year contribution cannot be determined: our gross margin is unknown, and neither projection says whether it includes the existing EUR 0.8M/yr base.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E13",
+        "E1",
+        "E4"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "Under the term sheet, existing accounts must move to Meridian. That costs EUR 0.84M of discount over 3 years on revenue we already earn at full price.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4"
+      ],
+      "calculationIds": [
+        "K6",
+        "K7"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The term sheet carries no minimum purchases and no termination for convenience during 36 months, and it auto-renews for 24 months unless we give 12 months' notice. Under-delivery risk therefore sits entirely with us for 3 to 5 years.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "Tying exclusivity to minimum purchases, with downgrade or termination when they are missed, is common practice. Reserving existing accounts to the supplier, and limiting exclusivity by territory, are recognised structures under VBER 2022/720.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E9",
+        "E6"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "The 'zero headcount' premise is wrong. A distributor route still needs channel management, partner training, technical support and programme administration, though the packet does not quantify their cost.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Meridian's projection is back-loaded, with 46% in Y3, and has no stated basis. Both references show delivery below the original plan.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K10"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "Finance's EUR 7.0M direct figure has no build-up. Ramp benchmarks of 6-12+ months for complex B2B roles suggest it is sensitive to hiring delays.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E10"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "Meridian is reported weak outside DE/NL, and its EU-wide exclusivity locked a prior principal out of France and Italy. EU-wide exclusivity is therefore poor value outside DE/NL.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E14"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "If the governing law is German, ending or not renewing the agreement could expose us to a goodwill-indemnity claim, and advance waivers are generally invalid. Dutch-law exposure is undetermined.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Meridian's projected Y1 sell-through is about 3.1x the existing direct base. If the base is included in it, it makes up a large share of Y1.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K15"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "Meridian's projection implies net purchases from us of about EUR 1.63M in Y1, EUR 2.6M in Y2 and EUR 3.58M in Y3. These are the natural anchors for minimum-purchase commitments, measured excluding carved-out accounts.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E9"
+      ],
+      "calculationIds": [
+        "K11",
+        "K12",
+        "K13"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Sign Meridian's term sheet as written",
+      "comparison": "On paper this can give the highest contribution (K1, K8). However, there are no minimums, no exit, EU-wide exclusivity and forced cannibalisation (E2, K7), while the references show under-delivery (E3). The downside is a 3-to-5-year lock-in with no remedy. Rejected."
+    },
+    {
+      "option": "Meridian on revised terms (DE/NL exclusive, or non-exclusive; existing-account carve-out; minimums anchored to K11-K13; exclusivity downgrade or termination on a miss; no auto-renewal or short notice)",
+      "comparison": "Keeps Meridian's variable-cost economics, where the channel cost of EUR 2.52M at 60% delivery is below the direct team's EUR 3.1M (K14), plus its logistics and service strength (E3). It removes the cannibalisation loss (K7) and caps the lock-in risk (E9, E6). Acceptance by Meridian is unknown."
+    },
+    {
+      "option": "Direct DE/NL team (4 sellers + 1 SE)",
+      "comparison": "EUR 3.9M before COGS against the stated plan (K5). We keep the customer relationships and the existing base at full margin (E4). The fixed EUR 3.1M cost is at risk if ramp is slow (E10). It wins economically only in some combinations of margin and base treatment (K9)."
+    },
+    {
+      "option": "Hybrid: direct in DE/NL plus non-exclusive distributors (possibly Meridian) elsewhere",
+      "comparison": "This avoids exclusivity in countries where Meridian is weak (E3) and keeps our own capability. It fits VBER structures (E6). It costs the full direct EUR 3.1M while giving up some of Meridian's DE/NL strength."
+    }
+  ],
+  "tradeoffs": [
+    "Variable cost (Meridian's 35% discount) against fixed cost (EUR 3.1M direct): Meridian has less cash downside at low volume, while direct gives more margin per unit and owned relationships.",
+    "Each protective term we demand (minimums, carve-out, narrower territory) lowers Meridian's incentive and may raise its price or end the deal. Accepting fewer protections keeps us exposed to the under-delivery shown in the references.",
+    "Speed of market access with Meridian's existing DE/NL presence, against long-term control and post-term position (E3, E8)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Meridian books existing-account revenue toward its projection, so the headline looks achieved while incremental sales are small (E1, E4).",
+    "Back-loaded volume (46% in Y3, K10) means a shortfall is visible only after the month-24 notice deadline, so the agreement auto-renews to 60 months (E2).",
+    "The direct team's hiring slips by 6+ months, so Y1 revenue is near zero while the cost runs (E10).",
+    "Exit triggers a goodwill-indemnity claim if German law applies and customer data is handed over (E8).",
+    "Passive sales by other channels into Meridian's territory cannot be blocked, which can cause channel conflict either way (E6).",
+    "The full agreement contains pricing-change, MDF or payment terms absent from the term sheet (E2).",
+    "Our gross margin is low (below about 22-26%), which flips the break-even conclusions (K8, K9)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The 60% haircut still leaves Meridian ahead of direct, so we should just sign.",
+      "response": "That holds only if both figures treat the existing base the same way, and it ignores Meridian's support costs (E12) and the strategic loss of control. Above all it ignores the lack of minimums and exit (E2): if delivery falls below 60%, nothing protects us. Revised terms keep the upside and cap the downside."
+    },
+    {
+      "argument": "The direct estimate is labelled conservative, so direct is the safe choice.",
+      "response": "The label has no evidence behind it (E4), and ramp benchmarks suggest Y1 output will be small (E10). Direct's EUR 3.1M is fixed cost at risk, and it loses to Meridian at the reference delivery rate unless cannibalisation and margin conditions hold (K9, K17)."
+    },
+    {
+      "argument": "Demanding minimums will kill the deal.",
+      "response": "Minimums are common practice (E9) and anchored to Meridian's own projection (K11-K13). A refusal is itself information that the projection is not credible, which points towards the direct or hybrid route."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "With Meridian 'we keep most of that revenue'.",
+      "correction": "We receive at most 65% of list sell-through (EUR 7.8M of EUR 12M, K1) before COGS. After COGS our share of the contribution is much smaller: at a hypothetical 50% gross margin, we would keep only 30% of the contribution a direct sale earns (K18). Existing accounts would also move to the 35% discount (K7).",
+      "evidenceIds": [
+        "E2",
+        "E5",
+        "E4"
+      ]
+    },
+    {
+      "assumption": "Meridian means 'zero headcount' for us.",
+      "correction": "Distributor routes still require channel management, partner training, technical support and programme administration. The cost is not quantified.",
+      "evidenceIds": [
+        "E12",
+        "E5"
+      ]
+    },
+    {
+      "assumption": "Meridian will deliver EUR 12M.",
+      "correction": "There is no basis or pipeline behind it, and it is back-loaded (K10). Reference 1 delivered 60% of its projection (K2), and reference 2's plan was cut in Y2.",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "The direct EUR 7.0M is conservative.",
+      "correction": "No build-up is given. Benchmarks for complex B2B ramps (6-12+ months) suggest material downside from hiring and ramp delays.",
+      "evidenceIds": [
+        "E4",
+        "E10"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Maximum net receipts to us (before COGS) from Meridian's EUR 12M list sell-through at the 35% discount, in EUR M",
+      "expression": "12 * 0.65",
+      "claimedResult": 7.8,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "Reference 1 delivery rate (delivered / projected)",
+      "expression": "5.4 / 9",
+      "claimedResult": 0.6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Meridian sell-through at a 60% delivery rate, EUR M",
+      "expression": "12 * 0.6",
+      "claimedResult": 7.2,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "Net receipts to us before COGS at 60% delivery, EUR M",
+      "expression": "12 * 0.6 * 0.65",
+      "claimedResult": 4.68,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "Direct route revenue less fully loaded cost, before COGS, EUR M",
+      "expression": "7.0 - 3.1",
+      "claimedResult": 3.9,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "Existing direct base over 3 years, EUR M",
+      "expression": "0.8 * 3",
+      "claimedResult": 2.4,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7",
+      "purpose": "Discount given up over 3 years if the existing base moves to Meridian, EUR M",
+      "expression": "2.4 * 0.35",
+      "claimedResult": 0.84,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "Break-even gross margin (on list) above which Meridian at face value (12M at margin g - 0.35) beats direct (7.0M at g, less 3.1M); solves 12(g-0.35) = 7g - 3.1",
+      "expression": "(0.35 * 12 - 3.1) / (12 - 7)",
+      "claimedResult": 0.22,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K9",
+      "purpose": "Break-even gross margin above which direct beats Meridian when Meridian delivers 60% (7.2M) including the 2.4M existing base and direct's 7.0M excludes it; solves 7.2(g-0.35) - 2.4g = 7g - 3.1",
+      "expression": "(0.35 * 7.2 - 3.1) / (7.2 - 2.4 - 7)",
+      "claimedResult": 0.264,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Share of Meridian's 3-year projection falling in Y3",
+      "expression": "5.5 / 12",
+      "claimedResult": 0.458,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Net purchases from us implied by Meridian's Y1 projection, EUR M",
+      "expression": "2.5 * 0.65",
+      "claimedResult": 1.625,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Net purchases from us implied by Meridian's Y2 projection, EUR M",
+      "expression": "4.0 * 0.65",
+      "claimedResult": 2.6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K13",
+      "purpose": "Net purchases from us implied by Meridian's Y3 projection, EUR M",
+      "expression": "5.5 * 0.65",
+      "claimedResult": 3.575,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K14",
+      "purpose": "Discount cost to us of Meridian at 60% delivery, EUR M",
+      "expression": "0.35 * 7.2",
+      "claimedResult": 2.52,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K15",
+      "purpose": "Meridian Y1 projection as a multiple of the existing annual direct base",
+      "expression": "2.5 / 0.8",
+      "claimedResult": 3.125,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K17",
+      "purpose": "Amount by which the direct team's fixed cost exceeds Meridian's discount cost at 60% delivery (Meridian's margin-independent advantage when both figures treat the base the same way), EUR M",
+      "expression": "3.1 - 0.35 * 7.2",
+      "claimedResult": 0.58,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K18",
+      "purpose": "Illustrative only (hypothetical 50% gross margin at list, not from evidence): share of per-unit contribution we keep via Meridian versus selling direct",
+      "expression": "(0.5 - 0.35) / 0.5",
+      "claimedResult": 0.3,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Ask finance for gross margin at list, compute the actual break-even against K8 and K9, and get the 7.0M build-up including whether it contains the existing base.",
+    "Ask Meridian in writing whether the EUR 12M includes our existing accounts, and ask for its sales history in a comparable category plus at least two more references chosen by us.",
+    "Counter-propose:\n- DE/NL-only exclusivity, non-exclusive elsewhere.\n- Existing and house accounts reserved to us.\n- Annual minimum net purchases anchored to EUR 1.63M / 2.6M / 3.58M (K11-K13), measured excluding carved-out accounts, with exclusivity downgrade or termination after a miss.\n- No auto-renewal, or short notice.\n- Review of the discount level.",
+    "Have counsel review the full agreement for governing law, customer-data and indemnity clauses (German HGB §89b analogy; Dutch law not yet checked), non-compete duration against VBER, and post-termination stock and customer handover.",
+    "Budget internal channel-support headcount if Meridian goes ahead; it is not zero.",
+    "If Meridian refuses minimums or a carve-out, start recruiting the DE/NL direct team, with ramp assumptions made explicit."
+  ],
+  "remainingUncertainty": [
+    "Our gross margin/COGS is unknown (E13), so absolute contribution cannot be computed.",
+    "It is unknown whether either the 12M or the 7.0M includes the EUR 0.8M/yr base (E1, E4); this can flip the ranking (K9).",
+    "The two references may have been selected by Meridian and are not in our category (E3).",
+    "The basis for the direct revenue estimate, and what the EUR 3.1M excludes, are unknown (E4).",
+    "Whether Meridian will accept protective terms is unknown (G5).",
+    "Dutch-law distributor indemnity and the governing law are unknown (E8).",
+    "Market size outside DE/NL is unknown (E14).",
+    "All legal and benchmark evidence rests on search snippets; no source pages were fetched."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Finance's gross margin: below about 22% would favour direct even at Meridian's face value (K8); above about 26% favours direct in the cannibalisation scenario (K9).",
+    "Confirmation that Meridian's 12M includes the existing base, and that finance's 7.0M excludes it, would favour direct.",
+    "Meridian's acceptance of minimums near its own projection would make Meridian on revised terms the stronger option.",
+    "A detailed direct ramp plan showing Y1 output well below plan would weaken direct.",
+    "Additional independent references showing delivery near or above projection would strengthen Meridian.",
+    "Legal advice that the indemnity exposure under the governing law is large would weaken the Meridian route."
+  ]
+}

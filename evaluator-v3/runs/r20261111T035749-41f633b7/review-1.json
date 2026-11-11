@@ -1,0 +1,143 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "The draft never compares either route with the status quo of no new channel, where we keep the EUR 0.8M/yr existing direct base at full margin with no added cost. It also never states the absolute break-evens that its own model implies. Using the draft's formulas: Meridian's contribution is S*(g-0.35), so every channel sale loses money if gross margin g is 35% or less. Direct at plan is 7.0g - 3.1, which is negative unless g > 44.3%. If finance's 7.0M includes the 2.4M base, the incremental revenue is only 4.6M, and the team needs g > ~67% to beat doing nothing. The draft says 'below about 22% would favour direct even at Meridian's face value' (furtherResearch, edgeCases). That is misleading: at g < 22% both routes have negative contribution and neither should be chosen. The verdict's fallback ('build the direct DE/NL team') could therefore destroy value. The draft gives no margin threshold below which that fallback is wrong.",
+      "location": "verdict para 1 and 3; furtherResearchThatCouldChangeConclusion item 1; edgeCasesAndFailureModes last item; alternatives (no status-quo option); K8",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The decision rule in the verdict does not follow from the draft's own economics. The draft finds that Meridian at the 60% reference delivery rate beats direct at any margin when the base is treated consistently (CL3, K17). Direct wins only in the cannibalisation scenario at g > ~26% (K9). Yet the verdict says that if Meridian refuses minimums, we should 'build the direct DE/NL team'. A refusal does not change the expected-value comparison. At most it raises downside variance, which the draft does not quantify. The rule also never asks whether an existing-account carve-out alone, without minimums, would keep Meridian ahead (K9 says it would).",
+      "location": "verdict para 1 last sentence; practicalImplications last item; counterarguments item 3",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The minimum-purchase test is rigged. Minimums are set at 100% of Meridian's projected net purchases (EUR 1.63M/2.6M/3.58M, K11-K13), measured excluding carved-out accounts. If Meridian's 12M includes the existing base (unknown, G2), this asks for more than Meridian's own number. The only quantitative reference shows 60% delivery, and a credible distributor would normally reject 100%-of-forecast minimums. Typical practice ties minimums to a share of forecast, and E9 cites shortfall-percentage triggers. So the conclusion that 'a refusal is itself information that the projection is not credible' does not hold. The draft should propose a minimum level, or a floor below which the deal is uneconomic, using the delivery-rate and margin break-evens. It should not anchor to the headline figure.",
+      "location": "CL15; K11-K13; practicalImplications item 3; counterarguments item 3; verdict para 1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The request asks 'on what terms', and the packet names the discount level as a lever. The draft only says 'Review of the discount level' and gives no target. Discount is the largest economic lever in its own model: each 5 points on 7.2M of sell-through is about EUR 0.36M, comparable to the EUR 0.58M margin-independent gap (K17). The draft could have used E11 (35% is at or above typical distributor gross margins) and a break-even to propose a range, or a lower discount on legacy accounts. The renewal terms are equally vague ('no auto-renewal, or short notice', with no notice period proposed).",
+      "location": "practicalImplications item 3; verdict para 1; C4 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "CL3 states 'Meridian stays ahead at any margin' at 60% delivery. That rests on a EUR 0.58M cost gap (K17). It ignores Meridian-side internal costs: channel manager, FAE or pre-sales support, training, MDF and RMA (E12). These can plausibly match or exceed EUR 0.58M over 3 years, and the 'zero headcount' correction itself says they are not zero. The draft says these costs and direct's uncosted logistics 'push in opposite directions', but CL3 is still stated unconditionally. CL9 ('zero headcount' is wrong) is marked material:false, although it directly decides whether the K17 advantage survives. The draft should state the conclusion conditionally, or give a support-cost break-even.",
+      "location": "CL3; CL9 (material flag); K17; C1 assessment bullet 2",
+      "remedy": "both"
+    },
+    {
+      "id": "D6",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The decision objective covers 3-year 'and post-term' contribution. The draft does not analyse post-term economics. Under direct, the cost is front-loaded during ramp, and by Y3 we would have a ramped team and owned accounts. The Meridian route faces the month-24 notice deadline, the auto-renewal to month 60, and possible indemnity on exit. The draft treats C6 only qualitatively, and it never asks whether direct's 3-year loss or low return is an investment that pays back in Y4-Y5. A 3-year comparison structurally penalises the route with fixed ramp costs.",
+      "location": "C1 and C6 assessments; tradeoffs",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The sensitivity uses a single delivery point (60%, from reference 1). There is no range and no break-even delivery rate, although reference 2 (about 90% of a reduced plan) points to a different rate. Also, in K9 the 60% haircut is applied to the whole 12M, including the 2.4M existing base. Existing accounts would likely be retained, so applying the haircut only to the incremental 9.6M (giving about 8.16M) would be more coherent. The direction holds, but the K9 threshold moves.",
+      "location": "K3, K4, K9; C1 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "There is a factual misstatement. The draft says back-loading 'puts most of the promised volume after' the month-24 notice point. Y3 is 46% of the projection (K10), which is less than half, not most.",
+      "location": "C2 mechanisms",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D9",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict's third paragraph leads with a before-COGS comparison (4.68M vs 3.9M). The draft itself says this comparison is biased toward Meridian. The term 'hybrid' is also used inconsistently. In the verdict it means Meridian on revised terms, with the rest of the EU open, but no plan for who covers it. In the alternatives list it means a direct DE/NL team plus non-exclusive distributors elsewhere.",
+      "location": "verdict para 1 and 3; alternatives items 2 and 4",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D10",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "C6 cites '(E4 scope)' for the claim that a direct team builds owned relationships, pricing control and field feedback. E4 contains only headcount, cost, revenue and the base figure. The claim is a reasonable inference but is not supported by E4. It also comes from the packet's C6 rationale.",
+      "location": "C6 assessment",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What is our gross margin at list price? This decides whether Meridian sales (above 35%) and the direct team at plan (above ~44%) are contribution-positive at all, and which side of the K8 and K9 thresholds we fall on.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does Meridian's EUR 12M and/or finance's EUR 7.0M include the existing EUR 0.8M/yr base?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What internal FTE and cost would the Meridian route need (channel manager, FAE, training, MDF, RMA), compared with the EUR 0.58M K17 gap?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What level of minimum purchases, as a share of its projection, and what discount would Meridian accept for DE/NL-only exclusivity with an existing-account carve-out?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are finance's ramp, hiring and Y4+ run-rate assumptions for the direct team? These are needed to assess post-term value.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What governing law would apply, and what is the distributor indemnity exposure under Dutch law?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "Post-term economics, a discount target and specific renewal terms are missing (D4, D6), even though the request asks 'on what terms'."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The draft relies on verified fixture documents, flags snippet-level legal and benchmark evidence, and keeps confidence at moderate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The fallback decision rule does not follow from the economics (D2), CL3 is stated unconditionally despite unquantified E12 costs (D5), the low-margin break-even interpretation is wrong (D1), and C2 says 'most' where 46% is meant (D8)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "The status-quo/no-new-channel baseline is omitted, so the draft misses that both routes may be value-negative at plausible margins (D1)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The minimum-purchase test is anchored at 100% of projection and is likely to produce a refusal regardless of credibility (D3). There is no discount target and no margin floor for the direct fallback."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited IDs exist and the calculations recompute correctly (K8 = 0.22, K9 ≈ 0.264, K17 = 0.58). There is only a minor over-citation of E4 (D10). No injection was followed."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T035424-79e6b135",
+  "caseId": "ho-09-brazil-market-share",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 91.25,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": false,
+      "grader": true,
+      "flagged": true,
+      "disagreement": true
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustFlag F1: regex=false grader=true"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "Strong output that matches the reference's expected 'unanswerable' handling. One borderline point: it offers the board an illustrative 0.5-3% range 'if the board insists'. It is clearly labelled as a scenario and not a forecast, so I did not trigger critical failure 1. That range does not match the output's own funnel table (0.09%-3.2%, central 0.72%), which is why accuracy and clarity got 0.75. I recomputed the Wilson CI, the break-even percentages and the funnel products and they are correct. I did not check the external citations (Berg Insight, Geotab, Frost & Sullivan and others), because the grading instructions limit me to the packet."
+}

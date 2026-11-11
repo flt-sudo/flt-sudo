@@ -1,0 +1,37 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "States the year-3 share cannot be reliably determined",
+    "pass": false,
+    "detail": "pattern /cannot (be )?(reliably |credibly |defensibly )?(determin|estimat|forecast|predict|produc)|can'?t (be )?(determin|estimat|forecast|predict)|not (possible|feasible) to (forecast|estimate|predict)|unknowable|no defensible/ not found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Survey is tiny/biased (n=14, booth visitors, 'would consider')",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Missing market size / pricing / competitor data",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Recommends staged entry / discovery / pilot with go-no-go criteria",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Provides a confident share forecast (e.g. 'will reach 15%')",
+    "pass": true,
+    "detail": "absent"
+  }
+]

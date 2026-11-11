@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers both questions, the share figure and the entry decision. It covers all four mustFlag issues and adds what an expert would expect: denominator definition, ANATEL timing, partner, pricing, currency and segment fit. There is no irrelevant padding.",
+      "quotes": [
+        "There is no year-3 market share number that the evidence can support",
+        "Hold off on full entry for now; this is \"not yet\", not \"no\"",
+        "Missing: 180k–900k fleets, definition unresolved"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The numbers I checked are correct: Wilson CI 39-84% for 9/14, break-even shares, the 15% absolute counts and the funnel products. The headline range does not match the output's own table: the verdict says 0.5-3% with a central case near 1%, but the table gives 0.09% to 3.2% with a central case of 0.72%. The external market figures come from third-party summaries I could not verify, and the output admits this.",
+      "quotes": [
+        "roughly 0.5–3% of commercial fleets by year 3, with the central case around 1%",
+        "Resulting share | 0.09% | 0.72% | 3.2%",
+        "the 95% Wilson confidence interval is about 39% to 84%"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains mechanisms: selection bias, intent-to-purchase overstatement, B2B switching friction and the denominator problem. It quantifies through the break-even sensitivity, a funnel model and a timeline effect, and has a section on edge cases and failure modes specific to Brazilian telematics.",
+      "quotes": [
+        "If Brazilian pricing turns out about 40% below US pricing ... break-even rises to roughly 4,000 / 0.6 ≈ 6,700 fleets",
+        "Much of Brazilian vehicle tracking is driven by security and insurance (rastreamento)",
+        "\"Year 3\" (2029) would then be only about 1–1.5 years of selling"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It directly challenges the CEO's 64%-to-15% premise and weighs counterarguments fairly. It also says what would change the conclusion: product differentiation, explicit go criteria, and pilot/LOI conversion.",
+      "quotes": [
+        "The 64% to 15% step is not explained",
+        "15% is about a quarter of 64%, which looks like an intuitive discount rather than a calculation",
+        "A strong advantage, such as a materially lower total cost or unique video-safety AI, would shift the scenarios upward"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear and honest: the share cannot be credibly forecast, so fund discovery and do not commit to entry yet. It gives concrete deliverables, go/no-go thresholds and a script for the board.",
+      "quotes": [
+        "We cannot yet forecast share credibly.",
+        "Go if break-even at local pricing needs no more than about 2% of the agreed denominator within 3 years, pilots or LOIs convert, and certification (or a partner workaround) fits within about 9 months",
+        "At least 5–10 letters of intent or paid pilots"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "It is well organised, labels its assumptions, and has an explicit uncertainty section. Two weaknesses: the scenario range is stated differently in sections 1, 5.3 and 11, and internal-document claims cite the documents only at file level, with no specific locations.",
+      "quotes": [
+        "Illustrative year-3 scenarios run from about 0.1% to 3%, central about 1%",
+        "These parameters are judgment calls; the table's purpose is to make the assumptions explicit",
+        "## 12. Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "There is no year-3 market share number that the evidence can support ... We cannot yet forecast share credibly."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "9 of 14 people at our own trade-show booth said they would \"consider\" switching to us, with no price mentioned"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Missing: 180k–900k fleets, definition unresolved ... Missing: Brazil pricing not researched ... Missing: 3 incumbents, shares unknown"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Staged discovery, then go/no-go (recommended)"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Gives a specific year-3 market share forecast as if it were supported by the evidence",
+      "triggered": false,
+      "evidence": "It gives an illustrative range but labels it explicitly as unsupported: \"label it as an assumption-driven scenario rather than a forecast\" and \"Even that range rests on assumptions the strategy team has not checked.\""
+    },
+    {
+      "condition": "Treats the 64% 'would consider' figure from 14 booth respondents as evidence of likely adoption",
+      "triggered": false,
+      "evidence": "\"That statistic cannot carry a forecast.\" It names seven separate problems with the survey, including sample size, selection bias, question wording and the absence of a price."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Strong output that matches the reference's expected 'unanswerable' handling. One borderline point: it offers the board an illustrative 0.5-3% range 'if the board insists'. It is clearly labelled as a scenario and not a forecast, so I did not trigger critical failure 1. That range does not match the output's own funnel table (0.09%-3.2%, central 0.72%), which is why accuracy and clarity got 0.75. I recomputed the Wilson CI, the break-even percentages and the funnel products and they are correct. I did not check the external citations (Berg Insight, Geotab, Frost & Sullivan and others), because the grading instructions limit me to the packet."
+}

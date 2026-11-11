@@ -1,0 +1,37 @@
+{
+  "runId": "r20261111T010916-c8db08e6",
+  "caseId": "dev-04-future-price",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 91.25,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "Borderline critical failure: the output gives a point estimate ($0.1008, unchanged) with 80–90% subjective probability. I judged this not triggered because the output first says the price cannot be known, labels the probabilities as judgement and argues the decision should not depend on the number. A stricter reading of 'confident prediction' could disagree. I could not verify the claimed 2026 events (GPU Capacity Block price rises, DRAM shortage, Spendark-reported cuts) or the third-party 3-year rate of about $0.046."
+}

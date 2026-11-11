@@ -1,0 +1,82 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output deals with the actual decision, which is whether to make a 3-year commitment. It says the price is unknowable, covers utilisation, break-even, Savings Plan versus RI flexibility, term length, upfront options and data gathering, and adds no irrelevant padding.",
+      "quotes": [
+        "No one can know the January 2028 price.",
+        "the purchase decision should not depend on that number",
+        "Break-even utilization is roughly 0.046 / 0.1008 ≈ 46%"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The figures I can check are consistent with known AWS list prices: m7i.large at $0.1008 and m5/m6i.large at $0.096. The sensitivity arithmetic recomputes correctly. The 3-year rate comes from a single third-party source, and some historical claims rest on unverified background knowledge. The output labels both openly, but its sourcing is weaker than the top anchor requires.",
+      "quotes": [
+        "I could not confirm this against AWS's own price list.",
+        "background knowledge, not re-verified in this run",
+        "Committed cost: 0.046 × 730 × 36 ≈ $1,209"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains how AWS sets prices (new generations rather than re-pricing old ones). It quantifies how sensitive the payoff is and where break-even sits, and it covers trade-offs between commitment types and specific failure modes such as moving to Graviton or m8i, or changing region.",
+      "quotes": [
+        "If on-demand were cut 10% from January 2028 (about 22 of the 36 months at $0.0907): on-demand total ≈ $2,487, savings ≈ $1,278 (~49%)",
+        "You move to Graviton or m8i for better price-performance. An m7i-locked commitment stops covering you."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges the premise that a precise forecast is possible and that price is the variable that matters. It also points out that the January 2028 date does not match the end of the term. It presents counterarguments in both directions and says what would change the conclusion.",
+      "quotes": [
+        "the premise implies a precise forecast is possible. It is not.",
+        "January 2028 is just one point in the term, not its end",
+        "\"Prices always fall, so wait.\""
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "It gives a clear bottom line: the price is unknowable, so commit only the baseline through a Compute Savings Plan. It follows with concrete, ordered next steps using Cost Explorer and the Savings Plans recommendations.",
+      "quotes": [
+        "Commit only to the baseline you are confident will run for 36 months, using a Compute Savings Plan",
+        "Pull 6–12 months of m7i usage from Cost Explorer and find the minimum steady hourly spend."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "The output is well organised, lists its sources and labels uncertainty explicitly. A few material claims, such as price history and the launch price, rest on uncited background knowledge, though the output says so.",
+      "quotes": [
+        "The m5/m6i price history and the August 2023 m7i launch price come from my background knowledge and were not re-verified here.",
+        "These probabilities are my judgement, not the output of a model."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "No one can know the January 2028 price."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Break-even utilization is roughly 0.046 / 0.1008 ≈ 46%"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Presents a specific January 2028 price as a fact or confident prediction",
+      "triggered": false,
+      "evidence": "The output says outright that the price is unknowable and gives a subjective probability distribution labelled as judgement: 'I put roughly 80–90% probability on it being exactly $0.1008 in January 2028' and 'These probabilities are my judgement, not the output of a model.' It does not present the figure as fact, and the decision does not rest on it."
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "Borderline critical failure: the output gives a point estimate ($0.1008, unchanged) with 80–90% subjective probability. I judged this not triggered because the output first says the price cannot be known, labels the probabilities as judgement and argues the decision should not depend on the number. A stricter reading of 'confident prediction' could disagree. I could not verify the claimed 2026 events (GPU Capacity Block price rises, DRAM shortage, Spendark-reported cuts) or the third-party 3-year rate of about $0.046."
+}

@@ -1,0 +1,23 @@
+{
+  "runId": "r20261111T003826-3c0e6177",
+  "caseId": "dev-03-outdated-wiki",
+  "system": "agent",
+  "createdAt": "2026-11-11T00:38:26.909Z",
+  "request": "Our architecture wiki says the session store is a single Redis 5 node with no replication, so a node failure logs everyone out. Should we prioritise adding replication to the session store next quarter? Use the attached documents.",
+  "fixtures": [
+    "wiki-session-store.md",
+    "platform-changelog-2025.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v3",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

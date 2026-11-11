@@ -1,0 +1,1 @@
+Our architecture wiki says the session store is a single Redis 5 node with no replication, so a node failure logs everyone out. Should we prioritise adding replication to the session store next quarter? Use the attached documents.

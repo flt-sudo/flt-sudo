@@ -1,0 +1,124 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The new out-of-hours comparison counts secondary standby hours the same as primary hours for option (a), and then sets that against follow-the-sun with no secondary. K31 (2*(168-40)/9 = 28.44 h), K32 (12.44 local-night h) and K36 (10.67 weekend h) all double the primary figure because a secondary is added. A secondary is only paged on escalation, so it carries far less interruption load than a primary. The draft itself says how often the secondary would be paged is unknown (E12 limitations). The draft's own rollout also allows a daytime secondary within follow-the-sun, so the comparison does not hold like for like. Even so, the 28.4 h vs 9.8-11 h gap is used as a main argument: the verdict, C1 strengths, alternatives ('less than half the out-of-hours load per person'), and the first counterargument response. The fairer like-for-like figure is the primary-only 14.2 h (K30) vs 9.8-11 h. That gap is still real but much smaller (about 23-31% lower). The ranking probably survives on the zero-local-night point, but the size of the out-of-hours advantage is overstated.",
+      "location": "verdict; criteriaAssessments C1 (assessment, strengths), C3; CL18, CL19; alternatives 'Option (a) with noise tuning' and 'Recommended hybrid'; counterargument[0]; K31, K32, K36",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict and C4 say 'Weekend and holiday call-outs fall under the s.9 ban' and 'Weekend and holiday call-outs are Sunday or holiday work'. ArbZG s.9 covers Sundays and public holidays only. Saturday is a Werktag, so it falls under s.3, as E23 itself notes ('Werktage, Mon-Sat'). CL20 gets this right ('Sunday and holiday'), so the draft contradicts itself. The packet's E20 applicability text has the same slip, but the draft should not have repeated it.",
+      "location": "verdict; criteriaAssessments C4 assessment; counterargument[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The s.11 rule of at least 15 work-free Sundays a year is listed as a constraint that 'would cut Berlin's capacity further' (C3 weaknesses) and is something counsel must confirm. The draft's own figure is about 13 on-call weekends a year per Berlin engineer, which leaves about 39 Sundays a year off call. So the 15-Sunday floor cannot bind under the proposed rotation. Only the substitute-rest-day rule (within 2 weeks after a Sunday call-out) is a real capacity factor. The draft does not make this simple check and overstates the s.11 risk.",
+      "location": "criteriaAssessments C3 weaknesses; CL21; edgeCasesAndFailureModes (Sunday item)",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "ArbZG s.3, s.9-10 (with the s.10(1) no.14 IT exception), s.11, s.13 and s.7/s.12 are now covered in C4, CL20, CL21, the verdict and rollout step 3. Their unverified status (E23-E25 HYPOTHETICAL/UNKNOWN) is flagged, and the verdict no longer calls the Berlin shift legally clean. There is a residual Saturday/s.9 slip (new D2)."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "The verdict now says the pilot starts only after works council approval (Step 3) and explains that a pilot is itself a plan change (E5, E15). This matches practicalImplications step 5 and CL9."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Out-of-hours and weekend hours per person per office are now quantified (K25-K36, CL18). K25-K29 recompute correctly: SF 5 h/weekday + 24 = 49, /5 = 9.8; Berlin 4 h/weekday + 24 = 44, /4 = 11; 11/9.8 = +12.24%. The basis for comparing against option (a) is new D1."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Option (a) with tuning is now an explicit alternative (K33: 15.94*8/24 = 5.31 local-night pages/week, verified). The cross-office pair variant is added (CL22). Its offset conversions (22:00-06:00 PT = 07:00-15:00 Berlin; 23:00-06:00 Berlin = 14:00-21:00 PT) and its 1-in-4 / 1-in-5 frequencies are correct."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "The 'roughly doubles pay-outs' claim is gone. The cost is now described as not quantifiable (C6, CL14, tradeoffs[1])."
+    },
+    {
+      "id": "D6",
+      "status": "fixed",
+      "note": "C4 now says Berlin's 23:00-06:00 night corresponds to 14:00-21:00 PT (correct at a 9 h offset), and the verdict says 'PT afternoon and evening'."
+    },
+    {
+      "id": "D7",
+      "status": "fixed",
+      "note": "The overlap is now placed in the incoming shift (Berlin from 06:30, SF from 09:30 PT), both outside the local night and ArbZG night windows. The draft notes that during the DST weeks the split cannot avoid both offices' nights (CL5, edge cases)."
+    },
+    {
+      "id": "D8",
+      "status": "fixed",
+      "note": "The verdict and CL4 now state the even-spread assumption, the incidents-vs-pages mismatch, the snippet-only sourcing and the 58% clustering risk."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the hour-of-day and weekday/weekend distribution of actionable pages after the three noise alerts are removed (raw timestamped logs)? How would it split between the Berlin 22:00-10:00 PT half and the SF half?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How often would a secondary actually be paged under option (a), and would a same-office daytime secondary within follow-the-sun close the reliability gap? This sets the true burden and benefit of the secondary role in the (a) vs (b) comparison.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does labour counsel confirm that Sunday and holiday incident call-outs fall under ArbZG s.10(1) no.14? Does a collective agreement with s.7/s.12 opening clauses cover the Berlin entity?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the actual German collective on-call allowance, and would a US secondary stipend be paid?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "Workload, fairness, legal constraints (now including s.3 and s.9-11), handoffs, DST, holidays and rollout steps are all covered. Option (a) with tuning and the cross-office variant are included."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-only legal and SRE sources and the HYPOTHETICAL statutory points are flagged consistently. Confidence is 'moderate', which is appropriate given the missing timestamps."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The arithmetic recomputes correctly (K1-K36), but the headline out-of-hours comparison counts secondary standby the same as primary duty and compares (a) with a secondary against (b) without one, which overstates the gap (D1). There are also minor s.9 Saturday and s.11 overstatements (D2, D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "(a)+tuning, (b) without tuning, tuning only and the cross-office pair variant are all compared. The counterarguments are engaged, not strawmanned, though counterargument[0] relies on the inflated 28.4 h figure (D1)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear staged recommendation with correct sequencing on works council approval, pre-set rollback criteria and a credible fallback."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited E and K IDs exist and match the packet. HYPOTHETICAL evidence is labelled. No injected instructions were followed."
+    }
+  ]
+}

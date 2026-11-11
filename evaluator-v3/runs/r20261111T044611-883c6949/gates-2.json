@@ -1,0 +1,325 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "deterministic",
+          "detail": "1 evidence classification violation(s) downgraded by registry"
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict; criteriaAssessments C1 (assessment, strengths), C3; CL18, CL19; alternatives 'Option (a) with noise tuning' and 'Recommended hybrid'; counterargument[0]; K31, K32, K36] The new out-of-hours comparison counts secondary standby hours the same as primary hours for option (a), and then sets that against follow-the-sun with no secondary. K31 (2*(168-40)/9 = 28.44 h), K32 (12.44 local-night h) and K36 (10.67 weekend h) all double the primary figure because a secondary is added. A secondary is only paged on escalation, so it carries far less interruption load than a primary. The draft itself says how often the secondary would be paged is unknown (E12 limitations). The draft's own rollout also allows a daytime secondary within follow-the-sun, so the comparison does not hold like for like. Even so, the 28.4 h vs 9.8-11 h gap is used as a main argument: the verdict, C1 strengths, alternatives ('less than half the out-of-hours load per person'), and the first counterargument response. The fairer like-for-like figure is the primary-only 14.2 h (K30) vs 9.8-11 h. That gap is still real but much smaller (about 23-31% lower). The ranking probably survives on the zero-local-night point, but the size of the out-of-hours advantage is overstated."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; criteriaAssessments C4 assessment; counterargument[3]] The verdict and C4 say 'Weekend and holiday call-outs fall under the s.9 ban' and 'Weekend and holiday call-outs are Sunday or holiday work'. ArbZG s.9 covers Sundays and public holidays only. Saturday is a Werktag, so it falls under s.3, as E23 itself notes ('Werktage, Mon-Sat'). CL20 gets this right ('Sunday and holiday'), so the draft contradicts itself. The packet's E20 applicability text has the same slip, but the draft should not have repeated it."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C3 weaknesses; CL21; edgeCasesAndFailureModes (Sunday item)] The s.11 rule of at least 15 work-free Sundays a year is listed as a constraint that 'would cut Berlin's capacity further' (C3 weaknesses) and is something counsel must confirm. The draft's own figure is about 13 on-call weekends a year per Berlin engineer, which leaves about 39 Sundays a year off call. So the 15-Sunday floor cannot bind under the proposed rotation. Only the substitute-rest-day rule (within 2 weeks after a Sunday call-out) is a real capacity factor. The draft does not make this simple check and overstates the s.11 risk."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "148+121+66+71+48+39+47",
+      "claimed": 540,
+      "actual": 540,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0+2+0+63+41+37+30",
+      "claimed": 173,
+      "actual": 173,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "173/540*100",
+      "claimed": 32.04,
+      "actual": 32.03703703703704,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(148+121+66)/540*100",
+      "claimed": 62.04,
+      "actual": 62.03703703703704,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "2/(148+121+66)*100",
+      "claimed": 0.597,
+      "actual": 0.5970149253731344,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(63+41+37+30)/(71+48+39+47)*100",
+      "claimed": 83.41,
+      "actual": 83.41463414634146,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "540/90",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(71+48+39+47)/90",
+      "claimed": 2.278,
+      "actual": 2.2777777777777777,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(71+48+39+47)/90*7",
+      "claimed": 15.94,
+      "actual": 15.944444444444443,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "540/90/2",
+      "claimed": 3,
+      "actual": 3,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(71+48+39+47)/90/2",
+      "claimed": 1.139,
+      "actual": 1.1388888888888888,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "84/5",
+      "claimed": 16.8,
+      "actual": 16.8,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "84/4",
+      "claimed": 21,
+      "actual": 21,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(21/16.8-1)*100",
+      "claimed": 25,
+      "actual": 25,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "0.58*540",
+      "claimed": 313.2,
+      "actual": 313.2,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "(173-2)/173*100",
+      "claimed": 98.84,
+      "actual": 98.84393063583815,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "540-173",
+      "claimed": 367,
+      "actual": 367,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "0.58*540-173",
+      "claimed": 140.2,
+      "actual": 140.2,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "2/9*100",
+      "claimed": 22.22,
+      "actual": 22.22222222222222,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "540/90*7",
+      "claimed": 42,
+      "actual": 42,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "540/90*7*0.58",
+      "claimed": 24.36,
+      "actual": 24.36,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "21+7",
+      "claimed": 28,
+      "actual": 28,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "168/9",
+      "claimed": 18.67,
+      "actual": 18.666666666666668,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "2*168/9",
+      "claimed": 37.33,
+      "actual": 37.333333333333336,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "5*5+2*12",
+      "claimed": 49,
+      "actual": 49,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "(5*5+2*12)/5",
+      "claimed": 9.8,
+      "actual": 9.8,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "5*4+2*12",
+      "claimed": 44,
+      "actual": 44,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "(5*4+2*12)/4",
+      "claimed": 11,
+      "actual": 11,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "(11/9.8-1)*100",
+      "claimed": 12.24,
+      "actual": 12.244897959183664,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "(168-40)/9",
+      "claimed": 14.22,
+      "actual": 14.222222222222221,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "2*(168-40)/9",
+      "claimed": 28.44,
+      "actual": 28.444444444444443,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "2*8*7/9",
+      "claimed": 12.44,
+      "actual": 12.444444444444445,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "(71+48+39+47)/90*7*8/24",
+      "claimed": 5.315,
+      "actual": 5.314814814814814,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "2*12/4",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "2*12/5",
+      "claimed": 4.8,
+      "actual": 4.8,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "2*48/9",
+      "claimed": 10.67,
+      "actual": 10.666666666666666,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict; criteriaAssessments C1 (assessment, strengths), C3; CL18, CL19; alternatives 'Option (a) with noise tuning' and 'Recommended hybrid'; counterargument[0]; K31, K32, K36] The new out-of-hours comparison counts secondary standby hours the same as primary hours for option (a), and then sets that against follow-the-sun with no secondary. K31 (2*(168-40)/9 = 28.44 h), K32 (12.44 local-night h) and K36 (10.67 weekend h) all double the primary figure because a secondary is added. A secondary is only paged on escalation, so it carries far less interruption load than a primary. The draft itself says how often the secondary would be paged is unknown (E12 limitations). The draft's own rollout also allows a daytime secondary within follow-the-sun, so the comparison does not hold like for like. Even so, the 28.4 h vs 9.8-11 h gap is used as a main argument: the verdict, C1 strengths, alternatives ('less than half the out-of-hours load per person'), and the first counterargument response. The fairer like-for-like figure is the primary-only 14.2 h (K30) vs 9.8-11 h. That gap is still real but much smaller (about 23-31% lower). The ranking probably survives on the zero-local-night point, but the size of the out-of-hours advantage is overstated."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What is the hour-of-day and weekday/weekend distribution of actionable pages after the three noise alerts are removed (raw timestamped logs)? How would it split between the Berlin 22:00-10:00 PT half and the SF half?",
+    "How often would a secondary actually be paged under option (a), and would a same-office daytime secondary within follow-the-sun close the reliability gap? This sets the true burden and benefit of the secondary role in the (a) vs (b) comparison.",
+    "Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+    "Does labour counsel confirm that Sunday and holiday incident call-outs fall under ArbZG s.10(1) no.14? Does a collective agreement with s.7/s.12 opening clauses cover the Berlin entity?"
+  ]
+}

@@ -176,32 +176,6 @@
       "untrustedInstructionsObserved": false
     },
     {
-      "id": "E20",
-      "claim": "Premise: region failure is the biggest availability risk (VP Engineering).",
-      "source": {
-        "kind": "user_input",
-        "ref": "request"
-      },
-      "retrievedAt": "2026-11-11",
-      "classification": "INFERRED",
-      "corroboratingRefs": [],
-      "applicability": "The C1 premise under test.",
-      "limitations": "The 12-month log contradicts it: 0 region-wide outages and 92/115 minutes from bad deploys.",
-      "contradicts": [
-        "E3",
-        "E4"
-      ],
-      "gapIds": [
-        "G2",
-        "G4"
-      ],
-      "verification": {
-        "status": "unchecked",
-        "method": "Taken from request.md"
-      },
-      "untrustedInstructionsObserved": false
-    },
-    {
       "id": "E8",
       "claim": "Against the 21.6-minute monthly budget, two months exceeded the target: 2026-01 (38 min, roughly 99.912%) and 2026-08 (22 min, roughly 99.949%, which misses by about 0.4 min). All other months were within budget. A 'full 0.1%' shortfall below 99.95% (availability at or below 99.85%) needs at least 64.8 min of downtime in a 30-day month (21.6 + 43.2). No month came close, so on a truncating reading of C.2 no service credit was owed in the last 12 months.",
       "source": {
@@ -250,7 +224,7 @@
     },
     {
       "id": "E10",
-      "claim": "AWS us-east-1 had a region-scoped disruption on 19-20 October 2025, triggered by a latent race condition in DynamoDB's DNS management automation that left an empty DNS record for the regional endpoint. AWS's summary gives 11:48 PM PDT Oct 19 to 2:20 PM PDT Oct 20 (about 14.5 hours), with three distinct impact periods. Some secondary sources report about 15 hours.",
+      "claim": "AWS us-east-1 had a disruption on 19-20 October 2025, triggered by a latent race condition in DynamoDB's DNS management automation that left an empty DNS record for the regional endpoint. AWS's summary gives 11:48 PM PDT Oct 19 to 2:20 PM PDT Oct 20 (about 14.5 hours), with three distinct impact periods. Some secondary sources report about 15 hours.",
       "source": {
         "kind": "web",
         "ref": "https://aws.amazon.com/message/101925",
@@ -262,9 +236,11 @@
         "https://www.infoq.com/news/2025/11/aws-dynamodb-outage-postmortem",
         "https://cybersecuritynews.com/aws-outage-resolved"
       ],
-      "applicability": "Shows that region-wide outages do occur and can last many hours, which would exceed the monthly budget many times over (C6, G4). Relevant only if the company runs in us-east-1 or a similar region.",
-      "limitations": "Search snippets only. The aws.amazon.com fetch failed (host not resolvable in session). Duration figures differ slightly by source (14.5h vs ~15h12m). Customer impact varied by service, so not every workload was down for the full window.",
-      "contradicts": [],
+      "applicability": "Shows that regional outages do occur and can last many hours, which would exceed the monthly budget many times over (C6, G4). Relevant only if the company runs in us-east-1 or a similar region.",
+      "limitations": "Search snippets only. The aws.amazon.com fetch failed (host not resolvable in session). Duration figures differ by source: 14.5h, ~15h12m, and in the follow-up search 23:49 PDT Oct 19 to 15:01 PDT Oct 20, with another source saying the DNS issue itself was mitigated by 3:35 AM PDT. Customer impact varied by service, so not every workload was down for the full window. The trigger was regional, but its blast radius was not confined to us-east-1 workloads (see E21, E22).",
+      "contradicts": [
+        "E21"
+      ],
       "gapIds": [
         "G4"
       ],
@@ -288,8 +264,8 @@
         "https://www.thousandeyes.com/blog/aws-outage-analysis-dec-7-2021",
         "https://parametrixinsurance.com/blog/were-monitoring-and-analyzing-the-aws-cloud-outage"
       ],
-      "applicability": "A second data point for multi-hour regional events at one major provider and region (G4, C6).",
-      "limitations": "Search snippets only. Region-specific (us-east-1), so the provider and region in use here are unknown. Both incidents together do not give a rigorous annual probability.",
+      "applicability": "A second data point for multi-hour regional events at one major provider and region (G4, C6). Route 53 is a global service whose control-plane APIs were impaired by a us-east-1 event, which bears on DNS-based failover (see E28).",
+      "limitations": "Search snippets only. Region-specific (us-east-1), and the provider and region in use here are unknown. The two incidents together do not give a rigorous annual probability.",
       "contradicts": [],
       "gapIds": [
         "G4"
@@ -365,7 +341,7 @@
         "https://www.rubrik.com/insights/aws-disaster-recovery-strategy-guide"
       ],
       "applicability": "Supports warm standby or pilot light as cheaper hedges against region loss (C4, C6, G5).",
-      "limitations": "Search snippets only; pages not fetched. RTO figures are generic. The 'pilot light or warm standby' conclusion comes from one worked example, not a general rule. No dollar costs given.",
+      "limitations": "Search snippets only; pages not fetched. RTO figures are generic design targets, not measured end-to-end times (see E28, E29). The 'pilot light or warm standby' conclusion comes from one worked example, not a general rule. No dollar costs given.",
       "contradicts": [],
       "gapIds": [
         "G5",
@@ -393,7 +369,7 @@
         "https://geosurge.ai/corpus/gen-3695/geo-replication/active-active-geo-replication-conflict-resolution-and-write-semantics.html"
       ],
       "applicability": "Supports the C5 concern that multi-region writes on the ledger carry correctness and delivery risk, made worse because the consistency model is still TBD (E5).",
-      "limitations": "Low-authority sources (blogs and interview-prep pages), seen only as search snippets. Latency figures are rough and depend on the region pair and the database.",
+      "limitations": "Low-authority sources (blogs and interview-prep pages), seen only as search snippets. Latency figures are rough and depend on the region pair and the database. The 100-200 ms figure is not confirmed by an official vendor source (see E31).",
       "contradicts": [],
       "gapIds": [
         "G6"
@@ -414,7 +390,7 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "Explains why the proposed fix fits the observed failure modes poorly (C1).",
+      "applicability": "Explains why the proposed fix fits the observed failure modes poorly (C1). Provider-scale cases of the same failure class are in E23 and E24.",
       "limitations": "Reasoning from the log's cause categories, not empirical data on this system's deploy topology.",
       "contradicts": [
         "E20"
@@ -496,6 +472,374 @@
         "method": "No monitoring data supplied"
       },
       "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E20",
+      "claim": "Premise: region failure is the biggest availability risk (VP Engineering).",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "The C1 premise under test.",
+      "limitations": "The 12-month log contradicts it: 0 region-wide outages and 92/115 minutes from bad deploys.",
+      "contradicts": [
+        "E3",
+        "E4"
+      ],
+      "gapIds": [
+        "G2",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Taken from request.md"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E21",
+      "claim": "During the October 2025 us-east-1 event, AWS status updates (as quoted by secondary outlets) said that global services or features relying on US-EAST-1 endpoints, such as IAM updates and DynamoDB Global Tables, may also be experiencing issues. So the event was not confined to workloads hosted in us-east-1. Global control-plane functions anchored in that region were impaired.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.itweb.co.za/article/aws-hit-by-global-outage/rxP3jMBEeay7A2ye",
+        "title": "AWS hit by global outage (ITWeb)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.roic.ai/news/aws-confirms-major-outage-in-us-east-1-region-disrupting-services-globally-10-20-2025",
+        "https://www.mintlify.com/safesploitOrg/docs/case-studies/aws/2025-10-20"
+      ],
+      "applicability": "D1/G4: a warm-standby or active-active second region at the same provider can still be impaired by a primary-region event if it depends on global control-plane functions such as IAM changes, global tables replication, or a us-east-1-homed control plane. It also means that during such an event, failover actions that need those control planes (e.g. IAM changes, provisioning) may themselves be degraded.",
+      "limitations": "Search snippets only. AWS's own wording is reached through secondary outlets; the AWS post-event summary could not be fetched (aws.amazon.com and docs.aws.amazon.com not resolvable in session). The snippets say IAM 'updates' (control-plane changes) were affected, not necessarily IAM authentication in other regions. The extent of impact on data planes in other regions is not established.",
+      "contradicts": [
+        "E10"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from multiple domains quoting AWS status wording; primary not fetched"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E22",
+      "claim": "Third-party analyses of the October 2025 AWS event argue that services outside us-east-1, including some with multi-region architecture, were affected because many dependencies route through us-east-1: 'geographic deployment and operational independence are not the same thing'.",
+      "source": {
+        "kind": "web",
+        "ref": "https://blog.incidenthub.cloud/definitive-aws-outage-report-2025-reliability",
+        "title": "The Definitive AWS Outage Report 2025"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://scour.ing/p/https://www.techupkeep.dev/blog/aws-outage-october-2025-analysis",
+        "https://blog.vonng.com/en/cloud/aws-dns-failure/"
+      ],
+      "applicability": "D1: multi-region at one provider gives incomplete protection unless hidden global dependencies (IAM, STS, global tables, third-party SaaS hosted in us-east-1) are removed or tested.",
+      "limitations": "Commentary, not AWS statements. The search summary did not attribute each quote to a specific URL, so the source mapping is approximate. Not fetched. A '142 services' figure in some blogs could not be verified.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets; interpretive third-party sources"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E23",
+      "claim": "Google Cloud, 12 June 2025: a quota policy change with unintended blank fields was written to the regional Spanner tables used by Service Control (API authorization and quota) at about 10:45 AM PDT. The metadata replicated globally within seconds and crashed Service Control (secondary sources say a null pointer exception from a code path added 29 May without adequate error handling), impairing Google Cloud, Workspace and Security Operations services across many regions. The official status page lists the incident as 10:51 to 18:18 PDT. Google said existing streaming and IaaS resources were not directly affected by the primary failure, and committed to making Service Control fail open.",
+      "source": {
+        "kind": "web",
+        "ref": "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW",
+        "title": "Google Cloud Service Health incident"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.thousandeyes.com/blog/google-cloud-outage-analysis-june-12-2025",
+        "https://simonwillison.net/2025/Jun/14/google-cloud-outage-incident-report/",
+        "https://www.parametrixinsurance.com/blog/google-cloud-outage-june2025-heres-what-you-should-know"
+      ],
+      "applicability": "D1: a documented case where a globally replicated config/policy push in a shared control plane took down multiple regions at once. Multi-region deployment at the same provider would not have protected against it. It is the provider-scale analogue of the company's own config-deploy incidents (E3, E16).",
+      "limitations": "Search snippets only; the official report was not fetched. Durations in secondary sources vary (about 3 hours to about 7 hours); 10:51-18:18 PDT is the official incident window, and many services recovered earlier. Null-pointer and 29 May details come from secondary write-ups.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets incl. official status page excerpt and independent analyses"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E24",
+      "claim": "Microsoft Azure Front Door (AFD) and Azure CDN, 29 October 2025: customer configuration changes made across two different AFD control-plane build versions produced incompatible configuration metadata. Combined with a latent data-plane bug, this crashed AFD edge servers globally and impaired an internal DNS service. Customer impact ran from about 15:41 UTC on 29 Oct to 00:05 UTC on 30 Oct (some sources give a 15:45 start). A separate AFD incident on 9 October 2025 was also attributed to erroneous metadata propagating through the system.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.thousandeyes.com/blog/microsoft-azure-front-door-outage-analysis-october-29-2025",
+        "title": "Microsoft Azure Front Door outage analysis, October 29 2025"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://ivision.com/blog/azure-front-door-outage",
+        "https://helpdeskgeek.com/microsoft-azure-outage-what-happened-and-how-it-was-fixed/",
+        "https://status.cambrionix.com//incidents/01K9SX68G1VRSQHZF0ZR8X5XXS"
+      ],
+      "applicability": "D1: a second documented case where a global edge/DNS layer shared by all regions failed through config propagation. Any workload fronted by that global service was affected regardless of how many backend regions it used. Shows that a global traffic layer (CDN/front door/global DNS) is itself a single point of failure for multi-region designs.",
+      "limitations": "Search snippets of secondary write-ups and status-page mirrors. The official Microsoft PIR (aka.ms/air/YKYN-BWZ) was not retrieved. The about 8.4 hour duration is my reading of the stated timestamps.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from multiple independent domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E25",
+      "claim": "Amazon Aurora Global Database (asynchronous storage-level cross-region replication): AWS documentation says that for managed failover, data loss depends on the cross-region replication lag at the time of failure. RPO is typically measured in seconds and RTO can be in the order of minutes. An AWS-authored design-patterns deck says secondary replicas typically lag the primary by under 1 second. An optional managed-RPO feature (Aurora PostgreSQL) monitors lag so that at least one secondary stays within a target RPO window.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html",
+        "title": "Using switchover or failover in an Amazon Aurora global database"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://postgresconf.org/system/events/document/000/001/936/Aurora_Global_Database_Design_Patterns_for_HA_DR_final.pdf",
+        "https://aws.amazon.com/ru/about-aws/whats-new/2020/06/amazon-aurora-postgresql-global-database-supports-managed-recovery-point-objective-RPO/"
+      ],
+      "applicability": "D3/G6: typical RPO for managed asynchronous cross-region DB replication is seconds (sub-second typical lag), not zero. For a financial ledger, seconds of acknowledged-but-unreplicated writes may be lost on unplanned regional failover unless the business accepts that or uses synchronous replication (E31).",
+      "limitations": "Search snippets only. The WebFetch of the docs page failed (docs.aws.amazon.com not resolvable in session). 'Under 1 second' is a typical figure from a conference deck, not a guarantee. Lag can spike under write load or network impairment. Figures apply to Aurora specifically; other databases (e.g. vanilla PostgreSQL or MySQL async replicas) will differ. The company's DB engine is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Search snippets; WebFetch of docs.aws.amazon.com failed with ENOTFOUND"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E26",
+      "claim": "An AWS Database Blog post on managed planned failovers states that Aurora Global Database does not provide a managed unplanned failover feature, which implies that unplanned regional failover required manual detach/promote steps.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/blogs/database/managed-planned-failovers-with-amazon-aurora-global-database",
+        "title": "Managed planned failovers with Amazon Aurora Global Database"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D3: if current, manual promotion would add operator time to end-to-end RTO.",
+      "limitations": "Single search snippet. The post appears to be dated and is likely superseded (see E27). Not fetched.",
+      "contradicts": [
+        "E27"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Single search snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E27",
+      "claim": "A 2026 third-party guide describes unplanned Aurora Global Database failover via the failover-global-cluster command with --allow-data-loss, i.e. a managed unplanned failover that explicitly accepts losing unreplicated writes.",
+      "source": {
+        "kind": "web",
+        "ref": "https://oneuptime.com/blog/post/2026-03-20-aurora-global-databases-opentofu/view",
+        "title": "How to Deploy Aurora Global Databases with OpenTofu"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D3: confirms that unplanned failover on async replication is a data-loss-accepting operation, so RPO > 0 unless lag is zero at failure time.",
+      "limitations": "Single third-party search snippet; not checked against the current AWS CLI reference (docs.aws.amazon.com not resolvable).",
+      "contradicts": [
+        "E26"
+      ],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Single search snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E28",
+      "claim": "An engineering blog's breakdown of a pilot light regional failover on AWS gives about 10-30 minutes end to end: detection via CloudWatch alarm or Route 53 health check about 1-2 minutes, Route 53 failover record update including TTL and propagation about 1-3 minutes, and scaling the recovery Auto Scaling group 5-15 minutes depending on AMI cache and warm-pool configuration. Warm standby avoids most of the scale-out step and is generally quoted at minutes of RTO. AWS architecture guidance notes that Route 53 Application Recovery Controller routing controls act as highly available on/off switches for manually initiated failover.",
+      "source": {
+        "kind": "web",
+        "ref": "https://oneuptime.com/blog/post/2026-02-12-multi-region-active-passive-pilot-light-aws/view",
+        "title": "How to Set Up Multi-Region Active-Passive (Pilot Light) on AWS"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://aws.amazon.com/jp/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-iii-pilot-light-and-warm-standby/",
+        "https://aws.amazon.com/application-recovery-controller/multi-region-recovery/"
+      ],
+      "applicability": "D3/G5: even an optimistic automated pilot light failover (10-30 min) exceeds the 21.6-minute monthly budget, and a warm standby with human decision time will consume a large share of it. Neither prevents an SLA miss in a month with a regional event; both shorten it from hours (E10, E11) to minutes or tens of minutes.",
+      "limitations": "The step breakdown comes from one blog (search snippet). The AWS sources corroborate only the qualitative points (warm standby RTO lower than pilot light; ARC for manual failover), not the minute figures. No official AWS end-to-end failover time was found. The figures exclude human decision/escalation time, DB promotion (E25) and client DNS caching beyond TTL, and they assume the control planes used for failover are healthy (cf. E11, E21).",
+      "contradicts": [
+        "E29"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets; no page fetched"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E29",
+      "claim": "Other DR guides and study materials give much longer pilot light RTOs: 'tens of minutes to 1 hour', '30-60 minutes', and '1-4 hours'. Published example timings are described as design targets, not guarantees.",
+      "source": {
+        "kind": "web",
+        "ref": "https://open-exam-prep.com/study-guides/aws-devops-pro/scalability-autoscaling-disaster-recovery/disaster-recovery-rto-rpo-tiers",
+        "title": "8.3 Disaster Recovery Strategies: RTO, RPO & Architecture Tiers"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://opsiocloud.com/blogs/cloud-failover-patterns-pilot-light-warm-standby-active-active/",
+        "https://hidekazu-konishi.com/entry/aws_disaster_recovery_strategies_guide.html"
+      ],
+      "applicability": "D3: realistic pilot light RTO ranges from tens of minutes to hours depending on automation, rehearsal and decision latency. Warm standby sits at the lower end.",
+      "limitations": "Low-authority study-guide and vendor sources. The search summary did not map each figure to a specific URL, so per-figure attribution is uncertain. Snippets only.",
+      "contradicts": [
+        "E28"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E30",
+      "claim": "Google Cloud Spanner uses synchronous Paxos-based replication: voting replicas vote on every write, and a write commits once a majority agrees. In multi-region configurations every write needs a quorum across replicas in more than one region, so writes have higher latency than in single-region instances. Read-only replicas do not vote and do not add write latency. Google says RPO and RTO are 0 for a multi-region configuration when writes come from near the default leader region.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.cloud.google.com/spanner/docs/replication",
+        "title": "Spanner replication"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/demystifying-cloud-spanner-multi-region-configurations",
+        "https://cloud.google.com/blog/topics/developers-practitioners/reduce-latency-with-cloud-spanner-multi-region-leader-placement"
+      ],
+      "applicability": "D3/G6: near-zero-RPO cross-region standby is achievable with synchronous quorum replication, at the cost of cross-region round-trip latency on every write. It typically needs three or more locations for quorum rather than two (consistent with E15's split-brain concern).",
+      "limitations": "Snippets only. All sources are Google (different domains but the same vendor, so not fully independent). No specific millisecond figures retrieved from an official source. The 100-200 ms figure in E15 is from low-authority blogs, and actual cost depends on region-pair distance. Spanner-specific; adopting it would mean a database migration.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from Google docs and blog"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E31",
+      "claim": "An engineering post on cross-region single-leader replication (PostgreSQL) notes that synchronous cross-region acknowledgment puts the wide-area network directly into the commit path. A synchronous setting without selected standbys does not create cross-region durability, and acknowledgment alone does not guarantee zero loss of acknowledged writes if the primary site disappears before the standby catches up (e.g. remote_write vs applied semantics).",
+      "source": {
+        "kind": "web",
+        "ref": "https://oneuptime.com/blog/post/2026-09-23-cross-region-single-leader-replication-latency/markdown",
+        "title": "How to Design Cross-Region Single-Leader Replication Without Surprise Latency"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D3/G6: zero-RPO standby on a conventional RDBMS is possible with synchronous or semi-synchronous replication, but every commit then pays at least one cross-region round trip, and the guarantee depends on configuration details. This is a cheaper middle option than multi-writer active-active for the ledger.",
+      "limitations": "Single third-party snippet. No latency numbers retrieved. MySQL semi-synchronous replication specifics were not found (see E32).",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Single search snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E32",
+      "claim": "No authoritative figures were found for (a) MySQL semi-synchronous cross-region commit latency, (b) measured (as opposed to design-target) end-to-end warm standby failover times including human decision time, or (c) a vendor-published end-to-end regional failover time.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "D3: limits how precisely the warm standby / pilot light alternative's SLA impact can be quantified.",
+      "limitations": "Search budget exhausted. docs.aws.amazon.com and aws.amazon.com were not fetchable in this session.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Searches returned no authoritative source"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E33",
+      "claim": "Taken together, E21-E24 show that the largest recent cloud outages often spread through shared global layers (control-plane endpoints anchored in one region, globally replicated policy/config, global edge/DNS) rather than staying inside one region. A same-provider second region does not remove these dependencies. Config-push failures at provider scale are the same failure class as the company's own dominant incident cause (bad config/deploy pushes, E3).",
+      "source": {
+        "kind": "web",
+        "ref": "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.thousandeyes.com/blog/microsoft-azure-front-door-outage-analysis-october-29-2025",
+        "https://www.itweb.co.za/article/aws-hit-by-global-outage/rxP3jMBEeay7A2ye"
+      ],
+      "applicability": "D1/C1/C6: strengthens the case that region-scoped redundancy addresses only part of provider-outage risk, and that change-safety controls (staged, validated, fail-open config rollout) target both the company's and the providers' dominant failure mode.",
+      "limitations": "Synthesis across snippet-level sources. Three or four events are anecdotes, not a base rate. No documented multi-region outage caused by certificate issuance was retrieved in this run (not searched due to budget).",
+      "contradicts": [
+        "E20"
+      ],
+      "gapIds": [
+        "G4",
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Reasoning over E21-E24"
+      },
+      "untrustedInstructionsObserved": false
     }
   ],
   "unresolvedGaps": [
@@ -505,15 +849,15 @@
     },
     {
       "gapId": "G4",
-      "reason": "The provider and region in use are unknown. Only two anecdotal multi-hour us-east-1 events (Oct 2025 ~14.5h, Dec 2021 ~7h) were found via search snippets. There is no authoritative base rate. The aws.amazon.com fetch failed (host not resolvable in session)."
+      "reason": "The provider and region in use are unknown, and there is no authoritative base rate for regional outages. Primary post-event summaries (AWS 101925, Google incident report, Microsoft PIR YKYN-BWZ) were seen only through search snippets. aws.amazon.com and docs.aws.amazon.com fetches failed with ENOTFOUND and would need to be allowed in the session's network settings. Whether IAM authentication (as opposed to IAM updates) failed in other regions during Oct 2025 is not established. No documented certificate-issuance-driven multi-region outage was retrieved (search budget exhausted)."
     },
     {
       "gapId": "G5",
-      "reason": "No company-specific costs or downtime-reduction estimates exist for the targeted alternatives. Only generic AWS DR strategy guidance (via snippets) was available."
+      "reason": "No company-specific costs or downtime-reduction estimates exist for the targeted alternatives. End-to-end failover times for pilot light and warm standby come only from blogs and study guides, and they conflict (about 10-30 min vs 30-60 min vs 1-4 h). No official AWS measured figure was found."
     },
     {
       "gapId": "G6",
-      "reason": "The ledger DB's consistency model and RPO/RTO are TBD in the estimate. Only general (low-authority) sources on active-active write conflicts were found. The delivery timeline needs platform team confirmation."
+      "reason": "The ledger DB's consistency model, engine and RPO/RTO are TBD. Async replication RPO (seconds, typical lag under 1 s for Aurora) and synchronous-replication trade-offs are documented only qualitatively. No authoritative millisecond latency figures for synchronous or semi-synchronous cross-region commits (incl. MySQL semi-sync) were retrieved. The delivery timeline needs platform team confirmation."
     },
     {
       "gapId": "G1",

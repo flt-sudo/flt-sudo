@@ -1,0 +1,65 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Nominal lease total is $552,000, not $480k",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "PV of lease ~ $471k",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Buy PV includes service and resale (~$476k)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Usage horizon beyond 48 months / no purchase option matters",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses lease costing the same $480k total",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Endorses 'free financing'",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Nominal total lease payments (USD)",
+    "pass": true,
+    "detail": "value ≈ 552000 present"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "PV of lease payments at 8%/12, 48 months, arrears (USD)",
+    "pass": true,
+    "detail": "value ≈ 471062 present"
+  },
+  {
+    "id": "V3",
+    "kind": "numeric",
+    "description": "PV cost of buying incl. service and resale (USD)",
+    "pass": true,
+    "detail": "value ≈ 476020 present"
+  }
+]

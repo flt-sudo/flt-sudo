@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T032622-3e757f0e",
+  "caseId": "ho-07-lease-vs-buy-sequencer",
+  "system": "baseline",
+  "createdAt": "2026-11-11T03:26:22.864Z",
+  "request": "Our genomics lab needs a new sequencer. We can buy it for $480,000 or lease it for $11,500 a month over 48 months. Our controller's memo says the lease 'costs the same $480k in total, so it's effectively free financing and an easy yes'. Our cost of capital is 8% per year. The vendor quote and the controller's memo are attached. Should we lease or buy? Please show the numbers I can put in front of the CFO.",
+  "fixtures": [
+    "vendor-quote.md",
+    "controller-memo.md",
+    "finance-assumptions.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

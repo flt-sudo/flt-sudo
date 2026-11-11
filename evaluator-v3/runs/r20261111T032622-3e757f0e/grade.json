@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T032622-3e757f0e",
+  "caseId": "ho-07-lease-vs-buy-sequencer",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 91.25,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "A strong output that matches the reference on every key number and on the qualitative conclusion. Accuracy and clarity were held at 0.75 under the choose-lower rule. For accuracy: the monthly-equivalent range is slightly inconsistent with the table, and bridge-cost market claims are unsupported. For clarity: input facts are not attributed to specific supplied documents. Neither mustNotClaim pattern appears in an endorsing sense; the phrases 'free financing' and 'lease totals $552,000, not $480,000' appear only as rebuttals."
+}

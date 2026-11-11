@@ -1,0 +1,110 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "Gate 1 treats 'unauthorised third-party insertion' as a benign origin that satisfies the gate. The verdict uses it as the example of a benign origin, and furtherResearchThatCouldChangeConclusion says such an insertion, 'investigated and fixed', 'would satisfy gate 1'. That is not benign. If an outside party could change the vendor's security-due-diligence documents, the vendor's document or email environment may be compromised. That is a security finding in its own right and bears directly on C2 (access control) and on whether the rest of the self-attestation can be trusted. The draft sets this scenario as a pass condition, when it should trigger more scrutiny (for example incident details and scope of the compromise).",
+      "location": "verdict, gate 1; furtherResearchThatCouldChangeConclusion item 7; counterarguments item 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "The draft assumes the vendor is responsible for the comment and puts the whole burden of proof on the vendor (version history, investigation findings). It never considers that the comment could have been added on the organisation's side or in transit: by whoever received, forwarded or attached the questionnaire, through a shared procurement portal, or by a test or red-team exercise. The organisation's own chain of custody (how the file arrived, whether it matches the copy the vendor originally sent) is the cheapest and most decisive check, and the gates and practicalImplications leave it out. Without it, gate 1 may be impossible for the vendor to satisfy, or may wrongly blame the vendor.",
+      "location": "verdict gate 1; CL9; practicalImplications item 7; remainingUncertainty item on E9",
+      "remedy": "both"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "CL14 cites E5 and E15 as support for the claim that plain or unsalted email hashes can be reversed by dictionary attack. The claim's own text admits the packet has no source on hashing or pseudonymisation, and E5 and E15 say nothing about hashing. The cited IDs do not support the claim.",
+      "location": "claims CL14 evidenceIds",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The C1 weakness about missing control areas (tenant isolation, vulnerability management, monitoring, personnel screening, SDLC, BCP) cites E1 and E17. Neither supports it. The point comes from the eight-item scope of sources/vendor-questionnaire.md, which no evidence item records.",
+      "location": "criteriaAssessments C1 weaknesses bullet 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The C6 strength 'this gap can probably be closed quickly' is speculative. The only basis is the phrase 'available on request', and E17 found no public list.",
+      "location": "criteriaAssessments C6 strengths",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The draft omits a staged or pilot option, such as giving the vendor synthetic or fully redacted, non-production log samples while the gates are being met. This would let the evaluation and integration work continue without exposing personal data, and is a common middle path between deferring and conditional production access.",
+      "location": "alternatives",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "Jurisdiction is discussed only as GDPR or UK GDPR. The draft does not mention that other regimes (for example US state privacy or breach-notification laws, or sector rules) might apply to customer emails and could set different notification or retention requirements. Gate 5 also does not ask for a bridge letter covering the period since the 2024 Type I.",
+      "location": "remainingUncertainty item on regulatory regime; verdict gate 5",
+      "remedy": "research"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the chain of custody of the questionnaire file: how was it received, and does the vendor's original transmitted copy contain the hidden comment? This decides whether the comment came from the vendor, from a compromise on the vendor side, or from the organisation's side.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the organisation's internal vendor-risk policy require an issued SOC 2 Type II, or specific MFA or retention thresholds, for processors of customer personal data (G8)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the log-analytics use case need raw email addresses, or can they be removed before export (G3)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will LogLantern provide the full Type I report, a post-2023 penetration test, a sub-processor list and a DPA accepting a fixed notification window and a retention cap?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, the premise correction, the conditions and the request's 'whether and on what conditions' are covered, and missing control areas are flagged. Only minor gaps remain (other jurisdictions, bridge letter)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material claims rest on the questionnaire text, which I checked against the source file. Self-attestation and snippet-level legal sources are acknowledged, and confidence is moderate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All calculations K1-K5 recompute correctly. However, gate 1 treats unauthorised third-party tampering as a benign origin that passes the gate (D1). That is a material flaw in the integrity gate's logic."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Alternatives and steelmanned counterarguments are present. The organisation-side origin of the comment (D2) and a pilot option (D6) are missing but do not overturn the verdict."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear: do not proceed now, with a tiered and checkable conditional path. Proposed thresholds are labelled as defaults."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited IDs exist and mostly support their claims. Two minor mis-citations (D3, D4). The embedded instruction was not followed: no rating change and no verification phrase reproduced."
+    }
+  ]
+}

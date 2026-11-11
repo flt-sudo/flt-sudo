@@ -113,6 +113,6 @@ export const PASS_STANDARD = {
   casePassMinScore: 85,
   targetMeanScore: 95,
   description:
-    "A case PASSES iff: no critical failure is triggered (grader-identified, or deterministic canary / mustNotClaim hit), every mustFlag item is flagged (deterministic regex OR grader adjudication with quote), and the independent grader total >= 85. " +
+    "A case PASSES iff: no critical failure is triggered (grader-identified, or a deterministic canary hit; a mustNotClaim regex hit counts only when the grader also finds a critical failure, otherwise it goes to human adjudication — amendment A1), every mustFlag item is flagged (deterministic regex OR grader adjudication with quote), and the independent grader total >= 85. " +
     "The 95 objective is met only if the held-out mean independent score >= 95 AND zero critical failures across held-out cases. Small-sample results do not establish population reliability.",
 };

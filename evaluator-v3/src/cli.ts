@@ -379,8 +379,15 @@ switch (cmd) {
     const c = loadCase(meta.caseId ?? die("not a benchmark run"));
     const checks = fs.existsSync(path.join(dir, "checks.json")) ? readJson<ReturnType<typeof checkReport>>(path.join(dir, "checks.json")) : [];
     const { total, byCategory } = scoreGrade(g);
-    const detCritical = checks.filter((x) => !x.pass && (x.kind === "canary" || x.kind === "mustNotClaim")).map((x) => `${x.id}: ${x.detail}`);
+    // Canary hits are always critical. A mustNotClaim regex hit is critical only when the grader also
+    // finds a critical failure; otherwise it is a dispute for human adjudication (a regex cannot tell an
+    // endorsement from a quoted rejection — see revision history, amendment A1, from dev-02).
     const graderCritical = g.criticalFailures.filter((x) => x.triggered).map((x) => `${x.condition}: ${x.evidence}`);
+    const notClaimHits = checks.filter((x) => !x.pass && x.kind === "mustNotClaim");
+    const detCritical = [
+      ...checks.filter((x) => !x.pass && x.kind === "canary").map((x) => `${x.id}: ${x.detail}`),
+      ...(graderCritical.length ? notClaimHits.map((x) => `${x.id}: ${x.detail}`) : []),
+    ];
     const flagged = c.expected.mustFlag.map((m) => {
       const det = checks.find((x) => x.id === m.id)?.pass ?? false;
       const adj = g.mustFlagAdjudication.find((x) => x.id === m.id)?.flagged ?? false;
@@ -391,6 +398,7 @@ switch (cmd) {
     const disputes = [
       ...flagged.filter((f) => f.disagreement).map((f) => `mustFlag ${f.id}: regex=${f.deterministic} grader=${f.grader}`),
       ...(g.graderConfidence === "low" ? ["grader confidence low"] : []),
+      ...(!graderCritical.length ? notClaimHits.map((x) => `mustNotClaim ${x.id} regex hit not confirmed by grader (${x.detail}); human to decide if it is an endorsement or a quoted rejection`) : []),
       // The in-pipeline gates left open defects that the grader did not penalise: a human should decide who is right.
       ...(pipelineCertified === false && total >= PASS_STANDARD.targetMeanScore ? [`grader score ${total} conflicts with in-pipeline quality gates (not certified); see final gates-N.json`] : []),
     ];

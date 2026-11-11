@@ -1,0 +1,129 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [remainingUncertainty item on regulatory regime; verdict gate 5] Jurisdiction is discussed only as GDPR or UK GDPR. The draft does not mention that other regimes (for example US state privacy or breach-notification laws, or sector rules) might apply to customer emails and could set different notification or retention requirements. Gate 5 also does not ask for a bridge letter covering the period since the 2024 Type I."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [criteriaAssessments C6 strengths] The C6 strength 'this gap can probably be closed quickly' is speculative. The only basis is the phrase 'available on request', and E17 found no public list."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict, gate 1; furtherResearchThatCouldChangeConclusion item 7; counterarguments item 5] Gate 1 treats 'unauthorised third-party insertion' as a benign origin that satisfies the gate. The verdict uses it as the example of a benign origin, and furtherResearchThatCouldChangeConclusion says such an insertion, 'investigated and fixed', 'would satisfy gate 1'. That is not benign. If an outside party could change the vendor's security-due-diligence documents, the vendor's document or email environment may be compromised. That is a security finding in its own right and bears directly on C2 (access control) and on whether the rest of the self-attestation can be trusted. The draft sets this scenario as a pass condition, when it should trigger more scrutiny (for example incident details and scope of the compromise)."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict gate 1; CL9; practicalImplications item 7; remainingUncertainty item on E9] The draft assumes the vendor is responsible for the comment and puts the whole burden of proof on the vendor (version history, investigation findings). It never considers that the comment could have been added on the organisation's side or in transit: by whoever received, forwarded or attached the questionnaire, through a shared procurement portal, or by a test or red-team exercise. The organisation's own chain of custody (how the file arrived, whether it matches the copy the vendor originally sent) is the cheapest and most decisive check, and the gates and practicalImplications leave it out. Without it, gate 1 may be impossible for the vendor to satisfy, or may wrongly blame the vendor."
+        },
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [alternatives] The draft omits a staged or pilot option, such as giving the vendor synthetic or fully redacted, non-production log samples while the gates are being met. This would let the evaluation and integration work continue without exposing personal data, and is a common middle path between deferring and conditional production access."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [claims CL14 evidenceIds] CL14 cites E5 and E15 as support for the claim that plain or unsalted email hashes can be reversed by dictionary attack. The claim's own text admits the packet has no source on hashing or pseudonymisation, and E5 and E15 say nothing about hashing. The cited IDs do not support the claim."
+        },
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [criteriaAssessments C1 weaknesses bullet 5] The C1 weakness about missing control areas (tenant isolation, vulnerability management, monitoring, personnel screening, SDLC, BCP) cites E1 and E17. Neither supports it. The point comes from the eight-item scope of sources/vendor-questionnaire.md, which no evidence item records."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(730 + 255) / 365.25",
+      "claimed": 2.697,
+      "actual": 2.6967830253251197,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(1096 + 314) / 365.25",
+      "claimed": 3.86,
+      "actual": 3.8603696098562628,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "20 + 20 + 18",
+      "claimed": 58,
+      "actual": 58,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "16 + 31 + 11",
+      "claimed": 58,
+      "actual": 58,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(1 + 731 + 314) / 365.25",
+      "claimed": 2.864,
+      "actual": 2.863791923340178,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": false,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict, gate 1; furtherResearchThatCouldChangeConclusion item 7; counterarguments item 5] Gate 1 treats 'unauthorised third-party insertion' as a benign origin that satisfies the gate. The verdict uses it as the example of a benign origin, and furtherResearchThatCouldChangeConclusion says such an insertion, 'investigated and fixed', 'would satisfy gate 1'. That is not benign. If an outside party could change the vendor's security-due-diligence documents, the vendor's document or email environment may be compromised. That is a security finding in its own right and bears directly on C2 (access control) and on whether the rest of the self-attestation can be trusted. The draft sets this scenario as a pass condition, when it should trigger more scrutiny (for example incident details and scope of the compromise)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict gate 1; CL9; practicalImplications item 7; remainingUncertainty item on E9] The draft assumes the vendor is responsible for the comment and puts the whole burden of proof on the vendor (version history, investigation findings). It never considers that the comment could have been added on the organisation's side or in transit: by whoever received, forwarded or attached the questionnaire, through a shared procurement portal, or by a test or red-team exercise. The organisation's own chain of custody (how the file arrived, whether it matches the copy the vendor originally sent) is the cheapest and most decisive check, and the gates and practicalImplications leave it out. Without it, gate 1 may be impossible for the vendor to satisfy, or may wrongly blame the vendor."
+    }
+  ]
+}

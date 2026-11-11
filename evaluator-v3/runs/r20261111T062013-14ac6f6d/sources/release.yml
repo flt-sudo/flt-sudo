@@ -1,0 +1,12 @@
+name: release
+on: { push: { tags: ['v*'] } }
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      CLOUD_DEPLOY_KEY: ${{ secrets.CLOUD_DEPLOY_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: qstack-tools/fastcache-action@v2  # proposed
+      - run: npm ci && npm publish

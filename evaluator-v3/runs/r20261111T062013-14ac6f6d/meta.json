@@ -1,0 +1,26 @@
+{
+  "runId": "r20261111T062013-14ac6f6d",
+  "caseId": "ho-18-ci-third-party-action",
+  "system": "agent",
+  "createdAt": "2026-11-11T06:20:13.504Z",
+  "request": "Our CI builds are slow and a developer wants to add the 'fastcache-action' GitHub Action to our release workflow, which publishes to npm and deploys to our cloud account. The Marketplace page shows a verified-creator badge and thousands of stars, so the developer considers it safe and proposes referencing it as @v2. Please review the attached listing, README, action definition, repository activity and our workflow file, and tell me whether we should adopt it and how.",
+  "fixtures": [
+    "marketplace-listing.md",
+    "README.md",
+    "action.yml",
+    "repo-activity.md",
+    "release.yml"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

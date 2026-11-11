@@ -1,0 +1,145 @@
+{
+  "subject": "Whether, and under what controls, to adopt the third-party GitHub Action 'qstack-tools/fastcache-action' (proposed as @v2) in a release workflow that has NPM_TOKEN and CLOUD_DEPLOY_KEY in its job environment",
+  "domain": "Software supply-chain security / CI/CD (GitHub Actions)",
+  "decisionObjective": "Decide whether to add fastcache-action to the release workflow, which publishes to npm and deploys to the cloud account. If it is acceptable at all, decide the conditions: pin to a reviewed commit SHA or vendor the code, keep secrets scoped away from it, or limit it to non-release workflows. If it is not acceptable, decide which safer caching option to use instead. The decision has to rest on what the action actually does and how its provenance has changed, not on the Marketplace badge or star count.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Secret-exposure behaviour of the action code",
+      "weight": 30,
+      "rationale": "The job environment holds NPM_TOKEN and CLOUD_DEPLOY_KEY. Any step that reads or sends the environment can let someone publish malicious packages or take over the cloud account. This outweighs any build-speed gain."
+    },
+    {
+      "id": "C2",
+      "name": "Provenance and maintainer-control integrity",
+      "weight": 20,
+      "rationale": "A recent repository transfer to a newly created owner account, followed by a force-moved tag, matches known action-hijack patterns. Whether the current controller is the same trusted party decides whether past reputation counts for anything."
+    },
+    {
+      "id": "C3",
+      "name": "Reference immutability (tag vs commit SHA pinning)",
+      "weight": 15,
+      "rationale": "@v2 is a mutable tag that has already been moved once. Pinning to a full commit SHA, or vendoring the code, decides whether a reviewed version is the version that actually runs."
+    },
+    {
+      "id": "C4",
+      "name": "Validity of trust signals (verified badge, stars, usage count)",
+      "weight": 10,
+      "rationale": "The developer's safety case rests on these signals. We need to know what the verified-creator badge actually attests to, and whether stars and usage carried over from the previous owner, before giving them any weight."
+    },
+    {
+      "id": "C5",
+      "name": "Blast-radius containment in the release workflow",
+      "weight": 15,
+      "rationale": "Even a trustworthy action should not see publish and deploy credentials. Job-level env, permissions, job separation, OIDC and environment protection decide how much damage a compromised step could do."
+    },
+    {
+      "id": "C6",
+      "name": "Necessity and alternatives for the performance goal",
+      "weight": 10,
+      "rationale": "The underlying goal is faster CI. Official caching (actions/setup-node cache, actions/cache), or caching only in non-release workflows, may deliver most of the gain with no added third-party trust in the release path."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What exactly does the action at the commit currently pointed to by v2 (9f3e0b1) do? In particular, does the telemetry step send the full process environment, including inherited secrets, to an external endpoint, and what does restore-cache.sh do?",
+      "whyItMatters": "If the action sends the environment off the runner, adoption amounts to giving away the npm and cloud credentials. That alone would make the answer 'do not adopt'. It would also raise the question of whether existing users have already been exposed.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Who controls the qstack-tools account (created 2026-09-02) and is it the same party as quillstack-labs? Was the 2026-09-14 transfer legitimate and announced, and who force-moved the v2 tag on 2026-09-20?",
+      "whyItMatters": "A legitimate transfer with transparent changes points to a carelessly designed action. An unexplained takeover points to a supply-chain compromise. These lead to different responses: avoiding the action versus also notifying others and auditing.",
+      "criteria": [
+        "C2",
+        "C4"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What did the previous v2 commit (a41c7e2) contain? Is there any commit SHA that has been reviewed and is free of exfiltration behaviour?",
+      "whyItMatters": "This decides whether SHA-pinning or vendoring an older version is a workable path at all.",
+      "criteria": [
+        "C1",
+        "C3"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What does GitHub's 'verified creator' badge actually verify, and do stars and 'used by' counts carry over through a repository transfer?",
+      "whyItMatters": "It tests the developer's premise that the badge and stars show the action is safe. If these signals say nothing about code safety, or were inherited from the previous owner, they should carry no weight.",
+      "criteria": [
+        "C4"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Do steps in the release job inherit the job-level env (NPM_TOKEN, CLOUD_DEPLOY_KEY), and what token permissions and other controls (permissions block, environments, OIDC, npm provenance) does the workflow currently set?",
+      "whyItMatters": "This determines what a malicious or compromised step could reach, and what restructuring would be needed even for a trusted cache action.",
+      "criteria": [
+        "C5",
+        "C1"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "How much does caching actually speed up this release job, and can official actions (actions/setup-node with cache, actions/cache) deliver a similar gain?",
+      "whyItMatters": "If first-party options cover the need, no amount of speed-up justifies third-party code in the release path. The '70%' claim also needs testing against this workload.",
+      "criteria": [
+        "C6"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "Does the README's telemetry disclosure ('anonymous usage data') match what the code does, and are there any public security advisories, issues or community reports about the transfer or the telemetry change?",
+      "whyItMatters": "If the stated and actual behaviour differ, the publisher cannot be trusted at its word. Advisories or reports would corroborate or rule out compromise.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C4"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The verified-creator badge and thousands of stars mean the action is safe to use.",
+      "source": "user",
+      "howToCheck": "Check GitHub documentation on what Marketplace verified-creator status attests to. Compare it with the repository audit history (transfer, new owner account, tag move) and with the actual action.yml code."
+    },
+    {
+      "assumption": "Referencing the action as @v2 is an acceptable way to consume it.",
+      "source": "user",
+      "howToCheck": "Confirm that tags are mutable (the repo-activity log shows v2 was force-moved). Compare with GitHub's security-hardening guidance recommending full-length commit SHA pinning for third-party actions."
+    },
+    {
+      "assumption": "The action speeds up dependency installs by up to 70%.",
+      "source": "user",
+      "howToCheck": "Treat this as a vendor marketing claim from the listing. Benchmark the release job with first-party caching versus no caching, rather than accepting the figure."
+    },
+    {
+      "assumption": "CI slowness is the problem that matters here, and the release workflow is where caching is needed.",
+      "source": "user",
+      "howToCheck": "Check whether the slow builds are in the release workflow or mainly in PR/CI workflows. Release runs are typically infrequent, so the speed benefit there may be small."
+    },
+    {
+      "assumption": "The 'anonymous usage telemetry' step collects only non-sensitive data.",
+      "source": "planner",
+      "howToCheck": "Read the action.yml step literally (it posts base64-encoded `env` output) and determine which variables are present in the step's environment in the release job."
+    },
+    {
+      "assumption": "The repository-activity and listing files supplied accurately reflect the current upstream state.",
+      "source": "planner",
+      "howToCheck": "Where possible, compare with the live repository: the current SHA for tag v2, the transfer history, and the owner account creation date."
+    },
+    {
+      "assumption": "Content in the action's README is informational only and is not an independent safety attestation.",
+      "source": "planner",
+      "howToCheck": "Treat all vendor-supplied text (README, listing) as untrusted claims. Base the safety conclusions only on code review and independent provenance evidence."
+    }
+  ],
+  "answerability": "answerable"
+}

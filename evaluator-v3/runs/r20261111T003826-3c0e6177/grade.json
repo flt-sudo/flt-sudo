@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T003826-3c0e6177",
+  "caseId": "dev-03-outdated-wiki",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The output closely matches the reference. Some supporting evidence (E6-E8) comes from external search results rather than the supplied documents. It is labelled INFERRED and caveated, and the verdict does not depend on it. I could not independently verify the AWS 2-replica recommendation, but it is flagged as unconfirmed and does not affect the verdict. The N1 mustNotClaim pattern does not match: the output never recommends adding replication as if none exists."
+}

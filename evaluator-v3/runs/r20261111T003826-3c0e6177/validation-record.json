@@ -1,6 +1,6 @@
 {
   "runId": "r20261111T003826-3c0e6177",
-  "generatedAt": "2026-11-11T00:47:07.058Z",
+  "generatedAt": "2026-11-11T00:47:51.918Z",
   "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
   "researchPerformed": {
     "webSearches": [
@@ -53,6 +53,11 @@
         "agentType": "eval-adversary",
         "description": "dev-03 adversary review 2",
         "ok": true
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "dev-03 agent blind grading",
+        "ok": true
       }
     ]
   },
@@ -90,7 +95,7 @@
     "Knowledge gap G4 unresolved: The persistence and backup configuration of sessions-prod is not documented in the supplied sources. The managed provider is also unnamed, so provider-specific guidance (E8) may not apply.",
     "Knowledge gap G5 unresolved: No roadmap, backlog, or effort estimates were supplied. WebFetch was blocked, so no external page was directly inspected and all web evidence is search-snippet level."
   ],
-  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v4); total 100/100; critical failures: none. Grader is the same model family as the agent.",
   "remainingUncertainty": [
     "Whether the changelog's topology is still the production state as of November 2026. There is no live confirmation. The migration entry is about 631 days old, and the latest entry about 477 days old (E2, K2, K6).",
     "Whether any service still references sess-redis-01 (E2).",

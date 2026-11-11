@@ -1,0 +1,90 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual roadmap decision and covers all three mustFlag issues: the stale wiki, the existing Valkey replication and the open INC-2291 retry item. It adds relevant expert checks (persistence/backups, failover tuning, sess-redis-01 references) and has only minor tangential material (the K4 ratio, the ElastiCache 2-replica option).",
+      "quotes": [
+        "Do not put 'add replication to the session store' on next quarter's roadmap.",
+        "Close the INC-2291 action item 'client retry/backoff on MOVED/failover errors'",
+        "Find out whether persistence or backups are on for sessions-prod."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Facts from the supplied documents (topology, decommission date, TTL change, 41s, ~6%, no logouts, OPEN action item) are reported consistently and cited. I re-checked the date arithmetic (1357, 477, 631 days) and it is correct. The external search-result evidence is labelled INFERRED and its uncertainty is stated, and the outdated wiki is handled correctly.",
+      "quotes": [
+        "managed Valkey 8 cluster 'sessions-prod': 3 shards, each with 1 primary and 1 replica, multi-AZ, with automatic failover",
+        "took 41s, about 6% of active sessions saw errors, and nobody was logged out (E4)",
+        "That recommendation is known only from a snippet-level, possibly conflated summary, and the provider is unconfirmed."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains mechanisms (MOVED redirects and topology refresh, node-timeout-bounded failover, async replication loss, why replicas do not protect against whole-cluster or logical failure) and quantifies where the case allows. It covers specific tradeoffs and edge cases such as retry amplification, false failovers and hot key ranges.",
+      "quotes": [
+        "Replicas protect against losing a node, not against correlated or logical failure.",
+        "Aggressive client retries shorten the window in which users see errors, but they can amplify load on the surviving nodes during failover unless backoff and jitter are used",
+        "A legacy service, cron job or config still points at sess-redis-01."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output explicitly rejects the user's premise, notes that the two changelog entries are not independent corroboration, presents counterarguments fairly, and lists what would change the conclusion.",
+      "quotes": [
+        "The request's premise (a single Redis 5 node with no replication, where a node failure logs everyone out) must not be taken as true.",
+        "This is internal consistency within one source, not independent corroboration",
+        "Live infra-as-code or console data showing a rollback, a single-node configuration, or a service still on sess-redis-01."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (no replication project; a time-boxed verify-first bundle instead). The next steps are concrete and conditional, and the output honestly says relative priority against other work cannot be determined.",
+      "quotes": [
+        "Recommended scope for next quarter: a small, time-boxed piece of session-store work made of these four items, not a replication project.",
+        "Look up the INC-2291 retry/backoff action item in the incident tracker.",
+        "Whether even that should rank above other roadmap work cannot be determined"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised, and material claims are traced to an evidence registry and recomputed calculations. Uncertainty and unknowns are explicitly labelled.",
+      "quotes": [
+        "| E9 | UNKNOWN | none |",
+        "## Calculations (re-executed by code)",
+        "**Confidence:** moderate"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "It predates the 2025 migration and the TTL change (30 days to 14 days), so it is stale."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "sessions moved from the single node sess-redis-01 to the managed Valkey 8 cluster 'sessions-prod': 3 shards, each with 1 primary and 1 replica, multi-AZ, with automatic failover"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The concrete remaining gap on record is the INC-2291 action item 'client retry/backoff on MOVED/failover errors', marked OPEN in the excerpt (E5)."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Treats the 2021 wiki as current and recommends adding replication without noting the 2025 migration",
+      "triggered": false,
+      "evidence": "Output states the wiki is stale and recommends: \"Do not put 'add replication to the session store' on next quarter's roadmap. Its premise is contradicted by the newest evidence in the packet.\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output closely matches the reference. Some supporting evidence (E6-E8) comes from external search results rather than the supplied documents. It is labelled INFERRED and caveated, and the verdict does not depend on it. I could not independently verify the AWS 2-replica recommendation, but it is flagged as unconfirmed and does not affect the verdict. The N1 mustNotClaim pattern does not match: the output never recommends adding replication as if none exists."
+}

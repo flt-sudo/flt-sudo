@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "It answers the route decision and the terms question, and it covers all four mustFlag issues: the 7.8M net figure, missing minimums and EU-wide exclusivity, reference under-delivery, and the existing-account carve-out. It also covers the status-quo baseline, support costs, territory and indemnity, all of which fit the decision.",
+      "quotes": [
+        "at most EUR 7.8M reaches us before COGS (K1)",
+        "It moves our existing EU accounts into the channel at the 35% discount, has no minimums and no performance exit, grants EU-wide exclusivity",
+        "Carve-out of existing and house accounts. This is non-negotiable."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The numeric claims match the supplied documents and are re-executed in the calculation table (12 x 0.65 = 7.8; 5.4/9 = 60%; 2.4 x 0.35 = 0.84). Evidence is classified sensibly by strength. One minor traceability gap: an open question cites a 'EUR 2.74-3.07M/yr' threshold, and the 3.07 figure is not computed anywhere.",
+      "quotes": [
+        "Reference 1 delivered EUR 5.4M of EUR 9M, or 60% (K2). Reference 2 hit about 90% of a plan that was cut in Y2 (E3).",
+        "against the roughly EUR 2.74-3.07M/yr post-term threshold?"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It sets up the economics as formulas in gross margin, explains variable versus fixed cost, and solves for break-even margins and delivery rates. It also works through failure modes that are specific to this case, such as back-loaded volume landing after the month-24 notice deadline and a goodwill-indemnity claim.",
+      "quotes": [
+        "Meridian = sell-through x (g - 0.35) - internal support cost.",
+        "Back-loading puts nearly half (46%) of the promised volume in Y3, which falls after the month-24 deadline for giving notice to exit at month 36",
+        "Every Meridian sale loses money unless our gross margin at list is above 35%"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It explicitly corrects the VP's 'keep most of that revenue' and 'zero headcount' premises. It questions the projection and the 'conservative' label on the direct estimate, sets out counterarguments fairly, and states what would change the conclusion.",
+      "quotes": [
+        "The 'zero headcount' premise is wrong.",
+        "We receive at most 65% of list sell-through (EUR 7.8M of EUR 12M, K1) before COGS.",
+        "The direct estimate is labelled conservative, so direct is the safe choice. — The label has no evidence behind it (E4)"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (do not sign as drafted) and comes with a concrete counter-proposal, specific minimum figures, the conditions under which each route wins, and a list of the data needed to resolve the decision.",
+      "quotes": [
+        "Do not sign Meridian's term sheet as written.",
+        "Annual minimum net purchases of EUR 0.98M / 1.56M / 2.15M (K33-K35)",
+        "Ask finance for gross margin at list first."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "It is well organised, and claims trace to evidence IDs and K-calculations, with uncertainty labelled. However, the many layered scenario thresholds and the leftover draft-revision commentary make it hard to follow in places.",
+      "quotes": [
+        "The draft-1 reading that a low margin 'favours direct' was wrong",
+        "If Meridian's EUR 12M includes the base, direct leads above about 48.7% margin (K41)."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "We receive at most 65% of list sell-through (EUR 7.8M of EUR 12M, K1) before COGS."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "There are no minimum purchases and no termination for convenience during the 36 months."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Reference 1 delivered EUR 5.4M of EUR 9M, or 60% (K2). Reference 2 hit about 90% of a plan that was cut in Y2 (E3)."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Carve-out of existing and house accounts. This is non-negotiable."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends signing EU-wide exclusivity without minimum commitments or termination rights",
+      "triggered": false,
+      "evidence": "'Do not sign Meridian's term sheet as written.' It asks for DE/NL-only exclusivity, minimums and termination after two misses."
+    },
+    {
+      "condition": "Treats the EUR 12M list-price projection as revenue we keep",
+      "triggered": false,
+      "evidence": "'Meridian's EUR 12M is list-price sell-through, so at most EUR 7.8M reaches us before COGS (K1).'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Strong, heavily quantified output. V1 (7.8) is stated correctly. Accuracy is set at 0.75 rather than 1.0 only because of the untraced 3.07M figure in an open question. Clarity is set at 0.75 because the dense scenario layering and the leftover draft-revision remarks make it hard to read in places."
+}

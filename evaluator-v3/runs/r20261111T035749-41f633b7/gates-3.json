@@ -1,0 +1,432 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict 'Terms to ask for' item 1; practicalImplications last item; counterarguments third response] The fallback rule for a refused carve-out cites only the 44.3% direct floor (K19), which holds only if finance's EUR 7.0M excludes the existing base. If the EUR 7.0M includes the base, the draft's own K20 puts direct's 3-year floor at 67.4%, so 'prefer direct above 44.3%' would recommend a direct team that loses money against the status quo between 44.3% and 67.4%. Draft 3 rewrote these sentences to add the Y4+ caveat but kept the single threshold. The rule should read 'above 44.3% (K19), or 67.4% if the EUR 7.0M includes the base (K20)'."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict paragraph 'Why C6 does not reverse the ranking'; K38; CL18; furtherResearch item 5] The recomputed K38 (EUR 2.74M/yr) checks out: (0.495 - 0.16 + 1.033)/0.5 = 2.737. But it is still calculated at the 35% discount. The verdict now uses K38 to explain why C6 does not reverse the ranking 'when all three conditions hold', and one of those conditions is a 25-30% discount. At 30%, Meridian's Y3 run-rate contribution rises to 3.3 x 0.20 = 0.66, so the post-term revenue direct needs becomes (0.66 - 0.16 + 1.033)/0.5, about EUR 3.07M/yr. So the 2.74M figure understates what direct must reach under the scenario where the draft prefers Meridian. The post-term threshold should be stated at the recommended discount."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [practicalImplications item 1; furtherResearch item 1; edgeCasesAndFailureModes item 7; verdict paragraph 2] The status-quo threshold is given inconsistently. The verdict and the status-quo alternative say 'below roughly 42-43%'. practicalImplications item 1, furtherResearch item 1 and the edge case say 'below about 35-42%'. furtherResearch item 1 then says 'between about 42-43% and 44.3%' in the next sentence. '35-42%' mixes the before-support line (35%) with the with-support carve-out floor (41.7%), so the reader cannot tell which floor is the stopping rule. The draft should state one rule: 41.7% or 43.3% with a carve-out and support (K42, K50), and 53.3% without a carve-out (K51)."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "12 * 0.65",
+      "claimed": 7.8,
+      "actual": 7.800000000000001,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "5.4 / 9",
+      "claimed": 0.6,
+      "actual": 0.6000000000000001,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "12 * 0.6",
+      "claimed": 7.2,
+      "actual": 7.199999999999999,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "12 * 0.6 * 0.65",
+      "claimed": 4.68,
+      "actual": 4.68,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "7.0 - 3.1",
+      "claimed": 3.9,
+      "actual": 3.9,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.8 * 3",
+      "claimed": 2.4,
+      "actual": 2.4000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "2.4 * 0.35",
+      "claimed": 0.84,
+      "actual": 0.84,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(0.35 * 12 - 3.1) / (12 - 7)",
+      "claimed": 0.22,
+      "actual": 0.21999999999999983,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(0.35 * 7.2 - 3.1) / (7.2 - 2.4 - 7)",
+      "claimed": 0.264,
+      "actual": 0.2636363636363638,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "5.5 / 12",
+      "claimed": 0.458,
+      "actual": 0.4583333333333333,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "2.5 * 0.65",
+      "claimed": 1.625,
+      "actual": 1.625,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "4.0 * 0.65",
+      "claimed": 2.6,
+      "actual": 2.6,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "5.5 * 0.65",
+      "claimed": 3.575,
+      "actual": 3.575,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "0.35 * 7.2",
+      "claimed": 2.52,
+      "actual": 2.52,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "2.5 / 0.8",
+      "claimed": 3.125,
+      "actual": 3.125,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "3.1 - 0.35 * 7.2",
+      "claimed": 0.58,
+      "actual": 0.5800000000000001,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "(0.5 - 0.35) / 0.5",
+      "claimed": 0.3,
+      "actual": 0.30000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "3.1 / 7",
+      "claimed": 0.443,
+      "actual": 0.4428571428571429,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "3.1 / (7 - 2.4)",
+      "claimed": 0.674,
+      "actual": 0.673913043478261,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "65000 * 1.2",
+      "claimed": 78000,
+      "actual": 78000,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "68223 * 1.2",
+      "claimed": 81868,
+      "actual": 81867.59999999999,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "(65000 + 68223) * 1.2 * 3 / 1000000",
+      "claimed": 0.48,
+      "actual": 0.47960280000000005,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "0.02 * 12 * 0.6 * 0.65",
+      "claimed": 0.0936,
+      "actual": 0.0936,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "0.05 * 12 * 0.6 * 0.65",
+      "claimed": 0.234,
+      "actual": 0.23400000000000004,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "0.15 * 12 * 0.6 * 0.65",
+      "claimed": 0.702,
+      "actual": 0.702,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "2.4 * 0.35 - (3.1 - 0.35 * 7.2)",
+      "claimed": 0.26,
+      "actual": 0.2599999999999999,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "(12 - 2.4) * 0.6",
+      "claimed": 5.76,
+      "actual": 5.76,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "(3.1 - 0.35 * 5.76) / (7 - 5.76)",
+      "claimed": 0.874,
+      "actual": 0.8741935483870967,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "3.1 - 0.35 * 7.2 - (65000 + 68223) * 1.2 * 3 / 1000000",
+      "claimed": 0.1004,
+      "actual": 0.10039720000000002,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "(7 * 0.5 - 3.1 + 0.48) / (12 * (0.5 - 0.35))",
+      "claimed": 0.489,
+      "actual": 0.48888888888888876,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "(7 * 0.6 - 3.1 + 0.48) / (12 * (0.6 - 0.35))",
+      "claimed": 0.527,
+      "actual": 0.5266666666666667,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "2.5 * 0.65 * 0.6",
+      "claimed": 0.975,
+      "actual": 0.975,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "4.0 * 0.65 * 0.6",
+      "claimed": 1.56,
+      "actual": 1.56,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "5.5 * 0.65 * 0.6",
+      "claimed": 2.145,
+      "actual": 2.145,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "(12 - 2.4) * 0.6 * 0.65",
+      "claimed": 3.744,
+      "actual": 3.7439999999999998,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.05 * 7.2",
+      "claimed": 0.36,
+      "actual": 0.36000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "(5.5 * 0.6 * (0.5 - 0.35) - 0.48 / 3 + 3.1 / 3) / 0.5",
+      "claimed": 2.74,
+      "actual": 2.7366666666666672,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "7 / 3",
+      "claimed": 2.333,
+      "actual": 2.3333333333333335,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "0.35 * 7.2 / 3",
+      "claimed": 0.84,
+      "actual": 0.84,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "(3.1 - 0.35 * 5.76 - 0.48) / (7 - 5.76)",
+      "claimed": 0.487,
+      "actual": 0.48709677419354835,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "0.35 + 0.48 / 7.2",
+      "claimed": 0.4167,
+      "actual": 0.41666666666666663,
+      "ok": true
+    },
+    {
+      "id": "K43",
+      "expression": "(7 * 0.5 - 3.1 + 0.48) / (9.6 * (0.5 - 0.35))",
+      "claimed": 0.611,
+      "actual": 0.6111111111111109,
+      "ok": true
+    },
+    {
+      "id": "K44",
+      "expression": "(7 * 0.6 - 3.1 + 0.48) / (9.6 * (0.6 - 0.35))",
+      "claimed": 0.658,
+      "actual": 0.6583333333333334,
+      "ok": true
+    },
+    {
+      "id": "K45",
+      "expression": "(12 - 2.4) * 0.67 * 0.65",
+      "claimed": 4.18,
+      "actual": 4.1808000000000005,
+      "ok": true
+    },
+    {
+      "id": "K46",
+      "expression": "0.02 * 7.2",
+      "claimed": 0.144,
+      "actual": 0.14400000000000002,
+      "ok": true
+    },
+    {
+      "id": "K47",
+      "expression": "0.05 * 7.2",
+      "claimed": 0.36,
+      "actual": 0.36000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K48",
+      "expression": "3.1 - 0.35 * 7.2 - (65000 + 68223) * 1.2 * 3 / 1000000 + 0.2 * 0.5",
+      "claimed": 0.2004,
+      "actual": 0.20039720000000003,
+      "ok": true
+    },
+    {
+      "id": "K49",
+      "expression": "0.05 * 5.76",
+      "claimed": 0.288,
+      "actual": 0.288,
+      "ok": true
+    },
+    {
+      "id": "K50",
+      "expression": "0.35 + 0.48 / 5.76",
+      "claimed": 0.4333,
+      "actual": 0.4333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K51",
+      "expression": "(0.35 * 7.2 + 0.35 * 2.4 + 0.48) / 7.2",
+      "claimed": 0.5333,
+      "actual": 0.5333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K52",
+      "expression": "0.30 + 0.48 / 7.2",
+      "claimed": 0.3667,
+      "actual": 0.36666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K53",
+      "expression": "0.30 + 0.48 / 5.76",
+      "claimed": 0.3833,
+      "actual": 0.3833333333333333,
+      "ok": true
+    },
+    {
+      "id": "K54",
+      "expression": "(3.1 - 0.30 * 5.76 - 0.48) / (7 - 5.76)",
+      "claimed": 0.719,
+      "actual": 0.7193548387096774,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What is our gross margin at list price? It decides whether either route beats the status quo (K42, K50, K19, K20) and which side of K9, K29, K41 and K54 we fall on.",
+    "Do Meridian's EUR 12M and finance's EUR 7.0M include the existing EUR 0.8M/yr base? This flips the ranking, the required minimums (60% vs 67%) and the direct floor (44.3% vs 67.4%).",
+    "Will Meridian accept the carve-out, a 25-30% discount on new business and minimums above the scenario-specific break-even? The draft's preference for Meridian depends on all three.",
+    "What are finance's ramp plan and Y4+ run-rate for the direct team, against the roughly EUR 2.74-3.07M/yr post-term threshold?",
+    "What internal support plan would the Meridian route actually need (FTE, bonus, car and travel, NL staff, MDF and its revenue base), compared with the roughly EUR 0.20M lead at the 35% discount?"
+  ]
+}

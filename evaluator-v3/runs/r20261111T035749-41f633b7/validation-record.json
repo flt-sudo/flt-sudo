@@ -1,0 +1,559 @@
+{
+  "runId": "r20261111T035749-41f633b7",
+  "generatedAt": "2026-11-11T04:20:28.400Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "B2B sales rep ramp time benchmark months to full productivity complex industrial sales",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "Vertical Block Exemption Regulation 2022/720 exclusive distribution active sales passive sales restriction",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Germany distributor goodwill indemnity analogous §89b HGB termination exclusive distribution",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "VBER 2022/720 non-compete obligation five years tacitly renewable 30% market share threshold",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Europe industrial air quality monitoring market share by country Germany France Italy",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "exclusive distribution agreement minimum purchase targets loss of exclusivity termination right manufacturer best practice",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "industrial distributor gross margin typical percentage instrumentation distributor discount off list",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 34
+      },
+      {
+        "query": "hidden costs of managing distributors channel manager technical support training MDF manufacturer",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Germany channel manager salary average gross per year 2025",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "field application engineer salary Germany average per year",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "Germany employer social security contributions percentage of gross salary 2025 employer share",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "cost of channel partner program as percentage of channel revenue benchmark manufacturer distributor support cost",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://www.cuatrecasas.com/en/global/competition-eu-law/art/eu-exclusive-distribution-in-the-new-vertical-block-exemption-regulation",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.cuatrecasas.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or "
+      },
+      {
+        "url": "https://www.advant-beiten.com/en/news/the-distributors-indemnity-claim-under-german-law-what-can-manufacturers-do-to-avoid-such-a-claim-and-what-can-distributors-do-to-generate-it",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.advant-beiten.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o"
+      },
+      {
+        "url": "https://umbrex.com/resources/company-analysis/sales/ramp-up-time-for-new-reps/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND umbrex.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not "
+      },
+      {
+        "url": "https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.payscale.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe"
+      },
+      {
+        "url": "https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.payscale.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe"
+      }
+    ],
+    "fixturesRead": [
+      "meridian-term-sheet.md",
+      "meridian-projection.md",
+      "reference-call-notes.md",
+      "direct-team-estimate.md"
+    ],
+    "deniedByGuard": [
+      {
+        "tool": "WebSearch",
+        "reason": "research budget exhausted: WebSearch 12/12 for run r20261111T035749-41f633b7"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-10 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13610,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 42543,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 263
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 996,
+            "cache_read_input_tokens": 9062,
+            "output_tokens": 3550,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 996
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3550,
+                "cache_read_input_tokens": 9062,
+                "cache_creation_input_tokens": 996,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 996,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-10 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-10 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-10 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 46743,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 95355,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 4951
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1010,
+            "cache_read_input_tokens": 37141,
+            "output_tokens": 8590,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1010
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 8590,
+                "cache_read_input_tokens": 37141,
+                "cache_creation_input_tokens": 1010,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1010,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-10 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-10 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-10 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 78181,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 99505,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 6859
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 61649,
+            "cache_read_input_tokens": 6083,
+            "output_tokens": 10447,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 61649
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10447,
+                "cache_read_input_tokens": 6083,
+                "cache_creation_input_tokens": 61649,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 61649,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-10 analyst draft 3",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-10 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 86625,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 57781,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2777
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 75003,
+            "cache_read_input_tokens": 6083,
+            "output_tokens": 5537,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 75003
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5537,
+                "cache_read_input_tokens": 6083,
+                "cache_creation_input_tokens": 75003,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 75003,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-10 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 40246,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 30446,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 684
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 10759,
+            "cache_read_input_tokens": 26908,
+            "output_tokens": 2577,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 10759
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2577,
+                "cache_read_input_tokens": 26908,
+                "cache_creation_input_tokens": 10759,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 10759,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "meridian-term-sheet.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "meridian-projection.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "reference-call-notes.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "direct-team-estimate.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.mofo.com/resources/insights/220513-vertical-block-exemption-regulation.html",
+    "https://cms.law/en/are/legal-updates/10-key-aspects-of-the-revised-eu-competition-law-in-the-field-of-distribution-vber-vgl",
+    "https://www.advant-beiten.com/en/news/the-distributors-indemnity-claim-under-german-law-what-can-manufacturers-do-to-avoid-such-a-claim-and-what-can-distributors-do-to-generate-it",
+    "https://www.burkelaw.com/alert-hard-numbers-and-hard-issues-minimum-purchase-requirements-and-quotas-in-distribution-agreements",
+    "https://umbrex.com/resources/company-analysis/sales/ramp-up-time-for-new-reps/",
+    "https://www.tribute.com/distribute/9-kpi-and-metrics-industrial-distributors-should-use-to-track-progress/",
+    "https://www.mondaq.com/unitedstates/Strategy/64470/Profitable-Channel-Management-What-Questions-Should-You-be-Asking",
+    "https://www.arizton.com/market-reports/industrial-air-quality-monitoring-system",
+    "https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary",
+    "https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary",
+    "https://taxsummaries.pwc.com/Germany/Individual/Other-taxes",
+    "https://d7.thechannelco.com/sites/thechannelco/files/iped_channel_masters_webinar_-_vendor_strategy_program_benchmark_part_2_0.pdf",
+    "https://pulserevops.com/knowledge/q147"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 20 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 12 * 0.65 = 7.800000000000001 (claimed 7.8) → match",
+    "Calculation K2 re-executed: 5.4 / 9 = 0.6000000000000001 (claimed 0.6) → match",
+    "Calculation K3 re-executed: 12 * 0.6 = 7.199999999999999 (claimed 7.2) → match",
+    "Calculation K4 re-executed: 12 * 0.6 * 0.65 = 4.68 (claimed 4.68) → match",
+    "Calculation K5 re-executed: 7.0 - 3.1 = 3.9 (claimed 3.9) → match",
+    "Calculation K6 re-executed: 0.8 * 3 = 2.4000000000000004 (claimed 2.4) → match",
+    "Calculation K7 re-executed: 2.4 * 0.35 = 0.84 (claimed 0.84) → match",
+    "Calculation K8 re-executed: (0.35 * 12 - 3.1) / (12 - 7) = 0.21999999999999983 (claimed 0.22) → match",
+    "Calculation K9 re-executed: (0.35 * 7.2 - 3.1) / (7.2 - 2.4 - 7) = 0.2636363636363638 (claimed 0.264) → match",
+    "Calculation K10 re-executed: 5.5 / 12 = 0.4583333333333333 (claimed 0.458) → match",
+    "Calculation K11 re-executed: 2.5 * 0.65 = 1.625 (claimed 1.625) → match",
+    "Calculation K12 re-executed: 4.0 * 0.65 = 2.6 (claimed 2.6) → match",
+    "Calculation K13 re-executed: 5.5 * 0.65 = 3.575 (claimed 3.575) → match",
+    "Calculation K14 re-executed: 0.35 * 7.2 = 2.52 (claimed 2.52) → match",
+    "Calculation K15 re-executed: 2.5 / 0.8 = 3.125 (claimed 3.125) → match",
+    "Calculation K17 re-executed: 3.1 - 0.35 * 7.2 = 0.5800000000000001 (claimed 0.58) → match",
+    "Calculation K18 re-executed: (0.5 - 0.35) / 0.5 = 0.30000000000000004 (claimed 0.3) → match",
+    "Calculation K19 re-executed: 3.1 / 7 = 0.4428571428571429 (claimed 0.443) → match",
+    "Calculation K20 re-executed: 3.1 / (7 - 2.4) = 0.673913043478261 (claimed 0.674) → match",
+    "Calculation K21 re-executed: 65000 * 1.2 = 78000 (claimed 78000) → match",
+    "Calculation K22 re-executed: 68223 * 1.2 = 81867.59999999999 (claimed 81868) → match",
+    "Calculation K23 re-executed: (65000 + 68223) * 1.2 * 3 / 1000000 = 0.47960280000000005 (claimed 0.48) → match",
+    "Calculation K24 re-executed: 0.02 * 12 * 0.6 * 0.65 = 0.0936 (claimed 0.0936) → match",
+    "Calculation K25 re-executed: 0.05 * 12 * 0.6 * 0.65 = 0.23400000000000004 (claimed 0.234) → match",
+    "Calculation K26 re-executed: 0.15 * 12 * 0.6 * 0.65 = 0.702 (claimed 0.702) → match",
+    "Calculation K27 re-executed: 2.4 * 0.35 - (3.1 - 0.35 * 7.2) = 0.2599999999999999 (claimed 0.26) → match",
+    "Calculation K28 re-executed: (12 - 2.4) * 0.6 = 5.76 (claimed 5.76) → match",
+    "Calculation K29 re-executed: (3.1 - 0.35 * 5.76) / (7 - 5.76) = 0.8741935483870967 (claimed 0.874) → match",
+    "Calculation K30 re-executed: 3.1 - 0.35 * 7.2 - (65000 + 68223) * 1.2 * 3 / 1000000 = 0.10039720000000002 (claimed 0.1004) → match",
+    "Calculation K31 re-executed: (7 * 0.5 - 3.1 + 0.48) / (12 * (0.5 - 0.35)) = 0.48888888888888876 (claimed 0.489) → match",
+    "Calculation K32 re-executed: (7 * 0.6 - 3.1 + 0.48) / (12 * (0.6 - 0.35)) = 0.5266666666666667 (claimed 0.527) → match",
+    "Calculation K33 re-executed: 2.5 * 0.65 * 0.6 = 0.975 (claimed 0.975) → match",
+    "Calculation K34 re-executed: 4.0 * 0.65 * 0.6 = 1.56 (claimed 1.56) → match",
+    "Calculation K35 re-executed: 5.5 * 0.65 * 0.6 = 2.145 (claimed 2.145) → match",
+    "Calculation K36 re-executed: (12 - 2.4) * 0.6 * 0.65 = 3.7439999999999998 (claimed 3.744) → match",
+    "Calculation K37 re-executed: 0.05 * 7.2 = 0.36000000000000004 (claimed 0.36) → match",
+    "Calculation K38 re-executed: (5.5 * 0.6 * (0.5 - 0.35) - 0.48 / 3 + 3.1 / 3) / 0.5 = 2.7366666666666672 (claimed 2.74) → match",
+    "Calculation K39 re-executed: 7 / 3 = 2.3333333333333335 (claimed 2.333) → match",
+    "Calculation K40 re-executed: 0.35 * 7.2 / 3 = 0.84 (claimed 0.84) → match",
+    "Calculation K41 re-executed: (3.1 - 0.35 * 5.76 - 0.48) / (7 - 5.76) = 0.48709677419354835 (claimed 0.487) → match",
+    "Calculation K42 re-executed: 0.35 + 0.48 / 7.2 = 0.41666666666666663 (claimed 0.4167) → match",
+    "Calculation K43 re-executed: (7 * 0.5 - 3.1 + 0.48) / (9.6 * (0.5 - 0.35)) = 0.6111111111111109 (claimed 0.611) → match",
+    "Calculation K44 re-executed: (7 * 0.6 - 3.1 + 0.48) / (9.6 * (0.6 - 0.35)) = 0.6583333333333334 (claimed 0.658) → match",
+    "Calculation K45 re-executed: (12 - 2.4) * 0.67 * 0.65 = 4.1808000000000005 (claimed 4.18) → match",
+    "Calculation K46 re-executed: 0.02 * 7.2 = 0.14400000000000002 (claimed 0.144) → match",
+    "Calculation K47 re-executed: 0.05 * 7.2 = 0.36000000000000004 (claimed 0.36) → match",
+    "Calculation K48 re-executed: 3.1 - 0.35 * 7.2 - (65000 + 68223) * 1.2 * 3 / 1000000 + 0.2 * 0.5 = 0.20039720000000003 (claimed 0.2004) → match",
+    "Calculation K49 re-executed: 0.05 * 5.76 = 0.288 (claimed 0.288) → match",
+    "Calculation K50 re-executed: 0.35 + 0.48 / 5.76 = 0.4333333333333333 (claimed 0.4333) → match",
+    "Calculation K51 re-executed: (0.35 * 7.2 + 0.35 * 2.4 + 0.48) / 7.2 = 0.5333333333333333 (claimed 0.5333) → match",
+    "Calculation K52 re-executed: 0.30 + 0.48 / 7.2 = 0.36666666666666664 (claimed 0.3667) → match",
+    "Calculation K53 re-executed: 0.30 + 0.48 / 5.76 = 0.3833333333333333 (claimed 0.3833) → match",
+    "Calculation K54 re-executed: (3.1 - 0.30 * 5.76 - 0.48) / (7 - 5.76) = 0.7193548387096774 (claimed 0.719) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://www.cuatrecasas.com/en/global/competition-eu-law/art/eu-exclusive-distribution-in-the-new-vertical-block-exemption-regulation — getaddrinfo ENOTFOUND www.cuatrecasas.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or ",
+    "Fetch failed: https://www.advant-beiten.com/en/news/the-distributors-indemnity-claim-under-german-law-what-can-manufacturers-do-to-avoid-such-a-claim-and-what-can-distributors-do-to-generate-it — getaddrinfo ENOTFOUND www.advant-beiten.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o",
+    "Fetch failed: https://umbrex.com/resources/company-analysis/sales/ramp-up-time-for-new-reps/ — getaddrinfo ENOTFOUND umbrex.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not ",
+    "Fetch failed: https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary — getaddrinfo ENOTFOUND www.payscale.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe",
+    "Fetch failed: https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary — getaddrinfo ENOTFOUND www.payscale.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe",
+    "Research call blocked by budget guard: WebSearch — research budget exhausted: WebSearch 12/12 for run r20261111T035749-41f633b7",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Our product gross margin/COGS and direct-route logistics, service and RMA costs are internal data not in the supplied sources and not findable externally. For D5, only DE base-pay benchmarks (E15, E16, search snippets, Payscale-dominated), DE statutory employer on-costs (E17) and dated or heuristic channel cost-share benchmarks (E18, E19) were found. No NL salaries or on-costs and no published fully loaded role cost were retrieved (E20).",
+    "Knowledge gap assumption:zero-headcount unresolved: Evidence (E12, E15-E19) indicates the Meridian route needs at least a channel manager and technical support capacity. The actual FTE and cost for our product line depend on our support model and are not benchmarked for industrial sensors.",
+    "Knowledge gap G2 unresolved: Neither Meridian's projection (E1) nor finance's estimate (E4) says whether the existing EUR 0.8M/yr accounts are included. This must be asked of Meridian and finance.",
+    "Knowledge gap G3 unresolved: Only two references are available (E3), and one has no absolute figures. No Meridian sales history in our category was available. More references or audited category sales are needed.",
+    "Knowledge gap G4 unresolved: Finance's EUR 7.0M has no build-up. Only generic, mostly SaaS ramp benchmarks were found (E10); no industrial-sensor DE/NL seller productivity data.",
+    "Knowledge gap G5 unresolved: Market practice and EU law support minimums, loss of exclusivity, existing-account carve-outs and narrower territory (E6, E9). Whether Meridian will accept them is unknowable without negotiation. Dutch-law distributor indemnity was not researched.",
+    "Knowledge gap G6 unresolved: No credible country-level market size for industrial air-quality sensors was found (E14). Meridian's actual channel presence outside DE/NL is evidenced only by reference 1's 'weak elsewhere'.",
+    "Knowledge gap assumption:full-term-sheet unresolved: Only a five-bullet term sheet was supplied (E2). The full draft agreement (payment terms, pricing changes, post-termination, governing law, customer data, MDF) was not available.",
+    "Knowledge gap fetch-unavailable unresolved: WebFetch failed (host not resolvable/allowed) for www.cuatrecasas.com, www.advant-beiten.com, umbrex.com and www.payscale.com, so no web page was directly inspected. All web evidence rests on search snippets. These hosts would need to be allowed in the session's network settings to verify them.",
+    "Knowledge gap budget-exhausted unresolved: The WebSearch budget (12/12) was exhausted before Netherlands salary and employer on-cost benchmarks could be searched."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 91.25/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Our gross margin/COGS is unknown (E13), so neither absolute contribution nor which side of each break-even we fall on can be determined.",
+    "It is unknown whether either the EUR 12M or the EUR 7.0M includes the EUR 0.8M/yr base (E1, E4); this can flip the ranking (K9, K27, K29).",
+    "Support-cost estimates use DE base pay plus about 20% on-costs only (E15-E17). Car, travel, overhead, recruiting and any NL staff are unbenchmarked (E20), so K23 is likely understated.",
+    "Only one delivery point (60%) is modelled. Reference 2's about 90% of a reduced plan implies a different rate (E3). K9 applies the 60% haircut to the existing base as well; if the base were retained in full, the K9 threshold would fall.",
+    "The two references may have been selected by Meridian and are not in our category (E3).",
+    "The basis for the direct revenue estimate, what the EUR 3.1M excludes, and the Y4+ run-rate are unknown (E4). Post-term value (K38) is illustrative.",
+    "Whether Meridian will accept the carve-out, minimums above break-even or a lower discount is unknown (G5). The 25-30% discount target and 6-month notice are judgements.",
+    "Dutch-law distributor indemnity, the governing law and the indemnity cap mechanics are unknown (E8).",
+    "Market size outside DE/NL is unknown (E14).",
+    "All legal and benchmark evidence rests on search snippets; no source pages were fetched.",
+    "E13 UNKNOWN: Our gross margin or COGS per unit is not stated in any supplied document, and could not be found externally (it is internal data). Neither option's documents cost logistics, warehousing, service or RMA separately.",
+    "E20 UNKNOWN: Not found in this run: (a) any Netherlands salary benchmark for channel/partner managers or field application engineers; (b) Dutch employer on-cost rates; (c) any published fully loaded (salary + on-costs + travel/car + overhead) annual cost figure for these roles in DE or NL; (d) any channel-support cost benchmark specific to industrial instrumentation or sensor manufacturers.",
+    "Open question the reviewer judged decisive: What is our gross margin at list price? It decides whether either route beats the status quo (K42, K50, K19, K20) and which side of K9, K29, K41 and K54 we fall on.",
+    "Open question the reviewer judged decisive: Do Meridian's EUR 12M and finance's EUR 7.0M include the existing EUR 0.8M/yr base? This flips the ranking, the required minimums (60% vs 67%) and the direct floor (44.3% vs 67.4%).",
+    "Open question the reviewer judged decisive: Will Meridian accept the carve-out, a 25-30% discount on new business and minimums above the scenario-specific break-even? The draft's preference for Meridian depends on all three.",
+    "Open question the reviewer judged decisive: What are finance's ramp plan and Y4+ run-rate for the direct team, against the roughly EUR 2.74-3.07M/yr post-term threshold?",
+    "Open question the reviewer judged decisive: What internal support plan would the Meridian route actually need (FTE, bonus, car and travel, NL staff, MDF and its revenue base), compared with the roughly EUR 0.20M lead at the 35% discount?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T04:05:36.728Z",
+        "reasons": [
+          "[alternatives_counterarguments/major] D1 [verdict para 1 and 3; furtherResearchThatCouldChangeConclusion item 1; edgeCasesAndFailureModes last item; alternatives (no status-quo option); K8] The draft never compares either route with the status quo of no new channel, where we keep the EUR 0.8M/yr existing direct base at full margin with no added cost. It also never states the absolute break-evens that its own model implies. Using the draft's formulas: Meridian's contribution is S*(g-0.35), so every channel sale loses money if gross margin g is 35% or less. Direct at plan is 7.0g - 3.1, which is negative unless g > 44.3%. If finance's 7.0M includes the 2.4M base, the incremental revenue is only 4.6M, and the team needs g > ~67% to beat doing nothing. The draft says 'below about 22% would favour direct even at Meridian's face value' (furtherResearch, edgeCases). That is misleading: at g < 22% both routes have negative contribution and neither should be chosen. The verdict's fallback ('build the direct DE/NL team') could therefore destroy value. The draft gives no margin threshold below which that fallback is wrong.",
+          "[reasoning_validity/major] D2 [verdict para 1 last sentence; practicalImplications last item; counterarguments item 3] The decision rule in the verdict does not follow from the draft's own economics. The draft finds that Meridian at the 60% reference delivery rate beats direct at any margin when the base is treated consistently (CL3, K17). Direct wins only in the cannibalisation scenario at g > ~26% (K9). Yet the verdict says that if Meridian refuses minimums, we should 'build the direct DE/NL team'. A refusal does not change the expected-value comparison. At most it raises downside variance, which the draft does not quantify. The rule also never asks whether an existing-account carve-out alone, without minimums, would keep Meridian ahead (K9 says it would).",
+          "[decision_usefulness/major] D3 [CL15; K11-K13; practicalImplications item 3; counterarguments item 3; verdict para 1] The minimum-purchase test is rigged. Minimums are set at 100% of Meridian's projected net purchases (EUR 1.63M/2.6M/3.58M, K11-K13), measured excluding carved-out accounts. If Meridian's 12M includes the existing base (unknown, G2), this asks for more than Meridian's own number. The only quantitative reference shows 60% delivery, and a credible distributor would normally reject 100%-of-forecast minimums. Typical practice ties minimums to a share of forecast, and E9 cites shortfall-percentage triggers. So the conclusion that 'a refusal is itself information that the projection is not credible' does not hold. The draft should propose a minimum level, or a floor below which the deal is uneconomic, using the delivery-rate and margin break-evens. It should not anchor to the headline figure.",
+          "[coverage/major] D4 [practicalImplications item 3; verdict para 1; C4 assessment] The request asks 'on what terms', and the packet names the discount level as a lever. The draft only says 'Review of the discount level' and gives no target. Discount is the largest economic lever in its own model: each 5 points on 7.2M of sell-through is about EUR 0.36M, comparable to the EUR 0.58M margin-independent gap (K17). The draft could have used E11 (35% is at or above typical distributor gross margins) and a break-even to propose a range, or a lower discount on legacy accounts. The renewal terms are equally vague ('no auto-renewal, or short notice', with no notice period proposed).",
+          "[reasoning_validity/major] D5 [CL3; CL9 (material flag); K17; C1 assessment bullet 2] CL3 states 'Meridian stays ahead at any margin' at 60% delivery. That rests on a EUR 0.58M cost gap (K17). It ignores Meridian-side internal costs: channel manager, FAE or pre-sales support, training, MDF and RMA (E12). These can plausibly match or exceed EUR 0.58M over 3 years, and the 'zero headcount' correction itself says they are not zero. The draft says these costs and direct's uncosted logistics 'push in opposite directions', but CL3 is still stated unconditionally. CL9 ('zero headcount' is wrong) is marked material:false, although it directly decides whether the K17 advantage survives. The draft should state the conclusion conditionally, or give a support-cost break-even.",
+          "[coverage/major] D6 [C1 and C6 assessments; tradeoffs] The decision objective covers 3-year 'and post-term' contribution. The draft does not analyse post-term economics. Under direct, the cost is front-loaded during ramp, and by Y3 we would have a ramped team and owned accounts. The Meridian route faces the month-24 notice deadline, the auto-renewal to month 60, and possible indemnity on exit. The draft treats C6 only qualitatively, and it never asks whether direct's 3-year loss or low return is an investment that pays back in Y4-Y5. A 3-year comparison structurally penalises the route with fixed ramp costs.",
+          "D5 remedy both (Meridian-side internal support cost benchmark); D1-D4, D6 reanalysis"
+        ],
+        "action": "both"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T04:14:20.625Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [CL15; C4 assessment (a) first sub-bullet; C4 mechanisms ('cap our downside at the level where Meridian still beats direct'); verdict 'Terms to ask for' item 3; K31, K32, K36] The draft says the proposed 60% minimums 'sit above the illustrative 49-53% break-even delivery rate against direct' and that they 'cap our downside at the level where Meridian still beats direct'. K31 and K32 only support this when both figures exclude the base. The draft applies the same reasoning to its EUR 3.74M variant, where Meridian's EUR 12M includes the carved-out base and only EUR 9.6M is incremental. Recomputing with the draft's own formula, 9.6d(g-0.35) - 0.48 = 7g - 3.1, gives a break-even delivery rate of about 61% at g = 50% (0.88/1.44) and about 66% at g = 60% (1.58/2.40). In that case a 60% minimum is below break-even, so Meridian trails direct even when it meets the minimum. This matches the draft's own K41 (direct leads above 48.7% at 60% delivery), so the minimum-setting logic contradicts the draft's own break-even analysis. The draft should give scenario-specific break-evens, or set minimums above break-even in the base-included case (about 61-66%, or the K36 equivalent).",
+          "[reasoning_validity/major] D2 [verdict para 2 (third bullet); CL16; alternatives 'Status quo'; practicalImplications item 1 and last item; furtherResearch item 1] Carried forward from prior D6 (partially fixed). Post-term economics are now covered illustratively (K38-K40), but the decision rule ignores them. The verdict and CL16 say flatly that 'below roughly 42%, neither route should be chosen' and that direct needs g > 44.3% (K19), or 67.4% (K20), to beat the status quo. These are 3-year floors. The draft's own C6 mechanism says that 'fixed ramp costs make a 3-year comparison structurally unfavourable to direct, because the payback falls in Y4+'. A direct team that loses money over 3 years at g = 40% could still be value-creating over 5 years. The status quo also forgoes EU growth and capability (C5, C6), and the rule ignores this. The floors should be labelled 3-year floors, and the 'neither route' rule should depend on finance's Y4+ run-rate.",
+          "[decision_usefulness/major] D3 [verdict para 3 ('the preferred route is Meridian on revised terms'); alternatives 'Meridian on revised terms'; K24, K25, K30; C6] The verdict names 'Meridian on revised terms' as the preferred route, yet its own figures put the two routes close to a tie. In the base-excluded carve-out case, Meridian's lead after one channel manager and one FAE is 0.10 + 0.2g: about EUR 0.20M at g = 50% over 3 years (K30). MDF of EUR 0.09-0.23M is computed on net purchases (K24, K25). E19 says 'partner-sourced revenue', and on the EUR 7.2M sell-through base MDF would be EUR 0.14-0.36M, which wipes out the lead. The draft itself says K23 is 'likely understated': it leaves out bonus (E15: EUR 12-42k), car, travel and NL staff. In the base-included case direct leads above 48.7% (K41). C6 (owned relationships, post-term run-rate) points towards direct. The verdict's own text ('Meridian is not clearly better on 3-year economics') contradicts naming Meridian as preferred. What actually tips the deal towards Meridian is the 25-30% discount ask (EUR 0.36-0.72M, K37), but the preference is not made conditional on it. The verdict should present this as a near-tie that depends on (a) the carve-out, (b) a discount reduction and (c) a lean support plan. It should also explain why C6 and post-term value do not reverse the ranking.",
+          "D1-D3 major, all remedy reanalysis"
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict 'Terms to ask for' item 1; practicalImplications last item; counterarguments third response] The fallback rule for a refused carve-out cites only the 44.3% direct floor (K19), which holds only if finance's EUR 7.0M excludes the existing base. If the EUR 7.0M includes the base, the draft's own K20 puts direct's 3-year floor at 67.4%, so 'prefer direct above 44.3%' would recommend a direct team that loses money against the status quo between 44.3% and 67.4%. Draft 3 rewrote these sentences to add the Y4+ caveat but kept the single threshold. The rule should read 'above 44.3% (K19), or 67.4% if the EUR 7.0M includes the base (K20)'.",
+        "[minor/reviewer] D2 [verdict paragraph 'Why C6 does not reverse the ranking'; K38; CL18; furtherResearch item 5] The recomputed K38 (EUR 2.74M/yr) checks out: (0.495 - 0.16 + 1.033)/0.5 = 2.737. But it is still calculated at the 35% discount. The verdict now uses K38 to explain why C6 does not reverse the ranking 'when all three conditions hold', and one of those conditions is a 25-30% discount. At 30%, Meridian's Y3 run-rate contribution rises to 3.3 x 0.20 = 0.66, so the post-term revenue direct needs becomes (0.66 - 0.16 + 1.033)/0.5, about EUR 3.07M/yr. So the 2.74M figure understates what direct must reach under the scenario where the draft prefers Meridian. The post-term threshold should be stated at the recommended discount."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [practicalImplications item 1; furtherResearch item 1; edgeCasesAndFailureModes item 7; verdict paragraph 2] The status-quo threshold is given inconsistently. The verdict and the status-quo alternative say 'below roughly 42-43%'. practicalImplications item 1, furtherResearch item 1 and the edge case say 'below about 35-42%'. furtherResearch item 1 then says 'between about 42-43% and 44.3%' in the next sentence. '35-42%' mixes the before-support line (35%) with the with-support carve-out floor (41.7%), so the reader cannot tell which floor is the stopping rule. The draft should state one rule: 41.7% or 43.3% with a carve-out and support (K42, K50), and 53.3% without a carve-out (K51)."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

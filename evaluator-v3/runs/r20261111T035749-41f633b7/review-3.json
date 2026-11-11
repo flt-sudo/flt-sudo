@@ -1,0 +1,114 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The fallback rule for a refused carve-out cites only the 44.3% direct floor (K19), which holds only if finance's EUR 7.0M excludes the existing base. If the EUR 7.0M includes the base, the draft's own K20 puts direct's 3-year floor at 67.4%, so 'prefer direct above 44.3%' would recommend a direct team that loses money against the status quo between 44.3% and 67.4%. Draft 3 rewrote these sentences to add the Y4+ caveat but kept the single threshold. The rule should read 'above 44.3% (K19), or 67.4% if the EUR 7.0M includes the base (K20)'.",
+      "location": "verdict 'Terms to ask for' item 1; practicalImplications last item; counterarguments third response",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The recomputed K38 (EUR 2.74M/yr) checks out: (0.495 - 0.16 + 1.033)/0.5 = 2.737. But it is still calculated at the 35% discount. The verdict now uses K38 to explain why C6 does not reverse the ranking 'when all three conditions hold', and one of those conditions is a 25-30% discount. At 30%, Meridian's Y3 run-rate contribution rises to 3.3 x 0.20 = 0.66, so the post-term revenue direct needs becomes (0.66 - 0.16 + 1.033)/0.5, about EUR 3.07M/yr. So the 2.74M figure understates what direct must reach under the scenario where the draft prefers Meridian. The post-term threshold should be stated at the recommended discount.",
+      "location": "verdict paragraph 'Why C6 does not reverse the ranking'; K38; CL18; furtherResearch item 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The status-quo threshold is given inconsistently. The verdict and the status-quo alternative say 'below roughly 42-43%'. practicalImplications item 1, furtherResearch item 1 and the edge case say 'below about 35-42%'. furtherResearch item 1 then says 'between about 42-43% and 44.3%' in the next sentence. '35-42%' mixes the before-support line (35%) with the with-support carve-out floor (41.7%), so the reader cannot tell which floor is the stopping rule. The draft should state one rule: 41.7% or 43.3% with a carve-out and support (K42, K50), and 53.3% without a carve-out (K51).",
+      "location": "practicalImplications item 1; furtherResearch item 1; edgeCasesAndFailureModes item 7; verdict paragraph 2",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Scenario-specific break-evens are added: K43 = 0.88/1.44 = 0.611 and K44 = 1.58/2.40 = 0.658, both recomputed and correct. In the base-included case the draft now says a 60% minimum (K36) sits below break-even and proposes 67%, about EUR 4.18M (K45 = 9.6 x 0.67 x 0.65 = 4.18). It also notes that break-even rises above a 60% margin; by my calculation 67% stops clearing it at about 65%. The C4 mechanism now says 'at least matches direct', and only in the base-excluded case."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Floors are labelled as 3-year floors throughout (K19 and K20 purposes, CL16, verdict, alternatives). The 'neither route' rule is now conditional on finance's Y4+ run-rate, and it acknowledges forgone EU growth and capability (C5, C6)."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The verdict now presents a near-tie. Meridian is preferred only if the carve-out, a 25-30% discount and lean support are all obtained. The verdict quantifies the MDF on a sell-through base (K46, K47 = 0.144 and 0.36) against a lead of about 0.20M (K48 = 0.2004, correct), and explains why C6 does not reverse the ranking. A residual inconsistency in the post-term threshold is raised as new D2."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "The draft adds floors for the base-included case, for no carve-out and at 30% (K50 = 0.4333, K51 = 3.84/7.2 = 0.5333, K52 = 0.3667, K53 = 0.3833, K54 = 0.892/1.24 = 0.719), and the per-5-point value for the base-included case (K49 = 0.288). All recompute correctly."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "K38 now includes support of 0.16M/yr, giving 2.74M/yr, which is correct. It is still computed at the 35% discount; see new D2."
+    },
+    {
+      "id": "D6",
+      "status": "fixed",
+      "note": "The verdict now attributes the 60% to reference 1 (K2)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is our gross margin at list price? It decides whether either route beats the status quo (K42, K50, K19, K20) and which side of K9, K29, K41 and K54 we fall on.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do Meridian's EUR 12M and finance's EUR 7.0M include the existing EUR 0.8M/yr base? This flips the ranking, the required minimums (60% vs 67%) and the direct floor (44.3% vs 67.4%).",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will Meridian accept the carve-out, a 25-30% discount on new business and minimums above the scenario-specific break-even? The draft's preference for Meridian depends on all three.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are finance's ramp plan and Y4+ run-rate for the direct team, against the roughly EUR 2.74-3.07M/yr post-term threshold?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What internal support plan would the Meridian route actually need (FTE, bonus, car and travel, NL staff, MDF and its revenue base), compared with the roughly EUR 0.20M lead at the 35% discount?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, the status quo, the hybrid, the term-by-term asks, support costs and post-term economics are addressed."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-level and SaaS-oriented benchmarks are flagged, support costs are labelled as likely understated, and moderate confidence fits a verdict that is explicitly conditional."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All new calculations (K43-K54, the revised K38, K30, K48) recompute correctly, and the prior logic errors are fixed. The remaining issues are minor: one threshold missing its base-included variant (D1) and a post-term figure at the wrong discount (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Status quo, the term sheet as written, revised Meridian, direct and hybrid are compared with the draft's own figures, and the counterarguments are answered conditionally."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is now a clear conditional decision: reject as written, near-tie otherwise, and Meridian only with the carve-out, a discount cut and lean support. It names the data that would resolve it. The only issue is minor inconsistency in how the threshold is stated (D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and support the claims. The 60% figure is now correctly attributed to reference 1. No injected instructions were followed."
+    }
+  ]
+}

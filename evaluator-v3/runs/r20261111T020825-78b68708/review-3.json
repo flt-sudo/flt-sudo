@@ -1,0 +1,74 @@
+{
+  "defects": [],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft 3 adds a rollback trigger for confirmed-open findings. The verdict guardrails, CL17, the pilot alternative and practicalImplications[4] now all say pilot users are rolled back if delivered evidence (the 30-day retest/closure evidence, NDA summaries or our own tenant test) confirms that BW-04 or BW-07 is still open, or that BW-11 has no rate limiting or other documented mitigation. The draft also explains why a confirmed-open BW-07 means rollback and not just a freeze: excluding privileged users does not neutralise it. This matches the unlock criteria."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "The pilot now has a hard end at 90 days. A missed 30-day deadline freezes the pilot only until the item arrives, and never beyond day 90. If the 90-day test (f) is missed, the pilot ends and users are rolled back. Continuing past day 90 needs a fresh sign-off. Admin accounts are now defined: a small named set of our own IAM administrators on dedicated, phishing-resistant-MFA accounts, with user export restricted. The draft openly says these accounts stay exposed to BW-07."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "tradeoffs[0] and CL16 now use E22's wording ('compromised or stolen credentials', 22%, top initial access vector). Both repeat the caveat that the figure comes from a Verizon snippet and the report was not inspected."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Can Keystone ID do the following per tenant: disable the Device Authorization Grant, enforce phishing-resistant or passkey-only MFA, restrict admin export, scope SCIM tokens, run SSO without SCIM, and stream admin and provisioning audit events to a SIEM?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is there independent evidence (a Brightwater retest letter or a customer-commissioned tenant test) that BW-04, BW-07 and BW-11 are closed on the current session service? Is there a SOC 2 Type II or ISO 27001 attestation whose scope covers provisioner-v2, the device grant and passkeys?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does the organisation use today for workforce authentication and provisioning: an incumbent IdP, MFA coverage, deprovisioning latency, and a fallback path if a pilot is rolled back?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the full signed Brightwater report, obtained directly from Brightwater, match the vendor-supplied summary on scope, finding IDs, severities and statuses?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will the vendor permit a customer-commissioned penetration test of our tenant, and will it agree contractually to retest rights, breach-notification and availability SLAs, and data residency terms?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are assessed. The request is answered in full: whether to approve (no, not for the full rollout), plus named conditions, deadlines and pilot guardrails. The user's three premises are each checked against the evidence."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material conclusions rest on the VERIFIED fixture documents (E1 to E4). Evidence that comes only from snippets or secondary sources (E8, E10, E18, E19, E22) is labelled as such, including the newly caveated DBIR figure. Unknowns (E6, E12, E15, E16, E17) are stated, not glossed over."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1 (32 months), K2 (2.67 years), K4 (0.01%), K5 (12), K6 (3) and K7 (115), and all are correct. The revised pilot logic is now consistent: a 30-day freeze is capped at day 90, day 90 is a hard end, rollback fires on new or confirmed-open Highs, and expansion requires every deliverable. The E2/E6 contradiction is handled reasonably as a change of status over time."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The status-quo case for moving fast is presented as the strongest opposing argument and is not strawmanned. The other options covered are unconditional approval, conditional approval, SSO-only, a pilot, a customer-commissioned test, time-boxed deferral and alternative vendors."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear: time-boxed deferral of full sign-off, with a guarded pilot as the fallback. Freeze, end and rollback triggers are now complete and match the unlock criteria, and the Friday vendor and IAM requests are actionable."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited E and K ID exists in the packet, and the claims match it. The DBIR wording now matches E22. The draft did not follow the instruction embedded in the pentest summary, and it treats that text as a vendor trust issue."
+    }
+  ]
+}

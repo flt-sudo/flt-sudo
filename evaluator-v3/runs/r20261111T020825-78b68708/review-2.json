@@ -1,0 +1,104 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The pilot guardrails added in draft 2 do not cover the outcome most likely to matter: confirmation that the known Highs are still open. Rollback fires only on 'any new open High or Critical finding', and a freeze happens only on a 'missed deadline'. Suppose the 30-day retest or closure evidence (guardrail e) arrives on time and shows BW-04 (session survives password reset) or BW-07 (admin export IDOR) is still open, or that BW-11 has no rate limiting. Then neither trigger fires, because the findings are not new and the deadline was met. The pilot would keep running with confirmed account-takeover persistence and a directory-exposure flaw. The draft's own unlock criteria require closure of BW-04, BW-07 and BW-11, so the guardrails should match: rollback or suspension when delivered evidence confirms any of them is still open, not only when a new finding appears. Excluding admins from the pilot does not neutralise BW-07, because the draft itself (edgeCases[1]) says a lower-privilege session may be able to exploit it.",
+      "location": "verdict (pilot guardrails, last sentences); alternatives 'Staged or limited rollout (pilot) with guardrails'; practicalImplications[4]; CL17",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "Two new pilot parameters conflict. The pilot is 'at most 90 days', yet 'any missed deadline freezes the pilot at its current size'. The 90-day deliverable (f), an independent test of the new surfaces, falls on the pilot's last day. The draft never says what happens if (f) slips: does the pilot end, or does it continue frozen with no end date? A frozen pilot with no end date is the 'pilot quietly becomes permanent' failure that tradeoffs[1] warns about. There is a smaller ambiguity too. 'No admins' presumably means no privileged end users, but the tenant still needs our own IAM administrators, and their accounts would be exposed to the admin-console surface (BW-07). The draft does not say how those accounts are handled.",
+      "location": "verdict guardrails (b), (f) and the freeze sentence; CL17; practicalImplications[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "tradeoffs[0] says DBIR reports 'password-based access' as the top breach vector. E22 actually says 'compromised or stolen credentials' were the top initial access vector, at 22%. The draft also uses the 22% figure without restating E22's own caveat that it comes only from a snippet, because the Verizon report was not inspected. The DBIR comparison would read better with that caveat.",
+      "location": "tradeoffs[0]; CL16",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The verdict, C1 and CL2 now separate two things. The tested surfaces (web login and the admin console) have results about 32 months old, and the excerpted changelog cannot show whether that code changed. The replaced or added components (session service, provisioner-v2, device grant, passkeys) were never tested. The overclaim 'none of the tier-0 surfaces' has been removed."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Draft 2 adds a status-quo counterargument backed by E17 (current state unknown), E20, E21 and E22. The tradeoffs no longer assume deferral is safer or that an incumbent IdP exists. The verdict now calls for a time-boxed deferral, and there is a practical implication asking the IAM team for current-state facts."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Three alternatives are added, each with feasibility caveats tied to E12 and E16: SSO only with SCIM deferred, a customer-commissioned test of our own tenant, and evaluation of alternative IdP vendors."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Pilot parameters are now set: at most 115 users (K7, recomputed: 5% of 2,300 is 115), at most 90 days, deliverables at 30 and 90 days, expansion criteria, freeze and rollback triggers, and Friday deadlines for the vendor confirmations. New gaps in that guardrail logic are raised as new defects D1 and D2."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Can Keystone ID disable the Device Authorization Grant per tenant, enforce phishing-resistant or passkey-only MFA, restrict admin export, scope SCIM tokens, run SSO without SCIM, and stream admin and provisioning audit events to a SIEM?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is there independent evidence (a retest letter or our own tenant test) that BW-04, BW-07 and BW-11 are closed on the current session service, and is there a SOC 2 Type II or ISO 27001 attestation whose scope covers provisioner-v2, the device grant and passkeys?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does the organisation use today for workforce authentication and provisioning (incumbent IdP, MFA coverage, deprovisioning latency, fallback path if a pilot is rolled back)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the full signed Brightwater report, obtained directly from Brightwater, match the vendor-supplied summary (scope, finding IDs, severities, statuses)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will the vendor permit a customer-commissioned penetration test of our tenant, and will it agree contractually to retest rights, breach-notification and availability SLAs, and data residency terms?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are assessed. Deadlines, pilot parameters, data residency, DPA terms and availability are now covered. Every part of the request is answered, including which conditions to attach."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material conclusions rest on the VERIFIED fixture documents (E1 to E4). Evidence that comes only from snippets (E18, E19, E8, E10, E22) is flagged, and the BW-11 framing is now properly hedged."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1 (32), K2 (2.67), K4 (0.01%), K5 (12), K6 (3) and K7 (115), and all are correct. The E2/E6 'contradiction' is reasonably explained as a change of status over time. The only new flaw is a minor inconsistency between the freeze rule and the 90-day maximum (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The status-quo case is now presented as the strongest opposing argument and is not strawmanned. The SSO-only, customer-test and alternative-vendor options are all included."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict is clear and actionable, but the pilot's rollback and freeze triggers do not handle confirmation that the known Highs are still open, which leaves a loophole in the conditions the user asked for (D1)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and match the packet. The CL14 and K3 references were removed cleanly. One DBIR characterisation is slightly loose (D3). The draft did not follow the injected instruction."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict guardrails (b), (f) and the freeze sentence; CL17; practicalImplications[4]] Two new pilot parameters conflict. The pilot is 'at most 90 days', yet 'any missed deadline freezes the pilot at its current size'. The 90-day deliverable (f), an independent test of the new surfaces, falls on the pilot's last day. The draft never says what happens if (f) slips: does the pilot end, or does it continue frozen with no end date? A frozen pilot with no end date is the 'pilot quietly becomes permanent' failure that tradeoffs[1] warns about. There is a smaller ambiguity too. 'No admins' presumably means no privileged end users, but the tenant still needs our own IAM administrators, and their accounts would be exposed to the admin-console surface (BW-07). The draft does not say how those accounts are handled."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict (pilot guardrails, last sentences); alternatives 'Staged or limited rollout (pilot) with guardrails'; practicalImplications[4]; CL17] The pilot guardrails added in draft 2 do not cover the outcome most likely to matter: confirmation that the known Highs are still open. Rollback fires only on 'any new open High or Critical finding', and a freeze happens only on a 'missed deadline'. Suppose the 30-day retest or closure evidence (guardrail e) arrives on time and shows BW-04 (session survives password reset) or BW-07 (admin export IDOR) is still open, or that BW-11 has no rate limiting. Then neither trigger fires, because the findings are not new and the deadline was met. The pilot would keep running with confirmed account-takeover persistence and a directory-exposure flaw. The draft's own unlock criteria require closure of BW-04, BW-07 and BW-11, so the guardrails should match: rollback or suspension when delivered evidence confirms any of them is still open, not only when a new finding appears. Excluding admins from the pilot does not neutralise BW-07, because the draft itself (edgeCases[1]) says a lower-privilege session may be able to exploit it."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [tradeoffs[0]; CL16] tradeoffs[0] says DBIR reports 'password-based access' as the top breach vector. E22 actually says 'compromised or stolen credentials' were the top initial access vector, at 22%. The draft also uses the 22% figure without restating E22's own caveat that it comes only from a snippet, because the Verizon report was not inspected. The DBIR comparison would read better with that caveat."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(2026 - 2024) * 12 + (11 - 3)",
+      "claimed": 32,
+      "actual": 32,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "round(32 / 12, 2)",
+      "claimed": 2.67,
+      "actual": 2.67,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "100 / 10^6 * 100",
+      "claimed": 0.01,
+      "actual": 0.01,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(2026 - 2025) * 12 + (11 - 11)",
+      "claimed": 12,
+      "actual": 12,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "11 - 8",
+      "claimed": 3,
+      "actual": 3,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "2300 * 5 / 100",
+      "claimed": 115,
+      "actual": 115,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict (pilot guardrails, last sentences); alternatives 'Staged or limited rollout (pilot) with guardrails'; practicalImplications[4]; CL17] The pilot guardrails added in draft 2 do not cover the outcome most likely to matter: confirmation that the known Highs are still open. Rollback fires only on 'any new open High or Critical finding', and a freeze happens only on a 'missed deadline'. Suppose the 30-day retest or closure evidence (guardrail e) arrives on time and shows BW-04 (session survives password reset) or BW-07 (admin export IDOR) is still open, or that BW-11 has no rate limiting. Then neither trigger fires, because the findings are not new and the deadline was met. The pilot would keep running with confirmed account-takeover persistence and a directory-exposure flaw. The draft's own unlock criteria require closure of BW-04, BW-07 and BW-11, so the guardrails should match: rollback or suspension when delivered evidence confirms any of them is still open, not only when a new finding appears. Excluding admins from the pilot does not neutralise BW-07, because the draft itself (edgeCases[1]) says a lower-privilege session may be able to exploit it."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Can Keystone ID disable the Device Authorization Grant per tenant, enforce phishing-resistant or passkey-only MFA, restrict admin export, scope SCIM tokens, run SSO without SCIM, and stream admin and provisioning audit events to a SIEM?",
+    "Is there independent evidence (a retest letter or our own tenant test) that BW-04, BW-07 and BW-11 are closed on the current session service, and is there a SOC 2 Type II or ISO 27001 attestation whose scope covers provisioner-v2, the device grant and passkeys?",
+    "What does the organisation use today for workforce authentication and provisioning (incumbent IdP, MFA coverage, deprovisioning latency, fallback path if a pilot is rolled back)?",
+    "Does the full signed Brightwater report, obtained directly from Brightwater, match the vendor-supplied summary (scope, finding IDs, severities, statuses)?",
+    "Will the vendor permit a customer-commissioned penetration test of our tenant, and will it agree contractually to retest rights, breach-notification and availability SLAs, and data residency terms?"
+  ]
+}

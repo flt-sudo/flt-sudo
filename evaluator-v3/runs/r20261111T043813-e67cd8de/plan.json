@@ -51,12 +51,109 @@
       ]
     },
     {
-      "id": "C1-G2-placeholder",
-      "question": "",
-      "whyItMatters": "",
-      "criteria": []
+      "id": "G2",
+      "question": "Does Lumen charge anything beyond ingest that would apply to us, such as indexing, query or scan charges, per-user or per-host seats, trace-span pricing, egress, support tiers or overage rates? Are volume or committed-use discounts available at 42 TB/month that would bring the per-GB rate below $0.35?",
+      "whyItMatters": "Hidden fees would widen the cost gap. A large enough volume discount (below about $0.283/GB) would be the only way Lumen beats $11,900/month on ingest alone.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What does the current vendor's $11,900/month actually cover (ingest volume, retention, features, any discounts), and what renewal price or terms are expected at the 2027-03-01 renewal?",
+      "whyItMatters": "The baseline we compare against has to be like-for-like and has to reflect the price we would really pay after renewal, not just today's invoice.",
+      "criteria": [
+        "C1",
+        "C3"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What are the early-termination, notice and overlap terms of the current contract? If we signed Lumen this quarter, how many months would we pay both vendors?",
+      "whyItMatters": "Signing before 2027-03-01 could mean several months of double spend on top of a 12-month Lumen commitment, which would increase the total cost of switching a lot.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What is the expected ingest growth over the next 12 to 24 months, and how would Lumen's per-GB cost scale compared with the current vendor's pricing structure?",
+      "whyItMatters": "Linear per-GB pricing makes Lumen more expensive as volume grows if the current vendor uses tiered or flat pricing. The gap could widen over the commitment term.",
+      "criteria": [
+        "C2",
+        "C1"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What one-time migration costs should we expect, including engineering effort to reinstrument and rebuild dashboards and alerts, the parallel-run period, and any professional-services fees?",
+      "whyItMatters": "Migration costs add to total cost of ownership and determine whether any recurring saving, if one exists at all, pays back within the commitment period.",
+      "criteria": [
+        "C4"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "Does Lumen's included 30-day hot retention meet our compliance requirements in full (immutability, audit access, data residency), and does it support both logs and traces at feature parity with what we use today?",
+      "whyItMatters": "A gap in compliance or features would mean extra spend or would rule Lumen out, whatever the price.",
+      "criteria": [
+        "C5",
+        "C2"
+      ]
+    },
+    {
+      "id": "G8",
+      "question": "Is the quarter-end price lock real and documented? What price would apply if we signed after the quarter or closer to 2027-03-01?",
+      "whyItMatters": "The urgency only matters if waiting would really cost us something. If the recomputed price is already higher than current spend, a price lock has no value.",
+      "criteria": [
+        "C3",
+        "C6"
+      ]
     }
   ],
-  "assumptionsToVerify": [],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Lumen would cost about $1,470/month for our 42 TB of monthly ingest.",
+      "source": "user",
+      "howToCheck": "Recompute it as 42 TB x 1,000 GB/TB x $0.35/GB using the pricing page, and get a written quote from Lumen."
+    },
+    {
+      "assumption": "Switching would save 88% compared with current spend.",
+      "source": "user",
+      "howToCheck": "Recalculate the saving as (11,900 - recomputed Lumen cost) / 11,900, including any extra fees and migration costs."
+    },
+    {
+      "assumption": "We ingest 42 TB per month.",
+      "source": "user",
+      "howToCheck": "Check against the usage report and several months of current-vendor billing data to confirm the units (TB vs. TiB) and the trend over time."
+    },
+    {
+      "assumption": "Current spend is $11,900/month.",
+      "source": "user",
+      "howToCheck": "Check against recent invoices and the contract, and confirm whether it includes one-off items or discounts."
+    },
+    {
+      "assumption": "Signing before quarter end locks in a better price.",
+      "source": "user",
+      "howToCheck": "Ask Lumen for written terms of the price lock and compare them with the standard published pricing."
+    },
+    {
+      "assumption": "The ROI sheet's figures are accurate and complete.",
+      "source": "planner",
+      "howToCheck": "The sheet was prepared by the vendor. Check every line against the published pricing page and our own usage data."
+    },
+    {
+      "assumption": "The included 30-day retention means no extended-retention charges apply to us.",
+      "source": "planner",
+      "howToCheck": "Confirm in the contract terms that 30 days of hot retention for logs and traces is included at no extra charge."
+    },
+    {
+      "assumption": "Migration could be completed without a long period of paying both vendors.",
+      "source": "planner",
+      "howToCheck": "Review the current contract's termination and renewal terms and estimate how long a parallel run would take."
+    }
+  ],
   "answerability": "answerable"
 }

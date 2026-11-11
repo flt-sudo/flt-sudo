@@ -1,0 +1,691 @@
+{
+  "verdict": "Extracting billing into a separate service is not required to close AF-2026-09. The supplied finding prescribes no architecture. It accepts database-level access controls, separate schemas with restricted roles, or service extraction, provided the controls are demonstrable (E1). Finishing extraction by 30 April 2027 with the planned staffing is very unlikely, but a firm 'no' cannot be proven. Planned capacity is about 8 engineer-months (K6). No billing-specific estimate exists (E3, E11). The only figure available is therefore a low-confidence outside-view range: if billing resembles the three past extractions, expect roughly 13 to 18 engineer-months (mean about 15.9, K18). It could be more, given the dual-write ledger and the unanalysed coupling (E4, E5, E10). Planned capacity is only about 62% of the smallest past actual (K15). Because comparability with those projects is unverified (E5), this range is indicative, not a measured estimate. Our judgement is that the chance of finishing extraction on the planned staffing by 30 April 2027 is low, below roughly 1 in 5. This is a judgement, not a computed probability. Extraction would become plausible in two cases. The first is a calibrated bottom-up estimate that comes in at about 3.1 to 4.4 engineer-months before calibration (K7, K8). The second is a staffing increase. Four engineers full-time from January give about 16 engineer-months (K13). That would cover a notifications-sized effort (13 engineer-months in about 3.25 months, K14) but not an auth-sized or search-sized one (about 4.2 and 4.5 months, K19, K20). Recommendation: close the finding with demonstrable controls. This path is neither free nor certain to make the date. In a Rails monolith, restricted database roles separate access only if billing models get their own connection and database credential (E12, E13). That in turn means finding and fixing every non-billing path that reads or writes billing tables, which are the same coupling unknowns that drive extraction (E4, E14, E15). A billing database role also does not restrict which code calls billing models, so code-path restriction needs code ownership, review and deploy controls (E8, E13). Suppose the auditor expects about 3 months of operating evidence, which is a common practitioner floor and is not stated in the finding (E1, E17, E19). Then the controls must be live by about 31 January 2027, which is about 11.6 weeks from today (K16). Planned staffing starts only in January and gives about 2 engineer-months before then (K17, E21). The lighter path therefore makes the date only if three things hold. (a) The auditor confirms the evidence and testing window. (b) Work begins in November or December rather than January, starting with the billing table and write-path inventory. (c) That inventory turns out small enough to finish role separation in time. If any of these fails, the fallback is a staged rollout or a negotiated date. A staged rollout puts audit logging, segregation of duties and change controls in first and tightens grants afterwards (E14, E21). If the auditor requires a 6-month window, operating evidence before 30 April 2027 is already out of reach (E18), although the sources conflict on this and the more reliable ones say no fixed minimum exists (E17). The 30 April 2027 date and the 'logical segregation' wording come only from the request and need confirming (E2).",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The lighter-controls path fits the audit requirement at least as well as extraction, and it addresses the tested controls more directly. Its practical strength, though, depends on how it is implemented inside a Rails monolith. AF-2026-09 asks for access to billing data and code paths to be restricted to authorised roles, for segregation of duties, and for change audit logging. It names DB-level controls, restricted schemas and extraction as equally acceptable if the controls are demonstrable (E1). Extraction on its own produces none of the evidence auditors usually sample, such as access listings, approvals, SoD role matrices and change tickets (E8). On the E1/E2 contradiction: E1 is the verified text of the finding, so it is the more authoritative source on what is required. E2 is the user's paraphrase. E1 is silent on the date, so the deadline is unverified rather than contradicted.",
+      "mechanisms": "Auditors test whether controls operate, for example by sampling access reviews, approvals and logs, rather than whether the architecture has a particular shape (E8). A service boundary only changes where controls have to be applied. It does not create role restrictions, an SoD matrix or audit trails by itself. PostgreSQL privileges are deny-by-default and can be granted at schema and object level through roles (E7), and pgAudit adds session and object audit logs aimed at compliance (E6). These DB grants separate anything, however, only if billing code and non-billing code connect as different roles. In Rails, credentials are bound per abstract model class. A BillingRecord abstract class with connects_to pointing at a restricted database user is the standard mechanism, and the database users and grants have to be created outside Rails (E12, E13). Because the credential follows the model class and not the caller, a billing role restricts which tables non-billing models can reach. It does not restrict which code paths can call billing models. Code-path restriction therefore needs code ownership, review and deploy controls (E13, E8).",
+      "strengths": [
+        "The finding explicitly accepts non-architectural options (E1).",
+        "Off-the-shelf DB mechanisms exist for role-based restriction (E7) and change audit logging (E6), and Rails has a documented way to bind billing models to a separate credential (E12).",
+        "General ITGC practice focuses on evidence of controls operating, which the lighter path produces directly (E8)."
+      ],
+      "weaknesses": [
+        "E1 is a two-sentence summary. It does not define 'demonstrable' or any testing period.",
+        "The database engine and version are not stated (E22). E6 and E7 apply only if the database is PostgreSQL. The fetched pgAudit README says version 14 or later, but a search snippet said 13 or later, so the exact floor is unsettled (E6).",
+        "A per-class DB credential does not restrict which code paths call billing models. That needs repository, review and deploy controls (E13, E8).",
+        "pgAudit logging is best-effort and not transactional (E6). Superusers bypass object privileges, and table owners bypass row security unless it is forced, so a runtime role that is superuser or table owner defeats the restriction (E7, E16)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E6",
+        "E7",
+        "E8",
+        "E12",
+        "E13",
+        "E16",
+        "E22"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Extraction is very unlikely to finish by 30 April 2027 with the planned staffing. This is a probability judgement (below roughly 1 in 5), not a proven 'no'. Nominal capacity is 4 x 0.5 FTE x about 4 months, roughly 8 engineer-months (K6, E3). If billing resembles the past extractions (13 to 18 engineer-months actual, E5), it would take about 6.5 to 9 months at 2 FTE (K10, K11), well past the end of April. That comparison is an outside view, because billing's comparability with those projects is unknown (E5). Full-time staffing from January (about 16 engineer-months, K13) would fit a notifications-sized effort in about 3.25 months (K14). It would not fit an auth-sized or search-sized effort, which would take about 4.2 and 4.5 months (K19, K20). The lighter path has a schedule problem of its own. If the auditor wants about 3 months of operating evidence (E17, E19), go-live is needed by about 31 January 2027. That is about 11.6 weeks from 11 Nov 2026 (K16), and planned staffing gives only about 2 engineer-months in January (K17, E21). It can make the date only with an earlier start and a confirmed testing window. Its effort is unquantified (E21). The deadline itself rests only on the user's statement (E2).",
+      "mechanisms": "Effort has to fit inside fixed capacity. The dual-write ledger and invoice cutover carry the most risk, and data-ownership migration is best done last (E10), which pushes the riskiest work towards the deadline. Whether those phases can be compressed by adding headcount is not addressed by any source. It is planner inference only, so the full-time staffing figures above are nominal capacity, not a schedule guarantee. There is no confirmed start date, commitment, holiday or on-call allowance (E11), so 8 engineer-months is an upper-bound nominal figure. For the lighter path, an operating-effectiveness window counts backwards from the deadline. A 3-month window moves the effective deadline to about end of January 2027 (E17, E19, E21), and a 6-month window would have needed go-live by about end of October 2026, which has already passed (E18).",
+      "strengths": [
+        "Capacity arithmetic is simple and checkable (K6, K13, K17).",
+        "The reference-class actuals give an outside view that does not depend on the missing bottom-up estimates (E5, E9).",
+        "The lighter-path date arithmetic is checkable (K16)."
+      ],
+      "weaknesses": [
+        "No billing-specific estimate exists for either path (E3, E11, E21).",
+        "Comparability of billing with search, notifications and auth is unknown, so absolute actuals are a weak proxy (E5).",
+        "The 30 April 2027 date is not in the supplied finding (E1, E2).",
+        "Whether Phase 4 decommissioning is needed for compliance is undefined (E1, E3).",
+        "The audit framework and any required testing window are unknown (E22)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E9",
+        "E10",
+        "E11",
+        "E17",
+        "E18",
+        "E19",
+        "E21",
+        "E22"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "No credible point estimate exists, so the defensible answer is a range. The recomputed overrun ratios are 1.8x, 2.6x and 2.4x (K1 to K3), with a mean of about 2.27x (K4) and a pooled ratio of about 2.17x (K5). Any future bottom-up estimate should be multiplied by roughly 1.8x to 2.6x. That is the most defensible use of the history, because it calibrates bias rather than assuming equal size. Without a base estimate, the only figure for the exec is a low-confidence outside-view range of roughly 13 to 18 engineer-months, the span of past actuals (mean about 15.9, K18). It could be higher given billing's ledger and dual-write needs (E4, E10). This range assumes billing is about the size of past extractions, which is unverified (E5). As a break-even check, a bottom-up estimate would need to be no more than about 3.08 to 4.44 engineer-months to fit 8 engineer-months (K7, K8), or about 3.53 at the mean ratio (K12).",
+      "mechanisms": "Reference class forecasting corrects optimism by placing the project within the outcome distribution of similar past projects (E9). This company's history shows an overrun of at least 1.8x every time (E5). The PMI source warns the effect is institution- and domain-specific (E9), which is a reason to use internal history rather than industry figures. Applying ratios to a billing-specific base estimate is sound. Using absolute actuals from projects of unknown size as billing's effort is weaker, so that range is labelled low confidence.",
+      "strengths": [
+        "The ratios recompute exactly from the raw data (K1 to K3, E5).",
+        "Using institution-specific history follows the method's own recommendation (E9)."
+      ],
+      "weaknesses": [
+        "Only three data points (E5, E9).",
+        "There is no data on size, coupling or causes for the past projects, so applicability to billing, and especially the use of absolute actuals, is unverified (E5).",
+        "There is no base estimate to apply the ratios to (E3, E11)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E9",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Scope is mostly unquantified, and this is the main reason an exact figure is impossible. There are 214 files referencing Billing::, shared DB tables are 'not yet analysed', and background jobs number 'at least 17' with the scan incomplete (E4). These unknowns drive the lighter path too, not only extraction. If billing tables are granted only to a billing role, every non-billing model, query, join, report or job that touches them through the main connection fails at runtime. Each such path has to be found and either moved onto the billing connection or granted explicitly (E14).",
+      "mechanisms": "Under extraction, shared tables and write paths outside billing decide how complex the dual-write ledger and cutover become. Application-level dual writes risk data discrepancies, and sync bridges tend to become permanent if they are not time-boxed (E10). Under restricted roles, the same paths cause runtime permission failures. Work that today runs in one transaction across billing and non-billing tables would span two connections and lose atomicity unless it is restructured (E14). GitLab's split of CI tables inside its Rails monolith needed every cross-database join and foreign key to be found and fixed, even though GitLab describes its CI data as relatively loosely coupled (E15). The inventory is therefore on the critical path for both options.",
+      "strengths": [
+        "The partial analysis at least sets lower bounds (E4).",
+        "The restricted-role path avoids dual-write ledger synchronisation and a service cutover (E14)."
+      ],
+      "weaknesses": [
+        "The file count does not measure coupling depth (E4).",
+        "The job count is a lower bound (E4).",
+        "There is no shared-table or write-path inventory, and no effort figure exists for either path (E4, E11, E14, E15)."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E10",
+        "E11",
+        "E14",
+        "E15"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Delivery readiness is weak. The plan is a draft with no owner, every phase is TBD, and staffing is 50% part-time from 'January' with no year stated (E3). There is no confirmed commitment or start date (E11). A firm commitment to the executives is not credible on this basis.",
+      "mechanisms": "Without an owner, nobody is accountable for scoping the TBD phases or for escalating slippage. Part-time allocation leaves the work exposed to competing priorities; this is a general judgement, not a sourced finding. With about 4 calendar months, any start delay takes a large share of capacity.",
+      "strengths": [
+        "A phased structure exists, including a dual-write step that is consistent with safer migration practice (E3, E10)."
+      ],
+      "weaknesses": [
+        "No owner (E3).",
+        "No estimates (E3).",
+        "Staffing is unconfirmed (E11)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "A plausible interim or primary compliance path exists, and the finding accepts it (E1). It combines restricted DB roles or schemas (E7), DB change audit logging (E6), SoD and change-management controls (E8), and code ownership and deploy restrictions on billing paths (E13). It is not risk-free. Role separation needs a billing connection in Rails (E12) and a refactor of every non-billing access path, the scale of which depends on the missing inventory (E14). Its schedule is tight if an operating window applies: go-live by about 31 January 2027 for a 3-month window (K16, E17, E19, E21). A quarterly access review that first runs in late January could show only one occurrence by 30 April, and practitioner sample guidance suggests at least 2 for quarterly controls (E20). Per-change and monthly controls can build up samples faster (E20).",
+      "mechanisms": "The controls sit on top of the current monolith and avoid dual-write ledger synchronisation and a service cutover (E14). They still need schema or grant migrations, and possibly search_path or table-name changes (E14). They also need a migration or owner role kept separate from the runtime roles, because owners and superusers bypass restrictions (E16, E7). A staged rollout lowers the risk of runtime breakage. Audit logging, the SoD matrix and change controls go in first while the app still connects with broad rights, and grants are tightened once the access paths are known (E14). This is design reasoning, not sourced practice, and broad rights in the first stage mean restriction is not yet in force. If extraction continues later, the role, SoD and logging design can carry over to the new service.",
+      "strengths": [
+        "The finding explicitly accepts it (E1).",
+        "It uses standard mechanisms (E6, E7, E12).",
+        "It avoids the dual-write ledger and the cutover (E14)."
+      ],
+      "weaknesses": [
+        "Its effort is not estimated anywhere in the packet (E21).",
+        "It depends on the database engine, version and current credential setup, none of which are stated (E22).",
+        "pgAudit logging is best-effort (E6).",
+        "The auditor's expected testing period is unknown, and if a 6-month window applies it is already too late (E1, E18, E22).",
+        "Planned staffing starts in January, which leaves about 2 engineer-months before an end-of-January go-live unless work starts earlier (K17, E21)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E6",
+        "E7",
+        "E8",
+        "E12",
+        "E13",
+        "E14",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The supplied AF-2026-09 summary does not require service extraction. It accepts database-level access controls, separate schemas with restricted roles, or extraction, provided the controls are demonstrable.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Nominal planned capacity before the deadline is about 8 engineer-months (4 engineers x 0.5 x about 4 months). This is an upper bound because start date, commitment, holidays and on-call load are unconfirmed.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E11"
+      ],
+      "calculationIds": [
+        "K6"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Past extractions overran their estimates by 1.8x, 2.6x and 2.4x (mean about 2.27x, pooled about 2.17x). Their actual effort ranged from 13 to 18 engineer-months, all above the roughly 8 engineer-months of planned capacity. Planned capacity is about 62% of the smallest past actual. The ratios are a defensible calibration. The absolute actuals are only a weak proxy for billing, because project sizes are unknown.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5",
+        "K15"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Using the company's overrun history, extraction would fit in 8 engineer-months only if a bottom-up estimate came in at about 3.08 to 4.44 engineer-months before calibration. That is below the smallest past extraction estimate of 5 engineer-months. If billing's base estimate were no smaller than that, 5 x 1.8 = 9 engineer-months would already exceed capacity. This is an assumption, not a measured fact.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E9"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "If billing needed effort similar to the past extractions (13 to 18 engineer-months), it would take about 6.5 to 9 calendar months at 2 FTE. Starting in January 2027, that means completion around mid-July to late September 2027, after the 30 April deadline.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5"
+      ],
+      "calculationIds": [
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "An exact engineer-month figure for the billing extraction cannot be determined from the evidence. All phases are TBD, shared tables are not analysed, the background-job count is a lower bound, and there is no confirmed staffing.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Whether billing is comparable to the search, notifications and auth extractions cannot be determined. The estimate history has no size, coupling, team or overrun-cause data, so the historical ratios are a reasonable reference class but are not validated for billing.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "The 30 April 2027 deadline and the 'logical segregation' wording come only from the user's request. Neither appears in the supplied finding, so the deadline cannot be verified from the packet.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E2",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Auditors typically test evidence of controls operating, such as access listings and reviews, SoD role matrices and approved change tickets, rather than system architecture. A completed extraction without these controls would not by itself close the finding.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E8",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Off-the-shelf PostgreSQL mechanisms support the lighter path: deny-by-default GRANT-based schema and object privileges through roles, and pgAudit session and object audit logging aimed at compliance. Both apply only if the monolith uses PostgreSQL. The pgAudit README says version 14 or later, while a search snippet said 13 or later.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The dual-write ledger and invoice cutover phases are the riskiest parts of extraction. Application-level dual writes risk data discrepancies, and data-ownership migration is best done last. Whether these phases can be shortened by adding headcount is not addressed by the evidence.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E10",
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "The extraction plan has no owner and no phase estimates, so a firm delivery commitment is not credible on the current plan.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The effort of the lighter-controls path cannot be quantified from the packet. No estimate exists for DB roles, schema separation, SoD, code-path controls or audit-logging work. The database engine, Rails version and current credential setup are not stated.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E11",
+        "E21",
+        "E22"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Low-confidence outside-view range: if billing resembles the past extractions, extraction effort would be roughly 13 to 18 engineer-months (mean about 15.9), and possibly more given the dual-write ledger and unanalysed coupling. This is indicative only, because comparability is unverified.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E4",
+        "E10"
+      ],
+      "calculationIds": [
+        "K18"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "Our judgement, not a computed probability, is that the chance of completing extraction by 30 April 2027 on the planned staffing is low, below roughly 1 in 5. None of the three reference projects' actual effort would have fitted in 8 engineer-months, and capacity is about 62% of the smallest of them.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E9"
+      ],
+      "calculationIds": [
+        "K6",
+        "K15"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "Inside a Rails monolith, DB-level restriction separates access only if billing models connect with their own restricted credential, through an abstract class with connects_to whose DB user and grants are created outside Rails. Because the credential is bound per model class, it does not restrict which code paths call billing models. Code-path restriction needs code ownership, review and deploy controls.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E13",
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL17",
+      "text": "The lighter path carries refactoring and migration risk driven by the same coupling unknowns as extraction. Every non-billing path that touches billing tables would fail under restricted grants until it is moved or granted. Cross-domain transactions would lose atomicity across two connections. Shared tables need an ownership decision. It does avoid the dual-write ledger and the service cutover.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E14",
+        "E4",
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL18",
+      "text": "If the auditor expects about 3 months of operating evidence, the lighter controls must be live by about 31 January 2027, about 11.6 weeks from 11 Nov 2026. Planned staffing starts in January and would supply only about 2 engineer-months before then, so meeting that target requires starting in November or December.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E17",
+        "E19",
+        "E21",
+        "E3"
+      ],
+      "calculationIds": [
+        "K16",
+        "K17"
+      ]
+    },
+    {
+      "id": "CL19",
+      "text": "The sources conflict on the minimum operating window. Several sources say the AICPA sets no minimum and that 3 months is the common floor (E17). A single snippet attributes a 6-month minimum to the AICPA (E18). E17 is more reliable because it is corroborated across several sources and the AICPA attribution in E18 is contradicted. If an auditor nonetheless required 6 months, operating evidence before 30 April 2027 would already be out of reach.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E17",
+        "E18"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL20",
+      "text": "Full-time staffing of 4 engineers from January would give about 16 engineer-months. That covers a notifications-sized effort (13 engineer-months in about 3.25 months) but not auth-sized (16.8, about 4.2 months) or search-sized (18, about 4.5 months) efforts within January to April. So it covers one of the three reference projects.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5"
+      ],
+      "calculationIds": [
+        "K13",
+        "K14",
+        "K19",
+        "K20"
+      ]
+    },
+    {
+      "id": "CL21",
+      "text": "The packet does not establish the audit framework behind AF-2026-09, whether an operating-effectiveness period is required and how long it is, the database engine and version, or whether the Rails app connects with a single superuser or table-owner credential. So whether the lighter path can make the date cannot be determined.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E22",
+        "E1"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Full service extraction (Phases 1 to 4) as the way to close the finding",
+      "comparison": "The finding accepts it (E1). On an outside view it is unlikely to fit in about 8 engineer-months (K6), because past extractions took 13 to 18 engineer-months (E5), although their comparability is unverified. It carries the highest cutover risk, from dual writes and data-ownership migration (E10). It still needs access, SoD and logging controls on top to satisfy the auditors (E8)."
+    },
+    {
+      "option": "Database-level controls: billing models on a separate restricted DB credential (Rails connects_to), a separate billing schema or grants, a distinct migration/owner role, pgAudit change logging, SoD and change-management controls, and code ownership and deploy restrictions on billing paths",
+      "comparison": "The finding explicitly accepts it (E1). It uses standard mechanisms (E6, E7, E12) and produces the kind of evidence auditors sample (E8). It avoids the dual-write ledger and the service cutover. It still carries refactoring and migration risk: every non-billing path touching billing tables must be found and moved or granted, and cross-domain transactions must be restructured (E14, E15). The DB role does not by itself restrict code paths (E13). Its effort is unquantified, and with a 3-month window it must be live by about end of January 2027 (K16, E21). It depends on the database being PostgreSQL (E6, E22)."
+    },
+    {
+      "option": "Hybrid: lighter controls to close the finding by the deadline, with extraction continuing afterwards on its own timeline",
+      "comparison": "This separates audit compliance from extraction schedule risk (C6). The role and logging design carries over to the future service. The shared-table and write-path inventory serves both paths (E14). It costs some duplicated effort, and the monolith-side controls must be maintained while extraction continues."
+    },
+    {
+      "option": "Partial extraction (Phases 1 to 3 without decommissioning) by the deadline",
+      "comparison": "This reduces scope, but Phases 2 and 3 are the riskiest (E10). Whether a partial state satisfies the auditor is undefined (E1). It is still unestimated (E3)."
+    }
+  ],
+  "tradeoffs": [
+    "Extraction gives a cleaner long-term boundary, but at high and uncalibrated effort and cutover risk. Lighter controls give faster compliance evidence and avoid the dual-write ledger, but they leave billing coupled to the monolith and still need a refactor of non-billing access paths of unknown size (E1, E4, E10, E14).",
+    "Putting the 4 part-time engineers on extraction takes capacity away from building the controls the auditor actually tests (E3, E8).",
+    "Database-level controls do not cover code-path restriction or deployment SoD. Those need separate repository and deployment controls whichever option is chosen (E1, E8, E13).",
+    "Raising staffing to full-time would double nominal capacity to about 16 engineer-months (K13). That is above the smallest past actual (13) and below auth (16.8) and search (18). It would therefore cover a notifications-sized effort in about 3.25 months (K14) but not the other two (K19, K20). It brings opportunity cost elsewhere, and no evidence shows the dual-write and cutover phases shorten proportionally with headcount."
+  ],
+  "edgeCasesAndFailureModes": [
+    "The monolith is not on PostgreSQL, or is on an older version. Then pgAudit and the cited GRANT semantics do not apply as described, and equivalent controls must be found (E6, E7, E22).",
+    "pgAudit logging is best-effort and not transactional, so gaps in the audit trail are possible. The auditor may need compensating evidence (E6).",
+    "The Rails app connects as superuser or as the owner of the billing tables, often because the same credential runs migrations. DB restrictions are then bypassed, so a separate migration/owner role is needed and SoD must cover who holds it (E16, E7).",
+    "Tightening billing grants before every non-billing access path is known causes runtime failures in jobs, reports or joins. Cross-domain transactions silently lose atomicity across two connections (E14).",
+    "The auditor requires about 3 months of operating evidence, so controls must be live by about 31 January 2027 (K16). A 6-month requirement would already be unmeetable (E17, E18, E19).",
+    "A quarterly access review first run in late January yields only one occurrence by 30 April, below common sample guidance of at least 2 for quarterly controls (E20).",
+    "Unanalysed shared tables or undiscovered background jobs write to billing data, which causes ledger divergence during dual write or a failed invoice cutover (E4, E10).",
+    "A temporary sync bridge becomes permanent, leaving both a monolith and a service footprint to control (E10).",
+    "The January start slips or the engineers are pulled onto other work, so capacity shrinks below 8 engineer-months (E3, E11).",
+    "The real deadline or wording differs from the request (E2)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Extraction is the only way to get true 'logical segregation'. Shared-database controls are a half-measure the auditor will reject.",
+      "response": "The supplied finding explicitly lists database-level access controls and separate schemas with restricted roles as acceptable if they are demonstrable (E1). The risk lies in the 'demonstrable' standard and in implementing the controls properly: a separate billing credential, no superuser or owner runtime role, and code-path controls (E12, E13, E16). It does not lie in the architecture. The auditor should confirm this directly."
+    },
+    {
+      "argument": "In a single-credential Rails monolith, schema or role restrictions do not separate anything, and making them real requires the same coupling work as extraction, so the lighter path is not really lighter.",
+      "response": "This is partly right. Restriction works only if billing models get their own connection and credential (E12). That requires finding and fixing every non-billing path to billing tables, the same unknowns that drive extraction (E4, E14), and GitLab's in-monolith split shows the work is systematic (E15). The lighter path still avoids the dual-write ledger, data-ownership migration and the service cutover (E10, E14), and it can be staged, with logging, SoD and change controls first and grants tightened later (E14). That staging is design reasoning, not sourced practice. The difference in effort between the two paths is not quantified in the packet."
+    },
+    {
+      "argument": "The historical overrun ratios may not apply. Billing might be smaller or better understood than the past extractions.",
+      "response": "That is possible, because E5 has no comparability data. But to fit capacity, a bottom-up estimate would need to be about 3.1 to 4.4 engineer-months (K7, K8). That is below every past estimate, while billing shows 214 referencing files and at least 17 jobs (E4). The burden of proof sits with a bottom-up estimate that does not yet exist."
+    },
+    {
+      "argument": "Doing lighter controls now and extraction later wastes work.",
+      "response": "Role design, SoD matrices, change-approval processes and the access-path inventory are needed in either architecture (E8, E14), so much of that work carries over. Some monolith-side DB configuration may be thrown away. The packet does not quantify how much."
+    },
+    {
+      "argument": "With more staff, extraction could still make the deadline.",
+      "response": "Possibly, for a smaller-than-average billing scope. Four full-time engineers from January give about 16 engineer-months (K13), enough for a notifications-sized effort in about 3.25 months (K14). That is short of auth-sized and search-sized efforts, at about 4.2 and 4.5 months (K19, K20). No evidence in the packet shows whether the dual-write and cutover phases shorten with added headcount. That is untested either way, and it depends on full-time staff actually being available (E11)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Extracting billing into its own service is needed, or is the right way, to satisfy the auditors.",
+      "correction": "The supplied finding does not prescribe an architecture. DB-level controls or separate schemas with restricted roles are equally acceptable if the controls are demonstrable. Extraction is one option, not a requirement.",
+      "evidenceIds": [
+        "E1"
+      ]
+    },
+    {
+      "assumption": "An exact engineer-month figure can be produced.",
+      "correction": "No phase estimates exist and the coupling analysis is partial, so only a range is defensible. The low-confidence outside-view range is roughly 13 to 18 engineer-months, possibly more, if billing resembles past extractions. Any future bottom-up estimate should be multiplied by about 1.8x to 2.6x.",
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "A firm yes/no on finishing extraction by 30 April 2027 can be given.",
+      "correction": "Only a probability judgement is defensible. Extraction is very unlikely to fit on the planned staffing, at below roughly 1 in 5 as a judgement, because no past actual would have fitted in about 8 engineer-months. The answer would move towards 'yes' if a bottom-up estimate came in at about 3 to 4.4 engineer-months, or if billing proved notifications-sized and staffing went full-time.",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "The audit deadline is 30 April 2027 and the requirement is 'logical segregation'.",
+      "correction": "Neither the date nor that wording appears in the supplied finding, which describes restricted access, segregation of duties and audit logging. Confirm both with the formal finding or the auditor.",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Overrun ratio for the search-service extraction (actual / estimated engineer-months)",
+      "expression": "18/10",
+      "claimedResult": 1.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Overrun ratio for the notifications extraction",
+      "expression": "13/5",
+      "claimedResult": 2.6,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Overrun ratio for the auth extraction",
+      "expression": "16.8/7",
+      "claimedResult": 2.4,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Mean of the three overrun ratios",
+      "expression": "(18/10 + 13/5 + 16.8/7)/3",
+      "claimedResult": 2.26667,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Pooled overrun ratio (total actual / total estimated engineer-months)",
+      "expression": "(18 + 13 + 16.8)/(10 + 5 + 7)",
+      "claimedResult": 2.17273,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Nominal capacity before the deadline: 4 engineers x 50% x about 4 months (January to April)",
+      "expression": "4*0.5*4",
+      "claimedResult": 8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the worst historical ratio (2.6x)",
+      "expression": "8/2.6",
+      "claimedResult": 3.07692,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the best historical ratio (1.8x)",
+      "expression": "8/1.8",
+      "claimedResult": 4.44444,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Smallest past extraction estimate (5 engineer-months) times smallest overrun ratio (1.8x), compared with 8 engineer-months of capacity; this assumes billing's base estimate is no smaller than 5",
+      "expression": "5*1.8",
+      "claimedResult": 9,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Calendar months at 2 FTE to deliver the smallest past actual effort (13 engineer-months)",
+      "expression": "13/(4*0.5)",
+      "claimedResult": 6.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Calendar months at 2 FTE to deliver the largest past actual effort (18 engineer-months)",
+      "expression": "18/(4*0.5)",
+      "claimedResult": 9,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the mean historical ratio",
+      "expression": "8/((18/10 + 13/5 + 16.8/7)/3)",
+      "claimedResult": 3.52941,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K13",
+      "purpose": "Nominal capacity if the 4 engineers were full-time from January to April (4 x 1.0 x 4 months)",
+      "expression": "4*1*4",
+      "claimedResult": 16,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "Calendar months at 4 FTE to deliver the smallest past actual effort (13 engineer-months, notifications)",
+      "expression": "13/(4*1)",
+      "claimedResult": 3.25,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Planned capacity (8 engineer-months) as a share of the smallest past actual effort (13 engineer-months)",
+      "expression": "8/13",
+      "claimedResult": 0.615385,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K16",
+      "purpose": "Weeks from 11 Nov 2026 to 31 Jan 2027 (19 remaining days of November + 31 of December + 31 of January), the go-live target for a 3-month operating window before 30 April 2027",
+      "expression": "(19+31+31)/7",
+      "claimedResult": 11.5714,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "Planned capacity available in January 2027 alone (4 engineers x 50% x 1 month), before an end-of-January go-live",
+      "expression": "4*0.5*1",
+      "claimedResult": 2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K18",
+      "purpose": "Mean actual effort of the three past extractions (outside-view midpoint, engineer-months)",
+      "expression": "(18+13+16.8)/3",
+      "claimedResult": 15.9333,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K19",
+      "purpose": "Calendar months at 4 FTE to deliver an auth-sized effort (16.8 engineer-months)",
+      "expression": "16.8/(4*1)",
+      "claimedResult": 4.2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K20",
+      "purpose": "Calendar months at 4 FTE to deliver a search-sized effort (18 engineer-months)",
+      "expression": "18/(4*1)",
+      "claimedResult": 4.5,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Do not commit to the executives that extraction will finish by 30 April 2027, and do not quote a single engineer-month figure. Present the low-confidence range of roughly 13 to 18+ engineer-months, the judgement that the chance is below about 1 in 5, and the conditions that would change it (CL4, CL5, CL6, CL14, CL15).",
+    "Ask the auditor now, in writing, four things: what evidence closes AF-2026-09, which audit framework applies, whether an operating-effectiveness period applies and how long it is, and what the formal deadline is (E1, E2, E22).",
+    "Make lighter controls the primary compliance path. Bind billing models to a restricted DB credential through an abstract class with connects_to, and keep a migration/owner role separate from the runtime roles. Add pgAudit or equivalent change logging, an SoD role matrix that includes DBA and superuser holders, and code ownership, review and deploy restrictions for billing code paths (E1, E6, E7, E8, E12, E13, E16).",
+    "Start the billing shared-table, write-path and background-job inventory in November or December 2026 rather than January. It is on the critical path for both options. Under a 3-month window, controls must be live by about 31 January 2027 (E14, E21, K16).",
+    "Stage the rollout to limit runtime breakage. Put audit logging, SoD and change controls in first, then tighten billing grants once access paths are known. Run the first access review early, or monthly, so enough occurrences exist to sample by 30 April (E14, E20).",
+    "Confirm the database engine and version, and whether the app connects as superuser or table owner, before relying on pgAudit or GRANT semantics (E6, E7, E16, E22).",
+    "If extraction is still wanted, assign an owner, finish the inventory, produce bottom-up phase estimates, and multiply them by 1.8x to 2.6x before scheduling (E3, E4, E5).",
+    "If extraction proceeds, use outbox or CDC rather than application-level dual writes, and time-box any sync bridge (E10)."
+  ],
+  "remainingUncertainty": [
+    "The auditor's exact acceptance criteria, the audit framework, and whether controls must have operated over a period before the deadline and for how long. The sources conflict on 3-month versus 6-month windows (E1, E17, E18, E19, E22).",
+    "Whether the 30 April 2027 date and the 'logical segregation' wording are correct (E2).",
+    "Billing's real scope: shared tables, write paths outside billing, and the full background-job inventory. This drives the effort of both paths (E4, E11, E14).",
+    "Whether the three past extractions are comparable to billing, and therefore how reliable the 13 to 18 engineer-month outside-view range is (E5).",
+    "Actual capacity, meaning start date, commitment, holidays and on-call load, and whether work on the lighter path can start before January (E3, E11, E21).",
+    "The database engine and version, the Rails version and the current DB credential setup, and therefore whether pgAudit, GRANT semantics and Rails connects_to apply as described (E6, E7, E12, E22).",
+    "The effort of the lighter-controls path, which no evidence quantifies (E21).",
+    "The 'below roughly 1 in 5' likelihood is a judgement from a three-project reference class, not a statistical estimate (E5, E9)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Written auditor confirmation of the framework, acceptable evidence and testing window. A separate-service requirement, or a 6-month window, would change the recommendation. Acceptance of design-and-implementation evidence would ease the lighter path's schedule.",
+    "A complete shared-table, write-path and job inventory. A small inventory makes the lighter path comfortably feasible by end of January 2027. A large one could make both paths miss the date.",
+    "Bottom-up phase estimates for extraction. A calibrated estimate at or below about 3 to 4.4 engineer-months would make on-time extraction plausible.",
+    "Size and coupling data for the search, notifications and auth extractions, to validate or adjust the overrun ratios and the outside-view range.",
+    "Confirmed staffing. Full-time allocation or an earlier start would change the capacity side of both calculations.",
+    "A bottom-up estimate for the lighter-controls components, and confirmation of the database engine, version and credential setup."
+  ]
+}

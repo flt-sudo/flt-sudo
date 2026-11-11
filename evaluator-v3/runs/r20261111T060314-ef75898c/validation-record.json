@@ -1,0 +1,539 @@
+{
+  "runId": "r20261111T060314-ef75898c",
+  "generatedAt": "2026-11-11T06:17:45.008Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "PostgreSQL schema GRANT privileges roles restrict access documentation",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 13
+      },
+      {
+        "query": "strangler fig pattern monolith extraction shared database dual write risk",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "reference class forecasting planning fallacy software project overrun Flyvbjerg",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "pgaudit PostgreSQL audit logging extension session object audit",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "ITGC logical access segregation of duties change management audit evidence financial systems",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "SOC 2 Type II minimum observation period 3 months 6 months",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "Rails separate database user per model connects_to same database different credentials restrict access billing tables",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "PostgreSQL row level security policy CREATE POLICY table owner bypass BYPASSRLS application role",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "SOX newly implemented control remediation minimum operating period before testing sample sizes frequency daily weekly quarterly remediated control",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "\"sufficient period of time\" remediated control operating effectiveness management assessment SEC guidance ICFR new control as of date",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "GitLab CI database decomposition cross-database joins loose foreign keys effort Rails monolith",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://www.postgresql.org/docs/12/sql-grant.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.postgresql.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d"
+      },
+      {
+        "url": "https://github.com/pgaudit/pgaudit",
+        "ok": true
+      },
+      {
+        "url": "https://guides.rubyonrails.org/active_record_multiple_databases.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND guides.rubyonrails.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, "
+      },
+      {
+        "url": "https://github.com/rails/rails/blob/main/guides/source/active_record_multiple_databases.md",
+        "ok": true
+      },
+      {
+        "url": "https://bastion.tech/learn/soc2/how-long-does-soc2-take",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND bastion.tech. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does no"
+      },
+      {
+        "url": "https://www.bytebase.com/blog/postgres-row-level-security-limitations-and-alternatives/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.bytebase.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe"
+      }
+    ],
+    "fixturesRead": [
+      "audit-finding.md",
+      "billing-extraction-plan.md",
+      "dependency-analysis.md",
+      "estimate-history.csv"
+    ],
+    "deniedByGuard": [
+      {
+        "tool": "Glob",
+        "reason": "run isolation: Glob outside the active run directory is not permitted (no path)"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-17 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 12833,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 35321,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 150
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 896,
+            "cache_read_input_tokens": 9052,
+            "output_tokens": 2883,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 896
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2883,
+                "cache_read_input_tokens": 9052,
+                "cache_creation_input_tokens": 896,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 896,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-17 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 29845,
+          "totalToolUseCount": 15,
+          "totalDurationMs": 86093,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 69
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 626,
+            "cache_read_input_tokens": 23452,
+            "output_tokens": 5765,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 626
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5765,
+                "cache_read_input_tokens": 23452,
+                "cache_creation_input_tokens": 626,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 626,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-17 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 35811,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 93852,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1516
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 19006,
+            "cache_read_input_tokens": 6157,
+            "output_tokens": 10646,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 19006
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10646,
+                "cache_read_input_tokens": 6157,
+                "cache_creation_input_tokens": 19006,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 19006,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-17 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 40725,
+          "totalToolUseCount": 10,
+          "totalDurationMs": 75785,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 3176
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 896,
+            "cache_read_input_tokens": 33710,
+            "output_tokens": 6117,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 896
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 6117,
+                "cache_read_input_tokens": 33710,
+                "cache_creation_input_tokens": 896,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 896,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-17 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-17 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-17 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 72656,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 55003,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2703
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 57887,
+            "cache_read_input_tokens": 9814,
+            "output_tokens": 4953,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 57887
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4953,
+                "cache_read_input_tokens": 9814,
+                "cache_creation_input_tokens": 57887,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 57887,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-17 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 33828,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 31115,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1005
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 25653,
+            "cache_read_input_tokens": 5069,
+            "output_tokens": 3104,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 25653
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3104,
+                "cache_read_input_tokens": 5069,
+                "cache_creation_input_tokens": 25653,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 25653,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "https://github.com/pgaudit/pgaudit",
+      "how": "fetched"
+    },
+    {
+      "ref": "https://github.com/rails/rails/blob/main/guides/source/active_record_multiple_databases.md",
+      "how": "fetched"
+    },
+    {
+      "ref": "audit-finding.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "billing-extraction-plan.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "dependency-analysis.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "estimate-history.csv",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.postgresql.org/docs/12/sql-grant.html",
+    "https://open-exam-prep.com/study-guides/cpa-isc/ch-3-itgc-sdlc-application-controls/change-management",
+    "https://www.pmi.org/learning/library/planning-fallacy-causes-solutions-project-expectations-6374",
+    "https://archman.dev/docs/modernization-and-migration/strangler-fig-pattern",
+    "https://guides.rubyonrails.org/v6.0.3/active_record_multiple_databases.html",
+    "https://about.gitlab.com/blog/path-to-decomposing-gitlab-database-part1/",
+    "https://www.postgresql.org/docs/19/ddl-rowsecurity.html",
+    "https://bastion.tech/learn/soc2/how-long-does-soc2-take",
+    "https://expel.com/cyberspeak/what-is-soc-2/",
+    "https://www.finrep.ai/blog/material-weakness-remediation-disclosure-requirements-quarter-by-quarter-guide",
+    "https://www.smartsuite.com/grc-foundation/how-to-choose-samples-for-control-testing-without-weakening-assurance"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 22 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 18/10 = 1.8 (claimed 1.8) → match",
+    "Calculation K2 re-executed: 13/5 = 2.6 (claimed 2.6) → match",
+    "Calculation K3 re-executed: 16.8/7 = 2.4 (claimed 2.4) → match",
+    "Calculation K4 re-executed: (18/10 + 13/5 + 16.8/7)/3 = 2.266666666666667 (claimed 2.26667) → match",
+    "Calculation K5 re-executed: (18 + 13 + 16.8)/(10 + 5 + 7) = 2.1727272727272724 (claimed 2.17273) → match",
+    "Calculation K6 re-executed: 4*0.5*4 = 8 (claimed 8) → match",
+    "Calculation K7 re-executed: 8/2.6 = 3.0769230769230766 (claimed 3.07692) → match",
+    "Calculation K8 re-executed: 8/1.8 = 4.444444444444445 (claimed 4.44444) → match",
+    "Calculation K9 re-executed: 5*1.8 = 9 (claimed 9) → match",
+    "Calculation K10 re-executed: 13/(4*0.5) = 6.5 (claimed 6.5) → match",
+    "Calculation K11 re-executed: 18/(4*0.5) = 9 (claimed 9) → match",
+    "Calculation K12 re-executed: 8/((18/10 + 13/5 + 16.8/7)/3) = 3.529411764705882 (claimed 3.52941) → match",
+    "Calculation K13 re-executed: 4*1*4 = 16 (claimed 16) → match",
+    "Calculation K14 re-executed: 13/(4*1) = 3.25 (claimed 3.25) → match",
+    "Calculation K15 re-executed: 8/13 = 0.6153846153846154 (claimed 0.615385) → match",
+    "Calculation K16 re-executed: (19+31+31)/7 = 11.571428571428571 (claimed 11.5714) → match",
+    "Calculation K17 re-executed: 4*0.5*1 = 2 (claimed 2) → match",
+    "Calculation K18 re-executed: (18+13+16.8)/3 = 15.933333333333332 (claimed 15.9333) → match",
+    "Calculation K19 re-executed: 16.8/(4*1) = 4.2 (claimed 4.2) → match",
+    "Calculation K20 re-executed: 18/(4*1) = 4.5 (claimed 4.5) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://www.postgresql.org/docs/12/sql-grant.html — getaddrinfo ENOTFOUND www.postgresql.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d",
+    "Fetch failed: https://guides.rubyonrails.org/active_record_multiple_databases.html — getaddrinfo ENOTFOUND guides.rubyonrails.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, ",
+    "Fetch failed: https://bastion.tech/learn/soc2/how-long-does-soc2-take — getaddrinfo ENOTFOUND bastion.tech. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does no",
+    "Fetch failed: https://www.bytebase.com/blog/postgres-row-level-security-limitations-and-alternatives/ — getaddrinfo ENOTFOUND www.bytebase.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: The supplied finding says lighter controls are acceptable 'if controls are demonstrable', but what evidence and testing period the auditor expects can only be confirmed with the auditor directly. The audit framework (SOX, SOC 2, other) is not stated. The formal deadline and the 'logical segregation' wording are not in the supplied finding.",
+    "Knowledge gap G1 unresolved: WebFetch failed for www.postgresql.org (earlier), guides.rubyonrails.org, bastion.tech and www.bytebase.com (ENOTFOUND: hosts not in the session's allowed network domains). Those hosts would have to be allowed in the session's network settings. The Rails guide was inspected through its GitHub source instead. PostgreSQL RLS/GRANT, SOC 2 window and SOX remediation-period evidence rest on search snippets. The SEC 2007 ICFR interpretive release, PCAOB AS 2201 and AICPA SOC 2 guidance were not inspected.",
+    "Knowledge gap G1 unresolved: The database engine, Rails version and current DB credential setup of the monolith (single credential? superuser or table owner?) are unknown, so the feasibility of restricted billing roles cannot be confirmed.",
+    "Knowledge gap G2 unresolved: Shared DB tables and write paths outside billing are 'not yet analysed' (dependency-analysis.md). This is internal data that cannot be researched externally. It bounds the effort of both extraction and the restricted-role path (E14).",
+    "Knowledge gap G3 unresolved: The background-job scan is incomplete ('at least 17'). A full inventory needs internal code analysis.",
+    "Knowledge gap G4 unresolved: All phases are TBD, so no bottom-up base exists to apply the 1.8x-2.6x overrun ratios to. No external effort figure was found for in-monolith DB role separation either (GitLab's decomposition gives no effort figure).",
+    "Knowledge gap G5 unresolved: The start date (January of an unstated year), the engineers' commitment, holidays and on-call load are not confirmed. The plan has no owner. Whether work on the lighter path could start before January is unknown.",
+    "Knowledge gap G6 unresolved: The finding does not define 'done' or name a testing window. Whether Phase 4 decommissioning is needed, and whether operating effectiveness must be shown over a period (3 months is a common practitioner floor, E17/E19) or only design and implementation, has to be confirmed with the auditor.",
+    "Knowledge gap G7 unresolved: estimate-history.csv gives no size, coupling, team or overrun-cause data for search, notifications or auth, so comparability with billing cannot be assessed."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 100/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "The auditor's exact acceptance criteria, the audit framework, and whether controls must have operated over a period before the deadline and for how long. The sources conflict on 3-month versus 6-month windows (E1, E17, E18, E19, E22).",
+    "Whether the 30 April 2027 date and the 'logical segregation' wording are correct (E2).",
+    "Billing's real scope: shared tables, write paths outside billing, and the full background-job inventory. This drives the effort of both paths (E4, E11, E14).",
+    "Whether the three past extractions are comparable to billing, and therefore how reliable the 13 to 18 engineer-month outside-view range is (E5).",
+    "Actual capacity, meaning start date, commitment, holidays and on-call load, and whether work on the lighter path can start before January (E3, E11, E21).",
+    "The database engine and version, the Rails version and the current DB credential setup, and therefore whether pgAudit, GRANT semantics and Rails connects_to apply as described (E6, E7, E12, E22).",
+    "The effort of the lighter-controls path, which no evidence quantifies (E21).",
+    "The 'below roughly 1 in 5' likelihood is a judgement from a three-project reference class, not a statistical estimate (E5, E9).",
+    "E11 UNKNOWN: No bottom-up phase estimates, no shared-table or write-path inventory, no complete background-job inventory, and no confirmed staffing commitment or start date exist in the supplied materials or could be found externally. They are internal to the company.",
+    "E22 UNKNOWN: The supplied materials do not state: the audit framework behind AF-2026-09 (SOX/ICFR, SOC 2, internal audit or other); whether an operating-effectiveness period is required and how long; the database engine and version; whether the Rails monolith uses one database credential (and whether that credential is superuser or table owner); or the Rails version. None of these could be found externally.",
+    "Open question the reviewer judged decisive: What evidence and operating-effectiveness window (none, about 3 months, or 6 months) does the auditor require to close AF-2026-09, under which framework, and is 30 April 2027 the formal deadline?",
+    "Open question the reviewer judged decisive: Can engineers start on the billing access-path inventory and the lighter controls in November or December 2026, before the planned January start?",
+    "Open question the reviewer judged decisive: How large is the billing shared-table, write-path and background-job inventory, and what is a bottom-up effort for the lighter-controls components (restricted credential and grants, pgAudit, SoD, code-ownership and deploy controls)?",
+    "Open question the reviewer judged decisive: Which database engine, version and runtime credential (superuser or table owner?) does the monolith use?"
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T06:08:58.842Z",
+        "reasons": [
+          "[alternatives_counterarguments/major] D1 [C1 mechanisms; C6 assessment and mechanisms; alternatives[1] and [2]; counterarguments[0]; practicalImplications[2]] The draft recommends database-level controls (restricted billing schema and roles) as the main way to comply, but never deals with the strongest objection to that option in a Rails monolith. A single Rails app normally connects to the database with one credential. Schema or role restrictions only separate access if billing code and non-billing code use different database roles, for example through Rails multi-database connections. The supplied coupling data works against the draft here: 214 files reference Billing::, shared tables are 'not yet analysed' (E4), and there are at least 17 invoice jobs. Those unknowns make it hard to say which code should hold the billing role, so they affect the lighter path as well as extraction. The draft treats the coupling unknowns only as an extraction risk (C4, CL11). It presents the lighter path as free of migration risk ('There is no data-migration or cutover risk'). It does not say how 'billing code paths' would be restricted inside a monolith beyond a generic mention of repository controls. The comparison between the options is lopsided as a result.",
+          "[reasoning_validity/major] D2 [tradeoffs[3]; counterarguments[3]] The full-time staffing alternative is described inaccurately. tradeoffs[3] says 16 engineer-months 'is still at or below the lower part of past actuals (13 to 18)'. But 16 is above the lowest actual (13) and close to auth's 16.8, so full-time staffing would cover the effort of one of the three reference projects. In calendar terms, 13 engineer-months at 4 FTE is about 3.25 months, which fits January to April. The counterargument response ('within or below') is closer, but it then dismisses the option by citing E10 for 'added headcount does not reliably shorten the schedule'. E10 says nothing about headcount or compressibility. 'Hard to compress' comes from the planner's applicability note, not the source. A decision-relevant lever, more staff, is understated on the basis of a misstatement and unsupported attribution.",
+          "[decision_usefulness/major] D3 [verdict; C3 assessment; CL4; CL5; CL6; correctedUserAssumptions[1]] The user asked for an engineer-month figure. The packet's decision objective says to produce 'a defensible range with explicit uncertainty' instead of false precision. The draft gives no effort range for the billing extraction at all. It offers a break-even threshold (an uncalibrated estimate of 3.1 to 4.4 engineer-months would fit capacity, K7/K8) and a conditional (CL5, 'if billing needed effort similar to the past extractions'). The exec still has no figure to put on the table, not even a low-confidence outside-view range such as 'roughly 13 to 18+ engineer-months if billing resembles past extractions, possibly more given ledger and dual-write complexity'. The draft also gives no likelihood (for example 'under 20%') for the deadline question, only 'unlikely'.",
+          "[coverage/major] D4 [verdict recommendation; C6; alternatives[1]-[2]; edgeCasesAndFailureModes[3]] The recommended path, lighter controls by the deadline, gets no feasibility assessment against 30 April 2027. The draft admits its effort is unquantified (CL13, C6 weaknesses). Yet it does not apply to that path the yes/no-and-conditions analysis it applies to extraction. Points it leaves out: staffing could be redirected to it; the work components are schema and role refactoring, pgAudit rollout, SoD matrix, CODEOWNERS or deploy controls, and access reviews; and the timeline to meet a possible operating-effectiveness testing period. Today is 11 Nov 2026. If the auditor wants, say, three months of operating evidence, the controls must be live by about the end of January 2027. The draft mentions this only as a generic edge case. The exec is told to switch paths without any check that the new path can make the date."
+        ],
+        "action": "both"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict; C2 assessment; CL15; correctedUserAssumptions[2]; remainingUncertainty[7]] The figure 'below roughly 1 in 5' for finishing extraction on time (verdict, C2, CL15, correctedUserAssumptions[2]) is new in draft-2 and has no derivation. It is labelled a judgement, but its only support is that none of the three absolute actuals fits in 8 engineer-months (K15). The draft itself calls those actuals 'only a weak proxy' because project sizes are unknown (CL3, C3 mechanisms). It also concedes that billing could be smaller than the past extractions (counterarguments[2]). The number appears to come from review-1's illustrative example ('for example under 20%'), and that example was never meant as a calibrated figure. The draft should say what the threshold rests on, or present it as a qualitative band, so the exec does not read it as a probability."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [furtherResearchThatCouldChangeConclusion[1]] furtherResearchThatCouldChangeConclusion[1] says a small inventory 'makes the lighter path comfortably feasible by end of January 2027'. That contradicts the draft's own new material. CL13 and C6 say the effort of the lighter path cannot be quantified. CL18 and K17 say planned staffing supplies only about 2 engineer-months before 31 January unless work starts earlier, and nothing establishes that anyone is available in November or December (E11, E21). Even with a small inventory, pgAudit rollout, SoD matrix, code-ownership and deploy controls and a first access review all remain unestimated. 'Comfortably' overstates the case."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [verdict] The verdict has grown to a very long paragraph. The two answers the exec asked for (the effort range and the yes/no likelihood) are mixed in with the lighter-path conditions and the testing-window caveats, so they are hard to find. One sentence is also garbled: 'a calibrated bottom-up estimate that comes in at about 3.1 to 4.4 engineer-months before calibration'."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

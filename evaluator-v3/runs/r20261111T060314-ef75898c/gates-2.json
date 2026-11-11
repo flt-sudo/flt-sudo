@@ -1,0 +1,201 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict; C2 assessment; CL15; correctedUserAssumptions[2]; remainingUncertainty[7]] The figure 'below roughly 1 in 5' for finishing extraction on time (verdict, C2, CL15, correctedUserAssumptions[2]) is new in draft-2 and has no derivation. It is labelled a judgement, but its only support is that none of the three absolute actuals fits in 8 engineer-months (K15). The draft itself calls those actuals 'only a weak proxy' because project sizes are unknown (CL3, C3 mechanisms). It also concedes that billing could be smaller than the past extractions (counterarguments[2]). The number appears to come from review-1's illustrative example ('for example under 20%'), and that example was never meant as a calibrated figure. The draft should say what the threshold rests on, or present it as a qualitative band, so the exec does not read it as a probability."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [furtherResearchThatCouldChangeConclusion[1]] furtherResearchThatCouldChangeConclusion[1] says a small inventory 'makes the lighter path comfortably feasible by end of January 2027'. That contradicts the draft's own new material. CL13 and C6 say the effort of the lighter path cannot be quantified. CL18 and K17 say planned staffing supplies only about 2 engineer-months before 31 January unless work starts earlier, and nothing establishes that anyone is available in November or December (E11, E21). Even with a small inventory, pgAudit rollout, SoD matrix, code-ownership and deploy controls and a first access review all remain unestimated. 'Comfortably' overstates the case."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict] The verdict has grown to a very long paragraph. The two answers the exec asked for (the effort range and the yes/no likelihood) are mixed in with the lighter-path conditions and the testing-window caveats, so they are hard to find. One sentence is also garbled: 'a calibrated bottom-up estimate that comes in at about 3.1 to 4.4 engineer-months before calibration'."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "18/10",
+      "claimed": 1.8,
+      "actual": 1.8,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "13/5",
+      "claimed": 2.6,
+      "actual": 2.6,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "16.8/7",
+      "claimed": 2.4,
+      "actual": 2.4,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(18/10 + 13/5 + 16.8/7)/3",
+      "claimed": 2.26667,
+      "actual": 2.266666666666667,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(18 + 13 + 16.8)/(10 + 5 + 7)",
+      "claimed": 2.17273,
+      "actual": 2.1727272727272724,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "4*0.5*4",
+      "claimed": 8,
+      "actual": 8,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "8/2.6",
+      "claimed": 3.07692,
+      "actual": 3.0769230769230766,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "8/1.8",
+      "claimed": 4.44444,
+      "actual": 4.444444444444445,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "5*1.8",
+      "claimed": 9,
+      "actual": 9,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "13/(4*0.5)",
+      "claimed": 6.5,
+      "actual": 6.5,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "18/(4*0.5)",
+      "claimed": 9,
+      "actual": 9,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "8/((18/10 + 13/5 + 16.8/7)/3)",
+      "claimed": 3.52941,
+      "actual": 3.529411764705882,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "4*1*4",
+      "claimed": 16,
+      "actual": 16,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "13/(4*1)",
+      "claimed": 3.25,
+      "actual": 3.25,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "8/13",
+      "claimed": 0.615385,
+      "actual": 0.6153846153846154,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "(19+31+31)/7",
+      "claimed": 11.5714,
+      "actual": 11.571428571428571,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "4*0.5*1",
+      "claimed": 2,
+      "actual": 2,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "(18+13+16.8)/3",
+      "claimed": 15.9333,
+      "actual": 15.933333333333332,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "16.8/(4*1)",
+      "claimed": 4.2,
+      "actual": 4.2,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "18/(4*1)",
+      "claimed": 4.5,
+      "actual": 4.5,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What evidence and operating-effectiveness window (none, about 3 months, or 6 months) does the auditor require to close AF-2026-09, under which framework, and is 30 April 2027 the formal deadline?",
+    "Can engineers start on the billing access-path inventory and the lighter controls in November or December 2026, before the planned January start?",
+    "How large is the billing shared-table, write-path and background-job inventory, and what is a bottom-up effort for the lighter-controls components (restricted credential and grants, pgAudit, SoD, code-ownership and deploy controls)?",
+    "Which database engine, version and runtime credential (superuser or table owner?) does the monolith use?"
+  ]
+}

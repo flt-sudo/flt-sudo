@@ -1,0 +1,51 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "States an exact estimate / firm yes-no cannot be given",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Historical overrun ~1.8-2.6x",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Audit doesn't require extraction; access controls/schema separation suffice",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Recommend scoping spike / discovery",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Gives a confident completion verdict",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "States an exact engineer-month total as fact",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Average actual/estimate overrun ratio",
+    "pass": true,
+    "detail": "value ≈ 2.267 present"
+  }
+]

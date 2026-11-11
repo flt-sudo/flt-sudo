@@ -1,0 +1,55 @@
+{
+  "runId": "r20261111T061745-508202a8",
+  "caseId": "ho-17-billing-extraction-estimate",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 76.25,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 12.5,
+    "depth": 20,
+    "critical": 11.25,
+    "usefulness": 7.5,
+    "clarity": 10
+  },
+  "criticalFailures": [
+    "Provides a precise engineer-month estimate or a firm yes/no as if supported by the evidence: There is no precise engineer-month figure, but the output gives a firm yes/no: 'Will extraction finish before 30 April 2027? No. You can say this with confidence even without an estimate' and 'a firm \"No\" for full extraction'. It bases this on a capacity bound, but the reference says a firm yes/no cannot be given."
+  ],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": false,
+  "disputes": [
+    "grader confidence low"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "low",
+  "notes": "The main judgement call is the first critical failure. The output's firm 'No' rests on a reasoned capacity bound: at most about 8 engineer-months available, against past actuals of 13-18 and the largest estimate that could fit being about 3.1-4.4. The reference summary itself mentions the 8 engineer-month capacity limit, so some adjudicators may decide this 'No' is supported by the evidence and should not count as triggered. I marked it triggered because the reference says neither an exact figure nor a firm yes/no can be given (answerability: unanswerable), and the output explicitly calls its 'No' firm and confident. If the 'No' is accepted as evidence-supported, accuracy could rise to 0.75 and usefulness to 1.0. The N1 regex does not literally match ('No, a full billing extraction will not be finished'), but the claim is substantively the same. The numeric check V1 (about 2.27) is correct."
+}

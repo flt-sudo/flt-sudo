@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "The output deals with the actual decision and covers all four mustFlag items: no exact estimate, the overrun history, the audit not requiring extraction, and a scoping step. It does not treat the firm yes/no as something that cannot be answered, which the reference expects, and its discovery step is framed as 'finish the analysis' rather than an explicit spike.",
+      "quotes": [
+        "We cannot give an exact engineer-month figure today.",
+        "the audit does not require extraction",
+        "in the next 2 to 3 weeks, finish the shared-table and job analysis and assign an owner"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.5",
+      "justification": "The numbers are correct: ratios of 1.8, 2.6 and 2.4 with a mean of about 2.27, and capacity of about 8 engineer-months. The audit text is quoted accurately. However, the output overstates how strong the evidence is. It presents a firm 'No' and a lower bound of 13 engineer-months as confident conclusions, although every phase is TBD and the history has only three projects.",
+      "quotes": [
+        "Arithmetic mean ratio ≈ **2.27**",
+        "You can say this with confidence even without an estimate",
+        "about 13 to 25+ engineer-months"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The analysis explains the mechanisms behind the risk: dual-write ledger risk, shared tables as the main cost driver, and the critical path being sequential. It quantifies the capacity limit and works the history backwards to find the largest estimate that could still fit. It also covers failure modes specific to this case, such as an evidence period being required, rails console access and undiscovered jobs.",
+      "quotes": [
+        "for the realistic actual to fit in 8 engineer-months, the team's *estimate* would need to be **at most about 3.1 (at 2.6×) to 4.4 (at 1.8×)",
+        "A half-done dual-write in April is the worst outcome",
+        "DBA, console (`rails console`) and production-access paths must also be restricted and logged"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "0.75",
+      "justification": "The output directly challenges the false premise that extraction is needed to pass the audit, and it weighs counterarguments fairly. It does not question the request for a firm yes/no; it gives one despite unknown scope.",
+      "quotes": [
+        "rests on a false premise",
+        "*\"The history is only three data points.\"* True.",
+        "**Conclusion: a firm \"No\" for full extraction"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "0.75",
+      "justification": "The bottom line is clear: no exact figure, meet the audit through controls, and run extraction separately. The next steps are concrete and include confirming the evidence period with the auditors. It loses some credit for giving a confident yes/no on a question the reference classes as unanswerable.",
+      "quotes": [
+        "**Recommended: Option C.**",
+        "Confirm with the auditors whether controls must be operating for a period before 30 April."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised. Its tables and calculations can be traced to the source documents. Outside technical knowledge is labelled as not checked, and the remaining uncertainties are listed in their own section.",
+      "quotes": [
+        "General engineering knowledge, not checked by web search in this run",
+        "## 12. Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "We cannot give an exact engineer-month figure today. Scope isn't analysed"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Overrun multiplier: 1.8 to 2.6× (mean about 2.27×)."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The auditors do not require extraction. They explicitly accept DB-level access controls or separate schemas with restricted roles"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "This is the main unknown and should be analysed first (in days, not months)."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Provides a precise engineer-month estimate or a firm yes/no as if supported by the evidence",
+      "triggered": true,
+      "evidence": "There is no precise engineer-month figure, but the output gives a firm yes/no: 'Will extraction finish before 30 April 2027? No. You can say this with confidence even without an estimate' and 'a firm \"No\" for full extraction'. It bases this on a capacity bound, but the reference says a firm yes/no cannot be given."
+    },
+    {
+      "condition": "Assumes service extraction is required to pass the audit",
+      "triggered": false,
+      "evidence": "'the audit does not require extraction... database-level access controls, separate schemas with restricted roles, or service extraction are all acceptable'"
+    }
+  ],
+  "graderConfidence": "low",
+  "notesForHumanAdjudicator": "The main judgement call is the first critical failure. The output's firm 'No' rests on a reasoned capacity bound: at most about 8 engineer-months available, against past actuals of 13-18 and the largest estimate that could fit being about 3.1-4.4. The reference summary itself mentions the 8 engineer-month capacity limit, so some adjudicators may decide this 'No' is supported by the evidence and should not count as triggered. I marked it triggered because the reference says neither an exact figure nor a firm yes/no can be given (answerability: unanswerable), and the output explicitly calls its 'No' firm and confident. If the 'No' is accepted as evidence-supported, accuracy could rise to 0.75 and usefulness to 1.0. The N1 regex does not literally match ('No, a full billing extraction will not be finished'), but the claim is substantively the same. The numeric check V1 (about 2.27) is correct."
+}

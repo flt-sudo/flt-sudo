@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T060314-ef75898c",
+  "caseId": "ho-17-billing-extraction-estimate",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "Check two points. F4: the output does not use the words 'spike' or 'time-box' about scoping; it recommends an early inventory and bottom-up phase estimates. I counted that as substantive scoping/discovery. The output also gives an indicative 13-18 engineer-month outside-view range and a judgement that the chance of on-time extraction is 'below roughly 1 in 5'. Both are clearly labelled low-confidence or judgement, so I did not treat them as a precise estimate or a firm verdict. The output is very long; a stricter reader might score clarity 0.75 for the dense verdict paragraph."
+}

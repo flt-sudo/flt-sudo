@@ -1,0 +1,100 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The figure 'below roughly 1 in 5' for finishing extraction on time (verdict, C2, CL15, correctedUserAssumptions[2]) is new in draft-2 and has no derivation. It is labelled a judgement, but its only support is that none of the three absolute actuals fits in 8 engineer-months (K15). The draft itself calls those actuals 'only a weak proxy' because project sizes are unknown (CL3, C3 mechanisms). It also concedes that billing could be smaller than the past extractions (counterarguments[2]). The number appears to come from review-1's illustrative example ('for example under 20%'), and that example was never meant as a calibrated figure. The draft should say what the threshold rests on, or present it as a qualitative band, so the exec does not read it as a probability.",
+      "location": "verdict; C2 assessment; CL15; correctedUserAssumptions[2]; remainingUncertainty[7]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "furtherResearchThatCouldChangeConclusion[1] says a small inventory 'makes the lighter path comfortably feasible by end of January 2027'. That contradicts the draft's own new material. CL13 and C6 say the effort of the lighter path cannot be quantified. CL18 and K17 say planned staffing supplies only about 2 engineer-months before 31 January unless work starts earlier, and nothing establishes that anyone is available in November or December (E11, E21). Even with a small inventory, pgAudit rollout, SoD matrix, code-ownership and deploy controls and a first access review all remain unestimated. 'Comfortably' overstates the case.",
+      "location": "furtherResearchThatCouldChangeConclusion[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict has grown to a very long paragraph. The two answers the exec asked for (the effort range and the yes/no likelihood) are mixed in with the lighter-path conditions and the testing-window caveats, so they are hard to find. One sentence is also garbled: 'a calibrated bottom-up estimate that comes in at about 3.1 to 4.4 engineer-months before calibration'.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "CL16, CL17, the C1 and C4 mechanisms, a new counterargument (counterarguments[1]) and the revised alternatives[1] now cover four points. Billing models need their own connects_to credential (E12, E13). A per-class credential does not restrict code paths. The same coupling unknowns drive the lighter path (E14, E15). The superuser and owner bypass is addressed (E16). The claim 'no data-migration or cutover risk' has been removed."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "tradeoffs[3], CL20 and counterarguments[4] now state correctly that 16 engineer-months exceeds the 13 engineer-month actual but falls short of 16.8 and 18. K13, K14, K19 and K20 recompute correctly (16, 3.25, 4.2, 4.5). The draft no longer attributes compressibility to E10 (CL11, C2 mechanisms)."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The draft now gives a low-confidence outside-view range of 13 to 18+ engineer-months, mean 15.93 (K18 recomputes as 47.8/3). It also gives a likelihood judgement (CL14, CL15). How well grounded that likelihood is gets flagged separately as new minor defect D1."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "The draft adds a feasibility check for the lighter path. If a 3-month window applies, go-live is due by about 31 January 2027. K16 recomputes: 19+31+31 = 81 days, which is 11.57 weeks. January capacity is about 2 engineer-months (K17). CL18 and C6 add the conditions and the staged fallback, the 6-month case (E18) and the access-review sample count (E20)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What evidence and operating-effectiveness window (none, about 3 months, or 6 months) does the auditor require to close AF-2026-09, under which framework, and is 30 April 2027 the formal deadline?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can engineers start on the billing access-path inventory and the lighter controls in November or December 2026, before the planned January start?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How large is the billing shared-table, write-path and background-job inventory, and what is a bottom-up effort for the lighter-controls components (restricted credential and grants, pgAudit, SoD, code-ownership and deploy controls)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which database engine, version and runtime credential (superuser or table owner?) does the monolith use?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "The draft now checks the recommended lighter path against the deadline, including the testing window, capacity before go-live and sample counts. All six criteria are covered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The new material relies on snippet-level evidence (E13, E15 to E20) and states its limits. The only weak spot is the unsupported 1-in-5 figure (minor, D1)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All new calculations recompute correctly. The full-time staffing analysis is now accurate. One overstatement ('comfortably feasible') remains (minor, D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The draft now states the strongest objection to DB-level controls in a single-credential Rails monolith and answers it fairly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The exec now gets an indicative effort range, a likelihood judgement and explicit conditions for each path. The verdict is too long and has one garbled sentence (minor, D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist in the packet or the draft. The new claims match the packet's claim and applicability text, and the E10 over-attribution from draft-1 has been removed."
+    }
+  ]
+}

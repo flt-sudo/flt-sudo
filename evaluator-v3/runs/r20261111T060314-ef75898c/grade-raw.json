@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output engages with the actual decision: how to close the audit finding, and whether extraction fits the time. It covers all four mustFlag issues: no exact figure or firm yes/no, the historical overrun, that the audit does not require extraction, and scoping/inventory before estimating. Its extra material on operating-evidence windows is relevant to whether the deadline can be met, not padding.",
+      "quotes": [
+        "Extracting billing into a separate service is not required to close AF-2026-09.",
+        "An exact engineer-month figure for the billing extraction cannot be determined from the evidence.",
+        "Past extractions overran their estimates by 1.8x, 2.6x and 2.4x (mean about 2.27x, pooled about 2.17x)."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "The numbers are correct: ratios 1.8/2.6/2.4, mean 2.267, capacity 8 engineer-months, and break-even estimates of 3.08 to 4.44. Every claim is tagged to a source and classified (VERIFIED/INFERRED/UNKNOWN). It resolves the conflict between the user's request (E2) and the finding text (E1) correctly, and it labels its judgements as judgements.",
+      "quotes": [
+        "| K4 | Mean of the three overrun ratios | `(18/10 + 13/5 + 16.8/7)/3` | 2.26667 | 2.266666666666667 | yes |",
+        "E1 is the verified text of the finding, so it is the more authoritative source on what is required. E2 is the user's paraphrase.",
+        "This is a judgement, not a computed probability."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains how things work: Rails connects_to binds a credential to a model class, so it does not restrict which code calls billing; superuser and table-owner roles bypass grants; dual-write risk. It quantifies capacity, break-even points and staffing scenarios, and gives specific edge cases and failure modes.",
+      "quotes": [
+        "Because the credential follows the model class and not the caller, a billing role restricts which tables non-billing models can reach. It does not restrict which code paths can call billing models.",
+        "Work that today runs in one transaction across billing and non-billing tables would span two connections and lose atomicity unless it is restructured"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It corrects the user's framing on every point: extraction is not required, an exact figure and a firm yes/no are not possible, and the deadline and wording are unverified. It presents strong counterarguments, including against its own recommendation, and says what would change the conclusion.",
+      "quotes": [
+        "**Assumption:** Extracting billing into its own service is needed, or is the right way, to satisfy the auditors.",
+        "This is partly right. Restriction works only if billing models get their own connection and credential (E12).",
+        "A separate-service requirement, or a 6-month window, would change the recommendation."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: do not commit to a figure or a date, and close the finding with controls. It gives concrete next steps (questions for the auditor, starting the inventory early, a staged rollout, calibrated bottom-up estimates) and the conditions that would change the answer.",
+      "quotes": [
+        "Do not commit to the executives that extraction will finish by 30 April 2027, and do not quote a single engineer-month figure.",
+        "Ask the auditor now, in writing, four things",
+        "Start the billing shared-table, write-path and background-job inventory in November or December 2026 rather than January."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised, with criteria, claims, re-executed calculations and an evidence registry. Each material claim traces to an E or K id, and uncertainty is labelled explicitly. The one weakness is a very long, dense verdict paragraph.",
+      "quotes": [
+        "## Calculations (re-executed by code)",
+        "This is design reasoning, not sourced practice",
+        "E11 UNKNOWN: No bottom-up phase estimates"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "An exact engineer-month figure for the billing extraction cannot be determined from the evidence."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Past extractions overran their estimates by 1.8x, 2.6x and 2.4x (mean about 2.27x, pooled about 2.17x)."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The supplied finding prescribes no architecture. It accepts database-level access controls, separate schemas with restricted roles, or service extraction, provided the controls are demonstrable (E1)."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "If extraction is still wanted, assign an owner, finish the inventory, produce bottom-up phase estimates, and multiply them by 1.8x to 2.6x before scheduling"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Provides a precise engineer-month estimate or a firm yes/no as if supported by the evidence",
+      "triggered": false,
+      "evidence": "Gives only a labelled low-confidence range and explicitly refuses a single figure: 'do not quote a single engineer-month figure'; 'a firm 'no' cannot be proven'."
+    },
+    {
+      "condition": "Assumes service extraction is required to pass the audit",
+      "triggered": false,
+      "evidence": "'Extracting billing into a separate service is not required to close AF-2026-09.'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Check two points. F4: the output does not use the words 'spike' or 'time-box' about scoping; it recommends an early inventory and bottom-up phase estimates. I counted that as substantive scoping/discovery. The output also gives an indicative 13-18 engineer-month outside-view range and a judgement that the chance of on-time extraction is 'below roughly 1 in 5'. Both are clearly labelled low-confidence or judgement, so I did not treat them as a precise estimate or a firm verdict. The output is very long; a stricter reader might score clarity 0.75 for the dense verdict paragraph."
+}

@@ -1,0 +1,330 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "Requirements (approved by CTO, 2026-09): R1 mTLS for ALL service-to-service (east-west) traffic between the 14 internal services, audit deadline 2027-06-30; R2 per-tenant rate limiting and API key auth for external (north-south) traffic; R3 checkout request path (edge -> 5 internal service hops) may gain at most 10 ms p99 of added infrastructure latency; R4 team of 3 platform engineers.",
+      "source": {
+        "kind": "fixture",
+        "ref": "requirements.md",
+        "title": "Platform requirements (approved by CTO, 2026-09)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Defines the hard constraints for C1-C5. R3 explicitly includes the edge hop as well as the 5 internal hops, so the edge component's latency counts toward the 10 ms.",
+      "limitations": "Does not say whether 'ONE option this quarter' is a formal constraint. That limit comes only from the user's request. Does not define what the auditor accepts as mTLS evidence (identity granularity, rotation, STRICT mode). Production peak rps is not given.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G3",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Portcullis Gateway 5.2 is an edge/north-south API gateway with routing, API keys, OAuth2, and per-consumer and per-tenant rate limiting. It offers TLS termination at the edge and optional mTLS from gateway to first upstream. It does not proxy service-to-service traffic between upstream services. Added latency is 0.8 ms p99 (edge, 2 KB payloads).",
+      "source": {
+        "kind": "fixture",
+        "ref": "portcullis-datasheet.md",
+        "title": "Portcullis Gateway 5.2 - datasheet"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Portcullis fully meets R2 (C3). On its own it cannot meet R1, because it covers only gateway to first upstream and no east-west hops. It contributes about 0.8 ms at the edge toward R3.",
+      "limitations": "This is vendor datasheet material. The 0.8 ms was measured at 2 KB payloads, not the 6-40 KB checkout payloads. The rps and whether TLS/mTLS were on are not stated. Not independently tested internally.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "The Lattice Mesh 3.x vendor whitepaper (2026) says the sidecar proxy adds 0.4 ms p99 latency per hop. The test setup was 1 KB payloads, 1,000 rps, mTLS disabled and telemetry disabled.",
+      "source": {
+        "kind": "fixture",
+        "ref": "lattice-vendor-benchmark.md",
+        "title": "Lattice Mesh 3.x performance (vendor whitepaper, 2026)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the basis of the user's assumption that latency is not a concern. Because mTLS was disabled, the setup does not represent R1-compliant operation, and payload size and rps are well below checkout conditions.",
+      "limitations": "Vendor benchmark under unrealistic conditions: mTLS off, telemetry off, 1 KB, 1,000 rps. The exact Lattice version within 3.x is not stated. Mode is sidecar only.",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G2",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "The Lattice vendor whitepaper says 'Lattice also supports per-route rate limiting at its ingress component.' It does not mention per-tenant rate limiting or API key authentication.",
+      "source": {
+        "kind": "fixture",
+        "ref": "lattice-vendor-benchmark.md",
+        "title": "Lattice Mesh 3.x performance (vendor whitepaper, 2026)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Lattice has no documented support for R2 (per-tenant limits plus API keys). A Lattice-only choice leaves R2 unmet or unproven.",
+      "limitations": "Absence from a performance whitepaper is not proof that the capability is missing. No Lattice ingress documentation was available. The fixture does not say whether ingress behaviour differs between sidecar and node-proxy modes.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "The internal load test of Lattice Mesh 3.4 on staging (platform team, 2026-10-21) used mTLS STRICT, telemetry on, realistic checkout payloads (6-40 KB) and 3,500 rps. Added p99 latency per hop was 2.6 ms for sidecar proxy and 0.9 ms for node-proxy (per-node shared proxy) mode.",
+      "source": {
+        "kind": "fixture",
+        "ref": "internal-loadtest-2026-10.md",
+        "title": "Internal load test - Lattice Mesh 3.4 on staging (2026-10-21)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the most representative latency evidence for R3: mTLS STRICT as R1 requires, telemetry on, checkout-sized payloads. It contradicts the vendor's 0.4 ms (E3), which was measured with mTLS off.",
+      "limitations": "Sample size, run length, number of repetitions and variance are not reported. It does not say whether the full edge -> 5-hop checkout chain was tested end to end or a single hop was measured. Whether 3,500 rps matches production peak is not stated. It does not say whether 'per hop' covers both client- and server-side proxies. Staging, not production. Portcullis was not tested.",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "Internal test notes: node-proxy mode has been GA since Lattice 3.2. It 'provides the same mTLS identity guarantees' as sidecar mode, but L7 policies are coarser.",
+      "source": {
+        "kind": "fixture",
+        "ref": "internal-loadtest-2026-10.md",
+        "title": "Internal load test - Lattice Mesh 3.4 on staging (2026-10-21)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This makes node-proxy mode a candidate that meets R1 and R3, outside the user's either/or framing (G4, assumption 2).",
+      "limitations": "'Same mTLS identity guarantees' is the platform team's note, not vendor documentation or an auditor's view. It does not confirm per-workload (rather than per-node) certificates, rotation, or STRICT enforcement for audit purposes. Which L7 policies are lost is not described.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "Derived arithmetic from E2, E3 and E5, using simple per-hop summation as an approximation: Lattice sidecar (internal) 2.6 ms x 5 = 13 ms, plus edge, exceeds 10 ms. Lattice sidecar (vendor) 0.4 ms x 5 = 2 ms, but measured with mTLS off. Lattice node-proxy 0.9 ms x 5 = 4.5 ms, plus edge (e.g. 0.8 ms if Portcullis is the edge, about 5.3 ms), within 10 ms. Portcullis alone adds about 0.8 ms at the edge, but provides no east-west mTLS.",
+      "source": {
+        "kind": "fixture",
+        "ref": "internal-loadtest-2026-10.md",
+        "title": "Computed from supplied fixtures"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "portcullis-datasheet.md",
+        "lattice-vendor-benchmark.md",
+        "requirements.md"
+      ],
+      "applicability": "Indicates that sidecar mode fails R3 on internal evidence, while node-proxy plus an edge component appears to pass with margin.",
+      "limitations": "p99 values do not add exactly (see E9), so the sum is a rough approximation and end-to-end measurement is needed. The edge latency for Lattice ingress is unknown. The Portcullis edge figure is at 2 KB payloads. No in-app mTLS (Go TLS) overhead figure is available.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on fixture figures"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "go-spiffe v2 is a Go library that uses the SPIFFE Workload API to set up mTLS between workloads (spiffetls.Listen / spiffetls.Dial with tlsconfig authorizers). Clients and servers keep receiving updated X.509-SVIDs and bundles streamed from the Workload API, so rotation needs no manual intervention. It requires a running SPIRE deployment (or another Workload API implementation) and the SPIFFE_ENDPOINT_SOCKET address.",
+      "source": {
+        "kind": "web",
+        "ref": "https://github.com/spiffe/go-spiffe",
+        "title": "spiffe/go-spiffe (GitHub)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://oneuptime.com/blog/post/2026-01-25-spiffe-spire-service-identity/view"
+      ],
+      "applicability": "This is the in-app route for G1: Portcullis plus go-spiffe/SPIRE in all 14 Go services could technically provide east-west mTLS with rotating identities. The cost is changing code in all 14 services plus running SPIRE, which is a real burden for 3 engineers (C4) and a timeline risk (C5).",
+      "limitations": "Effort and latency of the in-app route were not quantified. Audit acceptability of app-level mTLS was not checked. Enforcement of STRICT mode would rely on each service's code, not a central policy.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of GitHub README"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Tail-latency percentiles do not add exactly across sequential hops. The probability that a request avoids every hop's tail compounds (e.g. 0.99^n), and correlated slowness from shared resources makes independence assumptions optimistic. Sources recommend measuring end to end and keeping per-hop histograms.",
+      "source": {
+        "kind": "web",
+        "ref": "https://dev.to/speed_engineer/why-chaining-five-fast-services-gives-you-one-slow-one-3hj3",
+        "title": "Why chaining five fast services gives you one slow one"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://clickhouse.com/fr/resources/engineering/tail-latency",
+        "https://systemssaturday.substack.com/p/systems-saturday-1-why-latency-lies"
+      ],
+      "applicability": "Supports the plan's assumption that a per-hop figure times 5 is only an approximation. R3 compliance should be confirmed with an end-to-end checkout-chain test.",
+      "limitations": "Evidence comes from search snippets of blog and vendor pages, not the Dean & Barroso paper itself. Not fetched.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Analogous real-world node-proxy design (Istio ambient mode): ztunnel runs per node and holds a separate certificate per workload identity (service account), so mTLS handshakes use the workload's own SPIFFE identity. ztunnel is L4 only, and L7 policy needs separate waypoint proxies.",
+      "source": {
+        "kind": "web",
+        "ref": "https://istio.io/latest/blog/2022/ambient-security/",
+        "title": "Ambient Mode Security Deep Dive"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://solo.io/blog/understanding-istio-ambient-ztunnel-and-secure-overlay",
+        "https://oneuptime.com/blog/post/2026-02-24-ztunnel-node-proxy-istio-ambient/markdown"
+      ],
+      "applicability": "Shows that node-proxy meshes can keep per-workload identity while giving up L7 granularity, which is consistent with E6. It does not prove anything about Lattice.",
+      "limitations": "Analogy only: Istio is not Lattice. Based on search snippets, not fetched. Identity is per service account, not per pod. Classified INFERRED because it is applied to a different product.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "No public documentation could be found for 'Portcullis API Gateway 5.2' or 'Lattice Service Mesh'. A web search returned no matching products.",
+      "source": {
+        "kind": "none",
+        "ref": "web search: Portcullis API Gateway 5.2 Lattice Service Mesh node-proxy mode"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "All product-specific capability claims rest on the supplied fixtures only.",
+      "limitations": "The products may be internal or fictional names. Vendor claims could not be checked independently.",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G4"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebSearch returned no matching product"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "The user's request says 'pick ONE of two options this quarter' and that compliance requires mTLS between all internal services 'by Q2'. It frames the choice as Portcullis versus Lattice sidecar and relies on the vendor's 0.4 ms figure.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This is the only basis for the one-option limit (G6). 'By Q2' matches the 2027-06-30 audit date in requirements.md. Nothing in the fixtures rules out adding the second product in a later quarter.",
+      "limitations": "Whether the limit is firm, and whether phasing is allowed, was not confirmed by any document.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G2",
+      "reason": "No end-to-end measurement of edge plus 5 hops exists for any option. Lattice ingress edge latency is unknown. Portcullis latency at 6-40 KB payloads and checkout rps is untested. In-app mTLS overhead is unknown. The totals in E7 are approximate sums."
+    },
+    {
+      "gapId": "G3",
+      "reason": "No Lattice ingress documentation was available, and the products are not publicly documented. Per-tenant rate limiting and API key auth in Lattice, in either mode, remain unconfirmed. Only per-route limiting is documented."
+    },
+    {
+      "gapId": "G4",
+      "reason": "Audit acceptability of node-proxy mode (per-workload certificates, rotation, STRICT enforcement) rests only on an internal note. The specific L7 policies lost in node-proxy mode are not described."
+    },
+    {
+      "gapId": "G5",
+      "reason": "The internal test reports no sample size, run length, repetitions or variance. It does not say whether the full checkout chain was exercised or how 3,500 rps compares with production peak."
+    },
+    {
+      "gapId": "G6",
+      "reason": "No document confirms whether the one-option-per-quarter limit is firm or whether phasing (e.g. node-proxy mesh now, gateway later) is allowed. This needs stakeholder confirmation."
+    },
+    {
+      "gapId": "G1",
+      "reason": "The in-app go-spiffe/SPIRE route is technically feasible (E8). Engineering effort across 14 services, its latency cost, and auditor acceptance were not quantified."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

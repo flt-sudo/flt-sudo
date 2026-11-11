@@ -1,0 +1,191 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [counterarguments[1]] The counterargument response says sidecar would need a per-hop cost 'about 29% below the measured 2.6 ms'. That is true only for the 1.84 ms threshold (1.84/2.6 = 0.708). For the 2 ms threshold the gap is about 23%. More importantly, the source reports no variance, sample size or repetitions, so calling a 23-29% error 'unlikely' is an unsupported assertion."
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [CL11; correctedUserAssumptions[3]; K1-K6] R3 reads 'edge -> 5 internal service hops'. It is ambiguous whether the edge-to-first-service hop is one of the 5 or a 6th proxied segment. The draft takes one reading (edge cost plus 5 mesh hops) without flagging that the mesh hop count could be 4 or 6 depending on topology. That changes the sidecar totals by about ±2.6 ms."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [CL2, CL5, criteriaAssessments C2 mechanisms, edgeCasesAndFailureModes[2], counterarguments[1], practicalImplications[0]] The draft gets the direction of the p99 summation error wrong. CL5, C2 mechanisms and edgeCasesAndFailureModes item 3 say summed per-hop p99s are 'an approximation, not a bound' and that correlated slowness can make end-to-end p99 'worse than the sum'. For positive latencies with independent hops, the p99 of the sum is normally below the sum of the p99s. Under perfect correlation the two are equal. So the sum is usually the conservative estimate. K7 (0.99^5 = 95.1% of requests avoid every hop's tail) measures how many requests hit at least one slow hop. It does not show the summed p99 is optimistic. This matters for the verdict. CL2 says sidecar mode 'fails R3' at 13 ms / 13.8 ms, but that rests only on summation, and the true end-to-end sidecar p99 could be materially lower, possibly near or under 10 ms. The counterargument response ('a plausible measurement error is unlikely to change the sidecar verdict') ignores this aggregation uncertainty. The sidecar failure should be stated as likely on a conservative sum, not as a finding. The end-to-end test should cover sidecar mode too, not only node-proxy."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict; CL4; alternatives[2] ('Lattice node-proxy mode now'); K5, K6] The recommended option ('Lattice node-proxy mode now') does not include Portcullis this quarter. Yet its R3 headroom (5.3 ms total, 4.7 ms headroom, K5/K6) uses Portcullis's 0.8 ms datasheet edge figure. In the recommended configuration the edge would be Lattice ingress or some existing edge, and its latency is unknown (packet E7 limitations). The alternatives entry also quotes '4.5 to 5.3 ms', and the 4.5 ms lower end assumes zero edge cost, which CL11 itself says R3 does not allow. The verdict's '4.7 ms of headroom' is therefore attached to a configuration the draft is not recommending for this quarter. K10 (up to 5.5 ms of edge tolerated) is the correct framing for the recommended option and should replace the headroom figure there."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [alternatives; edgeCasesAndFailureModes; CL9] Two points are missing. (1) The draft does not consider a hybrid: sidecar mode only for non-checkout services and node-proxy on the checkout path. (2) It does not raise the main security counterargument against node-proxy for the audit. A shared per-node proxy holding credentials for many workloads widens the blast radius if compromised, and an auditor may weigh this beyond whether certificates are per workload. Also, CL9 (the Portcullis plus go-spiffe route to R1) is marked material:false even though it is the only R1 path for a Portcullis-first choice."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict; furtherResearchThatCouldChangeConclusion[4]; alternatives] The user asked which of TWO options to pick. The draft recommends a third configuration, conditional on two unconfirmed items: auditor acceptance and an end-to-end test. It gives no ranked fallback if the conditions fail or the strict either/or holds. In particular, it never says which product to adopt if the one-product limit is firm, R2 is needed this quarter, or node-proxy is rejected by the auditor. furtherResearch[4] only says this 'would force a choice between leaving R2 or R1 at risk' and does not make that choice. Given R1's hard audit date and R2's lack of a deadline, the draft has what it needs to state a fallback, but it does not."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [counterarguments[0]; CL11 calculationIds] The counterargument response says the internal test is 'more recent (2026-10-21)' than the vendor whitepaper. The whitepaper is dated only '2026' (lattice-vendor-benchmark.md), so 'more recent' cannot be verified. CL11 cites K10 (maximum edge latency for node-proxy) as calculation support for the claim that R3 includes the edge hop. K10 does not support that claim."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "2.6 * 5",
+      "claimed": 13,
+      "actual": 13,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "2.6 * 5 + 0.8",
+      "claimed": 13.8,
+      "actual": 13.8,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.4 * 5",
+      "claimed": 2,
+      "actual": 2,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "0.9 * 5",
+      "claimed": 4.5,
+      "actual": 4.5,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "0.9 * 5 + 0.8",
+      "claimed": 5.3,
+      "actual": 5.3,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "10 - (0.9 * 5 + 0.8)",
+      "claimed": 4.7,
+      "actual": 4.7,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "0.99 ^ 5",
+      "claimed": 0.951,
+      "actual": 0.9509900498999999,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(10 - 0.8) / 5",
+      "claimed": 1.84,
+      "actual": 1.8399999999999999,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "2.6 / 0.4",
+      "claimed": 6.5,
+      "actual": 6.5,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "10 - 0.9 * 5",
+      "claimed": 5.5,
+      "actual": 5.5,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "10 / 5",
+      "claimed": 2,
+      "actual": 2,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "0.9 * 2 * 5 + 0.8",
+      "claimed": 9.8,
+      "actual": 9.8,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [CL2, CL5, criteriaAssessments C2 mechanisms, edgeCasesAndFailureModes[2], counterarguments[1], practicalImplications[0]] The draft gets the direction of the p99 summation error wrong. CL5, C2 mechanisms and edgeCasesAndFailureModes item 3 say summed per-hop p99s are 'an approximation, not a bound' and that correlated slowness can make end-to-end p99 'worse than the sum'. For positive latencies with independent hops, the p99 of the sum is normally below the sum of the p99s. Under perfect correlation the two are equal. So the sum is usually the conservative estimate. K7 (0.99^5 = 95.1% of requests avoid every hop's tail) measures how many requests hit at least one slow hop. It does not show the summed p99 is optimistic. This matters for the verdict. CL2 says sidecar mode 'fails R3' at 13 ms / 13.8 ms, but that rests only on summation, and the true end-to-end sidecar p99 could be materially lower, possibly near or under 10 ms. The counterargument response ('a plausible measurement error is unlikely to change the sidecar verdict') ignores this aggregation uncertainty. The sidecar failure should be stated as likely on a conservative sum, not as a finding. The end-to-end test should cover sidecar mode too, not only node-proxy."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict; CL4; alternatives[2] ('Lattice node-proxy mode now'); K5, K6] The recommended option ('Lattice node-proxy mode now') does not include Portcullis this quarter. Yet its R3 headroom (5.3 ms total, 4.7 ms headroom, K5/K6) uses Portcullis's 0.8 ms datasheet edge figure. In the recommended configuration the edge would be Lattice ingress or some existing edge, and its latency is unknown (packet E7 limitations). The alternatives entry also quotes '4.5 to 5.3 ms', and the 4.5 ms lower end assumes zero edge cost, which CL11 itself says R3 does not allow. The verdict's '4.7 ms of headroom' is therefore attached to a configuration the draft is not recommending for this quarter. K10 (up to 5.5 ms of edge tolerated) is the correct framing for the recommended option and should replace the headroom figure there."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict; furtherResearchThatCouldChangeConclusion[4]; alternatives] The user asked which of TWO options to pick. The draft recommends a third configuration, conditional on two unconfirmed items: auditor acceptance and an end-to-end test. It gives no ranked fallback if the conditions fail or the strict either/or holds. In particular, it never says which product to adopt if the one-product limit is firm, R2 is needed this quarter, or node-proxy is rejected by the auditor. furtherResearch[4] only says this 'would force a choice between leaving R2 or R1 at risk' and does not make that choice. Given R1's hard audit date and R2's lack of a deadline, the draft has what it needs to state a fallback, but it does not."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What is the measured end-to-end (edge plus full checkout chain) added p99 for Lattice sidecar mode and for node-proxy mode at production peak rps? Summed per-hop p99s probably overstate it, so sidecar could pass.",
+    "Does the auditor accept Lattice node-proxy mTLS (per-workload identity, rotation, STRICT enforcement, shared-proxy credential custody) as meeting R1?",
+    "Does Lattice ingress support per-tenant rate limiting and API key auth, and what is its added p99 at 6-40 KB payloads?",
+    "Is the one-product-per-quarter limit firm, and does product need R2 before Q2 2027?",
+    "Does E5's 'per hop' figure include one or both proxies on a cross-node call in node-proxy mode?"
+  ]
+}

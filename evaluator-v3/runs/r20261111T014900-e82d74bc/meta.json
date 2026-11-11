@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T014900-e82d74bc",
+  "caseId": "ho-02-gateway-vs-mesh",
+  "system": "agent",
+  "createdAt": "2026-11-11T01:49:00.020Z",
+  "request": "We have to pick ONE of two options this quarter for our 14 Go microservices: the Portcullis API gateway or the Lattice service mesh (sidecar mode). Compliance requires mutual TLS between all internal services by Q2, and product wants per-tenant rate limiting at the edge. Lattice's own benchmark says the sidecar adds only 0.4 ms p99 per hop, so latency shouldn't be a concern. Our checkout path has a hard budget for added infrastructure latency. Which option should we choose? Requirements, the vendor benchmark and our own load-test results are attached.",
+  "fixtures": [
+    "requirements.md",
+    "portcullis-datasheet.md",
+    "lattice-vendor-benchmark.md",
+    "internal-loadtest-2026-10.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

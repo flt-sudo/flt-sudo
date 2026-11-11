@@ -1,0 +1,466 @@
+{
+  "verdict": "Neither option as framed meets both hard requirements on its own, so the either/or framing is wrong. Portcullis 5.2 alone fails R1: it does not proxy service-to-service traffic and offers mTLS only from the gateway to the first upstream (E2). Lattice in sidecar mode fails R3 on the internal measurement with mTLS STRICT. 2.6 ms x 5 hops = 13 ms before any edge cost, and 13.8 ms with a 0.8 ms edge, against a 10 ms budget (E5, E1, K1, K2). The best-supported choice this quarter is Lattice Service Mesh in node-proxy mode, with conditions. It is GA since 3.2, and the platform team's note says it gives the same mTLS identity guarantees as sidecar mode (E6). It measured 0.9 ms per hop with mTLS STRICT, which is about 4.5 ms over 5 hops, or about 5.3 ms with a 0.8 ms Portcullis-like edge. That leaves about 4.7 ms of headroom (E5, E7, K4, K5, K6). Two conditions must be confirmed before committing. (a) The auditor must accept node-proxy mTLS, meaning per-workload certificates, rotation and STRICT enforcement. Today this rests only on an internal note (E6), with an Istio analogy for support (E10). (b) An end-to-end test of the edge plus 5-hop checkout chain must confirm R3, because p99s do not add linearly (E9). Node-proxy Lattice does not cover R2. The only documented Lattice ingress feature is per-route rate limiting, with no per-tenant limits or API key auth (E4). So R2 is best met by adding Portcullis at the edge in a later quarter, or by confirming that Lattice ingress supports per-tenant limits and API keys. No document confirms that phasing is allowed (E12, E1). Portcullis plus go-spiffe/SPIRE mTLS inside the services is a technically possible alternative for R1 (E8). Its effort across 14 services, its latency cost and its acceptance by the auditor are all unquantified, which makes it riskier for a 3-engineer team.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Portcullis alone cannot meet R1. It covers only the gateway to the first upstream and does not proxy east-west traffic (E2). Lattice in either mode is the only option in the packet that provides mTLS on every hop as a platform feature. Node-proxy mode is documented internally as giving the same mTLS identity guarantees as sidecar mode (E6), but whether the audit will accept it is not established. Portcullis plus go-spiffe/SPIRE could provide east-west mTLS with rotating SVIDs (E8), but enforcement would depend on code in each service.",
+      "mechanisms": "A mesh moves mTLS into a proxy layer: a sidecar per pod, or a shared proxy per node. Identity issuance, rotation and STRICT enforcement are then set by central policy rather than by application code. A north-south gateway sits only on the edge path, so traffic between services never passes through it and gets no mTLS from it. A node-proxy mesh can still present per-workload identities if the shared proxy holds a separate certificate for each workload identity. Istio ztunnel does this (E10), but nothing shows Lattice does.",
+      "strengths": [
+        "Lattice sidecar and node-proxy modes were both tested with mTLS STRICT on (E5)",
+        "Internal note says node-proxy gives the same mTLS identity guarantees as sidecar (E6)",
+        "go-spiffe streams updated X.509-SVIDs, so rotation in the in-app route needs no manual steps (E8)"
+      ],
+      "weaknesses": [
+        "Portcullis has no east-west proxying (E2)",
+        "Per-workload certificates in node-proxy mode are not confirmed for Lattice. E10 is only an analogy",
+        "Auditor criteria for mTLS evidence are not defined (E1 limitations)",
+        "The in-app route needs code changes in all 14 services plus running SPIRE, and its effort is not quantified (E8)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E5",
+        "E6",
+        "E8",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Lattice sidecar fails R3 on representative internal evidence: 13 ms over 5 hops even with zero edge cost (K1), and 13.8 ms with a 0.8 ms edge (K2). For sidecar to fit, the per-hop cost would have to be at most 2 ms with no edge cost (K11), or at most 1.84 ms with a 0.8 ms edge (K8). Node-proxy passes on the summed approximation: 4.5 ms (K4), or 5.3 ms with a 0.8 ms edge (K5). That leaves 4.7 ms of headroom (K6). The edge component could take up to 5.5 ms before node-proxy breaks the budget (K10). The vendor's 0.4 ms (2 ms over 5 hops, K3) was measured with mTLS and telemetry off, so it does not apply to R1-compliant operation (E3).",
+      "mechanisms": "Each proxy adds handshake, encryption and decryption, L7 parsing and telemetry work on every hop. Larger payloads (6-40 KB against 1 KB) and higher rps (3,500 against 1,000) raise the per-hop cost (E3, E5). The internal sidecar figure is 6.5 times the vendor figure (K9). Sidecar mode puts proxies on both the client side and the server side of every hop. Node-proxy shares one proxy per node and does coarser L7 work (E6), which plausibly explains its lower cost. Tail percentiles compound across sequential hops. With 5 independent hops, only about 95.1% of requests avoid every hop's 1% tail (K7), and correlated slowness makes this worse (E9). So summed p99s are an approximation, not a bound.",
+      "strengths": [
+        "The internal test matches R1 conditions (mTLS STRICT, telemetry on, checkout payloads) (E5)",
+        "Node-proxy has about 4.7 ms of headroom on the summed estimate (K6)"
+      ],
+      "weaknesses": [
+        "No end-to-end edge plus 5-hop measurement exists for any option (E7, E9)",
+        "The internal test reports no sample size, variance or repetitions, and does not say how 3,500 rps compares with production peak (E5)",
+        "The Portcullis 0.8 ms edge figure is from 2 KB payloads, and Lattice ingress latency is unknown (E2, E7)",
+        "If 'per hop' in E5 counts only one proxy, and a cross-node hop goes through two node proxies, node-proxy could reach about 9.8 ms (K12), which is close to the limit"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E7",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Portcullis meets R2 natively with API keys, OAuth2 and per-consumer and per-tenant rate limiting (E2). Lattice has documented per-route rate limiting at ingress only, with no mention of per-tenant limits or API key auth (E4). A Lattice-only choice therefore leaves R2 unmet or unproven. Public documentation is not available to settle this (E11).",
+      "mechanisms": "Per-tenant limiting needs the edge to identify the caller, for example from an API key, and to keep counters per tenant. Per-route limiting counts per path regardless of who calls, so it cannot enforce tenant quotas or authenticate keys.",
+      "strengths": [
+        "Portcullis has native per-tenant limiting and API key auth (E2)"
+      ],
+      "weaknesses": [
+        "The only Lattice R2 evidence is the absence of a feature from a performance whitepaper, which does not prove the feature is missing (E4)",
+        "No product documentation can be found publicly (E11)"
+      ],
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Portcullis alone is the lightest to run, but it does not solve R1. Adding the in-app go-spiffe route to it means changing code in 14 services and running SPIRE (E8). Lattice sidecar adds a proxy per pod for every service. Node-proxy shares one proxy per node, which should reduce injection and upgrade work, but the packet does not quantify this. Running both products later adds a second control surface for the same 3 engineers (E1).",
+      "mechanisms": "Operational load grows with the number of proxy instances, the number of code paths that handle certificates, and the number of products to upgrade and debug. A central mesh keeps certificate handling in one control plane. The in-app route spreads it across 14 codebases.",
+      "strengths": [
+        "Node-proxy has fewer proxy instances than sidecar (E5, E6)",
+        "A gateway is a single component (E2)"
+      ],
+      "weaknesses": [
+        "No evidence quantifies operating effort for any option",
+        "Coarser L7 policies in node-proxy mode may push some policy work back into apps, and which policies are lost is not described (E6)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E5",
+        "E6",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "R1 has a hard date of 2027-06-30 (E1). R2 has no stated deadline in requirements.md, which makes R2 the requirement that can be deferred more safely. Adopting the mesh in node-proxy mode now and Portcullis later fits the dates better than the reverse, because Portcullis first would leave R1 depending on an unquantified in-app build before the audit. The 'one option this quarter' limit comes only from the user's request, and whether phasing is allowed is unconfirmed (E12).",
+      "mechanisms": "The requirement with the compliance date and the broadest change (all 14 services) should start first, so there is time for rollout, STRICT enforcement and collecting audit evidence. The edge gateway is a single component that can be added later.",
+      "strengths": [
+        "'By Q2' in the request matches the 2027-06-30 audit date (E12, E1)",
+        "Nothing in the fixtures rules out adding the second product later (E12)"
+      ],
+      "weaknesses": [
+        "Phasing is not confirmed by any document (E12)",
+        "No date for R2 is given, so the business tolerance for deferring it is unknown (E1)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E12"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Portcullis 5.2 alone cannot satisfy R1, because it does not proxy service-to-service traffic and offers mTLS only from the gateway to the first upstream.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Lattice sidecar mode fails R3 on the internal mTLS STRICT measurement: 2.6 ms x 5 = 13 ms before the edge, and 13.8 ms with a 0.8 ms edge, both above 10 ms.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E1",
+        "E2",
+        "E7"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The vendor's 0.4 ms per-hop figure (2 ms over 5 hops) does not represent R1-compliant operation, because it was measured with mTLS and telemetry disabled at 1 KB payloads and 1,000 rps. The internal figure is 6.5 times higher.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5"
+      ],
+      "calculationIds": [
+        "K3",
+        "K9"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "On the summed approximation, Lattice node-proxy mode adds about 4.5 ms over 5 hops, or about 5.3 ms with a 0.8 ms edge. That is within the 10 ms R3 budget with about 4.7 ms of headroom.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E7",
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K4",
+        "K5",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "Summed per-hop p99s only approximate the end-to-end p99. With 5 independent hops, about 95.1% of requests avoid every hop's 1% tail, and correlated slowness makes independence optimistic. R3 must be confirmed by an end-to-end checkout-chain test.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E9",
+        "E7"
+      ],
+      "calculationIds": [
+        "K7"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "Whether Lattice node-proxy mode meets the auditor's R1 requirements (per-workload certificates, rotation, STRICT enforcement) cannot be determined from the packet. Support is an internal note plus an analogy to Istio ambient mode.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E6",
+        "E10",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Whether Lattice ingress supports per-tenant rate limiting and API key authentication cannot be determined. Only per-route rate limiting is documented, and no public documentation exists.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E4",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "Portcullis natively meets R2 with API keys, OAuth2 and per-consumer and per-tenant rate limiting.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Portcullis combined with go-spiffe/SPIRE inside the 14 Go services could technically provide east-west mTLS with automatic SVID rotation. Its effort, latency and audit acceptability are not quantified.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Whether the one-option-this-quarter limit is firm, and whether the second product can be phased in later, cannot be determined from the documents. The limit comes only from the user's request.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "R3 explicitly includes the edge hop, so the edge component's latency counts toward the 10 ms budget in addition to the 5 internal hops.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": [
+        "K10"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "For sidecar mode to fit R3, per-hop added p99 would need to be at most 2 ms with zero edge cost, or at most 1.84 ms with a 0.8 ms edge. The measured 2.6 ms is above both.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K11",
+        "K8"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Portcullis 5.2 alone (as framed)",
+      "comparison": "Fully meets R2 (E2) and adds only about 0.8 ms at the edge, but fails R1 because there is no east-west mTLS (E2). This option is not viable against the hard compliance requirement."
+    },
+    {
+      "option": "Lattice sidecar mode alone (as framed)",
+      "comparison": "Provides mTLS on every hop, but 13 ms over 5 hops already breaks the 10 ms R3 budget before the edge (K1). R2 is unproven, with only per-route limits documented (E4). This option is not viable against the hard latency requirement."
+    },
+    {
+      "option": "Lattice node-proxy mode now (recommended, conditional)",
+      "comparison": "Expected to meet R1 if the audit accepts it (E6), and meets R3 on the summed estimate at about 4.5 to 5.3 ms (K4, K5). R2 remains unmet or unproven (E4). This option has fewer proxy instances to run than sidecar mode."
+    },
+    {
+      "option": "Lattice node-proxy now, Portcullis at the edge in a later quarter",
+      "comparison": "Covers R1, R2 and R3 together at an estimated 5.3 ms (K5), but requires running two products with 3 engineers. Whether phasing is allowed is not confirmed (E12)."
+    },
+    {
+      "option": "Portcullis now plus in-app go-spiffe/SPIRE mTLS",
+      "comparison": "Meets R2 immediately and could meet R1 (E8). It needs code changes in all 14 services and a SPIRE deployment, and its latency, effort and audit acceptance are all unquantified. That makes it a higher risk to the 2027-06-30 date than the mesh route."
+    }
+  ],
+  "tradeoffs": [
+    "Node-proxy has lower latency (0.9 against 2.6 ms per hop) but coarser L7 policy (E5, E6)",
+    "Choosing the mesh first protects the compliance date (R1), but leaves R2 tenant limits and API keys unaddressed until a gateway is added or Lattice ingress is confirmed (E1, E4)",
+    "Running both products covers every requirement but roughly doubles the operating surface for 3 engineers (E1)",
+    "The in-app mTLS route avoids a mesh, but spreads certificate and enforcement logic across 14 codebases (E8)"
+  ],
+  "edgeCasesAndFailureModes": [
+    "If E5's 'per hop' counts one proxy and cross-node calls go through two node proxies, node-proxy could reach about 9.8 ms with a 0.8 ms edge (K12). That leaves almost no margin",
+    "Portcullis edge latency at 6-40 KB payloads may be above the 2 KB datasheet figure of 0.8 ms (E2). Node-proxy tolerates up to 5.5 ms at the edge (K10)",
+    "Correlated slowness from shared nodes, which node-proxy mode shares by design, can make the end-to-end p99 worse than the sum (E9)",
+    "Production peak rps above the tested 3,500 could raise per-hop cost (E5)",
+    "If node-proxy certificates are per node rather than per workload, the auditor may reject it for R1 (E6, E10)",
+    "If tenant limits are needed before a gateway is added, a mesh-only interim leaves tenants without quotas (E4)"
+  ],
+  "counterarguments": [
+    {
+      "argument": "The vendor benchmark shows 0.4 ms per hop, so sidecar latency is fine.",
+      "response": "That benchmark disabled mTLS and telemetry and used 1 KB at 1,000 rps (E3). R1 requires mTLS, and the internal STRICT test at checkout payloads measured 2.6 ms (E5), giving 13 ms over 5 hops (K1). The internal test is more representative: it is more recent (2026-10-21), runs the actual required configuration, and measures the team's own workload."
+    },
+    {
+      "argument": "The internal test may be unreliable, since it reports no sample size or variance.",
+      "response": "This is true (E5 limitations), and it is why an end-to-end test is a precondition. But sidecar would need a per-hop figure below 1.84 to 2 ms to pass (K8, K11), about 29% below the measured 2.6 ms, so a plausible measurement error is unlikely to change the sidecar verdict."
+    },
+    {
+      "argument": "Node-proxy mode is not one of the two options on the table.",
+      "response": "The decision objective explicitly asks whether node-proxy mode fits better. It is the same product (Lattice 3.x, GA since 3.2) (E6), so adopting it does not add a third vendor."
+    },
+    {
+      "argument": "Portcullis plus go-spiffe solves R1 without a mesh.",
+      "response": "It is technically feasible (E8), but it costs code changes in 14 services plus running SPIRE, has unquantified latency, and relies on each service enforcing STRICT. That is a heavier and riskier path for a 3-engineer team against a fixed audit date."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Lattice sidecar adds only 0.4 ms p99 per hop, so latency is not a concern.",
+      "correction": "0.4 ms was measured with mTLS and telemetry off at 1 KB and 1,000 rps. With mTLS STRICT and checkout payloads, sidecar adds 2.6 ms per hop, which is 13 ms over 5 hops and exceeds the 10 ms budget.",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E1"
+      ]
+    },
+    {
+      "assumption": "The choice is strictly between Portcullis and Lattice in sidecar mode.",
+      "correction": "Neither framed option meets both R1 and R3. Lattice node-proxy mode (GA since 3.2) is a viable third configuration of the same product. A phased approach is not ruled out by any document.",
+      "evidenceIds": [
+        "E2",
+        "E5",
+        "E6",
+        "E12"
+      ]
+    },
+    {
+      "assumption": "Either option on its own can meet both the mTLS mandate and per-tenant edge rate limiting.",
+      "correction": "Portcullis has no east-west mTLS. Lattice has documented per-route limiting only, with no per-tenant limits or API key auth. Neither covers both R1 and R2 alone on the evidence.",
+      "evidenceIds": [
+        "E2",
+        "E4"
+      ]
+    },
+    {
+      "assumption": "Checkout added latency is the per-hop figure times 5, with no edge cost.",
+      "correction": "R3 explicitly includes the edge hop, so edge latency (about 0.8 ms for Portcullis at 2 KB) must be added. Summed p99s are also only an approximation of the end-to-end p99.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E9"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Lattice sidecar added p99 over 5 internal hops using the internal 2.6 ms per-hop figure (ms)",
+      "expression": "2.6 * 5",
+      "claimedResult": 13,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Lattice sidecar 5 hops plus a 0.8 ms Portcullis-like edge (ms)",
+      "expression": "2.6 * 5 + 0.8",
+      "claimedResult": 13.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Vendor sidecar figure over 5 hops (mTLS off) (ms)",
+      "expression": "0.4 * 5",
+      "claimedResult": 2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Lattice node-proxy added p99 over 5 internal hops (ms)",
+      "expression": "0.9 * 5",
+      "claimedResult": 4.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Lattice node-proxy 5 hops plus a 0.8 ms edge (ms)",
+      "expression": "0.9 * 5 + 0.8",
+      "claimedResult": 5.3,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Headroom under the 10 ms budget for node-proxy plus a 0.8 ms edge (ms)",
+      "expression": "10 - (0.9 * 5 + 0.8)",
+      "claimedResult": 4.7,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Fraction of requests avoiding every hop's 1% tail across 5 independent hops",
+      "expression": "0.99 ^ 5",
+      "claimedResult": 0.951,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Maximum sidecar per-hop added p99 that fits 10 ms with a 0.8 ms edge (ms)",
+      "expression": "(10 - 0.8) / 5",
+      "claimedResult": 1.84,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Ratio of the internal sidecar per-hop figure to the vendor figure",
+      "expression": "2.6 / 0.4",
+      "claimedResult": 6.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Maximum edge latency that keeps node-proxy within 10 ms (ms)",
+      "expression": "10 - 0.9 * 5",
+      "claimedResult": 5.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Maximum sidecar per-hop added p99 that fits 10 ms with zero edge cost (ms)",
+      "expression": "10 / 5",
+      "claimedResult": 2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Pessimistic node-proxy case: two node proxies per hop over 5 hops plus a 0.8 ms edge (ms)",
+      "expression": "0.9 * 2 * 5 + 0.8",
+      "claimedResult": 9.8,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Do not adopt Lattice in sidecar mode for the checkout path. On internal evidence it breaks R3",
+    "Do not adopt Portcullis alone as the R1 solution",
+    "Before committing this quarter, get the auditor (or compliance) to confirm that node-proxy mTLS identity, rotation and STRICT enforcement are acceptable",
+    "Run an end-to-end edge plus 5-hop checkout test in node-proxy mode at production peak rps with 6-40 KB payloads, and keep per-hop histograms",
+    "Confirm with stakeholders whether Portcullis can be added in a later quarter to cover R2, or get Lattice ingress documentation on per-tenant limits and API keys",
+    "Inventory which L7 policies the 14 services need, to check whether node-proxy's coarser L7 policy is sufficient"
+  ],
+  "remainingUncertainty": [
+    "Auditor acceptance of node-proxy mTLS rests only on an internal note (E6), and the per-workload identity support is an Istio analogy (E10)",
+    "No end-to-end checkout-chain latency measurement exists for any option (E7, E9)",
+    "The internal test does not report sample size, variance, how 3,500 rps compares with production peak, or whether 'per hop' covers one proxy or two (E5)",
+    "Lattice ingress support for per-tenant limits and API keys is unknown (E4, E11)",
+    "Portcullis latency at checkout payloads is untested (E2)",
+    "Whether the one-option limit is firm, and whether phasing is allowed, is unconfirmed (E12)",
+    "The products have no public documentation, so all capability claims rest on the supplied fixtures (E11)",
+    "Effort and latency of the in-app go-spiffe route are unquantified (E8)"
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Auditor review of node-proxy mode. If it is rejected, the R1 options narrow to sidecar mode (which fails R3) or in-app mTLS",
+    "An end-to-end node-proxy test showing more than 10 ms total, for example if each hop goes through two proxies (K12) or correlated tails appear",
+    "Lattice ingress documentation confirming per-tenant limits and API keys. That would make Lattice node-proxy a single-product answer",
+    "A sidecar test with tuning (for example telemetry sampling) that brings the per-hop cost below 1.84 ms",
+    "Stakeholder confirmation that the one-option limit is firm and that R2 is needed this quarter. That would force a choice between leaving R2 or R1 at risk",
+    "A quantified estimate of effort and latency for go-spiffe/SPIRE across the 14 services"
+  ]
+}

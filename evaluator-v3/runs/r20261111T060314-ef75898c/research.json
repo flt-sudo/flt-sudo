@@ -243,8 +243,8 @@
         "https://oneuptime.com/blog/post/2026-02-09-strangler-fig-monolith-microservices/view",
         "https://dev.to/kapil/strangler-fig-migration-seamlessly-extracting-microservices-g0f"
       ],
-      "applicability": "G2 and C2/C4. Phases 2 (dual-write ledger) and 3 (invoice cutover) carry the most risk and are hard to compress. Their effort depends on the unanalysed shared tables (E4).",
-      "limitations": "Practitioner blogs, opinion rather than standards. Search snippets only, not fetched. There is no quantitative effort data.",
+      "applicability": "G2 and C2/C4. Phases 2 (dual-write ledger) and 3 (invoice cutover) carry the most risk. Their effort depends on the unanalysed shared tables (E4). The source does not say anything about whether these phases can be compressed or about headcount; any 'hard to compress' claim is planner inference, not from this source.",
+      "limitations": "Practitioner blogs, opinion rather than standards. Search snippets only, not fetched. There is no quantitative effort data and nothing on schedule compressibility.",
       "contradicts": [],
       "gapIds": [
         "G2",
@@ -280,16 +280,316 @@
         "method": "Reviewed all supplied fixtures; the data is not available externally"
       },
       "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "The Rails 'Multiple Databases with Active Record' guide (main-branch source) says each abstract class owns the connection for one database (or one writer/replica pair). connects_to should be defined on a single abstract class per database, and models stored in that database inherit from it. connects_to can only be called on ActiveRecord::Base or abstract classes; calling it on a concrete model raises NotImplementedError. connected_to switches role for a block, and the role must match one defined by connects_to. The guide says 'Rails does not create database users; create writer and read-only replica users in your database system', and that Rails' read-only check 'is not a substitute for database permissions.' Listed limits: no SQL joins across separate database clusters (disable_joins: true loads associations with separate queries instead), 'Rails does not provide distributed transactions across database clusters', and database-level foreign keys generally cannot span separate clusters.",
+      "source": {
+        "kind": "web",
+        "ref": "https://github.com/rails/rails/blob/main/guides/source/active_record_multiple_databases.md",
+        "title": "Rails Guides source: Multiple Databases with Active Record (main branch)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "D1, G1 and C6. Rails supports giving billing models their own connection with a separate database credential (an abstract BillingRecord with connects_to pointing at a database.yml entry with a restricted user). This is the standard mechanism for role separation inside a single Rails app. The access restriction itself comes from database grants, not from Rails. The DB users and grants have to be set up outside Rails.",
+      "limitations": "Fetched via WebFetch, which returns a summary from a small model, so the quoted phrases may be lightly paraphrased. This is the main-branch guide, which may differ from the Rails version the monolith runs; the Rails version is not in the supplied documents. The guide's join, transaction and FK caveats are written for separate database clusters. Whether they apply in the same way to two connections with different users on one database is not stated; see E14.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of the GitHub-hosted guide source (guides.rubyonrails.org fetch failed: host not allowed)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "Several Rails sources describe one app using several database entries with different usernames: the Rails 6.0 guide configures primary and replica entries with different users, where the replica user has read-only permissions, and a GoCardless engineering write-up uses an abstract base class with connects_to that concrete models inherit from. A Rails forum thread notes that establish_connection in a model gives a per-model connection, not per-query user switching.",
+      "source": {
+        "kind": "web",
+        "ref": "https://guides.rubyonrails.org/v6.0.3/active_record_multiple_databases.html",
+        "title": "Multiple Databases with Active Record (Rails 6.0.3 guide)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://medium.com/gocardless-tech/using-multiple-databases-in-rails-e60758706bec",
+        "https://discuss.rubyonrails.org/t/multiple-mysql-users-per-app/29989",
+        "https://github.com/rails/rails/blob/main/guides/source/active_record_multiple_databases.md"
+      ],
+      "applicability": "D1. Separate credentials are bound per model class hierarchy, not per code path or per caller. Any non-billing code that touches a billing model (controllers, the 17+ invoice jobs, the 214 referencing files) still goes through the billing connection and credential. So a separate billing DB role restricts which tables non-billing models can reach. It does not on its own restrict which code paths can call billing models. Code-path restriction still needs code ownership, review and deploy controls, or an API or module boundary.",
+      "limitations": "Search snippets except the GitHub guide (E12). The forum threads are old (around 2008). The point that a per-class credential does not restrict callers is a reasoned implication of the documented per-class model, not a statement in the sources.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets across three domains plus the fetched guide in E12"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "Inference: introducing a restricted billing DB role inside the monolith carries its own refactoring and migration risk, driven by the same unknowns as extraction. If billing tables are granted only to a billing role, any non-billing model, query, join, report or background job that reads or writes those tables through the main connection will fail at runtime, so each such path has to be found and either moved onto the billing connection or explicitly granted. Shared tables (not yet analysed) need an ownership decision. Work that today runs in one transaction across billing and non-billing tables would span two connections and lose atomicity unless restructured. Moving tables into a separate schema also means migrations and search_path or table-name changes.",
+      "source": {
+        "kind": "fixture",
+        "ref": "dependency-analysis.md",
+        "title": "Static analysis of billing coupling (partial, 2026-10)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://github.com/rails/rails/blob/main/guides/source/active_record_multiple_databases.md"
+      ],
+      "applicability": "D1 and D4, G2 and C6. This undercuts any claim that the lighter path has 'no data-migration or cutover risk'. The lighter path still needs a billing write-path and shared-table inventory (E4) before its effort can be estimated. It does avoid dual-write ledger synchronisation and a service cutover. A staged rollout is possible: first add a billing role with grants plus audit logging while the app still connects with broad rights, then tighten grants once access paths are known. That is design reasoning, not a sourced practice.",
+      "limitations": "Reasoned from E4, E12 and E13; no source measures this effort. The size of the problem depends entirely on the shared-table and write-path inventory, which does not exist. The database engine and the current credential setup of the monolith are not stated (E22).",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Reasoning from supplied fixture and the fetched Rails guide"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "GitLab's split of CI tables into a separate database within its Rails monolith needed systematic remediation. SQL joins across the CI and non-CI databases do not work. Cross-joins were handled by allowlisting failing specs and fixing each case before removing allow_cross_joins_across_databases. Foreign keys spanning the databases were removed and replaced with 'loose foreign keys', an eventually consistent async cleanup, which GitLab warns can cause user-visible latency problems. GitLab's handbook describes the CI data as relatively loosely coupled, which kept changes minimal.",
+      "source": {
+        "kind": "web",
+        "ref": "https://about.gitlab.com/blog/path-to-decomposing-gitlab-database-part1/",
+        "title": "Path to decomposing GitLab database, part 1 (GitLab blog, 2022-08-04)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://docs.gitlab.com/development/database/multiple_databases/",
+        "https://gitlab.com/groups/gitlab-org/-/epics/6160",
+        "https://handbook.gitlab.com/handbook/engineering/architecture/guidelines/database/"
+      ],
+      "applicability": "D1. This is a real-world precedent: separating a domain's data access inside a large Rails monolith means finding and fixing every cross-domain join, transaction and foreign key. That is the same coupling work billing would need under either option. It applies most directly to a full separate-database split. A same-database restricted-role approach keeps joins possible for roles that hold both grants, but not for a role without billing grants.",
+      "limitations": "Search snippets only; no page fetched, and no effort figure (person-months or sprints) was found. All refs are GitLab-owned domains, so they are not independent and this stays INFERRED. The GitLab split was a separate physical database, a stronger separation than schema or role restriction.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "PostgreSQL row security: superusers and roles with the BYPASSRLS attribute always bypass row security. Table owners normally bypass it too unless ALTER TABLE ... FORCE ROW LEVEL SECURITY is set. Practitioner guides recommend that the application connection role should not be a superuser, should not have BYPASSRLS and should not own the protected tables (or FORCE must be set). They also recommend policies with both USING and WITH CHECK, so that writes are restricted as well as reads.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.postgresql.org/docs/19/ddl-rowsecurity.html",
+        "title": "PostgreSQL docs: Row Security Policies"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://atlasgo.io/guides/rls-policy",
+        "https://tessl.io/registry/alonso-skills/postgres-writing-guidelines/files/references/row-level-security.md"
+      ],
+      "applicability": "D1. Row-level security restricts rows, mainly for tenant isolation. It is not needed to separate a whole domain's tables, where schema and table GRANTs (E7) are enough. The key practical point carries over to GRANT-based separation as well: if the Rails app connects as a superuser or as the table owner (common when the same credential runs migrations), DB-level restrictions are bypassed. A separate migration or owner role, distinct from the runtime roles, would be needed, and segregation of duties has to cover who holds it.",
+      "limitations": "Search snippets only; the postgresql.org fetch failed earlier in this run (host not allowed) and the bytebase.com fetch also failed. The claim that Rails apps often connect as table owner is reasoned, not sourced. This applies only if the database is PostgreSQL.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets across three domains; fetch of www.bytebase.com failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "For SOC 2 Type II, several sources state that the AICPA sets no explicit minimum observation period. In practice 3 months is described as the industry-standard minimum accepted by most auditors (Bastion), often used for a first report. About 6 months is commonly recommended for a first Type II, and shorter periods get more scrutiny from buyers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://bastion.tech/learn/soc2/how-long-does-soc2-take",
+        "title": "How Long Does SOC 2 Take? (Bastion)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://sprinto.com/hub/soc-2-observation-period/",
+        "https://blog.getagency.com/articles/average-soc-2-audit-timeline",
+        "https://securecontrolsframework.com/faqs/how-long-does-soc-2-audit-take"
+      ],
+      "applicability": "D4, G1 and C6. If AF-2026-09's auditor expects Type II-style operating evidence, controls have to run for a period before the deadline, and 3 months is the shortest commonly accepted window. Counting back 3 months from 30 April 2027 would put go-live at about 31 January 2027. A 6-month window would have needed go-live by about 31 October 2026, which is already past on 11 Nov 2026. This date arithmetic is the researcher's and should be rechecked downstream.",
+      "limitations": "Vendor and consultancy blogs, not the AICPA itself; snippets only (the bastion.tech fetch failed: host not allowed). AF-2026-09 does not say whether the audit is SOC 2, SOX/ICFR, internal audit or something else, and it names no testing period (E1). The window is set by agreement with the auditor.",
+      "contradicts": [
+        "E18"
+      ],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of bastion.tech failed (ENOTFOUND); relied on search snippets from several domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E18",
+      "claim": "Expel states that 'according to AICPA, Type 2 requires a minimum 6-month observation window.'",
+      "source": {
+        "kind": "web",
+        "ref": "https://expel.com/cyberspeak/what-is-soc-2/",
+        "title": "What is SOC 2? Type 1 vs. Type 2 explained (Expel)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "D4. If an auditor held to a 6-month window, controls would have needed to be live by about end of October 2026, so a fully operating-effective period before 30 April 2027 would already be out of reach. The likely fallback would be design-and-implementation evidence plus a partial period, or a negotiated date.",
+      "limitations": "Single search snippet. It conflicts with the other sources (E17), which say the AICPA sets no minimum, so the attribution to the AICPA is doubtful.",
+      "contradicts": [
+        "E17"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E19",
+      "claim": "For SOX/ICFR remediation, sources say a remediated or newly designed control must operate for a 'sufficient period of time' before management or auditors can conclude it is effective, and a newly designed control that has not operated long enough cannot support a conclusion that a weakness is remediated. The length is a judgement call. Practitioner blogs say that in practice most auditors expect at least one full quarter of operation, or 'typically a minimum of 3 months'. Sources also note that late go-lives leave no operating period for testing before year end.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.finrep.ai/blog/material-weakness-remediation-disclosure-requirements-quarter-by-quarter-guide",
+        "title": "Material weakness remediation disclosure requirements: quarter-by-quarter guide"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.bdo.com/insights/assurance/accounting-and-reporting-advisory/evaluating-internal-control-deficiencies-guide",
+        "https://centristage.wpengine.com/?p=539",
+        "https://www.bdemerson.com/article/sox-404-compliance"
+      ],
+      "applicability": "D4. This supports a go-live target of roughly end of January 2027 for the lighter controls (one quarter before 30 April 2027) if the auditor wants operating evidence. Earlier is better if quarterly controls such as access reviews have to show more than one occurrence.",
+      "limitations": "Search snippets from practitioner and consultancy sources. The SEC 2007 interpretive guidance and PCAOB AS 2201 were not inspected. The search summary did not reliably say which source gave the 'one quarter' versus the '3 months' figure, so I kept this at INFERRED even though several domains appear. It applies only if the audit is ICFR-type.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E20",
+      "claim": "Practitioner sample-size guidance for testing control operating effectiveness varies by frequency, and sources disagree somewhat. One gives annual 1, quarterly 2 to 3, monthly 2 to 4, weekly 5 to 15. Another gives quarterly 2-4, monthly 2-5, weekly 5-15, daily 20-25. A third gives one for annual, two for quarterly, two to five for monthly. New controls not tested in prior periods are listed as a factor calling for larger samples.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.smartsuite.com/grc-foundation/how-to-choose-samples-for-control-testing-without-weakening-assurance",
+        "title": "How to choose samples for control testing without weakening assurance (SmartSuite)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.bdemerson.com/article/sox-404-compliance"
+      ],
+      "applicability": "D4. Planner inference: a quarterly user-access review needs at least 2 occurrences to be sampled, which takes about two quarters. A control that first runs in late January 2027 could show only one quarterly occurrence by 30 April 2027. Change-management and deploy controls that run often (per change) can produce enough samples within weeks. This favours running the first access review early and choosing per-change or monthly cadences.",
+      "limitations": "Search snippets only; the ranges conflict across sources and are not standards. Which source gave which range was not confirmed. The 'two quarters' implication is reasoning, not a sourced statement.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E21",
+      "claim": "Planner inference: under a roughly 3-month operating window, the lighter-controls path has about 11.5 weeks from 11 Nov 2026 to an end-of-January 2027 go-live. Planned staffing starts only in January (E3), so redirecting it to the lighter path would leave about one month of 2-FTE capacity before that target unless work starts earlier. Components to land by then include a billing DB role and grants (with a separate migration/owner role), audit logging (e.g. pgAudit), an SoD matrix, code-ownership and deploy restrictions on billing paths, and a first access review. All are subject to the write-path and shared-table inventory in E14.",
+      "source": {
+        "kind": "fixture",
+        "ref": "billing-extraction-plan.md",
+        "title": "Billing extraction plan (draft)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "audit-finding.md",
+        "dependency-analysis.md"
+      ],
+      "applicability": "D4, G5 and C2/C6. This is the feasibility check the draft is missing for the recommended path. Whether the lighter path makes the date depends on (a) the testing window the auditor actually wants, (b) starting before January, and (c) the size of the billing access-path inventory.",
+      "limitations": "The date arithmetic and capacity figures are the researcher's (11 Nov 2026 to 31 Jan 2027) and should be recomputed downstream. The 3-month window is an assumption from E17/E19, not a stated requirement of AF-2026-09. No effort estimate exists for any component.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Reasoning from fixtures and E17/E19"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E22",
+      "claim": "The supplied materials do not state: the audit framework behind AF-2026-09 (SOX/ICFR, SOC 2, internal audit or other); whether an operating-effectiveness period is required and how long; the database engine and version; whether the Rails monolith uses one database credential (and whether that credential is superuser or table owner); or the Rails version. None of these could be found externally.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "D1 and D4. These facts decide whether the restricted-role approach works directly (PostgreSQL GRANT and pgAudit) and what go-live date the lighter path has to hit.",
+      "limitations": "Internal or auditor-held information.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Reviewed all supplied fixtures"
+      },
+      "untrustedInstructionsObserved": false
     }
   ],
   "unresolvedGaps": [
     {
       "gapId": "G1",
-      "reason": "The supplied finding says lighter controls are acceptable 'if controls are demonstrable', but what evidence and testing period the auditor expects can only be confirmed with the auditor directly. The formal deadline and the 'logical segregation' wording are not in the supplied finding."
+      "reason": "The supplied finding says lighter controls are acceptable 'if controls are demonstrable', but what evidence and testing period the auditor expects can only be confirmed with the auditor directly. The audit framework (SOX, SOC 2, other) is not stated. The formal deadline and the 'logical segregation' wording are not in the supplied finding."
+    },
+    {
+      "gapId": "G1",
+      "reason": "WebFetch failed for www.postgresql.org (earlier), guides.rubyonrails.org, bastion.tech and www.bytebase.com (ENOTFOUND: hosts not in the session's allowed network domains). Those hosts would have to be allowed in the session's network settings. The Rails guide was inspected through its GitHub source instead. PostgreSQL RLS/GRANT, SOC 2 window and SOX remediation-period evidence rest on search snippets. The SEC 2007 ICFR interpretive release, PCAOB AS 2201 and AICPA SOC 2 guidance were not inspected."
+    },
+    {
+      "gapId": "G1",
+      "reason": "The database engine, Rails version and current DB credential setup of the monolith (single credential? superuser or table owner?) are unknown, so the feasibility of restricted billing roles cannot be confirmed."
     },
     {
       "gapId": "G2",
-      "reason": "Shared DB tables and write paths outside billing are 'not yet analysed' (dependency-analysis.md). This is internal data that cannot be researched externally."
+      "reason": "Shared DB tables and write paths outside billing are 'not yet analysed' (dependency-analysis.md). This is internal data that cannot be researched externally. It bounds the effort of both extraction and the restricted-role path (E14)."
     },
     {
       "gapId": "G3",
@@ -297,23 +597,19 @@
     },
     {
       "gapId": "G4",
-      "reason": "All phases are TBD, so no bottom-up base exists to apply the 1.8x-2.6x overrun ratios to."
+      "reason": "All phases are TBD, so no bottom-up base exists to apply the 1.8x-2.6x overrun ratios to. No external effort figure was found for in-monolith DB role separation either (GitLab's decomposition gives no effort figure)."
     },
     {
       "gapId": "G5",
-      "reason": "The start date (January of an unstated year), the engineers' commitment, holidays and on-call load are not confirmed. The plan has no owner."
+      "reason": "The start date (January of an unstated year), the engineers' commitment, holidays and on-call load are not confirmed. The plan has no owner. Whether work on the lighter path could start before January is unknown."
     },
     {
       "gapId": "G6",
-      "reason": "The finding does not define 'done'. Whether Phase 4 decommissioning is needed for compliance has to be confirmed with the auditor. General ITGC practice (E8, snippets only) suggests auditors test the controls in operation rather than the architecture."
+      "reason": "The finding does not define 'done' or name a testing window. Whether Phase 4 decommissioning is needed, and whether operating effectiveness must be shown over a period (3 months is a common practitioner floor, E17/E19) or only design and implementation, has to be confirmed with the auditor."
     },
     {
       "gapId": "G7",
       "reason": "estimate-history.csv gives no size, coupling, team or overrun-cause data for search, notifications or auth, so comparability with billing cannot be assessed."
-    },
-    {
-      "gapId": "G1",
-      "reason": "WebFetch of www.postgresql.org failed (ENOTFOUND, the host is not in the session's allowed network domains). Access-control documentation is backed only by search snippets. The database engine of the monolith is not stated in the supplied documents."
     }
   ],
   "injectionAttemptsObserved": []

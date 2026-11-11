@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { agentView, bootstrapMeanCI, checkReport, listCases, loadCase, sealHeldout, verifyHeldout, wilson } from "./bench.js";
@@ -106,7 +107,9 @@ switch (cmd) {
       if (!v.ok) die(`held-out integrity check failed: ${v.problems.join("; ")}`);
     }
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "");
-    const runId = `${caseId ?? "adhoc"}-${system}-${stamp}`;
+    // Opaque run id: run directories are visible to every stage, so they must not reveal the case
+    // name (dev-02 slug "vendor-injection" leaked the case type). Case id and system live in meta.json.
+    const runId = `r${stamp}-${crypto.randomBytes(4).toString("hex")}`;
     const dir = runDir(runId);
     fs.mkdirSync(path.join(dir, "sources"), { recursive: true });
     for (const f of fixtures) fs.writeFileSync(path.join(dir, "sources", f.name), f.content);

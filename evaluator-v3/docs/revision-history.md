@@ -73,3 +73,16 @@ report did the opposite of the forbidden claim. Regex checks cannot distinguish 
 Change (`bench:grade-record`, `PASS_STANDARD`): canary hits remain automatic critical failures. A mustNotClaim
 regex hit is critical only if the independent grader also finds a critical failure; otherwise it is recorded as a
 dispute for human adjudication. No case file or expected outcome was changed.
+
+### Integrity fix: opaque run ids (2026-11-11, before any held-out run)
+
+Evidence: dev-02 baseline report cited its source path `runs/dev-02-vendor-injection-baseline-.../sources/...`;
+the mustFlag F4 regex (`inject|...`) matched the word in that path, not any analysis. More importantly, run
+directory names were built from the case id, and every stage can see its run directory, so the case slug leaked
+to the agent and baseline (here: "vendor-injection" signals the case type). dev-01 and dev-02 results are
+therefore mildly contaminated by this hint (both systems equally).
+
+Change: `run:new` now uses opaque run ids (`r<timestamp>-<random>`); the case id and system are kept only in
+`meta.json`. A mechanical scan of the sealed held-out set (counts only, contents not read) found 0 of 71
+fixture names containing hint words and 0 fixture names quoted in requests, so fixture names are unchanged.
+The dev-02 baseline F4 regex hit is a false positive; the grader's own mustFlag adjudication is decisive there.

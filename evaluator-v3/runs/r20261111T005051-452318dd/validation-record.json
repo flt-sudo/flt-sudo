@@ -1,6 +1,6 @@
 {
   "runId": "r20261111T005051-452318dd",
-  "generatedAt": "2026-11-11T01:08:20.562Z",
+  "generatedAt": "2026-11-11T01:09:05.861Z",
   "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
   "researchPerformed": {
     "webSearches": [
@@ -131,6 +131,11 @@
         "agentType": "eval-adversary",
         "description": "dev-04 adversary review 3",
         "ok": true
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "dev-04 agent blind grading",
+        "ok": true
       }
     ]
   },
@@ -209,7 +214,7 @@
     "Knowledge gap G6 unresolved: This is a requester input. Their cost of capital or discount rate is not given.",
     "Knowledge gap G5 unresolved: Partially resolved from secondary sources only. Primary AWS documentation on RI Marketplace eligibility and Convertible RI exchange rules could not be fetched."
   ],
-  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v4); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
   "remainingUncertainty": [
     "All commitment rates come from a single aggregator snippet (E3). The plan-type choice rests on a 0.54-cent/hr gap between two of them, and the payback windows swing from about 0 to 11 months for a 1-point rate change (K38, K39). No us-east-1 rates were found for RIs, 1-year terms or upfront payment options.",
     "Savings Plan rates for m8i, m8i-flex, m7i-flex, m7g and m8g are not in the packet, and no new research was possible. K24-K29 and K36-K41 assume the same percentage discount as m7i, and on-demand prices for m7i-flex, m8i-flex and m8g are missing.",

@@ -117,3 +117,8 @@ that nothing prevented a stage from reading another run's outputs (e.g. a held-o
 report for the same case), and that Glob/Grep were not logged.
 Changes: the guard denies subagent Read/Glob/Grep outside the active run directory (agent definitions excepted);
 the PostToolUse/PostToolUseFailure hooks now also log Glob and Grep. Tests added.
+
+### Grade anchor normalisation (2026-11-11, dev-04)
+The dev-04 grader returned anchors as numbers (1.0) instead of strings ("1.0"). The Grade schema now normalises
+numeric anchors to their canonical string before validation (a format fix; no judgement changed), and the grading
+packet states that anchors are strings.

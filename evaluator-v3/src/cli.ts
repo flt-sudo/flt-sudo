@@ -364,7 +364,7 @@ switch (cmd) {
       "",
       "## Required output",
       "",
-      "Return ONLY a JSON object with keys: categories[6]{key,anchor,justification,quotes[]}, mustFlagAdjudication[]{id,flagged,quote}, criticalFailures[]{condition,triggered,evidence} (one entry per reference criticalFailures item), graderConfidence (high|medium|low), notesForHumanAdjudicator.",
+      "Return ONLY a JSON object with keys: categories[6]{key,anchor (a string: \"1.0\"|\"0.75\"|\"0.5\"|\"0.25\"|\"0\"),justification,quotes[]}, mustFlagAdjudication[]{id,flagged,quote}, criticalFailures[]{condition,triggered,evidence} (one entry per reference criticalFailures item), graderConfidence (high|medium|low), notesForHumanAdjudicator.",
       "",
       `## Output under evaluation (${label})`,
       "",

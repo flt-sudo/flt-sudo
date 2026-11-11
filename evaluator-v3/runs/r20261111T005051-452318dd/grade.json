@@ -1,0 +1,37 @@
+{
+  "runId": "r20261111T005051-452318dd",
+  "caseId": "dev-04-future-price",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "Accuracy was set at 0.75, not 1.0, because of sourcing labels. E1 is marked CORROBORATED by two aggregators but cites a single Spot-page URL. The commitment rates come from one INFERRED snippet, which the output does disclose. All 43 calculations recompute correctly."
+}

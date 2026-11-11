@@ -84,7 +84,7 @@ export const Grade = z.object({
   categories: z.array(
     z.object({
       key: z.enum(["scope", "accuracy", "depth", "critical", "usefulness", "clarity"]),
-      anchor: z.enum(["1.0", "0.75", "0.5", "0.25", "0"]),
+      anchor: z.preprocess((v) => (typeof v === "number" ? (v === 1 ? "1.0" : v === 0 ? "0" : String(v)) : v), z.enum(["1.0", "0.75", "0.5", "0.25", "0"])),
       justification: z.string(),
       quotes: z.array(z.string()).describe("Short verbatim quotes from the output supporting the anchor choice"),
     }),

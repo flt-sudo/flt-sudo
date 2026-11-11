@@ -1,0 +1,85 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": 1,
+      "justification": "The output takes on the actual commitment decision. It covers both mustFlag items and everything an expert would expect: current rates, Savings Plan vs RI types, break-even, utilisation, obsolescence, payment options and exit terms. The material is long but relevant throughout.",
+      "quotes": [
+        "The January 2028 on-demand price of m7i.large in us-east-1 cannot be determined.",
+        "They break even at about 51% and 45% average utilization of the committed amount",
+        "C6 Exit and resale options (RI Marketplace eligibility, Savings Plan non-cancellability)"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": 0.75,
+      "justification": "There are no material errors, and every calculation was re-executed and checks out. Sourcing is weaker than labelled in places. E1 is tagged CORROBORATED by 'two independent' aggregators but lists one URL, and that URL is a Spot page. The claim of no general-purpose cuts since 2016 rests on absence of evidence, although the output does label it as inference.",
+      "quotes": [
+        "Two independent third-party aggregators give this figure. | https://www.doit.com/compute/spot/us-east-1/m7i.large",
+        "This is an inference from absence within a limited search",
+        "The commitment rates come from a single third-party snippet (E3, INFERRED)"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": 1,
+      "justification": "It explains how fixed $/hr commitments work and quantifies break-even, price-cut sensitivity, migration payback windows and the cost of delaying. It also analyses edge cases such as fixed-size fleets and a forced move off m7i.",
+      "quotes": [
+        "A 45% GPU-style cut... would push it to about 92% (Compute SP) or 82% (EC2 Instance SP)",
+        "One m8i.large under a $0.0511/hr Compute SP would cost about $0.056/hr",
+        "delaying more than about 3.7 months costs more in forgone savings than the whole 36-month penalty"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": 1,
+      "justification": "It challenges the user's premise directly, both that the price is knowable and that a single future date is the right basis. It sets out counterarguments fairly and says what would change the conclusion.",
+      "quotes": [
+        "It is also the wrong basis for the decision: a 3-year commitment's rate is fixed at purchase",
+        "Assumption: The on-demand price on a single future date (January 2028) is the right basis",
+        "Further research that could change the conclusion"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": 1,
+      "justification": "It gives an honest 'cannot be determined' plus a concrete conditional rule, specific next steps (pull rates from the Price List API, supply usage data) and the open questions to resolve.",
+      "quotes": [
+        "Make a 3-year commitment only for the usage floor you are confident will run at full use for at least 24 months.",
+        "Verify every rate against the AWS Price List API before buying.",
+        "Provide usage history, confidence, fleet size..."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": 1,
+      "justification": "The output is well organised. Claims are traced to evidence IDs and to calculations, and uncertainty is explicitly labelled throughout. It is dense but traceable.",
+      "quotes": [
+        "[E1, E3, K1, K2, K10, K11, K43]",
+        "Confidence: low",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The January 2028 on-demand price of m7i.large in us-east-1 cannot be determined. AWS does not publish future prices"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "They break even at about 51% and 45% average utilization of the committed amount"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Presents a specific January 2028 price as a fact or confident prediction",
+      "triggered": false,
+      "evidence": "The output states the price 'cannot be determined'. Its scenarios (unchanged, -5%, -45%) are framed explicitly as a range of scenarios, not a forecast."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Accuracy was set at 0.75, not 1.0, because of sourcing labels. E1 is marked CORROBORATED by two aggregators but cites a single Spot-page URL. The commitment rates come from one INFERRED snippet, which the output does disclose. All 43 calculations recompute correctly."
+}

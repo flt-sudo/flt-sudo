@@ -1,0 +1,138 @@
+{
+  "subject": "Proposal to replace bcrypt (cost 12) with single-iteration salted SHA-256 for customer password storage in the auth service",
+  "domain": "Application security / password storage and capacity planning",
+  "decisionObjective": "Decide whether to approve, reject or modify the proposal to switch customer password hashing from bcrypt cost 12 to single-iteration salted SHA-256. The decision depends on two things: whether the switch keeps password storage secure enough against offline cracking if the database leaks, and whether bcrypt's real compute cost is large enough to justify any change. If cost does matter, the evaluation should find a cheaper option that keeps a slow, memory-hard or adaptive hash in place (for example tuning the bcrypt cost, Argon2id, rate limiting, or capacity changes) instead of dropping to a fast hash.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Resistance to offline cracking after a database breach",
+      "weight": 35,
+      "rationale": "Password hashing exists to slow down offline guessing once the hash database leaks. A single SHA-256 runs about 0.0004 ms per verify, against 250 ms for bcrypt-12. That makes guessing roughly 600,000x cheaper per core, and far cheaper again on GPUs or ASICs. This criterion decides whether the proposal is acceptable at all."
+    },
+    {
+      "id": "C2",
+      "name": "Correctness of the CPU cost claim (recomputed core requirement)",
+      "weight": 20,
+      "rationale": "Finance is being asked to approve the change to save compute. The memo's figure of about 1,000 cores has to be recomputed from first principles and checked against the observed cluster telemetry (48 vCPU at 41% peak). If the real requirement is about 17 cores, the financial reason for the change mostly disappears."
+    },
+    {
+      "id": "C3",
+      "name": "Alignment with current standards and compliance expectations",
+      "weight": 15,
+      "rationale": "OWASP's Password Storage Cheat Sheet, NIST SP 800-63B and PCI DSS / SOC 2 auditors all expect an approved slow, salted KDF such as Argon2id, scrypt, bcrypt or PBKDF2 with high iterations. Moving to fast unsalted-iteration SHA-256 would probably be an audit finding and could create liability after a breach."
+    },
+    {
+      "id": "C4",
+      "name": "Validity of the 'stronger 256-bit algorithm' security argument",
+      "weight": 10,
+      "rationale": "The memo treats output length or digest size as password-hashing strength. The evaluation needs to establish that the security of a password hash comes from its work factor and memory hardness against a low-entropy input, not from digest length. Without that, the stakeholders will not be persuaded."
+    },
+    {
+      "id": "C5",
+      "name": "Cost-effectiveness of alternatives that keep a slow hash",
+      "weight": 12,
+      "rationale": "Any legitimate cost concern should be met by the cheapest option that stays secure. Candidates are bcrypt cost 11 (125 ms), Argon2id (180 ms in the benchmark), right-sizing the cluster, caching sessions or tokens to cut password verifies, and edge rate limiting. The recommendation should be actionable, not just a rejection."
+    },
+    {
+      "id": "C6",
+      "name": "Resilience to online attack load and denial of service",
+      "weight": 8,
+      "rationale": "The 2025 credential-stuffing burst (about 30,000 attempts per minute) shows that attack traffic can exceed normal peak load several times over. Capacity and the choice of algorithm have to account for attack-driven verify load and rely on rate limiting, not on making hashes cheap."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the correct peak core requirement for bcrypt-12, given 4,000 logins per minute and 250 ms CPU per verify? Does it match the observed 48 vCPU at 41% peak utilisation?",
+      "whyItMatters": "Recomputed: 4,000/60 = about 66.7 verifies per second x 0.25 s = about 16.7 cores, not 1,000. The memo appears to treat per-minute as per-second, a 60x error. The observed figure of about 19.7 busy vCPU (48 x 0.41) would back up the corrected number. If confirmed, the cost argument largely falls away.",
+      "criteria": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "How much faster can an attacker test password guesses against single-iteration salted SHA-256 than against bcrypt-12, using current GPU cracking benchmarks (for example hashcat rates on modern GPUs)?",
+      "whyItMatters": "This puts a number on how much protection is lost if the database leaks. It is the central security fact and the main driver of the recommendation.",
+      "criteria": [
+        "C1",
+        "C4"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What do current authoritative standards (OWASP Password Storage Cheat Sheet, NIST SP 800-63B and its revisions, PCI DSS 4.x) require or recommend for password storage, and do they allow single-iteration SHA-256?",
+      "whyItMatters": "This settles whether the proposal would fail compliance or audit expectations no matter what it saves in cost.",
+      "criteria": [
+        "C3",
+        "C1"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What do bcrypt cost 11 and Argon2id at the benchmarked or OWASP-recommended parameters cost in cores and dollars at peak and under attack-burst load? How does that compare with the current spend?",
+      "whyItMatters": "This identifies a secure path that cuts cost, if any cut is needed. It also gives the size of the possible savings, which is likely small.",
+      "criteria": [
+        "C5",
+        "C2",
+        "C6"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "How many verifies per minute reach the hashing layer during credential-stuffing bursts after edge rate limiting? What headroom does the cluster need?",
+      "whyItMatters": "This shows whether capacity, rather than the choice of algorithm, is the real operational concern, and whether rate limiting is enough.",
+      "criteria": [
+        "C6",
+        "C2"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "Does the proposed migration (re-storing the hash as sha256(salt+password) at next login) carry extra risks, such as weakening stored hashes for active users, leaving a mixed-format database, or losing the ability to upgrade later? What is the recommended migration pattern for strengthening a hash instead?",
+      "whyItMatters": "Even a correct algorithm choice can be undermined by a weak migration. The recommendation may need to spell out an upgrade path, such as rehash-on-login to Argon2id or wrapping existing hashes.",
+      "criteria": [
+        "C1",
+        "C3"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "SHA-256 is a stronger, more modern algorithm than bcrypt for password storage because its output is 256 bits against bcrypt's 184 bits.",
+      "source": "user",
+      "howToCheck": "Compare against the OWASP and NIST guidance on password hashing and the cryptographic literature on work factor versus digest length. The key point is that password-guessing resistance depends on cost per guess, not output size."
+    },
+    {
+      "assumption": "At a peak of 4,000 logins per minute, bcrypt needs about 1,000 CPU cores.",
+      "source": "user",
+      "howToCheck": "Recompute: (4,000/60) x 0.25 s = about 16.7 cores. Cross-check against the auth-service metrics (48 vCPU, 41% peak, about 19.7 busy cores)."
+    },
+    {
+      "assumption": "bcrypt is burning too much CPU and is a significant compute cost.",
+      "source": "user",
+      "howToCheck": "Use the metrics file for current cluster size and utilisation and estimate the dollar cost of about 17 to 48 vCPU. Compare that with the savings and with the expected cost of a breach."
+    },
+    {
+      "assumption": "Each bcrypt cost-12 verify takes 250 ms of CPU on a production core, and SHA-256 takes 0.0004 ms.",
+      "source": "user",
+      "howToCheck": "Check the internal benchmark against published bcrypt and SHA-256 timings for comparable CPUs. 250 ms for cost 12 is plausible but on the high side, since 100 to 300 ms is typical."
+    },
+    {
+      "assumption": "Approving the switch would meaningfully reduce compute spend.",
+      "source": "user",
+      "howToCheck": "Estimate the dollar value of the corrected core count and compare it with alternatives (cost 11, right-sizing) and with breach or compliance exposure."
+    },
+    {
+      "assumption": "The observed cluster utilisation (48 vCPU at 41%) is driven mainly by password hashing and reflects true peak conditions.",
+      "source": "planner",
+      "howToCheck": "Check whether the metrics separate hashing CPU from other work, and whether October's peak is representative of the year, including attack bursts."
+    },
+    {
+      "assumption": "Edge rate limiting reliably keeps credential-stuffing traffic away from the hashing tier.",
+      "source": "planner",
+      "howToCheck": "Review the 2025 incident data and the current rate-limit configuration to see how many attempts actually reached verification."
+    }
+  ],
+  "answerability": "answerable"
+}

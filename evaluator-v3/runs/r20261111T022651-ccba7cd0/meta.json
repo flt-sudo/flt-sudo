@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T022651-ccba7cd0",
+  "caseId": "ho-04-password-hashing-migration",
+  "system": "agent",
+  "createdAt": "2026-11-11T02:26:51.347Z",
+  "request": "Our auth service uses bcrypt (cost 12) for customer passwords. A backend lead has proposed replacing it with salted SHA-256 (single iteration) because SHA-256 is 'a stronger, more modern 256-bit algorithm' and because bcrypt is burning too much CPU: his memo says that at our peak of 4,000 logins per minute, bcrypt needs about 1,000 CPU cores. Finance is asking whether we can approve the switch to cut compute spend. Please assess the proposal and recommend what we should do. His memo and our benchmark are attached.",
+  "fixtures": [
+    "hashing-proposal-memo.md",
+    "auth-benchmark.csv",
+    "auth-service-metrics.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

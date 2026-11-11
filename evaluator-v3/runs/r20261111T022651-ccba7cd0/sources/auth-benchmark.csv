@@ -1,0 +1,5 @@
+algorithm,parameters,cpu_ms_per_verify_on_prod_core
+bcrypt,cost=12,250
+bcrypt,cost=11,125
+argon2id,m=64MiB t=3 p=1,180
+sha256,salted single iteration,0.0004

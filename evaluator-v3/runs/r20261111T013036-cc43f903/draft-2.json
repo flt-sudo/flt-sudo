@@ -1,0 +1,688 @@
+{
+  "verdict": "Recommend option (b). Do not commit to the 16-shard customer_id project starting next sprint. Soon, grow the primary volume online, and grow the two read-replica volumes (and any standby or backup target) first or at the same time. Then take audit_events rows older than 12 months off the primary under retention policy v3 and make that a recurring job. Revisit sharding only when a measured trigger fires (see practicalImplications). The urgency premise is wrong. Month-over-month growth was 35, 35 and 80 GB, and the October 80 GB includes a documented one-off 45 GB backfill, so organic growth is about 35 GB/month, not 80 (K1-K4). At that rate the 160 GB free lasts about 4.57 months to 100%, not 2 (K5, K7, K8). The cluster is at 92% (K6). If the team alerts at 90% and treats 95% as a safety line (both are assumed thresholds, not given in the packet), 95% is about 1.71 months away (K9). So the disk needs prompt action, and that action is a resize, not a re-architecture. Compute is far from any limit: write TPS headroom is about 4.19x, connections are at 41% and CPU p95 is 34% (K13, K14; E7). Sharding solves throughput, compute and working-set limits, and none of those is near. Archival can work in two ways. If the old space goes back to the filesystem (partition drop, or DELETE plus a rewrite), usage falls to about 1,060 GB, about 53% of the current volume (K10, K11), which is about 26.9 months of runway even at the full 35 GB/month (K12). If old rows are only DELETEd and the space is reused inside the table (E12), disk usage stays at 1,840 GB. New audit inserts stop adding to disk, so net growth falls to roughly the non-audit share, about 16.5 GB/month (K24), but runway on the current volume would only be about 9.67 months (K25). The resize should come first. A rewrite does not strictly need it, but the archival steps generate WAL that must fit on the primary and on every replica, and a 92%-full disk leaves little margin for that. Up to the 16,000 GB online ceiling, runway is decades at the corrected rate (K15). Open risks: we don't know whether audit_events is partitioned, the cloud platform and the replica volume setup are not confirmed, no query logs prove nothing reads the old rows, and ticket ORD-2231 was not checked. Confidence is therefore moderate.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The stated 80 GB/month and 2-month runway are wrong. The month-end series 1,690 → 1,725 → 1,760 → 1,840 GB gives deltas of 35, 35 and 80 GB (K1-K3). The capacity report attributes 45 GB of October's growth to a one-off shipment_events backfill (ORD-2231) that it says is not expected to recur. Without it, October's organic growth is 35 GB (K4), the same as the two months before. Free space is 160 GB and usage is 92% (K5, K6). Corrected runway to 100% is about 4.57 months, against 2 months at 80 GB/month (K7, K8). Alert thresholds are not given in the packet. If the team alerts at 90% and treats 95% as a safety line (assumed values), the cluster is already past the first and about 1.71 months from the second (K9). That makes a resize time-sensitive, but it does not support starting sharding next sprint.",
+      "mechanisms": "The staff engineer took the one month that contained a documented one-off load and treated it as the run rate. A single-month delta that includes a bulk migration overstates steady growth. The two clean months match each other exactly (35 GB each), which supports reading 35 GB/month as the organic rate. Since the 6-table breakdown adds up to exactly 1,840 GB (K16), 'used' appears to be relation size only. WAL or replication-slot retention could therefore add usage that the series does not show.",
+      "strengths": [
+        "The base series is VERIFIED fixture data (E1).",
+        "The backfill exclusion is documented in the same report (E2), and the result matches the two prior months.",
+        "The 92% figure is confirmed exactly (K6)."
+      ],
+      "weaknesses": [
+        "Only 3 deltas. There is no longer history to test for acceleration or seasonality (E1).",
+        "ORD-2231 was not inspected, so 'not expected to recur' rests on SRE's word (E2).",
+        "'Used' may exclude WAL and slot retention, so true disk pressure could be higher (E5).",
+        "The 90% and 95% thresholds are assumptions, not sourced operating limits."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E18"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Data lifecycle is the biggest lever. audit_events is 1,020 GB, about 55.4% of used space (K17), and 780 GB of it is older than 13 months (E5). Policy v3 section 4.2 allows audit events older than 12 months to move to cold object-storage archive for 6 years. It also says archived events do not need to be queryable from the transactional DB (E6). So at least 780 GB is eligible now, plus the unquantified 12-13 month band. There are three removal paths. (1) If audit_events is time-partitioned, exporting and then dropping or detaching old partitions frees space at once and avoids VACUUM overhead (E13). Usage would fall to about 1,060 GB, about 53% (K10, K11). (2) If it is not partitioned, a batched DELETE does not shrink files, but plain VACUUM keeps the freed space for reuse within the same table (E12). audit_events is append-only (E5), so new audit inserts would fill about 780 GB of reusable space inside the table. That stops audit_events from growing on disk, and a rolling monthly DELETE keeps it that way. It needs no exclusive lock and no extra free space for a rewrite. Disk usage stays at about 1,840 GB, though, so net growth falls only to the non-audit share. Assuming the 240 GB of audit rows younger than 13 months (K18) accumulated evenly, audit adds about 18.5 GB/month (K23), leaving about 16.5 GB/month of other growth (K24). (3) Returning the space to the OS on an unpartitioned table needs a rewrite: VACUUM FULL with an exclusive lock (E12), or pg_repack online (E14). pg_repack's free-space need is uncertain because E14's '2x' wording is unverified. It is about 240 GB (K18) if the extra space is just the rebuilt copy of the retained rows, about 480 GB (K19) if '2x' applies to the retained data, and far more if it applies to the full 1,020 GB physical table. Every reading exceeds the 160 GB free (K5). Path (2) makes a rewrite optional rather than required.",
+      "mechanisms": "PostgreSQL returns space to the operating system only when relation files are dropped or rewritten. DROP or DETACH of a partition removes whole files. DELETE plus VACUUM only marks space as reusable inside the table, which is enough to stop growth on an append-only table but does not lower the 'used' figure. All paths except partition drop write a large amount of WAL. A mass DELETE logs every row removal, and a rewrite logs the new copy. That WAL has to be held on the primary and replayed on each replica, and it is why the order of resize and archival matters. The packet does not quantify the volume. A rolling retention job also caps audit_events at about 12 months of data and cuts freeze and vacuum work on an 8.9B-row append-only table (E17).",
+      "strengths": [
+        "Explicit Legal and Security policy authorization (E6, VERIFIED).",
+        "A large, VERIFIED volume of eligible data (E5).",
+        "Creates a repeatable retention mechanism, not a one-off cleanup (E13).",
+        "A DELETE-and-reuse path exists that needs no rewrite and no extra free space (E12, E5)."
+      ],
+      "weaknesses": [
+        "We don't know whether audit_events is partitioned, so the timeline and effort are uncertain (E5, E13).",
+        "Converting an unpartitioned 1 TB table to partitions is a migration project of its own (E13).",
+        "No pg_stat_statements or query-log evidence shows that no application, report or foreign key reads the old rows (E6).",
+        "The archive must be kept for 6 years, so export integrity has to be verified before anything is dropped (E6).",
+        "WAL volume, vacuum load and replica lag from a batched 780 GB DELETE are not quantified in the packet.",
+        "The audit/non-audit growth split (K23, K24) assumes even accumulation over 13 months. It is not measured."
+      ],
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E12",
+        "E13",
+        "E14",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "An online resize is very likely available and removes the immediate wall within hours to days. SRE describes the volume as 'gp-ssd, online-resizable up to 16,000 GB, no downtime' (E8). If the platform is AWS, EBS gp2/gp3 supports in-use size increases up to 16,384 GiB, with a 6-24 hour 'optimizing' phase afterwards (E9). The older 6-hour cooldown between modifications (E10) appears to be superseded. A 2026-07-15 AWS announcement allows up to four RDS storage modifications per 24 hours, and write-ups report that the EBS cooldown was removed (E11). Caveats: the platform is not confirmed as AWS. RDS increases must be at least 10%, storage cannot be shrunk afterwards, and a modification in progress cannot be cancelled. An older note mentions brief downtime on Single-AZ RDS (E11). Replicas and backups are a gap in the plan. The capacity report covers the primary only (E1), and the cluster has 2 read replicas (E7). If they are physical streaming replicas, which the packet does not state, they hold the same data and fill at the same rate as the primary. Their volumes, and any standby or backup target, must then be grown first or at the same time, or a replica can run out of disk even after the primary is resized. The WAL from archival or a rewrite (C2) also has to fit on every replica. As an illustration, growing to 4,000 GB alone gives about 61.7 months at 35 GB/month (K20). Bloat reclaim cannot be sized because no bloat data was supplied.",
+      "mechanisms": "Block-storage elastic resizing changes capacity without detaching the volume. Self-managed hosts then need a filesystem grow step (E9). Each replica is a separate node with its own volume, so a primary resize does not change replica capacity. A replica that runs out of disk stops replaying WAL and may have to be rebuilt. Because storage cannot be shrunk later (E11), oversizing is a permanent cost. A moderate increase followed by archival is better than jumping straight to 16 TB.",
+      "strengths": [
+        "Two internal SRE statements (E8, CORROBORATED).",
+        "Vendor documentation patterns are consistent with the claim (E9, E11).",
+        "Fast: hours, not quarters."
+      ],
+      "weaknesses": [
+        "The platform is not named, so the vendor match is provisional (E8, E9).",
+        "Replica volume sizes and replication type are not in the packet. The capacity report covers the primary only (E1, E7).",
+        "Cost, IOPS and throughput scaling, and the effect on backup, restore and replica rebuild times were not researched (E9).",
+        "Possible brief downtime on Single-AZ RDS (E11).",
+        "Bloat and WAL reclaim cannot be quantified (E5)."
+      ],
+      "evidenceIds": [
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E5",
+        "E1",
+        "E7"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "No measured non-storage limit justifies sharding now. 30-day p95 figures: CPU 34%; write TPS 2,150 against 9,000 tested headroom, about 4.19x (K13); connections 410/1,000, 41% (K14); replica p99 lag 140 ms. The report summary says storage is the only resource trending toward a limit (E7). The staff engineer's 'nothing else scales' (E3) conflicts with this measured data. Hidden limits are still possible, such as working set versus RAM or freeze and vacuum pressure on the 8.9B-row append-only audit_events (E17), but none was measured. Archiving would reduce the freeze pressure, not add to it.",
+      "mechanisms": "Splitting one database into 16 shards spreads CPU, write I/O, memory and connections across nodes. That pays off when one node runs out of those resources. Disk capacity on a resizable volume can be added without splitting anything, so sharding is the wrong tool for a disk-only problem.",
+      "strengths": [
+        "VERIFIED metrics with more than 3x headroom (E7)."
+      ],
+      "weaknesses": [
+        "Point-in-time p95 only, with no trend (E7).",
+        "No working-set, vacuum-duration, XID or freeze-age, or PostgreSQL-version data (E7, E17)."
+      ],
+      "evidenceIds": [
+        "E7",
+        "E3",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Sharding is expensive and risky compared with what it buys today. Citus-style multi-tenant migration requires every table to carry customer_id, with backfill where it is missing. Primary and foreign keys become compound keys, often the most invasive change. Distribution column types must match, inserts must include the tenant ID, and shared tables become reference tables (E15). Notion's sharding was described as months of focused engineering (E16). That is consistent in scale with the 2-3 quarter estimate, but it is not a quantified match. The proposal's 2-3 quarter feature freeze is an unverified estimate (E18). We can't confirm it, and we can't confirm that customer_id is a sound shard key: no schema, cross-customer query inventory or skew data was supplied. Opportunity-cost frame for the review: team size is not in the packet, so the cost can only be stated as a formula. Freezing 'most feature work' for 2-3 quarters (6-9 months) costs roughly N engineers × 6-9 months of feature capacity, where N is the affected team. Option (b) costs hours to days for the resize (E9, E11) plus an archival effort whose size depends on partitioning (E13). Our judgment is days to weeks if a partition drop or DELETE-and-reuse is possible, and longer if a partition conversion is needed. The benefit side of sharding is close to zero today, because no non-storage limit is near (C4) and the storage problem has cheaper fixes (C2, C3).",
+      "mechanisms": "Sharding by tenant makes cross-customer queries, global uniqueness and multi-customer transactions distributed operations. A badly chosen key, with skewed whales or cross-tenant access patterns, creates hot shards and is costly to reverse. A feature freeze is a direct business opportunity cost that scales with team size and freeze length.",
+      "strengths": [
+        "The Citus guidance is CORROBORATED and specific about what has to change (E15)."
+      ],
+      "weaknesses": [
+        "No effort estimate specific to this schema (E15).",
+        "The Notion comparison is secondary and unquantified (E16).",
+        "Customer_id skew and cross-customer access are unknown (E15).",
+        "Team size is not in the packet, so the opportunity cost can't be put in person-months."
+      ],
+      "evidenceIds": [
+        "E15",
+        "E16",
+        "E18",
+        "E7",
+        "E9",
+        "E11",
+        "E13"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "The alternative is not 'kicking the can' in any short-horizon sense. If the old audit space is returned to the filesystem (partition drop, or DELETE plus a rewrite after the resize), runway on the current 2,000 GB volume is about 26.9 months at 35 GB/month (K12) and about 11.75 months at the disputed 80 GB/month (K21). Both figures are conservative because they keep the full growth rate. A rolling 12-month retention job caps audit_events, so net growth would fall toward the non-audit share of about 16.5 GB/month (K24, an estimate). With DELETE-and-reuse only and no resize, usage stays at 1,840 GB and runway is about 9.67 months at that reduced rate (K25). That is why the resize is part of the plan. Up to the 16,000 GB online ceiling, without any archival, runway is about 33.7 years at 35 GB/month (K15), and about 11.2 years even if growth tripled to 105 GB/month (K22). These ceiling figures only show that disk is not a reason to shard. They do not show that a single node of 8-16 TB is operationally acceptable. Backup duration, restore and point-in-time-recovery time, and replica rebuild time all grow with data size, and none was researched (E9). Retention keeps the live dataset near the current size, so it avoids testing that limit. The real long-term limit is therefore compute or throughput, or operational scale (backup, restore and vacuum times on a very large single node), not disk. That is what the triggers should watch. The thresholds proposed under practicalImplications are judgment calls, not evidence-derived.",
+      "mechanisms": "Runway is capacity divided by net growth. Retention shrinks net growth, and resizing raises capacity. Sharding should be timed to the first non-storage resource approaching its tested limit, with enough lead time to cover a multi-quarter project.",
+      "strengths": [
+        "Large runway margins under linear assumptions (K12, K15, K22)."
+      ],
+      "weaknesses": [
+        "Linear extrapolation from 3 deltas (E1).",
+        "The audit/non-audit growth split is estimated, not measured (K23, K24).",
+        "Restore, PITR and replica-rebuild times grow with volume size, and this was not researched (E9).",
+        "Trigger thresholds are proposals, not measured limits."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E12",
+        "E13"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Organic storage growth is about 35 GB/month, not 80. The deltas are 35, 35 and 80 GB, and the 80 includes a documented one-off 45 GB backfill.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3",
+        "K4"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "Free space is 160 GB (92% used). At 35 GB/month that lasts about 4.57 months to 100%, not 2 months.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K5",
+        "K6",
+        "K7",
+        "K8"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Using assumed thresholds (a 90% alert line and a 95% safety line, neither given in the packet), the cluster is already past the first and would reach the second in about 1.71 months. A prompt resize is therefore warranted. Even without those thresholds, the measured runway to 100% is only about 4.57 months.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K9",
+        "K7"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Retention policy v3 allows audit_events older than 12 months to be moved to cold archive, and at least 780 GB qualifies. If that space is returned to the filesystem, usage would fall to about 1,060 GB, about 53% of the current volume.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E6"
+      ],
+      "calculationIds": [
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "If the archived space is returned to the filesystem (partition drop, or DELETE plus a rewrite done after the resize), runway on the 2,000 GB volume is about 26.9 months at 35 GB/month and about 11.75 months at 80 GB/month. Both are conservative, because rolling retention would also cut net growth. With DELETE-and-reuse only, usage stays at 1,840 GB and runway is about 9.67 months at the estimated non-audit growth rate.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E5",
+        "E6",
+        "E12",
+        "E13"
+      ],
+      "calculationIds": [
+        "K12",
+        "K21",
+        "K24",
+        "K25"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "Compute and throughput are far from their limits: about 4.19x write-TPS headroom, 41% of connections in use, CPU p95 34%. No measured non-storage limit justifies sharding now.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E7"
+      ],
+      "calculationIds": [
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The volume can very likely be grown online up to about 16 TB without downtime. The older 6-hour cooldown appears to be superseded by the 2026 AWS changes. This holds only if the platform is AWS, which is not confirmed.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E8",
+        "E9",
+        "E10",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "If audit_events is not partitioned, DELETE alone will not return disk to the OS. Returning it needs VACUUM FULL (exclusive lock) or pg_repack. pg_repack's free-space need is uncertain because the '2x' wording is unverified. It is about 240 GB if only the rebuilt copy of the retained rows counts, about 480 GB if '2x' applies to the retained data, and far more if it applies to the full 1,020 GB table. Every reading exceeds the 160 GB free, so a rewrite would need the resize first. A rewrite is optional, because DELETE-and-reuse stops audit growth without one.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E12",
+        "E14",
+        "E5"
+      ],
+      "calculationIds": [
+        "K18",
+        "K19",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Up to the 16,000 GB online ceiling, runway is about 33.7 years at 35 GB/month and about 11.2 years at triple that rate, so disk is not a durable reason to shard. Whether a very large single node is operationally acceptable (backup, restore and PITR time) is not established.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E8",
+        "E1",
+        "E9"
+      ],
+      "calculationIds": [
+        "K15",
+        "K22"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "Citus-style customer_id sharding needs schema-wide changes: the tenant column on every table, compound primary and foreign keys, reference tables and tenant-aware inserts. Comparable projects took months of focused effort.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E15",
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The available evidence can't determine whether audit_events is time-partitioned, or whether any application, report or foreign key reads rows older than 12 months. So the effort and timeline of the archival step can't be fixed yet.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "The available evidence can't verify the 2-3 quarter sharding estimate or whether customer_id is a sound shard key. No schema, cross-customer query inventory or skew data was supplied.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E15",
+        "E18"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "Hidden non-storage limits can't be ruled out: working set versus RAM, vacuum or freeze age on the 8.9B-row audit_events, and resource trends. None of these was measured.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E7",
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "audit_events makes up about 55.4% of used space, and the listed table sizes add up to exactly 1,840 GB. That suggests 'used' is relation size only and may exclude WAL and slot retention.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E1"
+      ],
+      "calculationIds": [
+        "K16",
+        "K17"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "Because audit_events is append-only and plain VACUUM keeps freed space for reuse within the table, a batched DELETE of the old rows would let new audit inserts reuse about 780 GB without growing the table on disk. Assuming the 240 GB of audit rows younger than 13 months accumulated evenly, audit is about 18.5 GB/month of growth and the rest is about 16.5 GB/month. This split is an estimate, not a measurement.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E12"
+      ],
+      "calculationIds": [
+        "K23",
+        "K24"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "The capacity report covers the primary only, and the cluster has 2 read replicas. If those are physical streaming replicas (not stated in the packet), they fill at the same rate. Their volumes must then be grown first or at the same time as the primary's, and they must have room for the WAL from archival. The evidence can't determine the replicas' current volume sizes.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1",
+        "E7"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "(a) Commit now to a 16-shard customer_id sharding project (2-3 quarters, most feature work frozen)",
+      "comparison": "It addresses limits that are not near (about 4.19x write headroom, K13). It takes quarters, so it does not fix the disk before even the 100% point, about 4.57 months away (K7). It also carries schema-wide changes (E15) and an unverified freeze cost of about N engineers × 6-9 months (E18). Rejected for now."
+    },
+    {
+      "option": "(b1) Online volume resize only (for example to about 4,000 GB), applied to the primary and to both read replicas and any standby or backup target",
+      "comparison": "Fast, hours to days (E9, E11), and gives about 61.7 months at 35 GB/month (K20). Replica volumes must be grown too or they become the new wall (E1, E7). Cost and backup or restore effects are not researched, and storage can't be shrunk later (E11). Necessary first step, but it doesn't fix the long-term audit_events growth."
+    },
+    {
+      "option": "(b2) Resize primary and replicas, then remove audit_events older than 12 months (partition drop; or batched DELETE with in-table reuse; optionally a rewrite to return space), then a recurring monthly retention job",
+      "comparison": "Recommended. If space is returned to the filesystem, usage falls to about 53% of the current volume (K11) and runway is about 26.9 months at the full 35 GB/month (K12), conservatively. With DELETE-and-reuse, usage stays at 1,840 GB but net growth falls to about 16.5 GB/month (K24), and the resize supplies the headroom. Policy-authorized (E6). Reduces freeze and vacuum load (E17). Effort depends on the unknown partitioning state (E13)."
+    },
+    {
+      "option": "(b3) Archive only, without a resize, using batched DELETE and in-table reuse (no rewrite)",
+      "comparison": "Cheaper than first assumed. It needs no exclusive lock and no extra free space for a rewrite (E12), and it stops audit_events growing on disk (E5). Net growth falls to about 16.5 GB/month (K24, estimated). Its weaknesses: usage stays at 92%, and runway on the current volume is only about 9.67 months (K25). A 780 GB DELETE writes a large, unquantified amount of WAL that has to fit on a nearly full primary and on both replicas, plus vacuum load and possible replica lag. Viable as the archival method, but not as a substitute for the resize. Those WAL and headroom risks, more than pg_repack's space need, are why the resize should come first."
+    },
+    {
+      "option": "(c) Defer sharding, but prepare: shard-key and schema readiness study, customer_id skew analysis",
+      "comparison": "Low-cost hedge that answers the 'kicking the can' objection. It reduces the lead time if a trigger fires, without a feature freeze. Rests on judgment, not packet evidence."
+    }
+  ],
+  "tradeoffs": [
+    "Resizing is quick but permanent: storage can't be shrunk (E11), and backup, restore and replica rebuild times likely grow with size (E9, not researched). A moderate resize plus archival beats jumping to 16 TB.",
+    "Archiving through partition drop is cheap once the table is partitioned. Converting an unpartitioned 1 TB table is a migration of its own (E13).",
+    "On an unpartitioned table, DELETE-and-reuse avoids a rewrite and its space need but leaves 'used' at 92% (E12). VACUUM FULL returns space but holds an exclusive lock (E12). pg_repack is online but needs roughly 240-480 GB or more of free space under the unverified '2x' wording and can fail partway (E14; K18, K19). Every option except partition drop generates heavy WAL.",
+    "Deferring sharding keeps feature velocity. If growth or load really accelerates, the multi-quarter lead time has to be covered by early triggers."
+  ],
+  "edgeCasesAndFailureModes": [
+    "The cluster is already at 92%. A surprise load (another backfill, WAL build-up from a stuck replication slot) could fill the remaining 160 GB faster than 35 GB/month suggests (E1, E5).",
+    "'Used' may exclude WAL or replication-slot retention, since the table sizes add up to exactly 1,840 GB (K16). An inactive slot could fill the disk on its own.",
+    "If only the primary is resized, a read replica on an unchanged 2,000 GB volume can still run out of disk and stop replaying (E1, E7).",
+    "WAL from a mass DELETE, pg_repack or partition export/conversion must be retained on the primary and replayed on both replicas. On a 92%-full disk this can fill the primary or a replica, or raise replica lag well above the current 140 ms p99 (E7). Batch and throttle the work and watch lag and WAL size.",
+    "A pg_repack that runs out of space fails partway (E14), so any rewrite must happen after the resize.",
+    "DETACH PARTITION CONCURRENTLY is not allowed if the table has a default partition and can't run in a transaction block (E13).",
+    "Single-AZ RDS may have brief downtime during storage modification (E11). A modification can't be cancelled once started (E11).",
+    "An undiscovered reader or foreign key on old audit_events could break when the rows are removed (E6). The archive must be verified before deletion, because 6-year retention is mandatory (E6).",
+    "An anti-wraparound autovacuum on the 8.9B-row append-only table could cause heavy I/O if freeze age is high (E17).",
+    "The ORD-2231 backfill pattern could recur in future migrations despite the 'not expected to recur' note (E2)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Not sharding now is kicking the can. Growth will eventually force it, so start while the system is stable.",
+      "response": "The corrected runway is long. It is about 26.9 months on the current volume once archived space is returned (K12), and decades up to the 16 TB ceiling (K15). Compute headroom is more than 3x (E7). The 16 TB figure only shows that disk is not the constraint. Whether backup, restore and PITR times on a very large single node are acceptable is unresearched (E9). Rolling retention keeps the live dataset near its current size, so that limit isn't tested soon. Starting a multi-quarter freeze for a limit that isn't near spends feature capacity early. Explicit triggers plus a readiness study keep the option open without the freeze."
+    },
+    {
+      "argument": "The 80 GB/month month could be the start of acceleration, not a one-off.",
+      "response": "45 GB of it is documented as the ORD-2231 backfill (E2), and the remainder is exactly 35 GB, matching the prior two months (K4). Even if 80 GB/month were real, post-archival runway is about 11.75 months (K21). That is still no reason to start sharding next sprint. A longer history and ORD-2231 should be checked (G1)."
+    },
+    {
+      "argument": "Online resize might not be as safe as SRE says.",
+      "response": "The claim matches vendor patterns (E9, E11), but the platform isn't confirmed and Single-AZ downtime is possible (E11). The mitigation is to confirm the platform, the AZ setup and the replica volumes, and schedule the change in a low-traffic window. Even a brief planned blip costs far less than a sharding project."
+    },
+    {
+      "argument": "Archiving 780 GB could break something that reads old audit data.",
+      "response": "The policy explicitly says archived events don't need to be queryable from the transactional DB (E6). Usage still has to be confirmed through pg_stat_statements or query logs before deletion, and this is flagged as unresolved (CL11)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The database is growing about 80 GB per month.",
+      "correction": "Organic growth is about 35 GB/month. October's 80 GB included a one-off 45 GB backfill (ORD-2231); the other two deltas were 35 GB each.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4"
+      ]
+    },
+    {
+      "assumption": "There are roughly two months before hitting the wall.",
+      "correction": "About 4.57 months to 100% at 35 GB/month. Against an assumed 95% safety line it is about 1.71 months, so a resize is needed soon. With the resize and archival, runway is years.",
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E8"
+      ]
+    },
+    {
+      "assumption": "Sharding is the only durable fix ('nothing else scales').",
+      "correction": "Measured compute, write throughput and connections have more than 3x headroom, and storage is the only resource trending toward a limit. Online resize up to about 16 TB and policy-authorized archival of at least 780 GB address storage without sharding.",
+      "evidenceIds": [
+        "E7",
+        "E8",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "assumption": "The cluster is at 92% disk.",
+      "correction": "Confirmed for the primary: 1,840 / 2,000 GB = 92%. But 'used' appears to be relation size only, since the table sizes add up to exactly 1,840 GB, so WAL and slot retention may not be included. The replicas' disk usage is not reported.",
+      "evidenceIds": [
+        "E1",
+        "E5",
+        "E7"
+      ]
+    },
+    {
+      "assumption": "Sharding is a 2-3 quarter project that would freeze most feature work.",
+      "correction": "Not verifiable from the evidence. Citus guidance implies schema-wide changes, and a public comparable took months, which is consistent in scale but not confirmed for this schema.",
+      "evidenceIds": [
+        "E15",
+        "E16",
+        "E18"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Jul to Aug growth (GB)",
+      "expression": "1725 - 1690",
+      "claimedResult": 35,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "Aug to Sep growth (GB)",
+      "expression": "1760 - 1725",
+      "claimedResult": 35,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Sep to Oct growth (GB)",
+      "expression": "1840 - 1760",
+      "claimedResult": 80,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "October organic growth after removing the 45 GB backfill (GB)",
+      "expression": "80 - 45",
+      "claimedResult": 35,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "Free space on the 2,000 GB volume (GB)",
+      "expression": "2000 - 1840",
+      "claimedResult": 160,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "Percent of disk used",
+      "expression": "1840 / 2000 * 100",
+      "claimedResult": 92,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7",
+      "purpose": "Runway to 100% at 35 GB/month (months)",
+      "expression": "160 / 35",
+      "claimedResult": 4.57,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Runway to 100% at the claimed 80 GB/month (months)",
+      "expression": "160 / 80",
+      "claimedResult": 2,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K9",
+      "purpose": "Runway to an assumed 95% safety line (threshold not sourced in the packet) at 35 GB/month (months)",
+      "expression": "(2000 * 0.95 - 1840) / 35",
+      "claimedResult": 1.71,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Used space after archiving 780 GB of audit_events, if space is returned to the filesystem (GB)",
+      "expression": "1840 - 780",
+      "claimedResult": 1060,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K11",
+      "purpose": "Percent used after archival on the 2,000 GB volume, if space is returned to the filesystem",
+      "expression": "(1840 - 780) / 2000 * 100",
+      "claimedResult": 53,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Runway to 100% after archival with space returned, 2,000 GB volume, full 35 GB/month (months; conservative)",
+      "expression": "(2000 - (1840 - 780)) / 35",
+      "claimedResult": 26.9,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K13",
+      "purpose": "Write TPS headroom ratio (tested / p95)",
+      "expression": "9000 / 2150",
+      "claimedResult": 4.19,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "Connection utilization percent",
+      "expression": "410 / 1000 * 100",
+      "claimedResult": 41,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K15",
+      "purpose": "Runway to the 16,000 GB ceiling with no archival at 35 GB/month (years)",
+      "expression": "(16000 - 1840) / 35 / 12",
+      "claimedResult": 33.7,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K16",
+      "purpose": "Sum of listed table sizes (GB)",
+      "expression": "1020 + 310 + 240 + 150 + 40 + 80",
+      "claimedResult": 1840,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K17",
+      "purpose": "audit_events share of used space (%)",
+      "expression": "1020 / 1840 * 100",
+      "claimedResult": 55.4,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K18",
+      "purpose": "Upper bound on retained audit_events after removing 780 GB; also the low-end pg_repack free-space need if only the rebuilt copy counts (GB)",
+      "expression": "1020 - 780",
+      "claimedResult": 240,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K19",
+      "purpose": "pg_repack free-space need if the unverified '2x' wording applies to the retained audit_events (GB; assumption)",
+      "expression": "2 * (1020 - 780)",
+      "claimedResult": 480,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K20",
+      "purpose": "Illustrative runway after a resize to 4,000 GB without archival at 35 GB/month (months)",
+      "expression": "(4000 - 1840) / 35",
+      "claimedResult": 61.7,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K21",
+      "purpose": "Runway after archival with space returned, 2,000 GB volume, at the disputed 80 GB/month (months)",
+      "expression": "(2000 - (1840 - 780)) / 80",
+      "claimedResult": 11.75,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K22",
+      "purpose": "Runway to the 16,000 GB ceiling at triple the organic rate, 105 GB/month (years)",
+      "expression": "(16000 - 1840) / 105 / 12",
+      "claimedResult": 11.2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K23",
+      "purpose": "Estimated audit_events growth: 240 GB of rows younger than 13 months spread evenly over 13 months (GB/month; assumption of even accumulation)",
+      "expression": "(1020 - 780) / 13",
+      "claimedResult": 18.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K24",
+      "purpose": "Estimated non-audit growth: organic 35 GB/month minus estimated audit growth (GB/month)",
+      "expression": "35 - (1020 - 780) / 13",
+      "claimedResult": 16.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K25",
+      "purpose": "Runway on the current 2,000 GB volume with DELETE-and-reuse (usage stays at 1,840 GB), growing at the estimated non-audit rate (months)",
+      "expression": "160 / (35 - (1020 - 780) / 13)",
+      "claimedResult": 9.67,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Soon (judgment: this week or next): confirm the platform (AWS EBS or RDS or other), the AZ setup, and how the 2 read replicas and any standby or backup target are provisioned. Grow the replica volumes first or at the same time as the primary, by at least 10% (an illustrative 4,000 GB gives about 61.7 months, K20). Keep in mind storage can't be shrunk later (E11).",
+    "Check for WAL or replication-slot retention not counted in 'used' (K16) and for any inactive slots.",
+    "Before archival, run pg_stat_statements or a query-log review for reads of audit_events older than 12 months, and check foreign keys (E6).",
+    "Find out whether audit_events is time-partitioned. If it is: export old partitions to object storage, verify them, then DETACH or DROP (E13). If not: after export and verification, use a batched, throttled DELETE with in-table reuse (E12). Watch WAL size, replica lag and vacuum while it runs, and do it after the resize so the WAL has headroom on every node. A rewrite (pg_repack, roughly 240-480 GB or more free, K18, K19) or a partition conversion is only needed if the space must go back to the OS.",
+    "Set up a recurring monthly retention job so audit_events stays at about 12 months online (E6, E13).",
+    "At Thursday's review, present the corrected growth figures (35 GB/month, about 4.57 months raw runway) and the opportunity-cost frame: N engineers × 6-9 months of frozen feature work, against days for the resize plus the archival effort.",
+    "Proposed revisit triggers for sharding. These are judgment thresholds, not evidence-derived: sustained write TPS p95 above about 50% of the tested 9,000; CPU p95 above about 60%; organic growth above about 70 GB/month for 3 consecutive months; used above 75% after resize and archival; or vacuum, freeze, backup or restore times exceeding operational targets.",
+    "Optionally fund a small sharding-readiness study (customer_id skew, cross-customer queries, which tables lack customer_id) to cut lead time if a trigger fires (E15)."
+  ],
+  "remainingUncertainty": [
+    "Only 3 monthly deltas, so no evidence on acceleration or seasonality (E1).",
+    "ORD-2231 was not inspected. Recurrence of similar backfills is possible (E2).",
+    "Whether audit_events is partitioned, and the size of the 12-13 month band (E5).",
+    "Whether anything reads old audit_events (E6).",
+    "The platform identity, the cost of a larger volume, IOPS and throughput scaling, and the effect on backup, restore, PITR and replica rebuild times (E8, E9).",
+    "Replica type (physical streaming or other), replica and backup volume sizes, and replica disk usage are not in the packet (E1, E7).",
+    "The WAL volume, vacuum load and replica-lag impact of deleting about 780 GB is not quantified.",
+    "The split of the 35 GB/month between audit_events and other tables is estimated from a 13-month average, not measured (K23, K24).",
+    "Team size, needed to put the feature-freeze cost in person-months, is not in the packet.",
+    "The 90% and 95% thresholds are assumed, not given.",
+    "Possible brief downtime on Single-AZ RDS (E11).",
+    "Working set versus RAM, vacuum and freeze age, PostgreSQL version, and metric trends (E7, E17).",
+    "Bloat, unused-index and WAL or slot figures (E5).",
+    "Real sharding effort and how sound customer_id is as a shard key (E15, E16)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "12-24 months of storage history showing sustained organic growth well above 35 GB/month, or a per-table growth breakdown.",
+    "ORD-2231 or upcoming migration plans showing repeated large backfills.",
+    "Evidence that audit_events is unpartitioned and that conversion is very expensive, or that old rows are actively read or referenced by foreign keys.",
+    "Confirmation that the platform can't resize the primary or the replica volumes online, or does so with significant downtime or cost.",
+    "Working-set, vacuum or wraparound, or TPS trend data showing a non-storage limit within about 12-18 months, which would strengthen the case for starting sharding (or a readiness phase) sooner.",
+    "Measured backup, restore or PITR times showing that a large single node is already near operational limits.",
+    "Schema and skew analysis showing customer_id sharding is much cheaper than 2-3 quarters, which would lower its opportunity cost."
+  ]
+}

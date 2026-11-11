@@ -1,0 +1,134 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "location": "verdict gate (7); criteriaAssessments C3.mechanisms; alternatives[1] 'Conditional approval with source-side redaction or hashing'; tradeoffs[1]",
+      "description": "The draft treats redaction and hashing as interchangeable. It says redaction 'removes the personal-data element altogether' and that with it 'the shipped logs no longer contain the emails, so the C3, C4 and C6 weaknesses matter less'. Gate 7 accepts emails that are 'redacted or hashed'. A plain or unsalted hash of an email address can be reversed with a dictionary attack. Under GDPR and UK GDPR, pseudonymised data (including keyed hashes) is still personal data. A plain hash would therefore pass gate 7 while leaving the storage-limitation, sub-processor and backup-encryption issues in place, and it would wrongly support downgrading C3, C4 and C6.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "coverage",
+      "severity": "major",
+      "location": "criteriaAssessments C2; verdict gates (2) and (8); practicalImplications[7]",
+      "description": "C2 covers 'privileged access management' and carries 20 weight. The only PAM point the draft makes is that no information exists. None of the hard gates covers least-privilege or just-in-time access for vendor staff, periodic access reviews, joiner-mover-leaver controls, or logging and monitoring of staff access to customer data. Audit logs of vendor-staff access appear only as a 'recommended, not a hard gate' item. Enforced MFA (gate 2) does not stop over-broad standing access by insiders. Read access to email-bearing logs is the scenario this criterion was weighted for.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "coverage",
+      "severity": "major",
+      "location": "criteriaAssessments overall; remainingUncertainty",
+      "description": "The draft never flags that the eight-item questionnaire leaves out controls an expert would expect for a multi-tenant SaaS log store. Missing are tenant isolation between customers' logs, vulnerability and patch management, security logging and monitoring (SIEM) of the vendor's own environment, personnel screening, secure SDLC, and business continuity. Saying nothing about these areas makes the posture look fully characterised. Tenant isolation matters most, because a cross-tenant flaw would expose the emails no matter how MFA or retention are set.",
+      "remedy": "both"
+    },
+    {
+      "id": "D4",
+      "gate": "coverage",
+      "severity": "minor",
+      "location": "criteriaAssessments C5; verdict gate (5)",
+      "description": "C5 covers 'incident detection' as well as notification. The draft notes that detection and response capability is not described, but no gate or practical implication asks for evidence of it, such as an incident response plan, 24x7 monitoring, or the date of the last IR exercise. A fixed notification window means little if the vendor cannot detect a breach.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "location": "verdict gates (1), (3), (4), (6), (10)",
+      "description": "The decision objective requires conditions that are 'concrete and checkable'. Several gates are not. Gate 1 asks for a Type II 'by a fixed date' but sets no maximum date or consequence if it is missed. Gate 3 asks for a 'fixed retention cap' but gives no value or range, such as 30 or 90 days. Gate 6 has no test for which regions or sub-processors are acceptable. Gate 4 accepts the vendor's written confirmation, which is self-attestation, although the draft itself says favourable claims need evidence (correctedUserAssumptions[2]). Gate 10 depends on an explanation from the vendor that cannot be checked, and any vendor will offer a benign one, so as a gate it barely filters.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "location": "verdict gate (1); alternatives 'Conditional approval with raw emails'",
+      "description": "The draft admits that the interim package (old Type I, new pentest, Type II date) gives no operating-effectiveness assurance. It still allows raw-email access before any Type II unless internal policy says otherwise. It does not consider middle options that would give interim independent evidence, such as an ISO 27001 certificate, a third-party readiness or gap assessment, confirmation that the Type II observation period has started, or a requirement that the redaction route be used until the Type II is issued.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "location": "criteriaAssessments C1.strengths[1]; C3.strengths[0]",
+      "description": "Two listed strengths go beyond the evidence. 'The vendor has engaged an auditor at least once, so it may have the basic controls a Type II would need (E1)' is speculation. A 2024 design-only report says nothing about current readiness. 'Deletion is available on request, so the organisation can use deletion requests to cap retention (E5)' assumes deletion works and reaches backups, which the draft itself says is unknown (E2).",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "traceability",
+      "severity": "minor",
+      "location": "claims CL11, CL13",
+      "description": "CL11 calls C1, C2 and C3 'blocking or severe'. In the assessments, only C2 is labelled 'Blocking'; C1 and C3 are labelled 'Weak', so the 58-point grouping is a label the assessments don't use. CL13 lists no evidence IDs and relies on the packet subject for the questionnaire date. The date is in the source (line 1), but no evidence item is cited.",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D9",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "location": "verdict",
+      "description": "The verdict runs to a long paragraph with ten gates embedded in it. The headline decision (do not proceed now; conditional path X) and the minimum gate set are hard to pull out. Gates 1 to 10 are not ranked by blocking severity, and the redaction route's reduced gate set is not stated in the verdict itself.",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Does the organisation's vendor-risk policy require a current SOC 2 Type II or ISO 27001 certificate for vendors processing customer personal data?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do the analytics and troubleshooting use cases need raw email addresses, or would keyed tokenisation or redaction at source, done before export, meet them?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will LogLantern contractually accept a fixed retention cap, deletion that covers backups, a breach-notification window under 72 hours, and sub-processor objection rights in a DPA?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How does LogLantern isolate tenants and control vendor-staff privileged access (least privilege, access reviews, access logging) to customer log data?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Has LogLantern's Type II observation period started, and which auditor is doing it? Is there any post-2023 penetration test, and what were its findings?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do GDPR or UK GDPR (or other regimes) apply to the customer email data?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "It covers all six criteria and the user premise. It misses the PAM and least-privilege part of C2, tenant isolation, other control areas the questionnaire leaves out, and incident-detection evidence for C5 (D2, D3, D4)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material claims rest on the questionnaire text, which I checked against the source. The draft discloses that the legal and standards sources are search snippets and says the questionnaire is self-attested. Only minor over-reads appear in the strengths (D7)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed K1-K5 and all are correct: 985/365.25=2.697, 1410/365.25=3.860, 1046/365.25=2.864, 58 days, 58 points. But treating hashing as equivalent to redaction, and as taking emails out of the personal-data risk, is a material reasoning error (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "It weighs five alternatives and gives strong counterarguments, including the case that the hidden comment is benign. Interim-assurance middle options are missing (D6), but this is minor."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The decision is clear: do not proceed now, with a gated conditional path. Several gates lack concrete thresholds or rely on vendor self-attestation (D5), which should be fixed."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited evidence IDs exist in the packet and match their claims. The packet contradiction E1 vs E14 is addressed. The embedded instruction was not followed and its phrase was not reproduced. The only issues are minor labelling and citation gaps (D8)."
+    }
+  ]
+}

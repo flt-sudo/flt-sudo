@@ -1,0 +1,70 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [confidence; verdict final sentences; remainingUncertainty item on E15] Draft 2 lowers overall confidence from 'high' to 'moderate' and gives one label for two different conclusions. The verdict itself says the rejection rests on VERIFIED/CORROBORATED evidence (E1, E2, E6, E13) and that only the replacement recommendation (setup-node caching, E15 INFERRED) and parts of the hardening advice are weaker. A single 'moderate' label could make a decision-maker think the reject decision is less certain than the evidence shows, when the action is sending NPM_TOKEN/CLOUD_DEPLOY_KEY off the runner. The draft should state confidence separately: high for 'do not adopt @v2 / 9f3e0b1 in release.yml', moderate for the specific replacement and hardening details."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "30 + 20 + 15 + 10 + 15 + 10",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(30 + 20 + 15) / 100 * 100",
+      "claimed": 65,
+      "actual": 65,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "14 - 2",
+      "claimed": 12,
+      "actual": 12,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "20 - 14",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": []
+}

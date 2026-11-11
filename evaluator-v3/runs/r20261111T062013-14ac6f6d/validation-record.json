@@ -1,0 +1,476 @@
+{
+  "runId": "r20261111T062013-14ac6f6d",
+  "generatedAt": "2026-11-11T06:30:41.072Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "GitHub Marketplace verified creator badge what does it mean",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "tj-actions/changed-files compromise tags moved secrets exfiltrated 2025",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "GitHub security hardening for GitHub Actions pin full length commit SHA third-party actions",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "\"qstack-tools\" OR \"quillstack-labs\" fastcache-action",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "GitHub Actions job-level env available to all steps including composite actions secrets step-level env least privilege",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "GitHub transferring a repository stars watchers issues redirects retained new owner docs",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "actions/setup-node cache: npm built-in caching package-lock actions/cache documentation",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "npm trusted publishing OIDC GitHub Actions id-token write no NPM_TOKEN provenance",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "docs.github.com \"Pin actions to a full length commit SHA\" \"only way to use an action as an immutable release\"",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "GitHub Marketplace actions \"not reviewed\" \"not certified by GitHub\" third-party terms of service",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://docs.github.com/en/actions/reference/security/secure-use",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does"
+      },
+      {
+        "url": "https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-marketplace-badges",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does"
+      },
+      {
+        "url": "https://wellarchitected.github.com/library/application-security/recommendations/actions-security/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND wellarchitected.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai"
+      }
+    ],
+    "fixturesRead": [
+      "action.yml",
+      "release.yml",
+      "repo-activity.md",
+      "marketplace-listing.md",
+      "README.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-18 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13609,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 46036,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 415
+            },
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 1377,
+            "cache_read_input_tokens": 9077,
+            "output_tokens": 3151,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1377
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 4,
+                "output_tokens": 3151,
+                "cache_read_input_tokens": 9077,
+                "cache_creation_input_tokens": 1377,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1377,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-18 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-18 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 35591,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 91644,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 495
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20095,
+            "cache_read_input_tokens": 6159,
+            "output_tokens": 9335,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 20095
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 9335,
+                "cache_read_input_tokens": 6159,
+                "cache_creation_input_tokens": 20095,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 20095,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-18 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 39968,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 63501,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2377
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1128,
+            "cache_read_input_tokens": 34176,
+            "output_tokens": 4662,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1128
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4662,
+                "cache_read_input_tokens": 34176,
+                "cache_creation_input_tokens": 1128,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1128,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-18 analyst draft 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 56406,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 109999,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1833
+            },
+            "input_tokens": 4,
+            "cache_creation_input_tokens": 33669,
+            "cache_read_input_tokens": 9959,
+            "output_tokens": 12774,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 33669
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 4,
+                "output_tokens": 12774,
+                "cache_read_input_tokens": 9959,
+                "cache_creation_input_tokens": 33669,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 33669,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-18 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 54118,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 43221,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 818
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 608,
+            "cache_read_input_tokens": 50948,
+            "output_tokens": 2560,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 608
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2560,
+                "cache_read_input_tokens": 50948,
+                "cache_creation_input_tokens": 608,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 608,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-18 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 27521,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 25350,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 536
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 19950,
+            "cache_read_input_tokens": 5071,
+            "output_tokens": 2498,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 19950
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2498,
+                "cache_read_input_tokens": 5071,
+                "cache_creation_input_tokens": 19950,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 19950,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "action.yml",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "release.yml",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "repo-activity.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "marketplace-listing.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "README.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-marketplace-badges",
+    "https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/create-and-publish-actions/publish-in-github-marketplace",
+    "https://help.github.com/articles/transferring-a-repository",
+    "https://www.itechguides.com/how-to-pin-github-actions-to-full-length-commit-shas/",
+    "https://snyk.io/blog/reconstructing-tj-actions-changed-files-github-actions-compromise",
+    "https://github.blog/security/application-security/implementing-least-privilege-for-secrets-in-github-actions/",
+    "https://socket.dev/glossary/npm-trusted-publishing",
+    "https://cdn.jsdelivr.net/gh/actions/setup-node@main/README.md"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 18 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 30 + 20 + 15 + 10 + 15 + 10 = 100 (claimed 100) → match",
+    "Calculation K2 re-executed: (30 + 20 + 15) / 100 * 100 = 65 (claimed 65) → match",
+    "Calculation K3 re-executed: 14 - 2 = 12 (claimed 12) → match",
+    "Calculation K4 re-executed: 20 - 14 = 6 (claimed 6) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://docs.github.com/en/actions/reference/security/secure-use — getaddrinfo ENOTFOUND docs.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does",
+    "Fetch failed: https://docs.github.com/en/apps/github-marketplace/github-marketplace-overview/about-marketplace-badges — getaddrinfo ENOTFOUND docs.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does",
+    "Fetch failed: https://wellarchitected.github.com/library/application-security/recommendations/actions-security/ — getaddrinfo ENOTFOUND wellarchitected.github.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G2 unresolved: No independent information on who controls qstack-tools, whether the 2026-09-14 transfer was authorized or announced, or who force-moved v2. Searches found nothing about these entities.",
+    "Knowledge gap G3 unresolved: The contents of commit a41c7e2 and restore-cache.sh were not supplied and the live repository could not be inspected, so no clean reviewed SHA can be identified.",
+    "Knowledge gap G6 unresolved: No benchmark data for this release job, and no information on whether slowness is in release or PR/CI workflows. The 70% claim is untested.",
+    "Knowledge gap G7 unresolved: No public advisories or community reports found. The README-vs-code mismatch is established from the fixtures only.",
+    "Knowledge gap G1 unresolved: The behaviour of restore-cache.sh is unknown. The telemetry exfiltration finding rests on the supplied action.yml, which could not be checked against the live tag v2 / 9f3e0b1.",
+    "Knowledge gap G5 unresolved: Official GitHub docs on env inheritance for composite actions, default GITHUB_TOKEN permissions and environments could not be fetched: docs.github.com and wellarchitected.github.com did not resolve in this session and must be allowed in network settings to inspect them. Repository-level settings are not visible in release.yml."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "The supplied action.yml and repo-activity.md could not be checked against the live repository or tied cryptographically to commit 9f3e0b1 (E1, E6).",
+    "The behaviour of restore-cache.sh and the contents of a41c7e2 are unknown (E17).",
+    "Who controls qstack-tools, and whether the transfer was authorized, is unknown (E16).",
+    "GitHub's official documentation on env inheritance in composite actions could not be fetched directly. The inheritance finding rests on secondary sources (E3, E13).",
+    "Repository-level default GITHUB_TOKEN permissions and environment protection rules are not visible in release.yml (E2).",
+    "Where CLOUD_DEPLOY_KEY is actually used is unknown. The request says the workflow deploys, but the supplied release.yml has no deploy step (E2).",
+    "Two points in the hardening advice are general platform behaviour, not packet evidence: npm lifecycle scripts running during `npm ci`, and actions/checkout persisting GITHUB_TOKEN in git config by default.",
+    "The setup-node caching recommendation rests on INFERRED evidence from README mirrors (E15). This is why overall confidence is moderate rather than high.",
+    "Whether cache poisoning between PR and release workflows is a real risk here is not addressed by the packet.",
+    "There is no benchmark data on caching speed-up or on which workflows are slow (E18).",
+    "E16 UNKNOWN: No public evidence was found that qstack-tools, quillstack-labs or fastcache-action exist. There are no security advisories, issues or community reports about the transfer or telemetry change, and no information on who controls qstack-tools.",
+    "E17 UNKNOWN: Neither the contents of the previous v2 commit a41c7e2 nor restore-cache.sh were supplied or found, so no SHA-reviewed, exfiltration-free version can be identified."
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T06:26:54.484Z",
+        "reasons": [
+          "[evidence_sufficiency/major] high confidence but material claims lack VERIFIED/CORROBORATED support: CL11",
+          "[coverage/major] D1 [criteriaAssessments C5; CL13; practicalImplications item 4; verdict hardening sentence] The C5 blast-radius analysis and the hardening advice miss the most concrete exposure in the supplied release.yml. (1) The only credentialed step is the combined `run: npm ci && npm publish`. Moving NPM_TOKEN to 'step-level env on the steps that use them' therefore still exposes it to every dependency lifecycle/install script that `npm ci` runs, which is a third-party code path on its own. The draft should recommend splitting install from publish, using `npm ci --ignore-scripts` where possible, and giving the token only to the publish step. (2) No step in release.yml uses CLOUD_DEPLOY_KEY. The file has no deploy step, even though the request says the workflow deploys. The draft never notices this, so it misses the simplest control: remove CLOUD_DEPLOY_KEY from this job, or move it to a separate deploy job behind a protected environment. It also leaves unresolved the gap between the request ('deploys to our cloud account') and the file. (3) actions/checkout@v4 persists GITHUB_TOKEN in .git/config by default, so any later step (including the unreviewed restore-cache.sh) can read it. `persist-credentials: false` is not mentioned."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [confidence; verdict final sentences; remainingUncertainty item on E15] Draft 2 lowers overall confidence from 'high' to 'moderate' and gives one label for two different conclusions. The verdict itself says the rejection rests on VERIFIED/CORROBORATED evidence (E1, E2, E6, E13) and that only the replacement recommendation (setup-node caching, E15 INFERRED) and parts of the hardening advice are weaker. A single 'moderate' label could make a decision-maker think the reject decision is less certain than the evidence shows, when the action is sending NPM_TOKEN/CLOUD_DEPLOY_KEY off the runner. The draft should state confidence separately: high for 'do not adopt @v2 / 9f3e0b1 in release.yml', moderate for the specific replacement and hardening details."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

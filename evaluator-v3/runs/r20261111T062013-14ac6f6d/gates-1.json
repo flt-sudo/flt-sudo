@@ -1,0 +1,116 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C5; CL13; practicalImplications item 4; verdict hardening sentence] The C5 blast-radius analysis and the hardening advice miss the most concrete exposure in the supplied release.yml. (1) The only credentialed step is the combined `run: npm ci && npm publish`. Moving NPM_TOKEN to 'step-level env on the steps that use them' therefore still exposes it to every dependency lifecycle/install script that `npm ci` runs, which is a third-party code path on its own. The draft should recommend splitting install from publish, using `npm ci --ignore-scripts` where possible, and giving the token only to the publish step. (2) No step in release.yml uses CLOUD_DEPLOY_KEY. The file has no deploy step, even though the request says the workflow deploys. The draft never notices this, so it misses the simplest control: remove CLOUD_DEPLOY_KEY from this job, or move it to a separate deploy job behind a protected environment. It also leaves unresolved the gap between the request ('deploys to our cloud account') and the file. (3) actions/checkout@v4 persists GITHUB_TOKEN in .git/config by default, so any later step (including the unreviewed restore-cache.sh) can read it. `persist-credentials: false` is not mentioned."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "major",
+          "source": "deterministic",
+          "detail": "high confidence but material claims lack VERIFIED/CORROBORATED support: CL11"
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [criteriaAssessments C6 weaknesses[2]; edgeCasesAndFailureModes[5]] The cache-poisoning concern (C6 weaknesses, edgeCasesAndFailureModes) is raised with no evidence and is admitted to be outside the packet. GitHub's cache scoping by branch/ref already limits PR-to-tag cache reuse. The point is either unsupported or overstated as written, and it is not flagged as speculative in the claims list."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; counterarguments[2]; alternatives[3]; criteriaAssessments C3 weaknesses[2]] The verdict rules out the action 'in any form: ... not pinned to a SHA, not vendored', and the a41c7e2 counterargument response leans on 'its upstream is now controlled by a party that has acted in bad faith'. Once code is vendored or pinned to a full SHA, the current controller's later behaviour cannot change it, so that argument does not apply to vendoring. The evidence on a41c7e2 is UNKNOWN (E17), not negative. repo-activity.md even implies the telemetry step was added only in 9f3e0b1, which the draft does not acknowledge. A better-supported conclusion: vendoring is unvalidated and unnecessary because a first-party alternative exists (E15), not categorically excluded. furtherResearchThatCouldChangeConclusion item 2 already admits vendoring could be reopened, which conflicts with 'in any form'."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [CL14; K2] CL14/K2 say the action 'fails outright' C1, C2 and C3, which hold 65% of the weight. C3 assesses the reference method (@v2 vs SHA), not the action itself, so 'fails' there is a category stretch. The weighted share also adds nothing to a decision driven by a single disqualifying finding (C1). Harmless arithmetic, but it gives a false impression of quantitative scoring."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [alternatives[4]] The rejection of 'fastcache-action in non-release workflows only' cites 'E2 limitations' for the claim that those workflows may hold 'a GITHUB_TOKEN with write permissions' that the env-POST would send. E2's limitation only says repository-level default permissions are unknown. GITHUB_TOKEN is also not in the process environment unless a workflow sets it explicitly, so the claimed `env` exfiltration path for it is not supported. The real exposure path is the token checkout persists in .git/config (see D1), which is not cited."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "30 + 20 + 15 + 10 + 15 + 10",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(30 + 20 + 15) / 100 * 100",
+      "claimed": 65,
+      "actual": 65,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "14 - 2",
+      "claimed": 12,
+      "actual": 12,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "20 - 14",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "source": "deterministic",
+      "detail": "high confidence but material claims lack VERIFIED/CORROBORATED support: CL11"
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C5; CL13; practicalImplications item 4; verdict hardening sentence] The C5 blast-radius analysis and the hardening advice miss the most concrete exposure in the supplied release.yml. (1) The only credentialed step is the combined `run: npm ci && npm publish`. Moving NPM_TOKEN to 'step-level env on the steps that use them' therefore still exposes it to every dependency lifecycle/install script that `npm ci` runs, which is a third-party code path on its own. The draft should recommend splitting install from publish, using `npm ci --ignore-scripts` where possible, and giving the token only to the publish step. (2) No step in release.yml uses CLOUD_DEPLOY_KEY. The file has no deploy step, even though the request says the workflow deploys. The draft never notices this, so it misses the simplest control: remove CLOUD_DEPLOY_KEY from this job, or move it to a separate deploy job behind a protected environment. It also leaves unresolved the gap between the request ('deploys to our cloud account') and the file. (3) actions/checkout@v4 persists GITHUB_TOKEN in .git/config by default, so any later step (including the unreviewed restore-cache.sh) can read it. `persist-credentials: false` is not mentioned."
+    }
+  ],
+  "openDecisiveGaps": []
+}

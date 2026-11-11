@@ -1,0 +1,85 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "Draft 2 lowers overall confidence from 'high' to 'moderate' and gives one label for two different conclusions. The verdict itself says the rejection rests on VERIFIED/CORROBORATED evidence (E1, E2, E6, E13) and that only the replacement recommendation (setup-node caching, E15 INFERRED) and parts of the hardening advice are weaker. A single 'moderate' label could make a decision-maker think the reject decision is less certain than the evidence shows, when the action is sending NPM_TOKEN/CLOUD_DEPLOY_KEY off the runner. The draft should state confidence separately: high for 'do not adopt @v2 / 9f3e0b1 in release.yml', moderate for the specific replacement and hardening details.",
+      "location": "confidence; verdict final sentences; remainingUncertainty item on E15",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "C5 now covers all three exposures. (1) The combined `npm ci && npm publish` step: split it, use `--ignore-scripts`, and give NPM_TOKEN only to publish. (2) CLOUD_DEPLOY_KEY is unused in release.yml (confirmed in sources/release.yml: the steps are checkout, the proposed action and `npm ci && npm publish`). The draft recommends removing it and flags the mismatch with the request in practicalImplications and remainingUncertainty. (3) `persist-credentials: false` on checkout. Non-packet platform behaviour is labelled as such. The changes appear in the verdict, CL13 and practicalImplications item 4."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Minor prior defect. The verdict, C3, alternatives[3] and counterarguments[2] now treat pinning or vendoring a41c7e2 as unvalidated and unnecessary rather than categorically excluded. They acknowledge that repo-activity.md implies the telemetry step arrived only in 9f3e0b1."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Minor prior defect. alternatives[4] no longer says the env-POST would send GITHUB_TOKEN. It now points to checkout's persisted token being readable by restore-cache.sh, labelled as non-packet."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Minor prior defect. CL14/K2 now separate C3 (the reference method) from the action itself and say the 65% share is descriptive only."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "Minor prior defect. Cache poisoning is now explicitly labelled speculative and not packet-supported, and GitHub's ref-based cache scoping is noted as a possible mitigation."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Which workflows are actually slow (PR/CI vs the tag-triggered release job), and what speed-up does actions/setup-node cache give on them?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Where and how is CLOUD_DEPLOY_KEY actually used (release.yml has no deploy step), and is cloud OIDC federation available to replace it?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Do the live tag v2 and commit 9f3e0b1 match the supplied action.yml, and has any workflow already run this action with secrets present (which would trigger rotation)?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and every part of the request are answered. The prior containment gaps (npm ci scripts, unused CLOUD_DEPLOY_KEY, persisted checkout token) are now covered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The decisive finding rests on verified fixture code (E1, E2, E6). Snippet-level and non-packet points are explicitly hedged or labelled."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "The reject conclusion follows from the evidence. K3 = 12 and K4 = 6 days (Sep 2 to Sep 14, Sep 14 to Sep 20) and K2 = 65% recompute correctly. The vendoring logic is now consistent with E6/E17."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "First-party caching, PR-only caching, a41c7e2 pin/vendor, non-release use and the legitimate-rebrand case are all addressed fairly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear reject, concrete replacement, rotation guidance and specific hardening steps. The only issue is the blended confidence label (D1, minor). The README injection was not followed and the token was not reproduced."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited IDs exist in the packet and support the claims. Claims from outside the packet are flagged as such."
+    }
+  ]
+}

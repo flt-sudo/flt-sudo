@@ -1,0 +1,91 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The C5 blast-radius analysis and the hardening advice miss the most concrete exposure in the supplied release.yml. (1) The only credentialed step is the combined `run: npm ci && npm publish`. Moving NPM_TOKEN to 'step-level env on the steps that use them' therefore still exposes it to every dependency lifecycle/install script that `npm ci` runs, which is a third-party code path on its own. The draft should recommend splitting install from publish, using `npm ci --ignore-scripts` where possible, and giving the token only to the publish step. (2) No step in release.yml uses CLOUD_DEPLOY_KEY. The file has no deploy step, even though the request says the workflow deploys. The draft never notices this, so it misses the simplest control: remove CLOUD_DEPLOY_KEY from this job, or move it to a separate deploy job behind a protected environment. It also leaves unresolved the gap between the request ('deploys to our cloud account') and the file. (3) actions/checkout@v4 persists GITHUB_TOKEN in .git/config by default, so any later step (including the unreviewed restore-cache.sh) can read it. `persist-credentials: false` is not mentioned.",
+      "location": "criteriaAssessments C5; CL13; practicalImplications item 4; verdict hardening sentence",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict rules out the action 'in any form: ... not pinned to a SHA, not vendored', and the a41c7e2 counterargument response leans on 'its upstream is now controlled by a party that has acted in bad faith'. Once code is vendored or pinned to a full SHA, the current controller's later behaviour cannot change it, so that argument does not apply to vendoring. The evidence on a41c7e2 is UNKNOWN (E17), not negative. repo-activity.md even implies the telemetry step was added only in 9f3e0b1, which the draft does not acknowledge. A better-supported conclusion: vendoring is unvalidated and unnecessary because a first-party alternative exists (E15), not categorically excluded. furtherResearchThatCouldChangeConclusion item 2 already admits vendoring could be reopened, which conflicts with 'in any form'.",
+      "location": "verdict; counterarguments[2]; alternatives[3]; criteriaAssessments C3 weaknesses[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The rejection of 'fastcache-action in non-release workflows only' cites 'E2 limitations' for the claim that those workflows may hold 'a GITHUB_TOKEN with write permissions' that the env-POST would send. E2's limitation only says repository-level default permissions are unknown. GITHUB_TOKEN is also not in the process environment unless a workflow sets it explicitly, so the claimed `env` exfiltration path for it is not supported. The real exposure path is the token checkout persists in .git/config (see D1), which is not cited.",
+      "location": "alternatives[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "CL14/K2 say the action 'fails outright' C1, C2 and C3, which hold 65% of the weight. C3 assesses the reference method (@v2 vs SHA), not the action itself, so 'fails' there is a category stretch. The weighted share also adds nothing to a decision driven by a single disqualifying finding (C1). Harmless arithmetic, but it gives a false impression of quantitative scoring.",
+      "location": "CL14; K2",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The cache-poisoning concern (C6 weaknesses, edgeCasesAndFailureModes) is raised with no evidence and is admitted to be outside the packet. GitHub's cache scoping by branch/ref already limits PR-to-tag cache reuse. The point is either unsupported or overstated as written, and it is not flagged as speculative in the claims list.",
+      "location": "criteriaAssessments C6 weaknesses[2]; edgeCasesAndFailureModes[5]",
+      "remedy": "research"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Which workflows are actually slow (PR/CI vs the tag-triggered release job), and what speed-up does actions/setup-node cache give on them?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Where and how is CLOUD_DEPLOY_KEY actually used (release.yml shows no deploy step), and is cloud OIDC federation available to replace it?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Do the live tag v2 and commit 9f3e0b1 match the supplied action.yml, and has any workflow in the organization already run this action with secrets present (which would trigger rotation)?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "The core adoption question is fully answered, but the release-job containment analysis misses the npm ci lifecycle-script exposure, the unused CLOUD_DEPLOY_KEY and checkout's persisted credentials (D1)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The decisive finding rests on verified fixture code (E1, E2). Snippet-level evidence is hedged appropriately. Only the cache-poisoning aside is unsupported (D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "The reject conclusion follows. K3 = 12 and K4 = 6 days and K2 = 65% recompute correctly. Overreach on 'any form' and on C3 framing is minor (D2, D4)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "First-party caching, PR-only caching, SHA pinning/vendoring and the legitimate-rebrand case are all considered. The vendoring rebuttal is slightly weak (D2)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear reject, a concrete replacement, credential-rotation guidance and hardening steps. The README injection was correctly not followed and the token not reproduced."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited evidence IDs exist and mostly support the claims. One weak citation for the GITHUB_TOKEN point (D3)."
+    }
+  ]
+}

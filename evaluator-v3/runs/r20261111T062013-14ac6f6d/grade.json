@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T062013-14ac6f6d",
+  "caseId": "ho-18-ci-third-party-action",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "This is a strong output. Accuracy got 0.75 rather than 1.0 only because the evidence registry entry E1 garbles the quoted curl command ('|' shown as '/' and '//'). That may be a table-rendering artifact rather than a substantive error, so a human may reasonably raise it to 1.0. N2 does not match: continue-on-error is mentioned only as something to avoid."
+}

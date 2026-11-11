@@ -1,0 +1,141 @@
+{
+  "subject": "Whether to commit now to sharding the orders-platform Postgres cluster (prod-orders-pg) into 16 customer_id shards, compared with alternatives for its disk-capacity problem",
+  "domain": "Database capacity planning / PostgreSQL operations and architecture",
+  "decisionObjective": "Decide what to recommend at Thursday's architecture review: (a) commit to a 2-3 quarter, 16-shard customer_id sharding project starting next sprint that freezes most feature work, or (b) take cheaper near-term actions (online volume resize, archiving or partitioning audit_events under the retention policy, reclaiming bloat) and defer sharding until a real scaling limit appears, plus a clear trigger for when to revisit it. The recommendation has to rest on recomputed runway and growth figures, not the figures stated in the request.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Accuracy of runway and growth-rate estimate",
+      "weight": 25,
+      "rationale": "The urgency of the sharding proposal rests entirely on the claim of 80 GB/month and about 2 months of runway. If organic growth is much lower (the October figure includes a one-off 45 GB backfill), the time pressure behind the 'start next sprint' framing goes away."
+    },
+    {
+      "id": "C2",
+      "name": "Storage relief from data lifecycle (audit_events archival or partitioning)",
+      "weight": 20,
+      "rationale": "audit_events is about 1,020 GB of 1,840 GB used, and roughly 780 GB of it is older than 13 months. The retention policy allows data older than 12 months to move to cold archive. This could free far more space than years of growth, so it changes which option is best."
+    },
+    {
+      "id": "C3",
+      "name": "Availability and safety of short-term capacity levers (online volume resize, bloat reclaim)",
+      "weight": 15,
+      "rationale": "SRE reports the volume can grow online from 2 TB to 16 TB with no downtime. Whether that is real, what it costs, and any operational caveats decide whether the 'hitting the wall' risk can be removed within days, independent of any architecture choice."
+    },
+    {
+      "id": "C4",
+      "name": "Whether a non-storage scaling limit actually justifies sharding",
+      "weight": 15,
+      "rationale": "Sharding is the right answer to write throughput, compute or working-set limits, not to disk that can be resized. The current figures (CPU 34%, write TPS 2,150 against 9,000 tested headroom, connections 410/1,000) show whether any such limit is near enough to justify sharding now."
+    },
+    {
+      "id": "C5",
+      "name": "Cost, risk and opportunity cost of the sharding project",
+      "weight": 15,
+      "rationale": "A 2-3 quarter feature freeze, cross-shard query and transaction complexity, the risk of a poor choice of shard key, and migration risk all have to be weighed against the benefit. The architecture review needs to see this trade-off made explicit."
+    },
+    {
+      "id": "C6",
+      "name": "Long-term durability and revisit triggers of the alternative plan",
+      "weight": 10,
+      "rationale": "The staff engineer's objection is 'kicking the can'. The alternative plan has to show how long it lasts (years of runway at the corrected growth rate, up to the 16 TB ceiling) and name measurable triggers for when to start sharding or another scale-out approach."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the true organic monthly storage growth? Recompute from the month-end series (Jul 1,690, Aug 1,725, Sep 1,760, Oct 1,840) after removing the one-off 45 GB October backfill, and check whether a longer history shows acceleration.",
+      "whyItMatters": "The stated figure of 80 GB/month appears to include a 45 GB one-off. The underlying rate looks like about 35 GB/month, which more than doubles the runway (160 GB free / 35 is about 4.5 months to 100%, before any action). That directly undercuts the urgency premise.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "How much audit_events data can be removed from the primary under retention policy v3 (older than 12 months), and by what mechanism (partition detach and drop, or batch delete followed by pg_repack or VACUUM FULL)? Are any reads, foreign keys, or compliance or query dependencies on that data in the transactional DB?",
+      "whyItMatters": "About 780 GB or more might be reclaimable. But plain DELETE does not return space to the filesystem, so the mechanism decides whether the relief is real and how fast it arrives. This could single-handedly provide years of runway.",
+      "criteria": [
+        "C2",
+        "C6"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Can the volume really be resized online to 16 TB with no downtime on this platform? What does it cost, and are there caveats such as cooldown between resizes, IOPS or throughput scaling, effects on replicas and backups, or the effect of a larger volume on backup and restore and replica rebuild times?",
+      "whyItMatters": "If it can, the immediate 'wall' risk can be removed within days. That changes the decision from an emergency to a planned architecture choice.",
+      "criteria": [
+        "C3",
+        "C6"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Is any non-storage resource (write TPS, CPU, working set compared with RAM, vacuum or wraparound pressure on large tables, replica lag, connections) projected to hit a limit within the planning horizon?",
+      "whyItMatters": "Sharding is justified by throughput or operational-scale limits. If compute has more than 3x headroom, the case for sharding now is weak. If there is a hidden limit (for example vacuum times on billion-row tables), the case gets stronger.",
+      "criteria": [
+        "C4",
+        "C6"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What realistic effort, risk and feature-freeze cost would 16-shard customer_id sharding carry for this schema: cross-customer queries, global tables, transactions spanning customers, how evenly data is spread across customer_id, and the tooling (Citus or app-level routing)?",
+      "whyItMatters": "It sets the opportunity cost against which the cheaper alternatives are compared, and it shows whether customer_id is even a sound shard key.",
+      "criteria": [
+        "C5"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "How much other reclaimable space exists: table and index bloat, unused indexes, and WAL or replication-slot retention included in 'used'?",
+      "whyItMatters": "More low-cost relief that adds runway and may correct the reported usage figures.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The database is growing about 80 GB per month.",
+      "source": "user",
+      "howToCheck": "Recompute month-over-month deltas from the capacity report (35, 35, 80 GB). Subtract the documented one-off 45 GB backfill from October (ORD-2231). Pull a longer history if available."
+    },
+    {
+      "assumption": "There are roughly two months before hitting the wall.",
+      "source": "user",
+      "howToCheck": "Recompute runway as free space divided by corrected organic growth (160 / ~35 GB per month). Account for any practical alert threshold below 100%. Then recompute again with the online resize and audit_events archival included."
+    },
+    {
+      "assumption": "Sharding into 16 shards by customer_id is the only durable fix ('nothing else scales').",
+      "source": "user",
+      "howToCheck": "Compare against the 16 TB online resize ceiling, retention-policy archival of audit_events, and partitioning. Check compute and throughput headroom to see whether any limit other than storage exists."
+    },
+    {
+      "assumption": "Sharding is a 2-3 quarter project that would freeze most feature work.",
+      "source": "user",
+      "howToCheck": "Check the estimate against the schema's complexity, the number of cross-customer access patterns, and comparable migration case studies (for example Citus migrations of similar size)."
+    },
+    {
+      "assumption": "The cluster is at 92% disk.",
+      "source": "user",
+      "howToCheck": "Confirm 1,840 / 2,000 GB = 92% from the capacity report. Check whether the reported usage includes WAL, replication slots or temporary files."
+    },
+    {
+      "assumption": "Deleting or archiving old audit_events will promptly reduce disk usage on the primary.",
+      "source": "planner",
+      "howToCheck": "Check whether audit_events is partitioned by time. If it is not, plan for pg_repack or a rewrite and its temporary space needs, because DELETE alone does not shrink files."
+    },
+    {
+      "assumption": "Archived audit events do not need to be queryable from the transactional DB, and no application or report depends on them.",
+      "source": "planner",
+      "howToCheck": "Read retention policy section 4.2 (it states there is no such requirement). Confirm with query logs or pg_stat_statements for reads of rows older than 12 months."
+    },
+    {
+      "assumption": "The note that the October backfill will not recur, and the SRE claim that resizing is online, are accurate.",
+      "source": "planner",
+      "howToCheck": "Check migration ticket ORD-2231 and the cloud provider's volume-modification documentation and limits."
+    }
+  ],
+  "answerability": "answerable"
+}

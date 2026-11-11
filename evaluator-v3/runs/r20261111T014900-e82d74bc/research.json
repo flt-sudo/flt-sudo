@@ -12,7 +12,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "Defines the hard constraints for C1-C5. R3 explicitly includes the edge hop as well as the 5 internal hops, so the edge component's latency counts toward the 10 ms.",
-      "limitations": "Does not say whether 'ONE option this quarter' is a formal constraint. That limit comes only from the user's request. Does not define what the auditor accepts as mTLS evidence (identity granularity, rotation, STRICT mode). Production peak rps is not given.",
+      "limitations": "Does not say whether 'ONE option this quarter' is a formal constraint. That limit comes only from the user's request. Does not define what the auditor accepts as mTLS evidence (identity granularity, rotation, STRICT mode). Production peak rps is not given. The segment count implied by 'edge -> 5 internal service hops' is ambiguous (see E19).",
       "contradicts": [],
       "gapIds": [
         "G1",
@@ -112,7 +112,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "This is the most representative latency evidence for R3: mTLS STRICT as R1 requires, telemetry on, checkout-sized payloads. It contradicts the vendor's 0.4 ms (E3), which was measured with mTLS off.",
-      "limitations": "Sample size, run length, number of repetitions and variance are not reported. It does not say whether the full edge -> 5-hop checkout chain was tested end to end or a single hop was measured. Whether 3,500 rps matches production peak is not stated. It does not say whether 'per hop' covers both client- and server-side proxies. Staging, not production. Portcullis was not tested.",
+      "limitations": "Sample size, run length, number of repetitions and variance are not reported. It does not say whether the full edge -> 5-hop checkout chain was tested end to end or a single hop was measured. Whether 3,500 rps matches production peak is not stated. It does not say whether 'per hop' covers both client- and server-side proxies. Staging, not production. Portcullis was not tested. 'Added p99' is presumably a difference of p99s (with mesh minus without), which is not itself the p99 of the added delay.",
       "contradicts": [
         "E3"
       ],
@@ -165,8 +165,8 @@
         "lattice-vendor-benchmark.md",
         "requirements.md"
       ],
-      "applicability": "Indicates that sidecar mode fails R3 on internal evidence, while node-proxy plus an edge component appears to pass with margin.",
-      "limitations": "p99 values do not add exactly (see E9), so the sum is a rough approximation and end-to-end measurement is needed. The edge latency for Lattice ingress is unknown. The Portcullis edge figure is at 2 KB payloads. No in-app mTLS (Go TLS) overhead figure is available.",
+      "applicability": "Indicates that sidecar mode fails R3 on internal evidence, while node-proxy plus an edge component appears to pass with margin. The pass for node-proxy should not be read as proven: a summed p99 is not a guaranteed upper bound (E13, E14, E16, E18).",
+      "limitations": "Summing per-hop p99s is exact only if hop delays are comonotonic (perfectly rank-correlated). It usually overestimates for independent, light-tailed hops, but it can underestimate when per-hop delays have rare large spikes, so it is not a conservative bound in general (E14, E18). The multiplier of 5 assumes 5 proxied segments; the fixture wording could also be read as 6 (E19). The edge latency for Lattice ingress is unknown. The Portcullis edge figure is at 2 KB payloads. No in-app mTLS (Go TLS) overhead figure is available.",
       "contradicts": [],
       "gapIds": [
         "G2"
@@ -217,7 +217,7 @@
         "https://systemssaturday.substack.com/p/systems-saturday-1-why-latency-lies"
       ],
       "applicability": "Supports the plan's assumption that a per-hop figure times 5 is only an approximation. R3 compliance should be confirmed with an end-to-end checkout-chain test.",
-      "limitations": "Evidence comes from search snippets of blog and vendor pages, not the Dean & Barroso paper itself. Not fetched.",
+      "limitations": "Evidence comes from search snippets of blog and vendor pages, not the Dean & Barroso paper itself. Not fetched. Does not by itself settle whether the summed p99 is above or below the true end-to-end p99 (see E13-E18).",
       "contradicts": [],
       "gapIds": [
         "G2"
@@ -298,12 +298,200 @@
         "method": "Read request.md"
       },
       "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "For comonotonic (perfectly positively rank-correlated) random variables, quantiles are exactly additive: the alpha-percentile of the sum equals the sum of the alpha-percentiles. Comonotonicity gives no diversification benefit, and it cannot produce superadditivity.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aggregate.readthedocs.io/en/stable/5_technical_guides/5_x_quantiles.html",
+        "title": "aggregate documentation - quantiles technical guide"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://ar.casact.org/in-praise-of-value-at-risk/",
+        "https://www.riskresearch.org/files/DanielssonVriesJorgensenSamorodnitskyMandira2005.pdf"
+      ],
+      "applicability": "D1: if every checkout hop were slow at the same time (fully correlated, e.g. one shared bottleneck driving all hops), the end-to-end p99 would equal the sum of the per-hop p99s. So the summed figure in E7 is exact in that limiting case.",
+      "limitations": "Search-result snippets only. A WebFetch of aggregate.readthedocs.io and ar.casact.org failed (host not resolvable in this session). These are general probability and risk-measure sources, not latency-specific ones. Real hops are only partially correlated.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains; fetch attempts failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "Quantiles (VaR) are not subadditive in general: the quantile of a sum can exceed the sum of the quantiles, even for independent variables. The classic Embrechts et al. example uses two independent Pareto variables with P(Xi > x) = x^(-1/2), x >= 1 (infinite mean). For these the quantile of the sum exceeds the sum of the quantiles at every level alpha in (0,1). For Pareto-type tails with index beta, the limiting ratio of the VaR of the sum to the sum of the VaRs is n^(1/beta - 1), which is above 1 when beta < 1. Superadditivity can also arise with discrete or mixed distributions.",
+      "source": {
+        "kind": "web",
+        "ref": "https://arxiv.org/html/2512.07787v3",
+        "title": "arXiv 2512.07787 (sub- and super-additivity of VaR)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://math.uwaterloo.ca/~wang/papers/2015EWW%28FS%29.pdf",
+        "https://arxiv.org/pdf/cond-mat/0203558",
+        "https://ar.casact.org/?p=264"
+      ],
+      "applicability": "D1: a sum of per-hop p99s is not a guaranteed upper bound on the end-to-end p99, even when hops are independent. Whether it over- or under-states depends on the shape of each hop's delay distribution in its tail.",
+      "limitations": "Search-result snippets only, not fetched (ar.casact.org could not be resolved). The cleanest counterexamples use infinite-mean distributions, which real proxy latency does not have. The latency-relevant mechanism (rare large spikes) is my own inference in E18. The original 2002 Embrechts text was not retrieved; it is cited through secondary sources.",
+      "contradicts": [
+        "E15"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "Danielsson et al. show that VaR is subadditive in the relevant tail region for multivariate regularly varying (fat-tailed but finite-mean) returns, and that it is subadditive for all log-concave distributions. They argue subadditivity violations are not a practical concern for typical fat-tailed data. In that regime, the quantile of a sum of independent terms is at or below the sum of their quantiles (a diversification benefit).",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.riskresearch.org/files/DanielssonVriesJorgensenSamorodnitskyMandira2005.pdf",
+        "title": "Danielsson, de Vries, Jorgensen, Samorodnitsky, Mandira - subadditivity of VaR"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://personal.eur.nl:443/cdevries/Articles/Samrodnitskyetal.pdf",
+        "https://www.fmg.ac.uk/sites/default/files/publications/DP549.pdf"
+      ],
+      "applicability": "D1: if per-hop added latency is roughly independent across hops and well-behaved in the tail (log-concave or smooth, finite-mean tails), the summed p99 in E7 overestimates the end-to-end p99. In that case it is a conservative estimate.",
+      "limitations": "Search-result snippets only, not fetched. Finance context. The result is asymptotic or tail-region and depends on distributional assumptions that were not checked for mesh proxy latency. It disagrees in emphasis with E14 and the CAS column on how often violations matter in practice, which is why the two are linked as contradicting. Both can hold under different distributional conditions.",
+      "contradicts": [
+        "E14"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains (same author group plus FMG discussion paper)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "Latency practitioner sources say summing each stage's 99th percentile is not guaranteed to upper-bound the end-to-end 99th percentile, and that you cannot reliably estimate end-to-end p99 by summing service p99s unless the path structure and distributions are tightly controlled. Looking at p99s per service underestimates the actual end-to-end p99. They recommend aggregating raw histogram buckets or joined end-to-end traces.",
+      "source": {
+        "kind": "web",
+        "ref": "https://tianpan.co/blog/2026-07-05-the-latency-budget-nobody-allocated-across-agent-hops",
+        "title": "The Latency Budget Nobody Allocated Across Your Agent's Hops"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://devbytes.co.in/news/why-should-you-never-average-percentiles-across-microservices",
+        "https://dev.to/speed_engineer/why-chaining-five-fast-services-gives-you-one-slow-one-3hj3"
+      ],
+      "applicability": "D1: in a latency-engineering context, this supports the view that the E7 sums are not a conservative bound and that R3 must be verified with an end-to-end checkout-chain p99.",
+      "limitations": "Blog sources, search snippets only, not fetched. The snippet summary did not say which statement came from which page, so the mapping of statements to the primary ref is approximate. Low authority compared with the probability literature (E13-E15).",
+      "contradicts": [
+        "E17"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "One search-result snippet says that for a four-stage pipeline the end-to-end p99 is 'closer to the sum of P99s', not to 4x the P50. Read that way, summing p99s is a reasonable estimate.",
+      "source": {
+        "kind": "web",
+        "ref": "web search: p99 latency percentiles not additive sum of per-hop p99 end-to-end chain independent services",
+        "title": "Search-result snippet (exact page not identified)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Recorded as the opposing practitioner view to E16. It contrasts the sum of p99s with a sum of medians and does not claim the sum is an upper bound, so it does not show that summation is conservative.",
+      "limitations": "Single snippet. The exact URL among the results could not be identified, and the page was not fetched. Likely a case-specific example, not a general rule.",
+      "contradicts": [
+        "E16"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Single search-result snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E18",
+      "claim": "Synthesis on how per-hop p99s combine across sequential hops. (a) Fully correlated (comonotonic) hops: the end-to-end p99 equals the sum of the per-hop p99s (E13). (b) Independent hops with smooth, light or moderate tails: the end-to-end p99 is usually below the sum, so the sum is conservative (E15). (c) Independent hops whose delay has rare large spikes with per-hop probability below 1%: the spikes do not appear in any per-hop p99, but they compound across hops (1-(1-p)^n), so the end-to-end p99 can be far above the sum (E9, E14, E16). Illustrative example, not from any source: each hop takes 0.5 ms with probability 0.995 and 20 ms with probability 0.005. Per-hop p99 = 0.5 ms, so the sum over 5 hops = 2.5 ms. But P(at least one spike in 5 independent hops) = 1 - 0.995^5, about 2.5%, which is more than 1%, so the end-to-end p99 is at least 20 ms. (d) Partial correlation, which is likely for node-proxy mode where co-located hops share one proxy, or with shared CPU, GC or network, falls between these cases. Conclusion: the summed p99 is not a guaranteed conservative upper estimate. It is conservative only when the per-hop tails are well-behaved.",
+      "source": {
+        "kind": "web",
+        "ref": "https://arxiv.org/html/2512.07787v3",
+        "title": "Reasoned from E9, E13-E16"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.riskresearch.org/files/DanielssonVriesJorgensenSamorodnitskyMandira2005.pdf",
+        "https://dev.to/speed_engineer/why-chaining-five-fast-services-gives-you-one-slow-one-3hj3",
+        "https://aggregate.readthedocs.io/en/stable/5_technical_guides/5_x_quantiles.html"
+      ],
+      "applicability": "Directly addresses D1. Sidecar mode: 2.6 ms x 5 already exceeds 10 ms. Since sums are usually conservative under well-behaved tails, a true end-to-end p99 could be lower, so 'fails R3' is likely but not proven. Node-proxy mode: about 5.3 ms passes on the sum, but a tail-spike regime could push the true end-to-end p99 higher, so 'passes R3' is also not proven. Both conclusions need an end-to-end p99 measurement of the full edge plus checkout chain.",
+      "limitations": "My own reasoning, with an invented numerical example used only to show the mechanism. No per-hop latency histograms are available in the fixtures, so the regime that applies to Lattice is unknown. 'Added p99 per hop' in E5 is presumably a difference of p99s, not the p99 of the added delay, which makes the summation even less well-founded.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Reasoning and arithmetic on cited results; illustrative example computed by hand"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E19",
+      "claim": "requirements.md R3 reads exactly 'Checkout request path (edge -> 5 internal service hops)'. The fixtures do not define 'hop'. Reading A: an edge component plus 5 proxied internal segments (edge->S1 counted as the first internal hop, then S1->S2 ... S4->S5), which gives a multiplier of 5 as used in E7. Reading B: 5 service-to-service hops after the edge->S1 segment, which gives 6 proxied segments across 6 services. The internal load test reports only a 'per hop' figure and does not say whether one hop includes both client- and server-side proxies in sidecar mode. No supplied fixture resolves the ambiguity.",
+      "source": {
+        "kind": "fixture",
+        "ref": "requirements.md",
+        "title": "Platform requirements (approved by CTO, 2026-09)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "internal-loadtest-2026-10.md"
+      ],
+      "applicability": "D7: the multiplier of 5 in E7 is one reading, not an established fact. Under Reading B the summed figures rise by one more per-hop increment (2.6 ms for sidecar, 0.9 ms for node-proxy). From a rough look, that does not flip the sidecar-fails or node-proxy-passes direction on the summed figures, but the downstream analysis should state which reading it uses.",
+      "limitations": "Interpretation of fixture wording only. Whether the edge->S1 segment is mesh-proxied depends on the deployment (for example, Portcullis to S1 is gateway mTLS, not mesh), and that is not specified. Not confirmed with the requirement owner.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixtures requirements.md and internal-loadtest-2026-10.md"
+      },
+      "untrustedInstructionsObserved": false
     }
   ],
   "unresolvedGaps": [
     {
       "gapId": "G2",
-      "reason": "No end-to-end measurement of edge plus 5 hops exists for any option. Lattice ingress edge latency is unknown. Portcullis latency at 6-40 KB payloads and checkout rps is untested. In-app mTLS overhead is unknown. The totals in E7 are approximate sums."
+      "reason": "No end-to-end measurement of edge plus 5 hops exists for any option. Lattice ingress edge latency is unknown. Portcullis latency at 6-40 KB payloads and checkout rps is untested. In-app mTLS overhead is unknown. The E7 totals are sums of per-hop p99s. Those sums are exact only for fully correlated hops, usually conservative for independent well-behaved tails, and can underestimate with rare per-hop spikes (E13-E18). No per-hop histograms are available to tell which regime applies. The segment count (5 vs 6) implied by R3 is ambiguous in the fixtures (E19). Fetches of aggregate.readthedocs.io and ar.casact.org failed because the hosts are not resolvable in this session (they would need to be allowed in the network settings), so the probability claims rest on search snippets."
     },
     {
       "gapId": "G3",
@@ -315,7 +503,7 @@
     },
     {
       "gapId": "G5",
-      "reason": "The internal test reports no sample size, run length, repetitions or variance. It does not say whether the full checkout chain was exercised or how 3,500 rps compares with production peak."
+      "reason": "The internal test reports no sample size, run length, repetitions or variance. It does not say whether the full checkout chain was exercised, how 3,500 rps compares with production peak, or whether 'per hop' covers one or two sidecars."
     },
     {
       "gapId": "G6",

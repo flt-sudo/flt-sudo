@@ -1,0 +1,130 @@
+{
+  "subject": "Proposed $30M acquisition of Tamarind Field Services: whether the price fits the board's 7.0x bolt-on cap once the quality-of-earnings (QoE) adjustments are applied",
+  "domain": "M&A / private-company transaction diligence (valuation, quality of earnings, governance mandate compliance)",
+  "decisionObjective": "Decide whether the deal committee can approve signing at $30M under its delegated authority, or whether it must renegotiate the price or structure, or take the deal back to the full board. The board mandate caps bolt-ons at 7.0x diligence-adjusted (QoE) EBITDA, not the banker's CIM adjusted EBITDA. The test is therefore: purchase price (on the basis the mandate intends) divided by QoE-adjusted EBITDA, compared against 7.0x. If the deal breaches the cap, work out the maximum compliant price and the renegotiation levers.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Mandate compliance on QoE EBITDA",
+      "weight": 35,
+      "rationale": "This is the binding governance test. The mandate states 'diligence-adjusted (QoE) EBITDA', so the 6.0x CIM multiple does not count. A breach means the committee lacks authority to sign at $30M."
+    },
+    {
+      "id": "C2",
+      "name": "Validity of each EBITDA add-back and diligence adjustment",
+      "weight": 20,
+      "rationale": "The multiple depends on the denominator. Each item needs its own judgment: owner compensation net of replacement cost, a 'one-time' marketing spend that recurred three years running, the legal settlement, and the warranty reserve shortfall. Any of these could move the multiple across the 7.0x line."
+    },
+    {
+      "id": "C3",
+      "name": "Correct numerator: headline price vs enterprise value per mandate definition",
+      "weight": 15,
+      "rationale": "The multiple also depends on what $30M represents (enterprise vs equity value, cash-free/debt-free, earn-outs, working capital peg, assumed debt-like items such as the warranty shortfall). The mandate's intended numerator has to be confirmed before computing compliance."
+    },
+    {
+      "id": "C4",
+      "name": "Maximum compliant price and renegotiation headroom",
+      "weight": 15,
+      "rationale": "If $30M breaches the cap, the committee needs a concrete counter: the 7.0x ceiling price, the gap to $30M, and structural options such as an earn-out, escrow, or price reduction for the warranty shortfall. It also needs to know whether these options keep the deal within the mandate."
+    },
+    {
+      "id": "C5",
+      "name": "Sustainability and forward risk of the earnings base",
+      "weight": 10,
+      "rationale": "Beyond the FY2025 point estimate, recurring marketing spend, warranty exposure, and the risks of transitioning to a new CEO affect whether even QoE EBITDA can be sustained. This shapes how much negotiating cushion to seek."
+    },
+    {
+      "id": "C6",
+      "name": "LOI and process constraints",
+      "weight": 5,
+      "rationale": "Exclusivity, binding provisions, and diligence-out or price-adjustment clauses in the signed LOI determine whether renegotiation is contractually and practically possible before tomorrow's committee."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Recomputed from the QoE figures: what are QoE-adjusted EBITDA, the implied multiple at $30M, and the 7.0x maximum price? (Expected check: 3,800 + 250 + 200 - 350 = 3,900; $30.0M / $3.9M ≈ 7.69x; 7.0 x $3.9M = $27.3M; gap about $2.7M.)",
+      "whyItMatters": "If confirmed, this single calculation shows $30M breaches the mandate. That would make the answer 'renegotiate or go to the full board', not 'proceed'.",
+      "criteria": [
+        "C1",
+        "C4"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Is the QoE treatment of each item well supported? That means the evidence for a ~$350K market-rate replacement CEO cost, the evidence that the marketing campaign recurred in FY2023–FY2025, the non-recurrence of the legal settlement, and the basis for the $350K warranty reserve shortfall. Is the warranty shortfall a recurring EBITDA charge or a one-off catch-up?",
+      "whyItMatters": "Sensitivity matters here. Restoring the $400K marketing add-back gives 4,300 (about 6.98x, just inside the cap). Treating the warranty item as a one-off catch-up gives 4,250 (about 7.06x). Any single judgment can flip compliance.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What exactly does the $30M LOI price represent? Is it enterprise or equity value, cash-free/debt-free, with or without an earn-out or deferred consideration, and with what working capital peg? Does the mandate define the multiple's numerator?",
+      "whyItMatters": "A different numerator, such as treating the warranty shortfall as a debt-like deduction or excluding contingent consideration, changes the multiple and may open a structural path to compliance.",
+      "criteria": [
+        "C1",
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What do the signed LOI's terms say about binding vs non-binding status, exclusivity, and any price-adjustment mechanism tied to diligence findings?",
+      "whyItMatters": "These terms determine whether the buyer can renegotiate on the QoE findings without breach, and how much leverage it has.",
+      "criteria": [
+        "C4",
+        "C6"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Is the FY2025 QoE EBITDA representative of run-rate earnings (trailing-twelve-month (TTM) trend, warranty claim history, customer concentration, post-departure management cost)?",
+      "whyItMatters": "Even a compliant multiple on an unsustainable base is a poor decision. Run-rate risk also tells the committee how hard to push on price.",
+      "criteria": [
+        "C5",
+        "C2"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Adjusted EBITDA is $5.0M (from the banker's CIM).",
+      "source": "user",
+      "howToCheck": "Reconcile the CIM add-backs against the QoE report. QoE accepts only $450K of the $1.2M add-backs and adds a -$350K diligence adjustment, giving $3.9M."
+    },
+    {
+      "assumption": "The deal is a 'disciplined 6x'.",
+      "source": "user",
+      "howToCheck": "Recompute the price divided by QoE-adjusted EBITDA as the mandate specifies: $30M / $3.9M ≈ 7.69x."
+    },
+    {
+      "assumption": "The board cap is 7x EBITDA (implicitly the CIM adjusted EBITDA).",
+      "source": "user",
+      "howToCheck": "Read the board mandate text. It specifies 7.0x 'diligence-adjusted (QoE) EBITDA' without returning to the full board, so the CIM figure is not the relevant base."
+    },
+    {
+      "assumption": "$30M is within the board mandate and signing can proceed.",
+      "source": "user",
+      "howToCheck": "Apply the mandate test on QoE EBITDA and on the confirmed numerator definition. Compute the 7.0x ceiling ($27.3M)."
+    },
+    {
+      "assumption": "The QoE report summary is complete and its figures are final (not a draft subject to revision).",
+      "source": "planner",
+      "howToCheck": "Confirm the report status, any open items, and whether the full report contains further adjustments (e.g. net working capital, debt-like items) not shown in the summary."
+    },
+    {
+      "assumption": "The $30M headline is the enterprise value that the mandate's multiple is measured against.",
+      "source": "planner",
+      "howToCheck": "Review the LOI consideration terms and the mandate's definitions, or check with the board secretary or corporate development policy."
+    },
+    {
+      "assumption": "The source documents are authentic excerpts and untampered.",
+      "source": "planner",
+      "howToCheck": "Cross-check figures against the full CIM, the full QoE report and the original board resolution."
+    }
+  ],
+  "answerability": "answerable"
+}

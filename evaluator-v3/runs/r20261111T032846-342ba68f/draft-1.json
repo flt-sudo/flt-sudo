@@ -1,0 +1,475 @@
+{
+  "verdict": "No. On the evidence supplied, the deal committee cannot approve signing at $30M under its delegated authority. The board mandate caps bolt-ons at 7.0x diligence-adjusted (QoE) EBITDA, not the banker's CIM adjusted EBITDA (E1). QoE EBITDA is $3.9M (E3; K1), so $30M is 7.69x (K2). That is above the cap, not the 'disciplined 6x' the request describes; the 6.0x only holds on the CIM's $5.0M (E2; K5). The highest price that meets the cap on the same basis is $27.3M (K3), which is $2.7M, or 9%, below the headline (K4, K10). The committee has two options: (a) re-trade to no more than about $27.3M, or to a structure that the board confirms counts as compliant; or (b) take the deal to the full board. This conclusion rests on one unconfirmed premise: that $30M is the amount the mandate measures. No LOI was supplied and the mandate does not define its numerator (E1, E11). Two other things could change the outcome. First, the QoE summary's final status is unconfirmed (E8). Second, single judgments on individual items can move the multiple across 7.0x (E6; K6–K8). Neither is a basis for signing at $30M tomorrow without full-board approval.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Fails. The mandate's denominator is QoE EBITDA (E1). The QoE summary gives $3.9M (E3; K1). At $30M the multiple is 7.69x against a 7.0x cap (K2), so the committee lacks authority to sign at that price. The user's 6.0x uses the CIM's $5.0M (E2; K5), which the mandate expressly does not use.",
+      "mechanisms": "The mandate deliberately ties the cap to diligence-adjusted earnings rather than seller-prepared figures, so that the price is measured against earnings an independent provider is prepared to support. The CIM's $1.2M of add-backs come from the sell side. The QoE accepts only $450K of them and adds a -$350K adjustment (E3; K9). That cuts the denominator by $1.1M (K9b), which pushes the multiple up from 6.0x to 7.69x.",
+      "strengths": [
+        "The mandate text is explicit and VERIFIED (E1).",
+        "The QoE bridge arithmetic is VERIFIED and reproducible (E3; K1)."
+      ],
+      "weaknesses": [
+        "The mandate excerpt is one line with no definitions, so the numerator and any rounding or tolerance convention are unconfirmed (E1).",
+        "The QoE document is a summary whose draft or final status is not stated (E8)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Most of the QoE treatments are reasonable, but two rest on thin support. Rejecting the marketing add-back is well supported, because the campaigns recurred in FY2023, FY2024 and FY2025 (E5b). Accepting the legal settlement is asserted ('genuinely non-recurring') with no basis shown (E5c). The owner-compensation add-back is reduced from 600 to 250 on the basis of a ~350 replacement-CEO cost, with no benchmark cited (E5a; K11). The -350 warranty adjustment does not say whether it is an annual under-accrual or a one-off catch-up (E5d). That distinction decides whether it belongs in EBITDA at all (E7).",
+      "mechanisms": "Owner compensation can only be added back net of what a replacement will cost, because the owner leaves at close and the role has to be filled (E5a). Spending that recurs every year is an operating cost, not a one-off, so adding it back would overstate run-rate earnings (E5b). If the warranty reserve is under-accrued on an ongoing basis, reported EBITDA overstates true earnings each year, and an EBITDA adjustment is right. If the shortfall is a cumulative catch-up tied to sales made before closing, general practice treats it as a debt-like price deduction instead. The same item should not be counted both ways (E7).",
+      "strengths": [
+        "The marketing rejection has explicit three-year evidence (E5b).",
+        "Every adjustment is itemised and reconciles to the reported 3,800 (E3; K1)."
+      ],
+      "weaknesses": [
+        "No compensation benchmarking supports the ~350 CEO cost (E5a).",
+        "There is no settlement documentation (E5c).",
+        "The nature of the warranty item is ambiguous, and this matters: reversing it alone gives 7.06x, still a breach, but treating it as debt-like gives about 6.98x (E6; K7, K8).",
+        "The guidance on warranty treatment comes from advisory-blog search snippets only (E7)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E5",
+        "E6",
+        "E7"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Cannot be determined. The mandate does not define the numerator (E1), and no LOI or consideration terms were supplied (E11). So it is unknown whether $30M is enterprise or equity value, whether it is cash-free/debt-free, whether it includes contingent consideration, and what the working-capital peg is. The 7.69x figure assumes $30M is the numerator (E4).",
+      "mechanisms": "If $30M is equity value and the target carries debt or debt-like items, enterprise value is above $30M and the breach is worse. If $30M includes an earn-out and the mandate excludes contingent consideration, the measured price could be lower. If the mandate measures price net of debt-like items and the warranty shortfall is moved out of EBITDA, the multiple could fall to about 6.98x (E6; K8). That last path depends on avoiding double counting (E7).",
+      "strengths": [
+        "The packet flags the numerator dependency explicitly, so the gap is known rather than hidden (E4, E6)."
+      ],
+      "weaknesses": [
+        "No LOI was supplied (E11).",
+        "The mandate excerpt has no definitions section (E1).",
+        "The QoE summary shows no net debt, net working capital or debt-like analysis (E8)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E6",
+        "E7",
+        "E8",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "On the base case, the ceiling price is $27.3M (K3), a $2.7M (9%) reduction from $30M (K4, K10). The levers, in rough order of how directly they deliver compliance, are as follows. (1) Cut the headline price to $27.3M or less. (2) Defer about $2.7M as an earn-out or contingent consideration. This counts as compliant only if the board or mandate confirms contingent consideration is excluded from the numerator (E1, E11). (3) Recast the warranty shortfall as a dollar-for-dollar debt-like deduction rather than an EBITDA charge. On E6's arithmetic that gives about 6.98x (K8), but it requires the QoE provider to accept that the item is a one-off catch-up and the mandate to measure price net of debt-like items (E6, E7). (4) Use escrow or an indemnity for warranty exposure. This protects value but does not by itself change the measured multiple.",
+      "mechanisms": "Compliance is price divided by QoE EBITDA. The committee can lower the numerator (price cut, deferral if excluded), reclassify an item between the numerator and the denominator (the warranty item, debt-like versus EBITDA), or seek board approval above the cap. Reclassification without new evidence would be second-guessing the QoE provider, which is what the mandate is designed to prevent.",
+      "strengths": [
+        "The ceiling and the gap are simple, reproducible numbers (K3, K4).",
+        "General practice treats QoE findings as a normal basis for re-trading price (E10)."
+      ],
+      "weaknesses": [
+        "Whether a structural path (earn-out, debt-like recast) counts as compliant depends on mandate definitions that were not supplied (E1, E11).",
+        "The marketing sensitivity (6.98x, K6) would require reversing a well-supported QoE rejection (E5b), so it is not a credible lever."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "QoE EBITDA of $3.9M is a FY2025 point estimate whose run-rate quality cannot be confirmed (E12). There are qualitative downside flags. Marketing that the seller called 'one-time' actually recurs (E5b), which casts doubt on the seller's other characterisations. The warranty reserve was under-accrued (E5d). The replacement-CEO cost is an unbenchmarked estimate (E5a). No TTM trend, warranty claims history or customer-concentration data is available (E12).",
+      "mechanisms": "If the replacement CEO costs more than ~350, or warranty under-accrual continues or grows, sustainable EBITDA falls below $3.9M. The effective multiple paid then rises further above 7.0x. This argues for building cushion below the $27.3M ceiling or adding warranty protection, rather than treating $27.3M as a target.",
+      "strengths": [
+        "The QoE has already removed the clearest overstatement, the recurring marketing (E3, E5b)."
+      ],
+      "weaknesses": [
+        "There are no data to test run-rate (E12).",
+        "The QoE summary may omit further adjustments (E8)."
+      ],
+      "evidenceIds": [
+        "E5",
+        "E8",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Cannot be determined for this LOI, because the LOI was not supplied (E11). General practice is that LOI price terms are usually non-binding and conditioned on diligence, while exclusivity and confidentiality are usually binding, and QoE findings are a common basis for re-trading (E10). That suggests renegotiation is probably available, but it must be checked against the actual LOI before the committee meets.",
+      "mechanisms": "If price is non-binding and conditioned on diligence, the buyer can re-open price on the QoE findings without breach. Binding exclusivity limits the seller's alternatives during the window, which supports the buyer's leverage.",
+      "strengths": [
+        "Generic practice supports a re-trade (E10)."
+      ],
+      "weaknesses": [
+        "The LOI-practice evidence is search snippets only, and the fetches failed (E10).",
+        "No Tamarind-specific terms are available (E11)."
+      ],
+      "evidenceIds": [
+        "E10",
+        "E11"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The board mandate caps bolt-on acquisitions at 7.0x diligence-adjusted (QoE) EBITDA without returning to the full board. The relevant denominator is therefore QoE EBITDA, not the CIM adjusted EBITDA.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "QoE-adjusted FY2025 EBITDA is $3.9M: 3,800 reported + 250 net owner compensation + 200 legal settlement - 350 warranty shortfall.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "At a $30M price, the multiple on QoE EBITDA is about 7.69x, which exceeds the 7.0x cap. This assumes $30M is the mandate's numerator.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K2"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "The highest price that meets the cap on the same basis is $27.3M, which is $2.7M (9%) below the $30M headline.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K3",
+        "K4",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "The '6x' framing comes from dividing $30M by the CIM's $5.0M adjusted EBITDA. The QoE accepts only $450K of the CIM's $1.2M add-backs, rejects $750K, and adds a -$350K adjustment, which leaves QoE EBITDA $1.1M below the CIM figure.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E9"
+      ],
+      "calculationIds": [
+        "K5",
+        "K9",
+        "K9b"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "The QoE's rejection of the $400K marketing add-back is well supported, because equivalent campaigns ran in FY2023, FY2024 and FY2025.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Single item judgments can move the multiple across the cap. Restoring the marketing add-back gives about 6.98x, and reversing the warranty adjustment gives about 7.06x (still a breach). Treating the warranty shortfall as a debt-like price deduction against $4.25M gives about 6.98x, but only if the mandate measures price net of debt-like items.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": [
+        "K6",
+        "K7",
+        "K8"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "It cannot be determined from the evidence whether $30M is enterprise or equity value, whether it is cash-free/debt-free, whether it includes contingent consideration, or how the mandate defines the multiple's numerator.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "It cannot be determined whether the QoE summary figures are final, or whether the full report contains further adjustments such as net working capital or debt-like items.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Support for the ~$350K replacement-CEO cost and for the legal settlement's non-recurrence is not shown in the QoE summary. The summary also does not say whether the $350K warranty shortfall is an annual under-accrual or a one-off catch-up.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The Tamarind LOI terms (binding provisions, exclusivity, price-adjustment mechanism) cannot be determined. General practice is that LOI price terms are non-binding and that QoE findings are a common basis for re-trading.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E10",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "Whether FY2025 QoE EBITDA represents sustainable run-rate earnings cannot be confirmed, because no TTM trend, warranty claims history or customer-concentration data was available.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Sign at $30M as proposed",
+      "comparison": "7.69x QoE EBITDA (K2) against a 7.0x cap (E1). This is outside delegated authority unless a numerator definition not yet seen in the evidence changes the measure (E11). Not available to the committee on current evidence."
+    },
+    {
+      "option": "Re-trade the headline price to $27.3M or less",
+      "comparison": "This meets the cap at exactly 7.0x on the base case (K3). It requires a $2.7M (9%) concession from the seller (K4, K10). It is the cleanest route because it does not depend on unconfirmed mandate definitions. Generic LOI practice suggests a QoE-based re-trade is normal (E10)."
+    },
+    {
+      "option": "Keep $30M total but make about $2.7M contingent (earn-out or deferred)",
+      "comparison": "Upfront consideration of $27.3M sits at the 7.0x ceiling (K3). This is compliant only if the mandate excludes contingent consideration from the numerator, which is unconfirmed (E1, E11). It also shifts risk onto the seller, which fits the earnings-quality flags (E5, E12)."
+    },
+    {
+      "option": "Recast the warranty shortfall as a debt-like deduction",
+      "comparison": "On E6's arithmetic: $29.65M against $4.25M is about 6.98x (K8), barely inside the cap. It requires the QoE provider to agree that the item is a one-off catch-up, and the mandate to net debt-like items from price (E6, E7). The margin is thin and depends on two unconfirmed conditions."
+    },
+    {
+      "option": "Take the deal to the full board at $30M",
+      "comparison": "This preserves the seller's price. The board must accept 7.69x on QoE EBITDA (K2) and the earnings-quality risks (E5, E12). It is the governance-correct path if the price cannot be moved."
+    }
+  ],
+  "tradeoffs": [
+    "A price cut to $27.3M secures compliance with certainty, but risks the seller walking. A contingent structure preserves the seller's headline, but its compliance depends on mandate definitions that have not been seen (E1, E11).",
+    "Pushing for a debt-like warranty recast could keep the price near $30M (K8). It leaves almost no headroom (about 6.98x), and could look like engineering around the QoE provider's conclusion.",
+    "Going to the full board avoids a re-trade, but delays the deal and asks the board to approve above its own cap on a weaker earnings base (E5, E12)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "If $30M is equity value and Tamarind has debt or debt-like items, enterprise value exceeds $30M and the breach is larger than 7.69x (E11, E8).",
+    "If the full QoE report contains further adjustments not shown in the summary (for example NWC or debt-like items), QoE EBITDA or the price basis could move again (E8).",
+    "If the warranty shortfall is both deducted from EBITDA and treated as a debt-like price reduction, value is double-counted (E7).",
+    "If the mandate has an unstated rounding convention, 7.06x (K7) might be argued to round toward 7.1x but not to 7.0x. The 6.98x scenarios (K6, K8) sit within 0.03x of the cap, so a small change in any input flips them (E1, E6).",
+    "If the replacement CEO costs materially more than ~$350K, sustainable EBITDA is lower than $3.9M and even $27.3M implies more than 7.0x on true earnings (E5a, E12).",
+    "If the signed LOI contains a binding price term or a short exclusivity window, the room to re-trade before the committee may be narrower than generic practice suggests (E10, E11)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The deal is 6.0x adjusted EBITDA, comfortably within a 7x cap.",
+      "response": "The 6.0x uses the banker's CIM figure (E2; K5). The mandate expressly specifies diligence-adjusted (QoE) EBITDA (E1). On that basis the multiple is 7.69x (E3; K2)."
+    },
+    {
+      "argument": "The QoE is too harsh. Restoring the marketing add-back gets the deal to about 6.98x, inside the cap.",
+      "response": "The marketing campaigns ran in each of FY2023 to FY2025 (E5b). Recurring spend is an operating cost, so restoring the add-back (K6) would override the best-supported QoE judgment."
+    },
+    {
+      "argument": "The warranty item is a one-off catch-up and should not reduce run-rate EBITDA.",
+      "response": "Possibly. The QoE summary does not say either way (E5d). But reversing it alone still gives 7.06x, a breach (K7). It only helps if it is also treated as a debt-like price deduction and the mandate measures price net of such items (E6, E7; K8). Neither condition is confirmed."
+    },
+    {
+      "argument": "The $30M may include contingent consideration that the mandate does not count.",
+      "response": "That is possible but unknown, because no LOI was supplied and the mandate has no definitions (E1, E11). The committee should not sign on an assumed favourable definition. It should confirm the definition with the board secretary first."
+    },
+    {
+      "argument": "The 0.69x overshoot is small enough for the committee to use judgment.",
+      "response": "The mandate is a hard cap with an explicit route above it: return to the full board (E1). The excerpt states no tolerance (E1)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Adjusted EBITDA is $5.0M.",
+      "correction": "$5.0M is the sell-side CIM figure (E2). The QoE accepts $450K of the $1.2M add-backs and applies a -$350K warranty adjustment, giving $3.9M (E3; K1, K9).",
+      "evidenceIds": [
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "The deal is a 'disciplined 6x'.",
+      "correction": "On the mandate's QoE basis, $30M is about 7.69x (K2), not 6.0x (K5).",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4",
+        "E9"
+      ]
+    },
+    {
+      "assumption": "The board cap is 7x EBITDA, measured on CIM adjusted EBITDA.",
+      "correction": "The mandate caps bolt-ons at 7.0x diligence-adjusted (QoE) EBITDA without returning to the full board (E1).",
+      "evidenceIds": [
+        "E1"
+      ]
+    },
+    {
+      "assumption": "$30M is within the board mandate and signing can proceed.",
+      "correction": "At $30M the deal breaches the cap (7.69x, K2). The compliant ceiling is $27.3M (K3), so the committee must re-trade or go to the full board.",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "QoE-adjusted EBITDA in $000: reported 3,800 + net owner comp 250 + legal settlement 200 - warranty shortfall 350",
+      "expression": "3800 + 250 + 200 - 350",
+      "claimedResult": 3900,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K2",
+      "purpose": "Implied multiple at the $30M headline on QoE EBITDA ($000)",
+      "expression": "30000 / 3900",
+      "claimedResult": 7.69,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Maximum price compliant with the 7.0x cap on QoE EBITDA, in $000",
+      "expression": "7 * 3900",
+      "claimedResult": 27300,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K4",
+      "purpose": "Gap between the $30M headline and the 7.0x ceiling price, in $000",
+      "expression": "30000 - 7 * 3900",
+      "claimedResult": 2700,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K5",
+      "purpose": "CIM-basis multiple behind the user's '6x' framing",
+      "expression": "30000 / 5000",
+      "claimedResult": 6,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K6",
+      "purpose": "Sensitivity: multiple if the 400 marketing add-back were restored (EBITDA 4,300)",
+      "expression": "30000 / (3900 + 400)",
+      "claimedResult": 6.98,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Sensitivity: multiple if the -350 warranty adjustment were reversed (EBITDA 4,250)",
+      "expression": "30000 / (3900 + 350)",
+      "claimedResult": 7.06,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Sensitivity: warranty shortfall treated as a debt-like price deduction ($29.65M) against EBITDA of 4,250",
+      "expression": "(30000 - 350) / (3900 + 350)",
+      "claimedResult": 6.98,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "CIM add-backs rejected by the QoE, in $000: total 1,200 minus accepted (250 + 200)",
+      "expression": "(600 + 400 + 200) - (250 + 200)",
+      "claimedResult": 750,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K9b",
+      "purpose": "Reduction from CIM adjusted EBITDA to QoE EBITDA, in $000",
+      "expression": "5000 - (3800 + 250 + 200 - 350)",
+      "claimedResult": 1100,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K10",
+      "purpose": "Required price reduction as a percentage of the $30M headline",
+      "expression": "(30000 - 27300) / 30000 * 100",
+      "claimedResult": 9,
+      "tolerance": 0.0001
+    },
+    {
+      "id": "K11",
+      "purpose": "Net owner-compensation add-back accepted by the QoE: CIM 600 minus ~350 replacement CEO cost, in $000",
+      "expression": "600 - 350",
+      "claimedResult": 250,
+      "tolerance": 0.0001
+    }
+  ],
+  "practicalImplications": [
+    "Do not approve signing at $30M at tomorrow's committee under delegated authority. On the mandate's QoE basis it is 7.69x against a 7.0x cap (E1, E3; K2).",
+    "Table a counter at no more than about $27.3M (K3), citing the QoE findings: recurring marketing and warranty under-reserving (E5). Consider building cushion below the ceiling, given the unbenchmarked CEO cost and the missing run-rate data (E5a, E12).",
+    "If the seller insists on $30M, either (a) get written confirmation from the board secretary or corporate development policy of how the numerator treats contingent consideration and debt-like items before relying on an earn-out or warranty recast (E1, E11), or (b) take the deal to the full board.",
+    "Before the committee meets, pull the signed LOI and confirm the consideration basis (EV or equity, cash-free/debt-free, NWC peg), the binding provisions and exclusivity (E11, E10).",
+    "Confirm with Arbor & Lyle whether the 2026-11-04 QoE summary is final, and whether the warranty shortfall is an annual under-accrual or a one-off catch-up (E8, E5d).",
+    "Whatever the price, seek a warranty escrow or indemnity to protect against reserve exposure (E5d, E7)."
+  ],
+  "remainingUncertainty": [
+    "The mandate's numerator definition and the LOI consideration terms are unknown, and they determine whether 7.69x is the right measure (E1, E11).",
+    "The final status and completeness of the QoE are unconfirmed, and further adjustments may exist in the full report (E8).",
+    "The nature of the warranty shortfall (recurring or one-off) is unresolved, and it decides whether a debt-like recast is legitimate (E5d, E7).",
+    "Support for the ~$350K replacement-CEO cost and the legal settlement's non-recurrence is not shown (E5).",
+    "Run-rate sustainability of the $3.9M is untested (E12).",
+    "The guidance on LOI and warranty practice comes from search snippets with failed page fetches, not authoritative sources (E7, E10).",
+    "The documents are excerpts whose authenticity has not been cross-checked against the full originals."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "The full board resolution or corporate development policy defining the multiple's numerator (EV or headline, treatment of contingent consideration and debt-like items). An exclusion of earn-outs or a debt-like netting rule could open a compliant structure near $30M (E1, E6).",
+    "The signed LOI. If $30M is equity value with debt assumed, the breach is larger. If it includes contingent consideration, an earn-out restructure may comply (E11).",
+    "The full and final QoE report, including NWC and net debt analysis. Revised figures could move EBITDA up or down (E8).",
+    "Warranty claims history and reserve methodology, to classify the $350K as recurring or one-off (E5d, E7).",
+    "Compensation benchmarking for the replacement CEO. A materially different cost moves EBITDA directly (E5a).",
+    "TTM financials and customer-concentration data, to test whether $3.9M is sustainable (E12)."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "runId": "r20261111T005051-452318dd",
+  "caseId": "dev-04-future-price",
+  "system": "agent",
+  "createdAt": "2026-11-11T00:50:51.197Z",
+  "request": "What will the AWS on-demand hourly price of an m7i.large instance in us-east-1 be in January 2028? We want to decide whether to buy a 3-year commitment now based on that number.",
+  "fixtures": [],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v4",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T043813-e67cd8de",
+  "caseId": "ho-12-observability-vendor-roi",
+  "system": "agent",
+  "createdAt": "2026-11-11T04:38:13.718Z",
+  "request": "We currently pay $11,900 a month for our log and trace platform. Lumen Trace has pitched a replacement and their ROI sheet says we'd pay about $1,470 a month for our 42 TB of monthly ingest, an 88% saving. My director wants to sign before the end of the quarter to lock in the price. Please evaluate the proposal using the attached pricing page, ROI sheet and our current usage report, and tell me whether switching makes financial sense.",
+  "fixtures": [
+    "lumen-pricing-page.md",
+    "lumen-roi-sheet.md",
+    "current-usage-report.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "subject": "Lumen Trace log and trace platform proposal as a replacement for the current observability vendor ($11,900/month, 42 TB/month ingest)",
+  "domain": "Observability / log and trace platform procurement (SaaS cost evaluation)",
+  "decisionObjective": "Decide whether to sign a 12-month minimum commitment with Lumen Trace before quarter end. The decision turns on whether Lumen's total cost, recomputed independently from its published pricing and our actual usage, is really lower than the current $11,900/month. It also depends on the transition costs and risks, including overlap with the current contract that renews 2027-03-01. The vendor's claim of an 88% saving at about $1,470/month is not taken as given.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Recomputed recurring monthly cost vs. current spend",
+      "weight": 35,
+      "rationale": "This is the core financial question. The ROI sheet's figure has to be rebuilt from the published per-GB rate and the measured 42 TB/month. The sheet appears to treat 42 TB as 4,200 GB, while the pricing page defines 1 TB as 1,000 GB, which would put the cost near $14,700/month, above current spend."
+    },
+    {
+      "id": "C2",
+      "name": "Pricing-model fit to our usage profile (retention, overages, growth)",
+      "weight": 15,
+      "rationale": "Per-GB ingest pricing scales directly with volume. Ingest growth, the 30-day compliance retention requirement, any extra-retention charges and any unlisted fees (indexing, queries, users, egress) decide whether the cost stays competitive over the commitment term."
+    },
+    {
+      "id": "C3",
+      "name": "Contract commitment and timing exposure",
+      "weight": 15,
+      "rationale": "Lumen requires a 12-month minimum, and the current contract renews 2027-03-01. Signing this quarter could mean paying both vendors at once and locking in a cost that may be higher. The quarter-end price lock is the director's stated reason for urgency."
+    },
+    {
+      "id": "C4",
+      "name": "One-time migration and transition costs",
+      "weight": 15,
+      "rationale": "Reinstrumenting agents and collectors, rebuilding dashboards and alerts, running both platforms in parallel, and engineering time all add to total cost of ownership. They can cancel out a modest saving, and they make a cost increase worse."
+    },
+    {
+      "id": "C5",
+      "name": "Compliance and functional equivalence",
+      "weight": 10,
+      "rationale": "Compliance requires 30-day retention, and logs plus traces must keep working. A cheaper platform that misses these needs would bring hidden costs or risk, so equivalence is a precondition for any financial comparison."
+    },
+    {
+      "id": "C6",
+      "name": "Reliability of vendor-supplied figures and claims",
+      "weight": 10,
+      "rationale": "The ROI sheet was prepared by Lumen's sales team and contains at least one apparent arithmetic or unit error. How much its other claims can be trusted affects how much independent verification is needed before signing."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Using the published $0.35/GB rate and the pricing page's definition of 1 TB = 1,000 GB, what is Lumen's actual monthly ingest cost for 42 TB, and how does it compare with $11,900?",
+      "whyItMatters": "If 42 TB is 42,000 GB, the cost is about $14,700/month, roughly 24% more than today rather than 88% less. That would reverse the conclusion.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "C1-G2-placeholder",
+      "question": "",
+      "whyItMatters": "",
+      "criteria": []
+    }
+  ],
+  "assumptionsToVerify": [],
+  "answerability": "answerable"
+}

@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the approve/reject question directly. It covers all three mustFlag issues and also handles the expert-expected topics: standards, credential stuffing/DoS, migration safety and alternatives. It does not pad.",
+      "quotes": [
+        "Reject the proposal. Finance should not approve it.",
+        "C4. Online attacks and DoS: the one legitimate concern hidden in the memo",
+        "C5. The migration plan"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The central numbers are correct: 66.7/s x 0.25 s = 16.7 cores, the 60x per-minute/per-second error, and 48 x 41% = 19.7 vCPU. The bcrypt output-length facts are also correct. There are two minor slips in illustrative figures. 10^16 guesses at about 1.4 kH/s is roughly 226,000 years, not 2.3 million. The savings range is given as $3k-$9k in the analysis but $3k-$10k in the verdict. Neither affects the conclusion.",
+      "quotes": [
+        "66.7/s × 0.250 core-s = **16.7 cores busy at peak**",
+        "10^9 guesses against each of 10M users (salted, so per-user work) | ~5 days | ~2.3 million years",
+        "about **$3k–$10k a year**",
+        "17 × 8,760 h ≈ **$3k–$9k per year**"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains the mechanism: guess cost versus output length, what salting does and does not do, and why GPUs speed up SHA-256 far more than bcrypt. It quantifies attacker and defender costs and analyses specific edge cases: Argon2id memory under attack, bcrypt's 72-byte truncation, NUL bytes when pre-hashing, and peppering.",
+      "quotes": [
+        "The search space is set by human password entropy, often 20–40 bits for typical users, not by output length.",
+        "At a 500/s attack it would be about 90 concurrent × 64 MiB ≈ 5.6 GiB, so concurrency caps are mandatory"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges both premises in the memo and cross-checks the core count against cluster metrics. It names the memo's one legitimate concern (DoS cost), answers counterarguments fairly, and says what would and would not change the conclusion.",
+      "quotes": [
+        "A 1,000-core requirement could not run on a 48-vCPU cluster at all.",
+        "*\"Salting makes SHA-256 safe.\"* No.",
+        "Even if the bcrypt figure is off by 10x either way, the conclusion stands."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear, with specific next steps tailored to this case. These include a message for Finance, an Argon2id migration with wrapping for dormant accounts, credential-stuffing hardening, and checking the savings against actual pricing.",
+      "quotes": [
+        "Decline the proposal. Tell Finance that the claimed ~1,000-core requirement is an arithmetic error.",
+        "Medium term: migrate to Argon2id ... Rehash on successful login and wrap legacy bcrypt hashes for dormant accounts."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised around explicit criteria. Calculations are shown, claims are tied to supplied files or external sources, and unverified figures and limitations are labelled explicitly.",
+      "quotes": [
+        "a figure I could not independently confirm",
+        "This is an estimate, not our real pricing.",
+        "Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "SHA-256 is a fast general-purpose hash, designed to be cheap. That is exactly the wrong property for password storage."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The memo treats 4,000 logins *per minute* as 4,000 logins *per second*, which overstates the load 60-fold. The real bcrypt load at peak is about **17 cores, not 1,000**."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Output length (184 vs 256 bits) does not affect how hard stored passwords are to crack."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends or accepts migrating password storage to single-iteration salted SHA-256",
+      "triggered": false,
+      "evidence": "Reject the proposal. Finance should not approve it."
+    },
+    {
+      "condition": "Accepts the 1,000-core figure without correcting it",
+      "triggered": false,
+      "evidence": "The real bcrypt load at peak is about **17 cores, not 1,000**."
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "The output is strong and matches the reference on every point. The only judgement call is accuracy, scored 0.75 rather than 1.0. In the C2 scenario table, '~2.3 million years' for 10^16 bcrypt-12 guesses at about 1.4 kH/s should be about 226,000 years, a 10x error. The savings range also differs between sections ($3k-$9k vs $3k-$10k). Both are minor and illustrative. If you count them strictly as 'several minor errors', accuracy could be 0.5. I did not open the supplied source documents. The figures quoted from them (the 2025 incident at 30,000 attempts/min, the 48-vCPU cluster at 41%, the benchmark times for bcrypt, Argon2id and SHA-256) look internally consistent but are unverified."
+}

@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T023424-563247a5",
+  "caseId": "ho-04-password-hashing-migration",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "The output is strong and matches the reference on every point. The only judgement call is accuracy, scored 0.75 rather than 1.0. In the C2 scenario table, '~2.3 million years' for 10^16 bcrypt-12 guesses at about 1.4 kH/s should be about 226,000 years, a 10x error. The savings range also differs between sections ($3k-$9k vs $3k-$10k). Both are minor and illustrative. If you count them strictly as 'several minor errors', accuracy could be 0.5. I did not open the supplied source documents. The figures quoted from them (the 2025 incident at 30,000 attempts/min, the 48-vCPU cluster at 41%, the benchmark times for bcrypt, Argon2id and SHA-256) look internally consistent but are unverified."
+}

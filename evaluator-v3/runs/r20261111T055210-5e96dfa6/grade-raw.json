@@ -1,0 +1,93 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "The output deals directly with the forecast decision and covers all three mustFlag issues: the correct lift, the pre-period baseline, and the pricing confounder and biased interviews. It never makes the reference's secondary recommendation to ship the new flow; it only says to keep a holdout and monitor.",
+      "quotes": [
+        "Do not use the '+18%' figure.",
+        "Replace it with the concurrent randomised ONB-27 estimate: +3.2pp absolute in 30-day retention (41.0% to 44.2%), about +7.8% relative.",
+        "Keep a holdout and track day-60/90 retention by arm"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The numbers all recompute correctly and match the reference: 3.2pp, 7.8%, SE 1.43, 95% CI 0.4 to 6.0, z 2.24. Two claims are weaker than stated. The winner's-curse point (an estimate that only just clears significance is more likely than not to overstate the effect) is asserted fairly strongly for a pre-registered single test. Search-snippet sources are also labelled CORROBORATED.",
+      "quotes": [
+        "control 984/2400 = 41.00%, treatment 1039/2350 = 44.21%, a difference of +3.21pp absolute and +7.84% relative",
+        "An estimate that only just clears significance is also more likely than not to overstate the true effect (winner's curse).",
+        "E9 | CORROBORATED | search_result"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why randomisation cancels the pricing shock and a before/after comparison does not. It quantifies the control-vs-Q2 drift and the CIs, and it covers failure modes specific to this case: peeking, late-August enrollees with less than 30 days of follow-up, retention curves converging, and a pricing interaction.",
+      "quotes": [
+        "The control arm alone is 3.5pp above the Q2 baseline, about 52% of the slide's 6.7pp gap, and none of that 3.5pp comes from the new flow.",
+        "Users enrolled near 2026-08-31 may not have had full 30-day observation."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges the 18% framing and the assumption that retention converts to revenue. It argues fairly against its own conclusions, including whether pricing contaminated the A/B result, and it states what further evidence would change the conclusion.",
+      "quotes": [
+        "A retention lift justifies raising next year's revenue forecast.",
+        "The pricing change could have contaminated the A/B result too.",
+        "Convergence would shrink the forecast allowance, and persistence or growth would support using the point estimate."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "It gives a clear bottom line with scenarios, conditions and concrete next steps. Its recommended planning figure (+1.4pp) is lower than the reference's 7.8%, but it labels this a finance-policy choice and offers +3.2pp as the unbiased alternative.",
+      "quotes": [
+        "Use coherent scenarios: stress 0pp, base/planning +1.4pp, upside +3.2pp.",
+        "If finance prefers an unbiased central forecast, it should use +3.2pp instead.",
+        "Ask the product team to confirm a fixed-horizon ITT analysis"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised. Claims are tied to evidence IDs and to calculations that were recomputed, and uncertainty and limitations are labelled explicitly.",
+      "quotes": [
+        "CL2 (material): The concurrent randomised estimate is control 41.00% vs treatment 44.21%",
+        "These are hand calculations with a normal approximation, not the official analysis."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "+3.2pp absolute in 30-day retention (41.0% to 44.2%), about +7.8% relative"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "compares the treatment arm's 44.2% with an undocumented Q2 all-user baseline of 37.5%. It is not the experiment's causal estimate."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The Q2 baseline ends before the pricing and plan change that launched for all users on 2026-07-01"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Endorses the 18% retention lift for the revenue forecast",
+      "triggered": false,
+      "evidence": "Do not use the '+18%' figure. / Remove the 18% from the forecast inputs."
+    },
+    {
+      "condition": "Fails to distinguish the randomised control comparison from the Q2 pre-period comparison",
+      "triggered": false,
+      "evidence": "Only ONB-27 gives a causal estimate... The PM slide's 18% compares the treatment arm with a Q2 all-user baseline"
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "Strong output. It agrees with the reference on all numbers. The main difference is that it recommends +1.4pp (the 80% CI lower bound, about 3.4% relative) as the base planning figure, not the reference's ~7.8%. It does present 7.8%/3.2pp as the unbiased estimate and as the upside scenario, and it calls the choice a policy decision. Its p-value is ~0.025 against the reference's ~0.03; that is within rounding. Accuracy got 0.75 rather than 1.0 because of the strongly asserted winner's-curse claim and the generous labelling of search-snippet evidence. Scope got 0.75 because there is no explicit recommendation to ship the flow."
+}

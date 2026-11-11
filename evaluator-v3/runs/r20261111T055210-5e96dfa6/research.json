@@ -1,0 +1,315 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "ONB-27 readout: user-level 50/50 randomisation, 2026-07-01 to 2026-08-31. Control (old flow) 984 of 2,400 retained at day 30 (41.0%). Treatment (new flow) 1,039 of 2,350 (44.2%). Pre-registered primary metric is 30-day retention, two-sided test.",
+      "source": {
+        "kind": "fixture",
+        "ref": "ab-test-readout.md",
+        "title": "Experiment ONB-27: redesigned onboarding"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the only concurrent randomised estimate of the onboarding effect. It is the basis for the figure finance should use (C1, C3).",
+      "limitations": "The readout gives no CI, p-value, SRM check, analysis date, ITT statement or stopping rule. It does not define retention, does not say whether the 2026-08-31 date ends enrolment or the whole study, and does not say how users exposed to the new pricing were handled.",
+      "contradicts": [
+        "E4"
+      ],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Recomputed from the E1 counts: control 984/2400 = 41.00%, treatment 1039/2350 = 44.21%. Absolute difference about +3.21pp, relative difference about +7.8% (0.0321/0.41). Unpooled SE about 0.01434, so the Wald 95% CI is about +0.40pp to +6.02pp (about +1.0% to +14.7% relative). Pooled two-proportion z is about 2.24, two-sided p about 0.025.",
+      "source": {
+        "kind": "fixture",
+        "ref": "ab-test-readout.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This gives the point estimate and range for finance: about +3.2pp absolute, CI roughly 0.4 to 6.0pp. The result is significant at alpha 0.05 but only just, so the interval is wide (C3).",
+      "limitations": "Hand calculation using a normal approximation and Wald interval. It assumes a simple ITT, fixed-horizon analysis, which the readout does not confirm. Any peeking or early stopping would weaken the p-value (see E9). The lower bound is close to zero.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Manual recomputation from raw counts in supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "Sample-ratio check: 2,400 vs 2,350 against an expected 2,375/2,375 gives chi-square (1 df) of about 0.53, p about 0.47. That is far from any SRM threshold, including Microsoft's p < 0.0005.",
+      "source": {
+        "kind": "fixture",
+        "ref": "ab-test-readout.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.microsoft.com/en-us/research/articles/diagnosing-sample-ratio-mismatch-in-a-b-testing/"
+      ],
+      "applicability": "The 50-user imbalance is consistent with chance. There is no evidence of SRM (G4).",
+      "limitations": "This only checks the overall split. SRM can hide within segments, and passing the check does not guarantee clean data. It cannot rule out differential attrition before assignment was logged.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Manual chi-square computation; threshold from fetched Microsoft article"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "The PM slide reports 30-day retention of 37.5% (Q2 baseline, all users, old flow) rising to 44.2% (new flow), labelled '+18% retention'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "pm-summary-slide.md",
+        "title": "Onboarding v2 - results"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the source of the '+18%' figure in the user's request. It is a before/after comparison against a non-concurrent, all-user baseline. It is not the A/B contrast (C1, C2).",
+      "limitations": "The slide does not say how the Q2 baseline was defined (period, population, retention definition) and does not use the concurrent control arm.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "Recomputing the slide: 44.2/37.5 - 1 = 17.9% relative, which rounds to the reported 18%. The absolute change is +6.7pp. The concurrent control arm (41.0%) is itself 3.5pp above the Q2 baseline, so more than half of the slide's 6.7pp gap appears without the new flow. The '18%' is relative, not absolute, and is about 2.3 times the randomised relative estimate of about 7.8%.",
+      "source": {
+        "kind": "fixture",
+        "ref": "pm-summary-slide.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "ab-test-readout.md"
+      ],
+      "applicability": "The 18% is not a valid input for the effect of the new flow. It mixes the onboarding effect with period, population and pricing differences (G2, C2).",
+      "limitations": "Depends on how the 37.5% baseline was defined, which is not documented. The '+18%' label could also be misread as 18pp absolute.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Manual recomputation across two supplied files"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "Onboarding-related tickets fell from 1,240 in Q2 to 1,090 in Q3 (-12%). A new pricing page and plan change launched on 2026-07-01 for all users.",
+      "source": {
+        "kind": "fixture",
+        "ref": "support-ticket-trend.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Confirms that a concurrent pricing and plan change hit all users on the experiment's start date, which confounds the before/after slide and the ticket trend. 'For all users' suggests both arms were exposed (G3, G6).",
+      "limitations": "The counts are raw and not normalised by active or new users, and the ticket categories are not defined. Only about half of new users saw the new flow in Q3. The source does not show whether pricing exposure was identical across arms or whether pricing interacted with the treatment. -12% recomputes as -12.1% (150/1240).",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file; arithmetic check"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "In n=8 interviews (Aug 2026), 6 of 8 found the new checklist helpful and 2 said it felt long. Interviewees were recruited from users who completed onboarding.",
+      "source": {
+        "kind": "fixture",
+        "ref": "interview-notes.md",
+        "title": "User interviews"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Weak support for the mechanism (the checklist helps some users). It says nothing about the size of the effect (G6, C5).",
+      "limitations": "Tiny sample with survivorship bias, since users who dropped out were excluded. The notes do not say which arm interviewees were in. A friction signal (2 of 8 said too long) is present.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "SRM is a significant difference between configured and observed group sizes and signals survivorship bias. It should be detected with a chi-square test, not by eyeballing the ratio. Microsoft's ExP uses a p < 0.0005 threshold and advises not to trust results with an SRM until the root cause is diagnosed.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.microsoft.com/en-us/research/articles/diagnosing-sample-ratio-mismatch-in-a-b-testing/",
+        "title": "Diagnosing Sample Ratio Mismatch in A/B Testing"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://wikipedia.com/wiki/Sample_ratio_mismatch"
+      ],
+      "applicability": "Provides the method and threshold used in E3 (G4).",
+      "limitations": "General methodological guidance. It does not speak to this experiment.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Repeatedly checking results and stopping when p < 0.05 inflates the false-positive rate well above 5% (for example, about 26% reported for daily checks). Fixed-horizon analysis or sequential methods are needed.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.statsig.com/experiments/advanced-setup/sequential-testing",
+        "title": "Statsig sequential testing docs"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.customfit.ai/conversion-glossary/peeking-problem",
+        "https://www.alexmolas.com/2025/10/30/bayesian-ab-test-peeking.html"
+      ],
+      "applicability": "With p about 0.025, any undisclosed peeking or early stopping in ONB-27 would leave the result fragile. Finance should confirm the analysis was fixed-horizon as pre-registered (G4, C3).",
+      "limitations": "Based on search snippets from vendor and blog sources only. The 26% figure is second-hand (attributed to Johari et al.) and depends on the scenario. Whether ONB-27 was peeked at is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Treatment effects measured in short online experiments can change over time. Novelty effects decay, while primacy or learning effects grow, so short tests may misstate long-run impact (Sadeghi et al., Microsoft, Technometrics 2022).",
+      "source": {
+        "kind": "web",
+        "ref": "https://arxiv.org/pdf/2102.12893",
+        "title": "Novelty and Primacy: A Long-Term Estimator for Online Experiments"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.koji.so/docs/novelty-effect",
+        "https://atticusli.com/replication-crisis/ab-testing-novelty-primacy-effects/"
+      ],
+      "applicability": "Supports treating a day-30 uplift measured on July-August 2026 cohorts as uncertain for next year's forecast and longer horizons. Use a conservative scenario and keep monitoring a holdout (G5, C4).",
+      "limitations": "Based on search snippets. The arXiv fetch failed (host not allowed). This is general evidence and says nothing about ONB-27's persistence, for which there is no day-60 or day-90 data.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets; arxiv.org fetch failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "The user's request says finance plans to raise next year's revenue forecast based on the product team's report of an 18% lift in 30-day retention.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Sets the decision context. The 18% traces to the PM slide (E4), not to the A/B readout.",
+      "limitations": "This is the user's claim and is not independently established.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "No supplied or retrieved evidence covers the revenue model's sensitivity to day-30 retention, the share of next year's revenue from new cohorts, retention beyond day 30 for ONB-27 arms, or any pricing-by-treatment interaction.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Without these, the retention-to-revenue translation cannot be quantified. Any forecast uplift should be scenario-based and modest.",
+      "limitations": "This is company-specific internal data that the web cannot supply.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G3"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Not present in supplied sources"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G3",
+      "reason": "The ticket note says the pricing change launched for all users on 2026-07-01, which implies both arms were exposed. There is no per-arm pricing exposure data or interaction analysis. Q2 vs control-arm definitional comparability (37.5% vs 41.0%) cannot be verified because the Q2 baseline is undocumented."
+    },
+    {
+      "gapId": "G4",
+      "reason": "The readout does not state ITT, the stopping rule or peeking, the analysis date, the retention definition, or whether users enrolled near 2026-08-31 were observed for a full 30 days. Only the SRM check could be performed (passed)."
+    },
+    {
+      "gapId": "G5",
+      "reason": "No internal data on revenue share from new cohorts, the revenue model's sensitivity to retention, or ONB-27 retention beyond day 30. The general novelty-effect literature could only be seen via search snippets because arxiv.org is not reachable in this session's network settings."
+    },
+    {
+      "gapId": "G6",
+      "reason": "Tickets are not normalised by user volume or split by arm, and interviews are not linked to arms. Neither can speak to effect size, only (weakly) to direction or mechanism."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

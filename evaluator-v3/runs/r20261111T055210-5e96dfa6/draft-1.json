@@ -1,0 +1,492 @@
+{
+  "verdict": "Do not use the '+18%' figure. It is a relative before/after change: the treatment arm's 44.2% against an undocumented Q2 all-user baseline of 37.5%. It is not the experiment's causal estimate. Its baseline period also overlaps a pricing and plan change that launched for all users on 2026-07-01. Replace it with the concurrent randomised ONB-27 estimate: +3.2pp absolute in 30-day retention (41.0% to 44.2%), about +7.8% relative. The approximate 95% CI is +0.4pp to +6.0pp absolute, or about +1.0% to +14.7% relative, with p about 0.025. Apply it only to new cohorts that go through the new flow, and only to day-30 retention. The revenue effect cannot be determined from the evidence, because there is no data on the revenue model's sensitivity to retention, the share of revenue from new cohorts, or whether the effect lasts beyond day 30. The forecast should therefore depend on this effect only weakly. Use a base case at or near the CI lower bound (about +0.4pp, or zero), treat the +3.2pp point estimate as an upside scenario, and do not use +6.0pp or 18% as a planning input. Four things would resolve the remaining questions: confirmation of a fixed-horizon ITT analysis, day-60/90 retention by arm, a per-arm pricing-interaction check, and finance's own retention-to-revenue sensitivity.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Only ONB-27 gives a causal estimate. It used user-level 50/50 randomisation over the same period (2026-07-01 to 2026-08-31), so both arms faced the same season, the same signup mix and the 2026-07-01 pricing change, which launched for all users. The PM slide's 18% compares the treatment arm with a Q2 all-user baseline, so it mixes the onboarding effect with period, population and pricing differences. The control arm alone is 3.5pp above the Q2 baseline, which is about 52% of the slide's 6.7pp gap, and none of that 3.5pp comes from the new flow.",
+      "mechanisms": "Randomisation balances concurrent shocks such as pricing, seasonality and channel mix across arms, so the difference between arms removes them. A before/after comparison cannot do this, because anything that changed between Q2 and Q3 is credited to the new flow. The control arm rising from 37.5% to 41.0% without the new flow shows that such shifts were present.",
+      "strengths": [
+        "Concurrent randomised control with a pre-registered primary metric (30-day retention) and a two-sided test (E1)",
+        "The pricing change applied to all users, which implies both arms were exposed, so it cancels in the A/B difference (E6)",
+        "No sample-ratio mismatch (E3, E8)"
+      ],
+      "weaknesses": [
+        "No per-arm pricing-exposure data or treatment-by-pricing interaction analysis (E12, E6)",
+        "The readout does not state ITT, how pricing-exposed users were handled, or the retention definition (E1)",
+        "The Q2 baseline definition is undocumented, so how much of the 3.5pp control-vs-Q2 rise comes from pricing, season or definitions cannot be separated (E4, E5)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E5",
+        "E6",
+        "E3",
+        "E8",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The 18% recomputes as 44.2/37.5 - 1 = 17.9% relative, which matches the slide's rounding, on an absolute change of +6.7pp. It is relative, not absolute, and it is built on a non-concurrent, differently defined population. Recomputed from the raw A/B counts: control 984/2400 = 41.00%, treatment 1039/2350 = 44.21%, a difference of +3.21pp absolute and +7.84% relative. The slide's relative figure is about 2.3 times the randomised relative estimate. Applying 18% to the 41.0% control base would imply about +7.4pp, again about 2.3 times the measured +3.2pp.",
+      "mechanisms": "Two separate errors would push the number up as it moves into revenue. First, the wrong comparator inflates the numerator, because the period, population and pricing shift is counted as effect. Second, the label '+18% retention' can be misread as 18pp absolute, which would be more than five times the measured effect.",
+      "strengths": [
+        "The slide's arithmetic is internally consistent (17.9% rounds to 18%) (E4, E5)",
+        "The A/B counts recompute exactly to the reported 41.0% and 44.2% (E1, E2)"
+      ],
+      "weaknesses": [
+        "The retention definition in the Q2 baseline is undocumented, so it may differ from ONB-27's definition (E4, E5)",
+        "The readout does not define 30-day retention either (E1)"
+      ],
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E1",
+        "E2",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "With about 4,750 users, the effect is statistically significant but imprecise. The unpooled SE is about 1.43pp, giving a Wald 95% CI of about +0.40pp to +6.02pp (+1.0% to +14.7% relative). The pooled z is about 2.24, two-sided p about 0.025. The lower bound is close to zero. The SRM check passes (chi-square about 0.53, p about 0.47, far from Microsoft's p < 0.0005 threshold). The readout does not confirm a fixed-horizon analysis, and peeking at results inflates false positives, so p about 0.025 is fragile if the test was monitored and stopped early.",
+      "mechanisms": "The standard error of a difference between proportions shrinks only with the square root of sample size. At about 2,375 per arm and a base rate near 41%, this puts the 95% half-width near 2.8pp, almost as large as the effect itself. Repeated looks at the result raise the chance of crossing p < 0.05 by luck.",
+      "strengths": [
+        "Pre-registered primary metric and two-sided test (E1)",
+        "Balanced split, with no evidence of SRM (E3, E8)",
+        "The CI excludes zero under a normal approximation (E2)"
+      ],
+      "weaknesses": [
+        "Wide interval: the upper bound is about 15 times the lower bound (E2)",
+        "Stopping rule, peeking, analysis date and ITT are not documented (E1, E9)",
+        "The readout does not say whether users enrolled near 2026-08-31 were observed for a full 30 days (E1)",
+        "These are hand calculations with a normal approximation, not the official analysis (E2)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E8",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "The estimate applies to July–August 2026 signups under the new pricing, measured at day 30. Whether it holds for next year's cohorts, other seasons or channels, or longer horizons is not established. Short-run experiment effects can decay through novelty or grow through learning, and there is no day-60/90 ONB-27 data. The link from retention to revenue (the model's sensitivity to retention and the share of revenue from new cohorts) is entirely unknown. The revenue uplift therefore cannot be quantified, and only a scenario-based, modest allowance is defensible.",
+      "mechanisms": "Day-30 retention affects revenue only through new cohorts that pass through the new flow, and only to the extent that extra retained users keep paying. If most revenue comes from existing customers, or if the uplift fades after day 30, the revenue effect is far smaller than the retention headline suggests. A pricing-by-treatment interaction could also change the effect if pricing changes again.",
+      "strengths": [
+        "The measured cohorts already reflect the new pricing that will presumably continue (E6, E1)",
+        "General literature flags that short-test effects can change over time and recommends monitoring (E10)"
+      ],
+      "weaknesses": [
+        "No retention-to-revenue sensitivity, no new-cohort revenue share, no retention beyond day 30, no interaction analysis (E12)",
+        "Only two months of signups, one season (E1)",
+        "The novelty-effect evidence comes from search snippets only and is not specific to ONB-27 (E10)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E6",
+        "E10",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "The qualitative and operational evidence offers weak support for the mechanism and none for the size of the effect. Six of the 8 interviewees (75%) found the checklist helpful and 2 found it long. All interviewees had completed onboarding, which excludes users who dropped out, and they were not linked to an arm. Onboarding tickets fell from 1,240 to 1,090 (-12.1%), but the counts are raw, not normalised by user volume, not split by arm, and confounded by the 2026-07-01 pricing launch. Only about half of new users saw the new flow.",
+      "mechanisms": "Recruiting only users who finished onboarding (survivorship bias) produces favourable feedback no matter what the effect is. A quarter-on-quarter ticket comparison picks up changes in volume and pricing-page effects that have nothing to do with the onboarding flow.",
+      "strengths": [
+        "Consistent in direction with a helpful-checklist mechanism (E7)",
+        "Contains a friction signal: 2 of 8 said the checklist felt long (E7)"
+      ],
+      "weaknesses": [
+        "n=8, survivor-only and not linked to arms (E7)",
+        "Tickets are not normalised and are confounded by pricing (E6)"
+      ],
+      "evidenceIds": [
+        "E7",
+        "E6"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The '+18%' figure is a relative before/after change (44.2/37.5 - 1 = 17.9%) against a non-concurrent Q2 all-user baseline. It is not the randomised A/B contrast, so it is not a valid input for the causal effect of the new flow.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E1"
+      ],
+      "calculationIds": [
+        "K9"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The concurrent randomised estimate is control 41.00% vs treatment 44.21%, a difference of +3.21pp absolute and about +7.84% relative.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3",
+        "K4"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The approximate 95% Wald CI for the absolute effect is +0.40pp to +6.02pp (about +1.0% to +14.7% relative), with unpooled SE about 1.43pp. The pooled z is about 2.24 (two-sided p about 0.025, per E2), so the effect is significant but imprecise, and the lower bound is near zero.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": [
+        "K5",
+        "K6",
+        "K7",
+        "K8",
+        "K15",
+        "K16"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "The control arm (41.0%) is 3.5pp above the Q2 baseline (37.5%). That is about 52% of the slide's 6.7pp gap, and it occurred without the new flow, consistent with period, population and pricing confounding of the slide.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E4",
+        "E1",
+        "E6"
+      ],
+      "calculationIds": [
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "The slide's 17.9% relative figure is about 2.3 times the randomised relative estimate of 7.8%. Applying 18% to the 41.0% control base would imply about +7.4pp, versus the measured +3.2pp.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E2"
+      ],
+      "calculationIds": [
+        "K12",
+        "K13"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "No sample-ratio mismatch: 2,400 vs 2,350 against 2,375/2,375 gives chi-square about 0.53 (p about 0.47 per E3), far from the p < 0.0005 threshold.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E8"
+      ],
+      "calculationIds": [
+        "K14"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The pricing and plan change launched on 2026-07-01 for all users, which implies both arms were exposed. It therefore confounds the before/after slide but not the A/B difference, although no per-arm exposure or interaction analysis exists.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E1",
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "The revenue effect of the retention uplift cannot be determined from the evidence. There is no data on the revenue model's sensitivity to day-30 retention, the share of next year's revenue from new cohorts, or ONB-27 retention beyond day 30.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Whether the day-30 effect persists, decays or grows over longer horizons cannot be determined for ONB-27. The general literature shows short-test effects can change over time through novelty or learning.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E10",
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "The p about 0.025 result would be fragile if the test was peeked at or stopped early. The readout does not document a fixed-horizon analysis, ITT, the analysis date or full 30-day observation for late-August enrollees.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The ticket drop of 1,240 to 1,090 (-12.1%) and the interviews (6 of 8, 75%, found the checklist helpful) support at most the direction or mechanism, not the size of the effect. Tickets are unnormalised and confounded by pricing. The interviews are n=8, survivor-only and not linked to arms.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": [
+        "K17",
+        "K18"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Use the PM slide's +18% relative (+6.7pp absolute)",
+      "comparison": "About 2.3 times the randomised relative estimate (17.9% vs 7.8%). It includes period, population and pricing shifts that the control arm also shows (+3.5pp). It is not causal and would overstate the forecast (E4, E5)."
+    },
+    {
+      "option": "Use the A/B point estimate (+3.2pp, +7.8% relative) as the base case",
+      "comparison": "This is the best single causal estimate, but it ignores a wide CI (+0.4 to +6.0pp), unverified analysis practices and unknown persistence. It is suitable as an upside or central scenario, not as a committed base (E2, E9, E10)."
+    },
+    {
+      "option": "Use the CI lower bound (+0.4pp, about +1.0% relative) or zero as the base case, with the point estimate as upside",
+      "comparison": "Conservative, and it matches the evidence that the effect is real but imprecise and that the revenue link is unknown. The risk is understating a genuine effect, which costs less than overstating revenue (E2, E12)."
+    },
+    {
+      "option": "Exclude the effect from the forecast until day-60/90 holdout data and the revenue sensitivity are available",
+      "comparison": "The most defensible option if the forecast needs to be firm. It discards a statistically significant signal, but it avoids building revenue on an unquantified retention-to-revenue link (E12, E10)."
+    }
+  ],
+  "tradeoffs": [
+    "Conservatism vs accuracy. A base case near the CI lower bound protects against overstating revenue but may undershoot a true effect of about 3pp.",
+    "Simplicity vs fidelity. A single point uplift is easy to model, but the evidence supports only a range, and the range is wide relative to the effect (E2).",
+    "Speed vs rigour. Using the effect now forgoes confirming the fixed-horizon/ITT analysis and the longer-horizon retention that could cut or raise the effect (E9, E10)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Misreading '+18%' as 18pp absolute would overstate the measured effect by more than five times.",
+    "Applying the uplift to all revenue rather than only to new cohorts that see the new flow would inflate the impact. The new-cohort share is unknown (E12).",
+    "If ONB-27 was peeked at or stopped early, the true false-positive risk is above the nominal 5%, and the lower bound may effectively include zero (E9).",
+    "Users enrolled near 2026-08-31 may not have had full 30-day observation. If they were scored early, they could bias rates in either arm (E1).",
+    "A treatment-by-pricing interaction would mean the effect changes if pricing changes again next year (E12).",
+    "A novelty effect could fade after day 30, so a day-30 uplift may not persist into revenue months (E10).",
+    "An effect that only just reaches significance with a wide CI may be an overestimate. Replication or a holdout would test this (E2).",
+    "SRM can hide within segments even when the overall split passes (E3)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The slide's 18% reflects the real-world improvement users experienced from Q2 to Q3, so finance should use it.",
+      "response": "Finance needs the increment caused by the new flow. The control arm, on the old flow, also rose 3.5pp over Q2, so that part would have happened without the redesign. It is not attributable to the redesign (E5, E1)."
+    },
+    {
+      "argument": "The A/B result is statistically significant, so the full +3.2pp should go into the forecast.",
+      "response": "Significance only means the effect is likely above zero. The 95% CI runs from +0.4pp to +6.0pp. The analysis practices (stopping rule, ITT) are undocumented, and persistence and the revenue link are unknown, so the point estimate suits an upside scenario better than a committed base (E2, E9, E12)."
+    },
+    {
+      "argument": "Falling tickets and positive interviews independently confirm a large effect.",
+      "response": "Tickets are raw counts, not split by arm and confounded by pricing, and only about half of new users saw the new flow. The interviews are n=8 and drawn only from users who completed onboarding. Neither can speak to effect size (E6, E7)."
+    },
+    {
+      "argument": "The pricing change could have contaminated the A/B result too.",
+      "response": "The pricing change applied to all users, which implies both arms were exposed, so its main effect cancels in the difference. An interaction remains possible, but it has not been tested (E6, E12)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The redesigned onboarding flow lifted 30-day retention by 18%.",
+      "correction": "The 18% is a relative before/after change against a Q2 all-user baseline. The causal randomised estimate is +3.2pp absolute, or about +7.8% relative, with a 95% CI of about +0.4 to +6.0pp.",
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E1",
+        "E2",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "A retention lift justifies raising next year's revenue forecast.",
+      "correction": "A day-30 retention lift does not by itself establish a revenue increase. The revenue model's sensitivity, the share of revenue from new cohorts and the persistence of the effect are unknown, so any uplift should be scenario-based and modest, with a conservative base case.",
+      "evidenceIds": [
+        "E12",
+        "E10"
+      ]
+    },
+    {
+      "assumption": "The product team's report reflects the primary analysis of the pre-registered experiment.",
+      "correction": "The PM slide does not use the concurrent control arm, so it is a different, non-causal analysis. The pre-registered primary contrast is treatment vs control in ONB-27.",
+      "evidenceIds": [
+        "E4",
+        "E1"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Control-arm 30-day retention rate",
+      "expression": "984/2400",
+      "claimedResult": 0.41,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Treatment-arm 30-day retention rate",
+      "expression": "1039/2350",
+      "claimedResult": 0.4421,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Absolute A/B difference in retention (proportion)",
+      "expression": "1039/2350 - 984/2400",
+      "claimedResult": 0.03213,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Relative A/B uplift (treatment/control - 1)",
+      "expression": "(1039/2350)/(984/2400) - 1",
+      "claimedResult": 0.07836,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Unpooled standard error of the difference",
+      "expression": "sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimedResult": 0.01434,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Wald 95% CI lower bound for absolute difference",
+      "expression": "(1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimedResult": 0.004013,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K7",
+      "purpose": "Wald 95% CI upper bound for absolute difference",
+      "expression": "(1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimedResult": 0.06024,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Pooled two-proportion z statistic",
+      "expression": "(1039/2350 - 984/2400)/sqrt((2023/4750)*(1-2023/4750)*(1/2400+1/2350))",
+      "claimedResult": 2.239,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "PM slide relative change (44.2 vs 37.5)",
+      "expression": "44.2/37.5 - 1",
+      "claimedResult": 0.1787,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "PM slide absolute change in percentage points",
+      "expression": "44.2 - 37.5",
+      "claimedResult": 6.7,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Share of slide gap already present in the control arm (41.0 - 37.5)/6.7",
+      "expression": "(41.0 - 37.5)/(44.2 - 37.5)",
+      "claimedResult": 0.5224,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Ratio of slide relative change to randomised relative uplift",
+      "expression": "(44.2/37.5 - 1)/((1039/2350)/(984/2400) - 1)",
+      "claimedResult": 2.28,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K13",
+      "purpose": "Absolute pp implied by applying 18% relative to the 41.0% control base",
+      "expression": "41.0*0.18",
+      "claimedResult": 7.38,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "SRM chi-square statistic (1 df) for 2,400 vs 2,350 against 2,375 each",
+      "expression": "(2400-2375)^2/2375 + (2350-2375)^2/2375",
+      "claimedResult": 0.5263,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Relative CI lower bound (absolute lower bound / control rate)",
+      "expression": "((1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimedResult": 0.00979,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K16",
+      "purpose": "Relative CI upper bound (absolute upper bound / control rate)",
+      "expression": "((1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimedResult": 0.1469,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "Quarter-on-quarter change in onboarding tickets",
+      "expression": "1090/1240 - 1",
+      "claimedResult": -0.121,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K18",
+      "purpose": "Share of interviewees who found the checklist helpful",
+      "expression": "6/8",
+      "claimedResult": 0.75,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Remove the 18% from the forecast inputs and replace it with ONB-27's +3.2pp absolute / +7.8% relative, always stated together with the 95% CI of +0.4 to +6.0pp (+1.0% to +14.7% relative).",
+    "Model at least three scenarios: base at zero or about +0.4pp, central or upside at +3.2pp, and a stress case at zero. Do not plan on the +6.0pp upper bound.",
+    "Apply the uplift only to new-cohort revenue from users who go through the new flow, and only through the retention-to-revenue sensitivity in finance's own model, which is currently unknown.",
+    "Ask the product team to confirm a fixed-horizon ITT analysis, the retention definition, full 30-day observation for late-August enrollees, and per-arm pricing exposure.",
+    "Keep a holdout and track day-60/90 retention by arm, then revise the forecast assumption once persistence is observed.",
+    "Do not cite the ticket drop or the interviews as confirmation of the effect size in forecast documentation."
+  ],
+  "remainingUncertainty": [
+    "The revenue model's sensitivity to day-30 retention and the share of next year's revenue from new cohorts are unknown (E12).",
+    "Whether the effect persists beyond day 30 is unknown, and novelty decay is possible (E10, E12).",
+    "The stopping rule, peeking, ITT, analysis date and retention definition are undocumented in the readout (E1, E9).",
+    "There is no analysis of pricing-by-treatment interaction or per-arm exposure (E6, E12).",
+    "The Q2 baseline definition is undocumented, so the source of the 3.5pp control-vs-Q2 rise cannot be split among pricing, season, mix and definition (E4, E5).",
+    "The CI and p-value are hand calculations using a normal approximation, not the official analysis (E2)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Day-60/90 retention and revenue per user by ONB-27 arm. Decay would shrink the forecast allowance, and persistence or growth would support using the point estimate.",
+    "Official pre-registered analysis output confirming a fixed-horizon ITT with no early stopping. If peeking occurred, the result may not be reliable.",
+    "Finance's retention-to-revenue sensitivity and the new-cohort revenue share, needed to turn the uplift into a revenue figure.",
+    "A per-arm pricing-exposure and interaction analysis.",
+    "Segment-level SRM and effect checks by channel and signup week, to test how well the result generalises to next year's cohort mix.",
+    "A replication or extended holdout on later cohorts to narrow the wide CI."
+  ]
+}

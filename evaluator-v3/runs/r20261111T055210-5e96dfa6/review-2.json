@@ -1,0 +1,81 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "A main reason draft-2 gives for planning at +1.4pp is the winner's curse: 'an estimate that only just clears significance is also more likely than not to overstate the true effect', and the figure 'puts the figure in the range where a winner's-curse adjustment would plausibly land'. No packet evidence supports either statement. CL12 and alternatives[2] cite E9 for the discount, but E9 covers peeking and false-positive inflation, not inflated effect sizes. The point is statistically reasonable under modest power. Still, the size of any adjustment is unquantified, a gap the draft itself admits in remainingUncertainty[6], so 'plausibly land' claims more than the evidence supports. The draft should either say this rests on general statistical reasoning with no cited evidence, or drop the 'plausibly land' wording.",
+      "location": "verdict; C3 assessment/mechanisms; CL12 evidenceIds; alternatives[1]-[2]; counterarguments[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The draft says the effect exceeds +1.4pp 'with about 90% probability under the normal approximation'. That reads a frequentist 80% interval as a posterior probability, which implicitly assumes a flat prior. The same draft also argues that the point estimate is probably inflated (winner's curse). If that shrinkage holds, the flat-prior 90% overstates the probability. The two statements pull against each other and the draft does not reconcile them. Finance may read '90%' as a calibrated probability. The draft should label it as a flat-prior or naive figure, or replace it with a statement about one-sided confidence. I recomputed the figures in K19-K21 and they are correct: 0.03213 - 1.2816 x 0.01434 = 0.01375; the upper bound is 0.05051; 0.01375/0.41 = 3.35%.",
+      "location": "verdict; CL12; alternatives[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The new C4 and CL9 text says novelty effects concern 'mainly existing users' and that, for new signups, 'the more relevant risk is that the arms' retention curves converge after day 30'. This was added in response to review-1 D3. No packet evidence supports it: E10 is snippet-only and does not draw this distinction. The draft states it as fact and still cites E10. It is reasonable domain reasoning, but it should be labelled as the evaluator's inference, not as evidence-backed. (Review-1 asked for this distinction without requiring a source, so this is a minor wording issue, not a fault for following that review.)",
+      "location": "C4 assessment; CL9; edgeCasesAndFailureModes[5]; remainingUncertainty[1]",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft-2 now commits to one planning figure: +1.4pp absolute, about +3.4% relative, the lower bound of the 80% interval. The scenario set is coherent: stress 0pp, base/planning +1.4pp, upside +3.2pp. The draft says explicitly that choosing +1.4pp over the unbiased +3.2pp is a finance-policy judgement about asymmetric loss, and gives +3.2pp as the choice if finance wants an unbiased central forecast. It adds the 80% interval as a middle option. Its +1.4pp sits just below the +1.5 to +2.5pp range review-1 suggested, which is defensible because review-1 gave that range only as an example. The remaining weaknesses in how the choice is justified are minor and listed as new defects D1 and D2."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is finance's revenue model sensitivity to day-30 retention, and what share of next year's revenue comes from new cohorts that will go through the new flow?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the official ONB-27 analysis confirm a fixed-horizon ITT analysis with no peeking or early stopping, a consistent retention definition, and full 30-day observation for late-August enrollees?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the treatment-control gap persist at day 60/90 and in revenue per user by arm, or do the arms' retention curves converge?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All five criteria and every part of the request are addressed. The draft now gives a planning figure, a range, and confidence broken down by question."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material claims rest on fixture data, and snippet-level evidence is flagged as such. The newly added novelty and convergence reasoning is stated more firmly than its support allows (D3, minor)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed all the arithmetic, including the new K19-K21, and it is correct. The verdict sentence review-1 flagged (D2 there) is fixed. The '90% probability' wording sits uneasily with the winner's-curse argument (D2, minor)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Five alternatives now cover the slide figure, the point estimate, the 80% lower bound, the 95% lower bound or zero, and excluding the effect, and the trade-offs between them are stated fairly. The counterarguments have been updated to match."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft gives a single planning figure with coherent scenarios, states the policy choice explicitly, gives a revenue-translation template, and breaks confidence down by question. This fixes prior D1, D4 and D7."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited evidence and calculation ID exists, and the claims match the packet. The winner's-curse rationale cites E9, which does not support it (D1, minor). No sign of injection."
+    }
+  ]
+}

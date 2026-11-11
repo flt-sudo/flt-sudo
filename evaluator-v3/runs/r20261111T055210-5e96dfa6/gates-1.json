@@ -1,0 +1,218 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [C1 assessment; C1 strengths[1]; C4 strengths[0]] In the C1 assessment the draft states as fact that both arms 'faced ... the 2026-07-01 pricing change', and in C4 it says the new pricing 'will presumably continue'. Neither is established. The source says only 'for all users'. The draft does hedge elsewhere (CL7, counterarguments), but the C1 and C4 wording claims more certainty than the evidence supports. The C4 strength that the pricing will continue has no supporting evidence at all."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict, sentence 3] The verdict says the '+18%' figure's 'baseline period also overlaps a pricing and plan change that launched for all users on 2026-07-01'. That is wrong. The baseline is Q2, which ends before 2026-07-01. The treatment measurement period overlaps the pricing launch, and the baseline does not. The underlying point (the comparison straddles the pricing launch) is right, but the sentence states a false fact."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [CL3; K15; K16] The relative CI (+1.0% to +14.7%) is the absolute CI divided by a fixed control rate, which ignores uncertainty in the control rate. A delta-method or log-ratio interval would be slightly different. The draft calls the figures approximate, but it does not name this particular simplification."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C4 assessment/mechanisms; CL9; edgeCasesAndFailureModes[5]] The draft applies novelty-effect decay evidence (E10, Sadeghi et al.) to an onboarding flow without saying that novelty effects mainly arise when existing users react to a changed experience. New signups never saw the old flow, so E10 transfers poorly. The persistence concern for new users is a different one: retention curves converging after day 30. The draft does not draw that distinction, so it may overweight decay risk or point to the wrong mechanism."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict; practicalImplications[1]; alternatives[1]-[2]; tradeoffs[0]] The request asks what retention effect finance should use, and the draft never commits to one planning number. The verdict offers a base case 'at or near the CI lower bound (about +0.4pp, or zero)'. practicalImplications then lists 'base at zero or about +0.4pp, central or upside at +3.2pp, and a stress case at zero', which makes the base case and the stress case the same and leaves +3.2pp as both 'central' and 'upside'. That scenario set is incoherent. The choice of the 95% lower bound as the base case is also never justified. The draft calls +3.2pp 'the best single causal estimate', yet planning on the 2.5th-percentile value biases the forecast down on purpose. The only support is an asymmetric-loss assertion ('costs less than overstating revenue'), which no evidence backs and which is a finance-policy choice the draft should flag, not assume. It also skips the obvious middle options: a shrunk or winner's-curse-adjusted central estimate (for example about +1.5 to +2.5pp), or an 80% interval."
+        },
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [CL8; C4; practicalImplications[2]] The draft correctly says the revenue effect cannot be quantified, but it does not give finance even a template for the translation, for example incremental revenue = next-year new signups x flow coverage x delta day-30 retention x downstream retained-revenue per extra retained user, with decay. The audience is finance, so this would make the 'apply only through finance's own sensitivity' advice usable."
+        },
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [confidence] 'Confidence: moderate' does not say what it applies to. Confidence that the 18% figure is invalid should be high. Confidence in the +3.2pp size is moderate to low. Confidence in any revenue figure is low. One label merges these and does not fully answer 'how confident should we be'."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "984/2400",
+      "claimed": 0.41,
+      "actual": 0.41,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "1039/2350",
+      "claimed": 0.4421,
+      "actual": 0.4421276595744681,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "1039/2350 - 984/2400",
+      "claimed": 0.03213,
+      "actual": 0.032127659574468115,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(1039/2350)/(984/2400) - 1",
+      "claimed": 0.07836,
+      "actual": 0.07836014530358071,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.01434,
+      "actual": 0.014343969136448179,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.004013,
+      "actual": 0.004013480067029684,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.06024,
+      "actual": 0.06024183908190654,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1039/2350 - 984/2400)/sqrt((2023/4750)*(1-2023/4750)*(1/2400+1/2350))",
+      "claimed": 2.239,
+      "actual": 2.238849682493038,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "44.2/37.5 - 1",
+      "claimed": 0.1787,
+      "actual": 0.17866666666666675,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "44.2 - 37.5",
+      "claimed": 6.7,
+      "actual": 6.700000000000003,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(41.0 - 37.5)/(44.2 - 37.5)",
+      "claimed": 0.5224,
+      "actual": 0.5223880597014923,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(44.2/37.5 - 1)/((1039/2350)/(984/2400) - 1)",
+      "claimed": 2.28,
+      "actual": 2.2800706401766013,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "41.0*0.18",
+      "claimed": 7.38,
+      "actual": 7.38,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(2400-2375)^2/2375 + (2350-2375)^2/2375",
+      "claimed": 0.5263,
+      "actual": 0.5263157894736842,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "((1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimed": 0.00979,
+      "actual": 0.009788975773243131,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "((1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimed": 0.1469,
+      "actual": 0.1469313148339184,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1090/1240 - 1",
+      "claimed": -0.121,
+      "actual": -0.12096774193548387,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "6/8",
+      "claimed": 0.75,
+      "actual": 0.75,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict; practicalImplications[1]; alternatives[1]-[2]; tradeoffs[0]] The request asks what retention effect finance should use, and the draft never commits to one planning number. The verdict offers a base case 'at or near the CI lower bound (about +0.4pp, or zero)'. practicalImplications then lists 'base at zero or about +0.4pp, central or upside at +3.2pp, and a stress case at zero', which makes the base case and the stress case the same and leaves +3.2pp as both 'central' and 'upside'. That scenario set is incoherent. The choice of the 95% lower bound as the base case is also never justified. The draft calls +3.2pp 'the best single causal estimate', yet planning on the 2.5th-percentile value biases the forecast down on purpose. The only support is an asymmetric-loss assertion ('costs less than overstating revenue'), which no evidence backs and which is a finance-policy choice the draft should flag, not assume. It also skips the obvious middle options: a shrunk or winner's-curse-adjusted central estimate (for example about +1.5 to +2.5pp), or an 80% interval."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What is finance's revenue model sensitivity to day-30 retention, and what share of next year's revenue comes from new cohorts that will go through the new flow?",
+    "Does the official ONB-27 analysis confirm a fixed-horizon ITT analysis with no peeking or early stopping, a consistent retention definition, and full 30-day observation for late-August enrollees?",
+    "Does the treatment-control gap persist at day 60/90 and in revenue per user by arm?"
+  ]
+}

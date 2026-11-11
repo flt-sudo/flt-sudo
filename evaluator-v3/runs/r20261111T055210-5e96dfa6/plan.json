@@ -1,0 +1,125 @@
+{
+  "subject": "Retention effect of the redesigned onboarding flow (experiment ONB-27) for use in next year's revenue forecast",
+  "domain": "Product analytics / experimentation and financial forecasting",
+  "decisionObjective": "Decide what 30-day retention uplift, if any, finance should build into next year's revenue forecast for the redesigned onboarding flow, stated as an absolute and relative effect with an uncertainty range, and decide how much the forecast should depend on it. This includes deciding whether the reported '+18%' figure is a valid input, or whether it should be replaced by the concurrent A/B estimate (treatment 44.2% vs control 41.0%), which on first reading is about +3.2pp absolute, roughly +7.8% relative.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Causal validity of the effect estimate",
+      "weight": 30,
+      "rationale": "Finance needs the effect caused by the new flow. A concurrent randomised control (ONB-27) supports that; a before/after comparison against a Q2 all-user baseline (the PM slide) does not, especially since a pricing and plan change launched on 2026-07-01, the same day the experiment started."
+    },
+    {
+      "id": "C2",
+      "name": "Arithmetic and metric-definition consistency",
+      "weight": 15,
+      "rationale": "The headline 18% has to be recomputed from the raw counts. We also need to know whether it is relative or absolute, and whether numerator and denominator come from comparable populations and the same retention definition. A mislabelled or mis-based number would feed straight into revenue."
+    },
+    {
+      "id": "C3",
+      "name": "Statistical precision and robustness of the A/B result",
+      "weight": 20,
+      "rationale": "Finance needs a range, not just a point estimate. Sample size (about 4,750 users), the confidence interval, the p-value, sample-ratio checks and whether the test was stopped or analysed as pre-registered all decide how tight a range is defensible."
+    },
+    {
+      "id": "C4",
+      "name": "Generalisability to next year's user base and to revenue",
+      "weight": 20,
+      "rationale": "An effect measured on July–August 2026 signups, under new pricing, at day 30 may not hold for next year's cohorts, other seasons or channels, or longer horizons. Day-30 retention is also not revenue, so the link from retention to revenue (and any novelty decay) decides how much of the effect belongs in the forecast."
+    },
+    {
+      "id": "C5",
+      "name": "Corroboration from qualitative and operational evidence",
+      "weight": 15,
+      "rationale": "Interviews and ticket trends could support or contradict the mechanism. Their weight depends on their biases: 8 interviewees, all recruited from users who completed onboarding, and a Q2-to-Q3 ticket comparison confounded by the pricing launch. Finance should not read them as independent confirmation of the size of the effect."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Does recomputing from the raw counts confirm the A/B effect (984/2,400 = 41.0% vs 1,039/2,350 = 44.2%; about +3.2pp absolute, about +7.8% relative), and what are its 95% confidence interval and p-value under the pre-registered two-sided test?",
+      "whyItMatters": "This is the only randomised, concurrent estimate. Its size and interval set the number and range finance should use, and a rough calculation suggests the interval may run from under 1pp to about 6pp.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "How was the '+18%' figure built? Is it the relative change 44.2/37.5 - 1 (about 17.9%)? Is the 37.5% baseline a Q2, all-user, old-flow figure that differs in period, population and possibly retention definition from the ONB-27 control arm (41.0%)?",
+      "whyItMatters": "If the 18% compares the treatment arm with a non-concurrent baseline instead of the concurrent control, it mixes the onboarding effect with seasonality, mix shift and the 2026-07-01 pricing change, and overstates the effect by more than double.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Did the 2026-07-01 pricing and plan change, or any other concurrent change, affect both arms equally? Does it explain the rise from the Q2 baseline of 37.5% to the control arm's 41.0%?",
+      "whyItMatters": "Randomisation protects the A/B difference from a change that hit all users, but not the before/after comparison. A treatment-by-pricing interaction would also limit how well the result generalises.",
+      "criteria": [
+        "C1",
+        "C4"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Is the experiment itself sound: no sample-ratio mismatch (2,400 vs 2,350 against a 50/50 split), intent-to-treat analysis, a fixed horizon with no peeking or early stopping, a consistent 30-day retention definition across arms, and full 30-day observation for users enrolled near 2026-08-31?",
+      "whyItMatters": "Any of these flaws could bias or overstate the A/B effect. Users enrolled late in August needed data through late September to be scored at day 30.",
+      "criteria": [
+        "C3",
+        "C1"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "How should a day-30 retention uplift translate into next-year revenue? What share of next year's revenue comes from new cohorts that would go through the new onboarding, and is there evidence on whether the uplift persists beyond day 30 or decays?",
+      "whyItMatters": "Even a valid +3pp day-30 effect may move revenue far less than its headline suggests if it fades by day 90, or if most revenue comes from existing customers.",
+      "criteria": [
+        "C4"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "Once the pricing launch and changes in user volume are allowed for, do the interview notes and the ticket trend say anything about the size of the effect, or only about its direction or mechanism?",
+      "whyItMatters": "This decides whether the qualitative and operational evidence can raise confidence, or only adds weak, biased colour. Interviewees were recruited only from users who completed onboarding, and the ticket drop coincides with the pricing change, with no normalisation for user volume.",
+      "criteria": [
+        "C5"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The redesigned onboarding flow lifted 30-day retention by 18%.",
+      "source": "user",
+      "howToCheck": "Recompute from the ONB-27 counts (treatment vs concurrent control), then compare with the PM slide's method (44.2% vs the 37.5% Q2 baseline). Check whether 18% is relative or absolute and whether the baseline is comparable in period, population and definition."
+    },
+    {
+      "assumption": "A retention lift justifies raising next year's revenue forecast.",
+      "source": "user",
+      "howToCheck": "Check the revenue model's sensitivity to day-30 retention, the share of revenue from new cohorts, and any evidence on how long the effect lasts. Recommend a range with a conservative scenario, not a point uplift."
+    },
+    {
+      "assumption": "The product team's report reflects the primary analysis of the pre-registered experiment.",
+      "source": "planner",
+      "howToCheck": "Compare the PM slide with the ONB-27 readout. The slide does not use the control arm, so treat it as a different analysis and say so."
+    },
+    {
+      "assumption": "The ONB-27 control and treatment arms were both exposed to the 2026-07-01 pricing change, so the A/B difference isolates the onboarding effect.",
+      "source": "planner",
+      "howToCheck": "Confirm that the pricing rollout covered all users at the same time across both arms, and look for any interaction or differential exposure."
+    },
+    {
+      "assumption": "The drop in onboarding tickets (1,240 to 1,090, -12%) reflects the new onboarding flow.",
+      "source": "planner",
+      "howToCheck": "Normalise tickets by active or new users. Check the arithmetic (-12.1%) and the ticket categorisation. Note the confound with the pricing launch and that the treatment flow was shown to only about half of new users during Q3."
+    },
+    {
+      "assumption": "The interview findings (6 of 8 found the checklist helpful) indicate broad user benefit.",
+      "source": "planner",
+      "howToCheck": "Note n=8 and that everyone interviewed had completed onboarding, so users who dropped out are excluded. Treat the interviews as evidence about the mechanism, not about the size of the effect."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T060045-2c80a22d",
+  "caseId": "ho-16-onboarding-experiment-readout",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "I read the four supplied source files to check claims. All trial-derived numbers are correct, and I checked the power, posterior and sample-size figures by hand. The main departure from the reference: the output recommends a shrunk base case of +2 pp (about 5% relative) instead of the reference's 3.2 pp (7.8%). It uses 3.2 pp as the upside and labels the shrinkage prior as its own assumption. I did not penalise this as an error, but a human may weigh it differently under usefulness or accuracy. It does not say 'ship the flow' outright, although keeping a holdout on the old flow implies it. I could not verify the four external citations (arXiv IDs, a Google Doc and a 2026 blog post), and the output admits they were seen only through search summaries; this is part of why accuracy is 0.75. Minor misattribution: the pricing-change note sits in the A/B readout section, but in the sources it appears only in support-ticket-trend.md."
+}

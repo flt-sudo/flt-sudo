@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T060045-2c80a22d",
+  "caseId": "ho-16-onboarding-experiment-readout",
+  "system": "baseline",
+  "createdAt": "2026-11-11T06:00:45.766Z",
+  "request": "Finance is about to raise next year's revenue forecast because our product team reports that the redesigned onboarding flow lifted 30-day retention by 18%. Before that goes into the plan, I want a synthesis of what our evidence actually shows: the A/B test readout, the PM's summary slide, the user interview notes and the support-ticket trend are attached. What retention effect should finance use, and how confident should we be?",
+  "fixtures": [
+    "ab-test-readout.md",
+    "pm-summary-slide.md",
+    "interview-notes.md",
+    "support-ticket-trend.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

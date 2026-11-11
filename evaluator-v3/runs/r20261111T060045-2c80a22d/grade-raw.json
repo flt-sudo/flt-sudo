@@ -1,0 +1,95 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the finance decision directly and covers all three mustFlag issues: the correct lift, the pre-period baseline, and the pricing confounder and interview bias. It also covers what an expert would expect beyond that (precision, sample-ratio check, how day-30 retention turns into revenue) without padding.",
+      "quotes": [
+        "Finance should not use +18%.",
+        "It compares the treatment arm with a **Q2 historical baseline** (37.5%) instead of the trial's own control group (41.0%).",
+        "Interviewees were recruited **from users who completed onboarding**, a survivorship bias"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked the numbers against the supplied counts and they are correct: 3.21 pp, SE 1.434, z 2.24, CI 0.40 to 6.02 pp, RR 1.078 with log CI 1.009 to 1.152, SRM chi-square 0.53, power 61% and 29%, posterior 2.1 pp, about 9,500 per arm. Two minor sourcing weaknesses: the pricing launch is listed under the A/B readout section although only the ticket document mentions it, and the external literature citations were admittedly seen only through search summaries.",
+      "quotes": [
+        "Standard error (unpooled) is 1.434 pp, giving z ≈ 2.24 and a two-sided **p ≈ 0.025**.",
+        "risk ratio 1.078, or **+7.8%**. The 95% CI on the log scale is 1.009 to 1.152",
+        "web fetching was unavailable, so the literature sources were seen only through search summaries"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the 18% is inflated by splitting the 6.7 pp gap into 3.5 pp non-onboarding and 3.2 pp onboarding. It quantifies power, winner's curse shrinkage and the sample size needed for a rerun, and covers specific failure modes such as novelty fade, interaction with the new pricing, effects limited to new cohorts, and retained free-tier users.",
+      "quotes": [
+        "The control group, which used the old flow, was already 3.5 pp above Q2. That 3.5 pp is about half of the slide's 6.7 pp gap",
+        "If the true effect were exactly 3.2 pp, the test would have had only about 61% power.",
+        "If retained users are mostly free-tier, a retention lift may barely move revenue."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges the 18% premise, raises the strongest counterarguments and answers them fairly, and says what would change the conclusion (a history of replicated trials means using the raw +3.2 pp).",
+      "quotes": [
+        "**\"The Q2 baseline represents the real old-world state.\"** It is the right baseline only if nothing else changed.",
+        "That is a fair point if the company's past onboarding trials often replicated at this size. If so, use the raw +3.2 pp.",
+        "Even the top of the 95% CI (+15.2% relative) is below the PM's +18%."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "It gives a clear bottom line with base, upside and downside cases and explicit confidence, plus concrete next steps (day-60/90 data, a separate pricing forecast, a holdout, a sized rerun, correcting the slide). Its base case (+2 pp, about 5%) sits below the reference's 7.8%, but the range includes 3.2 pp and the shrinkage is clearly justified.",
+      "quotes": [
+        "**Base case: about +2 pp (about +5% relative).**",
+        "Pull day-60 and day-90 retention for the ONB-27 cohorts, which should be maturing by now.",
+        "That needs roughly **9,500 users per arm**, about 4× ONB-27."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised by source, the calculations are labelled as the author's own recalculations, assumptions such as the prior are flagged, and remaining uncertainty is listed explicitly.",
+      "quotes": [
+        "That prior is my assumption, not fitted to company data.",
+        "All figures are my own recalculations from the reported counts.",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "shows a lift of **+3.2 percentage points**, from 41.0% to 44.2%. That is about **+7.8% relative**."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "It compares the treatment arm with a **Q2 historical baseline** (37.5%) instead of the trial's own control group (41.0%)."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Likely causes are the July 1 pricing and plan change, seasonality (Jul–Aug vs Q2), and differences in user mix."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Endorses the 18% retention lift for the revenue forecast",
+      "triggered": false,
+      "evidence": "\"No. Finance should not use +18%.\""
+    },
+    {
+      "condition": "Fails to distinguish the randomised control comparison from the Q2 pre-period comparison",
+      "triggered": false,
+      "evidence": "\"That number comes from comparing two different time periods. The trial's own control group (the randomised A/B test, ONB-27) shows a lift of +3.2 percentage points\""
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "I read the four supplied source files to check claims. All trial-derived numbers are correct, and I checked the power, posterior and sample-size figures by hand. The main departure from the reference: the output recommends a shrunk base case of +2 pp (about 5% relative) instead of the reference's 3.2 pp (7.8%). It uses 3.2 pp as the upside and labels the shrinkage prior as its own assumption. I did not penalise this as an error, but a human may weigh it differently under usefulness or accuracy. It does not say 'ship the flow' outright, although keeping a holdout on the old flow implies it. I could not verify the four external citations (arXiv IDs, a Google Doc and a 2026 blog post), and the output admits they were seen only through search summaries; this is part of why accuracy is 0.75. Minor misattribution: the pricing-change note sits in the A/B readout section, but in the sources it appears only in support-ticket-trend.md."
+}

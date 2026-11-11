@@ -1,0 +1,207 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C4 assessment; CL9; edgeCasesAndFailureModes[5]; remainingUncertainty[1]] The new C4 and CL9 text says novelty effects concern 'mainly existing users' and that, for new signups, 'the more relevant risk is that the arms' retention curves converge after day 30'. This was added in response to review-1 D3. No packet evidence supports it: E10 is snippet-only and does not draw this distinction. The draft states it as fact and still cites E10. It is reasonable domain reasoning, but it should be labelled as the evaluator's inference, not as evidence-backed. (Review-1 asked for this distinction without requiring a source, so this is a minor wording issue, not a fault for following that review.)"
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; CL12; alternatives[2]] The draft says the effect exceeds +1.4pp 'with about 90% probability under the normal approximation'. That reads a frequentist 80% interval as a posterior probability, which implicitly assumes a flat prior. The same draft also argues that the point estimate is probably inflated (winner's curse). If that shrinkage holds, the flat-prior 90% overstates the probability. The two statements pull against each other and the draft does not reconcile them. Finance may read '90%' as a calibrated probability. The draft should label it as a flat-prior or naive figure, or replace it with a statement about one-sided confidence. I recomputed the figures in K19-K21 and they are correct: 0.03213 - 1.2816 x 0.01434 = 0.01375; the upper bound is 0.05051; 0.01375/0.41 = 3.35%."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict; C3 assessment/mechanisms; CL12 evidenceIds; alternatives[1]-[2]; counterarguments[1]] A main reason draft-2 gives for planning at +1.4pp is the winner's curse: 'an estimate that only just clears significance is also more likely than not to overstate the true effect', and the figure 'puts the figure in the range where a winner's-curse adjustment would plausibly land'. No packet evidence supports either statement. CL12 and alternatives[2] cite E9 for the discount, but E9 covers peeking and false-positive inflation, not inflated effect sizes. The point is statistically reasonable under modest power. Still, the size of any adjustment is unquantified, a gap the draft itself admits in remainingUncertainty[6], so 'plausibly land' claims more than the evidence supports. The draft should either say this rests on general statistical reasoning with no cited evidence, or drop the 'plausibly land' wording."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "984/2400",
+      "claimed": 0.41,
+      "actual": 0.41,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "1039/2350",
+      "claimed": 0.4421,
+      "actual": 0.4421276595744681,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "1039/2350 - 984/2400",
+      "claimed": 0.03213,
+      "actual": 0.032127659574468115,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(1039/2350)/(984/2400) - 1",
+      "claimed": 0.07836,
+      "actual": 0.07836014530358071,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.01434,
+      "actual": 0.014343969136448179,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.004013,
+      "actual": 0.004013480067029684,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.06024,
+      "actual": 0.06024183908190654,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1039/2350 - 984/2400)/sqrt((2023/4750)*(1-2023/4750)*(1/2400+1/2350))",
+      "claimed": 2.239,
+      "actual": 2.238849682493038,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "44.2/37.5 - 1",
+      "claimed": 0.1787,
+      "actual": 0.17866666666666675,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "44.2 - 37.5",
+      "claimed": 6.7,
+      "actual": 6.700000000000003,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(41.0 - 37.5)/(44.2 - 37.5)",
+      "claimed": 0.5224,
+      "actual": 0.5223880597014923,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(44.2/37.5 - 1)/((1039/2350)/(984/2400) - 1)",
+      "claimed": 2.28,
+      "actual": 2.2800706401766013,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "41.0*0.18",
+      "claimed": 7.38,
+      "actual": 7.38,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(2400-2375)^2/2375 + (2350-2375)^2/2375",
+      "claimed": 0.5263,
+      "actual": 0.5263157894736842,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "((1039/2350 - 984/2400) - 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimed": 0.00979,
+      "actual": 0.009788975773243131,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "((1039/2350 - 984/2400) + 1.96*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimed": 0.1469,
+      "actual": 0.1469313148339184,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1090/1240 - 1",
+      "claimed": -0.121,
+      "actual": -0.12096774193548387,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "6/8",
+      "claimed": 0.75,
+      "actual": 0.75,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "(1039/2350 - 984/2400) - 1.2816*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.01374,
+      "actual": 0.013744428729196127,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(1039/2350 - 984/2400) + 1.2816*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350)",
+      "claimed": 0.05051,
+      "actual": 0.050510890419740107,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "((1039/2350 - 984/2400) - 1.2816*sqrt((984/2400)*(1-984/2400)/2400 + (1039/2350)*(1-1039/2350)/2350))/(984/2400)",
+      "claimed": 0.03352,
+      "actual": 0.03352299690047836,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What is finance's revenue model sensitivity to day-30 retention, and what share of next year's revenue comes from new cohorts that will go through the new flow?",
+    "Does the official ONB-27 analysis confirm a fixed-horizon ITT analysis with no peeking or early stopping, a consistent retention definition, and full 30-day observation for late-August enrollees?",
+    "Does the treatment-control gap persist at day 60/90 and in revenue per user by arm, or do the arms' retention curves converge?"
+  ]
+}

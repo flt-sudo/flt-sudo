@@ -1,0 +1,111 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The request asks what retention effect finance should use, and the draft never commits to one planning number. The verdict offers a base case 'at or near the CI lower bound (about +0.4pp, or zero)'. practicalImplications then lists 'base at zero or about +0.4pp, central or upside at +3.2pp, and a stress case at zero', which makes the base case and the stress case the same and leaves +3.2pp as both 'central' and 'upside'. That scenario set is incoherent. The choice of the 95% lower bound as the base case is also never justified. The draft calls +3.2pp 'the best single causal estimate', yet planning on the 2.5th-percentile value biases the forecast down on purpose. The only support is an asymmetric-loss assertion ('costs less than overstating revenue'), which no evidence backs and which is a finance-policy choice the draft should flag, not assume. It also skips the obvious middle options: a shrunk or winner's-curse-adjusted central estimate (for example about +1.5 to +2.5pp), or an 80% interval.",
+      "location": "verdict; practicalImplications[1]; alternatives[1]-[2]; tradeoffs[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict says the '+18%' figure's 'baseline period also overlaps a pricing and plan change that launched for all users on 2026-07-01'. That is wrong. The baseline is Q2, which ends before 2026-07-01. The treatment measurement period overlaps the pricing launch, and the baseline does not. The underlying point (the comparison straddles the pricing launch) is right, but the sentence states a false fact.",
+      "location": "verdict, sentence 3",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The draft applies novelty-effect decay evidence (E10, Sadeghi et al.) to an onboarding flow without saying that novelty effects mainly arise when existing users react to a changed experience. New signups never saw the old flow, so E10 transfers poorly. The persistence concern for new users is a different one: retention curves converging after day 30. The draft does not draw that distinction, so it may overweight decay risk or point to the wrong mechanism.",
+      "location": "C4 assessment/mechanisms; CL9; edgeCasesAndFailureModes[5]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The draft correctly says the revenue effect cannot be quantified, but it does not give finance even a template for the translation, for example incremental revenue = next-year new signups x flow coverage x delta day-30 retention x downstream retained-revenue per extra retained user, with decay. The audience is finance, so this would make the 'apply only through finance's own sensitivity' advice usable.",
+      "location": "CL8; C4; practicalImplications[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "In the C1 assessment the draft states as fact that both arms 'faced ... the 2026-07-01 pricing change', and in C4 it says the new pricing 'will presumably continue'. Neither is established. The source says only 'for all users'. The draft does hedge elsewhere (CL7, counterarguments), but the C1 and C4 wording claims more certainty than the evidence supports. The C4 strength that the pricing will continue has no supporting evidence at all.",
+      "location": "C1 assessment; C1 strengths[1]; C4 strengths[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The relative CI (+1.0% to +14.7%) is the absolute CI divided by a fixed control rate, which ignores uncertainty in the control rate. A delta-method or log-ratio interval would be slightly different. The draft calls the figures approximate, but it does not name this particular simplification.",
+      "location": "CL3; K15; K16",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "'Confidence: moderate' does not say what it applies to. Confidence that the 18% figure is invalid should be high. Confidence in the +3.2pp size is moderate to low. Confidence in any revenue figure is low. One label merges these and does not fully answer 'how confident should we be'.",
+      "location": "confidence",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What is finance's revenue model sensitivity to day-30 retention, and what share of next year's revenue comes from new cohorts that will go through the new flow?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the official ONB-27 analysis confirm a fixed-horizon ITT analysis with no peeking or early stopping, a consistent retention definition, and full 30-day observation for late-August enrollees?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the treatment-control gap persist at day 60/90 and in revenue per user by arm?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How was the Q2 37.5% baseline defined (population: new signups vs all users; retention definition)?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All five criteria and every part of the request are addressed. The 18% figure is recomputed and explained, the A/B effect is given with a CI, and the qualitative evidence is weighted appropriately."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Material claims rest on fixture data that I checked against sources/. Snippet-level evidence (E9, E10) is flagged as such. A few statements are worded more firmly than the evidence allows (D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed every number (rates, difference, SE, CI, z, SRM chi-square, 17.9%, 52%, 2.28x, -12.1%) and all are correct. The one factual misstatement in the verdict (D2) and the approximation (D6) are minor."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Four alternatives and four counterarguments are covered fairly. A shrunk central estimate is missing (D1), and the novelty-effect evidence is applied loosely (D3)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "There is no single recommended planning figure. The scenario set is incoherent (base case = stress case = zero, and +3.2pp is labelled both central and upside). The choice of the 95% lower bound as the base case is unjustified, and the confidence label is not broken down by question (D1, D7)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every evidence and calculation ID cited exists, and the claims match the packet and the source files. No signs of injection were found."
+    }
+  ]
+}

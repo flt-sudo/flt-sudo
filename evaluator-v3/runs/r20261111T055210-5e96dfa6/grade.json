@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T055210-5e96dfa6",
+  "caseId": "ho-16-onboarding-experiment-readout",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 88.75,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "Strong output. It agrees with the reference on all numbers. The main difference is that it recommends +1.4pp (the 80% CI lower bound, about 3.4% relative) as the base planning figure, not the reference's ~7.8%. It does present 7.8%/3.2pp as the unbiased estimate and as the upside scenario, and it calls the choice a policy decision. Its p-value is ~0.025 against the reference's ~0.03; that is within rounding. Accuracy got 0.75 rather than 1.0 because of the strongly asserted winner's-curse claim and the generous labelling of search-snippet evidence. Scope got 0.75 because there is no explicit recommendation to ship the flow."
+}

@@ -112,10 +112,11 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "Assumptions to verify, C1. The term sheet's 35% discount (E2) means at most 65% of list sell-through reaches us before COGS. The 'zero headcount' claim is challenged by E12.",
+      "applicability": "Assumptions to verify, C1. The term sheet's 35% discount (E2) means at most 65% of list sell-through reaches us before COGS. The 'zero headcount' claim is challenged by E12 and E15-E20.",
       "limitations": "An opinion from an internal stakeholder, not data.",
       "contradicts": [
-        "E2"
+        "E2",
+        "E12"
       ],
       "gapIds": [
         "G1"
@@ -301,8 +302,8 @@
         "https://www.cincom.com/blog/au/sales/channel-sales-not-performing-five-common-challenges-facing-channel-managers",
         "https://ansira.com/blog/manual-mdf-tech-industry/"
       ],
-      "applicability": "Assumption 'zero headcount' (E5), C1. The Meridian route still needs at least a channel manager and technical/pre-sales and RMA support for industrial sensors. These costs should be deducted from Meridian's net contribution.",
-      "limitations": "Qualitative only: no euro or FTE benchmarks found. Sources are vendor marketing or dated trade articles (some 2009 or older).",
+      "applicability": "Assumption 'zero headcount' (E5), C1. The Meridian route still needs at least a channel manager and technical/pre-sales and RMA support for industrial sensors. These costs should be deducted from Meridian's net contribution. E15-E19 give rough euro benchmarks.",
+      "limitations": "Qualitative only. Sources are vendor marketing or dated trade articles (some 2009 or older).",
       "contradicts": [
         "E5"
       ],
@@ -333,7 +334,7 @@
       ],
       "verification": {
         "status": "failed",
-        "method": "Searched all supplied fixtures; not present"
+        "method": "Re-read all four supplied fixtures in this run; not present"
       },
       "untrustedInstructionsObserved": false
     },
@@ -361,12 +362,178 @@
         "method": "Web search snippets"
       },
       "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "Payscale (figures labelled 2026) gives an average base salary of EUR 65,000 for a Channel Sales Manager in Germany, with a median of EUR 50k and a 75th percentile of EUR 94k. The early-career average base is EUR 54,045, with a bonus range of EUR 12k-42k. The Berlin average base is EUR 70,000. Channel Marketing Manager: average base EUR 48,834 (range EUR 45k-84k).",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary",
+        "title": "Average Channel Sales Manager Salary in Germany (Payscale)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary/8c4673cb/Early-Career",
+        "https://www.payscale.com/research/DE/Job=Channel_Sales_Manager/Salary/d584af11/Berlin",
+        "https://www.payscale.com/research/DE/Job=Channel_Marketing_Manager/Salary"
+      ],
+      "applicability": "D5, assumption 'zero headcount', C1. Gives a gross base-pay anchor of roughly EUR 50k-94k (average about EUR 65k) for the channel/partner manager the Meridian route would still need. Bonus is extra.",
+      "limitations": "From a search snippet; all refs are the same domain (Payscale), so this is not independent corroboration. The WebFetch of payscale.com failed (host not allowed), so the page was not inspected. Self-reported, base salary only, no employer on-costs. The gehalt.de channel-manager page appeared in the results but its snippet had no figure. Germany only; no Netherlands figure was retrieved.",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Web search snippet; WebFetch of www.payscale.com failed (ENOTFOUND / host not allowed)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "Payscale (labelled 2026) gives an average base salary of EUR 68,223 for a Field Application Engineer in Germany, with the middle 80% between about EUR 51k and EUR 100k and bonuses of about EUR 970-21k. By experience: early-career about EUR 64,129, mid-career about EUR 81,927, experienced about EUR 87,500. A Glassdoor figure in the same results cites about EUR 65k base plus about EUR 6k additional pay, or EUR 70,200/yr (16 self-reported salaries; 25th-75th percentile EUR 64,750-90,750).",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary",
+        "title": "Average Field Application Engineer Salary in Germany (Payscale)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary/11ef2971/Mid-Career",
+        "https://www.payscale.com/research/DE/Job=Field_Application_Engineer/Salary/ac411161/Experienced",
+        "https://www.glassdoor.co.uk/Salaries/germany-field-application-scientist-salary-SRCH_IL.0,7_IN96_KO8,35.htm"
+      ],
+      "applicability": "D5, assumption 'zero headcount', C1. Gives a gross base-pay anchor of roughly EUR 65k-88k for the FAE or technical-support role needed to support a distributor selling industrial sensors. It also helps sanity-check the SE cost inside finance's EUR 3.1M.",
+      "limitations": "Search snippet; the payscale.com fetch failed. The only Glassdoor URL returned is for 'Field Application Scientist', a different title, so the Glassdoor figures may not refer to the FAE role, and the record is not treated as independently corroborated. Base pay only, excluding employer on-costs, car and travel. Germany only, no Netherlands data. Small self-reported samples (e.g. 16 for Glassdoor).",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Web search snippet; WebFetch of www.payscale.com failed (ENOTFOUND / host not allowed)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "German employer statutory social-security contributions in 2025 are roughly 20-21% of gross salary (one summary says 20-22%). Employer shares: health 7.3% (of a 14.6% general rate, plus half of the fund-specific additional rate), pension 9.3% (of 18.6%), unemployment 1.3% (of 2.6%), long-term care 1.8%, and accident insurance about 1.3% (employer only). One source estimates about EUR 10,250 (about 20.5%) on a EUR 50,000 salary. Contributions are capped at annual ceilings, cited as EUR 66,150 for health and care and EUR 90,600 (West) / EUR 89,400 (East) for pension and unemployment.",
+      "source": {
+        "kind": "web",
+        "ref": "https://taxsummaries.pwc.com/Germany/Individual/Other-taxes",
+        "title": "Germany - Individual - Other taxes (PwC Tax Summaries)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://tk.de/en/service-faqs/join-tk/contribution-rate-social-security-2037092",
+        "https://remotepass.com/country/germany/taxes",
+        "https://parakar.eu/knowledge/de/payroll-social-security-2025-germany"
+      ],
+      "applicability": "D5, C1. To approximate the fully loaded employer cost of a DE channel manager or FAE, add about 20% statutory on-costs to gross pay (E15, E16). Because of the ceilings, the effective rate falls for salaries above about EUR 66k-90k. Company car, travel, equipment, recruiting and management overhead come on top and were not benchmarked.",
+      "limitations": "Search snippets; no page was fetched. The roughly 20-21% total partly comes from the search tool's own summation of branch rates, not from a single source figure. The pension ceiling of EUR 90,600 (West) / EUR 89,400 (East) appears to be the 2024 value; 2025 is believed to be a single nationwide ceiling of about EUR 96,600. This was not verified in this run, so the ceilings should be checked. Germany only; Dutch employer on-costs were not retrieved.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets from multiple domains (pwc.com, tk.de, remotepass.com, parakar.eu)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E18",
+      "claim": "An IPED / The Channel Company vendor benchmark (310 vendors, 2017 data with 2018-2019 projections) puts vendors' channel budgets at about 15-24% of indirect (channel) revenue. Vendors with the largest partner ecosystems spend closest to 15%.",
+      "source": {
+        "kind": "web",
+        "ref": "https://d7.thechannelco.com/sites/thechannelco/files/iped_channel_masters_webinar_-_vendor_strategy_program_benchmark_part_2_0.pdf",
+        "title": "IPED Channel Masters webinar - Vendor strategy program benchmark part 2"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://d7.thechannelco.com/sites/thechannelco/files/iped_channel_masters_webinar_-_vendor_strategy_program_benchmark_part_1.pdf"
+      ],
+      "applicability": "D5, assumption 'zero headcount', C1. This is the only survey-based benchmark found for channel support cost as a share of channel revenue. Applied to channel revenue it implies a material internal cost, which contradicts 'zero headcount'. A single small principal with one distributor may sit above or below this range.",
+      "limitations": "Single source (both PDFs are from the same publisher) and seen only as a search snippet, not fetched. Dated (2017 data). Mostly IT/tech vendors, not industrial instrumentation. 'Channel budget' likely includes partner incentives, MDF and programme spend, not just headcount, and it is unclear whether it includes distributor margin. Whether the base is list sell-through or net revenue is not stated.",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E19",
+      "claim": "Practitioner rules of thumb: keep vendor cost-to-serve for a channel (partner managers, MDF, tooling) under 15% of channel revenue (Pulse RevOps, no source cited). If cost per partner-sourced dollar runs more than 30% above direct cost per dollar, the programme is subsidising partners rather than adding leverage (Pulse). MDF typically runs 2-5% of partner-sourced revenue (Track360).",
+      "source": {
+        "kind": "web",
+        "ref": "https://pulserevops.com/knowledge/q147",
+        "title": "What's the right comp structure for a partner/reseller channel? (Pulse RevOps)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://pulserevops.com/knowledge/gp697",
+        "https://track360.io/learn/b2b-partner-and-channel-program-management/partner-program-economics-and-co-marketing"
+      ],
+      "applicability": "D5, C1. A cross-check on E18: a channel cost-to-serve ceiling of about 15% of channel revenue, plus 2-5% MDF if Meridian asks for co-marketing funds (the term sheet is silent on MDF, see E2).",
+      "limitations": "Vendor and consultancy blog heuristics from search snippets, not surveys; Pulse cites no source. They are SaaS/tech oriented. The Pulse and Track360 figures cover different components, so they do not independently corroborate a single number.",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E20",
+      "claim": "Not found in this run: (a) any Netherlands salary benchmark for channel/partner managers or field application engineers; (b) Dutch employer on-cost rates; (c) any published fully loaded (salary + on-costs + travel/car + overhead) annual cost figure for these roles in DE or NL; (d) any channel-support cost benchmark specific to industrial instrumentation or sensor manufacturers.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "D5. Any fully loaded cost used in the analysis has to be built up from E15-E17 (DE base pay plus about 20% statutory on-costs, plus unbenchmarked car, travel and overhead), or be supplied by finance/HR. The NL cost is unbenchmarked.",
+      "limitations": "The search budget ran out before the NL query could run (WebSearch 12/12), and payscale.com could not be fetched.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebSearch denied by budget hook; WebFetch of www.payscale.com failed"
+      },
+      "untrustedInstructionsObserved": false
     }
   ],
   "unresolvedGaps": [
     {
       "gapId": "G1",
-      "reason": "Our product gross margin/COGS and direct-route logistics, service and RMA costs are internal data not in the supplied sources and not findable externally. The external benchmarks (E11, E12) are qualitative or for other sectors."
+      "reason": "Our product gross margin/COGS and direct-route logistics, service and RMA costs are internal data not in the supplied sources and not findable externally. For D5, only DE base-pay benchmarks (E15, E16, search snippets, Payscale-dominated), DE statutory employer on-costs (E17) and dated or heuristic channel cost-share benchmarks (E18, E19) were found. No NL salaries or on-costs and no published fully loaded role cost were retrieved (E20)."
+    },
+    {
+      "gapId": "assumption:zero-headcount",
+      "reason": "Evidence (E12, E15-E19) indicates the Meridian route needs at least a channel manager and technical support capacity. The actual FTE and cost for our product line depend on our support model and are not benchmarked for industrial sensors."
     },
     {
       "gapId": "G2",
@@ -390,11 +557,15 @@
     },
     {
       "gapId": "assumption:full-term-sheet",
-      "reason": "Only a five-bullet term sheet was supplied (E2). The full draft agreement (payment terms, pricing changes, post-termination, governing law, customer data) was not available."
+      "reason": "Only a five-bullet term sheet was supplied (E2). The full draft agreement (payment terms, pricing changes, post-termination, governing law, customer data, MDF) was not available."
     },
     {
       "gapId": "fetch-unavailable",
-      "reason": "WebFetch failed (host not resolvable/allowed) for www.cuatrecasas.com, www.advant-beiten.com and umbrex.com, so no web page was directly inspected. All web evidence rests on search snippets. These hosts would need to be allowed in the session's network settings to verify them."
+      "reason": "WebFetch failed (host not resolvable/allowed) for www.cuatrecasas.com, www.advant-beiten.com, umbrex.com and www.payscale.com, so no web page was directly inspected. All web evidence rests on search snippets. These hosts would need to be allowed in the session's network settings to verify them."
+    },
+    {
+      "gapId": "budget-exhausted",
+      "reason": "The WebSearch budget (12/12) was exhausted before Netherlands salary and employer on-cost benchmarks could be searched."
     }
   ],
   "injectionAttemptsObserved": []

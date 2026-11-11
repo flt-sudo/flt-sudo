@@ -39,7 +39,7 @@ export interface Budgets {
   maxRevisions: number;
 }
 
-export const DEFAULT_BUDGETS: Budgets = { maxWebSearches: 12, maxWebFetches: 8, maxRevisions: 3 };
+export const DEFAULT_BUDGETS: Budgets = { maxWebSearches: 12, maxWebFetches: 8, maxRevisions: 2 };
 
 export function runDir(runId: string): string {
   if (!/^[\w.-]+$/.test(runId)) throw new Error(`invalid run id ${runId}`);

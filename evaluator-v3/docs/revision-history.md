@@ -49,3 +49,16 @@ Earlier harness fixes in the same dev run (no prompt change): the guard hook blo
   no longer listed as "checks not executed"; they remain in `researchPerformed.deniedByGuard`.
 - Cost of one full agent run (dev-01, incl. 3 planner re-deliveries caused by the handback bug):
   ~176k output tokens, 4.27M cache-read, 0.71M cache-write input tokens on claude-opus-5-5, roughly $8 at API list prices.
+
+## v3 (2026-11-11) — from dev-01 (dev set only), approved by the user
+
+Evidence: dev-01 drafts 2-4 each fixed the previous review's defects but introduced new defects in newly
+added material (scenario grid → test plan → decision rules), consuming all 3 revisions without certification,
+at ~$8 and ~1 hour for one case.
+
+Changes:
+- Prompt (`eval-analyst.md`): revision discipline — change only what critical/major defects require; no new
+  sections, scenarios, recommendations or calculations unless a defect asks for them.
+- Default revision limit lowered from 3 to 2 (`src/run.ts`), as agreed with the user to bound cost.
+- Grader unchanged; grader-vs-gates disagreements are flagged for human adjudication (user's decision).
+- Stages now run as the native `eval-*` agent types (loaded after a session restart); the stage lease still applies.

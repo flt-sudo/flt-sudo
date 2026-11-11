@@ -1,0 +1,498 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "The 90-day page CSV has these rows (alert, pages, led_to_human_action): disk-usage-warning-80pct 148/0; queue-lag-warning 121/2; cert-check-flap 66/0; api-5xx-rate-high 71/63; db-replica-lag 48/41; payment-webhook-failures 39/37; other (14 alerts) 47/30. The footer says: '# total pages: 540; 58% of pages fired between 20:00 and 08:00 US Pacific time'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "pages-last-90-days.csv",
+        "title": "pages-last-90-days.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the base data for G1, G2 and the assumption that the total is 540.",
+      "limitations": "Counts are aggregated per alert. There are no per-page timestamps, no breakdown by office or shift, and no severity field. 'other (14 alerts)' is a single combined row. The 58% figure is a free-text annotation with no data behind it.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied CSV file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Recomputed from the CSV: the rows sum to 148+121+66+71+48+39+47 = 540, which matches the stated total. Actionable pages sum to 0+2+0+63+41+37+30 = 173, so the actionable rate is 173/540, about 32.0%. The three noise alerts (disk-usage-warning-80pct, queue-lag-warning, cert-check-flap) account for 335 pages (about 62.0% of all pages) and 2 actions (about 0.6% actionable). The other four rows have 205 pages and 171 actions (about 83.4% actionable). Removing or demoting the three noise alerts would cut page volume by about 62%, from about 6.0 to about 2.3 pages per day, and would drop only 2 of 173 actionable pages.",
+      "source": {
+        "kind": "fixture",
+        "ref": "pages-last-90-days.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Confirms the planner's quick read (173/540, about 32%; about 335 pages with 2 actions). It shows that alert hygiene is the single biggest lever on total load (C1, C2, C6).",
+      "limitations": "This is arithmetic on aggregated counts. It assumes 'led_to_human_action' is recorded reliably and that demoted alerts would not hide real incidents (queue-lag-warning did have 2 actions). Per-day figures assume pages are spread evenly over 90 days.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Manual summation of the CSV rows"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "The claim that 58% of pages fired between 20:00 and 08:00 PT cannot be checked against the data. The CSV has no timestamps. 58% of 540 is 313.2, which is not a whole number, so the figure is rounded or estimated. Nothing shows the hour-of-day distribution of actionable pages, or whether night pages are mostly noise.",
+      "source": {
+        "kind": "fixture",
+        "ref": "pages-last-90-days.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G2 stays open. Conclusions about night-load reduction under follow-the-sun depend on raw timestamped page logs, which have not been supplied.",
+      "limitations": "Raw page logs with timestamps are needed. Night share after noise removal is UNKNOWN.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Inspected CSV structure; arithmetic check of 0.58*540"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "Roster: San Francisco (US Pacific) has 5 engineers and Berlin (Central European Time) has 4. Current setup is 1 primary on a weekly 24/7 rotation with handoff Mondays 10:00 PT, and no secondary.",
+      "source": {
+        "kind": "fixture",
+        "ref": "roster.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Base input for G4 (frequency per person) and C3 (fairness).",
+      "limitations": "Gives no information on skills, service ownership or runbook coverage per office, so the assumption that both offices can handle every alert type independently remains unverified.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "HR notes say: (1) in Berlin, any change to on-call schedules needs consultation with and approval by the works council (Betriebsrat), with a typical lead time of 4-8 weeks; (2) in Berlin, a night call-out interrupts the statutory 11-hour rest period, and the engineer may not start regular work until 11 hours after the call-out ends; (3) the US on-call stipend is $400/week for primary, and Germany pays an on-call allowance 'per collective policy' (no amount given); (4) in the Sep 2026 burnout survey, 7 of 9 named night pages as the main stressor.",
+      "source": {
+        "kind": "fixture",
+        "ref": "hr-notes.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Hard constraints for C4 and C6, plus the survey evidence for C1.",
+      "limitations": "The German allowance amount is not given, so pay fairness cannot be quantified. No US secondary stipend is specified. The 4-8 week lead time is internal HR experience, not a statutory period.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "The Google SRE book (Ch. 11 'Being On-Call', Appendix B) and the SRE Workbook on-call chapter set a target of at most 2 incidents (events) per 12-hour on-call shift, so that there is time for follow-up and postmortems.",
+      "source": {
+        "kind": "web",
+        "ref": "https://sre.google/sre-book/being-on-call/",
+        "title": "Chapter 11 - Being On-Call"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://sre.google/workbook/on-call/",
+        "https://sre.google/sre-book/service-best-practices/",
+        "https://medium.com/@jerub/8af6238ae8a8"
+      ],
+      "applicability": "External benchmark for G6. The current raw load is about 6 pages/day (about 3 per 12h, or about 42 per 24/7 week), which is above this ceiling. After noise removal it is about 2.3/day (about 1.1 per 12h), which is within it. Pages are not the same as incidents, though.",
+      "limitations": "Taken only from search snippets. The direct fetch of sre.google failed (host not reachable in this environment). The corroborating refs are search results, not inspected pages. The figure counts incidents, not pages.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of sre.google failed with ENOTFOUND; relied on search-result summaries"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "SRE book guidance on team size, as given in search results: at least 8 engineers for a single-site on-call team, or at least 6 per site for a team split across two well-separated sites (multi-site). On-call should be no more than 25% of SRE time, framed as a share of the non-engineering half. A USENIX piece reports that many teams in practice treated 7 per site as the minimum.",
+      "source": {
+        "kind": "web",
+        "ref": "https://sre.google/sre-book/being-on-call/",
+        "title": "Chapter 11 - Being On-Call"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://sre.google/sre-book/service-best-practices/",
+        "https://usenix.org/node/285214"
+      ],
+      "applicability": "The team has 5 SF and 4 Berlin engineers, below the 6-per-site multi-site benchmark. This points to sustainability risk for follow-the-sun at either site, especially Berlin (relevant to C3 and C5).",
+      "limitations": "Search-snippet summaries only; the source page could not be fetched. Google's figures assume Google-scale services and may not transfer directly.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G4"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Search snippets only; sre.google fetch failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "SRE guidance on alerting (Ch. 6 'Monitoring Distributed Systems', as summarised in secondary notes): every page should be actionable and urgent and should need human judgement. Alert on user-visible symptoms, not causes. Cause-type signals such as disk usage percentages belong on dashboards unless they directly threaten user impact.",
+      "source": {
+        "kind": "web",
+        "ref": "https://sre.google/sre-book/monitoring-distributed-systems/",
+        "title": "Chapter 6 - Monitoring Distributed Systems"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.usenix.net/sites/default/files/conference/protected-files/srecon16europe_slides_rabenstein.pdf",
+        "https://nds.srht.site/posts/sre-handbook-monitoring-distributed-systems/"
+      ],
+      "applicability": "Supports demoting disk-usage-warning-80pct (a cause-based warning) and the flapping or warning alerts to tickets or dashboards (C2).",
+      "limitations": "Search-result summaries of secondary notes. The official chapter text was not retrieved.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Follow-the-sun handoff practices described in vendor guidance: an overlap window of about 30 minutes in which both outgoing and incoming engineers are reachable; a fixed-format written handoff (active issues, recent deploys, watch list) posted in a known channel at a known time, treated as mandatory; at least 3 engineers per timezone to avoid single points of failure. Public holidays differ by country, and many global teams pair follow-the-sun with traditional rotations for weekends or low-staffed hours.",
+      "source": {
+        "kind": "web",
+        "ref": "https://incident.io/blog/on-call-best-practices-guide-2026",
+        "title": "On-call best practices: handoffs, schedules, and alert fatigue"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://rootly.com/blog/distributed-and-global-on-call-best-practices-for-24-7-teams",
+        "https://oack.io/blog/on-call-rotation-design"
+      ],
+      "applicability": "Handoff safeguards for option (b) or a hybrid (C5). The holiday-mismatch point matters for US and German public holidays.",
+      "limitations": "Vendor blogs, i.e. opinion rather than standards. Search snippets only; I could not tell which vendor made which specific claim. No empirical data on handoff-related incident risk was found.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "DST dates in 2026: the US springs forward Sunday 8 March 2026 and falls back Sunday 1 November 2026. The EU moves to summer time on 29 March 2026 and back on 25 October 2026 (last Sundays of March and October, at 01:00 UTC). The US-Europe offset is therefore 1 hour shorter from 8-29 March and from 25 October to 1 November.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.universaltimedate.com/articles/daylight-saving-time-2026-when-clocks-change",
+        "title": "Daylight Saving Time 2026: When Clocks Change in Every Major Country"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://time.is/DST/Washington, D.C."
+      ],
+      "applicability": "Refutes the planner assumption of a constant 9-hour offset. PT-Berlin is 9h normally and 8h for about 3 weeks in March and 1 week in late Oct/early Nov (G3, C5).",
+      "limitations": "Search snippets from two non-official timekeeping sites. One universaltimedate entry was reported as partly garbled. The 8h figure for PT/CET is derived from UTC offsets (PDT UTC-7 vs CET UTC+1), not stated by the source.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from two independent domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "Shift-boundary analysis, derived from the offsets in E10. With a 9h offset, Berlin 07:00-19:00 CET corresponds to 22:00-10:00 PT, so SF covers 10:00-22:00 PT. Neither office then has duty in the local 22:00-06:00 window, nor in the German statutory night window of 23:00-06:00. The alternative, Berlin 05:00-17:00 CET (20:00-08:00 PT) with SF on 08:00-20:00 PT, puts Berlin 1 hour (05:00-06:00) inside the German night window. During the 8h-offset weeks, if boundaries are fixed to Berlin local time (07:00-19:00), SF's half becomes 11:00-23:00 PT, adding 1 hour of SF local late evening (22:00-23:00). If boundaries are fixed to SF time instead, Berlin's shift shifts to 06:00-18:00.",
+      "source": {
+        "kind": "fixture",
+        "ref": "roster.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G3: a 07:00-19:00 Berlin / 10:00-22:00 PT split removes local-night duty for both offices, which is central to C1 and C4. Overnight call-outs for Berlin, and the 11h-rest effects that come with them, would be largely avoided, though a call-out ending at 19:00 still pushes next-day start to 06:00 or later.",
+      "limitations": "This is my own reasoning. Weekends, holidays and incidents that cross the boundary are not modelled. Whether actionable pages cluster near boundaries is unknown because there are no timestamps (E3).",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on UTC offsets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "Per-person burden, derived from the roster and CSV. Option (a): each engineer is primary 1 week in 9, and with a secondary also on a 9-person rotation, is on call (primary or secondary) about 2 weeks in 9. The 24/7 night exposure is unchanged. Option (b): each office covers 84 h/week, which is about 16.8 h per SF engineer per week vs 21 h per Berlin engineer per week, so Berlin carries about 25% more on-call hours per person (or, in weekly blocks, 1 week in 5 for SF vs 1 week in 4 for Berlin). Raw load is 540 pages/90 days, about 6/day, about 42 per 24/7 week (about 3 per 12h shift). After removing the 3 noise alerts it is about 2.3/day, about 16 per week (about 1.1 per 12h shift).",
+      "source": {
+        "kind": "fixture",
+        "ref": "roster.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "pages-last-90-days.csv"
+      ],
+      "applicability": "G4 fairness quantification for C3: follow-the-sun removes nights but makes Berlin's per-person load heavier.",
+      "limitations": "Pages per shift assume an even split. The 58% night figure (unverified) would shift more pages into the Berlin half under a 22:00-10:00 PT split. How the secondary would be paged, and how often, is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic from supplied files"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "German secondary sources on ArbZG s.5: employees must have at least 11 hours of uninterrupted rest after daily working time ends. On-call standby (Rufbereitschaft) counts as rest unless the employee is actually called to work. A call-out generally restarts the full 11-hour rest regardless of how long it lasted. There are exceptions (e.g. hospitals, s.5(3)) and room for collective-agreement deviations.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.haufe.de/id/beitrag/ruhezeiten-arbeitsrecht-HI727265.html",
+        "title": "Ruhezeiten Arbeitsrecht (Haufe)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://arbeitsrechte.de/rufbereitschaft",
+        "https://epetitionen.bundestag.de/petitionen/_2014/_11/_24/Petition_56087.abschlussbegruendungpdf.pdf"
+      ],
+      "applicability": "Consistent with HR note E5. Under option (a), any Berlin primary or secondary with night call-outs triggers the rest restart and reduces next-day capacity (C4, G5).",
+      "limitations": "The statute text was not retrieved (the fetch of gesetze-im-internet.de failed). Search snippets only. Exact attribution of each point to each domain is approximate.",
+      "contradicts": [
+        "E14"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of gesetze-im-internet.de failed (ENOTFOUND); search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "Some German commentary (a Luther law-firm publication from 2012, an LMU ZAAR lecture handout, hrworks) argues that trivial interruptions such as a short phone call or email may not count as interrupting the rest period ('Bagatelle' / teleological reduction). The boundary is disputed and fluid.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.luther-lawfirm.com/uploads/tx_fwluther/2012_Smartphone_versus_Arbeitsrecht.pdf",
+        "title": "2012 Smartphone versus Arbeitsrecht"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.zaar.uni-muenchen.de/veranstaltungen/vortragsreihe/archiv/2024/picker24/handout.pdf",
+        "https://www.hrworks.de/lexikon/rufbereitschaft/"
+      ],
+      "applicability": "Even a short remote acknowledgement of a page at night may restart rest under the strict view. This is a legal uncertainty that favours keeping Berlin off night duty, and it should go to labour counsel (G5, C4).",
+      "limitations": "A minority or contested view, from search snippets only. Not case law.",
+      "contradicts": [
+        "E13"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "Under BetrVG s.87(1) no.2 the works council has co-determination rights over the start and end of daily working time and how it is distributed. On-call (Rufbereitschaft) periods count as working time for this purpose, so both introducing on-call and drawing up the on-call plan need works council agreement. The local works council is normally competent. If no agreement is reached, the conciliation board (Einigungsstelle) decides and its ruling replaces the agreement (s.87(2)). Whether s.87(1) no.3 applies is disputed; most sources say it usually does not for permanent on-call arrangements.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.dgb-bildungswerk-nrw.de/downloads/igm/2017/FMTagung/IG-Metall_Muster_BV_Notdienst_und_Rufbereitschaft_im_Elektro-Handwerk.pdf",
+        "title": "IG Metall Muster BV Notdienst und Rufbereitschaft"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.rechtslupe.de/arbeitsrecht/rufbereitschaft-fuer-mehrere-betriebe-und-der-gesamtbetriebsrat-3102820",
+        "https://www.betriebsrat.de/betriebsratslexikon/br/rufbereitschaft",
+        "https://www.rechtslupe.de/arbeitsrecht/der-einigungsstellenspruch-zur-schichtarbeit-367156"
+      ],
+      "applicability": "Confirms that the HR note's approval gate is a legal requirement for both options (a secondary role and a 12h shift plan both change the Berlin on-call plan). Deadlock leads to the Einigungsstelle, which could take longer than 4-8 weeks (C4, C6).",
+      "limitations": "Search snippets of secondary sources. The statute text could not be fetched. Whether alert-tuning changes alone need works council involvement was not researched (note that monitoring-related co-determination under s.87(1) no.6 was not checked).",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of gesetze-im-internet.de failed; search snippets only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "ArbZG s.2(3) defines night time as 23:00-06:00. Under s.2(4), night work is any work covering more than 2 hours of night time.",
+      "source": {
+        "kind": "web",
+        "ref": "https://lexetius.com/ArbZG/2",
+        "title": "§ 2 ArbZG. Begriffsbestimmungen"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.buzer.de/2_ArbZG.htm",
+        "https://baymevbm.de/Redaktion/Frei-zugaengliche-Medien/Abteilungen-GS/Recht/2025/Downloads/Info-Recht-Arbeitszeit-bayme-vbm-Juli-2025.pdf"
+      ],
+      "applicability": "A Berlin shift starting at 07:00 sits entirely outside the statutory night window. One starting at 05:00 overlaps it by 1h (G3, C4).",
+      "limitations": "Search snippets only.",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "German on-call pay varies by agreement. In public-sector tariffs (TVöD), on-call under 12h is paid hourly at 12.5% of the hourly wage on weekdays (15% Saturday, 25% Sunday/holiday), and periods over 12h at a flat daily rate. In the private sector there is no statutory rate; pay is set by contract or works agreement, often 12.5-25% of the hourly wage. Actual call-out work is paid as working time.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.fachanwalt.de/magazin/arbeitsrecht/rufbereitschaft",
+        "title": "Rufbereitschaft (fachanwalt.de)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.taxmaro.com/post/rufbereitschaft-verguetung",
+        "https://www.kommunalforum.de/tv_v_rufbereitschaft_bereitschaftsdienst.php"
+      ],
+      "applicability": "For G5 pay fairness: the company's actual 'collective policy' allowance is unknown, so it cannot be compared with the US $400/week. A 12h daytime shift may pay differently from a 24h block depending on the agreement.",
+      "limitations": "These are general examples, not the company's policy. Some figures come from blogs or older tariff versions. Search snippets only.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E18",
+      "claim": "No evidence is available on whether both offices have equal skills, service ownership and runbook or access coverage for every alert type, which follow-the-sun requires.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "A rollout precondition for option (b) or a hybrid (C5).",
+      "limitations": "Not in the supplied documents and not findable externally.",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not available"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E19",
+      "claim": "The burnout survey (7 of 9 cite night pages) together with the CSV (62% of pages come from 3 alerts with almost no actions) suggests that structure (night exposure) and volume (noise) are separate contributors. Whether most night pages are noise cannot be confirmed without timestamps.",
+      "source": {
+        "kind": "fixture",
+        "ref": "hr-notes.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "pages-last-90-days.csv"
+      ],
+      "applicability": "Tests the user's assumption that burnout is caused mainly by the rotation structure (C1, C2).",
+      "limitations": "Reasoned from two supplied files. Night-page composition is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Cross-reading supplied files"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G2",
+      "reason": "The CSV has no per-page timestamps. The hour-of-day distribution of all pages and of actionable pages, and the 58% 20:00-08:00 PT claim, cannot be verified. Raw timestamped page logs are needed."
+    },
+    {
+      "gapId": "G5",
+      "reason": "The German collective on-call allowance amount is not in the HR notes, so it cannot be compared with the $400/week US stipend. No US secondary stipend is defined. The ArbZG s.5 and BetrVG s.87 statute texts could not be fetched (www.gesetze-im-internet.de was unreachable, ENOTFOUND, and needs to be allowed in network settings). Legal points rest on search snippets and need confirmation from HR or labour counsel. Whether alert-tuning changes need works council involvement was not researched."
+    },
+    {
+      "gapId": "G6",
+      "reason": "sre.google was unreachable (ENOTFOUND; needs to be allowed in network settings), so the SRE book figures (2 incidents per 12h shift, 8 single-site / 6 per site, 25% cap) come only from search snippets. No empirical study of handoff-related incident risk in follow-the-sun was found."
+    },
+    {
+      "gapId": "G3",
+      "reason": "Office skills, ownership and runbook coverage per office are unknown (E18). Weekend and public-holiday coverage under follow-the-sun was not modelled."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

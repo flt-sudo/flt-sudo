@@ -1,0 +1,253 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C3; practicalImplications[0]; alternatives b1/b2; edgeCasesAndFailureModes] The capacity report covers the primary only ('prod-orders-pg, primary'), and E7 records 2 read replicas. A streaming physical replica holds the same data, so it fills at the same rate unless its volume is grown too. The draft's resize plan (verdict, C3, practicalImplications item 1, alternative b1) talks only about 'the volume'. It never says the two replica volumes, and any standby or backup target, must be grown first or at the same time. It also never says that a mass DELETE, pg_repack or partition export produces a WAL burst that has to fit on both the primary and the replicas. G3 in the packet asks about 'effects on replicas and backups', and the draft only touches this through the unresearched 'replica rebuild times'. A team that follows the plan as written could resize the primary and still lose a replica to a full disk."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "deterministic",
+          "detail": "1 evidence classification violation(s) downgraded by registry"
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict; CL3; K9; criteriaAssessments C1] 'Above a typical 90% alert line' and the 95% 'safety line' (K9) are presented as standard thresholds with no source. They drive the 'resize within days' urgency claim (CL3), so they should be labelled as assumed thresholds."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [CL8; K19; criteriaAssessments C2; alternatives b3; practicalImplications[3]] K19/CL8 state that pg_repack needs 'roughly 480 GB free' (2 x 240 GB), and CL8 presents this as a material finding. The packet itself (E14) warns that the '2x' wording needs checking. pg_repack's '2x the target table' usually describes the total footprint of the original plus its copy, so the extra free space needed is about the size of the rebuilt copy plus its indexes (on the order of 240 GB or less), not 480 GB. If '2x' instead applies to the physical (bloated) 1,020 GB table, the figure is far larger. In either case 480 GB rests on an unverified interpretation. The 'resize first' conclusion still holds because 240 > 160, but the number should be shown as a range with its assumption stated."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [alternatives b2; CL5; K12; criteriaAssessments C6] There is an internal inconsistency. Alternative b2 claims 'about 26.9 months of runway even without the resize' (K12), while CL8 and b3 say that if audit_events is unpartitioned, archival cannot reclaim space unless the resize happens first. The 26.9-month figure therefore only holds without a resize if the table is partitioned (or the DELETE-and-reuse path from D2 is used, which changes the arithmetic). K12 also assumes that total growth stays at 35 GB/month after a rolling 12-month retention job. That ignores the fact that capping audit_events (about 240 GB over roughly 13 months, so about 18 GB/month) would roughly halve net growth. The runway estimate is conservative but not internally coherent."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [alternatives b3; CL8; criteriaAssessments C2 mechanisms; tradeoffs[2]] Alternative b3 ('archive only, without a resize') is rejected because pg_repack needs about 480 GB free. That reasoning assumes the freed space has to be returned to the OS. audit_events is append-only (E5). The draft's own E12 says plain VACUUM keeps freed space for reuse within the same table. So exporting and then batch-DELETEing the old rows, with no rewrite at all, would let new audit inserts reuse roughly 780 GB inside the table. That stops audit_events from growing on disk for years and cuts net disk growth to only the non-audit tables, with no exclusive lock and no extra free space for a rewrite. The draft never weighs this cheaper option. It also never weighs the option's real risks: WAL volume from a 780 GB DELETE on a disk that is 92% full, vacuum load, and replica lag. Those risks, not the pg_repack space need, are what should drive the order of resize and archival. The fair comparison and the case for resizing first are therefore not properly argued."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [criteriaAssessments C5; CL9; counterarguments[0]] The C5 opportunity cost of a 2-3 quarter feature freeze is described only in words. Even a rough frame, such as team size multiplied by the freeze length compared with a resize plus archival effort of days to weeks, would make the trade-off explicit for the architecture review as C5 asks. Separately, CL9 (decades of runway up to 16 TB) is marked non-material even though the verdict relies on it, and the draft does not discuss whether a 16 TB single node is operationally acceptable (backup, restore, PITR time) beyond one weakness bullet."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "1725 - 1690",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "1760 - 1725",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "1840 - 1760",
+      "claimed": 80,
+      "actual": 80,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "80 - 45",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "2000 - 1840",
+      "claimed": 160,
+      "actual": 160,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "1840 / 2000 * 100",
+      "claimed": 92,
+      "actual": 92,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "160 / 35",
+      "claimed": 4.57,
+      "actual": 4.571428571428571,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "160 / 80",
+      "claimed": 2,
+      "actual": 2,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(2000 * 0.95 - 1840) / 35",
+      "claimed": 1.71,
+      "actual": 1.7142857142857142,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "1840 - 780",
+      "claimed": 1060,
+      "actual": 1060,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(1840 - 780) / 2000 * 100",
+      "claimed": 53,
+      "actual": 53,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(2000 - (1840 - 780)) / 35",
+      "claimed": 26.9,
+      "actual": 26.857142857142858,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "9000 / 2150",
+      "claimed": 4.19,
+      "actual": 4.186046511627907,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "410 / 1000 * 100",
+      "claimed": 41,
+      "actual": 41,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(16000 - 1840) / 35 / 12",
+      "claimed": 33.7,
+      "actual": 33.714285714285715,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "1020 + 310 + 240 + 150 + 40 + 80",
+      "claimed": 1840,
+      "actual": 1840,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1020 / 1840 * 100",
+      "claimed": 55.4,
+      "actual": 55.434782608695656,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "1020 - 780",
+      "claimed": 240,
+      "actual": 240,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "2 * (1020 - 780)",
+      "claimed": 480,
+      "actual": 480,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(4000 - 1840) / 35",
+      "claimed": 61.7,
+      "actual": 61.714285714285715,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "(2000 - (1840 - 780)) / 80",
+      "claimed": 11.75,
+      "actual": 11.75,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "(16000 - 1840) / 105 / 12",
+      "claimed": 11.2,
+      "actual": 11.238095238095239,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C3; practicalImplications[0]; alternatives b1/b2; edgeCasesAndFailureModes] The capacity report covers the primary only ('prod-orders-pg, primary'), and E7 records 2 read replicas. A streaming physical replica holds the same data, so it fills at the same rate unless its volume is grown too. The draft's resize plan (verdict, C3, practicalImplications item 1, alternative b1) talks only about 'the volume'. It never says the two replica volumes, and any standby or backup target, must be grown first or at the same time. It also never says that a mass DELETE, pg_repack or partition export produces a WAL burst that has to fit on both the primary and the replicas. G3 in the packet asks about 'effects on replicas and backups', and the draft only touches this through the unresearched 'replica rebuild times'. A team that follows the plan as written could resize the primary and still lose a replica to a full disk."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [alternatives b3; CL8; criteriaAssessments C2 mechanisms; tradeoffs[2]] Alternative b3 ('archive only, without a resize') is rejected because pg_repack needs about 480 GB free. That reasoning assumes the freed space has to be returned to the OS. audit_events is append-only (E5). The draft's own E12 says plain VACUUM keeps freed space for reuse within the same table. So exporting and then batch-DELETEing the old rows, with no rewrite at all, would let new audit inserts reuse roughly 780 GB inside the table. That stops audit_events from growing on disk for years and cuts net disk growth to only the non-audit tables, with no exclusive lock and no extra free space for a rewrite. The draft never weighs this cheaper option. It also never weighs the option's real risks: WAL volume from a 780 GB DELETE on a disk that is 92% full, vacuum load, and replica lag. Those risks, not the pg_repack space need, are what should drive the order of resize and archival. The fair comparison and the case for resizing first are therefore not properly argued."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Is audit_events time-range partitioned, and does it carry foreign keys or have readers of rows older than 12 months (pg_stat_statements or query logs)?",
+    "Which cloud platform and deployment (EBS self-managed, RDS Multi-AZ or Single-AZ, other) hosts prod-orders-pg, and what are its real resize limits, cost and downtime behaviour?",
+    "What does a 12-24 month storage history show about organic growth, and how much of the roughly 35 GB/month comes from audit_events versus the transactional tables?"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The capacity report covers the primary only ('prod-orders-pg, primary'), and E7 records 2 read replicas. A streaming physical replica holds the same data, so it fills at the same rate unless its volume is grown too. The draft's resize plan (verdict, C3, practicalImplications item 1, alternative b1) talks only about 'the volume'. It never says the two replica volumes, and any standby or backup target, must be grown first or at the same time. It also never says that a mass DELETE, pg_repack or partition export produces a WAL burst that has to fit on both the primary and the replicas. G3 in the packet asks about 'effects on replicas and backups', and the draft only touches this through the unresearched 'replica rebuild times'. A team that follows the plan as written could resize the primary and still lose a replica to a full disk.",
+      "location": "criteriaAssessments C3; practicalImplications[0]; alternatives b1/b2; edgeCasesAndFailureModes",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "Alternative b3 ('archive only, without a resize') is rejected because pg_repack needs about 480 GB free. That reasoning assumes the freed space has to be returned to the OS. audit_events is append-only (E5). The draft's own E12 says plain VACUUM keeps freed space for reuse within the same table. So exporting and then batch-DELETEing the old rows, with no rewrite at all, would let new audit inserts reuse roughly 780 GB inside the table. That stops audit_events from growing on disk for years and cuts net disk growth to only the non-audit tables, with no exclusive lock and no extra free space for a rewrite. The draft never weighs this cheaper option. It also never weighs the option's real risks: WAL volume from a 780 GB DELETE on a disk that is 92% full, vacuum load, and replica lag. Those risks, not the pg_repack space need, are what should drive the order of resize and archival. The fair comparison and the case for resizing first are therefore not properly argued.",
+      "location": "alternatives b3; CL8; criteriaAssessments C2 mechanisms; tradeoffs[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K19/CL8 state that pg_repack needs 'roughly 480 GB free' (2 x 240 GB), and CL8 presents this as a material finding. The packet itself (E14) warns that the '2x' wording needs checking. pg_repack's '2x the target table' usually describes the total footprint of the original plus its copy, so the extra free space needed is about the size of the rebuilt copy plus its indexes (on the order of 240 GB or less), not 480 GB. If '2x' instead applies to the physical (bloated) 1,020 GB table, the figure is far larger. In either case 480 GB rests on an unverified interpretation. The 'resize first' conclusion still holds because 240 > 160, but the number should be shown as a range with its assumption stated.",
+      "location": "CL8; K19; criteriaAssessments C2; alternatives b3; practicalImplications[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "There is an internal inconsistency. Alternative b2 claims 'about 26.9 months of runway even without the resize' (K12), while CL8 and b3 say that if audit_events is unpartitioned, archival cannot reclaim space unless the resize happens first. The 26.9-month figure therefore only holds without a resize if the table is partitioned (or the DELETE-and-reuse path from D2 is used, which changes the arithmetic). K12 also assumes that total growth stays at 35 GB/month after a rolling 12-month retention job. That ignores the fact that capping audit_events (about 240 GB over roughly 13 months, so about 18 GB/month) would roughly halve net growth. The runway estimate is conservative but not internally coherent.",
+      "location": "alternatives b2; CL5; K12; criteriaAssessments C6",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "'Above a typical 90% alert line' and the 95% 'safety line' (K9) are presented as standard thresholds with no source. They drive the 'resize within days' urgency claim (CL3), so they should be labelled as assumed thresholds.",
+      "location": "verdict; CL3; K9; criteriaAssessments C1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The C5 opportunity cost of a 2-3 quarter feature freeze is described only in words. Even a rough frame, such as team size multiplied by the freeze length compared with a resize plus archival effort of days to weeks, would make the trade-off explicit for the architecture review as C5 asks. Separately, CL9 (decades of runway up to 16 TB) is marked non-material even though the verdict relies on it, and the draft does not discuss whether a 16 TB single node is operationally acceptable (backup, restore, PITR time) beyond one weakness bullet.",
+      "location": "criteriaAssessments C5; CL9; counterarguments[0]",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Are the two read replicas (and any standby or backup volumes) on separately provisioned 2,000 GB volumes that must also be resized, and does the platform allow that online?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Is audit_events time-range partitioned, and does it carry foreign keys or have readers of rows older than 12 months (pg_stat_statements or query logs)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which cloud platform and deployment (EBS self-managed, RDS Multi-AZ or Single-AZ, other) hosts prod-orders-pg, and what are its real resize limits, cost and downtime behaviour?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does a 12-24 month storage history show about organic growth, and how much of the roughly 35 GB/month comes from audit_events versus the transactional tables?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is WAL or replication-slot retention excluded from the 'used' figure, and are any inactive slots present?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "Covers all six criteria and the request, but leaves out the replica and backup volume implications of the resize and of WAL-heavy archival (D1)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims are mostly tied to VERIFIED fixtures. Snippet-level vendor evidence is clearly caveated, and confidence is appropriately moderate. Only the alert thresholds are unsourced (D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All calculations recompute correctly (K1-K22 within tolerance). The pg_repack 480 GB interpretation and the b2/CL8 inconsistency are minor and do not change the verdict (D3, D4)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "Rejects archive-only on flawed grounds and misses the cheap DELETE-and-reuse path for an append-only table, together with its real WAL risk (D2). The counterarguments to the staff engineer are otherwise well handled."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "A clear recommendation with concrete next steps and revisit triggers, suitable for Thursday. Opportunity-cost framing could be sharper (D6)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and match packet and source text. No injection was followed, and user premises were checked against the fixtures."
+    }
+  ]
+}

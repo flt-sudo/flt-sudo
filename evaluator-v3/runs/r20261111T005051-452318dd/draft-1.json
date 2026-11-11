@@ -1,0 +1,591 @@
+{
+  "verdict": "The January 2028 on-demand price of m7i.large in us-east-1 cannot be determined. AWS does not publish future prices, and no forecast was found (E15). It is also the wrong basis for the decision, because a 3-year commitment's rate is fixed at purchase and its value depends on usage across all 36 months (E15). What the evidence does support is a conditional decision rule. At the indicative rates in the packet, a 3-year No Upfront Compute Savings Plan ($0.0511/hr) or EC2 Instance Savings Plan ($0.0457/hr), compared with $0.1008/hr on-demand (E1, E3), saves about 49% or 55% at full use. The break-even points are about 51% and 45% average utilization of the committed amount, which equals about 18.3 and 16.3 months of full use before usage stops (K1-K4, K10, K11). The base rate for on-demand cuts to general-purpose x86 instances is near zero since about 2016: the most recent were 5% cuts to M4 (E7), and newer generations launched at higher list prices (E8). So a price cut is unlikely to erase the discount; even a GPU-style 45% cut leaves both plans slightly ahead (K13, K14, E5). The bigger risks are utilization, which the requester has not specified (E16), and generation obsolescence: M8i is already GA in us-east-1 with up to 15% better price-performance claimed (E9). Recommendation, conditional on missing inputs: commit for 3 years only to the baseline you are confident will run for at least about 18-24 months. Prefer a Compute Savings Plan, or a Convertible RI if one can be priced, over an m7i-locked EC2 Instance Savings Plan or Standard RI. The flexible plan gives up about 5.4 percentage points of discount (K5) but avoids being locked to m7i while M8i and successors arrive. Cover uncertain usage with on-demand or a shorter term. Before buying, verify every rate against the AWS Price List API, because all commitment rates here come from single aggregator snippets.",
+  "confidence": "low",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "At the indicative 3-year No Upfront rates, the Compute Savings Plan costs 50.7% of on-demand (49.3% discount) and the EC2 Instance Savings Plan costs 45.3% (54.7% discount) (K1-K4). Over 26,280 hours, the committed spend is about $1,342.91 and $1,201.00 against $2,649.02 for always-on on-demand (K7-K9). Break-even utilization of the commitment is about 50.7% (Compute SP) and 45.3% (EC2 Instance SP). If the workload runs at full use and then stops, the commitment breaks even after about 18.25 months (Compute SP) or 16.3 months (EC2 Instance SP) (K10, K11). No us-east-1 1-year, Standard RI, Convertible RI, Partial Upfront or All Upfront rates were found, so those options cannot be compared exactly.",
+      "mechanisms": "A Savings Plan is a fixed $/hr spend for every hour of the term, whether or not it is used. Savings therefore equal (utilization x on-demand rate - committed rate) x hours, and break-even utilization is simply the committed rate divided by the on-demand rate. On-demand is billed only when used, so it costs nothing when idle.",
+      "strengths": [
+        "The on-demand baseline of $0.1008/hr is corroborated by two aggregators (E1). It is also consistent with m7i.8xlarge at $1.6128/hr divided by 16 (K17, E10) and with m6i.large x 1.05 (K15, E8).",
+        "A discount of about 50% gives a wide margin against moderate price or utilization shocks (K12, K20)."
+      ],
+      "weaknesses": [
+        "The commitment rates come from a single third-party snippet (E3, INFERRED), and earlier search summaries were inconsistent.",
+        "There are no us-east-1 figures for RIs or for upfront payment options (E3 limitations, E4 is multi-region only).",
+        "The break-even analysis assumes Linux, shared tenancy and no licensing, which the requester has not confirmed (E16)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4",
+        "E8",
+        "E10",
+        "E16"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The packet's evidence points to a near-zero base rate for on-demand cuts to general-purpose x86 instances in recent years. The most recent M-family cuts found were 5% to C4/M4 in January 2016 and further M4/T2 cuts in December 2016 (E7). m7i launched 5% above m6i rather than prompting m6i cuts (K15, E8). AWS still cuts on-demand prices for existing types, but the recent example was supply-driven GPU instances (P5 up to 45%, P4d up to 33%) (E5). Capacity Block prices for H200 have gone up about 15% (E6). Scenarios for the m7i.large on-demand price over 2026-2029: base case unchanged (about $0.1008/hr); mild cut of about 5% (2016-style); extreme 45% cut (GPU-style, very unlikely for general-purpose); upward movement is possible but no evidence shows it for general-purpose on-demand.",
+      "mechanisms": "Since about 2016, AWS appears to pass on hardware efficiency mainly through new generations at similar or slightly higher instance prices with better performance, rather than through repricing older types. Large cuts have happened where supply and demand shifted sharply (GPUs). When AWS does cut, Savings Plans already bought keep their old rates; only new purchases get the lower rates (E5).",
+      "strengths": [
+        "Official AWS announcement of the 2025 GPU cuts (E5, CORROBORATED) and corroborated reporting of the 2016 M4 cuts (E7)."
+      ],
+      "weaknesses": [
+        "The 'no cuts since 2016' finding rests on absence of evidence within a 12-search budget (E7 limitations, G2 unresolved).",
+        "No systematic m5/m6i/m7i price history was retrieved.",
+        "The m6i price comes from a single aggregator snippet (E8)."
+      ],
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E15"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Obsolescence risk is real and already present. M8i/M8i-flex have been GA in us-east-1 since August 28, 2025, with AWS claiming up to 15% better price-performance and up to 20% more performance than M7i (E9). Per instance-hour, M8i costs about 5% more than M7i (K16, E10). With a 20% performance gain, that is about 12.5% lower cost per unit of performance (K18), close to AWS's 'up to 15%' claim. m7g.large is listed at $0.0816/hr (E10 limitations, single snippet). An EC2 Instance Savings Plan or Standard RI locked to m7i cannot follow these gains. A Compute Savings Plan or Convertible RI can, at a cost of about 5.4 percentage points of discount versus the EC2 Instance SP (K5). Even so, a locked m7i commitment at $0.0457/hr is still far cheaper per unit of performance than M8i on-demand (very roughly $0.088 per m7i-equivalent hour, scaling the 8xlarge price linearly; K22). So for a workload that stays put, the lock is more of an opportunity cost than an outright loss.",
+      "mechanisms": "An instance-family-locked discount applies only to m7i usage. If the workload migrates to M8i or Graviton for better price-performance, the locked commitment either goes unused or keeps the workload on older hardware. A Compute SP applies its $/hr commitment across families, sizes and regions. A Convertible RI can be exchanged for other families (E13).",
+      "strengths": [
+        "Successor availability and AWS's performance claims come from AWS's own announcement (E9, CORROBORATED).",
+        "The 5% per-instance premium is consistent across two pairs: m6i to m7i (K15) and m7i to m8i (K16)."
+      ],
+      "weaknesses": [
+        "The performance figures are vendor 'up to' claims (E9).",
+        "The m8i.large and m8g.large prices were not confirmed, and the m8i comparison uses 8xlarge figures from different aggregators (E10).",
+        "Graviton price-performance was not researched (G3 unresolved).",
+        "Convertible RI exchange rules (equal or greater value) were not verified (E13)."
+      ],
+      "evidenceIds": [
+        "E9",
+        "E10",
+        "E13",
+        "E3",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "This is the most important input, and it is missing. The request gives no usage level, confidence, OS, tenancy or cost of capital (E16). The break-even analysis shows the commitment pays only if average utilization of the committed $/hr stays above about 51% (Compute SP) or 45% (EC2 Instance SP) over 36 months (K1, K2). At 70% average utilization, the Compute SP saves about $511 per instance-equivalent over the term (K20). At 50% it loses about $18 (K21). The recommendation can therefore only be conditional: commit for 3 years to the always-on floor of usage you are confident in, and leave the rest on demand.",
+      "mechanisms": "The commitment cost is sunk and noncancellable (E11). Each idle committed hour is a pure loss, while each used hour saves about half the on-demand rate. Losses from under-use therefore build up as fast as savings from use.",
+      "strengths": [
+        "The break-even thresholds follow directly from the rates and need no forecast (K1, K2, K10, K11)."
+      ],
+      "weaknesses": [
+        "Requester usage and confidence cannot be researched (G4 unresolved, E16).",
+        "The thresholds inherit the uncertainty in the single-source rates (E3)."
+      ],
+      "evidenceIds": [
+        "E16",
+        "E3",
+        "E1",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "This cannot be evaluated for us-east-1. No Partial or All Upfront m7i.large rates were found for the region (E3 limitations), and the requester's cost of capital is not given (E16). The only upfront data are multi-region monthly averages for 3-year All Upfront (E4). There, the average Convertible RI cost is about 21% above the average Standard RI cost (K19), which suggests flexibility costs noticeably more under RIs. That figure is not region-specific.",
+      "mechanisms": "Paying upfront buys an extra discount in exchange for giving AWS the cash early. It is worth it only if the extra discount exceeds the return the requester could earn on that cash over the term (the present value of the avoided monthly payments discounted at the cost of capital). Upfront payment also increases the amount lost if usage falls, because payments are nonrefundable (E11).",
+      "strengths": [
+        "The direction of the Standard versus Convertible gap is shown (E4)."
+      ],
+      "weaknesses": [
+        "The E4 figures are multi-region and the currency unit is assumed.",
+        "There are no us-east-1 upfront rates and no discount rate, so a present-value comparison cannot be done."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E3",
+        "E16",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Exit options are narrow. Savings Plans and RIs are noncancellable and payments are nonrefundable apart from narrow exceptions. Savings Plans cannot be resold (E11). Only Standard RIs can be sold on the RI Marketplace, and since January 15, 2024 RIs bought at a discount (for example private pricing) are restricted from resale (E12). Convertible RIs cannot be resold but can be exchanged (E13). Since June 1, 2025, commitments are limited to a single end customer, so partners cannot share them across customers (E12).",
+      "mechanisms": "With no exit, the worst case for a commitment is the full remaining commitment. The only partial exits are Marketplace resale (Standard RI only, likely at a discount to recover a sale) and exchange (Convertible RI, within the same commitment).",
+      "strengths": [
+        "Two corroborated secondary sources agree (E11, E12)."
+      ],
+      "weaknesses": [
+        "Primary AWS documentation could not be fetched (G5 partially resolved).",
+        "Which 'discounted' RIs are excluded from resale needs confirmation (E12)."
+      ],
+      "evidenceIds": [
+        "E11",
+        "E12",
+        "E13"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The January 2028 on-demand price of m7i.large in us-east-1 cannot be known or reliably forecast. AWS does not publish future prices and no forecast source was found.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Commitment rates are fixed at purchase for the whole term, so the decision depends on utilization and the on-demand gap over all 36 months, not on the price in a single month.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E15",
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "The current us-east-1 Linux on-demand price of m7i.large is about $0.1008/hr (about $73.58/month). The lower $0.0383-$0.0445/hr Holori range is most likely Spot pricing.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E8",
+        "E10"
+      ],
+      "calculationIds": [
+        "K6",
+        "K15",
+        "K17"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "At indicative 3-year No Upfront rates, the Compute Savings Plan ($0.0511/hr) saves about 49.3% and the EC2 Instance Savings Plan ($0.0457/hr) saves about 54.7% versus on-demand at full use. The gap between them is about 5.4 percentage points.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K3",
+        "K4",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "Break-even average utilization of the commitment is about 50.7% for the Compute SP and 45.3% for the EC2 Instance SP. At full use followed by zero use, that is about 18.25 and 16.3 months respectively.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "Over 3 years (26,280 hours), always-on on-demand costs about $2,649 per m7i.large, versus about $1,343 committed under a Compute SP and $1,201 under an EC2 Instance SP.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The evidence suggests AWS has not cut on-demand prices for general-purpose x86 M-family instances since about 2016 (5% M4 cuts). This is an inference from absence within a limited search.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E7",
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "A plausible on-demand cut does not erase the commitment's value. Even if a 5% cut applied from day one, the Compute SP would still save about 46.6%. A GPU-scale 45% cut from day one would leave the Compute SP about 7.8% and the EC2 Instance SP about 17.6% cheaper. Existing Savings Plans keep their rates after AWS cuts prices.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E7",
+        "E3",
+        "E1"
+      ],
+      "calculationIds": [
+        "K12",
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Recent AWS on-demand cuts of 26-45% applied to supply-constrained NVIDIA GPU instances and are weak evidence for general-purpose families such as m7i.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "M8i, a successor with claimed up to 15% better price-performance than M7i, has been GA in us-east-1 since August 28, 2025. This creates obsolescence risk for m7i-locked commitments during a 3-year term.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Successor generations cost about 5% more per instance-hour (m6i to m7i, m7i to m8i). With a 20% performance gain, M8i is about 12.5% cheaper per unit of performance.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E8",
+        "E10",
+        "E9"
+      ],
+      "calculationIds": [
+        "K15",
+        "K16",
+        "K18"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "The requester has not stated usage level, confidence in it, OS, tenancy or cost of capital, so the recommendation can only be conditional.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "Savings Plans and RIs are noncancellable and Savings Plans cannot be resold. Only Standard RIs bought without special discounts can be sold on the RI Marketplace. Convertible RIs can be exchanged but not resold.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E11",
+        "E12",
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Payment-option economics (No/Partial/All Upfront) cannot be determined for us-east-1 because regional upfront rates and the requester's cost of capital are missing. Multi-region averages suggest 3-year All Upfront Convertible RIs cost about 21% more than Standard RIs.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E4",
+        "E16"
+      ],
+      "calculationIds": [
+        "K19"
+      ]
+    },
+    {
+      "id": "CL15",
+      "text": "Utilization drives the result. At 70% average utilization a Compute SP saves about $511 per instance-equivalent over the term; at 50% it loses about $18.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K20",
+        "K21"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "m7i.large is likely to remain available through the term, because AWS still lists M4 as a supported previous-generation type years after its successors launched. This is not a guarantee.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E14"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Stay fully on-demand",
+      "comparison": "No lock-in and no utilization risk, but costs about twice the committed rate at full use: $2,649 versus $1,343 (Compute SP) over 3 years per always-on instance (K7, K8). Best if usage is unlikely to last beyond about 18 months, or is below about 51% of any committed amount (K1, K10)."
+    },
+    {
+      "option": "3-year Compute Savings Plan, No Upfront",
+      "comparison": "About 49.3% discount (K3). Applies across instance families, so it follows a move to M8i or Graviton (E9). Cannot be cancelled or resold (E11). This is the recommended default for the confident baseline."
+    },
+    {
+      "option": "3-year EC2 Instance Savings Plan, No Upfront",
+      "comparison": "About 54.7% discount (K4), roughly 5.4 points more than the Compute SP (K5), but locked to the m7i family. Better only if the workload is certain to stay on m7i for the full term, for example because of validation or licensing constraints."
+    },
+    {
+      "option": "3-year Standard RI",
+      "comparison": "No us-east-1 rate was found. Multi-region data suggest it is the cheapest form of commitment (E4). It is the only option that can be resold, with restrictions (E12), but it is locked to the instance attributes."
+    },
+    {
+      "option": "3-year Convertible RI",
+      "comparison": "No us-east-1 rate was found. Multi-region averages put it about 21% more expensive than a Standard RI (K19, E4). It can be exchanged to M8i (E13) but not resold."
+    },
+    {
+      "option": "1-year commitment or layered purchases",
+      "comparison": "No 1-year us-east-1 rates were found, so the discount cannot be compared. A shorter term reduces obsolescence and utilization exposure, and lets the requester recommit at whatever rates apply later."
+    }
+  ],
+  "tradeoffs": [
+    "Discount versus flexibility: the EC2 Instance SP's extra discount of about 5.4 points (K5) buys an m7i lock-in while M8i already offers better price-performance (E9).",
+    "Coverage depth versus utilization risk: committing above the confident floor raises savings at high use but loses money below about 51% (Compute SP) or 45% (EC2 Instance SP) utilization (K1, K2, K21).",
+    "Upfront payment versus liquidity: upfront options may add discount but tie up nonrefundable cash (E11). They cannot be quantified here (E16).",
+    "Resale ability versus flexibility: a Standard RI is resellable with restrictions (E12), while a Convertible RI is exchangeable but not resellable (E13)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "The workload migrates to M8i or Graviton mid-term while an EC2 Instance SP or Standard RI is locked to m7i (E9).",
+    "AWS cuts the m7i on-demand price, or new-purchase Savings Plan rates, after you buy. Existing commitments keep the old rate (E5).",
+    "The commitment rates in E3 turn out to be wrong because they come from a single snippet. Every break-even figure would shift; recompute from the Price List API.",
+    "The OS is not Linux, or the tenancy is dedicated: licensing changes both on-demand and commitment rates (E16).",
+    "The workload shrinks or ends before about 16-18 months, so the commitment loses money (K10, K11) and there is no exit for Savings Plans (E11).",
+    "An RI bought through private pricing or another discount cannot be resold (E12).",
+    "Use across multiple accounts or end customers: since June 2025, commitments cannot be shared across end customers (E12).",
+    "Aggregator labelling errors, such as Spot prices labelled as on-demand (E2), contaminate any analysis built on them."
+  ],
+  "counterarguments": [
+    {
+      "argument": "AWS might cut on-demand prices by 2028, making a commitment bought today poor value.",
+      "response": "The base rate for general-purpose x86 cuts since about 2016 appears near zero (E7, E8). Even if a 45% GPU-style cut applied from day one, both Savings Plans would remain cheaper than on-demand (K13, K14). The price-cut risk is small next to utilization risk."
+    },
+    {
+      "argument": "The EC2 Instance SP's larger discount makes it the better buy.",
+      "response": "Only if m7i use is certain for 36 months. M8i is already GA with claimed better price-performance (E9). The roughly 5.4-point premium for the Compute SP (K5) is a hedge against stranding."
+    },
+    {
+      "argument": "Prices could rise, so locking in now is protective.",
+      "response": "The only increase found was for H200 Capacity Blocks, and AWS reportedly said it would not raise On-Demand or Savings Plan prices (E6). That is weak support for buying commitments as an inflation hedge."
+    },
+    {
+      "argument": "Without the requester's usage data, no recommendation is possible.",
+      "response": "Partly true (E16). The break-even thresholds (K1, K2, K10, K11) still give a usable rule: commit only to the usage floor you are confident will last more than about 18 months."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The January 2028 on-demand price of m7i.large can be known or forecast precisely enough to base a purchase on it.",
+      "correction": "It cannot. AWS publishes no future prices and no forecast was found. The best available is scenarios from historical base rates: unchanged price as the base case, about a 5% cut as mild, and a 45% GPU-style cut as an extreme bound.",
+      "evidenceIds": [
+        "E15",
+        "E7",
+        "E5"
+      ]
+    },
+    {
+      "assumption": "The on-demand price on a single future date (January 2028) is the right basis for a 3-year commitment decision.",
+      "correction": "Commitment rates are fixed at purchase for the whole term. Value depends on utilization and on the on-demand gap across all 36 months; break-even is about 51% (Compute SP) or 45% (EC2 Instance SP) utilization.",
+      "evidenceIds": [
+        "E15",
+        "E3",
+        "E1"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Compute SP 3yr No Upfront rate as a fraction of on-demand, which is the break-even utilization",
+      "expression": "0.0511/0.1008",
+      "claimedResult": 0.5069,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "EC2 Instance SP 3yr No Upfront rate as a fraction of on-demand, which is the break-even utilization",
+      "expression": "0.0457/0.1008",
+      "claimedResult": 0.4534,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Compute SP discount versus on-demand at full use",
+      "expression": "1-0.0511/0.1008",
+      "claimedResult": 0.4931,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "EC2 Instance SP discount versus on-demand at full use",
+      "expression": "1-0.0457/0.1008",
+      "claimedResult": 0.5466,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "Discount gap between EC2 Instance SP and Compute SP, as a fraction of on-demand",
+      "expression": "(0.0511-0.0457)/0.1008",
+      "claimedResult": 0.05357,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "Monthly on-demand cost at 730 hours per month",
+      "expression": "0.1008*730",
+      "claimedResult": 73.584,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7",
+      "purpose": "3-year always-on on-demand cost per instance (26,280 hours)",
+      "expression": "0.1008*3*8760",
+      "claimedResult": 2649.024,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "3-year committed Compute SP spend per instance-equivalent",
+      "expression": "0.0511*3*8760",
+      "claimedResult": 1342.908,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K9",
+      "purpose": "3-year committed EC2 Instance SP spend per instance-equivalent",
+      "expression": "0.0457*3*8760",
+      "claimedResult": 1200.996,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K10",
+      "purpose": "Months of full use needed before the Compute SP breaks even if usage then stops",
+      "expression": "36*0.0511/0.1008",
+      "claimedResult": 18.25,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K11",
+      "purpose": "Months of full use needed before the EC2 Instance SP breaks even if usage then stops",
+      "expression": "36*0.0457/0.1008",
+      "claimedResult": 16.32,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Compute SP discount if on-demand were cut 5% from day one",
+      "expression": "1-0.0511/(0.1008*0.95)",
+      "claimedResult": 0.4664,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K13",
+      "purpose": "Compute SP discount if on-demand were cut 45% from day one",
+      "expression": "1-0.0511/(0.1008*0.55)",
+      "claimedResult": 0.0783,
+      "tolerance": 0.002
+    },
+    {
+      "id": "K14",
+      "purpose": "EC2 Instance SP discount if on-demand were cut 45% from day one",
+      "expression": "1-0.0457/(0.1008*0.55)",
+      "claimedResult": 0.1757,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K15",
+      "purpose": "m7i.large on-demand price relative to m6i.large",
+      "expression": "0.1008/0.0960",
+      "claimedResult": 1.05,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K16",
+      "purpose": "m8i.8xlarge on-demand price relative to m7i.8xlarge",
+      "expression": "1.6934/1.6128",
+      "claimedResult": 1.05,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K17",
+      "purpose": "Implied m7i.large price from m7i.8xlarge (16x the size), as a consistency check on E1",
+      "expression": "1.6128/16",
+      "claimedResult": 0.1008,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K18",
+      "purpose": "M8i cost per unit of performance relative to M7i, assuming 20% higher performance",
+      "expression": "1.6934/1.6128/1.2",
+      "claimedResult": 0.875,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K19",
+      "purpose": "Multi-region average 3yr All Upfront Convertible RI cost relative to Standard RI",
+      "expression": "41.49/34.28",
+      "claimedResult": 1.21,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K20",
+      "purpose": "Compute SP net saving over 3 years at 70% average utilization",
+      "expression": "0.7*0.1008*26280-0.0511*26280",
+      "claimedResult": 511.41,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K21",
+      "purpose": "Compute SP net saving over 3 years at 50% average utilization (negative means a loss)",
+      "expression": "0.5*0.1008*26280-0.0511*26280",
+      "claimedResult": -18.396,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K22",
+      "purpose": "Rough M8i on-demand cost per m7i.large-equivalent unit of performance, assuming linear size scaling (8xlarge/16) and 20% higher performance",
+      "expression": "1.6934/16/1.2",
+      "claimedResult": 0.0882,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Before any purchase, pull the m7i.large us-east-1 Linux shared-tenancy SKUs (on-demand, Savings Plan and RI, all terms and payment options) from the AWS Price List API, and recompute K1-K14 with them.",
+    "Set the 3-year commitment at the usage floor you are confident will run for more than about 18 months. Cover the rest with on-demand or shorter commitments.",
+    "Prefer a Compute Savings Plan, or a Convertible RI, over an EC2 Instance SP or Standard RI unless the workload is certain to stay on m7i, because M8i is already available (E9).",
+    "Consider testing M8i or Graviton (m7g at $0.0816/hr indicative) before committing, since the commitment amount should reflect the instance you will actually run.",
+    "Do not wait for a 2028 price signal. The evidence suggests no general-purpose price cut is likely, and existing commitments would not benefit from one anyway (E5).",
+    "Provide usage history, confidence, OS, tenancy and cost of capital so the conditional recommendation can be made specific."
+  ],
+  "remainingUncertainty": [
+    "All commitment rates come from a single aggregator snippet (E3). No us-east-1 RI, 1-year or upfront rates were found.",
+    "The near-zero base rate for general-purpose cuts is inferred from absence of evidence within a limited search (E7).",
+    "The m8i.large and Graviton prices and price-performance were not confirmed. K22 assumes linear size scaling, which the packet does not verify.",
+    "The requester's usage, OS, tenancy and cost of capital are unknown (E16).",
+    "Primary AWS documentation on resale and exchange rules was not retrieved (E11-E13).",
+    "Contradiction E1 vs E2 is resolved in favour of E1 ($0.1008/hr). E1 is corroborated by two sources and is consistent with m7i.8xlarge/16 (K17) and with m6i x 1.05 (K15). E2 is a single ambiguous snippet whose range matches typical Spot levels. This still needs confirmation from the AWS Price List."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Official AWS Price List data for m7i.large in us-east-1 across all commitment types, terms and payment options. A much smaller discount would raise the break-even utilization.",
+    "Systematic on-demand price history for m5, m6i and m7i. A documented general-purpose cut would raise the price-cut risk.",
+    "The m8i.large and m8g.large on-demand and Savings Plan rates, and workload-specific benchmarks. These decide how quickly migration would strand an m7i-locked commitment.",
+    "The requester's 12-36 month usage forecast, its variance, and their cost of capital. These are needed for sizing and for choosing a payment option.",
+    "Primary AWS documentation on Convertible RI exchange (the equal-or-greater-value rule) and Marketplace eligibility."
+  ]
+}

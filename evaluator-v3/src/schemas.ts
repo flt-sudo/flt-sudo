@@ -116,6 +116,7 @@ export const Review = z.object({
       remedy: z.enum(["research", "reanalysis", "both"]),
     }),
   ),
+  priorDefects: z.array(z.object({ id: z.string(), status: z.enum(["fixed", "not_fixed", "partially_fixed"]), note: z.string() })).default([]),
   materialResearchGaps: z.array(z.object({ question: z.string(), couldChangeVerdict: z.boolean() })),
   gateOpinions: z.array(z.object({ gate: GateName, pass: z.boolean(), reason: z.string() })),
 });

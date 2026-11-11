@@ -127,3 +127,22 @@ packet states that anchors are strings.
 The dev-05 baseline wrote "≈ 246k"; the numeric check read 246 and reported a false negative. Number extraction
 now understands k/M/B suffixes (and does not treat units like "MB" or "ms" as multipliers). Numeric checks are
 informational and not part of the pass standard. Test added.
+
+## v5 (2026-11-11) — verify-then-new review rule (dev evidence; approved by the user before the held-out run)
+
+Evidence across all five dev cases: each fresh adversarial review raised new major defects in material the
+previous revision had added, so revisions chased a moving target (only 1 of 5 agent runs certified; the grader
+scored 4 of 5 at >= 97.5). In dev-05, review 2 rejected backlog figures that review 1 had itself asked for.
+
+Change (`eval-adversary.md`, `Review` schema): review 1 stays fully independent. Reviews of draft N > 1 read
+review N-1 and draft N-1, report the status of each prior critical/major defect (`priorDefects`), carry forward
+unfixed ones, and may raise new defects only if critical or located in material the revision added or changed.
+Tradeoff stated: later reviews are no longer fully independent of earlier ones.
+
+Not changed (noted for future work, not applied, to keep the pre-run configuration minimal): the research budget is
+shared between the first pass and follow-up research (dev-04 exhausted it in the first pass); schema-error retries
+regenerate whole drafts (dev-05).
+
+## Configuration frozen for the held-out run
+Prompts v5; pass standard as pre-registered with amendment A1; default budgets 12 searches / 8 fetches / 2 revisions;
+grader unchanged since v1 except the anchor-format normalisation. No further changes until the held-out run is reported.

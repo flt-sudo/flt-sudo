@@ -110,7 +110,7 @@ function draft(over: Partial<Draft> = {}): Draft {
     practicalImplications: ["p"], remainingUncertainty: ["u"], furtherResearchThatCouldChangeConclusion: [], ...over,
   };
 }
-const cleanReview: Review = { defects: [], materialResearchGaps: [], gateOpinions: [] };
+const cleanReview: Review = { defects: [], priorDefects: [], materialResearchGaps: [], gateOpinions: [] };
 
 describe("quality gates", () => {
   const idx = retrievalIndex(LOG, RUN);

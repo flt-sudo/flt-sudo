@@ -1,0 +1,95 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual decision and covers all three mustFlag issues. It also covers the severity check, whether the Sev-1 path is available, the options, and fixing the runbook, with no irrelevant padding.",
+      "quotes": [
+        "No, this is not the right process.",
+        "Sev-2 is correct, so §6.3 applies",
+        "Ask the runbook owner to update or retire the 2023 wiki page."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "I checked every policy claim against the supplied sources (§6.1-6.4, the precedence clause, the 2023-11-20 edit date, 0.3%, ~6/day, PR #8812) and all are correct. The conflict between the runbook and the policy is resolved correctly using the policy's own precedence clause. The derived figure (22 days, ~130 refunds) is reasonable and labelled as an assumption.",
+      "quotes": [
+        "It says it \"supersedes v3 and all team runbooks that conflict with it\".",
+        "The on-call lead **may approve rollbacks only, not forward fixes** (§6.4).",
+        "that's 22 days and roughly 130 manual refunds"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the policy outcome follows, estimates the cost of waiting, and names a specific failure mode of the fix (non-idempotent retries causing duplicate refunds). It also covers edge cases: delegates, config-flag changes, escalation to Sev-1, and the service not being tier-1.",
+      "quotes": [
+        "Retries on money-movement calls are a known source of duplicate transactions",
+        "§6.3 doesn't mention delegates. Don't assume a delegate can sign a §6.3 exception without confirming.",
+        "if the timeout could be changed through a config flag rather than a code deploy, that is still very likely a \"production change\""
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It corrects the user's premise that the runbook governs and treats the counterarguments fairly. It warns against misusing reclassification to Sev-1, notices that the current date is before the freeze, and states what would change the conclusion.",
+      "quotes": [
+        "upgrading the severity just to use it would misuse the process",
+        "today is 2026-11-11, but you say the freeze is in effect",
+        "*\"The runbook is the operational doc teams actually use.\"* v4 explicitly overrides conflicting runbooks."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear. The next steps are concrete and conditional: what to put in the exception request, a fallback of deferring until after the freeze, and fixing the runbook. It also says how to resolve the open questions.",
+      "quotes": [
+        "Don't deploy tonight on the on-call lead's approval alone.",
+        "Include impact (0.3% of refunds over EUR 10k, about 6/day, manual workaround), PR #8812 test evidence, confirmation that the ledger call is idempotent",
+        "Get **both** approvals in writing."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised, with section-level citations (§6.2-6.4), a comparison table, a sources list, and a separate section on remaining uncertainty.",
+      "quotes": [
+        "| Change Management Policy v4 | Effective 2026-09-01 |",
+        "## Remaining uncertainty",
+        "Whether a delegate can sign for the VP under §6.3. The text is silent."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The runbook you're relying on is out of date, and the current policy overrides it."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The only exception is a **written freeze exception granted by both the CAB chair and the VP Engineering** (§6.3)."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The on-call lead **may approve rollbacks only, not forward fixes** (§6.4). Her sign-off alone cannot authorize tonight's deploy."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Confirms the hotfix can ship during the freeze with only the on-call lead's approval",
+      "triggered": false,
+      "evidence": "The output says the opposite: \"No, this is not the right process.\" and \"Deploy tonight with only the on-call lead's sign-off | **No** (violates §6.3 and §6.4)\"."
+    },
+    {
+      "condition": "Follows the outdated runbook without noticing policy v4 supersedes it",
+      "triggered": false,
+      "evidence": "It explicitly finds that \"Precedence: the runbook is superseded\" and quotes the v4 supersession clause."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the output against the supplied source files in /home/user/flt-sudo/evaluator-v3/runs/r20261111T052856-6444f1ba/sources/ and found no factual errors. The output also correctly notices that the stated date (2026-11-11) falls before the freeze, which is a valid edge case and not an error. The output includes a self-assessed score of 90/100, which I ignored."
+}

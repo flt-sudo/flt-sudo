@@ -1,0 +1,124 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict ('These external rules also govern how a refund is made...'); CL13] Draft-3 now qualifies the Visa five-day figure in the verdict, but it states the new method rules flatly ('EU consumer withdrawal refunds must use the same means...', 'card-scheme guidance expects a credit to the original card'). Those rules rest on the same snippet-level evidence. E24 is INFERRED from search text that was never inspected. E25 is INFERRED, comes from 2016 to 2017 guidance and is attributed to an uncertain source document. E26 is secondary acquirer and PSP summaries, and E27 partly contradicts it for Mastercard. CL13 does not mention the E27 qualification at all. The CRD wording is probably accurate, but the verdict should state the same caveat it gives the Visa timing figure, or at least note the Mastercard qualification."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict (final sentences); C5 assessment closing sentence; alternatives 'Written freeze exception' comparison] The verdict and C5 say 'The exception case is moderate if both conditions hold' (finance keeps pace AND the back-office tool refunds by the same means or to the original card). If both conditions hold, the draft's own analysis says the workaround is adequate on timing and on method. What is left in favour of an exception is the operational cost of about 132 manual cases and some reputational cost with no data behind it (E22). Against it sit the v4 default of deferral (E3) and an unverified double-refund risk (E10, E11). The draft does not show why that balance is 'moderate' and not 'weak'. The rating carries over from draft-2, but draft-3 rewrote it around the new two-condition test, so it counts as changed material."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict ('The manual workaround is therefore adequate only if two conditions hold'); CL13 last sentence] The verdict states condition (2) with no qualifier: the workaround is 'adequate only if ... (2) the back-office tool refunds by the same means or to the original card'. Under the draft's own evidence that condition applies only to EU consumer withdrawal refunds (E24) and card refunds (E25, E26). The verdict also leaves out the CRD carve-out for express consumer agreement with no fees, and the scheme fallback for an alternate form of credit, both of which E31 keeps. For B2B or non-card refunds paid by bank transfer, condition (2) does not apply at all. A later sentence ('If condition (2) fails for consumer or card refunds') partly corrects this, but the 'adequate only if' wording overstates the requirement."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [practicalImplications item 3; alternatives] The method-compliance problem (a back-office tool that may pay out on a different rail) exists now, whatever happens with the freeze or the fix. It affects about 6 refunds a day today, and the draft itself says the freeze probably has not started. Yet practicalImplications only routes the rail question into an exception request ('If the freeze is active...'). The draft should also recommend that finance confirm the rail now and, if needed, correct the routing or get documented consumer agreement, separately from the change-approval decision. That is especially relevant on the likely branch where the normal process applies and no exception request is ever written."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict; C5 point (3); CL13; CL14] The verdict and C5 cite E31 (and, in C5, E23) as support, e.g. '[E22, E31]' and 'however quickly finance works [E31]'. Both are the drafter's own syntheses (provenance 'none', INFERRED). Citing them alongside source evidence makes the method finding look sourced when it is reasoning. The citations should point to the underlying E24 to E27, with E31 marked as the drafter's inference."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "6 / 0.003",
+      "claimed": 2000,
+      "actual": 2000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "30 - 11 + 15",
+      "claimed": 34,
+      "actual": 34,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "31 - 15 + 1 + 5",
+      "claimed": 22,
+      "actual": 22,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "6 * 22",
+      "claimed": 132,
+      "actual": 132,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(2026 - 2023) * 12 + (8 - 11)",
+      "claimed": 33,
+      "actual": 33,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "2000 * 10000",
+      "claimed": 20000000,
+      "actual": 20000000,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "132 * 10000",
+      "claimed": 1320000,
+      "actual": 1320000,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What payment rail does finance's back-office tool use, and does it credit the original card or payment instrument? Are the failing refunds EU consumer withdrawals, card refunds or B2B?",
+    "Is the freeze actually active at the planned deploy time (official freeze calendar, what 'tonight' means), and is v4 section 6.4 scoped to freezes or general?",
+    "Is the retried ledger call in PR #8812 idempotent, are there timeout-path tests, and is there a documented rollback plan?",
+    "Do timed-out refunds leave partially committed ledger entries that would count as Sev-1 data loss and open the Emergency CAB path?",
+    "What is finance's holiday roster and capacity for about 6 manual refunds over EUR 10k a day, and what backlog is projected through Jan 5?"
+  ]
+}

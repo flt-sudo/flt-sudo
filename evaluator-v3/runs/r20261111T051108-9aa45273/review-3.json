@@ -1,0 +1,105 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict and C5 say 'The exception case is moderate if both conditions hold' (finance keeps pace AND the back-office tool refunds by the same means or to the original card). If both conditions hold, the draft's own analysis says the workaround is adequate on timing and on method. What is left in favour of an exception is the operational cost of about 132 manual cases and some reputational cost with no data behind it (E22). Against it sit the v4 default of deferral (E3) and an unverified double-refund risk (E10, E11). The draft does not show why that balance is 'moderate' and not 'weak'. The rating carries over from draft-2, but draft-3 rewrote it around the new two-condition test, so it counts as changed material.",
+      "location": "verdict (final sentences); C5 assessment closing sentence; alternatives 'Written freeze exception' comparison",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict states condition (2) with no qualifier: the workaround is 'adequate only if ... (2) the back-office tool refunds by the same means or to the original card'. Under the draft's own evidence that condition applies only to EU consumer withdrawal refunds (E24) and card refunds (E25, E26). The verdict also leaves out the CRD carve-out for express consumer agreement with no fees, and the scheme fallback for an alternate form of credit, both of which E31 keeps. For B2B or non-card refunds paid by bank transfer, condition (2) does not apply at all. A later sentence ('If condition (2) fails for consumer or card refunds') partly corrects this, but the 'adequate only if' wording overstates the requirement.",
+      "location": "verdict ('The manual workaround is therefore adequate only if two conditions hold'); CL13 last sentence",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Draft-3 now qualifies the Visa five-day figure in the verdict, but it states the new method rules flatly ('EU consumer withdrawal refunds must use the same means...', 'card-scheme guidance expects a credit to the original card'). Those rules rest on the same snippet-level evidence. E24 is INFERRED from search text that was never inspected. E25 is INFERRED, comes from 2016 to 2017 guidance and is attributed to an uncertain source document. E26 is secondary acquirer and PSP summaries, and E27 partly contradicts it for Mastercard. CL13 does not mention the E27 qualification at all. The CRD wording is probably accurate, but the verdict should state the same caveat it gives the Visa timing figure, or at least note the Mastercard qualification.",
+      "location": "verdict ('These external rules also govern how a refund is made...'); CL13",
+      "remedy": "both"
+    },
+    {
+      "id": "D4",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The method-compliance problem (a back-office tool that may pay out on a different rail) exists now, whatever happens with the freeze or the fix. It affects about 6 refunds a day today, and the draft itself says the freeze probably has not started. Yet practicalImplications only routes the rail question into an exception request ('If the freeze is active...'). The draft should also recommend that finance confirm the rail now and, if needed, correct the routing or get documented consumer agreement, separately from the change-approval decision. That is especially relevant on the likely branch where the normal process applies and no exception request is ever written.",
+      "location": "practicalImplications item 3; alternatives",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The verdict and C5 cite E31 (and, in C5, E23) as support, e.g. '[E22, E31]' and 'however quickly finance works [E31]'. Both are the drafter's own syntheses (provenance 'none', INFERRED). Citing them alongside source evidence makes the method finding look sourced when it is reasoning. The citations should point to the underlying E24 to E27, with E31 marked as the drafter's inference.",
+      "location": "verdict; C5 point (3); CL13; CL14",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft-3 drops the 'when, not how' framing. It adds E24 to E31 and rebuilds the workaround test around two conditions, timing and method, in the verdict, C5, CL13, CL14, counterargument 5, edge case 3 and practicalImplications. It explains why E31 supersedes E23. It also addresses the minor prior defects: CL12 is now conditional and states its weak support (D2), the EUR 10k-per-error claim is narrowed and marked as inference (D3), 'decisive' is removed and the outcome is described as discretionary (D4), and the Visa five-day figure is flagged as unverified with a disputed clock start (D5)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What payment rail does finance's back-office tool use, and does it credit the original card or payment instrument? Are the failing refunds EU consumer withdrawals, card refunds or B2B?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the freeze actually active at the planned deploy time (official freeze calendar, what 'tonight' means), and is v4 section 6.4 scoped to freezes or general?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the retried ledger call in PR #8812 idempotent, are there timeout-path tests, and is there a documented rollback plan?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do timed-out refunds leave partially committed ledger entries that would count as Sev-1 data loss and open the Emergency CAB path?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is finance's holiday roster and capacity for about 6 manual refunds over EUR 10k a day, and what backlog is projected through Jan 5?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and the user's question are answered. The method dimension that review-2 asked for is now covered in full."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The policy findings rest on verified fixture text. The external evidence is snippet-level and mostly disclosed as such. The method rules are stated somewhat more firmly in the verdict than the snippets support (D3), but confidence is 'moderate', which is appropriate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1 to K7: 2000, 34, 22, 132, 33, 20M and 1.32M are all correct. The 'when, not how' flaw is fixed. Two minor problems remain: the unexplained 'moderate' rating when both conditions hold (D1) and the overstated scope of condition (2) (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The pro-exception case is argued two-sidedly, with method, timing, staffing and fixing the routing as an alternative remedy. The E26/E27 and E28/E29 contradictions are addressed explicitly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft clearly says no to on-call-only approval during the freeze and gives branch-specific actions. The verdict is very long, and it misses advising that the workaround's rail be checked now, independently of the approval path (D4)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist, and the claims match the packet text. The drafter's own syntheses (E31, E23) are sometimes cited as if they were evidence (D5). No injected instructions were followed."
+    }
+  ]
+}

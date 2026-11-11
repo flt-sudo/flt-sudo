@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T052856-6444f1ba",
+  "caseId": "ho-14-change-freeze-hotfix",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the output against the supplied source files in /home/user/flt-sudo/evaluator-v3/runs/r20261111T052856-6444f1ba/sources/ and found no factual errors. The output also correctly notices that the stated date (2026-11-11) falls before the freeze, which is a valid edge case and not an error. The output includes a self-assessed score of 90/100, which I ignored."
+}

@@ -1,0 +1,624 @@
+{
+  "runId": "r20261111T051108-9aa45273",
+  "generatedAt": "2026-11-11T05:28:55.870Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "idempotency keys retry payment refund requests avoid duplicate",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "Visa rules merchant must process credit refund within 5 calendar days issuer post credit",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 12
+      },
+      {
+        "query": "Consumer Rights Directive 2011/83/EU Article 13 trader reimburse 14 days withdrawal",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Visa reason code 13.6 credit not processed cardholder must wait 15 calendar days dispute time limit 120 days",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "PSD2 Article 83 execution time amount credited payee's payment service provider end of following business day",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "manual payment processing error risk holiday period reduced staffing fraud segregation of duties high-value payments",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "Mastercard refund transaction rules merchant must submit refund within days credit not processed chargeback 4853 waiting period",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Visa Core Rules merchant must process credit transaction within 5 calendar days refund",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 14
+      },
+      {
+        "query": "Directive 2011/83/EU Article 13 \"same means of payment as the consumer used for the initial transaction\" reimbursement",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Visa Core Rules and Visa Product and Service Rules credit transaction \"same Account Number\" original transaction refund",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Visa Core Rules 2025 \"Credit Transaction\" acquirer process \"within 5 calendar days\" merchant refund rule",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 14
+      },
+      {
+        "query": "Mastercard Transaction Processing Rules refund must be processed to the same card used for original purchase cash refund prohibited",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://www.checkout.com/docs/developer-resources/api/idempotency",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.checkout.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe"
+      },
+      {
+        "url": "https://www.legislation.gov.uk/eudr/2011/83/article/13/adopted",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND www.legislation.gov.uk. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, "
+      },
+      {
+        "url": "https://usa.review.visa.com/content/dam/VCOM/global/support-legal/documents/managing-disputes-through-covid-19-apr21-vbn.pdf",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND usa.review.visa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or "
+      },
+      {
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32011L0083",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND eur-lex.europa.eu. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or do"
+      },
+      {
+        "url": "https://bo.review.visa.com/content/dam/VCOM/download/visa-rules-public.pdf",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND bo.review.visa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d"
+      }
+    ],
+    "fixturesRead": [
+      "wiki-runbook-holiday-freeze.md",
+      "change-management-policy-v4.md",
+      "severity-definitions-v4.md",
+      "incident-ticket-PAY-4471.md"
+    ],
+    "deniedByGuard": [
+      {
+        "tool": "Glob",
+        "reason": "run isolation: Glob outside the active run directory is not permitted (no path)"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-14 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 12884,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 34489,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 123
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1022,
+            "cache_read_input_tokens": 9213,
+            "output_tokens": 2647,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1022
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2647,
+                "cache_read_input_tokens": 9213,
+                "cache_creation_input_tokens": 1022,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1022,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-14 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 22859,
+          "totalToolUseCount": 10,
+          "totalDurationMs": 68668,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 890
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 320,
+            "cache_read_input_tokens": 16704,
+            "output_tokens": 5833,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 320
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5833,
+                "cache_read_input_tokens": 16704,
+                "cache_creation_input_tokens": 320,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 320,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-14 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 32020,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 83688,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1142
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 16605,
+            "cache_read_input_tokens": 6157,
+            "output_tokens": 9256,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 16605
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 9256,
+                "cache_read_input_tokens": 6157,
+                "cache_creation_input_tokens": 16605,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 16605,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-14 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 36236,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 61184,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2873
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1014,
+            "cache_read_input_tokens": 30099,
+            "output_tokens": 5121,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1014
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5121,
+                "cache_read_input_tokens": 30099,
+                "cache_creation_input_tokens": 1014,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1014,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-14 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-14 analyst draft 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 58163,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 105284,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1893
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 35113,
+            "cache_read_input_tokens": 9941,
+            "output_tokens": 13107,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 35113
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 13107,
+                "cache_read_input_tokens": 9941,
+                "cache_creation_input_tokens": 35113,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 35113,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-14 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 56583,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 50207,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2089
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 45758,
+            "cache_read_input_tokens": 6083,
+            "output_tokens": 4740,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 45758
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4740,
+                "cache_read_input_tokens": 6083,
+                "cache_creation_input_tokens": 45758,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 45758,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-14 follow-up research 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-14 analyst draft 3",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-14 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 67884,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 49363,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2008
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 57111,
+            "cache_read_input_tokens": 6083,
+            "output_tokens": 4688,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 57111
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4688,
+                "cache_read_input_tokens": 6083,
+                "cache_creation_input_tokens": 57111,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 57111,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-14 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 33009,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 29434,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 781
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 25112,
+            "cache_read_input_tokens": 5069,
+            "output_tokens": 2826,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 25112
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2826,
+                "cache_read_input_tokens": 5069,
+                "cache_creation_input_tokens": 25112,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 25112,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "wiki-runbook-holiday-freeze.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "change-management-policy-v4.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "severity-definitions-v4.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "incident-ticket-PAY-4471.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.checkout.com/docs/developer-resources/api/idempotency",
+    "https://www.legislation.gov.uk/eudr/2011/83/article/13/adopted",
+    "https://usa.review.visa.com/content/dam/VCOM/global/support-legal/documents/managing-disputes-through-covid-19-apr21-vbn.pdf",
+    "https://chargebacks911.com/chargeback-reason-codes/visa/13-6-credit-not-processed/",
+    "https://chargebacks911.com/chargeback-reason-codes/mastercard/4853-credit-not-processed/",
+    "https://ECB.eu/paym/groups/shared/docs/99431-ami-pay-2017-05-03-item-4-review-of-psd2-aspects-in-the-context-of-the-sct-inst-scheme.pdf",
+    "https://kvia.com/money/stacker-money/2025/12/09/cyber-season-a-cfos-10-step-payment-and-data-security-check-before-holiday-phishing-peaks/",
+    "https://www.usbank.com/corporate-and-commercial-banking/insights/payments-hub/payables/manual-ap-process-risks-solutions.html",
+    "https://www.legislation.gov.uk/eudr/2011/83/article/13/data.htm?view=plain",
+    "https://ae.review.visa.com/content/dam/VCOM/global/support-legal/documents/processing-refunds-vrm-2016-04-21.pdf",
+    "https://uat5.elavon.co.uk/content/dam/elavon/en-gb/v2/documents/resource-center/chargebacks/13_Elavon_Chargeback-Hub-MasterCard-Reason-Codes_V03.pdf",
+    "https://docs.staxpayments.com/docs/refund-guidelines",
+    "https://durangomerchantservices.com/issuing-credit-card-refunds-visa-policies-explained/"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 31 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 6 / 0.003 = 2000 (claimed 2000) → match",
+    "Calculation K2 re-executed: 30 - 11 + 15 = 34 (claimed 34) → match",
+    "Calculation K3 re-executed: 31 - 15 + 1 + 5 = 22 (claimed 22) → match",
+    "Calculation K4 re-executed: 6 * 22 = 132 (claimed 132) → match",
+    "Calculation K5 re-executed: (2026 - 2023) * 12 + (8 - 11) = 33 (claimed 33) → match",
+    "Calculation K6 re-executed: 2000 * 10000 = 20000000 (claimed 20000000) → match",
+    "Calculation K7 re-executed: 132 * 10000 = 1320000 (claimed 1320000) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://www.checkout.com/docs/developer-resources/api/idempotency — getaddrinfo ENOTFOUND www.checkout.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or doe",
+    "Fetch failed: https://www.legislation.gov.uk/eudr/2011/83/article/13/adopted — getaddrinfo ENOTFOUND www.legislation.gov.uk. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, ",
+    "Fetch failed: https://usa.review.visa.com/content/dam/VCOM/global/support-legal/documents/managing-disputes-through-covid-19-apr21-vbn.pdf — getaddrinfo ENOTFOUND usa.review.visa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or ",
+    "Fetch failed: https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32011L0083 — getaddrinfo ENOTFOUND eur-lex.europa.eu. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or do",
+    "Fetch failed: https://bo.review.visa.com/content/dam/VCOM/download/visa-rules-public.pdf — getaddrinfo ENOTFOUND bo.review.visa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: I could not confirm that v4 is the latest published version with no amendments, because there was no access to a policy repository or wiki history. The conclusion that v4 governs rests on the supplied copy.",
+    "Knowledge gap G3 unresolved: The tier of the refund or ledger service is not documented in the supplied sources. It is also unknown whether timed-out refunds leave partial or inconsistent ledger state.",
+    "Knowledge gap G4 unresolved: The freeze dates are stated only by the user, and no freeze calendar was supplied. The non-freeze standard change process is not in the supplied v4 excerpt.",
+    "Knowledge gap G5 unresolved: D1: the payment rail of the back-office tool, the original payment method, and whether the failing refunds are EU consumer withdrawals, card refunds or B2B are all unknown, so whether the workaround meets the CRD same-means rule or card-scheme original-card expectations cannot be determined. Primary texts could not be inspected because eur-lex.europa.eu, www.legislation.gov.uk, usa.review.visa.com and bo.review.visa.com are not allowed in this session's network settings. D5: the current Visa Core Rules text on credit-processing timing could not be retrieved. Only 2016 to 2021 Visa guidance and third-party summaries were found, and they disagree on when the five-day clock starts (E28 versus E29). The Mastercard Transaction Processing Rules text (section 3.7) was not inspected. Refund volume metrics, finance holiday staffing, contractual SLAs and regulated-PSP status also remain unknown. Web budget was not reported as exhausted; fetches failed on host restrictions.",
+    "Knowledge gap G6 unresolved: PR #8812 was not available to inspect for idempotency, tests or a rollback plan. The external idempotency guidance is based on search snippets only, because the fetch of www.checkout.com failed (host not allowed in the session network settings)."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 86.25/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Whether v4 is the latest, authentic version, with no amendments or exceptions already granted [E1, E12].",
+    "Whether the freeze is actually active at the planned deploy time, since the dates come only from the user [E8].",
+    "The approvers required by the non-freeze change process, which was not supplied, and whether 6.4 applies outside a freeze [E5, E4].",
+    "The tier of the refund/ledger service, whether the impact counts as 'minor' (Sev-3), and whether timed-out refunds leave partial ledger state [E12, E6, E7].",
+    "Actual refund volumes and the cost of manual handling [E9].",
+    "Finance's holiday capacity, the refund type, the original payment method and the back-office tool's payment rail, contractual SLAs, PSP status and the manual error rate. These decide whether the external timing and method rules apply and are at risk [E22, E31].",
+    "The regulatory and card-scheme evidence rests on search snippets. Primary texts (EUR-Lex, current Visa Core Rules, Mastercard Transaction Processing Rules) were not inspected. The Visa five-day clock start is disputed (E28 versus E29), and whether Mastercard prohibits off-card refunds or only exposes them to chargebacks is partly unresolved (E26 versus E27) [E13, E14, E18, E24, E25, E26, E27, E28, E29, E30].",
+    "The idempotency, tests and rollback plan of PR #8812 [E11].",
+    "E11 UNKNOWN: No evidence was available on whether PR #8812's retry is idempotent, on test coverage of the timeout path, or on a documented rollback plan.",
+    "E12 UNKNOWN: Could not determine whether the refund or ledger service is classified tier-1, or whether any freeze exception or delegation has already been granted.",
+    "E22 UNKNOWN: No evidence was available on: finance's actual holiday staffing and capacity for the manual workaround; whether the failing refunds are EU consumer refunds, B2B refunds or card refunds, and on which payment rail; what payment rail the back-office tool uses and whether it credits the original card/payment instrument; any contractual refund SLAs with merchants or customers; customer complaints or reputational impact so far; whether the user's company is a regulated payment service provider; or the manual error rate to date.",
+    "E30 UNKNOWN: The current Visa Core Rules and Visa Product and Service Rules text on merchant or acquirer credit-processing time limits, and on crediting the original account, could not be retrieved or verified in this run. Three searches returned only older Visa guidance (2016, 2017, 2021) and third-party summaries, and the fetch of the public Visa rules PDF (https://bo.review.visa.com/content/dam/VCOM/download/visa-rules-public.pdf) failed because the host is not allowed in this session's network settings.",
+    "Open question the reviewer judged decisive: What payment rail does finance's back-office tool use, and does it credit the original card or payment instrument? Are the failing refunds EU consumer withdrawals, card refunds or B2B?",
+    "Open question the reviewer judged decisive: Is the freeze actually active at the planned deploy time (official freeze calendar, what 'tonight' means), and is v4 section 6.4 scoped to freezes or general?",
+    "Open question the reviewer judged decisive: Is the retried ledger call in PR #8812 idempotent, are there timeout-path tests, and is there a documented rollback plan?",
+    "Open question the reviewer judged decisive: Do timed-out refunds leave partially committed ledger entries that would count as Sev-1 data loss and open the Emergency CAB path?",
+    "Open question the reviewer judged decisive: What is finance's holiday roster and capacity for about 6 manual refunds over EUR 10k a day, and what backlog is projected through Jan 5?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T05:15:58.192Z",
+        "reasons": [
+          "[alternatives_counterarguments/major] D1 [verdict ('moderate at best'); alternatives 'Defer until the freeze ends'; counterarguments; criteriaAssessments C5] The draft argues one side of the second half of the decision objective (does the impact justify an exception at all?). The verdict says 'The case for an exception is moderate at best', and the Defer alternative cites 'low staffing' as a reason against deploying the retry. The same holiday staffing problem also weakens the manual workaround: finance staff are on leave, and manual handling of more than EUR 10k refunds carries a higher error risk. The draft never raises this. The counterarguments section also leaves out the strongest case for an exception: customers waiting on delayed high-value refunds, possible contractual, scheme or regulatory deadlines for refunds, and the reputational cost. Of the four counterarguments listed, none argues for an exception on impact grounds. The draft therefore downgrades the exception case without weighing the best evidence for it."
+        ],
+        "action": "both"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T05:21:42.030Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict ('These limits govern when a refund is completed, not how it is processed'); C5 assessment and strengths ('Refund time limits govern completion, not method'); CL13; counterarguments item 5 response] The new synthesis that holds up the pro-exception analysis says external refund limits 'govern when a refund is completed, not how it is processed', so 'a manual workaround completed on time meets them'. The draft's own evidence contradicts this. E13 (CRD Art. 13) requires reimbursement 'using the same means of payment as the original transaction unless the consumer expressly agrees otherwise', and C5 itself says 'the trader must refund within 14 days by the same means of payment'. Card-scheme credit rules (E14, E16, E17) also assume the credit goes back to the original card. The workaround uses a 'back-office tool' whose payment rail is unknown (E22, E14 limitations note it may be bank transfer). So the workaround may break the 'how' requirement even when finance keeps pace. The conditional 'moderate if finance can keep pace' therefore understates a possible compliance problem with the workaround itself, which is the one condition the draft says decides the exception case. This is new material in draft-2."
+        ],
+        "action": "both"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [verdict ('These external rules also govern how a refund is made...'); CL13] Draft-3 now qualifies the Visa five-day figure in the verdict, but it states the new method rules flatly ('EU consumer withdrawal refunds must use the same means...', 'card-scheme guidance expects a credit to the original card'). Those rules rest on the same snippet-level evidence. E24 is INFERRED from search text that was never inspected. E25 is INFERRED, comes from 2016 to 2017 guidance and is attributed to an uncertain source document. E26 is secondary acquirer and PSP summaries, and E27 partly contradicts it for Mastercard. CL13 does not mention the E27 qualification at all. The CRD wording is probably accurate, but the verdict should state the same caveat it gives the Visa timing figure, or at least note the Mastercard qualification."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict (final sentences); C5 assessment closing sentence; alternatives 'Written freeze exception' comparison] The verdict and C5 say 'The exception case is moderate if both conditions hold' (finance keeps pace AND the back-office tool refunds by the same means or to the original card). If both conditions hold, the draft's own analysis says the workaround is adequate on timing and on method. What is left in favour of an exception is the operational cost of about 132 manual cases and some reputational cost with no data behind it (E22). Against it sit the v4 default of deferral (E3) and an unverified double-refund risk (E10, E11). The draft does not show why that balance is 'moderate' and not 'weak'. The rating carries over from draft-2, but draft-3 rewrote it around the new two-condition test, so it counts as changed material.",
+        "[minor/reviewer] D2 [verdict ('The manual workaround is therefore adequate only if two conditions hold'); CL13 last sentence] The verdict states condition (2) with no qualifier: the workaround is 'adequate only if ... (2) the back-office tool refunds by the same means or to the original card'. Under the draft's own evidence that condition applies only to EU consumer withdrawal refunds (E24) and card refunds (E25, E26). The verdict also leaves out the CRD carve-out for express consumer agreement with no fees, and the scheme fallback for an alternate form of credit, both of which E31 keeps. For B2B or non-card refunds paid by bank transfer, condition (2) does not apply at all. A later sentence ('If condition (2) fails for consumer or card refunds') partly corrects this, but the 'adequate only if' wording overstates the requirement."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D4 [practicalImplications item 3; alternatives] The method-compliance problem (a back-office tool that may pay out on a different rail) exists now, whatever happens with the freeze or the fix. It affects about 6 refunds a day today, and the draft itself says the freeze probably has not started. Yet practicalImplications only routes the rail question into an exception request ('If the freeze is active...'). The draft should also recommend that finance confirm the rail now and, if needed, correct the routing or get documented consumer agreement, separately from the change-approval decision. That is especially relevant on the likely branch where the normal process applies and no exception request is ever written."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D5 [verdict; C5 point (3); CL13; CL14] The verdict and C5 cite E31 (and, in C5, E23) as support, e.g. '[E22, E31]' and 'however quickly finance works [E31]'. Both are the drafter's own syntheses (provenance 'none', INFERRED). Citing them alongside source evidence makes the method finding look sourced when it is reasoning. The citations should point to the underlying E24 to E27, with E31 marked as the drafter's inference."
+      ]
+    }
+  },
+  "certified": true
+}

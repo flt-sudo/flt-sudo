@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T051108-9aa45273",
+  "caseId": "ho-14-change-freeze-hotfix",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 86.25,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 7.5,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "The core answer matches the reference exactly. The main judgement call is the output's premise challenge that 'today is 2026-11-11', so the stated Dec 15 to Jan 5 freeze may not be active yet. The user said 'We're in the holiday change freeze', and the reference does not consider this angle. Whether it counts as valid critical thinking or as a distracting misreading of the scenario affects the accuracy and usefulness scores; I scored both at 0.75 partly for this reason. The extensive EU and card-scheme refund material counts as padding under scope. The output also hedges Sev-2 versus Sev-3, while the reference says Sev-2 is correct. No critical failures were triggered and no mustNotClaim pattern appears."
+}

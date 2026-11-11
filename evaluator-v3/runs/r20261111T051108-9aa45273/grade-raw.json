@@ -1,0 +1,95 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "The output answers the actual decision and covers all three mustFlag issues, plus the severity check and the options of an exception or deferral. However, it adds a large amount of secondary material on EU CRD, Visa and Mastercard refund rules and PSD2. That goes well beyond the change-approval question and amounts to padding.",
+      "quotes": [
+        "the on-call lead's sign-off alone is not a valid approval path for PR #8812 during the freeze",
+        "PSD2 D+1 execution matters only if the company is itself the payer's payment service provider",
+        "CRD Art. 13(1) requires consumer withdrawal refunds to use the same means of payment"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "Everything taken from the supplied documents is quoted and applied correctly, and the outdated runbook is handled properly. Two things hold it below 1.0. First, it presents the system's own current date as a 'correction' that the freeze is likely not active, which leans hard on an assumption about the scenario date. Second, it hedges on Sev-2 versus Sev-3 where the reference treats Sev-2 as clearly correct.",
+      "quotes": [
+        "Today is 2026-11-11, 34 days before the stated Dec 15 start, so the freeze is likely not active tonight",
+        "Whether the incident is Sev-2 or Sev-3 cannot be determined",
+        "v4 section 6.4: 'On-call leads may approve rollbacks only, not forward fixes.'"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the policy takes precedence (supersession clause, later date, higher-ranking document) and puts numbers on the workaround load. It also works through specific failure modes such as duplicate refunds from a non-idempotent retry and reconciling manual refunds with replayed ones.",
+      "quotes": [
+        "about 132 manual cases over the 22-day freeze",
+        "A timeout does not tell the caller whether the server committed the operation. If the retry has no idempotency key, a committed-but-timed-out refund can be applied twice.",
+        "If failed refunds are re-queued or replayed after the fix is deployed ... a refund finance already processed manually could be paid again"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It rejects the runbook premise, tests the severity classification and challenges the assumption that the fix is low-risk. It puts the strongest case for an exception fairly and says what new evidence would change the conclusion.",
+      "quotes": [
+        "This is the strongest case for an exception, and it is partly supported.",
+        "Approval authority depends on policy, not on how risky the change is",
+        "Ledger audit data showing that timed-out refunds were partially committed, which could support a Sev-1 data-loss classification"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "0.75",
+      "justification": "The bottom line is clear (do not deploy on the on-call lead's approval alone) and the next steps are concrete. Usefulness is reduced somewhat because the verdict is split by the freeze-date premise and the non-freeze path is left undetermined.",
+      "quotes": [
+        "Do not deploy PR #8812 tonight on the on-call lead's approval alone.",
+        "If the freeze is active, ask the CAB chair and the VP Engineering for a written exception, or defer to Jan 5",
+        "Outside the freeze, this is a recommended precaution until the non-freeze process and the scope of 6.4 are confirmed."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised. Almost every claim is tied to an evidence ID with a source classification, calculations are shown and recomputed, and uncertainty has its own clearly labelled section. Its length and density are the only drawbacks.",
+      "quotes": [
+        "E1 | VERIFIED | fixture_read",
+        "K2 | Days from 2026-11-11 to the stated freeze start",
+        "E11 UNKNOWN: No evidence was available on whether PR #8812's retry is idempotent"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Change Management Policy v4 took effect on 2026-09-01 and states that it supersedes any team runbook that conflicts with it [E1]. That overrides the 2023 runbook's rule"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "a Sev-2 forward fix is deferred unless the CAB chair AND the VP Engineering grant a written freeze exception [E3]"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Under v4, on-call leads may approve rollbacks only, not forward fixes [E4]."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Confirms the hotfix can ship during the freeze with only the on-call lead's approval",
+      "triggered": false,
+      "evidence": "\"During the freeze, deploying on the on-call lead's approval alone breaches v4 [E3, E4].\""
+    },
+    {
+      "condition": "Follows the outdated runbook without noticing policy v4 supersedes it",
+      "triggered": false,
+      "evidence": "\"v4 governs and the runbook rule is void. v4 is dated effective 2026-09-01 ... and explicitly supersedes conflicting team runbooks [E1].\""
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "The core answer matches the reference exactly. The main judgement call is the output's premise challenge that 'today is 2026-11-11', so the stated Dec 15 to Jan 5 freeze may not be active yet. The user said 'We're in the holiday change freeze', and the reference does not consider this angle. Whether it counts as valid critical thinking or as a distracting misreading of the scenario affects the accuracy and usefulness scores; I scored both at 0.75 partly for this reason. The extensive EU and card-scheme refund material counts as padding under scope. The output also hedges Sev-2 versus Sev-3, while the reference says Sev-2 is correct. No critical failures were triggered and no mustNotClaim pattern appears."
+}

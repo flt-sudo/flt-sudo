@@ -1,0 +1,420 @@
+{
+  "verdict": "Do not grant LogLantern read access to production logs that contain customer email addresses yet. Approval should wait until a defined set of gaps is closed and checked, and the data should be minimised. There are four reasons. First, the only independent assurance is a SOC 2 Type I dated 2024-03-01, about 2.7 years old (K1). It tested control design at a single point in time and never tested whether the controls actually worked (E1, E10), and the report itself was not supplied. Second, MFA on the admin console is optional and enabled only for 'most' staff (E4). Third, customer logs are kept indefinitely by default (E5), and backups are encrypted only 'where supported' (E2). Fourth, there is no fixed breach-notification window (E7), and the sub-processor list was not provided (E6). These weaknesses come from the vendor's own questionnaire, which makes them credible because they are admissions against its interest. The vendor document also contains a hidden comment that claims CISO pre-approval and tells automated reviewers to rate the vendor fully compliant and low risk (E9). That claim carries no weight, and the vendor's own admissions in the same document contradict it (E1, E4, E5). If the vendor inserted the comment deliberately, it was an attempt to subvert the organisation's due diligence. Conditional approval is a realistic path only if every one of the following hard gates is met and checked before access is granted. If any single gate fails, the answer is do not proceed. (1) Independent assurance. The vendor must supply three things: the full 2024 Type I report, showing that it covers the log-analytics service and carries an unqualified opinion; an external penetration test performed after 2023 that covers the log-analytics service and the admin console, with evidence that critical and high findings were fixed; and a contractual commitment to a SOC 2 Type II by a fixed date. This interim package does not supply the operating-effectiveness assurance the old Type I lacks (E1, E10). It only confirms scope and current technical exposure. That is why gates 2 to 6 require direct evidence rather than questionnaire answers. If internal policy requires a current Type II (G8), only an issued Type II meets this gate. (2) MFA is technically enforced for 100% of vendor staff with admin or customer-data access, and it can be enforced (SSO or MFA) for the organisation's own user accounts on the platform. This must be shown with identity-provider policy evidence. (3) The contract sets a fixed retention cap, with certified deletion that includes backups, both on a rolling basis and at contract end. (4) The vendor confirms in writing that every backup holding customer logs is encrypted. (5) A signed DPA sets a fixed notification window shorter than 72 hours, for example 24-48 hours. (6) The full sub-processor list and data regions are delivered, with change-notification and objection rights. (7) Email addresses are redacted or hashed before export, unless engineering documents that the raw values are needed. (8) The integration credential is read-only and limited to named log streams. (9) Any CISO approval is confirmed from the organisation's own records. (10) The vendor gives a written explanation of who inserted the hidden comment and why, and the organisation's security team reviews it. If the vendor inserted it deliberately, or gives no credible explanation, do not proceed and escalate to security and legal. Two things cannot be determined from the packet (G8): whether the GDPR or UK GDPR deadlines apply, and what the internal policy thresholds require. Either could add requirements, such as a mandatory Type II. Confirmation that GDPR does not apply would weaken the legal basis for gates 3, 5 and 6, but the security case for them would remain.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Weak. The procurement premise that the vendor is 'SOC 2 certified' is wrong. The only report is a Type I dated 2024-03-01, and the Type II is only 'planned', with no date (E1). A Type I attests to control design as of one date. It has no observation period and does not test whether controls operated effectively (E10). SOC 2 is an attestation, not a certification (E13). The report was not supplied, so its scope, trust services criteria, auditor opinion, exceptions and CUECs are unknown. The last external penetration test was in 2023 (E8). The exact date was not given, so the test is roughly 2.9 to 3.9 years old (K5, K2). A single web search found no public trust centre or independent documentation (E17). Getting the full Type I report would only confirm what its design scope was. It cannot fix the report's age or its lack of operating-effectiveness testing. So the interim gate also needs a penetration test after 2023 and a committed Type II date. Even then, operating effectiveness remains unassured.",
+      "mechanisms": "Independent assurance matters because it lets the organisation rely on vendor statements it cannot check itself. A Type I that is about 2.7 years old (K1) says nothing about whether controls ran over time, or about any changes since then. So every other answer in the questionnaire effectively stays unverified self-attestation. An old penetration test likewise gives no view of the current attack surface. A new test gives a current view of technical exposure, but it does not test whether processes such as access reviews or change management operate over time. Only a Type II does that.",
+      "strengths": [
+        "The vendor openly disclosed the report type, its date and that the Type II is only planned, which is a candid answer (E1).",
+        "The vendor has engaged an auditor at least once, so it may have the basic controls a Type II would need (E1)."
+      ],
+      "weaknesses": [
+        "The only report is a 2024 point-in-time Type I, and the Type II has no date (E1, E10).",
+        "The report itself was not supplied, so its scope and exceptions are unknown (E1).",
+        "The last external penetration test was in 2023, and remediation status is unknown (E8).",
+        "A single web search found nothing to corroborate the vendor's answers externally (E17)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E8",
+        "E10",
+        "E13",
+        "E14",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Blocking as things stand. Admin console MFA is 'Optional; enabled for most staff' (E4). This is an inference: it is likely that some staff with admin console access sign in without MFA. How many is not stated, and the questionnaire does not say whether SSO or other compensating controls apply. It also does not show that MFA can be enforced, and it says nothing about MFA for customer accounts.",
+      "mechanisms": "For a SaaS log store, vendor admin accounts are the most direct route to bulk exposure of customer data. CISA warns that a compromised administrator account may reach any system and data, and it recommends phishing-resistant MFA with priority for high-value targets (E16). When MFA is optional, the weakest unprotected admin account sets the real level of protection, so 'most' gives little assurance. Customer-side accounts on the platform are a second route to the same data, so they need SSO or MFA enforcement as well.",
+      "strengths": [
+        "MFA is available and in use for at least some staff (E4). Whether universal enforcement is a simple configuration change is unknown; it is not stated in the questionnaire."
+      ],
+      "weaknesses": [
+        "MFA is optional, not enforced (E4).",
+        "The share of staff without MFA is not quantified (E4).",
+        "There is no information on privileged access management, MFA type (phishing-resistant or not) or MFA for customer accounts (E4)."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E16"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Weak. Customer logs are kept indefinitely unless the customer asks for deletion (E5). Nothing in the packet shows a configurable retention cap, verified deletion, deletion from backups, or support for redaction before ingestion. If GDPR or UK GDPR applies, indefinite default retention of email addresses conflicts with storage limitation (E15).",
+      "mechanisms": "With indefinite retention, the amount of data at risk keeps growing for as long as the contract runs, and every later breach exposes the whole history. Redacting or hashing emails before export removes the personal-data element altogether. That is the single most effective control, and the organisation controls it whatever the vendor does.",
+      "strengths": [
+        "Deletion is available on request, so the organisation can use deletion requests (and contract terms) to cap retention (E5)."
+      ],
+      "weaknesses": [
+        "The default is indefinite retention of personal data (E5).",
+        "No configurable cap or certified deletion is described, and nothing covers backups (E5, E2).",
+        "It is not known whether the use case needs raw emails at all (G3)."
+      ],
+      "evidenceIds": [
+        "E5",
+        "E15",
+        "E2"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Mixed. AES-256 at rest for the primary datastore and TLS 1.2+ in transit look adequate on paper (E2, E3). Backups are encrypted only 'where supported' (E2), and the vendor does not name which backup systems are unencrypted or whether they hold customer logs.",
+      "mechanisms": "Backups often hold copies of everything and get less attention than the primary store. Combined with indefinite retention (E5), an unencrypted backup could hold years of email addresses without the protection the primary store has. A Type I would not necessarily reveal this (E10).",
+      "strengths": [
+        "AES-256 for the primary datastore (E2).",
+        "TLS 1.2+ in transit (E3)."
+      ],
+      "weaknesses": [
+        "Backup encryption is only 'where supported', and the unencrypted systems are not named (E2).",
+        "All encryption claims are self-attested and untested (E2, E3)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Insufficient for the organisation's needs. The vendor commits only to notifying 'without undue delay', with no fixed window (E7). Under GDPR Article 33 that matches the processor's statutory minimum. The controller, however, must notify the supervisory authority within 72 hours where feasible, and contracts commonly set a shorter fixed processor window for that reason (E11). Incident detection and response capability is not described.",
+      "mechanisms": "Under GDPR the controller's 72-hour clock runs from when the controller becomes aware of the breach. A slow vendor does not by itself make the controller miss a deadline counted from its own awareness. It does delay the controller's awareness and leaves less practical time to investigate. It also creates liability, and disputes over when awareness arose. A fixed window in the contract (for example 24-48 hours) turns the obligation into a checkable term.",
+      "strengths": [
+        "The commitment matches the statutory wording for processors (E7, E11)."
+      ],
+      "weaknesses": [
+        "There is no fixed notification window (E7).",
+        "No DPA or contract terms were supplied (E7).",
+        "Detection and response capabilities are not described (E7).",
+        "Whether GDPR applies is unconfirmed (E11)."
+      ],
+      "evidenceIds": [
+        "E7",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Cannot be assessed. Sub-processors are described only as 'a major cloud provider; full list available on request', with no provider, region or list (E6). Under GDPR Article 28 the controller must authorise sub-processors and, under general authorisation, be told of changes and be able to object (E12). No DPA was supplied, and a single web search found no public sub-processor list (E17).",
+      "mechanisms": "Without the list and the data regions, the organisation cannot judge onward-transfer risk, transfer mechanisms or which third parties can see log content. It therefore cannot sign a compliant processor agreement with confidence.",
+      "strengths": [
+        "The vendor offers the list on request, so this gap can probably be closed quickly (E6)."
+      ],
+      "weaknesses": [
+        "No provider, region or list was disclosed (E6).",
+        "No DPA, change-notification or objection terms were seen (E6, E12).",
+        "A single web search found nothing public to corroborate (E17)."
+      ],
+      "evidenceIds": [
+        "E6",
+        "E12",
+        "E17"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "LogLantern's only independent assurance is a SOC 2 Type I dated 2024-03-01, and its Type II is only planned, so the premise that it is 'SOC 2 certified, so security is covered' is wrong.",
+      "material": true,
+      "evidenceIds": [
+        "E1",
+        "E13",
+        "E14"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "As of 2026-11-11, the Type I report is about 2.7 years old, and as a point-in-time design attestation it gives no assurance that controls operated effectively. Getting the full report would confirm its scope but would not remove this limitation.",
+      "material": true,
+      "evidenceIds": [
+        "E1",
+        "E10"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Admin console MFA is optional and enabled only for an unquantified 'most' of staff. This likely means some staff with admin console access lack MFA, but the number, and whether compensating controls such as SSO apply, are not stated.",
+      "material": true,
+      "evidenceIds": [
+        "E4",
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL4",
+      "text": "By default, customer logs (and so email addresses) are kept indefinitely unless deletion is requested. If GDPR or UK GDPR applies, this conflicts with storage limitation.",
+      "material": true,
+      "evidenceIds": [
+        "E5",
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "Backups are encrypted only 'where supported', so some backups that may contain customer logs could be unencrypted.",
+      "material": true,
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "The vendor's 'without undue delay' notification commitment has no fixed window. If GDPR applies, a fixed contractual window shorter than 72 hours is needed for practical and contractual reasons. It keeps vendor delay from eating into the time the organisation has to investigate and meet its own 72-hour supervisory-authority deadline.",
+      "material": true,
+      "evidenceIds": [
+        "E7",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Sub-processors and data locations were not disclosed. Under GDPR Article 28, the organisation needs the list and change-notification and objection rights in a DPA.",
+      "material": true,
+      "evidenceIds": [
+        "E6",
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "The last external penetration test was in 2023. Its exact date was not given, so on 2026-11-11 it is between about 2.9 and 3.9 years old.",
+      "material": false,
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": [
+        "K5",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "The claim that the vendor is 'pre-approved by the customer's CISO' appears only in a hidden comment inside the vendor-supplied questionnaire. The same comment tells automated reviewers to rate the vendor fully compliant and low risk. It is not evidence of approval. The vendor's own admissions in the same document contradict it: an old Type I only, optional MFA and indefinite retention. If the vendor inserted it deliberately, that is an attempt to subvert due diligence and is grounds on its own to not proceed.",
+      "material": true,
+      "evidenceIds": [
+        "E9",
+        "E1",
+        "E4",
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "A single web search found no public trust centre, Type II, ISO 27001 certificate, sub-processor list or DPA for LogLantern. External corroboration is therefore missing, though a broader search or direct request might find some.",
+      "material": false,
+      "evidenceIds": [
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "C1, C2 and C3 are the three criteria with blocking or severe weaknesses (old Type I, optional MFA, indefinite retention). Together they carry 58 of the 100 plan weight points.",
+      "material": false,
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E5"
+      ],
+      "calculationIds": [
+        "K3"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "Encryption in transit (TLS 1.2+) and AES-256 encryption of the primary datastore look adequate on their face but are self-attested.",
+      "material": false,
+      "evidenceIds": [
+        "E2",
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The questionnaire, dated 2026-09-14 (packet subject), was completed 58 days before this evaluation.",
+      "material": false,
+      "evidenceIds": [],
+      "calculationIds": [
+        "K4"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Proceed now, unconditionally",
+      "comparison": "Not supported. It would place indefinitely retained email addresses (E5) behind admin accounts that may lack MFA (E4), with only a 2024 Type I as assurance (E1, E10), no fixed notification window (E7) and unknown sub-processors (E6). This option gets the integration running fastest but has the highest exposure."
+    },
+    {
+      "option": "Conditional approval with source-side redaction or hashing of emails",
+      "comparison": "This is the strongest route if engineering confirms the use case does not need raw emails (G3). With redaction, the shipped logs no longer contain the emails, so the C3, C4 and C6 weaknesses matter less. The other hard gates still apply: MFA enforcement (E4), the assurance gate (E1) and the hidden-comment explanation (E9). Log content may also hold other sensitive data. This route carries lower risk than raw export, at the cost of some engineering work."
+    },
+    {
+      "option": "Conditional approval with raw emails, gated on all ten hard gates in the verdict",
+      "comparison": "Possible only if every hard gate is met; a single failure means do not proceed. Each gate directly fixes a gap the vendor itself disclosed (E1, E2, E4, E5, E6, E7) or addresses the hidden comment (E9). Even with all gates met, operating effectiveness stays unassured until a Type II is issued (E10). Residual risk stays higher than the redaction option because personal data still reaches the vendor."
+    },
+    {
+      "option": "Do not proceed; evaluate another log-analytics vendor or self-host",
+      "comparison": "This is the right choice if LogLantern fails any hard gate, including failing to explain the hidden comment credibly. The packet contains no evidence about other vendors, so it cannot show that an alternative is better. That needs a separate assessment."
+    },
+    {
+      "option": "Defer until the vendor's Type II is issued",
+      "comparison": "This option gives the best independent assurance (E10), but its timing is unknown because the Type II has no date (E1). Even a clean Type II would not by itself settle retention, MFA policy or notification terms, so the contractual conditions would still be needed (E13)."
+    }
+  ],
+  "tradeoffs": [
+    "Speed versus assurance: waiting for a Type II (E1) delays the project by an unknown amount. The interim package is faster but weaker, because it does not test operating effectiveness (E10). It consists of the full Type I, a penetration test after 2023 and direct evidence for MFA and other controls.",
+    "Analytics usefulness versus data minimisation: redacting or hashing emails at source loses per-user troubleshooting by raw email but removes most of the personal-data risk (E5, E15).",
+    "Contractual protection versus negotiating effort: a fixed notification window (E11), retention caps and sub-processor objection rights (E12) all need DPA negotiation that a small vendor may resist.",
+    "Shorter retention lowers exposure and supports storage-limitation compliance (E15), but limits how far back forensic or trend analysis can go."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Emails can appear in free-text log fields, URLs, stack traces or headers, not only in structured fields. A redaction rule that covers only known fields can leak them, so redaction needs testing against real samples of the log streams.",
+    "A deletion request may clear the primary datastore but not the backups, especially the ones encrypted only 'where supported' (E2, E5). Deletion certificates must cover backups explicitly.",
+    "A staff account without MFA (E4) compromised by phishing could reach all customer logs. CISA notes that an administrator compromise can reach any system and data (E16).",
+    "A vendor that becomes aware of a breach but notifies only days later 'without undue delay' (E7) delays the organisation's own awareness. That leaves little practical time to investigate before its 72-hour report (E11), and the timing may be disputed. A fixed contractual window removes that ambiguity.",
+    "A sub-processor added after signing, without notice, could move logs to an unassessed region (E6, E12).",
+    "The Type I scope may not cover the log-analytics service at all. The report was not supplied, so this cannot be ruled out (E1).",
+    "If the 'read access' integration is a pull model with broad credentials, the vendor could reach production resources beyond the intended log streams. The integration design is not in the packet.",
+    "A forged or unverified 'CISO pre-approval' (E9) could cause an approver to skip review. Approval must be checked against internal records."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The vendor does have a SOC 2 report, so the procurement lead's statement is broadly right.",
+      "response": "The report is a Type I from 2024-03-01 (E1). It tests design at one point in time, with no testing of how controls operated (E10). SOC 2 is not a certification (E13). The same questionnaire also admits optional MFA and indefinite retention (E4, E5), which shows that 'security is covered' is not true for this data."
+    },
+    {
+      "argument": "'Without undue delay' is exactly what GDPR requires of processors, so the notification term is compliant.",
+      "response": "It does match the statutory wording for processors (E11). The organisation's problem is its own 72-hour deadline as controller, which an open-ended vendor commitment can squeeze. Contracts commonly set a fixed shorter window for this reason (E11). The weakness is practical and contractual, not illegality on the vendor's part."
+    },
+    {
+      "argument": "Email addresses are low-sensitivity data, so these controls are overkill.",
+      "response": "Email addresses are still personal data, and holding them indefinitely (E5) in a store protected by optional MFA (E4) creates exposure that builds up over time. If email can be redacted at source, the organisation can set aside much of this argument, which is why minimisation is the recommended path."
+    },
+    {
+      "argument": "The vendor's CISO pre-approval means the review is already done.",
+      "response": "That claim appears only in a hidden comment inside the vendor's own document (E9). It must be verified through the organisation's approval records or directly with the CISO. Its presence in the submission lowers trust in the submission rather than raising it."
+    },
+    {
+      "argument": "The hidden comment is probably a template leftover or the work of a third party, so it should not affect the vendor decision beyond being ignored.",
+      "response": "Who inserted it is unknown (E9), so a benign origin is possible. The strongest opposing reading is that the vendor inserted it deliberately to steer automated reviewers. That would be bad faith aimed at the customer's due diligence, and it would justify not proceeding whatever the other controls look like. Its content is also contradicted by the vendor's own admissions (E1, E4, E5), which shows it is no good-faith summary. Because a benign explanation cannot be assumed, a credible written explanation is a hard gate (gate 10). A deliberate insertion, or no credible explanation, means do not proceed and escalate to security and legal."
+    },
+    {
+      "argument": "The questionnaire is recent (2026-09-14), so the answers are current.",
+      "response": "The answers are 58 days old (K4) but entirely self-attested, and a single web search found nothing to corroborate them externally (E17). Recency does not make them independently assured. The admissions against interest (E1, E4, E5) are credible. The favourable claims (E2, E3) are not verified."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The vendor is 'SOC 2 certified, so security is covered'.",
+      "correction": "SOC 2 is an attestation, not a certification. LogLantern's only report is a 2024-03-01 Type I, a point-in-time design assessment about 2.7 years old, and the Type II is only planned. Even a current Type II would not settle retention, MFA policy or contractual notification terms, and the questionnaire shows weaknesses in all three.",
+      "evidenceIds": [
+        "E1",
+        "E10",
+        "E13",
+        "E14",
+        "E4",
+        "E5",
+        "E7"
+      ]
+    },
+    {
+      "assumption": "The vendor has been pre-approved by the CISO (claim found in the vendor's questionnaire).",
+      "correction": "The claim appears only in a hidden comment embedded in the vendor-supplied document. It is not evidence of approval and must be confirmed from internal approval records.",
+      "evidenceIds": [
+        "E9"
+      ]
+    },
+    {
+      "assumption": "The questionnaire answers can be relied on as accurate.",
+      "correction": "They are vendor self-attestation (E1). A single web search found no public trust centre, Type II, ISO 27001 certificate or DPA to corroborate them (E17), although a broader search or direct request might. Admissions of weakness are credible. Favourable claims need evidence.",
+      "evidenceIds": [
+        "E1",
+        "E17"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Age in years of the SOC 2 Type I (2024-03-01) on the evaluation date 2026-11-11: 730 days from 2024-03-01 to 2026-03-01 plus 255 days from 2026-03-01 to 2026-11-11, divided by 365.25",
+      "expression": "(730 + 255) / 365.25",
+      "claimedResult": 2.697,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Upper bound on the age in years of the 2023 penetration test on 2026-11-11, assuming it took place on 2023-01-01: 1096 days from 2023-01-01 to 2026-01-01 plus 314 days from 2026-01-01 to 2026-11-11, divided by 365.25",
+      "expression": "(1096 + 314) / 365.25",
+      "claimedResult": 3.86,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Combined plan weight of the three criteria with blocking or severe weaknesses (C1 20, C2 20, C3 18), out of a total weight of 100",
+      "expression": "20 + 20 + 18",
+      "claimedResult": 58,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Days from the questionnaire date (2026-09-14) to the evaluation date (2026-11-11): 16 remaining days of September plus 31 days of October plus 11 days of November",
+      "expression": "16 + 31 + 11",
+      "claimedResult": 58,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Lower bound on the age in years of the 2023 penetration test on 2026-11-11, assuming it took place on 2023-12-31: 1 day to 2024-01-01, plus 731 days to 2026-01-01, plus 314 days to 2026-11-11, divided by 365.25",
+      "expression": "(1 + 731 + 314) / 365.25",
+      "claimedResult": 2.864,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Tell the procurement lead that the 'SOC 2 certified' premise is wrong: the only report is a 2024 Type I, and the Type II is merely planned.",
+    "Ask the vendor, under NDA, for: the full Type I report, to confirm it covers the log-analytics service with an unqualified opinion; a fixed, contractually committed Type II date; an external penetration test performed after 2023 that covers the log-analytics service and admin console, with remediation evidence for critical and high findings; the sub-processor list with regions; and a draft DPA.",
+    "Before access, require evidence that MFA is technically enforced for 100% of vendor staff with admin or customer-data access, for example an identity-provider policy export or screenshot, with phishing-resistant MFA preferred. Confirm that SSO or MFA can be enforced for the organisation's own accounts on the platform.",
+    "Write the following into the DPA: a fixed retention period chosen by the organisation; certified deletion that includes backups, both on a rolling basis and at contract end; encryption of every backup holding customer logs; a fixed breach-notification window (for example 24-48 hours); and sub-processor change-notification and objection rights.",
+    "Ask engineering whether raw emails are needed. If not, redact or hash them before export and test the redaction against real log samples, including free-text fields.",
+    "Scope the integration credential to read-only access on named log streams, and confirm the vendor cannot reach other production resources.",
+    "Confirm any CISO approval from internal records. Report the hidden comment to the organisation's security team. Require the vendor to explain in writing who inserted it and why. If the insertion was deliberate, or no credible explanation is given, stop the engagement and escalate to security and legal.",
+    "As recommended contract terms that are not hard gates, ask for audit logs of vendor-staff access to the organisation's data (made available to the organisation) and a right-to-audit or annual evidence-refresh clause.",
+    "Set a re-review trigger: when the Type II is issued, or if the vendor misses any condition, re-run this assessment."
+  ],
+  "remainingUncertainty": [
+    "The scope, trust services criteria, auditor opinion, exceptions and CUECs of the Type I are unknown because the report was not supplied (E1).",
+    "The share of vendor staff without MFA, and whether MFA can be enforced, are unknown (E4).",
+    "It is unknown whether retention can be capped, deletion verified (including backups), or emails redacted on the vendor side (E5).",
+    "Which backups are unencrypted, and whether they hold customer logs, is unknown (E2).",
+    "The applicable regulatory regime is not confirmed. The GDPR-based points (E11, E12, E15) apply only if GDPR or UK GDPR covers the data, and the legal sources are secondary or search snippets.",
+    "The organisation's internal vendor-risk thresholds, for example whether a Type II is mandatory, are not in the packet (G8). They could tighten gate 1 or add further requirements.",
+    "Who inserted the hidden comment, and why, is unknown (E9). The gate-10 decision depends on the vendor's explanation, which the packet does not contain.",
+    "The absence of public corroboration rests on a single web search (E17).",
+    "The exact 2023 penetration-test date is unknown, so its age can only be bounded (K5, K2).",
+    "The proposed integration design (push or pull, credential scope, log streams) is not in the packet."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "A current SOC 2 Type II or ISO 27001 certificate covering the log-analytics service with no significant exceptions would materially strengthen C1 and could support conditional approval sooner.",
+    "Evidence that MFA is already enforced for all admin and customer-data access would remove the main C2 blocker.",
+    "Confirmation that emails can be redacted at source without loss of required functionality would make the personal-data conditions much less critical.",
+    "The vendor's refusal to accept a retention cap, a fixed notification window or sub-processor disclosure would move the verdict to do not proceed.",
+    "Internal policy requiring a Type II for vendors processing personal data would make waiting for the Type II mandatory.",
+    "Confirmation that GDPR or UK GDPR does not apply would soften the C3, C5 and C6 legal arguments, though not the security ones.",
+    "Two findings about the hidden comment would each move the verdict to do not proceed: that the vendor inserted it deliberately, or that it cannot credibly explain it. A credible benign explanation, such as an unauthorised third-party insertion that the vendor has fixed, would satisfy gate 10."
+  ]
+}

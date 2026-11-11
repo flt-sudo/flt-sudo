@@ -1,0 +1,347 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C1/C2; CL3; CL4; remainingUncertainty; furtherResearchThatCouldChangeConclusion] The draft never asks whether the TechBench steady-state figures (StreamCore 220k, QueueForge 410k and 340k) were measured with consumers reading at the same time. The excerpt only gives producer-side 'sustained msg/s'. In C5 and CL16 the draft adds consumer egress (about 50 MB/s per node per consumer group, K32/K37) to the target load, but it does not carry that into C1/C2. If the benchmark was producer-only, the real capacity of QueueForge with consumers attached may be below 340k, and possibly below 300k at the 50 ms point. That would erode the 13.3% headroom on which the 'lead candidate' verdict rests. 'Client configuration' appears only generically in remainingUncertainty."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [verdict; C2; CL3; CL4; K14; K19; K28] The draft calls 410k QueueForge's 'sustained maximum' and uses it as the capacity ceiling in K14, K19, K21, K26-K28 and K34-K36. The source table only says 'sustained msg/s' at 61 ms p99. It does not say this is the maximum achievable, and it does not say 220k is StreamCore's maximum. Treating these as ceilings is an inference that should be labelled as one."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; C3 assessment; CL15; alternatives[0]; practicalImplications[4]] The verdict, C3, CL15, alternatives[0], edgeCases[0] and practicalImplications[4] all give 'if 6-node capacity of 410k is restored, the backlog drains in about 5-10 minutes' (K26, K27) as the first, optimistic drain case. After an unplanned node loss, 6-node capacity does not come back when the rebalance ends. It needs a replacement node, and adding that node probably triggers another rebalance, which per E6 may cause another dip. The 5-10 minute figure only fits planned restarts. The more realistic post-failure case is the 5-node one (13-26 minutes under the unsupported linear assumption), and it gets equal or secondary billing."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C3 assessment; CL15; edgeCasesAndFailureModes[0]; calculations (missing)] The 300k-live-load reading of the 40% dip (K33) is called 'worse', but its consequences are never quantified, although that is trivial to do. Deficit is 120k msg/s. Backlog is about 72M-144M messages (about 72-144 GB) over 10-20 minutes. Drain on 5 nodes at the linear-illustration surplus of 41.7k msg/s takes about 1,728-3,456 s (about 29-58 minutes). Only the more favourable 410k-based numbers are worked through, so the decision-maker sees the milder scenario in detail and the harsher one only as 'larger'."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [alternatives; tradeoffs] Alternatives cover StreamCore with faster CPUs and QueueForge with more than 6 nodes. They leave out QueueForge on larger or faster hardware within the 6-node limit (vertical scaling to raise sub-50 ms capacity and degraded-mode headroom). They also leave out changing the durability settings (for example RF or acks choices, if the requester's 'replicated' allows it). Both are obvious levers that stay within the stated node constraint."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [verdict] The verdict runs to about 700 words and puts detailed backlog and drain arithmetic ahead of the recommendation, which comes near the end. A decision-maker has to read through the scenario calculations to reach 'treat QueueForge as the lead candidate, run a PoC, drop StreamCore unless more than 6 nodes or a 36.4% or greater gain is proven'. The arithmetic belongs in C3 and CL15."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [CL16; C3 assessment; C5 weaknesses] Some citations stretch the evidence. CL16 (retention of 77.76 TB/day, consumer-group egress) cites only E11, but E11 mentions neither retention nor consumer egress; its limitations say it ignores consumer egress. C3 says 'StreamCore's failure and maintenance behaviour is undocumented (E12)', but E12 is about the lack of external web information. The undocumented StreamCore failure behaviour is noted in E6's limitations. C5's 'upgrade procedure, tooling or maturity' gap is attributed to E12 in the same loose way."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "300000*1000/1000000",
+      "claimed": 300,
+      "actual": 300,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "300*3",
+      "claimed": 900,
+      "actual": 900,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "900/6",
+      "claimed": 150,
+      "actual": 150,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "220000/300000",
+      "claimed": 0.733,
+      "actual": 0.7333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(300000-220000)/220000",
+      "claimed": 0.364,
+      "actual": 0.36363636363636365,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(340000-300000)/300000",
+      "claimed": 0.133,
+      "actual": 0.13333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(410000-300000)/300000",
+      "claimed": 0.367,
+      "actual": 0.36666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "410000*(1-0.4)",
+      "claimed": 246000,
+      "actual": 246000,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "300000*(1-0.4)",
+      "claimed": 180000,
+      "actual": 180000,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "1000000*100/1000000",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "100/300",
+      "claimed": 0.333,
+      "actual": 0.3333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "900/5",
+      "claimed": 180,
+      "actual": 180,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "300/6*2",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-300000/340000",
+      "claimed": 0.118,
+      "actual": 0.11764705882352944,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "1-300000/410000",
+      "claimed": 0.268,
+      "actual": 0.2682926829268293,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "340000*5/6",
+      "claimed": 283333,
+      "actual": 283333.3333333333,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "4000*6",
+      "claimed": 24000,
+      "actual": 24000,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "4000*5",
+      "claimed": 20000,
+      "actual": 20000,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "300000/(220000/6)",
+      "claimed": 8.18,
+      "actual": 8.181818181818182,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(340000-220000)/220000",
+      "claimed": 0.545,
+      "actual": 0.5454545454545454,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "300000-410000*(1-0.4)",
+      "claimed": 54000,
+      "actual": 54000,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "54000*600",
+      "claimed": 32400000,
+      "actual": 32400000,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "54000*1200",
+      "claimed": 64800000,
+      "actual": 64800000,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "32400000*1000/1000000000",
+      "claimed": 32.4,
+      "actual": 32.4,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "64800000*1000/1000000000",
+      "claimed": 64.8,
+      "actual": 64.8,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "32400000/(410000-300000)",
+      "claimed": 294.5,
+      "actual": 294.54545454545456,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "64800000/(410000-300000)",
+      "claimed": 589.1,
+      "actual": 589.0909090909091,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "410000*5/6",
+      "claimed": 341667,
+      "actual": 341666.6666666667,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "410000*5/6-300000",
+      "claimed": 41667,
+      "actual": 41666.666666666686,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "32400000/(410000*5/6-300000)",
+      "claimed": 777.6,
+      "actual": 777.5999999999997,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "64800000/(410000*5/6-300000)",
+      "claimed": 1555.2,
+      "actual": 1555.1999999999994,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "900*86400/1000000",
+      "claimed": 77.76,
+      "actual": 77.76,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "77.76/6",
+      "claimed": 12.96,
+      "actual": 12.96,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "77.76/5",
+      "claimed": 15.55,
+      "actual": 15.552000000000001,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "300/6",
+      "claimed": 50,
+      "actual": 50,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "300/6+100+100+300/6",
+      "claimed": 300,
+      "actual": 300,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": false,
+  "revisionTargets": [
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C1/C2; CL3; CL4; remainingUncertainty; furtherResearchThatCouldChangeConclusion] The draft never asks whether the TechBench steady-state figures (StreamCore 220k, QueueForge 410k and 340k) were measured with consumers reading at the same time. The excerpt only gives producer-side 'sustained msg/s'. In C5 and CL16 the draft adds consumer egress (about 50 MB/s per node per consumer group, K32/K37) to the target load, but it does not carry that into C1/C2. If the benchmark was producer-only, the real capacity of QueueForge with consumers attached may be below 340k, and possibly below 300k at the 50 ms point. That would erode the 13.3% headroom on which the 'lead candidate' verdict rests. 'Client configuration' appears only generically in remainingUncertainty."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Did the TechBench runs include concurrent consumers (and how many consumer groups), and what is each broker's sustained throughput and p99 at 1 KB, RF3, 6 nodes with the requester's real consumer load attached?",
+    "What is QueueForge's measured throughput and p99 during and after rebalancing following a node kill at the partition count needed for 300k msg/s, and what is its 5-node post-rebalance capacity?",
+    "Does the requester require 300k msg/s and a latency SLO to hold during node loss and planned maintenance, and what backlog or degraded-latency window is tolerable?",
+    "What hardware, acks level and producer batching did TechBench use, and was it sponsored by either vendor? A mismatch with the target hardware could move StreamCore above 300k or QueueForge below it."
+  ]
+}

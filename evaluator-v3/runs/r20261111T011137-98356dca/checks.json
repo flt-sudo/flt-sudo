@@ -1,0 +1,37 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Vendor 1M figure used non-comparable conditions (in-memory/100B/RF1)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "StreamCore 220k is below the 300k requirement",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "QueueForge rebalancing degradation could drop below requirement",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Recommends StreamCore as meeting the requirement",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "QueueForge throughput at 40% degradation: 410k*0.6 = 246k (or 340k*0.6=204k)",
+    "pass": true,
+    "detail": "value ≈ 246000 present"
+  }
+]

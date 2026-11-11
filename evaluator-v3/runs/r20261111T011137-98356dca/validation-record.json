@@ -1,0 +1,238 @@
+{
+  "runId": "r20261111T011137-98356dca",
+  "generatedAt": "2026-11-11T01:26:29.121Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "StreamCore 4.0 message broker benchmark",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 27
+      },
+      {
+        "query": "QueueForge 2.3 message broker rebalancing partitions",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "TechBench Labs broker benchmark 2026 1 KB replication factor 3",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "\"StreamCore\" broker license commercial support pricing",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      }
+    ],
+    "webFetches": [],
+    "fixturesRead": [
+      "independent-benchmark.md",
+      "streamcore-blog.md",
+      "queueforge-docs.md"
+    ],
+    "deniedByGuard": [
+      {
+        "tool": "Glob",
+        "reason": "run isolation: Glob outside the active run directory is not permitted (no path)"
+      }
+    ],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "dev-05 planner",
+        "ok": true
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "dev-05 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-05 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-05 adversary review 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-05 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-05 adversary review 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-05 analyst draft 3 final",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-05 adversary review 3",
+        "ok": true
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "independent-benchmark.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "streamcore-blog.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "queueforge-docs.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [],
+  "checksExecuted": [
+    "Evidence registry validation: 12 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 300000*1000/1000000 = 300 (claimed 300) → match",
+    "Calculation K2 re-executed: 300*3 = 900 (claimed 900) → match",
+    "Calculation K3 re-executed: 900/6 = 150 (claimed 150) → match",
+    "Calculation K4 re-executed: 220000/300000 = 0.7333333333333333 (claimed 0.733) → match",
+    "Calculation K5 re-executed: (300000-220000)/220000 = 0.36363636363636365 (claimed 0.364) → match",
+    "Calculation K6 re-executed: (340000-300000)/300000 = 0.13333333333333333 (claimed 0.133) → match",
+    "Calculation K7 re-executed: (410000-300000)/300000 = 0.36666666666666664 (claimed 0.367) → match",
+    "Calculation K19 re-executed: 410000*(1-0.4) = 246000 (claimed 246000) → match",
+    "Calculation K33 re-executed: 300000*(1-0.4) = 180000 (claimed 180000) → match",
+    "Calculation K9 re-executed: 1000000*100/1000000 = 100 (claimed 100) → match",
+    "Calculation K10 re-executed: 100/300 = 0.3333333333333333 (claimed 0.333) → match",
+    "Calculation K11 re-executed: 900/5 = 180 (claimed 180) → match",
+    "Calculation K12 re-executed: 300/6*2 = 100 (claimed 100) → match",
+    "Calculation K13 re-executed: 1-300000/340000 = 0.11764705882352944 (claimed 0.118) → match",
+    "Calculation K14 re-executed: 1-300000/410000 = 0.2682926829268293 (claimed 0.268) → match",
+    "Calculation K15 re-executed: 340000*5/6 = 283333.3333333333 (claimed 283333) → match",
+    "Calculation K16 re-executed: 4000*6 = 24000 (claimed 24000) → match",
+    "Calculation K17 re-executed: 4000*5 = 20000 (claimed 20000) → match",
+    "Calculation K18 re-executed: 300000/(220000/6) = 8.181818181818182 (claimed 8.18) → match",
+    "Calculation K20 re-executed: (340000-220000)/220000 = 0.5454545454545454 (claimed 0.545) → match",
+    "Calculation K21 re-executed: 300000-410000*(1-0.4) = 54000 (claimed 54000) → match",
+    "Calculation K22 re-executed: 54000*600 = 32400000 (claimed 32400000) → match",
+    "Calculation K23 re-executed: 54000*1200 = 64800000 (claimed 64800000) → match",
+    "Calculation K24 re-executed: 32400000*1000/1000000000 = 32.4 (claimed 32.4) → match",
+    "Calculation K25 re-executed: 64800000*1000/1000000000 = 64.8 (claimed 64.8) → match",
+    "Calculation K26 re-executed: 32400000/(410000-300000) = 294.54545454545456 (claimed 294.5) → match",
+    "Calculation K27 re-executed: 64800000/(410000-300000) = 589.0909090909091 (claimed 589.1) → match",
+    "Calculation K28 re-executed: 410000*5/6 = 341666.6666666667 (claimed 341667) → match",
+    "Calculation K34 re-executed: 410000*5/6-300000 = 41666.666666666686 (claimed 41667) → match",
+    "Calculation K35 re-executed: 32400000/(410000*5/6-300000) = 777.5999999999997 (claimed 777.6) → match",
+    "Calculation K36 re-executed: 64800000/(410000*5/6-300000) = 1555.1999999999994 (claimed 1555.2) → match",
+    "Calculation K29 re-executed: 900*86400/1000000 = 77.76 (claimed 77.76) → match",
+    "Calculation K30 re-executed: 77.76/6 = 12.96 (claimed 12.96) → match",
+    "Calculation K31 re-executed: 77.76/5 = 15.552000000000001 (claimed 15.55) → match",
+    "Calculation K32 re-executed: 300/6 = 50 (claimed 50) → match",
+    "Calculation K37 re-executed: 300/6+100+100+300/6 = 300 (claimed 300) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: The only comparable StreamCore measurement is TechBench's 220k msg/s. No source quantifies gains from tuning or hardware for the CPU-bound replication, and an external search found nothing.",
+    "Knowledge gap G2 unresolved: The requester did not state a latency SLO or headroom requirement. The 50 ms p99 target comes from the benchmark. The requester needs to be asked.",
+    "Knowledge gap G3 unresolved: No measurement of throughput under node loss or rebalancing exists for either broker. The QueueForge docs give only an 'up to 40%' ceiling for 'high partition counts' without defining that threshold. StreamCore's failure behaviour is undocumented.",
+    "Knowledge gap G4 unresolved: The TechBench methodology (hardware, client config, acks, batch size, duration, sponsorship) is not in the excerpt, and no external copy or publisher page could be found.",
+    "Knowledge gap G5 unresolved: Target hardware specs are unknown, and no source gives the partition count needed for 300k msg/s. Only the arithmetic load estimates are available.",
+    "Knowledge gap G6 unresolved: StreamCore licence, support and cost terms are not in the sources and could not be found online."
+  ],
+  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "remainingUncertainty": [
+    "Methodology, hardware, sponsorship and reproducibility of the TechBench benchmark, including whether both brokers ran on identical hardware and client configuration (E1, E12).",
+    "Throughput of either broker during node loss and rebalancing, and QueueForge's sustained maximum and sub-50 ms capacity on 5 nodes after rebalancing. QueueForge has only an 'up to 40%' ceiling for undefined 'high partition counts', and StreamCore has nothing (E6, E12).",
+    "Whether QueueForge's 40% drop is relative to peak capacity or to live load. The worst case ranges from about 246k to about 180k msg/s depending on the baseline (K19, K33, E6).",
+    "Whether planned restarts, patching or rolling upgrades trigger the same rebalance dip, and how complex either broker is to upgrade and operate. No source covers this (E6, E12).",
+    "The partition count needed for 300k msg/s, and whether QueueForge's 4,000-per-node limit counts replicas (E7).",
+    "The requester's latency SLO, replication factor, acks level, headroom need, backlog tolerance and failure-mode requirement (E10).",
+    "Retention period and number of consumer groups, which determine whether 6 nodes have enough storage and egress capacity (E10, E11).",
+    "How far tuning or hardware could raise StreamCore's CPU-bound replication throughput (E3).",
+    "Target hardware specifications. The claim that the bandwidths suit commodity hardware is unsourced (E11).",
+    "StreamCore licensing, support and cost (E9).",
+    "No weighted numeric score is given. C3 (weight 20) cannot be scored for either broker and C6 cannot be scored for StreamCore, so a weighted total would rest mostly on assumed values. The verdict instead treats C1 as the gate and C3 as the decisive open condition.",
+    "E9 UNKNOWN: StreamCore licence, support and cost terms are not documented in any supplied source, and a web search found no product by that name.",
+    "E12 UNKNOWN: No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+    "Open question the reviewer judged decisive: Did the TechBench runs include concurrent consumers (and how many consumer groups), and what is each broker's sustained throughput and p99 at 1 KB, RF3, 6 nodes with the requester's real consumer load attached?",
+    "Open question the reviewer judged decisive: What is QueueForge's measured throughput and p99 during and after rebalancing following a node kill at the partition count needed for 300k msg/s, and what is its 5-node post-rebalance capacity?",
+    "Open question the reviewer judged decisive: Does the requester require 300k msg/s and a latency SLO to hold during node loss and planned maintenance, and what backlog or degraded-latency window is tolerable?",
+    "Open question the reviewer judged decisive: What hardware, acks level and producer batching did TechBench use, and was it sponsored by either vendor? A mismatch with the target hardware could move StreamCore above 300k or QueueForge below it."
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T01:18:11.250Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [furtherResearchThatCouldChangeConclusion[0]; counterarguments[3]; alternatives[0]; compare CL12/K15 and edgeCasesAndFailureModes[1]] The first item in furtherResearchThatCouldChangeConclusion says a rebalance dip below about 12% 'would make QueueForge a clear pass under a 50 ms SLO'. That ignores the draft's own post-failure steady state. Once rebalancing finishes the cluster runs on 5 nodes, and K15/CL12 estimate about 283k msg/s at the sub-50 ms point (340k x 5/6), which is below 300k. A small rebalance dip therefore does not give a pass if 300k must hold through node loss, because 5-node steady-state capacity is a separate condition. The same gap shows in the C3 counterargument response and in the alternatives entry 'right choice if... PoC shows the dip is much smaller'.",
+          "[reasoning_validity/major] D2 [verdict (final sentence); practicalImplications[0]; alternatives[2]; C2 weaknesses[2]] The bars for the two products are inconsistent. The verdict and practicalImplications[0] say StreamCore can be reconsidered if testing shows a gain of 'at least 36%' (K5). That gain only reaches exactly 300k msg/s, with zero headroom and nothing for failures. Meanwhile C2 calls QueueForge's 13.3% headroom 'thin' for a durable system. The StreamCore reopen threshold should include the same headroom and failure margin, roughly 300k/(1-margin), not just reach parity. The verdict also calls this a 'replication-CPU fix of at least 36%', but K5 is a throughput gain. Replication CPU savings and throughput are not 1:1, and the CPU-bound note (E3) does not quantify the relationship.",
+          "[decision_usefulness/major] D3 [verdict (condition a); edgeCasesAndFailureModes[0]; practicalImplications[4]] The verdict makes QueueForge's qualification depend on whether the requester 'can tolerate a backlog for 10-20 minutes', but the backlog is never sized, even though the inputs are available. At a 40% dip from 340k (204k served against 300k offered) the deficit is 96k msg/s. Over 600-1,200 s that is about 57.6M-115M messages (about 58-115 GB at 1 KB). Draining it with the 40k msg/s sub-50 ms surplus takes about 1,440-2,880 s (24-48 min) after the rebalance ends, and longer if the 5-node capacity is below 340k (K15 suggests it could be below 300k, in which case the backlog never drains). Without these numbers the requester cannot answer the question the verdict hinges on, and producer buffer sizing cannot be judged.",
+          "[coverage/major] D4 [criteriaAssessments C5; CL10; C5 strengths[0]] Storage capacity and retention are missing from C5. At about 900 MB/s of cluster writes under RF3, the cluster accumulates about 77.8 TB/day (about 13 TB/node/day on 6 nodes, about 15.6 TB/node/day on 5). Whether 6 nodes is realistic depends heavily on retention, and a domain expert would expect it for a durable broker at this rate. The draft covers only bandwidth (K3, K11, K12) and says the load is 'modest relative to commodity server hardware'. That statement holds for throughput but is unexamined for capacity. Consumer read egress, which may be several times ingest with multiple consumer groups, is also mentioned only as an exclusion and never estimated.",
+          "D4/D5 remedy includes research, but retention and benchmark methodology are requester/benchmark-internal facts not obtainable by search (E12: no external sources exist)"
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T01:22:07.427Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict (a); C3 assessment; CL15; counterargument 4; edgeCasesAndFailureModes 1-2; alternatives[0]; practicalImplications 5; furtherResearch 1; K21-K27] The draft treats QueueForge's latency-bounded operating point (340k at p99 < 50 ms) as if it were a throughput ceiling when it reasons about backlog. In the source, 410k is the sustained maximum and 340k is only the rate at which p99 stays under 50 ms. Once a backlog exists, the queued messages have already waited minutes, so the 50 ms SLO is already broken for them. Drain speed is then set by maximum throughput, not by the sub-50 ms point. This leads to three wrong statements. (1) 'Draining with the 40k msg/s surplus takes 24-48 minutes' (K26, K27). With full capacity back at 410k the surplus is about 110k msg/s, so the drain takes about 8.7-17.5 minutes. (2) 'On 5 nodes ... sub-50 ms capacity would be about 283k and the backlog would not drain at all / keeps growing.' Under the draft's own linear illustration, 5-node maximum throughput is about 341.7k (K28), so the backlog would drain at about 41.7k msg/s, with p99 above 50 ms. (3) 'Even a dip of about 12% would breach 300k at the sub-50 ms point' (counterargument 4, K13). A 12% dip breaks the 50 ms SLO, not the 300k throughput. Throughput falls below 300k only when the dip exceeds about 26.8% of the 410k maximum (K14). Similarly, the deficit during the dip should be measured against the dipped maximum, 246k, which gives 54k msg/s and about 32-65M messages. The draft instead uses the dipped latency point, 204k (96k msg/s, 57.6-115.2M messages). Together these overstate how badly QueueForge fails during and after a node loss, and that is the condition the verdict calls decisive.",
+          "[coverage/major] D3 [C3 assessment; C5 assessment; edgeCasesAndFailureModes; practicalImplications 3] C3 is framed only around unplanned node failure. The docs tie the throughput dip to 'rebalancing after node loss', and planned maintenance also takes nodes out: rolling upgrades, OS patching and restarts. If a restart triggers a rebalance, the 10-20 minute dip of up to 40% could happen on every node in every upgrade cycle, not just in rare failures. That changes how acceptable a backlog-tolerance argument is. The draft never raises this, and its C5 analysis covers only resource bandwidth and storage, not the 'operational complexity' named in the criterion (upgrade procedure, tooling, maturity)."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        "[major/reviewer] D1 [criteriaAssessments C1/C2; CL3; CL4; remainingUncertainty; furtherResearchThatCouldChangeConclusion] The draft never asks whether the TechBench steady-state figures (StreamCore 220k, QueueForge 410k and 340k) were measured with consumers reading at the same time. The excerpt only gives producer-side 'sustained msg/s'. In C5 and CL16 the draft adds consumer egress (about 50 MB/s per node per consumer group, K32/K37) to the target load, but it does not carry that into C1/C2. If the benchmark was producer-only, the real capacity of QueueForge with consumers attached may be below 340k, and possibly below 300k at the 50 ms point. That would erode the 13.3% headroom on which the 'lead candidate' verdict rests. 'Client configuration' appears only generically in remainingUncertainty."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D4 [verdict; C2; CL3; CL4; K14; K19; K28] The draft calls 410k QueueForge's 'sustained maximum' and uses it as the capacity ceiling in K14, K19, K21, K26-K28 and K34-K36. The source table only says 'sustained msg/s' at 61 ms p99. It does not say this is the maximum achievable, and it does not say 220k is StreamCore's maximum. Treating these as ceilings is an inference that should be labelled as one."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [verdict; C3 assessment; CL15; alternatives[0]; practicalImplications[4]] The verdict, C3, CL15, alternatives[0], edgeCases[0] and practicalImplications[4] all give 'if 6-node capacity of 410k is restored, the backlog drains in about 5-10 minutes' (K26, K27) as the first, optimistic drain case. After an unplanned node loss, 6-node capacity does not come back when the rebalance ends. It needs a replacement node, and adding that node probably triggers another rebalance, which per E6 may cause another dip. The 5-10 minute figure only fits planned restarts. The more realistic post-failure case is the 5-node one (13-26 minutes under the unsupported linear assumption), and it gets equal or secondary billing.",
+        "[minor/reviewer] D3 [C3 assessment; CL15; edgeCasesAndFailureModes[0]; calculations (missing)] The 300k-live-load reading of the 40% dip (K33) is called 'worse', but its consequences are never quantified, although that is trivial to do. Deficit is 120k msg/s. Backlog is about 72M-144M messages (about 72-144 GB) over 10-20 minutes. Drain on 5 nodes at the linear-illustration surplus of 41.7k msg/s takes about 1,728-3,456 s (about 29-58 minutes). Only the more favourable 410k-based numbers are worked through, so the decision-maker sees the milder scenario in detail and the harsher one only as 'larger'."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D6 [alternatives; tradeoffs] Alternatives cover StreamCore with faster CPUs and QueueForge with more than 6 nodes. They leave out QueueForge on larger or faster hardware within the 6-node limit (vertical scaling to raise sub-50 ms capacity and degraded-mode headroom). They also leave out changing the durability settings (for example RF or acks choices, if the requester's 'replicated' allows it). Both are obvious levers that stay within the stated node constraint."
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D7 [verdict] The verdict runs to about 700 words and puts detailed backlog and drain arithmetic ahead of the recommendation, which comes near the end. A decision-maker has to read through the scenario calculations to reach 'treat QueueForge as the lead candidate, run a PoC, drop StreamCore unless more than 6 nodes or a 36.4% or greater gain is proven'. The arithmetic belongs in C3 and CL15."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D5 [CL16; C3 assessment; C5 weaknesses] Some citations stretch the evidence. CL16 (retention of 77.76 TB/day, consumer-group egress) cites only E11, but E11 mentions neither retention nor consumer egress; its limitations say it ignores consumer egress. C3 says 'StreamCore's failure and maintenance behaviour is undocumented (E12)', but E12 is about the lack of external web information. The undocumented StreamCore failure behaviour is noted in E6's limitations. C5's 'upgrade procedure, tooling or maturity' gap is attributed to E12 in the same loose way."
+      ]
+    }
+  },
+  "certified": false
+}

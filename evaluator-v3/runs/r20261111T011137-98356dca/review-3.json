@@ -1,0 +1,110 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The draft never asks whether the TechBench steady-state figures (StreamCore 220k, QueueForge 410k and 340k) were measured with consumers reading at the same time. The excerpt only gives producer-side 'sustained msg/s'. In C5 and CL16 the draft adds consumer egress (about 50 MB/s per node per consumer group, K32/K37) to the target load, but it does not carry that into C1/C2. If the benchmark was producer-only, the real capacity of QueueForge with consumers attached may be below 340k, and possibly below 300k at the 50 ms point. That would erode the 13.3% headroom on which the 'lead candidate' verdict rests. 'Client configuration' appears only generically in remainingUncertainty.",
+      "location": "criteriaAssessments C1/C2; CL3; CL4; remainingUncertainty; furtherResearchThatCouldChangeConclusion",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict, C3, CL15, alternatives[0], edgeCases[0] and practicalImplications[4] all give 'if 6-node capacity of 410k is restored, the backlog drains in about 5-10 minutes' (K26, K27) as the first, optimistic drain case. After an unplanned node loss, 6-node capacity does not come back when the rebalance ends. It needs a replacement node, and adding that node probably triggers another rebalance, which per E6 may cause another dip. The 5-10 minute figure only fits planned restarts. The more realistic post-failure case is the 5-node one (13-26 minutes under the unsupported linear assumption), and it gets equal or secondary billing.",
+      "location": "verdict; C3 assessment; CL15; alternatives[0]; practicalImplications[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The 300k-live-load reading of the 40% dip (K33) is called 'worse', but its consequences are never quantified, although that is trivial to do. Deficit is 120k msg/s. Backlog is about 72M-144M messages (about 72-144 GB) over 10-20 minutes. Drain on 5 nodes at the linear-illustration surplus of 41.7k msg/s takes about 1,728-3,456 s (about 29-58 minutes). Only the more favourable 410k-based numbers are worked through, so the decision-maker sees the milder scenario in detail and the harsher one only as 'larger'.",
+      "location": "C3 assessment; CL15; edgeCasesAndFailureModes[0]; calculations (missing)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The draft calls 410k QueueForge's 'sustained maximum' and uses it as the capacity ceiling in K14, K19, K21, K26-K28 and K34-K36. The source table only says 'sustained msg/s' at 61 ms p99. It does not say this is the maximum achievable, and it does not say 220k is StreamCore's maximum. Treating these as ceilings is an inference that should be labelled as one.",
+      "location": "verdict; C2; CL3; CL4; K14; K19; K28",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "Some citations stretch the evidence. CL16 (retention of 77.76 TB/day, consumer-group egress) cites only E11, but E11 mentions neither retention nor consumer egress; its limitations say it ignores consumer egress. C3 says 'StreamCore's failure and maintenance behaviour is undocumented (E12)', but E12 is about the lack of external web information. The undocumented StreamCore failure behaviour is noted in E6's limitations. C5's 'upgrade procedure, tooling or maturity' gap is attributed to E12 in the same loose way.",
+      "location": "CL16; C3 assessment; C5 weaknesses",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "Alternatives cover StreamCore with faster CPUs and QueueForge with more than 6 nodes. They leave out QueueForge on larger or faster hardware within the 6-node limit (vertical scaling to raise sub-50 ms capacity and degraded-mode headroom). They also leave out changing the durability settings (for example RF or acks choices, if the requester's 'replicated' allows it). Both are obvious levers that stay within the stated node constraint.",
+      "location": "alternatives; tradeoffs",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict runs to about 700 words and puts detailed backlog and drain arithmetic ahead of the recommendation, which comes near the end. A decision-maker has to read through the scenario calculations to reach 'treat QueueForge as the lead candidate, run a PoC, drop StreamCore unless more than 6 nodes or a 36.4% or greater gain is proven'. The arithmetic belongs in C3 and CL15.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Did the TechBench runs include concurrent consumers (and how many consumer groups), and what is each broker's sustained throughput and p99 at 1 KB, RF3, 6 nodes with the requester's real consumer load attached?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is QueueForge's measured throughput and p99 during and after rebalancing following a node kill at the partition count needed for 300k msg/s, and what is its 5-node post-rebalance capacity?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the requester require 300k msg/s and a latency SLO to hold during node loss and planned maintenance, and what backlog or degraded-latency window is tolerable?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What hardware, acks level and producer batching did TechBench use, and was it sponsored by either vendor? A mismatch with the target hardware could move StreamCore above 300k or QueueForge below it.",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, the vendor-claim premise and the requester's unstated parameters are addressed, including the failure and maintenance cases. The main gap is that the draft does not ask whether the benchmark included consumer load (D1)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Limitations of the single short benchmark excerpt are acknowledged throughout, and the confidence is appropriately conditional. One minor overreach: 410k is labelled a 'maximum' without that being stated in the source (D4)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed all calculations (K1-K37) and they are correct. The weaknesses are scenario framing: the 410k-restored drain case after node loss (D2) and the unquantified harsher reading of the 40% dip (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The strongest counterarguments (the vendor 1M claim, StreamCore being CPU-bound, the 'up to 40%' hedge, the untraceable lab) are engaged fairly. A few within-constraint alternatives are missing (D6)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "It gives a clear conditional recommendation (QueueForge as lead, a PoC with specified failure tests, StreamCore dropped with explicit reopen conditions) and lists the questions for the requester. The verdict is verbose (D7)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E- and K-IDs exist, and the core claims match the source text. A few secondary citations are loose (D5). No injected instructions were found in the sources, and the draft did not follow any."
+    }
+  ]
+}

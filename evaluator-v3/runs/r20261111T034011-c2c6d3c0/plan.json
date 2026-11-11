@@ -1,0 +1,140 @@
+{
+  "subject": "Whether to enter the Brazilian fleet-telematics market in 2027, and what year-3 (c. 2029-2030) market share is realistically achievable",
+  "domain": "B2B SaaS/IoT market entry strategy (fleet telematics, Latin America)",
+  "decisionObjective": "Decide, at a board meeting in two weeks, whether to commit to a 2027 Brazil entry (Year-1 draft budget $2.4M), defer it, or run a staged/validation entry instead. Back the decision with a defensible range of year-3 market share or fleet count, with its assumptions shown, in place of a single point estimate. The key test is whether a credible path exists to the ~4,000 paying fleets the draft budget says break-even needs, under Brazilian (not US) pricing, competition, and certification timelines. The CEO's 15% figure and the 64% survey result are premises to test, not inputs.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Market size and addressable segment definition",
+      "weight": 15,
+      "rationale": "Market share and the 4,000-fleet break-even only mean something against a defined denominator. Internal estimates range from 180k to 900k fleets (5x), so the same fleet count could be a 0.4% share or a 2.2% share. The segment our product serves (fleet size, vehicle type, already-telematized vs. greenfield) has to be pinned down."
+    },
+    {
+      "id": "C2",
+      "name": "Demand evidence quality and conversion realism",
+      "weight": 20,
+      "rationale": "The CEO's 15% rests entirely on a 14-person, self-selected trade-show-booth survey that measured 'would consider' without stating a price. The decision depends on what share of interested prospects actually buy, and whether a sample this small and biased supports any extrapolation."
+    },
+    {
+      "id": "C3",
+      "name": "Competitive landscape and incumbent response",
+      "weight": 20,
+      "rationale": "There are three local incumbents with unknown shares, and one reportedly gives hardware away free. Incumbent strength, switching costs, contract lock-in and likely price response put a ceiling on achievable share for a new foreign entrant by year 3. That ceiling is set by benchmarks of comparable entrants, not by survey sentiment."
+    },
+    {
+      "id": "C4",
+      "name": "Pricing and unit economics in Brazil",
+      "weight": 15,
+      "rationale": "The break-even figure assumes US pricing, and Brazilian pricing has not been researched. If local price points (and free-hardware bundling) are well below US levels, the break-even fleet count rises a lot and the entry case may fail even at good adoption."
+    },
+    {
+      "id": "C5",
+      "name": "Regulatory and time-to-market (ANATEL certification, local requirements)",
+      "weight": 15,
+      "rationale": "Hardware cannot be sold before ANATEL certification, reported anecdotally to take 6-18 months. That could take up to half of the three-year window. Other local requirements (tax and invoicing complexity, LGPD data protection, any mandated tracking standards) also affect timing and cost."
+    },
+    {
+      "id": "C6",
+      "name": "Go-to-market capability and execution risk",
+      "weight": 15,
+      "rationale": "No local partner has been identified, and the Year-1 plan is a 9-person team. Distribution channels (resellers, installers, insurers, OEMs), local support and installation capacity decide how fast fleets can be acquired, whatever the demand."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "How many commercial fleets/vehicles are in Brazil in the segment our product targets, and what share already uses telematics (penetration) versus greenfield?",
+      "whyItMatters": "This sets the denominator for any share figure and the size of the switchable versus new-adopter pool. The 180k-900k range alone moves any share estimate fivefold.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "What are the market shares, pricing models (including free hardware bundling) and contract terms of the three main incumbents and other significant players in Brazilian fleet telematics?",
+      "whyItMatters": "This determines how much share is realistically contestable and how much we have to cut prices. It is the main external constraint on year-3 share.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What year-3 share or fleet counts have comparable foreign telematics or B2B SaaS entrants achieved in Brazil or similar markets (e.g. Mexico, other LatAm)?",
+      "whyItMatters": "Benchmarks from real entrants are the only defensible anchor for a forecast range. They replace extrapolation from stated intent.",
+      "criteria": [
+        "C2",
+        "C3",
+        "C6"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What are typical stated-intent-to-purchase conversion rates in B2B switching surveys, and what does a 9/14 result from a booth-recruited sample imply statistically (confidence interval, selection bias)?",
+      "whyItMatters": "This directly tests whether 64% 'would consider' can support anything like 15% share. The 95% CI on 9/14 is roughly 35-87% before any bias adjustment, and 'consider' usually converts at a small fraction.",
+      "criteria": [
+        "C2"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What are prevailing monthly per-vehicle/per-fleet prices for telematics in Brazil, and what is the recomputed break-even fleet count at local pricing, including BRL exchange risk and local taxes?",
+      "whyItMatters": "The draft's ~4,000-fleet break-even assumes US pricing. Recomputing it at local prices may change the go/no-go answer even if share forecasts are favourable.",
+      "criteria": [
+        "C4"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What is the realistic ANATEL homologation timeline and cost for our hardware, and are there other entry requirements (LGPD, tax/invoicing, local entity) that delay first revenue?",
+      "whyItMatters": "Every month of certification delay comes out of the three-year window and raises cash burn before revenue, which changes both the share range and break-even timing.",
+      "criteria": [
+        "C5",
+        "C4"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "What distribution and partner options exist (resellers, installers, insurers, vehicle OEMs, logistics associations), and how do successful entrants acquire fleets in Brazil?",
+      "whyItMatters": "Without a channel, a 9-person team's acquisition rate caps fleet count no matter how much demand there is. Partner availability may decide between a full entry and a staged one.",
+      "criteria": [
+        "C6",
+        "C3"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The product will reach around 15% market share in Brazil by year three.",
+      "source": "user",
+      "howToCheck": "Turn 15% into an implied fleet count across the 180k-900k range (27k-135k fleets) and compare it with incumbent sizes, comparable-entrant benchmarks (G3), and the acquisition capacity a 9-person team and channel can deliver."
+    },
+    {
+      "assumption": "64% of Brazilian fleet managers would consider switching to us.",
+      "source": "user",
+      "howToCheck": "The survey covers 14 booth-recruited respondents (9 yes), not Brazilian fleet managers in general. Compute the confidence interval, assess selection bias, and note that no price was stated and that 'consider' is not purchase intent."
+    },
+    {
+      "assumption": "Survey 'would consider' intent translates into market share.",
+      "source": "user",
+      "howToCheck": "Apply published B2B intent-to-purchase conversion discounts and check that the survey's population matches the market denominator. Recompute any share implied by the survey."
+    },
+    {
+      "assumption": "Break-even requires ~4,000 paying fleets.",
+      "source": "planner",
+      "howToCheck": "Recompute from the draft budget using Brazilian price points, hardware subsidy needs, local tax and FX, and cumulative costs over 3 years, not Year-1 alone."
+    },
+    {
+      "assumption": "Year-1 budget of $2.4M covers certification and launch adequately.",
+      "source": "planner",
+      "howToCheck": "Compare with ANATEL certification costs and timelines and with typical local entity, compliance and installation-network costs."
+    },
+    {
+      "assumption": "Entry in 2027 allows a full three years of selling by the year-3 horizon.",
+      "source": "planner",
+      "howToCheck": "Subtract the realistic ANATEL certification and setup time (G6) from the window to find the effective selling period."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

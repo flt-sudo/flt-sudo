@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T034011-c2c6d3c0",
+  "caseId": "ho-09-brazil-market-share",
+  "system": "agent",
+  "createdAt": "2026-11-11T03:40:11.414Z",
+  "request": "Our board meets in two weeks and the CEO wants a specific number: what market share will our fleet-telematics product reach in Brazil by year three if we enter in 2027? He's confident it'll be around 15% because 64% of Brazilian fleet managers in our survey said they would consider switching to us. Attached are our market notes, the survey summary and the expansion budget draft. Please give me the year-3 market share figure and tell us whether we should enter Brazil.",
+  "fixtures": [
+    "brazil-market-notes.md",
+    "survey-summary.md",
+    "expansion-budget-draft.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

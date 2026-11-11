@@ -1,0 +1,117 @@
+{
+  "subject": "Whether to prioritise adding replication to the production session store next quarter, given that the wiki's description of it may be out of date",
+  "domain": "Infrastructure reliability / distributed caching and session management (Redis/Valkey)",
+  "decisionObjective": "Decide what session-store reliability work, if any, should get roadmap priority next quarter. First establish what the session store actually looks like today. If replication and failover already exist, the real question becomes which gap is left (for example client handling of failover, persistence, or documentation drift) and whether it deserves next quarter's capacity ahead of other work. The request's premise (a single Redis 5 node with no replication, where a node failure logs everyone out) must not be taken as true.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Accuracy of the current-state architecture",
+      "weight": 25,
+      "rationale": "The decision only makes sense if the described topology (a single node with no replicas) is still the production state. The wiki was last edited in 2021, and a 2025 changelog describes a migration to a replicated Valkey cluster. If replication already exists, 'add replication' is the wrong work item."
+    },
+    {
+      "id": "C2",
+      "name": "Residual failure impact on users (logouts and errors during node or shard failure)",
+      "weight": 25,
+      "rationale": "Priority depends on what users actually experience when a node fails today: a mass logout, partial errors for some seconds, or nothing. The INC-2291 evidence (41s failover, about 6% of sessions saw errors, no logouts) bears directly on how severe the remaining risk is."
+    },
+    {
+      "id": "C3",
+      "name": "Status of the remaining mitigations (client retry/backoff on MOVED/failover errors)",
+      "weight": 20,
+      "rationale": "An open action item from INC-2291 could be the highest-value next step instead of replication. Whether it has been done since July 2025 decides whether there is still a concrete gap to prioritise."
+    },
+    {
+      "id": "C4",
+      "name": "Durability and persistence posture of session data",
+      "weight": 10,
+      "rationale": "Replicas do not protect against losing a whole cluster, a bad deploy, or a multi-AZ event if persistence is off. Whether a full-cluster loss would still log everyone out affects whether more durability work is justified."
+    },
+    {
+      "id": "C5",
+      "name": "Cost and effort compared with competing quarterly priorities",
+      "weight": 10,
+      "rationale": "Roadmap priority is a relative call. A cheap client-side fix and a re-architecture call for very different amounts of capacity."
+    },
+    {
+      "id": "C6",
+      "name": "Documentation and operational-knowledge drift",
+      "weight": 10,
+      "rationale": "The request itself came from a stale wiki. Wrong architecture docs are an operational risk (incident response, planning), and fixing them may be a cheap, legitimate part of the outcome."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the current production session store topology: engine and version, shard and replica count, multi-AZ placement, automatic failover? Is sess-redis-01 really decommissioned, with no service still using it?",
+      "whyItMatters": "If the 2025 changelog is right, the premise behind 'add replication' is false and the recommendation becomes something else. If some service still uses the old node, replication (or migration) work is still needed for that path.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Is the INC-2291 action item (client retry/backoff on MOVED and failover errors) still open as of November 2026, and have there been any later session-store incidents or failover tests?",
+      "whyItMatters": "An open action item points to the actual remaining reliability gap. More recent incidents could show the residual risk is larger or smaller than the single 2025 data point suggests.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What does a failover look like for users today: duration, error rate, and whether sessions are lost or users logged out? Is the INC-2291 figure (41s, about 6% of active sessions erroring) representative?",
+      "whyItMatters": "This sets the size of the residual user impact, and so whether any session-store work deserves next quarter's priority at all.",
+      "criteria": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Is persistence (RDB/AOF or the managed equivalent) or backup enabled on sessions-prod, and what happens to sessions if the whole cluster is lost?",
+      "whyItMatters": "This decides whether a mass-logout scenario still exists despite replication, which would justify durability work.",
+      "criteria": [
+        "C4",
+        "C2"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What other reliability or roadmap items are competing for next quarter's capacity, and what would the candidate session-store work (client retry fix, persistence, doc update) cost in effort?",
+      "whyItMatters": "Prioritisation is relative. A small fix may be worth doing whatever else is on the list, while larger work has to beat the alternatives.",
+      "criteria": [
+        "C5"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The session store is a single Redis 5 node with no replication.",
+      "source": "user",
+      "howToCheck": "Compare the wiki (last edited 2021-06-02) with the 2025-02-18 changelog entry about the migration to the sessions-prod Valkey 8 cluster. Then confirm against the live infrastructure config or the managed-service console, and check that sess-redis-01 was decommissioned on 2025-03-04 as stated."
+    },
+    {
+      "assumption": "A node failure logs everyone out.",
+      "source": "user",
+      "howToCheck": "Check incident records. INC-2291 (2025-07-22) reported no logouts during a shard primary failover. Look for later incidents or chaos/failover test results."
+    },
+    {
+      "assumption": "The architecture wiki is an up-to-date, authoritative description of production.",
+      "source": "user",
+      "howToCheck": "The wiki page's last-edited date (2021) is earlier than the 2025 changelog entries. Treat it as stale unless current infra-as-code or the service console confirms it."
+    },
+    {
+      "assumption": "The platform changelog excerpt is accurate and complete about the session store's state.",
+      "source": "planner",
+      "howToCheck": "Cross-check against infrastructure-as-code, the cloud console, or service owners. Look for any rollback or later change after 2025-07-22."
+    },
+    {
+      "assumption": "The INC-2291 client retry/backoff action item is still open.",
+      "source": "planner",
+      "howToCheck": "Look up the action item's current status in the incident tracker. The excerpt marks it OPEN as of mid-2025, and it may have been resolved since."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

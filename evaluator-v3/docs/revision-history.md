@@ -86,3 +86,14 @@ Change: `run:new` now uses opaque run ids (`r<timestamp>-<random>`); the case id
 `meta.json`. A mechanical scan of the sealed held-out set (counts only, contents not read) found 0 of 71
 fixture names containing hint words and 0 fixture names quoted in requests, so fixture names are unchanged.
 The dev-02 baseline F4 regex hit is a false positive; the grader's own mustFlag adjudication is decisive there.
+
+## v4 (2026-11-11) — from dev-02 and dev-03 (dev set only)
+
+Evidence: dev-02 draft 1 (CL10) and dev-03 draft 1 (CL9) each failed the evidence-sufficiency gate on a
+deterministic finding "material claim rests only on HYPOTHETICAL/UNKNOWN evidence", although both claims
+stated that something *cannot be determined* and correctly cited an UNKNOWN record for that fact.
+
+Changes:
+- Schema/gates: claims carry `type: "finding" | "limitation"` (default finding). Limitation claims are exempt
+  from the weak-evidence rule and from the high-confidence check; findings are unchanged. Test added.
+- Prompt (`eval-analyst.md`): explains when to use `type: "limitation"`.

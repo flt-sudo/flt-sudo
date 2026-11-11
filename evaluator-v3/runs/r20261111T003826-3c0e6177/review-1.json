@@ -1,0 +1,114 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The draft calls the migration/decommission entry (E2) and the INC-2291 shard failover (E4) 'two separate' and 'two independent changelog facts' that corroborate the replicated topology. Both come from the same three-line document (sources/platform-changelog-2025.md), which the packet itself describes as an unconfirmed excerpt. They agree with each other, but that is internal consistency within one source, not independent corroboration. If the excerpt is wrong or out of date, both facts fail together. Calling them independent overstates how strong the evidence is for C1, the criterion the whole verdict rests on.",
+      "location": "criteriaAssessments C1 strengths[0] and mechanisms; counterarguments[0].response",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "traceability",
+      "severity": "major",
+      "description": "The draft says 'the observed problem was client-side error handling (E4, E5)' and treats the client retry gap as the cause of the INC-2291 errors. The source only records an action item ('client retry/backoff on MOVED/failover errors (OPEN)'). It does not name a root cause. The 41s failover window, which may be tunable on the server side (E7), is an equally plausible contributor. The draft states as observed fact something it has inferred, and uses it to rank client retry above the replica-count and failover-tuning alternatives.",
+      "location": "alternatives[3].comparison ('Increase to 2 replicas per shard'); counterarguments[1].response; C3 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K4/CL7 compares '~6% of active sessions saw errors' with a one-third keyspace share. The comparison does not hold up: whether a session errors depends on whether it made a request during the 41s window, not only on which shard holds its key. So the 0.18 ratio cannot separate client behaviour from ordinary traffic patterns. The draft says it is only an inference, but it still uses the ratio to suggest client behaviour shaped the impact. A lower-than-expected share would, if anything, suggest clients already absorbed some of the failure, which cuts against the retry fix being high-value.",
+      "location": "C2 assessment; CL7; K4",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "CL8 says 'The changelog evidence is about 477 days old.' That is true only of the latest entry (2025-07-22). The migration entry that carries the topology claim (E2, 2025-02-18) is about 631 days old as of 2026-11-11. CL8 cites E2, so the stated age understates how old the key evidence is.",
+      "location": "CL8; remainingUncertainty[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Mechanism claims and a C2 strength ('A clear mechanism explains why the impact was partial and temporary (E6, E7)') rest on search-snippet evidence that was never fetched and may not apply to this provider or client stack. E8 also comes from a possibly conflated snippet about an unconfirmed provider, yet it feeds the 2-replica recommendation, the K5 cost figure and the asynchronous-loss edge case. The caveats appear in some places but are dropped where these points are listed as strengths.",
+      "location": "C2 strengths[1]; C5 assessment; CL10; edgeCasesAndFailureModes[3]",
+      "remedy": "research"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The tradeoff 'With a 14-day TTL (E3), losing sessions means re-login, not data loss, so the business value of durability is moderate' is an unsupported value judgement. The TTL has no bearing on whether losing a session is a re-login or data loss, and nothing in the packet says what sessions hold or what a mass logout costs the business.",
+      "location": "tradeoffs[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The draft recommends rewriting the wiki 'now' from the changelog, while also saying the changelog has not been checked against live infrastructure. Rewriting the authoritative doc from unverified evidence could replace one kind of drift with another. The rewrite should come after the live-config check that the draft itself makes the first step.",
+      "location": "practicalImplications[5]; verdict item (4)",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Does live infra-as-code or the provider console confirm that sessions-prod is a 3-shard, 1-replica-per-shard, multi-AZ cluster with automatic failover, and that nothing still references sess-redis-01?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is persistence (snapshots or AOF) or backup enabled on sessions-prod?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the November 2026 status of the INC-2291 client retry/backoff action item, and what was the root cause of the ~6% errors?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Have there been later session-store incidents or failover tests showing larger impact or logouts?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which competing roadmap items exist next quarter, and what is the effort estimate for the session-store bundle?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "The draft assesses all six criteria, corrects all three user premises, and answers the prioritisation question directly."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Gaps (live config, persistence, action-item status, roadmap) are stated explicitly and confidence is moderate. Snippet-level evidence is sometimes given as a strength without its caveat (D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "K1, K2, K3 and K5 recompute correctly (1357, 477, 6, 0.5), and K4 is arithmetically right. The single source is described as two independent facts (D1), the K4 interpretation is weak (D3) and CL8 understates the evidence's age (D4), but the core conclusion still follows."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Six alternatives and four counterarguments are considered, including 'do nothing' and 'the action item may already be done'. The ranking among them leans on an inferred root cause (D2)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear: drop the replication item, verify first, and keep a small bundle of work. It is honest that relative priority cannot be set without roadmap data."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited IDs exist and match the source text. One overstatement treats an action item as an observed root cause (D2). No injection was attempted or followed."
+    }
+  ]
+}

@@ -104,7 +104,7 @@ function draft(over: Partial<Draft> = {}): Draft {
   return {
     verdict: "Do X", confidence: "moderate",
     criteriaAssessments: ["C1", "C2", "C3"].map((c) => ({ criterionId: c, assessment: "a", mechanisms: "m", strengths: [], weaknesses: [], evidenceIds: ["E1"] })),
-    claims: [{ id: "CL1", text: "t", material: true, evidenceIds: ["E1"], calculationIds: [] }],
+    claims: [{ id: "CL1", text: "t", material: true, type: "finding" as const, evidenceIds: ["E1"], calculationIds: [] }],
     alternatives: [{ option: "Y", comparison: "c" }], tradeoffs: ["t"], edgeCasesAndFailureModes: ["e"],
     counterarguments: [{ argument: "a", response: "r" }], correctedUserAssumptions: [], calculations: [],
     practicalImplications: ["p"], remainingUncertainty: ["u"], furtherResearchThatCouldChangeConclusion: [], ...over,
@@ -122,14 +122,14 @@ describe("quality gates", () => {
     expect(g.revisionRecommended).toBe(false);
   });
   it("a wrong calculation is a critical failure that blocks certification", () => {
-    const d = draft({ calculations: [{ id: "K1", purpose: "p", expression: "1200 * 12", claimedResult: 15000, tolerance: 0.005 }], claims: [{ id: "CL1", text: "t", material: true, evidenceIds: ["E1"], calculationIds: ["K1"] }] });
+    const d = draft({ calculations: [{ id: "K1", purpose: "p", expression: "1200 * 12", claimedResult: 15000, tolerance: 0.005 }], claims: [{ id: "CL1", text: "t", material: true, type: "finding" as const, evidenceIds: ["E1"], calculationIds: ["K1"] }] });
     const g = combineGates(deterministicFindings(PLAN, reg, d, ["G2"]), cleanReview, 0, 3);
     expect(g.criticalCount).toBeGreaterThan(0);
     expect(g.certified).toBe(false);
     expect(g.gates.reasoning_validity.pass).toBe(false);
   });
   it("citing rejected evidence in a material claim is critical", () => {
-    const d = draft({ claims: [{ id: "CL1", text: "t", material: true, evidenceIds: ["E9"], calculationIds: [] }] });
+    const d = draft({ claims: [{ id: "CL1", text: "t", material: true, type: "finding" as const, evidenceIds: ["E9"], calculationIds: [] }] });
     const g = combineGates(deterministicFindings(PLAN, reg, d, ["G2"]), cleanReview, 0, 3);
     expect(g.gates.traceability.findings.some((f) => f.severity === "critical")).toBe(true);
     expect(g.certified).toBe(false);
@@ -243,5 +243,16 @@ describe("hooks (run as real processes)", () => {
   it("does nothing when no run is active", () => {
     fs.unlinkSync(path.join(runs, ".active"));
     expect(hook("guard.mjs", { tool_name: "WebSearch", tool_input: {} })).toBe("");
+  });
+});
+
+describe("limitation claims", () => {
+  it("a material 'cannot be determined' claim may rest on UNKNOWN evidence; a finding may not", () => {
+    const idx = retrievalIndex(LOG, RUN);
+    const reg = validateEvidence([ev("E1", "fixture", "spec.md", "VERIFIED", { gapIds: ["G1"] }), ev("E2", "none", "", "UNKNOWN", { gapIds: ["G2"] })], idx);
+    const lim = draft({ claims: [{ id: "CL1", text: "Priority cannot be set", material: true, type: "limitation", evidenceIds: ["E2"], calculationIds: [] }] });
+    const fin = draft({ claims: [{ id: "CL1", text: "X is true", material: true, type: "finding", evidenceIds: ["E2"], calculationIds: [] }] });
+    expect(deterministicFindings(PLAN, reg, lim, []).findings.some((f) => f.gate === "evidence_sufficiency" && f.severity === "major")).toBe(false);
+    expect(deterministicFindings(PLAN, reg, fin, []).findings.some((f) => f.gate === "evidence_sufficiency" && f.severity === "major")).toBe(true);
   });
 });

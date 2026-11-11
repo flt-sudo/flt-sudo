@@ -83,6 +83,7 @@ export const Draft = z.object({
         id: z.string().regex(/^CL\d+$/),
         text: z.string(),
         material: z.boolean().describe("Would the decision change if this claim were false?"),
+        type: z.enum(["finding", "limitation"]).default("finding").describe("limitation = a statement that something cannot be determined from the evidence"),
         evidenceIds: z.array(z.string()),
         calculationIds: z.array(z.string()).default([]),
       }),

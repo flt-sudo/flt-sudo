@@ -1,0 +1,140 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "major",
+          "source": "deterministic",
+          "detail": "material claim CL9 rests only on HYPOTHETICAL/UNKNOWN evidence"
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [C2 strengths[1]; C5 assessment; CL10; edgeCasesAndFailureModes[3]] Mechanism claims and a C2 strength ('A clear mechanism explains why the impact was partial and temporary (E6, E7)') rest on search-snippet evidence that was never fetched and may not apply to this provider or client stack. E8 also comes from a possibly conflated snippet about an unconfirmed provider, yet it feeds the 2-replica recommendation, the K5 cost figure and the asynchronous-loss edge case. The caveats appear in some places but are dropped where these points are listed as strengths."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C1 strengths[0] and mechanisms; counterarguments[0].response] The draft calls the migration/decommission entry (E2) and the INC-2291 shard failover (E4) 'two separate' and 'two independent changelog facts' that corroborate the replicated topology. Both come from the same three-line document (sources/platform-changelog-2025.md), which the packet itself describes as an unconfirmed excerpt. They agree with each other, but that is internal consistency within one source, not independent corroboration. If the excerpt is wrong or out of date, both facts fail together. Calling them independent overstates how strong the evidence is for C1, the criterion the whole verdict rests on."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C2 assessment; CL7; K4] K4/CL7 compares '~6% of active sessions saw errors' with a one-third keyspace share. The comparison does not hold up: whether a session errors depends on whether it made a request during the 41s window, not only on which shard holds its key. So the 0.18 ratio cannot separate client behaviour from ordinary traffic patterns. The draft says it is only an inference, but it still uses the ratio to suggest client behaviour shaped the impact. A lower-than-expected share would, if anything, suggest clients already absorbed some of the failure, which cuts against the retry fix being high-value."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [CL8; remainingUncertainty[0]] CL8 says 'The changelog evidence is about 477 days old.' That is true only of the latest entry (2025-07-22). The migration entry that carries the topology claim (E2, 2025-02-18) is about 631 days old as of 2026-11-11. CL8 cites E2, so the stated age understates how old the key evidence is."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [tradeoffs[2]] The tradeoff 'With a 14-day TTL (E3), losing sessions means re-login, not data loss, so the business value of durability is moderate' is an unsupported value judgement. The TTL has no bearing on whether losing a session is a re-login or data loss, and nothing in the packet says what sessions hold or what a mass logout costs the business."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [practicalImplications[5]; verdict item (4)] The draft recommends rewriting the wiki 'now' from the changelog, while also saying the changelog has not been checked against live infrastructure. Rewriting the authoritative doc from unverified evidence could replace one kind of drift with another. The rewrite should come after the live-config check that the draft itself makes the first step."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [alternatives[3].comparison ('Increase to 2 replicas per shard'); counterarguments[1].response; C3 assessment] The draft says 'the observed problem was client-side error handling (E4, E5)' and treats the client retry gap as the cause of the INC-2291 errors. The source only records an action item ('client retry/backoff on MOVED/failover errors (OPEN)'). It does not name a root cause. The 41s failover window, which may be tunable on the server side (E7), is an equally plausible contributor. The draft states as observed fact something it has inferred, and uses it to rank client retry above the replica-count and failover-tuning alternatives."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "1461 - 104",
+      "claimed": 1357,
+      "actual": 1357,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "365 + 31 + 31 + 30 + 20",
+      "claimed": 477,
+      "actual": 477,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "3 * (1 + 1)",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "6 / (100 / 3)",
+      "claimed": 0.18,
+      "actual": 0.18,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(3 * (1 + 2) - 3 * (1 + 1)) / (3 * (1 + 1))",
+      "claimed": 0.5,
+      "actual": 0.5,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "source": "deterministic",
+      "detail": "material claim CL9 rests only on HYPOTHETICAL/UNKNOWN evidence"
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C1 strengths[0] and mechanisms; counterarguments[0].response] The draft calls the migration/decommission entry (E2) and the INC-2291 shard failover (E4) 'two separate' and 'two independent changelog facts' that corroborate the replicated topology. Both come from the same three-line document (sources/platform-changelog-2025.md), which the packet itself describes as an unconfirmed excerpt. They agree with each other, but that is internal consistency within one source, not independent corroboration. If the excerpt is wrong or out of date, both facts fail together. Calling them independent overstates how strong the evidence is for C1, the criterion the whole verdict rests on."
+    },
+    {
+      "gate": "traceability",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [alternatives[3].comparison ('Increase to 2 replicas per shard'); counterarguments[1].response; C3 assessment] The draft says 'the observed problem was client-side error handling (E4, E5)' and treats the client retry gap as the cause of the INC-2291 errors. The source only records an action item ('client retry/backoff on MOVED/failover errors (OPEN)'). It does not name a root cause. The 41s failover window, which may be tunable on the server side (E7), is an equally plausible contributor. The draft states as observed fact something it has inferred, and uses it to rank client retry above the replica-count and failover-tuning alternatives."
+    }
+  ]
+}

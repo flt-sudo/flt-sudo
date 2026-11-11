@@ -65,14 +65,14 @@ export function deterministicFindings(plan: Plan, reg: RegistryResult, draft: Dr
   }
 
   // Evidence sufficiency
-  for (const cl of draft.claims.filter((c) => c.material && c.evidenceIds.length > 0)) {
+  for (const cl of draft.claims.filter((c) => c.material && c.type !== "limitation" && c.evidenceIds.length > 0)) {
     const recs = cl.evidenceIds.map((e) => byId.get(e)).filter((r): r is ValidatedRecord => !!r);
     if (recs.length > 0 && recs.every((r) => WEAK.has(r.effectiveClassification)) && cl.calculationIds.length === 0) {
       add("evidence_sufficiency", "major", `material claim ${cl.id} rests only on HYPOTHETICAL/UNKNOWN evidence`);
     }
   }
   if (draft.confidence === "high") {
-    const weakMaterial = draft.claims.filter((c) => c.material && !c.evidenceIds.some((e) => ["VERIFIED", "CORROBORATED"].includes(byId.get(e)?.effectiveClassification ?? "")) && c.calculationIds.length === 0);
+    const weakMaterial = draft.claims.filter((c) => c.material && c.type !== "limitation" && !c.evidenceIds.some((e) => ["VERIFIED", "CORROBORATED"].includes(byId.get(e)?.effectiveClassification ?? "")) && c.calculationIds.length === 0);
     if (weakMaterial.length > 0) add("evidence_sufficiency", "major", `high confidence but material claims lack VERIFIED/CORROBORATED support: ${weakMaterial.map((c) => c.id).join(", ")}`);
   }
   const covered = new Set(reg.records.flatMap((r) => r.gapIds));

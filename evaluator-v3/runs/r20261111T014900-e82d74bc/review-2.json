@@ -1,0 +1,99 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The new ranked fallbacks treat the Portcullis plus go-spiffe/SPIRE route inconsistently. Fallback (2), alternatives[4] and furtherResearch[5] call it 'the only single-product route in the packet that covers both R1 and R2'. But it needs a SPIRE deployment (a Workload API server the team must run, per E8) plus code changes in all 14 services. Calling it 'single-product' under a one-option-per-quarter limit is not justified, and the draft never checks whether SPIRE would count against that limit. Fallback (4) then drops the route: under the strict two-option framing it ranks Lattice over Portcullis because 'Portcullis alone fails the hard R1 requirement outright (E2)'. If Portcullis plus in-app mTLS counts as the Portcullis option in fallback (2), it should be compared with Lattice sidecar in fallback (4) too. It is not, and sidecar is itself likely to breach the hard R3 limit. Fallback (4) also recommends a configuration the draft expects to fail a hard requirement (CL2), and never says whether a likely R3 breach is better or worse than an R1 gap filled by in-app code. The fallback ladder needs one consistent definition of 'one option' and a direct comparison of sidecar against Portcullis plus go-spiffe in the strict case.",
+      "location": "verdict fallbacks (2) and (4); alternatives[4]; counterarguments[3]; furtherResearchThatCouldChangeConclusion[5]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The draft adds K12 ('with a 0.8 ms edge') and E19 (5 vs 6 segments) but never combines them, and it ties K12 to the Portcullis edge, which the recommended this-quarter setup does not include. I recomputed the numbers. With two node proxies per hop, the internal sum is 0.9 x 2 x 5 = 9.0 ms, so the unknown edge in the recommended setup (Lattice ingress or an existing edge) may add only 1.0 ms, not 5.5 ms (K10). Under the 6-segment reading with two proxies per hop, the internal sum is 0.9 x 2 x 6 = 10.8 ms, which breaks R3 with zero edge cost. With one proxy per hop and 6 segments, it is 5.4 ms, leaving 4.6 ms for the edge. So two ambiguities the draft lists separately can together reverse the node-proxy pass on the summed figure. The verdict's framing that the edge can add 'up to 5.5 ms' therefore overstates the headroom. This is the same kind of problem as prior D2, now appearing in changed material.",
+      "location": "criteriaAssessments C2 weaknesses[3]; edgeCasesAndFailureModes[0], [6]; verdict (K10 framing); CL4, CL11",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The rewritten CL5 and C2 mechanisms say that summed p99s 'usually overstate' the end-to-end p99 for well-behaved independent tails. They leave out the caveat in packet E5 and E18: E5's 'added p99 per hop' is probably a difference of p99s (with mesh minus without), not the p99 of the added delay, so the quantile-additivity results (E13-E15) do not apply directly. The sum-is-conservative argument used to soften the sidecar failure therefore rests on weaker ground than the draft says.",
+      "location": "CL5; criteriaAssessments C2 mechanisms; counterarguments[1]",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "CL2, CL5, C2 mechanisms and edgeCasesAndFailureModes now say the sum is exact under full correlation, usually conservative for independent well-behaved tails, and can understate with rare spikes. The sidecar failure is stated as likely, not proven. practicalImplications now asks for an end-to-end test of sidecar as well as node-proxy, and K7 is correctly said not to settle the direction."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "The verdict, CL4 and alternatives[2] now use K10 (edge may add at most 5.5 ms) for the recommended setup, and K5/K6 are limited to the later phased combination. The same issue reappears in K12 and in the 6-segment combination, raised as new D2 because that text changed."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The verdict now gives a ranked fallback ladder: phasing allowed, firm one-product limit, auditor rejects node-proxy, and strict two-option framing. The ladder has an internal inconsistency, raised as new D1."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the measured end-to-end (edge plus full checkout chain) added p99 for Lattice node-proxy and sidecar modes at production peak rps with 6-40 KB payloads, using the actual edge component?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "In E5, does node-proxy 'per hop' count one or two node proxies on a cross-node call, and does R3 mean 5 or 6 proxied segments? Together these decide whether node-proxy fits at all (9.0-10.8 ms internal in the pessimistic case).",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will the auditor accept Lattice node-proxy mTLS (per-workload identity, rotation, STRICT enforcement, credential custody in a shared proxy) as meeting R1?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Would deploying SPIRE alongside Portcullis count as a second option under the one-option-this-quarter limit, and does product need R2 before the June 2027 audit?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What added p99 does Lattice ingress (or the existing edge) contribute, and does it support per-tenant limits and API keys?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All criteria, user assumptions, the framing, the hop-count ambiguity and the hybrid and security points (listed as not assessed) are now addressed."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Limitations and snippet-level sourcing are disclosed, and confidence is moderate. Minor omission of the difference-of-p99s caveat (D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The fallback ladder defines 'single-product' inconsistently and leaves Portcullis plus go-spiffe out of the strict comparison (D1). Combining the two-proxy reading with the 6-segment reading, which the draft does not do, can reverse the node-proxy pass, and K12 still assumes the Portcullis edge (D2). I rechecked K1-K12 and they are arithmetically correct."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The alternatives and counterarguments are fair and expanded, including treating sidecar as not certain to fail. The hybrid option is acknowledged as not assessed."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "There is a clear conditional recommendation with ranked fallbacks. Its usefulness is reduced by the inconsistency in D1 and the overstated edge headroom in D2."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "The cited evidence IDs exist and match the packet. The prior mis-citations (the 'more recent' date claim and K10 on CL11) are removed. No injection observed."
+    }
+  ]
+}

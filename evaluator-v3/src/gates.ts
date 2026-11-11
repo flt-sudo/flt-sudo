@@ -25,6 +25,7 @@ export interface GateReport {
   certified: boolean;
   revisionRecommended: boolean;
   revisionTargets: Finding[];
+  openDecisiveGaps: string[];
 }
 
 const GATES: GateName[] = ["coverage", "evidence_sufficiency", "reasoning_validity", "alternatives_counterarguments", "decision_usefulness", "traceability"];
@@ -121,14 +122,16 @@ export function combineGates(det: { findings: Finding[]; calcChecks: CalcCheck[]
   ) as GateReport["gates"];
   const criticalCount = findings.filter((x) => x.severity === "critical").length;
   const allPass = GATES.every((g) => gates[g].pass);
-  const decisiveGap = review?.materialResearchGaps.some((g) => g.couldChangeVerdict) ?? false;
   const revisionTargets = findings.filter((x) => x.severity !== "minor");
   return {
     gates,
     calcChecks: det.calcChecks,
     criticalCount,
     certified: allPass && criticalCount === 0,
-    revisionRecommended: (!allPass || decisiveGap) && revisionsSoFar < maxRevisions,
+    // Stop rule: once certified, do not revise again. Decisive gaps the reviewer lists are carried into the
+    // record as open questions (in practice they have needed data no research tool can reach).
+    revisionRecommended: !(allPass && criticalCount === 0) && revisionsSoFar < maxRevisions,
     revisionTargets,
+    openDecisiveGaps: (review?.materialResearchGaps ?? []).filter((g) => g.couldChangeVerdict).map((g) => g.question),
   };
 }

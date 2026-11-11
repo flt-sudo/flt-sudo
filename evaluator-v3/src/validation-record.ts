@@ -80,6 +80,7 @@ export function buildValidationRecord(dir: string): ValidationRecord {
   const remainingUncertainty = [
     ...(lastDraft?.remainingUncertainty ?? []),
     ...(reg?.records.filter((r) => r.effectiveClassification === "UNKNOWN").map((r) => `${r.id} UNKNOWN: ${r.claim}`) ?? []),
+    ...((lastGates?.openDecisiveGaps ?? []).map((q) => `Open question the reviewer judged decisive: ${q}`)),
   ];
 
   const independentValidationStatus = grade

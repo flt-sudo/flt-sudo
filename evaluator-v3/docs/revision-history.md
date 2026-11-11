@@ -97,3 +97,13 @@ Changes:
 - Schema/gates: claims carry `type: "finding" | "limitation"` (default finding). Limitation claims are exempt
   from the weak-evidence rule and from the high-confidence check; findings are unchanged. Test added.
 - Prompt (`eval-analyst.md`): explains when to use `type: "limitation"`.
+
+### Stop rule codified (2026-11-11, dev-03)
+
+dev-03 draft 2 was certified (all six gates pass, no critical findings), but `gates` still recommended a revision
+because the reviewer listed research gaps that "could change the verdict" — all of them answerable only with the
+organisation's internal data (live config, incident tracker, roadmap), which research had already recorded as
+unresolved. Per the handoff ("stop earlier when all quality gates pass and further research has low expected
+value"), the orchestrator stopped. To make this deterministic rather than an orchestrator judgement:
+`combineGates` no longer recommends revision once a draft is certified; open decisive gaps are listed in
+`gates-N.json` (`openDecisiveGaps`) and reach the validation record via the draft's remaining uncertainty.

@@ -1,0 +1,102 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C6 says the request is 'evidence the stale page is already causing wrong decisions'. That overstates it. The request is a question about prioritisation, and no wrong decision has been made yet. The supportable claim is that the stale page nearly misdirected planning. This also slightly inflates the case for doc work under C6.",
+      "location": "criteriaAssessments C6 assessment and strengths[1]; mechanisms ('as this request shows')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C3 calls the 41s failover window 'an equally plausible contributor' to the INC-2291 errors. The packet has no basis for weighting the two causes equally. The source records only that the retry item is an open action item, and E7 is snippet-level. 'Also plausible' is supportable; 'equally' is not.",
+      "location": "criteriaAssessments C3 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "K4 and CL7 compute a ratio (0.18) and then say it 'says nothing reliable about client behaviour'. A calculation the draft itself calls uninformative adds noise and false precision without informing the decision. Either drop it or state what it would take to make it informative (for example, the share of sessions active during the 41s window).",
+      "location": "CL7, K4, C2 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "For the residual whole-cluster mass-logout risk (C4), the draft considers only server-side durability (persistence or snapshots). It leaves out the application-side alternative: making session loss graceful through re-authentication, refresh tokens, or a fallback session source. That could be cheaper than enabling and operating persistence, and it is relevant to C5's cost comparison.",
+      "location": "alternatives; tradeoffs[2]; practicalImplications[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The severity of the residual impact (41s, about 6% of sessions erroring) is not tied to any availability target or error budget. The draft lists 'may breach SLOs' as a weakness but does not name finding the SLO as a verification step. Without it, the priority of the retry fix and failover tuning cannot be judged.",
+      "location": "C2 weaknesses[1]; practicalImplications; furtherResearchThatCouldChangeConclusion",
+      "remedy": "research"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Does live infra-as-code or the provider console confirm that sessions-prod (3 shards x 1 primary + 1 replica, multi-AZ, automatic failover) is the current production session store, and does any service or config still reference sess-redis-01?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the November 2026 status of the INC-2291 action item 'client retry/backoff on MOVED/failover errors'?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Are persistence (RDB/AOF or the managed equivalent) and backups enabled on sessions-prod?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Have there been session-store incidents or failover tests since 2025-07-22, and did they show longer windows, higher error rates or logouts?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What availability SLO or error budget applies to login/session paths, and did INC-2291's 41s / ~6% impact breach it?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "What competing reliability and roadmap items are bidding for next quarter's capacity, and what are the effort estimates for the small session-store bundle?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are assessed, the request is answered directly, and all three user premises are explicitly corrected. Only small gaps remain: the SLO context and the application-side mitigation."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims match the source text (I checked the changelog and wiki). Snippet-level evidence (E6-E8) is consistently caveated. The draft notes that E2 and E4 share one source. Moderate confidence fits the unverified live state."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1 (1357), K2 (477), K3 (6), K4 (0.18), K5 (0.5) and K6 (631), and all are correct. The conclusions follow from the evidence. There are only minor overstatements (D1, D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The draft covers six alternatives, including doing nothing and adding replicas, and four counterarguments, the strongest of which is answered fairly. The application-side alternative to persistence is missing (D4)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "It gives a clear 'no' on adding replication, a verification-first bundle with concrete next steps, and states plainly that relative ranking cannot be set without roadmap data."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited evidence ID (E1-E11) and calculation ID (K1-K6) exists, and the claims are supported by the packet text. No injected instructions were found in the sources, and the draft did not follow any."
+    }
+  ]
+}

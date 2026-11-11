@@ -1,0 +1,157 @@
+{
+  "runId": "r20261111T003826-3c0e6177",
+  "generatedAt": "2026-11-11T00:47:07.058Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "Valkey cluster failover client MOVED redirection retry cluster-node-timeout",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "ElastiCache for Valkey cluster mode enabled backup snapshot persistence replica failover time",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      }
+    ],
+    "webFetches": [],
+    "fixturesRead": [
+      "wiki-session-store.md",
+      "platform-changelog-2025.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "dev-03 planner",
+        "ok": true
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "dev-03 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-03 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-03 adversary review 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-03 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-03 adversary review 2",
+        "ok": true
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "wiki-session-store.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "platform-changelog-2025.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://aws.amazon.com/blogs/database/best-practices-valkey-redis-oss-clients-and-amazon-elasticache/",
+    "https://valkey.io/topics/cluster-spec/",
+    "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups.html"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 11 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 1461 - 104 = 1357 (claimed 1357) → match",
+    "Calculation K2 re-executed: 365 + 31 + 31 + 30 + 20 = 477 (claimed 477) → match",
+    "Calculation K3 re-executed: 3 * (1 + 1) = 6 (claimed 6) → match",
+    "Calculation K4 re-executed: 6 / (100 / 3) = 0.18 (claimed 0.18) → match",
+    "Calculation K5 re-executed: (3 * (1 + 2) - 3 * (1 + 1)) / (3 * (1 + 1)) = 0.5 (claimed 0.5) → match",
+    "Calculation K6 re-executed: 365 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 - 7 = 631 (claimed 631) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: No live infra-as-code, console, or service-owner data was available. The changelog (2025) and wiki (2021) were the only sources. Whether any service still references sess-redis-01, and whether anything changed after 2025-07-22, cannot be confirmed.",
+    "Knowledge gap G2 unresolved: No incident tracker access. The INC-2291 action item's status in November 2026 is unknown, and no later incidents or failover tests were found.",
+    "Knowledge gap G3 unresolved: Only one failover data point (INC-2291) exists, so it cannot be judged representative. General documentation does not give typical managed-Valkey failover durations.",
+    "Knowledge gap G4 unresolved: The persistence and backup configuration of sessions-prod is not documented in the supplied sources. The managed provider is also unnamed, so provider-specific guidance (E8) may not apply.",
+    "Knowledge gap G5 unresolved: No roadmap, backlog, or effort estimates were supplied. WebFetch was blocked, so no external page was directly inspected and all web evidence is search-snippet level."
+  ],
+  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "remainingUncertainty": [
+    "Whether the changelog's topology is still the production state as of November 2026. There is no live confirmation. The migration entry is about 631 days old, and the latest entry about 477 days old (E2, K2, K6).",
+    "Whether any service still references sess-redis-01 (E2).",
+    "The current status of the INC-2291 retry/backoff action item (E5).",
+    "The root cause of the INC-2291 errors, which the source does not record. The client retry gap and the 41s failover window are both plausible contributors (E4, E5, E7).",
+    "Whether persistence or backups are enabled on sessions-prod (E9).",
+    "Whether 41s and about 6% are typical failover impact. Only one incident is on record (E4).",
+    "Which managed provider hosts sessions-prod, and so whether the ElastiCache guidance applies (E8).",
+    "Competing roadmap items and effort estimates (E10).",
+    "E9 UNKNOWN: Whether persistence or backups are enabled on sessions-prod, and therefore whether a full-cluster loss would still log everyone out, could not be determined.",
+    "E10 UNKNOWN: Competing roadmap items and effort estimates for the candidate session-store work are unknown."
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T00:43:52.990Z",
+        "reasons": [
+          "[evidence_sufficiency/major] material claim CL9 rests only on HYPOTHETICAL/UNKNOWN evidence",
+          "[reasoning_validity/major] D1 [criteriaAssessments C1 strengths[0] and mechanisms; counterarguments[0].response] The draft calls the migration/decommission entry (E2) and the INC-2291 shard failover (E4) 'two separate' and 'two independent changelog facts' that corroborate the replicated topology. Both come from the same three-line document (sources/platform-changelog-2025.md), which the packet itself describes as an unconfirmed excerpt. They agree with each other, but that is internal consistency within one source, not independent corroboration. If the excerpt is wrong or out of date, both facts fail together. Calling them independent overstates how strong the evidence is for C1, the criterion the whole verdict rests on.",
+          "[traceability/major] D2 [alternatives[3].comparison ('Increase to 2 replicas per shard'); counterarguments[1].response; C3 assessment] The draft says 'the observed problem was client-side error handling (E4, E5)' and treats the client retry gap as the cause of the INC-2291 errors. The source only records an action item ('client retry/backoff on MOVED/failover errors (OPEN)'). It does not name a root cause. The 41s failover window, which may be tunable on the server side (E7), is an equally plausible contributor. The draft states as observed fact something it has inferred, and uses it to rank client retry above the replica-count and failover-tuning alternatives."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D5 [C2 weaknesses[1]; practicalImplications; furtherResearchThatCouldChangeConclusion] The severity of the residual impact (41s, about 6% of sessions erroring) is not tied to any availability target or error budget. The draft lists 'may breach SLOs' as a weakness but does not name finding the SLO as a verification step. Without it, the priority of the retry fix and failover tuning cannot be judged."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [criteriaAssessments C6 assessment and strengths[1]; mechanisms ('as this request shows')] C6 says the request is 'evidence the stale page is already causing wrong decisions'. That overstates it. The request is a question about prioritisation, and no wrong decision has been made yet. The supportable claim is that the stale page nearly misdirected planning. This also slightly inflates the case for doc work under C6.",
+        "[minor/reviewer] D2 [criteriaAssessments C3 assessment] C3 calls the 41s failover window 'an equally plausible contributor' to the INC-2291 errors. The packet has no basis for weighting the two causes equally. The source records only that the retry item is an open action item, and E7 is snippet-level. 'Also plausible' is supportable; 'equally' is not."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D4 [alternatives; tradeoffs[2]; practicalImplications[3]] For the residual whole-cluster mass-logout risk (C4), the draft considers only server-side durability (persistence or snapshots). It leaves out the application-side alternative: making session loss graceful through re-authentication, refresh tokens, or a fallback session source. That could be cheaper than enabling and operating persistence, and it is relevant to C5's cost comparison."
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [CL7, K4, C2 assessment] K4 and CL7 compute a ratio (0.18) and then say it 'says nothing reliable about client behaviour'. A calculation the draft itself calls uninformative adds noise and false precision without informing the decision. Either drop it or state what it would take to make it informative (for example, the share of sessions active during the 41s window)."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

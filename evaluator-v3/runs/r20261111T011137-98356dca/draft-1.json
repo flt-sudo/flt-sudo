@@ -1,0 +1,538 @@
+{
+  "verdict": "Neither broker can be committed to unconditionally on the evidence available. StreamCore 4.0 does not qualify on 6 nodes. Its only workload-matched measurement is 220,000 msg/s at 38 ms p99 with 1 KB messages, fsync per batch, RF3 and 6 nodes (E1). That is about 73% of the 300,000 msg/s requirement, and it would need about 36% more throughput to qualify. It was CPU-bound on replication (E3), and no source says how much tuning or hardware would recover. The vendor's 1M msg/s figure (E4) was measured under non-comparable conditions and is not evidence for this workload. QueueForge 2.3 is the only candidate that clears the requirement in steady state. It reached 340,000 msg/s under the benchmark's 50 ms p99 target, about 13% headroom, and 410,000 msg/s at 61 ms p99 (E2). It is only a conditional pass. Its own docs say throughput may drop by up to 40% for 10-20 minutes while rebalancing at high partition counts (E6). That worst case would leave about 204k-246k msg/s, below 300k. Beyond 'high partition counts' being undefined, no failure-mode measurement exists for either broker (E6, E12). Whether QueueForge qualifies therefore cannot be determined until three things are known: (a) whether the requester needs 300k msg/s during node loss and rebalancing, or can tolerate a backlog for 10-20 minutes; (b) their actual p99 SLO and headroom need (E10); (c) whether the single, thinly documented TechBench result holds on the target hardware (E1, E12). Recommendation: treat QueueForge as the lead candidate and run a proof-of-concept on target hardware that includes node-kill and rebalance tests. Drop StreamCore unless the team accepts more than 6 nodes or can show a replication-CPU fix of at least 36% in its own testing.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "StreamCore fails and QueueForge passes in steady state. The only measurement with persistence on, RF3, 1 KB payloads and 6 nodes is the TechBench benchmark. StreamCore sustained 220,000 msg/s, which is 73.3% of the requirement (K4) and needs a 36.4% increase to reach 300k (K5). QueueForge sustained 410,000 msg/s, or 340,000 msg/s under 50 ms p99 (E2). The vendor's 1M msg/s figure is excluded: it used 100 B messages, in-memory mode, RF1 and 3 nodes (E4). That is about 100 MB/s of payload (K9), a third of the target's roughly 300 MB/s ingest (K1, K10), with no durability or replication.",
+      "mechanisms": "Durable, replicated throughput is limited by per-message fsync/batch cost and by replication fan-out. With RF3 every ingested byte is written three times, about 900 MB/s cluster-wide (K2). StreamCore's ceiling in this test was CPU spent on replication (E3), not disk or network. That is why its in-memory RF1 number does not carry over: the vendor test removed exactly the work that bound it. QueueForge's higher steady-state figure suggests its replication path is cheaper per message on the same hardware. The excerpt does not explain why.",
+      "strengths": [
+        "Both brokers were measured in the same benchmark under the same workload-matched setup (1 KB, fsync per batch, RF3, 6 nodes), so the head-to-head comparison is like-for-like (E1, E2).",
+        "QueueForge exceeds 300k msg/s even under the stricter 50 ms p99 limit (E2)."
+      ],
+      "weaknesses": [
+        "The benchmark is a single source with no hardware, acks, batch size, duration or sponsorship details, and no external trace of the publisher (E1, E12).",
+        "StreamCore's CPU-bound result might improve with more or faster cores or tuning, but no source quantifies this (E3).",
+        "All throughput figures are steady state with no failures (E2)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "QueueForge's usable headroom depends on the latency SLO, which the requester did not give (E10). Under the benchmark's 50 ms p99 target, QueueForge's 340k gives 13.3% headroom (K6). That means it can absorb only about an 11.8% throughput loss before falling below 300k (K13). If 61 ms p99 is acceptable, 410k gives 36.7% headroom (K7) and tolerates about a 26.8% loss (K14). StreamCore met the latency target easily (38 ms p99) but at a throughput below the requirement (E1), so its latency headroom does not help.",
+      "mechanisms": "Tail latency rises sharply near saturation. As offered load approaches capacity, queues build behind fsync batches and replication acknowledgements, so p99 grows faster than throughput. QueueForge's step from 340k (<50 ms) to 410k (61 ms) shows this knee: the last 70k msg/s costs over 11 ms of p99. Running at 300k sits at about 88% of QueueForge's sub-50 ms capacity (300/340), close to the knee, so bursts above the average rate would push p99 up quickly.",
+      "strengths": [
+        "Two operating points are reported for QueueForge, which gives a rough picture of its latency-throughput curve (E2)."
+      ],
+      "weaknesses": [
+        "The 50 ms target comes from the benchmark, not the requester (E10).",
+        "p999 and test duration are not reported, and burst or peak load is not characterised (E2, E10).",
+        "Thirteen percent headroom is thin for a durable system that must also absorb failures, compaction or consumer lag."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E10"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "This criterion cannot be determined for either broker. It may disqualify QueueForge. QueueForge's operations guide says rebalancing after node loss can take 10-20 minutes at high partition counts, with throughput dropping by up to 40% (E6). Applied to its benchmark figures, the worst case is 204k msg/s from the 340k point (K8) and 246k from the 410k point (K9), both below 300k. As an illustration only, if capacity scaled linearly with node count (an assumption no source supports), 5 surviving nodes would give about 283k at the sub-50 ms point (K15). StreamCore's failure behaviour is undocumented (E12). Starting from 220k, it is below the requirement even before any failure (E1).",
+      "mechanisms": "Losing a node at RF3 does two things at once. Surviving nodes take over leadership and write load: about 180 MB/s per node across 5 nodes instead of 150 MB/s across 6 (K3, K11, E11). The cluster also has to re-replicate the lost node's partition replicas, which competes for the same disk, network and replication CPU. At high partition counts more metadata and data must move, so rebalancing takes longer and the throughput dip lasts longer (E6). The 40% figure is a documented ceiling, not a measured typical value.",
+      "strengths": [
+        "QueueForge at least documents its degraded-mode behaviour and bounds it (up to 40%, 10-20 minutes) (E6)."
+      ],
+      "weaknesses": [
+        "'High partition counts' is not defined, and the partition count needed for 300k msg/s is unknown (E6, E7).",
+        "No independent failure-mode measurement exists for either broker (E6, E12).",
+        "The requester has not said whether 300k must hold during failures (E10)."
+      ],
+      "evidenceIds": [
+        "E6",
+        "E7",
+        "E10",
+        "E11",
+        "E12",
+        "E1"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Evidence quality is mixed and limits confidence. The TechBench excerpt is the only workload-matched source, and the head-to-head comparison is internally consistent (E1, E2). It is also a single, very short excerpt from a publisher that cannot be found externally. It has no methodology details (E1, E12). The vendor blog is self-interested and non-comparable (E4). The QueueForge failure-mode statements are vendor documentation with hedged wording (E6). The E1/E4 'contradiction' is not a real conflict. The two figures were measured under different conditions: 1 KB, durable, RF3, 6 nodes in E1 versus 100 B, in-memory, RF1, 3 nodes in E4. E1 is more reliable for this decision because it is more recent (2026-08 vs 2026-04), presented as independent, and directly matches the workload.",
+      "mechanisms": "Benchmark results for brokers are very sensitive to unstated parameters: acks level, fsync granularity, producer batching, client count and hardware. An undocumented setup can move results substantially in either direction, and it can favour one broker over another.",
+      "strengths": [
+        "Both products were measured in the same test, so relative standing is more robust than either absolute number (E1, E2).",
+        "The vendor figure's conditions are stated explicitly enough to show it is non-comparable (E4)."
+      ],
+      "weaknesses": [
+        "The benchmark's independence and reproducibility cannot be checked (E12).",
+        "There are no hardware specs, so results cannot be mapped to the target environment (E1, E11).",
+        "The failure-mode evidence is a single hedged vendor statement (E6)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4",
+        "E6",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Assuming RF3, the target implies about 300 MB/s of ingest (K1), about 900 MB/s of cluster-wide writes (K2), about 150 MB/s of disk writes per node (K3) and about 100 MB/s of replication egress per node (K12) on 6 nodes. On 5 nodes that rises to about 180 MB/s of writes per node (K11). These rates are within reach of modern NVMe and 10-25 GbE hardware, but the target hardware is unknown (E11). QueueForge's recommended maximum of 4,000 partitions per node gives a ceiling of about 24,000 on 6 nodes (K16) or 20,000 on 5 nodes (K17). It is unclear whether this counts replicas, and the partition count the workload needs is unknown (E7). StreamCore's CPU-bound replication suggests compute, not disk, is its constraint (E3).",
+      "mechanisms": "Per-node load scales with RF divided by node count, so losing a node raises per-node load by 20% (6/5). A broker bound by replication CPU, like StreamCore, gains little from faster disks. Partition count drives both parallelism and rebalance cost, so adding partitions for throughput can lengthen QueueForge's rebalance window.",
+      "strengths": [
+        "The bandwidth requirements are modest relative to commodity server hardware (E11)."
+      ],
+      "weaknesses": [
+        "The load estimates ignore protocol overhead, consumer egress and rebalance traffic (E11).",
+        "There is no hardware specification for the benchmark or the target (E1, E11).",
+        "The partition requirement is unquantified (E7)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E7",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Only the QueueForge side can be scored. QueueForge is Apache 2.0 with optional commercial support, but no pricing is given (E8). StreamCore's licence, support and cost terms are undocumented and could not be found (E9, E12). This criterion matters only if both brokers pass on capacity, which StreamCore does not on 6 nodes.",
+      "mechanisms": "An open-source licence lowers lock-in risk and the cost of adding nodes, which matters if more than 6 nodes turn out to be needed to ride through failures. An unknown StreamCore licence could add per-node costs that worsen its position further if more nodes are needed.",
+      "strengths": [
+        "QueueForge's licence is permissive and clearly stated (E8)."
+      ],
+      "weaknesses": [
+        "No support pricing is given for QueueForge (E8).",
+        "StreamCore's terms are unknown (E9)."
+      ],
+      "evidenceIds": [
+        "E8",
+        "E9",
+        "E12"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The only workload-matched measurement of StreamCore 4.0 (1 KB, fsync per batch, RF3, 6 nodes) is 220,000 msg/s at 38 ms p99. That is 73.3% of the 300,000 msg/s requirement and would need a 36.4% increase to qualify.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": [
+        "K4",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The StreamCore vendor figure of 1,000,000 msg/s was measured with 100 B messages, persistence disabled, RF1 and 3 nodes. It amounts to about 100 MB/s of payload, a third of the target's roughly 300 MB/s ingest, with no durability or replication, so it is not evidence for this workload.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E5"
+      ],
+      "calculationIds": [
+        "K1",
+        "K9",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "In the same benchmark, QueueForge 2.3 sustained 410,000 msg/s at 61 ms p99 and 340,000 msg/s under 50 ms p99. That is 36.7% and 13.3% headroom over 300k respectively.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": [
+        "K6",
+        "K7"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "At the sub-50 ms operating point, QueueForge can lose only about 11.8% of its throughput before falling below 300k msg/s. At the 61 ms point it can lose about 26.8%.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": [
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "QueueForge's documentation says rebalancing after node loss can take 10-20 minutes at high partition counts, with throughput dropping by up to 40%. Applied to the benchmark figures, the worst case is about 204,000-246,000 msg/s, below 300,000.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E2"
+      ],
+      "calculationIds": [
+        "K8",
+        "K9b"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "It cannot be determined from the evidence whether QueueForge's up-to-40% rebalance drop applies at the partition count this workload needs. 'High partition counts' is undefined, the required partition count is unknown, and no failure-mode measurement exists for either broker.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E6",
+        "E7",
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "StreamCore was CPU-bound on replication in the benchmark. Whether tuning or hardware could close the 36.4% gap on 6 nodes cannot be determined, because no source quantifies the possible gain.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E3",
+        "E12"
+      ],
+      "calculationIds": [
+        "K5"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "The requester gave no latency SLO, replication factor, acks level, headroom requirement, or statement on whether 300k must hold during failures. RF3, the 50 ms p99 target and the failure-mode requirement are assumptions.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E10"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "The TechBench benchmark's independence and reproducibility cannot be verified. The excerpt omits hardware, client configuration, acks, batch size, duration and sponsorship, and no external trace of the publisher was found.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1",
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Assuming RF3, the target implies about 900 MB/s of cluster-wide writes. That is about 150 MB/s of disk writes and about 100 MB/s of replication egress per node on 6 nodes, rising to about 180 MB/s of writes per node on 5 surviving nodes.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E11"
+      ],
+      "calculationIds": [
+        "K2",
+        "K3",
+        "K11",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "QueueForge's recommended maximum of 4,000 partitions per node gives a ceiling of about 24,000 partitions on 6 nodes, or 20,000 on 5. It is unclear whether this counts replicas.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E7"
+      ],
+      "calculationIds": [
+        "K16",
+        "K17"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "Illustrative only, assuming linear scaling with node count, which no source supports: QueueForge's sub-50 ms capacity on 5 surviving nodes would be about 283,000 msg/s, and StreamCore would need about 8.2 nodes, so at least 9, to reach 300k.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K15",
+        "K18"
+      ]
+    },
+    {
+      "id": "CL13",
+      "text": "QueueForge is licensed under Apache 2.0 with optional commercial support. StreamCore's licence, support and cost terms cannot be determined from the sources.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E8",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "The apparent contradiction between E1 (220k) and E4 (1M) comes from different test conditions, not conflicting measurements. E1 is the more reliable source for this decision: it is more recent, presented as independent, and matches the target workload.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "QueueForge 2.3 on 6 nodes, conditional on a proof-of-concept",
+      "comparison": "It is the only option shown to exceed 300k in steady state: 340k under 50 ms p99 and 410k at 61 ms (E2). The risk is the documented rebalance dip of up to 40%, which would leave about 204k-246k msg/s (K8, K9b), and headroom of only 13.3% under a 50 ms SLO (K6). It is the right choice if the requester can tolerate a backlog for 10-20 minutes during rebalances, or if a PoC shows the dip is much smaller at the needed partition count."
+    },
+    {
+      "option": "QueueForge 2.3 on more than 6 nodes",
+      "comparison": "This would raise both steady-state headroom and degraded-mode capacity, but it breaks the stated 6-node ceiling (E10). The node count needed to ride through a 40% dip cannot be computed from the evidence, because scaling behaviour and the partition-count dependence are unmeasured (E6, E12)."
+    },
+    {
+      "option": "StreamCore 4.0 on 6 nodes with tuning or faster CPUs",
+      "comparison": "It would need a 36.4% throughput gain (K5) on the only comparable measurement (E1). The CPU-bound replication (E3) means this is not impossible, but it is unsupported by any source. It also has undocumented failure behaviour and licensing (E9, E12)."
+    },
+    {
+      "option": "StreamCore 4.0 on more nodes",
+      "comparison": "Under an unsupported linear-scaling assumption, it would need about 8.2 nodes, so at least 9 (K18), which breaks the 6-node limit. Its licence cost is unknown (E9)."
+    },
+    {
+      "option": "Neither, pending proof-of-concept",
+      "comparison": "This is justified if the requirement must hold through node loss, because no evidence shows either broker sustaining 300k during failure (E6, E12). A PoC on target hardware with failure injection is the only way to close gaps G1, G3 and G4 (E12)."
+    }
+  ],
+  "tradeoffs": [
+    "QueueForge's throughput against tail latency. Accepting about 61 ms p99 raises headroom from 13.3% to 36.7% (K6, K7). Holding to 50 ms leaves little margin for failures or bursts (E2).",
+    "Partition count. More partitions increase parallelism, but per the QueueForge docs they also lengthen rebalancing and deepen its dip (E6, E7).",
+    "Node count against the 6-node constraint. Adding nodes is the most direct way to buy failure headroom for either broker, but it violates the stated limit and raises cost (E10, E9).",
+    "Durability strength against throughput. The benchmark used fsync per batch (E1). Stronger semantics, such as per-message fsync or stricter acks, would likely lower both brokers' numbers. Weaker semantics might raise them but may not meet the requester's durability needs."
+  ],
+  "edgeCasesAndFailureModes": [
+    "A node failure during peak load on QueueForge triggers a 10-20 minute rebalance with up to a 40% throughput loss (E6). Producers back up, or block if buffers fill, and the backlog has to drain after recovery using headroom that is only 13.3% at the 50 ms point (K6).",
+    "After rebalancing finishes, operation on 5 nodes raises per-node writes from about 150 to about 180 MB/s (K3, K11). Disks or NICs sized close to the 6-node load could saturate.",
+    "A second failure during a rebalance has no evidence at all for either broker (E12).",
+    "A bursty workload whose peaks exceed its average: 300k sits at about 88% of QueueForge's sub-50 ms capacity, so short bursts would push p99 past 50 ms (E2).",
+    "Target hardware with fewer or slower cores than the benchmark's would hit StreamCore harder, because it is CPU-bound on replication (E3). Unknown benchmark hardware means either result could fail to reproduce (E1).",
+    "1 KB may mean 1,000 or 1,024 bytes, and protocol and replication overhead are excluded. Real bandwidth needs are somewhat higher than the 300/900 MB/s estimates (E11).",
+    "If the 4,000 partitions-per-node limit counts replicas, the effective number of leader partitions is about a third of the ceiling (E7). That could constrain parallelism or force partition counts into the 'high' range that causes long rebalances (E6)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "StreamCore does 1M msg/s, so it should easily handle 300k.",
+      "response": "That figure used 100 B messages, persistence disabled, RF1 and 3 nodes (E4). That is about 100 MB/s of non-durable payload (K9), a third of this workload's ingest before replication (K10). Under matching durable RF3 conditions StreamCore reached 220k (E1)."
+    },
+    {
+      "argument": "StreamCore is CPU-bound, so faster CPUs would make it pass.",
+      "response": "That is plausible but unquantified (E3). A 36.4% gain is needed (K5), and no source says whether tuning was attempted or what hardware was used. It belongs in a PoC hypothesis, not a basis for commitment."
+    },
+    {
+      "argument": "QueueForge clearly wins at 410k, so just pick it.",
+      "response": "410k misses the benchmark's own 50 ms p99 target (E2). The worst-case documented rebalance dip takes it below 300k (K8, K9b, E6). It wins the comparison, but whether it meets the requirement through failures is undetermined."
+    },
+    {
+      "argument": "The 40% drop is an 'up to' figure for 'high partition counts' and may not apply.",
+      "response": "That is correct, and it is why C3 is marked undetermined rather than failed (CL6). Even a dip of about 12% would breach 300k at the sub-50 ms point (K13), so the dip does not need to be near 40% to matter."
+    },
+    {
+      "argument": "The benchmark is from an untraceable lab and could be unreliable or sponsored.",
+      "response": "This is a real limitation (E12) and caps confidence at moderate. Both products were tested in the same setup, so their relative ranking is more robust than the absolute numbers. Absolute capacity should be confirmed by a PoC."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "StreamCore does 1 million messages per second, and this is relevant to the requirement.",
+      "correction": "The 1M msg/s figure is from a vendor test with 100 B messages, in-memory mode with persistence disabled, RF1 and 3 nodes. That is about 100 MB/s of non-durable payload. Under the matching durable workload (1 KB, RF3, 6 nodes), the independent benchmark measured 220,000 msg/s, below the 300k requirement.",
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E1"
+      ]
+    },
+    {
+      "assumption": "'Durable, replicated' implies RF3, a 50 ms p99 bar, and holding 300k through failures.",
+      "correction": "None of these was stated by the requester. RF3 and 50 ms p99 come from the plan and the benchmark, and the failure-mode requirement is an inference. Each changes the verdict for QueueForge, so the requester needs to confirm them.",
+      "evidenceIds": [
+        "E10"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Target ingest in MB/s: 300,000 msg/s x 1,000 bytes",
+      "expression": "300000*1000/1000000",
+      "claimedResult": 300,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Cluster-wide write rate at RF3 (MB/s)",
+      "expression": "300*3",
+      "claimedResult": 900,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Per-node disk writes on 6 nodes (MB/s)",
+      "expression": "900/6",
+      "claimedResult": 150,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "StreamCore measured throughput as a fraction of the requirement",
+      "expression": "220000/300000",
+      "claimedResult": 0.733,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Relative increase StreamCore needs to reach 300k from 220k",
+      "expression": "(300000-220000)/220000",
+      "claimedResult": 0.364,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "QueueForge headroom over 300k at the sub-50 ms p99 point (340k)",
+      "expression": "(340000-300000)/300000",
+      "claimedResult": 0.133,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "QueueForge headroom over 300k at the 61 ms p99 point (410k)",
+      "expression": "(410000-300000)/300000",
+      "claimedResult": 0.367,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "QueueForge worst-case rebalance throughput from 340k with a 40% drop",
+      "expression": "340000*(1-0.4)",
+      "claimedResult": 204000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9b",
+      "purpose": "QueueForge worst-case rebalance throughput from 410k with a 40% drop",
+      "expression": "410000*(1-0.4)",
+      "claimedResult": 246000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Vendor-claim payload rate in MB/s: 1,000,000 msg/s x 100 bytes",
+      "expression": "1000000*100/1000000",
+      "claimedResult": 100,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Vendor-claim payload as a fraction of target ingest",
+      "expression": "100/300",
+      "claimedResult": 0.333,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Per-node writes on 5 surviving nodes (MB/s)",
+      "expression": "900/5",
+      "claimedResult": 180,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Per-node replication egress on 6 nodes: leader share of ingest x 2 follower copies (MB/s)",
+      "expression": "300/6*2",
+      "claimedResult": 100,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K13",
+      "purpose": "Maximum throughput loss QueueForge can absorb at 340k before dropping below 300k",
+      "expression": "1-300000/340000",
+      "claimedResult": 0.118,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "Maximum throughput loss QueueForge can absorb at 410k before dropping below 300k",
+      "expression": "1-300000/410000",
+      "claimedResult": 0.268,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Illustrative QueueForge sub-50 ms capacity on 5 nodes, assuming linear scaling (unsupported assumption)",
+      "expression": "340000*5/6",
+      "claimedResult": 283333,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K16",
+      "purpose": "QueueForge partition ceiling on 6 nodes at 4,000 per node",
+      "expression": "4000*6",
+      "claimedResult": 24000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "QueueForge partition ceiling on 5 nodes at 4,000 per node",
+      "expression": "4000*5",
+      "claimedResult": 20000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K18",
+      "purpose": "Illustrative StreamCore node count for 300k, assuming linear per-node scaling from 220k on 6 nodes (unsupported assumption)",
+      "expression": "300000/(220000/6)",
+      "claimedResult": 8.18,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Do not shortlist StreamCore for a 6-node deployment on current evidence. Reconsider it only if the team's own testing shows a replication-CPU improvement of at least 36% (K5), or if more nodes are acceptable.",
+    "Treat QueueForge as the lead candidate, but do not commit before a proof-of-concept on target hardware. The PoC should use the requester's real durability settings (acks, fsync), a 1 KB payload, RF3 and 6 nodes.",
+    "The PoC should include node-kill and rebalance tests at the partition count the workload actually needs. It should measure throughput and p99 during the 10-20 minute rebalance window, because this is the unresolved, potentially decisive risk (E6).",
+    "Ask the requester for their p99 (and p999) SLO, the headroom they need, whether 300k must hold during failures, and their peak versus average load (E10).",
+    "If 300k must hold through failures and the PoC confirms a large rebalance dip, plan for more than 6 nodes, or design producers and buffers to absorb a backlog of 10-20 minutes."
+  ],
+  "remainingUncertainty": [
+    "Methodology, hardware, sponsorship and reproducibility of the TechBench benchmark (E1, E12).",
+    "Throughput of either broker during node loss and rebalancing. QueueForge has only an 'up to 40%' ceiling for undefined 'high partition counts', and StreamCore has nothing (E6, E12).",
+    "The partition count needed for 300k msg/s, and whether QueueForge's 4,000-per-node limit counts replicas (E7).",
+    "The requester's latency SLO, replication factor, acks level, headroom need and failure-mode requirement (E10).",
+    "How far tuning or hardware could raise StreamCore's CPU-bound replication throughput (E3).",
+    "Target hardware specifications (E11).",
+    "StreamCore licensing, support and cost (E9)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "A PoC showing QueueForge's rebalance dip stays below about 12% at the required partition count would make QueueForge a clear pass under a 50 ms SLO (K13). A dip near 40% would make it fail a through-failure requirement on 6 nodes.",
+    "A PoC showing StreamCore reaches 300k or more on 6 nodes with tuned replication or faster CPUs would reopen it as a candidate (E3).",
+    "Full TechBench methodology (hardware, acks, batch size, sponsorship). A mismatch with the target environment or vendor sponsorship could move either result (E1).",
+    "A requester SLO looser than 61 ms p99 would raise QueueForge's headroom to about 36.7% (K7). A requirement that only steady-state throughput matters would make QueueForge a pass on current evidence.",
+    "StreamCore licence and support terms, if both brokers were to pass on capacity (E9)."
+  ]
+}

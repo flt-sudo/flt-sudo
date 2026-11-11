@@ -1,0 +1,142 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The draft says the proposed 60% minimums 'sit above the illustrative 49-53% break-even delivery rate against direct' and that they 'cap our downside at the level where Meridian still beats direct'. K31 and K32 only support this when both figures exclude the base. The draft applies the same reasoning to its EUR 3.74M variant, where Meridian's EUR 12M includes the carved-out base and only EUR 9.6M is incremental. Recomputing with the draft's own formula, 9.6d(g-0.35) - 0.48 = 7g - 3.1, gives a break-even delivery rate of about 61% at g = 50% (0.88/1.44) and about 66% at g = 60% (1.58/2.40). In that case a 60% minimum is below break-even, so Meridian trails direct even when it meets the minimum. This matches the draft's own K41 (direct leads above 48.7% at 60% delivery), so the minimum-setting logic contradicts the draft's own break-even analysis. The draft should give scenario-specific break-evens, or set minimums above break-even in the base-included case (about 61-66%, or the K36 equivalent).",
+      "location": "CL15; C4 assessment (a) first sub-bullet; C4 mechanisms ('cap our downside at the level where Meridian still beats direct'); verdict 'Terms to ask for' item 3; K31, K32, K36",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "Carried forward from prior D6 (partially fixed). Post-term economics are now covered illustratively (K38-K40), but the decision rule ignores them. The verdict and CL16 say flatly that 'below roughly 42%, neither route should be chosen' and that direct needs g > 44.3% (K19), or 67.4% (K20), to beat the status quo. These are 3-year floors. The draft's own C6 mechanism says that 'fixed ramp costs make a 3-year comparison structurally unfavourable to direct, because the payback falls in Y4+'. A direct team that loses money over 3 years at g = 40% could still be value-creating over 5 years. The status quo also forgoes EU growth and capability (C5, C6), and the rule ignores this. The floors should be labelled 3-year floors, and the 'neither route' rule should depend on finance's Y4+ run-rate.",
+      "location": "verdict para 2 (third bullet); CL16; alternatives 'Status quo'; practicalImplications item 1 and last item; furtherResearch item 1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The verdict names 'Meridian on revised terms' as the preferred route, yet its own figures put the two routes close to a tie. In the base-excluded carve-out case, Meridian's lead after one channel manager and one FAE is 0.10 + 0.2g: about EUR 0.20M at g = 50% over 3 years (K30). MDF of EUR 0.09-0.23M is computed on net purchases (K24, K25). E19 says 'partner-sourced revenue', and on the EUR 7.2M sell-through base MDF would be EUR 0.14-0.36M, which wipes out the lead. The draft itself says K23 is 'likely understated': it leaves out bonus (E15: EUR 12-42k), car, travel and NL staff. In the base-included case direct leads above 48.7% (K41). C6 (owned relationships, post-term run-rate) points towards direct. The verdict's own text ('Meridian is not clearly better on 3-year economics') contradicts naming Meridian as preferred. What actually tips the deal towards Meridian is the 25-30% discount ask (EUR 0.36-0.72M, K37), but the preference is not made conditional on it. The verdict should present this as a near-tie that depends on (a) the carve-out, (b) a discount reduction and (c) a lean support plan. It should also explain why C6 and post-term value do not reverse the ranking.",
+      "location": "verdict para 3 ('the preferred route is Meridian on revised terms'); alternatives 'Meridian on revised terms'; K24, K25, K30; C6",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The margin floors and break-evens (K19, K29, K41, K42, the 35% loss line) are all computed at the 35% discount, while the draft recommends 25-30%. The draft never shows how the recommended discount moves the floors, beyond one sentence in C4(b). K37 values each 5 points of discount on EUR 7.2M of sell-through, including in the base-included carve-out case, where incremental sell-through is EUR 5.76M (about EUR 0.29M per 5 points). K42's 41.7% floor applies only to the base-excluded carve-out case. It rises to about 43.3% if the EUR 12M includes the base (0.35 + 0.48/5.76) and to about 53.3% without a carve-out.",
+      "location": "K37; K42; verdict para 2; CL16",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K38 leaves Meridian's support cost out of the post-term run-rate comparison, which is inconsistent with K23 and K30. With about EUR 0.16M/yr of support included, the direct revenue needed to match Meridian's Y3 run-rate at g = 50% falls from EUR 3.06M to about EUR 2.74M/yr ((0.495 - 0.16 + 1.033)/0.5). This makes post-term value look less favourable to direct than the draft's own cost model implies.",
+      "location": "K38; CL18; C6 assessment; furtherResearch item 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The verdict refers to 'the references' 60%'. Only reference 1 gives a 60% figure (5.4 of 9). Reference 2 reports about 90% of a plan that was cut, with no absolute figure (E3).",
+      "location": "verdict para 1",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "A status-quo alternative was added, with absolute floors (K19, K20, K42). The misleading low-margin 'favours direct' reading has been corrected."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "A refusal of minimums no longer triggers an automatic switch to direct. The rule now separates refusal of the carve-out from refusal of minimums, and is tied to the K19 margin floor."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Minimums are re-anchored at 60% of projection, and the draft notes that 100% invites refusal. The new level brings its own flaw in the base-included case (see new D1)."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "The draft now proposes a 25-30% discount on new business, valued with K37. Renewal is by mutual agreement or conditional on minimums, with about 6 months' notice labelled as judgement."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "CL3 is now conditional. Support costs are quantified (K21-K23, K30) and CL9 is marked material."
+    },
+    {
+      "id": "D6",
+      "status": "partially_fixed",
+      "note": "Post-term economics are now shown illustratively (K38-K40), but the 3-year status-quo floors are still used as hard decision rules that ignore Y4+ payback. Carried forward as D2."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is our gross margin at list price? This decides whether either route beats the status quo, and which side of K9, K29 and K41 we fall on.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do Meridian's EUR 12M and finance's EUR 7.0M include the existing EUR 0.8M/yr base? This flips the ranking and the adequacy of the 60% minimums.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What internal support plan (FTE, bonus, car and travel, NL staff, MDF and its revenue base) would the Meridian route actually need, compared with the roughly EUR 0.10-0.20M carve-out-case lead?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is finance's ramp plan and Y4+ run-rate for the direct team? This decides whether the 3-year floors understate direct's value.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will Meridian accept the carve-out, a lower discount and minimums above the scenario-specific break-even delivery rate?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is Meridian's actual delivery record in our product category, from references we choose ourselves?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "Status quo, discount target, renewal terms, support costs and post-term economics are now all addressed."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Snippet-level benchmarks are flagged, support-cost figures are labelled as base pay plus on-costs and likely understated, and confidence is moderate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The 60% minimums are claimed to be above break-even, but they fall below it in the base-included case (D1). The 3-year status-quo floors are used as hard rules despite the draft's own Y4+ payback reasoning (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Status quo, term sheet as written, revised Meridian, direct and hybrid are all compared, and the counterarguments are answered with the draft's own figures."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict prefers Meridian on revised terms while its own figures show a near-tie that MDF or understated support costs could reverse. The preference is not made conditional on the discount cut that actually drives it (D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and the calculations recompute correctly (K27 = 0.26, K29 = 0.874, K41 = 0.487, K42 = 0.417, K31 = 0.489, K32 = 0.527, K38 = 3.06). The only issue is a minor misattribution of the 60% figure to both references (D6). No injection was followed."
+    }
+  ]
+}

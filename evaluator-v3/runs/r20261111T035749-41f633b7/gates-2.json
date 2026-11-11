@@ -1,0 +1,387 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [CL15; C4 assessment (a) first sub-bullet; C4 mechanisms ('cap our downside at the level where Meridian still beats direct'); verdict 'Terms to ask for' item 3; K31, K32, K36] The draft says the proposed 60% minimums 'sit above the illustrative 49-53% break-even delivery rate against direct' and that they 'cap our downside at the level where Meridian still beats direct'. K31 and K32 only support this when both figures exclude the base. The draft applies the same reasoning to its EUR 3.74M variant, where Meridian's EUR 12M includes the carved-out base and only EUR 9.6M is incremental. Recomputing with the draft's own formula, 9.6d(g-0.35) - 0.48 = 7g - 3.1, gives a break-even delivery rate of about 61% at g = 50% (0.88/1.44) and about 66% at g = 60% (1.58/2.40). In that case a 60% minimum is below break-even, so Meridian trails direct even when it meets the minimum. This matches the draft's own K41 (direct leads above 48.7% at 60% delivery), so the minimum-setting logic contradicts the draft's own break-even analysis. The draft should give scenario-specific break-evens, or set minimums above break-even in the base-included case (about 61-66%, or the K36 equivalent)."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict para 2 (third bullet); CL16; alternatives 'Status quo'; practicalImplications item 1 and last item; furtherResearch item 1] Carried forward from prior D6 (partially fixed). Post-term economics are now covered illustratively (K38-K40), but the decision rule ignores them. The verdict and CL16 say flatly that 'below roughly 42%, neither route should be chosen' and that direct needs g > 44.3% (K19), or 67.4% (K20), to beat the status quo. These are 3-year floors. The draft's own C6 mechanism says that 'fixed ramp costs make a 3-year comparison structurally unfavourable to direct, because the payback falls in Y4+'. A direct team that loses money over 3 years at g = 40% could still be value-creating over 5 years. The status quo also forgoes EU growth and capability (C5, C6), and the rule ignores this. The floors should be labelled 3-year floors, and the 'neither route' rule should depend on finance's Y4+ run-rate."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [K37; K42; verdict para 2; CL16] The margin floors and break-evens (K19, K29, K41, K42, the 35% loss line) are all computed at the 35% discount, while the draft recommends 25-30%. The draft never shows how the recommended discount moves the floors, beyond one sentence in C4(b). K37 values each 5 points of discount on EUR 7.2M of sell-through, including in the base-included carve-out case, where incremental sell-through is EUR 5.76M (about EUR 0.29M per 5 points). K42's 41.7% floor applies only to the base-excluded carve-out case. It rises to about 43.3% if the EUR 12M includes the base (0.35 + 0.48/5.76) and to about 53.3% without a carve-out."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [K38; CL18; C6 assessment; furtherResearch item 5] K38 leaves Meridian's support cost out of the post-term run-rate comparison, which is inconsistent with K23 and K30. With about EUR 0.16M/yr of support included, the direct revenue needed to match Meridian's Y3 run-rate at g = 50% falls from EUR 3.06M to about EUR 2.74M/yr ((0.495 - 0.16 + 1.033)/0.5). This makes post-term value look less favourable to direct than the draft's own cost model implies."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict para 3 ('the preferred route is Meridian on revised terms'); alternatives 'Meridian on revised terms'; K24, K25, K30; C6] The verdict names 'Meridian on revised terms' as the preferred route, yet its own figures put the two routes close to a tie. In the base-excluded carve-out case, Meridian's lead after one channel manager and one FAE is 0.10 + 0.2g: about EUR 0.20M at g = 50% over 3 years (K30). MDF of EUR 0.09-0.23M is computed on net purchases (K24, K25). E19 says 'partner-sourced revenue', and on the EUR 7.2M sell-through base MDF would be EUR 0.14-0.36M, which wipes out the lead. The draft itself says K23 is 'likely understated': it leaves out bonus (E15: EUR 12-42k), car, travel and NL staff. In the base-included case direct leads above 48.7% (K41). C6 (owned relationships, post-term run-rate) points towards direct. The verdict's own text ('Meridian is not clearly better on 3-year economics') contradicts naming Meridian as preferred. What actually tips the deal towards Meridian is the 25-30% discount ask (EUR 0.36-0.72M, K37), but the preference is not made conditional on it. The verdict should present this as a near-tie that depends on (a) the carve-out, (b) a discount reduction and (c) a lean support plan. It should also explain why C6 and post-term value do not reverse the ranking."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [verdict para 1] The verdict refers to 'the references' 60%'. Only reference 1 gives a 60% figure (5.4 of 9). Reference 2 reports about 90% of a plan that was cut, with no absolute figure (E3)."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "12 * 0.65",
+      "claimed": 7.8,
+      "actual": 7.800000000000001,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "5.4 / 9",
+      "claimed": 0.6,
+      "actual": 0.6000000000000001,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "12 * 0.6",
+      "claimed": 7.2,
+      "actual": 7.199999999999999,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "12 * 0.6 * 0.65",
+      "claimed": 4.68,
+      "actual": 4.68,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "7.0 - 3.1",
+      "claimed": 3.9,
+      "actual": 3.9,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.8 * 3",
+      "claimed": 2.4,
+      "actual": 2.4000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "2.4 * 0.35",
+      "claimed": 0.84,
+      "actual": 0.84,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(0.35 * 12 - 3.1) / (12 - 7)",
+      "claimed": 0.22,
+      "actual": 0.21999999999999983,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(0.35 * 7.2 - 3.1) / (7.2 - 2.4 - 7)",
+      "claimed": 0.264,
+      "actual": 0.2636363636363638,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "5.5 / 12",
+      "claimed": 0.458,
+      "actual": 0.4583333333333333,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "2.5 * 0.65",
+      "claimed": 1.625,
+      "actual": 1.625,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "4.0 * 0.65",
+      "claimed": 2.6,
+      "actual": 2.6,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "5.5 * 0.65",
+      "claimed": 3.575,
+      "actual": 3.575,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "0.35 * 7.2",
+      "claimed": 2.52,
+      "actual": 2.52,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "2.5 / 0.8",
+      "claimed": 3.125,
+      "actual": 3.125,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "3.1 - 0.35 * 7.2",
+      "claimed": 0.58,
+      "actual": 0.5800000000000001,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "(0.5 - 0.35) / 0.5",
+      "claimed": 0.3,
+      "actual": 0.30000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "3.1 / 7",
+      "claimed": 0.443,
+      "actual": 0.4428571428571429,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "3.1 / (7 - 2.4)",
+      "claimed": 0.674,
+      "actual": 0.673913043478261,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "65000 * 1.2",
+      "claimed": 78000,
+      "actual": 78000,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "68223 * 1.2",
+      "claimed": 81868,
+      "actual": 81867.59999999999,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "(65000 + 68223) * 1.2 * 3 / 1000000",
+      "claimed": 0.48,
+      "actual": 0.47960280000000005,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "0.02 * 12 * 0.6 * 0.65",
+      "claimed": 0.0936,
+      "actual": 0.0936,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "0.05 * 12 * 0.6 * 0.65",
+      "claimed": 0.234,
+      "actual": 0.23400000000000004,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "0.15 * 12 * 0.6 * 0.65",
+      "claimed": 0.702,
+      "actual": 0.702,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "2.4 * 0.35 - (3.1 - 0.35 * 7.2)",
+      "claimed": 0.26,
+      "actual": 0.2599999999999999,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "(12 - 2.4) * 0.6",
+      "claimed": 5.76,
+      "actual": 5.76,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "(3.1 - 0.35 * 5.76) / (7 - 5.76)",
+      "claimed": 0.874,
+      "actual": 0.8741935483870967,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "3.1 - 0.35 * 7.2 - (65000 + 68223) * 1.2 * 3 / 1000000",
+      "claimed": 0.1004,
+      "actual": 0.10039720000000002,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "(7 * 0.5 - 3.1 + 0.48) / (12 * (0.5 - 0.35))",
+      "claimed": 0.489,
+      "actual": 0.48888888888888876,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "(7 * 0.6 - 3.1 + 0.48) / (12 * (0.6 - 0.35))",
+      "claimed": 0.527,
+      "actual": 0.5266666666666667,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "2.5 * 0.65 * 0.6",
+      "claimed": 0.975,
+      "actual": 0.975,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "4.0 * 0.65 * 0.6",
+      "claimed": 1.56,
+      "actual": 1.56,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "5.5 * 0.65 * 0.6",
+      "claimed": 2.145,
+      "actual": 2.145,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "(12 - 2.4) * 0.6 * 0.65",
+      "claimed": 3.744,
+      "actual": 3.7439999999999998,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.05 * 7.2",
+      "claimed": 0.36,
+      "actual": 0.36000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "(5.5 * 0.6 * (0.5 - 0.35) + 3.1 / 3) / 0.5",
+      "claimed": 3.06,
+      "actual": 3.056666666666667,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "7 / 3",
+      "claimed": 2.333,
+      "actual": 2.3333333333333335,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "0.35 * 7.2 / 3",
+      "claimed": 0.84,
+      "actual": 0.84,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "(3.1 - 0.35 * 5.76 - 0.48) / (7 - 5.76)",
+      "claimed": 0.487,
+      "actual": 0.48709677419354835,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "0.35 + 0.48 / 7.2",
+      "claimed": 0.4167,
+      "actual": 0.41666666666666663,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [CL15; C4 assessment (a) first sub-bullet; C4 mechanisms ('cap our downside at the level where Meridian still beats direct'); verdict 'Terms to ask for' item 3; K31, K32, K36] The draft says the proposed 60% minimums 'sit above the illustrative 49-53% break-even delivery rate against direct' and that they 'cap our downside at the level where Meridian still beats direct'. K31 and K32 only support this when both figures exclude the base. The draft applies the same reasoning to its EUR 3.74M variant, where Meridian's EUR 12M includes the carved-out base and only EUR 9.6M is incremental. Recomputing with the draft's own formula, 9.6d(g-0.35) - 0.48 = 7g - 3.1, gives a break-even delivery rate of about 61% at g = 50% (0.88/1.44) and about 66% at g = 60% (1.58/2.40). In that case a 60% minimum is below break-even, so Meridian trails direct even when it meets the minimum. This matches the draft's own K41 (direct leads above 48.7% at 60% delivery), so the minimum-setting logic contradicts the draft's own break-even analysis. The draft should give scenario-specific break-evens, or set minimums above break-even in the base-included case (about 61-66%, or the K36 equivalent)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict para 2 (third bullet); CL16; alternatives 'Status quo'; practicalImplications item 1 and last item; furtherResearch item 1] Carried forward from prior D6 (partially fixed). Post-term economics are now covered illustratively (K38-K40), but the decision rule ignores them. The verdict and CL16 say flatly that 'below roughly 42%, neither route should be chosen' and that direct needs g > 44.3% (K19), or 67.4% (K20), to beat the status quo. These are 3-year floors. The draft's own C6 mechanism says that 'fixed ramp costs make a 3-year comparison structurally unfavourable to direct, because the payback falls in Y4+'. A direct team that loses money over 3 years at g = 40% could still be value-creating over 5 years. The status quo also forgoes EU growth and capability (C5, C6), and the rule ignores this. The floors should be labelled 3-year floors, and the 'neither route' rule should depend on finance's Y4+ run-rate."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict para 3 ('the preferred route is Meridian on revised terms'); alternatives 'Meridian on revised terms'; K24, K25, K30; C6] The verdict names 'Meridian on revised terms' as the preferred route, yet its own figures put the two routes close to a tie. In the base-excluded carve-out case, Meridian's lead after one channel manager and one FAE is 0.10 + 0.2g: about EUR 0.20M at g = 50% over 3 years (K30). MDF of EUR 0.09-0.23M is computed on net purchases (K24, K25). E19 says 'partner-sourced revenue', and on the EUR 7.2M sell-through base MDF would be EUR 0.14-0.36M, which wipes out the lead. The draft itself says K23 is 'likely understated': it leaves out bonus (E15: EUR 12-42k), car, travel and NL staff. In the base-included case direct leads above 48.7% (K41). C6 (owned relationships, post-term run-rate) points towards direct. The verdict's own text ('Meridian is not clearly better on 3-year economics') contradicts naming Meridian as preferred. What actually tips the deal towards Meridian is the 25-30% discount ask (EUR 0.36-0.72M, K37), but the preference is not made conditional on it. The verdict should present this as a near-tie that depends on (a) the carve-out, (b) a discount reduction and (c) a lean support plan. It should also explain why C6 and post-term value do not reverse the ranking."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What is our gross margin at list price? This decides whether either route beats the status quo, and which side of K9, K29 and K41 we fall on.",
+    "Do Meridian's EUR 12M and finance's EUR 7.0M include the existing EUR 0.8M/yr base? This flips the ranking and the adequacy of the 60% minimums.",
+    "What internal support plan (FTE, bonus, car and travel, NL staff, MDF and its revenue base) would the Meridian route actually need, compared with the roughly EUR 0.10-0.20M carve-out-case lead?",
+    "What is finance's ramp plan and Y4+ run-rate for the direct team? This decides whether the 3-year floors understate direct's value.",
+    "Will Meridian accept the carve-out, a lower discount and minimums above the scenario-specific break-even delivery rate?",
+    "What is Meridian's actual delivery record in our product category, from references we choose ourselves?"
+  ]
+}

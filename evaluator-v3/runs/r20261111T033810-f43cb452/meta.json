@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T033810-f43cb452",
+  "caseId": "ho-08-acquisition-ebitda-multiple",
+  "system": "baseline",
+  "createdAt": "2026-11-11T03:38:10.101Z",
+  "request": "We have a signed LOI to acquire Tamarind Field Services for $30M. The banker's CIM shows adjusted EBITDA of $5.0M, so the deal is a 'disciplined 6x', in line with our board's cap of 7x EBITDA for bolt-on acquisitions. The quality-of-earnings report just came back and I've attached it alongside the CIM excerpt. Can we proceed to signing at $30M within the board mandate, or do we need to renegotiate? I need a clear answer for the deal committee tomorrow.",
+  "fixtures": [
+    "cim-excerpt.md",
+    "qoe-report-summary.md",
+    "board-mandate.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

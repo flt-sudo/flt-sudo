@@ -1,0 +1,51 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "QoE EBITDA $3.9M governs",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Actual multiple ~7.7x exceeds 7x cap",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Marketing add-back is recurring / owner add-back needs replacement cost",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Renegotiate (~$27.3M) or go to board",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "States the deal is within the 7x mandate at $30M",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Purchase multiple on QoE EBITDA",
+    "pass": false,
+    "detail": "no number within ±0.02 of 7.69"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Maximum price at 7.0x QoE EBITDA ($M)",
+    "pass": true,
+    "detail": "value ≈ 27.3 present"
+  }
+]

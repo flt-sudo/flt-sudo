@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T033810-f43cb452",
+  "caseId": "ho-08-acquisition-ebitda-multiple",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the figures against the supplied sources (cim-excerpt.md, qoe-report-summary.md, board-mandate.md) and they all match. Accuracy got 0.75 rather than 1.0 for one minor wording error: the $1.1M gap is called 'add-backs ... rejected or reduced', but it includes a $350k new warranty adjustment. The last row of the sensitivity table is ambiguous: it equals 4.25 plus the 0.35 owner add-back (4.60) but leaves out the half-marketing addition, though the multiple itself is calculated correctly. The output includes a self-assessed score of 88/100, which I ignored. N1 is not triggered: the only 'falls inside the mandate' phrasing is negated."
+}

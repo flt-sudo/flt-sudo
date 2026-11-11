@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the signing decision directly and covers all four mustFlag items: the QoE basis, the 7.69x multiple, the recurring marketing and replacement CEO adjustments, and the renegotiate-or-escalate options. It also covers points an expert would raise, such as the LOI binding terms, how contingent consideration counts and the warranty treatment. There is no irrelevant padding.",
+      "quotes": [
+        "QoE-adjusted EBITDA is **$3.9M**. $30.0M / $3.9M = **7.69x**",
+        "Go back to the seller with a re-trade to $27.3M or less",
+        "LOIs are normally non-binding on price, but exclusivity, break fees or other binding terms could limit what you can do"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked every figure against the supplied CIM, QoE and mandate files and they are correct (7.69x, $27.3M, $4.286M, 22%, 9%, and the FY2023-FY2025 marketing history). The sensitivity arithmetic also holds. One minor wording error: the full $1.1M gap is called 'add-backs that diligence rejected or reduced', but $350k of it is a new warranty adjustment, not a rejected add-back.",
+      "quotes": [
+        "The \"disciplined 6x\" description rests on $1.1M of add-backs that diligence rejected or reduced.",
+        "The arithmetic checks out: 3,800 + 250 + 200 - 350 = 3,900.",
+        "At that level the maximum price is $29.75M."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains why each QoE adjustment is made and gives the break-even EBITDA. It runs a sensitivity table under seller-friendly readings. It also covers specific failure modes: counting the warranty item twice, the earnout counting toward the cap, and the LOI binding terms.",
+      "quotes": [
+        "QoE EBITDA would have to be at least $30.0M / 7.0 = **$4.286M** to pass",
+        "Even the most seller-friendly defensible reading (4.25M) still breaks the cap.",
+        "If it is treated both as an EBITDA reduction and as a net-debt deduction, the seller could fairly object that it is being counted twice."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It directly challenges the user's framing (the 'disciplined 6x' and the wrong denominator). It tests the strongest seller arguments fairly and notes that an earnout may not avoid the cap. It also says what would change the outcome.",
+      "quotes": [
+        "Your request describes the cap as \"7x EBITDA\" and tests it against the CIM's $5.0M. That is the wrong denominator.",
+        "Most boards measure total potential consideration, which would put the full $30M back above the cap",
+        "*\"7.69x is close enough.\"* The mandate is a hard limit, not a target"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear and the next steps are specific to tomorrow's committee: re-trade to $27.3M or less, an escrow or indemnity for the warranty issue, and escalation to the full board as the fallback. It also says how to resolve the open questions, for example by asking the QoE provider about the warranty treatment.",
+      "quotes": [
+        "**No. At $30M the deal is outside the board mandate, so it has to be renegotiated or taken to the full board.**",
+        "Ask Arbor & Lyle to state whether the $350k is a run-rate cost, a cumulative catch-up, or both.",
+        "Signing at $30M under delegated authority is not an option."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised with a reconciliation table and cites the source file for each figure. Limitations are labelled in a dedicated uncertainty section.",
+      "quotes": [
+        "The board mandate (`sources/board-mandate.md`) says: \"maximum 7.0x **diligence-adjusted (QoE)** EBITDA",
+        "## Remaining uncertainty",
+        "No web research was done. The answer depends only on the documents provided and arithmetic."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "QoE-adjusted EBITDA is **$3.9M**."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "$30.0M / $3.9M = **7.69x**, which is about 0.7 turns over the cap."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The same campaign ran in FY23, FY24 and FY25, so it is a recurring cost"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Go back to the seller with a re-trade to $27.3M or less ... Alternatively, accept that any price above $27.3M needs full-board approval."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Concludes the $30M price is within the board's 7x mandate using the CIM's $5.0M adjusted EBITDA",
+      "triggered": false,
+      "evidence": "\"At $30M the deal is outside the board mandate\"; option E: \"Sign at $30M on the CIM figures ... Breaches the mandate. Do not do this.\""
+    },
+    {
+      "condition": "Ignores the QoE adjustments (recurring marketing, replacement CEO cost, warranty reserve)",
+      "triggered": false,
+      "evidence": "The reconciliation table lists the owner compensation net of a ~350 replacement CEO, the marketing rejected as recurring, and the -350 warranty reserve shortfall."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the figures against the supplied sources (cim-excerpt.md, qoe-report-summary.md, board-mandate.md) and they all match. Accuracy got 0.75 rather than 1.0 for one minor wording error: the $1.1M gap is called 'add-backs ... rejected or reduced', but it includes a $350k new warranty adjustment. The last row of the sensitivity table is ambiguous: it equals 4.25 plus the 0.35 owner add-back (4.60) but leaves out the half-marketing addition, though the multiple itself is calculated correctly. The output includes a self-assessed score of 88/100, which I ignored. N1 is not triggered: the only 'falls inside the mandate' phrasing is negated."
+}

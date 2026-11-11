@@ -1,0 +1,1 @@
+We need a message broker that sustains 300,000 durable (persisted, replicated) messages per second of 1 KB each, on at most 6 nodes. The vendor of 'StreamCore' says it does 1 million messages per second. Compare StreamCore with 'QueueForge' using the attached documents and recommend one.

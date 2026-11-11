@@ -1,0 +1,132 @@
+{
+  "subject": "EU market entry for industrial air-quality sensors: 3-year exclusive EU distribution agreement with Meridian Supply BV vs. building a small direct sales team (DE/NL first)",
+  "domain": "B2B industrial go-to-market / channel strategy and distribution contract evaluation",
+  "decisionObjective": "Decide which EU route gives the better risk-adjusted 3-year (and post-term) contribution and strategic position: sign Meridian's exclusive agreement, build a direct team, or a hybrid. If Meridian, set the terms needed to make it acceptable (e.g. minimum purchase commitments, performance-based termination, carve-out of existing direct accounts, narrower territory or non-exclusivity outside DE/NL, discount level, renewal and notice terms). The comparison has to be on net-to-us contribution, not on list-price sell-through. The sales VP's 'keep most of that revenue with zero headcount' premise and Meridian's EUR 12M projection are not taken as given.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Risk-adjusted net contribution to us over the term",
+      "weight": 30,
+      "rationale": "This is the core economic test. Meridian's EUR 12M is sell-through at list, so we receive at most 65% of it (EUR 7.8M) before COGS. That figure then needs a haircut for delivery realism and must be compared with the direct option's EUR 7.0M at list less EUR 3.1M cost, using the same gross-margin basis for both."
+    },
+    {
+      "id": "C2",
+      "name": "Credibility of the revenue projections",
+      "weight": 15,
+      "rationale": "References suggest Meridian delivered about 60% of a past projection, and another principal's plan was renegotiated down. The finance direct estimate calls itself 'conservative' but gives no basis. Which number is trustworthy decides which option wins."
+    },
+    {
+      "id": "C3",
+      "name": "Treatment of existing EU direct accounts (cannibalisation)",
+      "weight": 15,
+      "rationale": "The term sheet bars direct sales to existing accounts. About EUR 0.8M/yr (about EUR 2.4M over 3 years) of revenue we already earn at full price would move to Meridian at a 35% discount, and might even count toward their 'projection'. This could turn the deal from accretive to dilutive."
+    },
+    {
+      "id": "C4",
+      "name": "Contractual protection and exit flexibility",
+      "weight": 20,
+      "rationale": "There are no minimum purchase commitments, no termination for convenience, a 36-month lock-in with a 24-month auto-renewal and 12 months' notice, and EU-wide exclusivity. If Meridian underperforms we are stuck for 3 to 5 years with no remedy. These are the levers for a 'Meridian on what terms' answer."
+    },
+    {
+      "id": "C5",
+      "name": "Geographic coverage and market reach across the EU",
+      "weight": 10,
+      "rationale": "References say Meridian is strong in DE/NL and weak elsewhere, and that exclusivity locked a principal out of FR/IT. The direct team also starts in DE/NL only. Coverage beyond DE/NL, and who is allowed to pursue it, affects the long-run size of the EU opportunity."
+    },
+    {
+      "id": "C6",
+      "name": "Strategic control: customer relationships, market knowledge and post-term position",
+      "weight": 10,
+      "rationale": "A direct team builds owned customer relationships, pricing control and field feedback for an industrial sensor line, and that capability survives the term. Exclusive distribution hands the relationships to Meridian, and they may be hard to recover at exit."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is our gross margin (or COGS per unit) on these products at list price and at the 35% distributor discount? Does the direct option carry extra costs beyond the EUR 3.1M (logistics, service, warehousing, customer support) that Meridian would otherwise cover?",
+      "whyItMatters": "Without margin data the routes can only be compared on revenue. A 35% discount on a moderate-margin product can wipe out most of the contribution. Meridian's logistics and service value also has to be costed into the direct option to make a fair comparison.",
+      "criteria": [
+        "C1"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Do Meridian's EUR 12M and finance's EUR 7.0M include or exclude the existing EUR 0.8M/yr of EU accounts already buying direct?",
+      "whyItMatters": "If Meridian's projection includes EUR 2.4M of revenue we already have, incremental sell-through is only about EUR 9.6M at list. Net to us that is about EUR 6.2M, minus the margin lost on moving existing accounts to the discount. If the direct estimate excludes the base, direct looks even better. This one fact can flip the conclusion.",
+      "criteria": [
+        "C1",
+        "C3"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What is Meridian's realistic delivery rate against its projections? Recompute the 12M using reference evidence (reference 1: EUR 5.4M of EUR 9M, about 60%; reference 2: about 90% of a plan that was lowered in Y2), and ideally get more references or Meridian's actual sales history in our product category.",
+      "whyItMatters": "At a 60% delivery rate, EUR 12M becomes about EUR 7.2M at list and about EUR 4.7M net to us. That is close to or below the direct team's EUR 7.0M at list less EUR 3.1M cost (EUR 3.9M before COGS), especially after cannibalisation. Two references is a thin sample.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What is the basis for the direct team's EUR 7.0M three-year revenue estimate (ramp time, quota per seller, pipeline, win rates, sales cycle for industrial sensors in DE/NL), and how sensitive is it to hiring delays?",
+      "whyItMatters": "The direct option's attractiveness rests on this unsourced figure. Year-1 ramp for new industrial sellers is often slow, so slippage could cut 3-year revenue a lot while the EUR 3.1M cost stays largely fixed.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Will Meridian accept protective terms: annual minimum purchase commitments with exclusivity loss or termination if they are missed, a carve-out for existing accounts (and house accounts), exclusivity limited to DE/NL (or non-exclusive elsewhere), no auto-renewal or shorter notice, and a lower discount on carved-out or legacy business?",
+      "whyItMatters": "The 'if Meridian, on what terms' answer depends on what is negotiable. Without minimums and performance termination, all downside risk sits with us. Meridian's acceptance or refusal of minimums backed by its own EUR 12M projection is itself evidence of how much it believes that projection.",
+      "criteria": [
+        "C4",
+        "C3",
+        "C5"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "How large is the addressable market for our sensors outside DE/NL (FR, IT, Nordics, etc.), and does Meridian have real channel presence there?",
+      "whyItMatters": "EU-wide exclusivity covering countries where Meridian is weak has a real opportunity cost (reference 1's FR/IT lockout). Its size tells us whether to insist on a narrower territory or a hybrid model.",
+      "criteria": [
+        "C5",
+        "C4"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "With Meridian 'we keep most of that revenue' (sales VP).",
+      "source": "user",
+      "howToCheck": "Recompute: the 35% discount means we receive at most 65% of list sell-through (EUR 7.8M of EUR 12M) before COGS. Then subtract margin lost on existing accounts moved into the channel and apply a delivery-rate haircut. Compare on gross-margin contribution, not revenue."
+    },
+    {
+      "assumption": "Meridian has 'zero headcount' cost for us (sales VP).",
+      "source": "user",
+      "howToCheck": "Identify internal effort a distributor relationship still requires (channel manager, technical/pre-sales support, training, marketing development funds, warranty/RMA handling) and estimate its cost."
+    },
+    {
+      "assumption": "Meridian will deliver EUR 12M of sales over the term (Meridian projection, relayed by user).",
+      "source": "user",
+      "howToCheck": "Test against reference-call outcomes (about 60% and about 90% of a reduced plan), ask for more references and category-specific sales history, and see whether Meridian will commit to matching minimum purchases."
+    },
+    {
+      "assumption": "The direct team's EUR 7.0M three-year revenue is 'conservative' and its fully loaded cost is EUR 3.1M (internal finance estimate).",
+      "source": "user",
+      "howToCheck": "Ask finance for the build-up (ramp, quota, attainment, start dates) and benchmark it against typical ramp and productivity for industrial B2B sellers in DE/NL. Check what the 3.1M excludes (travel, logistics, service, recruiting, management)."
+    },
+    {
+      "assumption": "The term sheet as attached is the full and current set of terms (no hidden pricing, MDF, payment-term or IP clauses).",
+      "source": "planner",
+      "howToCheck": "Request the full draft agreement and review payment terms, pricing-change rights, post-termination obligations (inventory buy-back, customer handover, non-compete) and governing law."
+    },
+    {
+      "assumption": "The two routes are mutually exclusive; a hybrid (direct in DE/NL plus non-exclusive distributors elsewhere, or Meridian limited to certain countries) is not on the table.",
+      "source": "planner",
+      "howToCheck": "Confirm with the requester whether hybrid structures are acceptable, and check whether Meridian would accept a narrower or non-exclusive deal."
+    }
+  ],
+  "answerability": "answerable"
+}

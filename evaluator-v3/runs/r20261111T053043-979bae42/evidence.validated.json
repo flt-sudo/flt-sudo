@@ -12,7 +12,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "This is the most likely origin of the COO's '40%' figure, since the number and wording match. It does not transfer well to a 300-person support org: different work type, self-rated outcome, n=60, no control.",
-      "limitations": "The 40% is self-rated productivity, not objective output. There is no control group, it is a vendor/company marketing blog, and it has selection and expectancy bias. We do not know how long after the switch the survey was run.",
+      "limitations": "The 40% is self-rated productivity, not objective output. There is no control group, it is a company marketing blog, and it has selection and expectancy bias. We do not know how long after the switch the survey was run. Pay terms are not stated (see E19).",
       "contradicts": [
         "E2"
       ],
@@ -41,7 +41,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "This is the strongest design among the sources (randomised, objective output) and it includes support-like work. Its central estimate is roughly flat total output, which is incompatible with a 40% gain in total output.",
-      "limitations": "It is a working paper, and peer-review and pre-registration status are not stated. The fixture is a short summary only. It does not give baseline hours, the subgroup output result for customer-service teams, attrition or contamination checks, or how 'output' was aggregated across firms. We could not find the paper externally (see E8).",
+      "limitations": "It is a working paper, and peer-review and pre-registration status are not stated. The fixture is a short summary only. It does not give baseline hours, pay terms, the subgroup output result for customer-service teams, attrition or contamination checks, or how 'output' was aggregated across firms. We could not find the paper externally (see E8).",
       "contradicts": [
         "E1",
         "E12"
@@ -96,7 +96,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "These are relevant to support burnout and turnover costs. Whether the attrition gap matters financially depends on the org's own baseline turnover and cost per hire (G5).",
-      "limitations": "No CI is given for either the wellbeing or the attrition result. 9.1% is presumably the treatment arm and 13.0% the control, but the fixture does not label them. The figures are pooled, not support-specific. Nine months is short for annualised attrition, and novelty effects cannot be ruled out from this source.",
+      "limitations": "No CI is given for either the wellbeing or the attrition result. 9.1% is presumably the treatment arm and 13.0% the control, but the fixture does not label them. The figures are pooled, not support-specific. Nine months is short for annualised attrition, and novelty effects cannot be ruled out from this source. See E18 for the between-arm vs within-arm ambiguity and the absence of pay terms.",
       "contradicts": [],
       "gapIds": [
         "G2",
@@ -148,7 +148,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "This measures employee appetite or attitude, not an effect. It is useful only as a signal of staff demand or recruitment appeal.",
-      "limitations": "It is hypothetical, self-predicted and vendor-run, with sampling, sector mix and question wording unknown. It cannot support any productivity claim.",
+      "limitations": "It is hypothetical, self-predicted and vendor-run, with sampling, sector mix and question wording unknown. It does not say whether respondents assumed full or reduced pay. It cannot support any productivity claim.",
       "contradicts": [],
       "gapIds": [
         "G4"
@@ -174,7 +174,7 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "The +6% overtime cost is a relevant warning that coverage-bound services absorb shorter hours partly through paid overtime. The intervention was milder (a 10% cut, not 20%, and not a four-day pattern), so the cost for a 32-hour support week could be larger.",
-      "limitations": "'Maintained' service is a management judgement, not objective metrics. There is no control group, the setting is municipal, the baseline for the 6% is unspecified, and we could not find the report externally (see E9).",
+      "limitations": "'Maintained' service is a management judgement, not objective metrics. There is no control group, the setting is municipal, the baseline for the 6% is unspecified, pay terms are not stated (E19), and we could not find the report externally (see E9).",
       "contradicts": [],
       "gapIds": [
         "G4",
@@ -255,7 +255,7 @@
         "https://6abc.com/workweek-four-day-japan-companies-microsoft/5671025/"
       ],
       "applicability": "This is the other well-known public source of a '40%' four-day-week figure, and could be what the COO means. It is a one-month, uncontrolled, sales-per-employee proxy at a sales and software subsidiary, so it is not evidence about total support throughput.",
-      "limitations": "Only the headline '~40%' is corroborated, across several outlets' titles. The details (sales per employee, a 25.4% cut in working days, YoY comparison, no control) come from a single synthesized search summary, so they count as INFERRED. The NPR fetch failed (host not allowed).",
+      "limitations": "In the first round only the headline '~40%' was corroborated across outlets' titles. The measurement details are now addressed by E22 (a second, independent search). The NPR fetch failed (host not allowed).",
       "contradicts": [
         "E2"
       ],
@@ -285,9 +285,11 @@
         "https://www.phillyvoice.com/four-day-work-week-wellbeing-performance-benefits/",
         "https://www.powershealth.org/about-us/newsroom/health-library/2025/07/22/fourday-work-week-benefits-workers-employers-study-says"
       ],
-      "applicability": "This is independent, peer-reviewed support for the direction of Nordvik's wellbeing effect (E4). It does not address objective output or support-specific service levels.",
-      "limitations": "Outcomes are self-reported. Firms are volunteers, mostly small and from English-speaking countries, and the control group is small. The SciAm fetch failed, so the details come from a search summary only.",
-      "contradicts": [],
+      "applicability": "This is independent support for the direction of Nordvik's wellbeing effect (E4), under no-pay-cut conditions. It does not address objective output or support-specific service levels.",
+      "limitations": "Outcomes are self-reported. Firms are volunteers, mostly small and from English-speaking countries, and the control group is small. The SciAm fetch failed, so the details come from a search summary only. The 'no pay cut' term rests on this first-round summary alone; the follow-up search (E21) did not restate it. The control count here (~290) differs from E21 (285).",
+      "contradicts": [
+        "E21"
+      ],
       "gapIds": [
         "G4"
       ],
@@ -403,9 +405,10 @@
         "https://civilserviceworld.com/professions/article/four-day-work-week-south-cambridgeshire-district-council-trial-success"
       ],
       "applicability": "This is one of the few cases with objective service KPIs that include contact-centre call answering. It suggests a contact operation can hold service levels with design effort.",
-      "limitations": "The 22/24 figure appears in several outlets, but the call-answering detail and the 39% turnover figure come from the search summary. The turnover figure is from the council leader (an advocate). It is a public-sector case, not randomised, trial dates are reported inconsistently, and exact call figures were not accessed (the scambs.gov.uk fetch failed).",
+      "limitations": "The 22/24 figure appears in several outlets, but the call-answering detail and the 39% turnover figure come from the search summary. The turnover figure is from the council leader (an advocate). It is a public-sector case, not randomised, trial dates are reported inconsistently, and exact call figures were not accessed (the scambs.gov.uk fetch failed). A ministerial concern about fewer calls answered is recorded separately (E24). The scheduling design behind the result is undocumented (E25).",
       "contradicts": [
-        "E3"
+        "E3",
+        "E24"
       ],
       "gapIds": [
         "G6",
@@ -430,8 +433,8 @@
       "retrievedAt": "2026-11-11",
       "classification": "INFERRED",
       "corroboratingRefs": [],
-      "applicability": "This is the premise to test. The 40% matches Kestrel's self-rated figure (E1) and the Microsoft Japan sales-per-employee headline (E10). Neither is a controlled measure of total output.",
-      "limitations": "It is a user-reported claim and the COO's actual source is unknown.",
+      "applicability": "This is the premise to test. The 40% matches Kestrel's self-rated figure (E1) and the Microsoft Japan sales-per-employee headline (E10, E22). Neither is a controlled measure of total output.",
+      "limitations": "It is a user-reported claim and the COO's actual source is unknown. The request does not say whether the 32-hour week would keep full pay or cut pay pro rata.",
       "contradicts": [
         "E2"
       ],
@@ -457,7 +460,7 @@
       "retrievedAt": "2026-11-11",
       "classification": "UNKNOWN",
       "corroboratingRefs": [],
-      "applicability": "These figures are needed to turn the source effects (+11% first-response time without staggering, about 30% relative attrition reduction) into a cost/benefit case.",
+      "applicability": "These figures are needed to turn the source effects (+11% first-response time without staggering, about 30% relative attrition reduction) into a cost/benefit case. The intended pay terms (full vs pro rata) are also internal and missing.",
       "limitations": "Only the user's internal data can fill this gap.",
       "contradicts": [],
       "gapIds": [
@@ -466,6 +469,238 @@
       "verification": {
         "status": "checked",
         "method": "Reviewed all fixtures and request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E18",
+      "claim": "Re-read of source-B (Nordvik): the summary says nothing about pay terms for the 32-hour arm (full pay or pro rata). The wellbeing line reads only 'Wellbeing (validated burnout scale): improved by 0.4 SD'. It does not say whether this is a treatment-vs-control difference or a before-and-after change within the treatment arm, and it gives no CI, p-value or significance test. The attrition line reads only 'Voluntary attrition: 9.1% vs 13.0% annualised', with no arm labels, no CI, no p-value and no significance test. The only CIs in the summary are for team output (-7% to +3%) and customer-service first-response time (+4% to +18%).",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-B-nordvik-2026.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Addresses D1 and D2. Without pay terms, we cannot say whether the wellbeing and attrition effects would carry over under either pay design. Without a between-arm label and some measure of uncertainty, the 0.4 SD and the 3.9-point attrition gap are point estimates of unknown significance. 'Validated' describes the burnout scale, not the finding.",
+      "limitations": "This is a statement about what the supplied summary contains and omits. The underlying paper may report these details, but it could not be located (E8).",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Re-read supplied fixture line by line"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E19",
+      "claim": "Re-read of source-D (Varmland): the summary states only the 40-to-36 hour reduction, management-assessed 'maintained' service and the 6% overtime cost rise. It does not say whether pay was held at the 40-hour level or reduced pro rata. Source-A (Kestrel) and source-C (Workforce Pulse) are also silent on pay. None of the four supplied sources states the pay terms.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-D-varmland-trial.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "source-A-kestrel-blog.md",
+        "source-C-workforce-pulse.md",
+        "source-B-nordvik-2026.md"
+      ],
+      "applicability": "Addresses D1. The 6% overtime figure cannot be read as the full cost of the change, because the base pay cost (any wage held constant on fewer hours) is not stated. The supplied evidence gives no basis for assuming either full or reduced pay.",
+      "limitations": "These records state omissions in the summaries. The original reports may contain pay terms.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Re-read all four supplied fixtures"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E20",
+      "claim": "UK 2022 pilot (June to December 2022, 61 companies, over 2,900 workers) used the '100:80:100' model: 100% pay for 80% of the time, in exchange for maintaining 100% productivity. Firms chose their own design. Some used a condensed week, and others let staff choose their four days.",
+      "source": {
+        "kind": "web",
+        "ref": "https://weforum.org/agenda/2023/03/four-day-work-week-uk-trial",
+        "title": "The world's biggest trial of the four day work week has come to an end. These are the results"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Addresses D1. The UK pilot's wellbeing, retention and revenue results (E12, E13) were obtained at full pay. They do not tell us what a pro-rata pay cut would produce, and under full pay the cost per paid hour rises. Letting firms choose the day pattern is relevant to staggering design.",
+      "limitations": "Taken from a single synthesized search summary. The summary's own wording ('paid for 80% of their hours') is garbled relative to the standard 100:80:100 description, so the exact phrasing is unconfirmed. The WebFetch of weforum.org failed (ENOTFOUND). Other result titles (4dayweek.com, raconteur.net, personio.com) were returned but not inspected.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary; WebFetch of weforum.org failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E21",
+      "claim": "Fan, Schor, Kelly and Gu (2025), 'Work time reduction via a 4-day workweek finds improvements in workers' well-being', is reported as published in Nature Human Behaviour. Sample: 2,896 employees across 141 organisations in six countries, compared with 285 employees at 12 control companies, over six months. Burnout fell from 2.83 to 2.38 on a 1-to-5 scale. Average working hours fell by about five hours per week. Participating companies volunteered, and the authors call for future randomised trials.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.natureasia.com/ja-jp/research/highlight/15291",
+        "title": "www.natureasia.com (Nature Asia research highlight)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://jpost.com/health-and-wellness/article-861835",
+        "https://www.theregister.com/2025/07/22/4_day_week_study/",
+        "https://www.psypost.org/?p=229791",
+        "https://www.scientificamerican.com/article/biggest-trial-of-four-day-workweek-finds-workers-are-happier-and-feel-just/"
+      ],
+      "applicability": "Addresses D7. The Nature Human Behaviour venue is reported consistently across two separate searches and several domains, including Nature's own Asia site. That supports calling it a journal publication rather than a working paper. The study is controlled but not randomised, and outcomes are self-reported.",
+      "limitations": "No page was inspected: the theregister.com fetch failed (ENOTFOUND), as did SciAm in the first round. Peer review is inferred from the journal's standard review process, not confirmed from the article. The control count (285) differs from the first-round summary (~290, E11). The no-pay-cut term was not restated in this search, so it still rests on E11 alone. The reported mean hours reduction (~5 h/week) is smaller than the 8-hour cut proposed here.",
+      "contradicts": [
+        "E11"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search results from multiple domains across two independent searches; WebFetch of theregister.com failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E22",
+      "claim": "Microsoft Japan 'Work-Life Choice Challenge Summer 2019': about 2,300 employees were given every Friday off in August 2019. Multiple outlets report a 39.9% rise in sales per employee compared with August 2018 ('labor productivity increased by 39.9% compared with August 2018, the company said'), drawn from a Microsoft Japan report. Other reported results: printing down 58.7%, and 92.1% of employees said they liked the four-day week. Meetings were limited to 30 minutes.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.neowin.net/news/microsoft-japan-boasts-40-productivity-jump-thanks-to-four-day-workweek-experiment",
+        "title": "Microsoft Japan boasts 40% productivity jump thanks to four-day workweek experiment"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://windowscentral.com/microsoft-japan-tried-4-day-work-week-and-people-got-more-done",
+        "https://www.yahoo.com/entertainment/microsoft-tested-4-day-workweek-165526789.html",
+        "https://www.weforum.org/stories/2019/11/microsoft-4-day-work-week-productivity-increase",
+        "https://www.npr.org/2019/11/04/776163853/microsoft-japan-says-4-day-workweek-boosted-workers-productivity-by-40"
+      ],
+      "applicability": "Addresses D7. It confirms that the ~40% is sales per employee for one month, compared year on year (August 2019 vs August 2018). It is a company-reported revenue ratio, not a measure of output or throughput.",
+      "limitations": "No page was inspected (weforum.org fetch failed; NPR failed in round 1). This is a second synthesized search summary that agrees with the first-round summary behind E10, so the measurement detail now rests on two searches attributing it to several outlets. 'No control group' is an inference from the year-on-year design: no source describes a comparison group. A YoY sales comparison is confounded by seasonality, product cycles and the shorter month of working days.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search results from multiple domains; WebFetch of weforum.org failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E23",
+      "claim": "Microsoft Japan pay terms: sources differ slightly. One says full-time employees got paid leave (special paid leave) on the closure Fridays. Another, citing Mainichi, says all employees got five Fridays off in August 'without any reduction in salary and annual leave'. Neither version describes a pay cut.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.foxnews.com/world/microsoft-japan-experiments-3-day-weekend-productivity-increases-nearly-40-percent.amp",
+        "title": "Microsoft Japan experiments with 3-day weekend, productivity increases by nearly 40 percent"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Addresses D1. The Microsoft Japan result came under full pay, so it says nothing about a pro-rata design.",
+      "limitations": "From a single search summary that does not tie each pay statement to a specific URL. Not fetched.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E24",
+      "claim": "South Cambridgeshire: the council's four-day-week pages say staff are expected to do 100% of their work in around 80% of their contracted hours, without reduction in pay. Full opening hours are maintained at no less than before, residents can contact the council on any day of the week, and the new patterns allowed a trial of early-evening opening one day a week (reported as Wednesdays). Staff 'use their scheduled rest day in a variety of ways'. Separately, a minister raised concerns about a reduction in the number of calls answered by the contact centre and the number resolved first time.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.scambs.gov.uk/4dw",
+        "title": "What is a four-day week?"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.localgovernmentlawyer.co.uk/employment/395-employment-news/55052-council-continues-trial-of-four-day-week-despite-ministerial-concerns-over-best-value"
+      ],
+      "applicability": "Addresses D1 and D5. The South Cambs result was obtained at full pay. Maintaining five-day opening while each person works four days requires rest days to be spread across the week in some form, but the specific contact-centre design is not described (E25). The ministerial concern conflicts with the 'calls answered improved' finding in E15, which may reflect a different metric (count vs percentage) or period.",
+      "limitations": "From a single search summary. The scambs.gov.uk fetch failed in the first round and was not retried. The ministerial concern and the independent report's improvement may refer to different measures or periods, and this was not resolved.",
+      "contradicts": [
+        "E15"
+      ],
+      "gapIds": [
+        "G6",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary only; scambs.gov.uk not fetchable"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E25",
+      "claim": "No retrieved source states whether South Cambridgeshire's contact centre used staggered, rotating or rostered rest days. The draft's statement that South Cambs 'presumably used rostering design' has no direct support. The most the evidence allows (E24) is the inference that some spreading of rest days was needed to keep full five-day opening hours.",
+      "source": {
+        "kind": "none",
+        "ref": "WebSearch: South Cambridgeshire four-day week contact centre staggered rota cover five days"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Addresses D5. The South Cambs vs Nordvik (E15 vs E3) contradiction should stay unresolved, or be labelled as speculation about scheduling design.",
+      "limitations": "Only one targeted search was possible before the budget ran out. The search summary suggested the council's Cabinet papers (for example, the May 2023 results report at scambs.moderngov.co.uk) might give the rota design, but they were not inspected.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Targeted web search found no description of the contact-centre rota; follow-up search denied by budget"
       },
       "untrustedInstructionsObserved": false,
       "provenance": "none",

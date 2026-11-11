@@ -113,14 +113,14 @@
       "classification": "VERIFIED",
       "corroboratingRefs": [],
       "applicability": "Hard constraints for C4 and C6, plus the survey evidence for C1.",
-      "limitations": "The German allowance amount is not given, so pay fairness cannot be quantified. No US secondary stipend is specified. The 4-8 week lead time is internal HR experience, not a statutory period.",
+      "limitations": "The German allowance amount is not given, so pay fairness cannot be quantified. No US secondary stipend is specified. The 4-8 week lead time is internal HR experience, not a statutory period. The HR notes say nothing about ArbZG s.3 daily maximums or s.9-11 Sunday/holiday rules.",
       "contradicts": [],
       "gapIds": [
         "G5"
       ],
       "verification": {
         "status": "checked",
-        "method": "Read supplied file"
+        "method": "Read supplied file (re-read in follow-up run)"
       },
       "untrustedInstructionsObserved": false,
       "provenance": "fixture_read",
@@ -288,7 +288,7 @@
       "classification": "INFERRED",
       "corroboratingRefs": [],
       "applicability": "G3: a 07:00-19:00 Berlin / 10:00-22:00 PT split removes local-night duty for both offices, which is central to C1 and C4. Overnight call-outs for Berlin, and the 11h-rest effects that come with them, would be largely avoided, though a call-out ending at 19:00 still pushes next-day start to 06:00 or later.",
-      "limitations": "This is my own reasoning. Weekends, holidays and incidents that cross the boundary are not modelled. Whether actionable pages cluster near boundaries is unknown because there are no timestamps (E3).",
+      "limitations": "This is my own reasoning. Weekends, holidays and incidents that cross the boundary are not modelled here (see E20-E26 for the ArbZG s.3 and s.9-11 constraints). Whether actionable pages cluster near boundaries is unknown because there are no timestamps (E3).",
       "contradicts": [],
       "gapIds": [
         "G3",
@@ -533,6 +533,192 @@
       "untrustedInstructionsObserved": false,
       "provenance": "fixture_read",
       "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E20",
+      "claim": "ArbZG s.9 sets a general ban on employing workers on Sundays and public holidays, and s.10 lists statutory exceptions. A KomNet (NRW labour-protection advisory service) answer classes an IT company under s.10(1) no.14 (maintaining data networks and computer systems). Any Sunday or holiday work under the s.10 exceptions requires that the work cannot be done on working days. A further KomNet answer on repair work under no.14 says such work does not have to be notified to the authority, but the working hours must be recorded (s.16(2) ArbZG).",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.komnet.nrw.de/_sitetools/dialog/19289",
+        "title": "KomNet dialog 19289"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.komnet.nrw.de/_sitetools/dialog/10452",
+        "https://www.haufe.de/id/beitrag/sonntagsarbeit-2-ausnahmen-HI664052.html",
+        "https://www.mags.nrw/system/files/media/document/file/die_regelungen_des_arbzg_im_einzelnen.pdf"
+      ],
+      "applicability": "D1 / C4: weekend and holiday call-outs by Berlin engineers on a 07:00-19:00 shift are banned under s.9 by default. They would most likely be permitted under s.10(1) no.14 for incident response on production systems, because a live outage cannot wait until a working day. This exception covers responding to genuinely urgent alerts. It does not obviously cover routine or deferrable weekend work, which is another reason to demote noise alerts (E2) so that weekend call-outs are limited to non-deferrable incidents. Call-out hours on Sundays and holidays must be recorded.",
+      "limitations": "Single search-result synthesis. The exact statutory wording of s.10(1) no.14 was not retrieved (the search summary said it did not find it). The fetches of gesetze-im-internet.de and lxgesetze.de failed with ENOTFOUND. KomNet answers are advisory opinions, not binding rulings or case law. Which point comes from which listed URL is approximate. CORROBORATED is not claimed because the corroborating refs were not individually inspected.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch result summary only; WebFetch of lxgesetze.de/arbzg/10 and gesetze-im-internet.de/arbzg/__3.html failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E21",
+      "claim": "Rufbereitschaft counts as rest time as long as the employee is not called on to work. Time actually spent working during Rufbereitschaft (the call-out) counts as working time.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.komnet.nrw.de/_sitetools/dialog/19289",
+        "title": "KomNet dialog 19289"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.haufe.de/id/beitrag/ruhezeiten-arbeitsrecht-HI727265.html",
+        "https://arbeitsrechte.de/rufbereitschaft"
+      ],
+      "applicability": "D1 / C4: a 12-hour 07:00-19:00 Rufbereitschaft shift is not 12 hours of working time under ArbZG. Only call-out time counts toward the s.3 daily maximum, together with any regular work done that day. The 12h on-call window therefore does not breach s.3 by itself. The risk comes from weekday call-outs on top of a normal 8h workday (see E23).",
+      "limitations": "The rest-time/working-time distinction appears in this run's search summary and in the earlier-run snippets cited for E13 (different domains), so CORROBORATED rests on snippets, not on inspected pages. Statute and BAG/CJEU case law were not retrieved.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from two independent search calls/domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E22",
+      "claim": "If an activity does not fall under the s.10 exceptions, Sunday or holiday employment can be authorised by the competent authority under ArbZG s.13 (e.g. s.13(3) no.2 on application). A Saxon administrative-court case on telephone service support dealt with such an s.13 authorisation.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.justiz.sachsen.de/ovgentschweb/documents/24A188.pdf",
+        "title": "Sächsisches OVG decision 24A188"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Fallback route for D1 if counsel concludes that weekend/holiday platform on-call call-outs fall outside s.10(1) no.14. Authorisation would add lead time to the rollout (C6).",
+      "limitations": "Single search-result summary. The decision was not read. The facts (call-centre service support) differ from platform incident response.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch result summary only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E23",
+      "claim": "ArbZG s.3 (content not retrieved in this run; from general background knowledge only): daily working time on working days (Werktage, Mon-Sat) may not exceed 8 hours. It may be extended to up to 10 hours if it averages 8 hours over 6 calendar months or 24 weeks. Applied to the Berlin 07:00-19:00 design, the 12h standby is not working time (E21). But if a Berlin engineer works a normal 8h day while on shift and has call-outs on top, more than 2h of call-out time would push the day past the 10h ceiling. Any time over 8h must also be offset within the averaging period.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "HYPOTHETICAL",
+      "corroboratingRefs": [],
+      "applicability": "D1 / C4: this suggests (unverified) that on-call weekdays need reduced regular hours, or a rule that call-out time replaces regular work, plus working-time recording that covers call-outs. With noise removed (about 1.1 pages per 12h shift, E12) the ceiling is less likely to be hit, but long incidents could still breach it.",
+      "limitations": "The statute text could not be retrieved (gesetze-im-internet.de and lxgesetze.de unreachable; search budget exhausted before a s.3 search ran). The 8h/10h/6-month/24-week figures come from the request framing and model background knowledge. Must be confirmed by labour counsel.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not retrieved; s.3 search blocked by exhausted WebSearch budget"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "HYPOTHETICAL",
+      "issues": []
+    },
+    {
+      "id": "E24",
+      "claim": "ArbZG s.11 (not retrieved; background knowledge only): even where Sunday work is permitted, at least 15 Sundays per year must stay work-free. Employees who work on a Sunday must get a substitute rest day within 2 weeks (within 8 weeks for a weekday public holiday). Sunday and holiday working time is subject to the s.3 limits. Applied to option (b), a rotation of 4 Berlin engineers covering every weekend would need tracking of which Sundays count as 'worked' for each person.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "HYPOTHETICAL",
+      "corroboratingRefs": [],
+      "applicability": "D1 / C3 / C4: affects fairness and capacity for Berlin weekend coverage (each Berlin engineer is on 1 week in 4 under weekly blocks, so about 13 weekends per year). Whether a Sunday with only standby and no call-out counts as a 'worked' Sunday is unclear: under E21 logic, standby alone may not be employment, but this is unverified.",
+      "limitations": "Not retrieved in this run. Whether pure Rufbereitschaft on a Sunday, with no call-out, is itself 'Beschäftigung' under s.9/s.11 was not researched. Needs counsel confirmation.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not retrieved; search budget exhausted"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "HYPOTHETICAL",
+      "issues": []
+    },
+    {
+      "id": "E25",
+      "claim": "Collective-agreement deviations under ArbZG s.7 (daily maximum, rest periods, including extensions beyond 10h where working time regularly includes standby, and adjustment of rest periods for Rufbereitschaft) and s.12 (number of work-free Sundays, substitute rest days) may allow a collective agreement, or a works agreement based on one, to depart from the s.3, s.5 and s.11 defaults. Whether the Berlin entity is covered by any such collective agreement is unknown.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "D1 / C4 / C6: if the 'collective policy' in HR notes (E5) is an actual collective agreement with s.7/s.12 opening clauses, some constraints in E23-E24 may be relaxed. If not, the statutory defaults apply. The works agreement (E15) cannot by itself deviate unless a collective agreement permits it.",
+      "limitations": "The content of s.7 and s.12 was not retrieved in this run, and the summary above is from background knowledge only. The company's tariff coverage is not in the supplied documents.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not retrieved; search budget exhausted"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E26",
+      "claim": "Berlin public holidays differ from US holidays and include state-specific days (background knowledge: e.g. Internationaler Frauentag, 8 March, is a public holiday in Berlin). Under option (b), the Berlin half of coverage on those days falls under the s.9 holiday ban, so call-outs then depend on the s.10 exceptions (E20).",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "HYPOTHETICAL",
+      "corroboratingRefs": [],
+      "applicability": "D1 / C5: holiday calendars for both offices need to be in the scheduling tool, possibly with SF covering German holidays and Berlin covering US holidays (cf. E9).",
+      "limitations": "The Berlin holiday list was not retrieved in this run.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not retrieved"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "HYPOTHETICAL",
       "issues": []
     }
   ],

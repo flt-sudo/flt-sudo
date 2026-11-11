@@ -1,0 +1,410 @@
+{
+  "subject": "EU market entry for industrial air-quality sensors: 3-year exclusive EU distribution agreement with Meridian Supply BV vs. building a small direct sales team (DE/NL first)",
+  "decisionObjective": "Decide which EU route gives the better risk-adjusted 3-year (and post-term) contribution and strategic position: sign Meridian's exclusive agreement, build a direct team, or a hybrid. If Meridian, set the terms needed to make it acceptable (e.g. minimum purchase commitments, performance-based termination, carve-out of existing direct accounts, narrower territory or non-exclusivity outside DE/NL, discount level, renewal and notice terms). The comparison has to be on net-to-us contribution, not on list-price sell-through. The sales VP's 'keep most of that revenue with zero headcount' premise and Meridian's EUR 12M projection are not taken as given.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Risk-adjusted net contribution to us over the term",
+      "weight": 30,
+      "rationale": "This is the core economic test. Meridian's EUR 12M is sell-through at list, so we receive at most 65% of it (EUR 7.8M) before COGS. That figure then needs a haircut for delivery realism and must be compared with the direct option's EUR 7.0M at list less EUR 3.1M cost, using the same gross-margin basis for both."
+    },
+    {
+      "id": "C2",
+      "name": "Credibility of the revenue projections",
+      "weight": 15,
+      "rationale": "References suggest Meridian delivered about 60% of a past projection, and another principal's plan was renegotiated down. The finance direct estimate calls itself 'conservative' but gives no basis. Which number is trustworthy decides which option wins."
+    },
+    {
+      "id": "C3",
+      "name": "Treatment of existing EU direct accounts (cannibalisation)",
+      "weight": 15,
+      "rationale": "The term sheet bars direct sales to existing accounts. About EUR 0.8M/yr (about EUR 2.4M over 3 years) of revenue we already earn at full price would move to Meridian at a 35% discount, and might even count toward their 'projection'. This could turn the deal from accretive to dilutive."
+    },
+    {
+      "id": "C4",
+      "name": "Contractual protection and exit flexibility",
+      "weight": 20,
+      "rationale": "There are no minimum purchase commitments, no termination for convenience, a 36-month lock-in with a 24-month auto-renewal and 12 months' notice, and EU-wide exclusivity. If Meridian underperforms we are stuck for 3 to 5 years with no remedy. These are the levers for a 'Meridian on what terms' answer."
+    },
+    {
+      "id": "C5",
+      "name": "Geographic coverage and market reach across the EU",
+      "weight": 10,
+      "rationale": "References say Meridian is strong in DE/NL and weak elsewhere, and that exclusivity locked a principal out of FR/IT. The direct team also starts in DE/NL only. Coverage beyond DE/NL, and who is allowed to pursue it, affects the long-run size of the EU opportunity."
+    },
+    {
+      "id": "C6",
+      "name": "Strategic control: customer relationships, market knowledge and post-term position",
+      "weight": 10,
+      "rationale": "A direct team builds owned customer relationships, pricing control and field feedback for an industrial sensor line, and that capability survives the term. Exclusive distribution hands the relationships to Meridian, and they may be hard to recover at exit."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "With Meridian 'we keep most of that revenue' (sales VP).",
+      "source": "user",
+      "howToCheck": "Recompute: the 35% discount means we receive at most 65% of list sell-through (EUR 7.8M of EUR 12M) before COGS. Then subtract margin lost on existing accounts moved into the channel and apply a delivery-rate haircut. Compare on gross-margin contribution, not revenue."
+    },
+    {
+      "assumption": "Meridian has 'zero headcount' cost for us (sales VP).",
+      "source": "user",
+      "howToCheck": "Identify internal effort a distributor relationship still requires (channel manager, technical/pre-sales support, training, marketing development funds, warranty/RMA handling) and estimate its cost."
+    },
+    {
+      "assumption": "Meridian will deliver EUR 12M of sales over the term (Meridian projection, relayed by user).",
+      "source": "user",
+      "howToCheck": "Test against reference-call outcomes (about 60% and about 90% of a reduced plan), ask for more references and category-specific sales history, and see whether Meridian will commit to matching minimum purchases."
+    },
+    {
+      "assumption": "The direct team's EUR 7.0M three-year revenue is 'conservative' and its fully loaded cost is EUR 3.1M (internal finance estimate).",
+      "source": "user",
+      "howToCheck": "Ask finance for the build-up (ramp, quota, attainment, start dates) and benchmark it against typical ramp and productivity for industrial B2B sellers in DE/NL. Check what the 3.1M excludes (travel, logistics, service, recruiting, management)."
+    },
+    {
+      "assumption": "The term sheet as attached is the full and current set of terms (no hidden pricing, MDF, payment-term or IP clauses).",
+      "source": "planner",
+      "howToCheck": "Request the full draft agreement and review payment terms, pricing-change rights, post-termination obligations (inventory buy-back, customer handover, non-compete) and governing law."
+    },
+    {
+      "assumption": "The two routes are mutually exclusive; a hybrid (direct in DE/NL plus non-exclusive distributors elsewhere, or Meridian limited to certain countries) is not on the table.",
+      "source": "planner",
+      "howToCheck": "Confirm with the requester whether hybrid structures are acceptable, and check whether Meridian would accept a narrower or non-exclusive deal."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "What is our gross margin (or COGS per unit) on these products at list price and at the 35% distributor discount? Does the direct option carry extra costs beyond the EUR 3.1M (logistics, service, warehousing, customer support) that Meridian would otherwise cover?",
+      "evidence": [
+        {
+          "id": "E4",
+          "claim": "Finance direct option: 4 sellers + 1 SE in DE/NL first, expanding later. 3-year fully loaded cost EUR 3.1M. Expected 3-year revenue at list EUR 7.0M, labelled 'conservative'. Existing EU accounts already buying direct: EUR 0.8M/yr.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "direct-team-estimate.md",
+          "applicability": "C1, C2, C3, G2, G4. This is the comparator for the Meridian route. The EUR 0.8M/yr existing base is the cannibalisation exposure under the term sheet's no-direct-sales clause.",
+          "limitations": "No build-up is given (ramp, quota, attainment, hire dates, win rates), and no breakdown of what the EUR 3.1M covers (logistics, warehousing, service, RMA, recruiting, management, travel). It does not say whether the EUR 7.0M includes the existing EUR 0.8M/yr (EUR 2.4M over 3 years). 'Conservative' is asserted, not evidenced. No gross margin or COGS is given for either route.",
+          "contradicts": []
+        },
+        {
+          "id": "E5",
+          "claim": "The sales VP's premise is that with Meridian 'we keep most of that revenue with zero headcount'. The request also says Meridian offered a 3-year exclusive EU-wide deal projecting EUR 12M.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "user_input",
+          "ref": "request",
+          "applicability": "Assumptions to verify, C1. The term sheet's 35% discount (E2) means at most 65% of list sell-through reaches us before COGS. The 'zero headcount' claim is challenged by E12.",
+          "limitations": "An opinion from an internal stakeholder, not data.",
+          "contradicts": [
+            "E2"
+          ]
+        },
+        {
+          "id": "E11",
+          "claim": "Benchmarks for industrial distributor gross margin vary by sector: about 31.4% (FPDA 2020), 35% (NAHAD 2024), about 26% (AHTD members), about 20% (NAED members). No benchmark was found for a typical instrumentation distributor discount off list; one manufacturer policy (Anderson-Negele) cites list less 15% for authorised resellers.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.tribute.com/distribute/9-kpi-and-metrics-industrial-distributors-should-use-to-track-progress/",
+          "applicability": "G1, C1. Gives context that a 35% discount off list is at or above typical distributor gross margins in several industrial segments, so it may be generous and negotiable, especially for carved-out or legacy accounts. It does not provide our COGS.",
+          "limitations": "Search snippets; US-centric trade-association figures; attribution of specific numbers to specific sources is uncertain. Distributor gross margin is not the same as the discount it receives. Our own product gross margin remains UNKNOWN (see E13).",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "Manufacturers using distributors still carry internal costs: product and sales training of partner staff, technical support, marketing and co-op/MDF programmes and their administration, onboarding and system integration (order and inventory), and channel management. Training is especially important for complex products.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.mondaq.com/unitedstates/Strategy/64470/Profitable-Channel-Management-What-Questions-Should-You-be-Asking",
+          "applicability": "Assumption 'zero headcount' (E5), C1. The Meridian route still needs at least a channel manager and technical/pre-sales and RMA support for industrial sensors. These costs should be deducted from Meridian's net contribution.",
+          "limitations": "Qualitative only: no euro or FTE benchmarks found. Sources are vendor marketing or dated trade articles (some 2009 or older).",
+          "contradicts": [
+            "E5"
+          ]
+        },
+        {
+          "id": "E13",
+          "claim": "Our gross margin or COGS per unit is not stated in any supplied document, and could not be found externally (it is internal data). Neither option's documents cost logistics, warehousing, service or RMA separately.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "G1, C1. Without COGS, contribution can only be compared before COGS (Meridian at most 65% of sell-through vs direct revenue less EUR 3.1M).",
+          "limitations": "Must be obtained from finance.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "Do Meridian's EUR 12M and finance's EUR 7.0M include or exclude the existing EUR 0.8M/yr of EU accounts already buying direct?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Meridian's projection is sell-through of our products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M, total EUR 12M. The document does not say whether existing direct EU accounts are included, and it gives no basis, pipeline or category history.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "meridian-projection.md",
+          "applicability": "C1, C2, G2, G3. Confirms the EUR 12M is list-price sell-through, not net revenue to us. The projection is back-loaded: 46% of it (EUR 5.5M) falls in Y3.",
+          "limitations": "A one-line projection with no assumptions, no customer list and no statement on whether the existing EUR 0.8M/yr base is included. Y1 (EUR 2.5M) is about 3x the existing direct base (EUR 0.8M/yr), so including the base would make up a large share of Y1.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E4",
+          "claim": "Finance direct option: 4 sellers + 1 SE in DE/NL first, expanding later. 3-year fully loaded cost EUR 3.1M. Expected 3-year revenue at list EUR 7.0M, labelled 'conservative'. Existing EU accounts already buying direct: EUR 0.8M/yr.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "direct-team-estimate.md",
+          "applicability": "C1, C2, C3, G2, G4. This is the comparator for the Meridian route. The EUR 0.8M/yr existing base is the cannibalisation exposure under the term sheet's no-direct-sales clause.",
+          "limitations": "No build-up is given (ramp, quota, attainment, hire dates, win rates), and no breakdown of what the EUR 3.1M covers (logistics, warehousing, service, RMA, recruiting, management, travel). It does not say whether the EUR 7.0M includes the existing EUR 0.8M/yr (EUR 2.4M over 3 years). 'Conservative' is asserted, not evidenced. No gross margin or COGS is given for either route.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "What is Meridian's realistic delivery rate against its projections? Recompute the 12M using reference evidence (reference 1: EUR 5.4M of EUR 9M, about 60%; reference 2: about 90% of a plan that was lowered in Y2), and ideally get more references or Meridian's actual sales history in our product category.",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Meridian's projection is sell-through of our products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M, total EUR 12M. The document does not say whether existing direct EU accounts are included, and it gives no basis, pipeline or category history.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "meridian-projection.md",
+          "applicability": "C1, C2, G2, G3. Confirms the EUR 12M is list-price sell-through, not net revenue to us. The projection is back-loaded: 46% of it (EUR 5.5M) falls in Y3.",
+          "limitations": "A one-line projection with no assumptions, no customer list and no statement on whether the existing EUR 0.8M/yr base is included. Y1 (EUR 2.5M) is about 3x the existing direct base (EUR 0.8M/yr), so including the base would make up a large share of Y1.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E3",
+          "claim": "Reference call 1 (former principal, gas detection maker): 'Meridian projected EUR 9M over 3 years, delivered about EUR 5.4M. Strong in DE/NL, weak elsewhere. Exclusivity locked us out of FR and IT.' Reference call 2 (current principal, HVAC controls): 'Good logistics and service. Hit about 90% of their plan, but plan was renegotiated down in year 2.' Notes by sales ops, Oct 2026.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "reference-call-notes.md",
+          "applicability": "C2, C5, G3, G6. Both references show Meridian delivering below its original projection (5.4/9 for reference 1; a lowered plan for reference 2). Reference 1 supports narrowing the territory beyond DE/NL. Reference 2 supports a real logistics and service value that the direct option would need to replace.",
+          "limitations": "Only two references, possibly selected by Meridian. Reference 2 gives no absolute numbers and no size of the Y2 reduction. Neither is the same product category (gas detection is the closest analogue). The figures are second-hand notes of oral statements.",
+          "contradicts": [
+            "E1"
+          ]
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "What is the basis for the direct team's EUR 7.0M three-year revenue estimate (ramp time, quota per seller, pipeline, win rates, sales cycle for industrial sensors in DE/NL), and how sensitive is it to hiring delays?",
+      "evidence": [
+        {
+          "id": "E4",
+          "claim": "Finance direct option: 4 sellers + 1 SE in DE/NL first, expanding later. 3-year fully loaded cost EUR 3.1M. Expected 3-year revenue at list EUR 7.0M, labelled 'conservative'. Existing EU accounts already buying direct: EUR 0.8M/yr.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "direct-team-estimate.md",
+          "applicability": "C1, C2, C3, G2, G4. This is the comparator for the Meridian route. The EUR 0.8M/yr existing base is the cannibalisation exposure under the term sheet's no-direct-sales clause.",
+          "limitations": "No build-up is given (ramp, quota, attainment, hire dates, win rates), and no breakdown of what the EUR 3.1M covers (logistics, warehousing, service, RMA, recruiting, management, travel). It does not say whether the EUR 7.0M includes the existing EUR 0.8M/yr (EUR 2.4M over 3 years). 'Conservative' is asserted, not evidenced. No gross margin or COGS is given for either route.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "Benchmarks for B2B sales rep ramp time (mostly SaaS): roughly 3-6 months for transactional or mid-market roles and 6-12+ months for enterprise or complex roles, with complex enterprise AEs sometimes 15+ months. A rep cannot ramp faster than one full sales cycle. One cited average: ~4.5 months for a B2B rep; another: 5.7 months for SaaS reps.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://umbrex.com/resources/company-analysis/sales/ramp-up-time-for-new-reps/",
+          "applicability": "G4, C2. With 6-12+ month ramps plus hiring time, a 4-seller + 1 SE team's Y1 output is likely small while cost runs from hire. The EUR 7.0M 3-year figure is therefore sensitive to hiring delays. Finance needs to show its ramp assumptions.",
+          "limitations": "Search snippets only; the umbrex.com fetch failed. Sources are mostly SaaS and vendor blogs, not industrial sensors in DE/NL, and figures conflict. Classified INFERRED because the specific figures are not consistently attributed across independent sources.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "Will Meridian accept protective terms: annual minimum purchase commitments with exclusivity loss or termination if they are missed, a carve-out for existing accounts (and house accounts), exclusivity limited to DE/NL (or non-exclusive elsewhere), no auto-renewal or shorter notice, and a lower discount on carved-out or legacy business?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "Term sheet: exclusive territory covering all EU member states for 36 months, auto-renewing for 24 months unless terminated with 12 months' notice. Distributor discount 35% off list price. Minimum purchase commitments: none. Termination for convenience not permitted during the initial term. The manufacturer may not sell directly in the territory, including to existing accounts.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "meridian-term-sheet.md",
+          "applicability": "C3, C4, C5, G5. These are the levers to negotiate: minimums, termination rights, the existing-account carve-out, territory, discount and the renewal/notice mechanics.",
+          "limitations": "A five-bullet term sheet. Payment terms, pricing-change rights, post-termination obligations (inventory buy-back, customer handover), non-compete, governing law, MDF and IP are all absent. Whether this is the full set of terms is unverified. Inference: with a 12-month notice period, exit at month 36 requires notice by about month 24.",
+          "contradicts": []
+        },
+        {
+          "id": "E6",
+          "claim": "Under the EU Vertical Block Exemption Regulation (EU) 2022/720 (in force 1 June 2022, replacing 330/2010), exclusive distribution lets the supplier restrict active sales by other distributors into a territory or customer group reserved to the supplier itself or allocated to up to five exclusive distributors. Passive sales into that territory generally cannot be restricted. Sales by appointed distributors within their own territory cannot be restricted.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.mofo.com/resources/insights/220513-vertical-block-exemption-regulation.html",
+          "applicability": "C3, C4, C5, G5. A supplier reserving a customer group to itself (e.g. existing or house accounts) is a recognised structure. A carve-out of existing accounts, or DE/NL-only exclusivity with the supplier or other distributors elsewhere, is legally feasible. Meridian's protection would cover active sales only; passive sales into its territory from other channels cannot normally be blocked.",
+          "limitations": "Based on search-result snippets of law-firm summaries; the regulation text was not retrieved (fetch of cuatrecasas.com failed; host not allowed). Block exemption also depends on the 30% market-share thresholds (E7). Not legal advice.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "VBER 2022/720 exempts vertical agreements only where the supplier's and buyer's market shares each do not exceed 30%. Non-compete obligations are exempted up to 5 years and may now be tacitly renewable beyond 5 years, provided the buyer can effectively renegotiate or terminate. The regulation applies until 31 May 2034.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://cms.law/en/are/legal-updates/10-key-aspects-of-the-revised-eu-competition-law-in-the-field-of-distribution-vber-vgl",
+          "applicability": "C4. Relevant if the full agreement adds a non-compete on Meridian, or if the 36+24-month auto-renewal combines with exclusivity terms. A 5-year total horizon (36+24 months) sits at the non-compete limit.",
+          "limitations": "Search snippets only. Sources describe the buyer's termination condition for tacit renewal differently. The term sheet contains no non-compete, so applicability depends on the full draft agreement.",
+          "contradicts": []
+        },
+        {
+          "id": "E8",
+          "claim": "German case law applies the commercial agent's goodwill indemnity (§89b HGB) by analogy to distributors who are integrated into the manufacturer's sales organisation like an agent and are obliged to transfer customer data to the manufacturer. Advance waivers are generally invalid for distributors operating within the EEA. The indemnity is capped by reference to one year's average remuneration over the past five years. Commentators cite a 2018 Stuttgart regional court decision suggesting liability even without a contractual data-transfer obligation.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.advant-beiten.com/en/news/the-distributors-indemnity-claim-under-german-law-what-can-manufacturers-do-to-avoid-such-a-claim-and-what-can-distributors-do-to-generate-it",
+          "applicability": "C4, C6. Post-term cost: if Meridian (a Dutch BV) operates in Germany under German law, and especially if it hands over customer data at exit, terminating or not renewing it could trigger a goodwill indemnity claim. This is a real cost of the Meridian route and of later recovering customer relationships. Governing law and customer-data clauses in the full agreement matter.",
+          "limitations": "Search snippets of law-firm marketing; the fetch of advant-beiten.com failed (host not allowed). Some sources are dated (2016). Whether the claim applies depends on governing law (Meridian is a Netherlands BV; Dutch law treats distributor indemnity differently and was not researched). The exact cap mechanics for distributors are disputed. Not legal advice.",
+          "contradicts": []
+        },
+        {
+          "id": "E9",
+          "claim": "Common practice in exclusive distribution agreements is to tie exclusivity to minimum purchase targets, with automatic downgrade to non-exclusive (or a termination right) if minimums are missed. This is often triggered by a specified shortfall percentage or misses in two consecutive periods, with notice (e.g. 90 days in one SEC-filed agreement). Suppliers wanting termination for a missed minimum should state it expressly. Purchase-based minimums are easier to verify than sell-through targets.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.burkelaw.com/alert-hard-numbers-and-hard-issues-minimum-purchase-requirements-and-quotas-in-distribution-agreements",
+          "applicability": "C4, G5. Supports the protective terms to request: annual minimum purchases (on a net-purchase basis) matched to Meridian's own projection, loss of exclusivity or termination when missed, and an explicit definition of what counts toward the minimum (e.g. excluding existing accounts).",
+          "limitations": "Search snippets. Sample contracts are US (SEC filings); commentary is mixed US/UK and some is distributor-side. Says nothing about whether Meridian specifically will accept such terms; G5 stays open.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "Benchmarks for industrial distributor gross margin vary by sector: about 31.4% (FPDA 2020), 35% (NAHAD 2024), about 26% (AHTD members), about 20% (NAED members). No benchmark was found for a typical instrumentation distributor discount off list; one manufacturer policy (Anderson-Negele) cites list less 15% for authorised resellers.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.tribute.com/distribute/9-kpi-and-metrics-industrial-distributors-should-use-to-track-progress/",
+          "applicability": "G1, C1. Gives context that a 35% discount off list is at or above typical distributor gross margins in several industrial segments, so it may be generous and negotiable, especially for carved-out or legacy accounts. It does not provide our COGS.",
+          "limitations": "Search snippets; US-centric trade-association figures; attribution of specific numbers to specific sources is uncertain. Distributor gross margin is not the same as the discount it receives. Our own product gross margin remains UNKNOWN (see E13).",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "How large is the addressable market for our sensors outside DE/NL (FR, IT, Nordics, etc.), and does Meridian have real channel presence there?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "Term sheet: exclusive territory covering all EU member states for 36 months, auto-renewing for 24 months unless terminated with 12 months' notice. Distributor discount 35% off list price. Minimum purchase commitments: none. Termination for convenience not permitted during the initial term. The manufacturer may not sell directly in the territory, including to existing accounts.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "meridian-term-sheet.md",
+          "applicability": "C3, C4, C5, G5. These are the levers to negotiate: minimums, termination rights, the existing-account carve-out, territory, discount and the renewal/notice mechanics.",
+          "limitations": "A five-bullet term sheet. Payment terms, pricing-change rights, post-termination obligations (inventory buy-back, customer handover), non-compete, governing law, MDF and IP are all absent. Whether this is the full set of terms is unverified. Inference: with a 12-month notice period, exit at month 36 requires notice by about month 24.",
+          "contradicts": []
+        },
+        {
+          "id": "E3",
+          "claim": "Reference call 1 (former principal, gas detection maker): 'Meridian projected EUR 9M over 3 years, delivered about EUR 5.4M. Strong in DE/NL, weak elsewhere. Exclusivity locked us out of FR and IT.' Reference call 2 (current principal, HVAC controls): 'Good logistics and service. Hit about 90% of their plan, but plan was renegotiated down in year 2.' Notes by sales ops, Oct 2026.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "reference-call-notes.md",
+          "applicability": "C2, C5, G3, G6. Both references show Meridian delivering below its original projection (5.4/9 for reference 1; a lowered plan for reference 2). Reference 1 supports narrowing the territory beyond DE/NL. Reference 2 supports a real logistics and service value that the direct option would need to replace.",
+          "limitations": "Only two references, possibly selected by Meridian. Reference 2 gives no absolute numbers and no size of the Y2 reduction. Neither is the same product category (gas detection is the closest analogue). The figures are second-hand notes of oral statements.",
+          "contradicts": [
+            "E1"
+          ]
+        },
+        {
+          "id": "E6",
+          "claim": "Under the EU Vertical Block Exemption Regulation (EU) 2022/720 (in force 1 June 2022, replacing 330/2010), exclusive distribution lets the supplier restrict active sales by other distributors into a territory or customer group reserved to the supplier itself or allocated to up to five exclusive distributors. Passive sales into that territory generally cannot be restricted. Sales by appointed distributors within their own territory cannot be restricted.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://www.mofo.com/resources/insights/220513-vertical-block-exemption-regulation.html",
+          "applicability": "C3, C4, C5, G5. A supplier reserving a customer group to itself (e.g. existing or house accounts) is a recognised structure. A carve-out of existing accounts, or DE/NL-only exclusivity with the supplier or other distributors elsewhere, is legally feasible. Meridian's protection would cover active sales only; passive sales into its territory from other channels cannot normally be blocked.",
+          "limitations": "Based on search-result snippets of law-firm summaries; the regulation text was not retrieved (fetch of cuatrecasas.com failed; host not allowed). Block exemption also depends on the 30% market-share thresholds (E7). Not legal advice.",
+          "contradicts": []
+        },
+        {
+          "id": "E14",
+          "claim": "No reliable country-by-country figures were found for the EU industrial air-quality sensor or monitoring market (FR, IT, Nordics vs DE/NL). Retrieved results were paid-report tables of contents and marketing snippets. One snippet attributes to the EEA that UK, FR, IT and DE contributed about 41% of industrial-sector indoor air pollution in 2020 (a pollution share, not a market share). MarketsandMarkets puts Germany's broader air quality control systems market at about USD 7.57bn in 2024 (a different, much broader segment).",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.arizton.com/market-reports/industrial-air-quality-monitoring-system",
+          "applicability": "G6, C5. This only weakly suggests FR and IT are material industrial markets, which supports not granting exclusivity there to a distributor that is weak in those countries (E3).",
+          "limitations": "Search snippets of commercial market-research marketing. Segment mismatch (control systems, indoor AQ, pollution shares). Not usable as a market-size number for our sensors.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E1",
+      "b": "E4",
+      "aClaim": "Meridian's projection is sell-through of our products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M, total EUR 12M. The document does not say whether existing direct EU accounts are included, and it gives no basis, pipeline or category history.",
+      "bClaim": "Finance direct option: 4 sellers + 1 SE in DE/NL first, expanding later. 3-year fully loaded cost EUR 3.1M. Expected 3-year revenue at list EUR 7.0M, labelled 'conservative'. Existing EU accounts already buying direct: EUR 0.8M/yr."
+    },
+    {
+      "a": "E3",
+      "b": "E1",
+      "aClaim": "Reference call 1 (former principal, gas detection maker): 'Meridian projected EUR 9M over 3 years, delivered about EUR 5.4M. Strong in DE/NL, weak elsewhere. Exclusivity locked us out of FR and IT.' Reference call 2 (current principal, HVAC controls): 'Good logistics and service. Hit about 90% of their plan, but plan was renegotiated down in year 2.' Notes by sales ops, Oct 2026.",
+      "bClaim": "Meridian's projection is sell-through of our products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M, total EUR 12M. The document does not say whether existing direct EU accounts are included, and it gives no basis, pipeline or category history."
+    },
+    {
+      "a": "E5",
+      "b": "E2",
+      "aClaim": "The sales VP's premise is that with Meridian 'we keep most of that revenue with zero headcount'. The request also says Meridian offered a 3-year exclusive EU-wide deal projecting EUR 12M.",
+      "bClaim": "Term sheet: exclusive territory covering all EU member states for 36 months, auto-renewing for 24 months unless terminated with 12 months' notice. Distributor discount 35% off list price. Minimum purchase commitments: none. Termination for convenience not permitted during the initial term. The manufacturer may not sell directly in the territory, including to existing accounts."
+    },
+    {
+      "a": "E12",
+      "b": "E5",
+      "aClaim": "Manufacturers using distributors still carry internal costs: product and sales training of partner staff, technical support, marketing and co-op/MDF programmes and their administration, onboarding and system integration (order and inventory), and channel management. Training is especially important for complex products.",
+      "bClaim": "The sales VP's premise is that with Meridian 'we keep most of that revenue with zero headcount'. The request also says Meridian offered a 3-year exclusive EU-wide deal projecting EUR 12M."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E13",
+      "claim": "Our gross margin or COGS per unit is not stated in any supplied document, and could not be found externally (it is internal data). Neither option's documents cost logistics, warehousing, service or RMA separately.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "G1, C1. Without COGS, contribution can only be compared before COGS (Meridian at most 65% of sell-through vs direct revenue less EUR 3.1M).",
+      "limitations": "Must be obtained from finance.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "Our product gross margin/COGS and direct-route logistics, service and RMA costs are internal data not in the supplied sources and not findable externally. The external benchmarks (E11, E12) are qualitative or for other sectors."
+    },
+    {
+      "gapId": "G2",
+      "reason": "Neither Meridian's projection (E1) nor finance's estimate (E4) says whether the existing EUR 0.8M/yr accounts are included. This must be asked of Meridian and finance."
+    },
+    {
+      "gapId": "G3",
+      "reason": "Only two references are available (E3), and one has no absolute figures. No Meridian sales history in our category was available. More references or audited category sales are needed."
+    },
+    {
+      "gapId": "G4",
+      "reason": "Finance's EUR 7.0M has no build-up. Only generic, mostly SaaS ramp benchmarks were found (E10); no industrial-sensor DE/NL seller productivity data."
+    },
+    {
+      "gapId": "G5",
+      "reason": "Market practice and EU law support minimums, loss of exclusivity, existing-account carve-outs and narrower territory (E6, E9). Whether Meridian will accept them is unknowable without negotiation. Dutch-law distributor indemnity was not researched."
+    },
+    {
+      "gapId": "G6",
+      "reason": "No credible country-level market size for industrial air-quality sensors was found (E14). Meridian's actual channel presence outside DE/NL is evidenced only by reference 1's 'weak elsewhere'."
+    },
+    {
+      "gapId": "assumption:full-term-sheet",
+      "reason": "Only a five-bullet term sheet was supplied (E2). The full draft agreement (payment terms, pricing changes, post-termination, governing law, customer data) was not available."
+    },
+    {
+      "gapId": "fetch-unavailable",
+      "reason": "WebFetch failed (host not resolvable/allowed) for www.cuatrecasas.com, www.advant-beiten.com and umbrex.com, so no web page was directly inspected. All web evidence rests on search snippets. These hosts would need to be allowed in the session's network settings to verify them."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

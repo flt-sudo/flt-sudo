@@ -1,0 +1,401 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "Meridian's projection is sell-through of our products at list price: Y1 EUR 2.5M, Y2 EUR 4.0M, Y3 EUR 5.5M, total EUR 12M. The document does not say whether existing direct EU accounts are included, and it gives no basis, pipeline or category history.",
+      "source": {
+        "kind": "fixture",
+        "ref": "meridian-projection.md",
+        "title": "Meridian projection"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "C1, C2, G2, G3. Confirms the EUR 12M is list-price sell-through, not net revenue to us. The projection is back-loaded: 46% of it (EUR 5.5M) falls in Y3.",
+      "limitations": "A one-line projection with no assumptions, no customer list and no statement on whether the existing EUR 0.8M/yr base is included. Y1 (EUR 2.5M) is about 3x the existing direct base (EUR 0.8M/yr), so including the base would make up a large share of Y1.",
+      "contradicts": [
+        "E4"
+      ],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Term sheet: exclusive territory covering all EU member states for 36 months, auto-renewing for 24 months unless terminated with 12 months' notice. Distributor discount 35% off list price. Minimum purchase commitments: none. Termination for convenience not permitted during the initial term. The manufacturer may not sell directly in the territory, including to existing accounts.",
+      "source": {
+        "kind": "fixture",
+        "ref": "meridian-term-sheet.md",
+        "title": "Term sheet - Meridian Supply BV"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "C3, C4, C5, G5. These are the levers to negotiate: minimums, termination rights, the existing-account carve-out, territory, discount and the renewal/notice mechanics.",
+      "limitations": "A five-bullet term sheet. Payment terms, pricing-change rights, post-termination obligations (inventory buy-back, customer handover), non-compete, governing law, MDF and IP are all absent. Whether this is the full set of terms is unverified. Inference: with a 12-month notice period, exit at month 36 requires notice by about month 24.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "Reference call 1 (former principal, gas detection maker): 'Meridian projected EUR 9M over 3 years, delivered about EUR 5.4M. Strong in DE/NL, weak elsewhere. Exclusivity locked us out of FR and IT.' Reference call 2 (current principal, HVAC controls): 'Good logistics and service. Hit about 90% of their plan, but plan was renegotiated down in year 2.' Notes by sales ops, Oct 2026.",
+      "source": {
+        "kind": "fixture",
+        "ref": "reference-call-notes.md",
+        "title": "Reference calls (sales ops, Oct 2026)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "C2, C5, G3, G6. Both references show Meridian delivering below its original projection (5.4/9 for reference 1; a lowered plan for reference 2). Reference 1 supports narrowing the territory beyond DE/NL. Reference 2 supports a real logistics and service value that the direct option would need to replace.",
+      "limitations": "Only two references, possibly selected by Meridian. Reference 2 gives no absolute numbers and no size of the Y2 reduction. Neither is the same product category (gas detection is the closest analogue). The figures are second-hand notes of oral statements.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G3",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "Finance direct option: 4 sellers + 1 SE in DE/NL first, expanding later. 3-year fully loaded cost EUR 3.1M. Expected 3-year revenue at list EUR 7.0M, labelled 'conservative'. Existing EU accounts already buying direct: EUR 0.8M/yr.",
+      "source": {
+        "kind": "fixture",
+        "ref": "direct-team-estimate.md",
+        "title": "Direct team option (finance)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "C1, C2, C3, G2, G4. This is the comparator for the Meridian route. The EUR 0.8M/yr existing base is the cannibalisation exposure under the term sheet's no-direct-sales clause.",
+      "limitations": "No build-up is given (ramp, quota, attainment, hire dates, win rates), and no breakdown of what the EUR 3.1M covers (logistics, warehousing, service, RMA, recruiting, management, travel). It does not say whether the EUR 7.0M includes the existing EUR 0.8M/yr (EUR 2.4M over 3 years). 'Conservative' is asserted, not evidenced. No gross margin or COGS is given for either route.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied file"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "The sales VP's premise is that with Meridian 'we keep most of that revenue with zero headcount'. The request also says Meridian offered a 3-year exclusive EU-wide deal projecting EUR 12M.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request",
+        "title": "request.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Assumptions to verify, C1. The term sheet's 35% discount (E2) means at most 65% of list sell-through reaches us before COGS. The 'zero headcount' claim is challenged by E12.",
+      "limitations": "An opinion from an internal stakeholder, not data.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Compared against term sheet discount in meridian-term-sheet.md"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "Under the EU Vertical Block Exemption Regulation (EU) 2022/720 (in force 1 June 2022, replacing 330/2010), exclusive distribution lets the supplier restrict active sales by other distributors into a territory or customer group reserved to the supplier itself or allocated to up to five exclusive distributors. Passive sales into that territory generally cannot be restricted. Sales by appointed distributors within their own territory cannot be restricted.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.mofo.com/resources/insights/220513-vertical-block-exemption-regulation.html",
+        "title": "There is a New Vertical Exemption on the Block (MoFo)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.steptoe.com/en/news-publications/what-is-new-under-the-revised-eu-vertical-block-exemption-regulation.html",
+        "https://www.cuatrecasas.com/en/global/competition-eu-law/art/eu-exclusive-distribution-in-the-new-vertical-block-exemption-regulation",
+        "https://www.heuking.de/en/news-events/newsletter-articles/detail/new-vertical-block-exemption-regulation-and-vertical-guidelines-what-remains-the-same-what-will-be-changing.html"
+      ],
+      "applicability": "C3, C4, C5, G5. A supplier reserving a customer group to itself (e.g. existing or house accounts) is a recognised structure. A carve-out of existing accounts, or DE/NL-only exclusivity with the supplier or other distributors elsewhere, is legally feasible. Meridian's protection would cover active sales only; passive sales into its territory from other channels cannot normally be blocked.",
+      "limitations": "Based on search-result snippets of law-firm summaries; the regulation text was not retrieved (fetch of cuatrecasas.com failed; host not allowed). Block exemption also depends on the 30% market-share thresholds (E7). Not legal advice.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets from multiple law-firm domains; WebFetch unavailable"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "VBER 2022/720 exempts vertical agreements only where the supplier's and buyer's market shares each do not exceed 30%. Non-compete obligations are exempted up to 5 years and may now be tacitly renewable beyond 5 years, provided the buyer can effectively renegotiate or terminate. The regulation applies until 31 May 2034.",
+      "source": {
+        "kind": "web",
+        "ref": "https://cms.law/en/are/legal-updates/10-key-aspects-of-the-revised-eu-competition-law-in-the-field-of-distribution-vber-vgl",
+        "title": "10 key aspects of the revised EU competition law in the field of distribution (CMS)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.wilmerhale.com/en/sitecore/content/whlaunch/home/research/news-publications/20220524-european-commission-adopts-new-vertical-block-exemption-regulation",
+        "https://vbb.com/media/Insights_News/20220620_EC_adopts_new_VBER_alongside_new_VGL.pdf"
+      ],
+      "applicability": "C4. Relevant if the full agreement adds a non-compete on Meridian, or if the 36+24-month auto-renewal combines with exclusivity terms. A 5-year total horizon (36+24 months) sits at the non-compete limit.",
+      "limitations": "Search snippets only. Sources describe the buyer's termination condition for tacit renewal differently. The term sheet contains no non-compete, so applicability depends on the full draft agreement.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets from multiple law-firm domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "German case law applies the commercial agent's goodwill indemnity (§89b HGB) by analogy to distributors who are integrated into the manufacturer's sales organisation like an agent and are obliged to transfer customer data to the manufacturer. Advance waivers are generally invalid for distributors operating within the EEA. The indemnity is capped by reference to one year's average remuneration over the past five years. Commentators cite a 2018 Stuttgart regional court decision suggesting liability even without a contractual data-transfer obligation.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.advant-beiten.com/en/news/the-distributors-indemnity-claim-under-german-law-what-can-manufacturers-do-to-avoid-such-a-claim-and-what-can-distributors-do-to-generate-it",
+        "title": "The distributor's indemnity claim under German law (Advant Beiten)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.legalmondo.com/?p=14858",
+        "https://www.fgvw.de/en/news/archive-2016/may-foreign-distributors-claim-a-compensation-for-termination-of-their-agreement",
+        "https://koksal.av.tr/en/knowledge-centre/distributor-goodwill-compensation-ttk-122-and-hgb-89b/"
+      ],
+      "applicability": "C4, C6. Post-term cost: if Meridian (a Dutch BV) operates in Germany under German law, and especially if it hands over customer data at exit, terminating or not renewing it could trigger a goodwill indemnity claim. This is a real cost of the Meridian route and of later recovering customer relationships. Governing law and customer-data clauses in the full agreement matter.",
+      "limitations": "Search snippets of law-firm marketing; the fetch of advant-beiten.com failed (host not allowed). Some sources are dated (2016). Whether the claim applies depends on governing law (Meridian is a Netherlands BV; Dutch law treats distributor indemnity differently and was not researched). The exact cap mechanics for distributors are disputed. Not legal advice.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets from multiple domains; WebFetch failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Common practice in exclusive distribution agreements is to tie exclusivity to minimum purchase targets, with automatic downgrade to non-exclusive (or a termination right) if minimums are missed. This is often triggered by a specified shortfall percentage or misses in two consecutive periods, with notice (e.g. 90 days in one SEC-filed agreement). Suppliers wanting termination for a missed minimum should state it expressly. Purchase-based minimums are easier to verify than sell-through targets.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.burkelaw.com/alert-hard-numbers-and-hard-issues-minimum-purchase-requirements-and-quotas-in-distribution-agreements",
+        "title": "Hard Numbers and Hard Issues: Minimum Purchase Requirements and Quotas in Distribution Agreements"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.mondaq.com/missing-the-minimum-what-happens-when-a-distributor-falls-short/1839826",
+        "https://www.sec.gov/Archives/edgar/data/0001072313/000114420407041688/v083571_ex10-16.htm",
+        "https://beancount.io/blog/2026/10/13/distribution-agreements-exclusive-territory-quotas-map-trademark-termination-guide"
+      ],
+      "applicability": "C4, G5. Supports the protective terms to request: annual minimum purchases (on a net-purchase basis) matched to Meridian's own projection, loss of exclusivity or termination when missed, and an explicit definition of what counts toward the minimum (e.g. excluding existing accounts).",
+      "limitations": "Search snippets. Sample contracts are US (SEC filings); commentary is mixed US/UK and some is distributor-side. Says nothing about whether Meridian specifically will accept such terms; G5 stays open.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets across multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Benchmarks for B2B sales rep ramp time (mostly SaaS): roughly 3-6 months for transactional or mid-market roles and 6-12+ months for enterprise or complex roles, with complex enterprise AEs sometimes 15+ months. A rep cannot ramp faster than one full sales cycle. One cited average: ~4.5 months for a B2B rep; another: 5.7 months for SaaS reps.",
+      "source": {
+        "kind": "web",
+        "ref": "https://umbrex.com/resources/company-analysis/sales/ramp-up-time-for-new-reps/",
+        "title": "Ramp-up Time for New Reps (Umbrex)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.disco.co/blog/sales-ramp-time-technical-sales-reps",
+        "https://www.revgenius.com/mag/ramp-time-for-sales-your-guide-to-accelerating-productivity"
+      ],
+      "applicability": "G4, C2. With 6-12+ month ramps plus hiring time, a 4-seller + 1 SE team's Y1 output is likely small while cost runs from hire. The EUR 7.0M 3-year figure is therefore sensitive to hiring delays. Finance needs to show its ramp assumptions.",
+      "limitations": "Search snippets only; the umbrex.com fetch failed. Sources are mostly SaaS and vendor blogs, not industrial sensors in DE/NL, and figures conflict. Classified INFERRED because the specific figures are not consistently attributed across independent sources.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets; WebFetch failed"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "Benchmarks for industrial distributor gross margin vary by sector: about 31.4% (FPDA 2020), 35% (NAHAD 2024), about 26% (AHTD members), about 20% (NAED members). No benchmark was found for a typical instrumentation distributor discount off list; one manufacturer policy (Anderson-Negele) cites list less 15% for authorised resellers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.tribute.com/distribute/9-kpi-and-metrics-industrial-distributors-should-use-to-track-progress/",
+        "title": "9 KPI and metrics industrial distributors should use"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.anderson-negele.com/wp-content/themes/andersonnegele/assets/global-folder/MapPolicy2017_11_07.pdf"
+      ],
+      "applicability": "G1, C1. Gives context that a 35% discount off list is at or above typical distributor gross margins in several industrial segments, so it may be generous and negotiable, especially for carved-out or legacy accounts. It does not provide our COGS.",
+      "limitations": "Search snippets; US-centric trade-association figures; attribution of specific numbers to specific sources is uncertain. Distributor gross margin is not the same as the discount it receives. Our own product gross margin remains UNKNOWN (see E13).",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "Manufacturers using distributors still carry internal costs: product and sales training of partner staff, technical support, marketing and co-op/MDF programmes and their administration, onboarding and system integration (order and inventory), and channel management. Training is especially important for complex products.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.mondaq.com/unitedstates/Strategy/64470/Profitable-Channel-Management-What-Questions-Should-You-be-Asking",
+        "title": "Profitable Channel Management (Mondaq)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.unifyr.com/atlas/distributor-management/",
+        "https://www.cincom.com/blog/au/sales/channel-sales-not-performing-five-common-challenges-facing-channel-managers",
+        "https://ansira.com/blog/manual-mdf-tech-industry/"
+      ],
+      "applicability": "Assumption 'zero headcount' (E5), C1. The Meridian route still needs at least a channel manager and technical/pre-sales and RMA support for industrial sensors. These costs should be deducted from Meridian's net contribution.",
+      "limitations": "Qualitative only: no euro or FTE benchmarks found. Sources are vendor marketing or dated trade articles (some 2009 or older).",
+      "contradicts": [
+        "E5"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets across multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "Our gross margin or COGS per unit is not stated in any supplied document, and could not be found externally (it is internal data). Neither option's documents cost logistics, warehousing, service or RMA separately.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "G1, C1. Without COGS, contribution can only be compared before COGS (Meridian at most 65% of sell-through vs direct revenue less EUR 3.1M).",
+      "limitations": "Must be obtained from finance.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Searched all supplied fixtures; not present"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "No reliable country-by-country figures were found for the EU industrial air-quality sensor or monitoring market (FR, IT, Nordics vs DE/NL). Retrieved results were paid-report tables of contents and marketing snippets. One snippet attributes to the EEA that UK, FR, IT and DE contributed about 41% of industrial-sector indoor air pollution in 2020 (a pollution share, not a market share). MarketsandMarkets puts Germany's broader air quality control systems market at about USD 7.57bn in 2024 (a different, much broader segment).",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.arizton.com/market-reports/industrial-air-quality-monitoring-system",
+        "title": "Industrial air quality monitoring system (Arizton)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.marketsandmarkets.com/Market-Reports/geography/air-quality-control-systems-market/Germany"
+      ],
+      "applicability": "G6, C5. This only weakly suggests FR and IT are material industrial markets, which supports not granting exclusivity there to a distributor that is weak in those countries (E3).",
+      "limitations": "Search snippets of commercial market-research marketing. Segment mismatch (control systems, indoor AQ, pollution shares). Not usable as a market-size number for our sensors.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "Our product gross margin/COGS and direct-route logistics, service and RMA costs are internal data not in the supplied sources and not findable externally. The external benchmarks (E11, E12) are qualitative or for other sectors."
+    },
+    {
+      "gapId": "G2",
+      "reason": "Neither Meridian's projection (E1) nor finance's estimate (E4) says whether the existing EUR 0.8M/yr accounts are included. This must be asked of Meridian and finance."
+    },
+    {
+      "gapId": "G3",
+      "reason": "Only two references are available (E3), and one has no absolute figures. No Meridian sales history in our category was available. More references or audited category sales are needed."
+    },
+    {
+      "gapId": "G4",
+      "reason": "Finance's EUR 7.0M has no build-up. Only generic, mostly SaaS ramp benchmarks were found (E10); no industrial-sensor DE/NL seller productivity data."
+    },
+    {
+      "gapId": "G5",
+      "reason": "Market practice and EU law support minimums, loss of exclusivity, existing-account carve-outs and narrower territory (E6, E9). Whether Meridian will accept them is unknowable without negotiation. Dutch-law distributor indemnity was not researched."
+    },
+    {
+      "gapId": "G6",
+      "reason": "No credible country-level market size for industrial air-quality sensors was found (E14). Meridian's actual channel presence outside DE/NL is evidenced only by reference 1's 'weak elsewhere'."
+    },
+    {
+      "gapId": "assumption:full-term-sheet",
+      "reason": "Only a five-bullet term sheet was supplied (E2). The full draft agreement (payment terms, pricing changes, post-termination, governing law, customer data) was not available."
+    },
+    {
+      "gapId": "fetch-unavailable",
+      "reason": "WebFetch failed (host not resolvable/allowed) for www.cuatrecasas.com, www.advant-beiten.com and umbrex.com, so no web page was directly inspected. All web evidence rests on search snippets. These hosts would need to be allowed in the session's network settings to verify them."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

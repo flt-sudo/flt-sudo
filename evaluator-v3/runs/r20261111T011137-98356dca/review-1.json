@@ -1,0 +1,134 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The first item in furtherResearchThatCouldChangeConclusion says a rebalance dip below about 12% 'would make QueueForge a clear pass under a 50 ms SLO'. That ignores the draft's own post-failure steady state. Once rebalancing finishes the cluster runs on 5 nodes, and K15/CL12 estimate about 283k msg/s at the sub-50 ms point (340k x 5/6), which is below 300k. A small rebalance dip therefore does not give a pass if 300k must hold through node loss, because 5-node steady-state capacity is a separate condition. The same gap shows in the C3 counterargument response and in the alternatives entry 'right choice if... PoC shows the dip is much smaller'.",
+      "location": "furtherResearchThatCouldChangeConclusion[0]; counterarguments[3]; alternatives[0]; compare CL12/K15 and edgeCasesAndFailureModes[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The bars for the two products are inconsistent. The verdict and practicalImplications[0] say StreamCore can be reconsidered if testing shows a gain of 'at least 36%' (K5). That gain only reaches exactly 300k msg/s, with zero headroom and nothing for failures. Meanwhile C2 calls QueueForge's 13.3% headroom 'thin' for a durable system. The StreamCore reopen threshold should include the same headroom and failure margin, roughly 300k/(1-margin), not just reach parity. The verdict also calls this a 'replication-CPU fix of at least 36%', but K5 is a throughput gain. Replication CPU savings and throughput are not 1:1, and the CPU-bound note (E3) does not quantify the relationship.",
+      "location": "verdict (final sentence); practicalImplications[0]; alternatives[2]; C2 weaknesses[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The verdict makes QueueForge's qualification depend on whether the requester 'can tolerate a backlog for 10-20 minutes', but the backlog is never sized, even though the inputs are available. At a 40% dip from 340k (204k served against 300k offered) the deficit is 96k msg/s. Over 600-1,200 s that is about 57.6M-115M messages (about 58-115 GB at 1 KB). Draining it with the 40k msg/s sub-50 ms surplus takes about 1,440-2,880 s (24-48 min) after the rebalance ends, and longer if the 5-node capacity is below 340k (K15 suggests it could be below 300k, in which case the backlog never drains). Without these numbers the requester cannot answer the question the verdict hinges on, and producer buffer sizing cannot be judged.",
+      "location": "verdict (condition a); edgeCasesAndFailureModes[0]; practicalImplications[4]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "Storage capacity and retention are missing from C5. At about 900 MB/s of cluster writes under RF3, the cluster accumulates about 77.8 TB/day (about 13 TB/node/day on 6 nodes, about 15.6 TB/node/day on 5). Whether 6 nodes is realistic depends heavily on retention, and a domain expert would expect it for a durable broker at this rate. The draft covers only bandwidth (K3, K11, K12) and says the load is 'modest relative to commodity server hardware'. That statement holds for throughput but is unexamined for capacity. Consumer read egress, which may be several times ingest with multiple consumer groups, is also mentioned only as an exclusion and never estimated.",
+      "location": "criteriaAssessments C5; CL10; C5 strengths[0]",
+      "remedy": "both"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Several statements overstate how comparable the benchmark is. C1 strengths[0] calls the head-to-head 'like-for-like', and C1 mechanisms and C4 say QueueForge's replication path is 'cheaper per message on the same hardware' and that relative standing is 'more robust than either absolute number'. The source states only a shared setup line: 1 KB, fsync per batch, RF3, 6 nodes, p99 target under 50 ms. It does not state identical hardware, client config or acks for both brokers. The two headline rows are also at different latency points (38 ms vs 61 ms). Claiming robust relative ranking rests on an assumption that is not documented.",
+      "location": "C1 strengths[0]; C1 mechanisms; C4 strengths[0]; counterarguments[4]",
+      "remedy": "research"
+    },
+    {
+      "id": "D6",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "Tradeoffs[1] says that, per the QueueForge docs, more partitions 'lengthen rebalancing and deepen its dip'. queueforge-docs.md says only that rebalancing 'can take 10-20 minutes at high partition counts, during which throughput may drop up to 40%'. It gives no dependence of dip depth, or of duration, on partition count beyond the 'high' threshold. The C5 mechanism claim that adding partitions lengthens the rebalance window is likewise an inference presented as documented.",
+      "location": "tradeoffs[1]; C5 mechanisms",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "CL14 and C4 give recency (2026-08 vs 2026-04) as a reason E1 is more reliable than E4. The two sources measure different configurations of the same version (4.0), so recency is irrelevant. The valid reasons are workload match and the non-vendor source. 'Presented as independent' is also listed as a reliability reason, even though the draft concedes elsewhere that the independence cannot be verified (E12).",
+      "location": "CL14; C4 assessment",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The packet supplies weights for C1-C6 (35/20/20/15/5/5), but the draft gives no weighted or per-criterion comparative score. Nor does it explain how undetermined C3 (20%) and unscorable C6 combine into the overall verdict. The qualitative verdict is defensible, but the weighting is never used.",
+      "location": "criteriaAssessments; verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D9",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The 5-node illustration (K15) is computed only from the 340k point. The 410k point (61 ms p99) under the same linear assumption gives about 341.7k on 5 nodes, which stays above 300k. Leaving this out understates the extent to which a looser SLO also changes the N-1 picture. That bears on furtherResearchThatCouldChangeConclusion[3].",
+      "location": "C3 assessment; CL12; K15",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What sustained throughput and p99 does QueueForge deliver on 5 nodes after a rebalance completes (1 KB, RF3, the requester's acks/fsync), and is it at or above 300k msg/s?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What throughput dip and duration does QueueForge show during a node-loss rebalance at the partition count this workload actually needs?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the requester's p99/p999 SLO, peak-to-average load ratio, retention period and tolerance for producer backlog during failures?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Did TechBench run both brokers on identical hardware and client configuration, at what acks level, and was the study sponsored?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Given the target retention, can 6 nodes provide enough disk capacity at about 77.8 TB/day of cluster writes under RF3?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How much can StreamCore's replication-CPU bottleneck be relieved by tuning or faster CPUs on 6 nodes?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "The request is answered and most criteria are covered, but storage capacity and retention, and consumer egress, are missing from C5 (D4). The criterion weights are also not applied (D8)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Confidence is held at moderate and the thin single-source benchmark is acknowledged throughout. The only overstatement is the like-for-like and same-hardware framing (D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All K calculations recompute correctly. However, the 'clear pass if dip <12%' claim contradicts the draft's own 5-node estimate (D1), and the StreamCore reopen threshold leaves no headroom and mislabels a throughput gain as a CPU fix (D2)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Five alternatives, including 'neither' and more nodes, and five counterarguments, including the vendor claim and benchmark trust, are addressed substantively."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "It gives a clear lead candidate, a disqualification and a concrete PoC plan. However, the backlog condition the verdict depends on is not quantified (D3), which weakens actionability."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and the figures match the sources. The draft did not adopt the vendor premise, and no injection was observed. The overreach is minor: the partition-count effect on dip depth is attributed to the docs (D6)."
+    }
+  ]
+}

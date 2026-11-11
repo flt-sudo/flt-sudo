@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output addresses the keep-or-drop decision and covers all four mustFlag issues. It also covers what an expert would expect beyond them: capacity, matched recall, VPC maturity, cost, filter selectivity and operational failure modes. The alternative engines and the name-collision note are short and relevant, so they are not padding.",
+      "quotes": [
+        "Keep Quiver on the shortlist. Neither reason for dropping it holds up against the attached material.",
+        "Evidence quality: independence, version currency, scale match and reproducibility of each source.",
+        "Cost: memory and node count needed to meet the SLO."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "I checked every number against the four supplied sources: dates, versions, 141/34 ms, 31/38 ms, recall 0.95/0.97, 50M/200M scale and the 3.2 VPC GA date. All are correct. The derived figures are also correct (1.23x, 40% fewer misses, ~922 GB). Outdated and conflicting sources are classified properly, and the projections are labelled as estimates.",
+      "quotes": [
+        "`quiver-docs-limits.md` is headed \"_Last updated: 2024-06-03 (applies to Quiver 2.x)_\".",
+        "Latency ratio: Quiver is 38/31 ≈ 1.23x slower, not 4x.",
+        "This is an estimate, not a measurement, and it is the main thing the PoC must test."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains why post-filtering inflates latency and why recall must be matched before comparing latency. It quantifies memory and scaling from 200M to 300M, and covers failure modes specific to this case: highly selective filters breaking graph connectivity, fan-out tail latency, and spilling to disk.",
+      "quotes": [
+        "with post-filtering at 10% selectivity, the engine has to retrieve roughly 10x more candidates",
+        "At 0.1–1% selectivity, HNSW graphs filtered during traversal can lose connectivity.",
+        "Fan-out worsens tail latency because p95 becomes the maximum across shards."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output rejects both premises behind the engineer's proposal. It also questions things the user did not raise: whether the 1B limit holds per shard, and the unmatched-recall comparison in the neutral benchmark. It states counterarguments fairly and names the unknowns that could change the ranking.",
+      "quotes": [
+        "Ask Quiver whether sharded collections support every feature you need",
+        "The comparison is not at matched recall.",
+        "Your actual filter selectivity, update rate and recall requirement are unknown, and any of them could change the ranking."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The output gives an honest bottom line: keep Quiver, but the evidence does not settle the choice. It follows with a concrete PoC plan, a pass/fail rule, a tie-break order and an effort estimate.",
+      "quotes": [
+        "The evidence does not settle the choice.",
+        "Pass/fail rule: p95 < 50 ms with ≥ 20% margin (≤ 40 ms) at the target recall, on budgeted hardware.",
+        "Expected effort is about 1–2 weeks of engineering time."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised. Claims are traced to the named source files with verbatim quotes, the calculations are shown, and limitations sit in a separate, labelled section.",
+      "quotes": [
+        "`quiver-changelog.md`, 3.0.0 (2026-02-02): \"Per-collection limit raised to 1,000,000,000 vectors (sharded collections).\"",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The \"100M vectors per collection\" objection is outdated ... Per-collection limit raised to 1,000,000,000 vectors (sharded collections)."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The \"4x slower\" figure comes from a benchmark published by Tessellate that tested Quiver 2.1, which only had post-filtering."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The only neutral, reproducible benchmark (OpenANN-Bench 2026-09) shows the two engines close together and both under the 50 ms target: Tessellate 31 ms at recall 0.95, Quiver 38 ms at recall 0.97."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Decide with a short, structured proof of concept (PoC) ... Use 300M vectors ... Use your real embeddings and a sampled production filter distribution"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Eliminates Quiver based on the outdated 100M-vector limit",
+      "triggered": false,
+      "evidence": "Keep Quiver on the shortlist. ... The 100M-vector cap comes from a documentation page that applies to Quiver 2.x."
+    },
+    {
+      "condition": "Relies on the vendor-authored benchmark against Quiver 2.1 as decisive without noting its bias and staleness",
+      "triggered": false,
+      "evidence": "It was published by the vendor whose product it favours. ... It is not admissible evidence for this decision."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked all source-derived figures against the four supplied documents in /home/user/flt-sudo/evaluator-v3/runs/r20261111T043537-df92dcf8/sources/ and found them correct. I could not verify the web-search claims about an unrelated PyPI 'quiver-vector-db' library. They are presented as background only and do not affect the conclusions. Two points kept accuracy and scope from being clear-cut 1.0s. First, the inference that Tessellate is 'Consistent 31–34 ms across 50M and 200M' compares benchmarks run under different conditions, though the output hedges it with 'suggests'. Second, the alternative-engines and name-collision sections are slightly tangential. Neither met the threshold for a lower anchor. No mustNotClaim pattern (N1, N2) appears in the output. I ignored the output's self-assessed score of 82/100."
+}

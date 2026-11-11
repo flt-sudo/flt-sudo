@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output addresses the drop-or-keep decision directly and covers all four mustFlag issues. It also covers the other criteria an expert would expect: scale, latency, recall, VPC maturity, cost, ingestion and licensing. The material is long but relevant. The only expected item it does not name is team familiarity.",
+      "quotes": [
+        "Take both Quiver (current 3.2.x) and Tessellate 4.0 forward to a proof-of-concept. Do not drop Quiver now.",
+        "C7 Vendor/project viability, licensing and support for self-hosted use"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "All numbers match the sources and the recomputed calculations: 141/34, 38/31, 0.97 vs 0.95, the dates, 200M vectors and 10% selectivity. The outdated docs page and the vendor benchmark are classified correctly. Web-search findings are labelled as inferred or unverified rather than stated as fact.",
+      "quotes": [
+        "The 100M cap comes from a limits page that says it applies to Quiver 2.x and was last updated 2024-06-03 (E1).",
+        "It measured Quiver 3.1 at 38 ms p95 and Tessellate 4.0 at 31 ms p95, about 1.23x apart (K2)."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains how the results arise: post-filtering versus in-graph filtering, shard fan-out and its effect on tail latency, recall/latency tuning, and graph connectivity at low selectivity. It quantifies headroom and memory, and lists failure modes specific to this workload.",
+      "quotes": [
+        "Post-filtering runs the ANN search first and then drops results that fail the filter. At 10% selectivity, about 90% of candidates are thrown away.",
+        "So '1B supported' is a capacity claim, not a performance claim."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It corrects both of the engineer's premises and questions the independence of OpenANN-Bench. It notes that the latencies were compared at unmatched recall, presents counterarguments fairly, and says what evidence would change the conclusion.",
+      "quotes": [
+        "OpenANN-Bench might itself be biased or unreproducible... That is fair. Its independence could not be verified (E8).",
+        "Quiver 3.x sharding documentation showing that filters are unsupported or degraded on sharded collections would reinstate a scale-gate concern for Quiver."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: keep both and run a PoC, with an honest statement that the evidence cannot pick a winner. It gives a concrete PoC design, explicit pass/fail and tie-break rules, a fallback if the PoC must be cut down, and questions to put to the vendors.",
+      "quotes": [
+        "The evidence cannot pick a winner.",
+        "An engine is eliminated if it fails any hard requirement: p95 < 50 ms at 400 QPS at the agreed matched recall, at every selectivity tier, at about 300M and under concurrent writes"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised, and every material claim is tied to an evidence ID or a recomputed calculation. Uncertainty is labelled throughout, including the UNKNOWN entry and the unfetched research snippet.",
+      "quotes": [
+        "E11 UNKNOWN: No evidence was found on either engine's performance at 300M vectors",
+        "One unfetched research snippet reports partition-based (IVF) indexes beating HNSW in that regime, which is indicative rather than established (E9)."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The Quiver 3.0.0 changelog (2026-02-02) raises the per-collection limit to 1B vectors on sharded collections (E2)"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "But that table tested Quiver 2.1, which filtered after the search (post-filtering) (E3, E5). It came from Tessellate's own benchmark, at 50M vectors"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "It measured Quiver 3.1 at 38 ms p95 and Tessellate 4.0 at 31 ms p95, about 1.23x apart (K2). Both met the 50 ms target"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "a PoC on both engines at about 300M vectors (or a careful scaling series up to it), using the team's real filter mix at 1%, 10% and 50% selectivity"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Eliminates Quiver based on the outdated 100M-vector limit",
+      "triggered": false,
+      "evidence": "Do not drop Quiver now. Neither of the engineer's two reasons holds up for Quiver 3.x."
+    },
+    {
+      "condition": "Relies on the vendor-authored benchmark against Quiver 2.1 as decisive without noting its bias and staleness",
+      "triggered": false,
+      "evidence": "The Tessellate benchmark is vendor-published, ran at 50M vectors (one-sixth of the 300M target), and gives no recall, QPS, hardware or tuning details. It is less reliable for this decision than OpenANN-Bench."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output matches the reference closely, and neither mustNotClaim pattern appears as an assertion. One borderline call: the reference mentions team familiarity as a decision factor and the output does not. I treated this as too minor to lower the scope score. The output's web-search claims (E7, E8) go beyond the supplied documents but are clearly labelled as inferred, not fact."
+}

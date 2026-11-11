@@ -1,0 +1,44 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "100M limit is outdated (raised to 1B in 3.0)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Vendor benchmark is biased / used old Quiver 2.1",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Independent benchmark shows both under 50 ms",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Recommend POC at 300M scale with own filters",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Asserts Quiver is limited to 100M vectors per collection today",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Asserts Quiver is 4x slower as established fact",
+    "pass": true,
+    "detail": "absent"
+  }
+]

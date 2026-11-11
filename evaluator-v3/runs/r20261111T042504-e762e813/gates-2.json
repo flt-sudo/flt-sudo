@@ -1,0 +1,137 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [practicalImplications[2] and practicalImplications[8]] The new hard requirement makes an engine fail if it misses p95 < 50 ms 'under concurrent writes'. Neither the request nor the packet gives a write rate (E10), and the pre-PoC step 'Define the team's recall target and filter selectivity distribution' leaves write and delete rates out. Without an agreed upsert/delete rate, that part of the elimination test cannot be applied consistently."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [practicalImplications[2] (decision rule); verdict ('Judge it with the pass/fail and weighted tie-break rule')] The new decision rule says 'If both pass, choose using the plan's criterion weights: C2 25, C1 20, C3 15, C4 15, C5 10, C6 8, C7 7', but it never says how each criterion is scored. There is no scale and no mapping from measured p95/recall/footprint to points. C1, C4 and C7 have also just been made pass/fail gates, so once both engines pass those gates their 42 points of weight cannot separate them, unless the draft says how a 'pass' is graded further. As written, two teams could apply the rule and reach different answers. The rule should state a scoring method, for example normalised measured values for C2, C3 and C5 and a 0-5 rubric for the others, or say which measured differences count as decisive."
+        },
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [practicalImplications[2] (fallback sentence)] The new cut-down fallback is to 'run only the lowest-selectivity tier (about 1%) at about 300M, matched recall, on a sharded Quiver collection'. It names the Quiver configuration but not the matching Tessellate one (single collection, node count). It also does not say whether the C4 failover/upgrade drills and the concurrent-write test, both hard gates in the same rule, are kept or dropped. A cut-down PoC run this way could not apply the elimination rule just stated."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "141 / 34",
+      "claimed": 4.15,
+      "actual": 4.147058823529412,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "38 / 31",
+      "claimed": 1.23,
+      "actual": 1.2258064516129032,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "300_000_000 * 768 * 4 / 1_000_000_000",
+      "claimed": 921.6,
+      "actual": 921.6,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "300_000_000 / 1_000_000_000",
+      "claimed": 0.3,
+      "actual": 0.3,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "300 / 200",
+      "claimed": 1.5,
+      "actual": 1.5,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "17 + 31 + 30 + 31 + 11",
+      "claimed": 120,
+      "actual": 120,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "50 - 38",
+      "claimed": 12,
+      "actual": 12,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "50 - 31",
+      "claimed": 19,
+      "actual": 19,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1 - 0.95) / (1 - 0.97)",
+      "claimed": 1.67,
+      "actual": 1.6666666666666667,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "300_000_000 * 768 * 4 / 1_000_000_000 / 3",
+      "claimed": 307.2,
+      "actual": 307.2,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "300 / 50",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "Do Quiver 3.x sharded collections support filtered-HNSW queries across shards, with automatic shard management and acceptable recall after merging, at 300M?",
+    "What are Tessellate's per-collection or cluster vector limit, metadata-field limit, self-hosted deployment and HA model, and licence terms for self-hosting at 300M scale?",
+    "At about 300M vectors with filters at about 1% selectivity and 400 QPS at matched recall, does either engine exceed p95 50 ms?",
+    "What memory footprint does each engine need at the target recall, and does either support quantization or on-disk indexes without breaking the latency target?"
+  ]
+}

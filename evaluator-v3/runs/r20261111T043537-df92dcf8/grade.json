@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T043537-df92dcf8",
+  "caseId": "ho-11-vector-db-selection",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked all source-derived figures against the four supplied documents in /home/user/flt-sudo/evaluator-v3/runs/r20261111T043537-df92dcf8/sources/ and found them correct. I could not verify the web-search claims about an unrelated PyPI 'quiver-vector-db' library. They are presented as background only and do not affect the conclusions. Two points kept accuracy and scope from being clear-cut 1.0s. First, the inference that Tessellate is 'Consistent 31–34 ms across 50M and 200M' compares benchmarks run under different conditions, though the output hedges it with 'suggests'. Second, the alternative-engines and name-collision sections are slightly tangential. Neither met the threshold for a lower anchor. No mustNotClaim pattern (N1, N2) appears in the output. I ignored the output's self-assessed score of 82/100."
+}

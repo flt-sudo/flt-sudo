@@ -1,0 +1,107 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The draft misses an inference the packet supports directly. OpenANN-Bench ran Quiver 3.1 on 200M vectors (E6). That is twice the 2.x per-collection cap of 100M (E1), so Quiver must have held more than 100M vectors there, presumably in a 3.x sharded collection or in several collections. It still served filtered queries at 38 ms p95 with Recall@10 0.97 at 400 QPS. This is partial evidence that filtered search works above 100M, probably through sharding. Yet CL2 says 'The packet does not show whether Quiver's sharded collections fully support filters', C1 treats sharded filter and recall behaviour as entirely unknown, and the 'application-side sharding' counterargument is answered without this point. The correct statement is that the configuration is unknown, but 200M filtered at 0.97 recall is direct if partial evidence on the hard gate C1. The draft should state the inference and its caveat (the benchmark setup is undisclosed and may have used several collections), and the PoC should confirm how OpenANN configured Quiver.",
+      "location": "CL2; criteriaAssessments C1 (assessment, weaknesses); counterarguments[3]; remainingUncertainty[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The C2 mechanism says post-filtering 'explains Quiver 2.1's 141 ms'. The Tessellate benchmark gives no hardware, QPS, tuning or recall details (E5), so the gap could also come from configuration differences. Post-filtering is a plausible contributor, not an established cause. Also, Tessellate scored 34 ms at 50M in its own benchmark but 31 ms at 200M in OpenANN. Being faster at four times the scale suggests the two benchmarks ran under very different conditions, which further weakens any causal reading. The draft does not mention this cross-benchmark inconsistency.",
+      "location": "criteriaAssessments C2 mechanisms; CL6",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "CL12 and correctedUserAssumptions[3] present 'graph-based HNSW can lose to partition-based indexes at low selectivity' and 'Filtered-ANN research shows graph indexes can degrade' as established findings. The specific claim rests on one search snippet that was never fetched (E9: 'the specific IVF-vs-HNSW finding comes from a snippet only'). These should be worded as reported or indicative. The general point that results depend on selectivity is well supported by the OpenANN fixture.",
+      "location": "CL12; correctedUserAssumptions[3]; C2 mechanisms",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "Counterargument 1 says 'On current versions the measured gap is about 1.23x'. The benchmarked Quiver is 3.1, but the current release, and the one with GA VPC deployment, is 3.2 (E4). Elsewhere the draft correctly says 3.2 is unbenchmarked. 'Recent versions' or '3.1 vs 4.0' would be accurate.",
+      "location": "counterarguments[0].response; verdict ('for current Quiver versions')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The user asks which engine to choose. The draft recommends a PoC and specifies its design well, but gives no rule for turning PoC results into a choice. There are no pass/fail thresholds per criterion (for example, p95 < 50 ms at the matched recall at every selectivity tier) and no tie-break using the packet's criterion weights if both pass. It also gives no provisional lean for the case where the PoC must be cut down.",
+      "location": "practicalImplications; verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "CL9, the VPC GA being only about 120 days old, is marked material: false. C4 carries weight 15, and self-hosting in a VPC is a hard requirement in the request. Deployment maturity is one of the main differentiators the draft itself relies on in the tradeoffs and alternatives, so the materiality flag looks wrong.",
+      "location": "CL9",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "How did OpenANN-Bench 2026-09 configure Quiver 3.1 at 200M vectors: one sharded collection or several collections? Are its published configs available, and do they show tuning parity and vendor ties?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Do Quiver 3.x sharded collections support filtered-HNSW queries across shards, with automatic shard management and acceptable recall after merging?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are Tessellate's per-collection or cluster vector limit, metadata-field limit, self-hosted deployment model and licence terms for self-hosting at 300M scale?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "At 300M vectors with filters at 1% or lower selectivity and 400 QPS at matched recall, does either engine exceed p95 50 ms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What memory footprint does each engine need at the target recall, and does either support quantization or on-disk indexes without breaking the latency target?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All seven criteria and both user premises are addressed. Unknowns (C5 to C7) are stated openly, not glossed over. Only minor gaps remain (materiality of CL9)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Fixture claims match the source files exactly. Snippet-only and unverified evidence (E7, E8, E9) is mostly flagged. Two causal and research statements are slightly overstated (D2, D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All arithmetic checks out (141/34 = 4.15, 38/31 = 1.23, 921.6 GB, 120 days, 1.67). But the draft misses that Quiver 3.1 was benchmarked filtered at 200M, above the 100M cap, which is direct evidence on the C1 hard gate (D1). It also loosely calls 3.1 'current' (D4)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The engineer's proposal, picking either engine without a PoC, and widening the shortlist are all considered. The strongest counterarguments, including possible bias in OpenANN and application-side sharding, are steelmanned and answered."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict answers the decision clearly: keep Quiver and run both to a PoC. It gives a concrete PoC design and vendor questions. The only gap is the missing decision rule for using the PoC results (D5)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited evidence and calculation ID exists and supports the claim it is attached to. No sign of followed injection. The packet contradictions E1/E2 and E5/E6 are resolved with explicit reasons (version scope and dates)."
+    }
+  ]
+}

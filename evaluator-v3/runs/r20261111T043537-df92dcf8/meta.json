@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T043537-df92dcf8",
+  "caseId": "ho-11-vector-db-selection",
+  "system": "baseline",
+  "createdAt": "2026-11-11T04:35:37.163Z",
+  "request": "We're choosing a vector database for semantic search over 300M document embeddings (768-dim) with metadata filters, targeting p95 under 50 ms at 400 QPS, self-hosted in our VPC. The shortlist is Quiver and Tessellate. One of our engineers wants to drop Quiver immediately because its documentation says collections are capped at 100M vectors, and Tessellate's benchmark shows Quiver is 4x slower on filtered queries. Attached are the docs page, Quiver's changelog and two benchmark reports. Which should we choose, or what do we need to do to decide?",
+  "fixtures": [
+    "quiver-docs-limits.md",
+    "quiver-changelog.md",
+    "tessellate-benchmark.md",
+    "openann-bench-2026-09.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

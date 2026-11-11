@@ -1,3 +1,7 @@
 {"ts":"2026-11-11T04:25:08.225Z","stage":"eval-planner"}
 {"ts":"2026-11-11T04:25:55.910Z","stage":"eval-researcher"}
 {"ts":"2026-11-11T04:27:07.617Z","stage":"eval-analyst"}
+{"ts":"2026-11-11T04:30:39.096Z","stage":"eval-adversary"}
+{"ts":"2026-11-11T04:31:51.513Z","stage":"eval-analyst"}
+{"ts":"2026-11-11T04:33:44.415Z","stage":"eval-adversary"}
+{"ts":"2026-11-11T04:34:59.937Z","stage":"eval-grader"}

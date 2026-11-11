@@ -1,0 +1,89 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The new decision rule says 'If both pass, choose using the plan's criterion weights: C2 25, C1 20, C3 15, C4 15, C5 10, C6 8, C7 7', but it never says how each criterion is scored. There is no scale and no mapping from measured p95/recall/footprint to points. C1, C4 and C7 have also just been made pass/fail gates, so once both engines pass those gates their 42 points of weight cannot separate them, unless the draft says how a 'pass' is graded further. As written, two teams could apply the rule and reach different answers. The rule should state a scoring method, for example normalised measured values for C2, C3 and C5 and a 0-5 rubric for the others, or say which measured differences count as decisive.",
+      "location": "practicalImplications[2] (decision rule); verdict ('Judge it with the pass/fail and weighted tie-break rule')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The new hard requirement makes an engine fail if it misses p95 < 50 ms 'under concurrent writes'. Neither the request nor the packet gives a write rate (E10), and the pre-PoC step 'Define the team's recall target and filter selectivity distribution' leaves write and delete rates out. Without an agreed upsert/delete rate, that part of the elimination test cannot be applied consistently.",
+      "location": "practicalImplications[2] and practicalImplications[8]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The new cut-down fallback is to 'run only the lowest-selectivity tier (about 1%) at about 300M, matched recall, on a sharded Quiver collection'. It names the Quiver configuration but not the matching Tessellate one (single collection, node count). It also does not say whether the C4 failover/upgrade drills and the concurrent-write test, both hard gates in the same rule, are kept or dropped. A cut-down PoC run this way could not apply the elimination rule just stated.",
+      "location": "practicalImplications[2] (fallback sentence)",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft 2 now states the inference and its caveat in several places: verdict, C1 assessment, mechanisms, strengths and weaknesses, CL2 (now cites E1 and E6), counterarguments[3], remainingUncertainty[0] and practicalImplications[3]. The inference is that OpenANN ran Quiver 3.1 filtered at 200M, above the 2.x 100M figure, at 38 ms and 0.97 recall, which is partial evidence for C1. The caveat is that the configuration (one sharded collection or several collections) is undisclosed. The draft also asks the PoC to confirm OpenANN's Quiver configuration. The wording ('partial evidence', 'in some configuration') does not overstate what the source supports (openann-bench-2026-09.md gives no Quiver configuration). Minor prior defects D2, D3, D5 and D6 were also addressed. D4 was fixed at its named locations, but counterarguments[1] still says OpenANN 'tests current versions of both engines'. That text was present in draft 1 and is minor, so it is not raised again."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Do Quiver 3.x sharded collections support filtered-HNSW queries across shards, with automatic shard management and acceptable recall after merging, at 300M?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are Tessellate's per-collection or cluster vector limit, metadata-field limit, self-hosted deployment and HA model, and licence terms for self-hosting at 300M scale?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "At about 300M vectors with filters at about 1% selectivity and 400 QPS at matched recall, does either engine exceed p95 50 ms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What memory footprint does each engine need at the target recall, and does either support quantization or on-disk indexes without breaking the latency target?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How did OpenANN-Bench 2026-09 configure Quiver 3.1 at 200M (one sharded collection or several collections), and do its published configs show tuning parity and no vendor ties?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All seven criteria and every user and planner premise are addressed, and unknowns are stated openly. CL9 is now marked material. Only a minor gap remains: the write rate is not part of the pre-PoC definitions (D2)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Fixture-based claims match the source files (checked openann-bench-2026-09.md and tessellate-benchmark.md). The causal reading of the 141 ms result and the IVF-vs-HNSW snippet are now worded as plausible or indicative. The new 200M inference is properly hedged."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "Recomputed: 141/34 = 4.147, 38/31 = 1.226, 300M x 768 x 4 B = 921.6 GB (307.2 GB over 3 nodes), 0.05/0.03 = 1.667, 300/1000 = 0.3, 2026-07-14 to 2026-11-11 = 120 days. All correct. The prior major defect (the missed 200M inference) is fixed. The new cross-benchmark observation in CL6 (Tessellate at 34 ms on 50M vs 31 ms on 200M) is valid. One leftover 'current versions' wording in counterarguments[1] is minor and carried over from draft 1."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The engineer's proposal, picking either engine without a PoC, and widening the shortlist are all assessed. The application-side-sharding counterargument now uses the 200M evidence with its caveat."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict answers the decision clearly: keep Quiver and run both engines to a PoC. It now has elimination gates, a weighted tie-break and an explicit refusal to give a provisional lean. The tie-break lacks a scoring method and the cut-down fallback is underspecified (D1, D3), but both are polish."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited E and K ID exists in the packet or the draft and supports its claim. The new E1+E6 citations for the 200M inference are appropriate. No embedded instructions were followed. Both packet contradictions (E1/E2 and E5/E6) are resolved with explicit reasons."
+    }
+  ]
+}

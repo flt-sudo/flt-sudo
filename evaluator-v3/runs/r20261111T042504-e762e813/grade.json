@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T042504-e762e813",
+  "caseId": "ho-11-vector-db-selection",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N2 regex hit not confirmed by grader (forbidden claim matched: \"Quiver is 4x slower\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "The output matches the reference closely, and neither mustNotClaim pattern appears as an assertion. One borderline call: the reference mentions team familiarity as a decision factor and the output does not. I treated this as too minor to lower the scope score. The output's web-search claims (E7, E8) go beyond the supplied documents but are clearly labelled as inferred, not fact."
+}

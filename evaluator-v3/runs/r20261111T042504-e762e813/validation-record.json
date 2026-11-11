@@ -1,0 +1,463 @@
+{
+  "runId": "r20261111T042504-e762e813",
+  "generatedAt": "2026-11-11T04:35:36.845Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "\"OpenANN-Bench\" filtered vector search benchmark",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "Tessellate vector database self-hosted license Helm",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "Quiver vector database sharded collections 1B vectors filtered-HNSW",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://arxiv.org/abs/2602.11443",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND arxiv.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not e"
+      }
+    ],
+    "fixturesRead": [
+      "quiver-docs-limits.md",
+      "quiver-changelog.md",
+      "tessellate-benchmark.md",
+      "openann-bench-2026-09.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-11 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13557,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 39585,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 56
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1207,
+            "cache_read_input_tokens": 9081,
+            "output_tokens": 3267,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1207
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3267,
+                "cache_read_input_tokens": 9081,
+                "cache_creation_input_tokens": 1207,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1207,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-11 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 24930,
+          "totalToolUseCount": 12,
+          "totalDurationMs": 63366,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 370,
+            "cache_read_input_tokens": 19561,
+            "output_tokens": 4997,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 370
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4997,
+                "cache_read_input_tokens": 19561,
+                "cache_creation_input_tokens": 370,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 370,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-11 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 38041,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 114607,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1058
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18664,
+            "cache_read_input_tokens": 6151,
+            "output_tokens": 13224,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 18664
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 13224,
+                "cache_read_input_tokens": 6151,
+                "cache_creation_input_tokens": 18664,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 18664,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-11 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 40959,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 58684,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2400
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1199,
+            "cache_read_input_tokens": 34783,
+            "output_tokens": 4975,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1199
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4975,
+                "cache_read_input_tokens": 34783,
+                "cache_creation_input_tokens": 1199,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1199,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-11 analyst draft 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 59251,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 102985,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 990
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 35776,
+            "cache_read_input_tokens": 9887,
+            "output_tokens": 13586,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 35776
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 13586,
+                "cache_read_input_tokens": 9887,
+                "cache_creation_input_tokens": 35776,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 35776,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-11 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 58124,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 56895,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 883
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 648,
+            "cache_read_input_tokens": 54222,
+            "output_tokens": 3252,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 648
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3252,
+                "cache_read_input_tokens": 54222,
+                "cache_creation_input_tokens": 648,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 648,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-11 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 28525,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 24502,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 572
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20918,
+            "cache_read_input_tokens": 5068,
+            "output_tokens": 2537,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 20918
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2537,
+                "cache_read_input_tokens": 5068,
+                "cache_creation_input_tokens": 20918,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 20918,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "quiver-docs-limits.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "quiver-changelog.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "tessellate-benchmark.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "openann-bench-2026-09.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://pypi.org/project/quiver-vector-db/",
+    "https://arxiv.org/abs/2602.11443"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 11 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 141 / 34 = 4.147058823529412 (claimed 4.15) → match",
+    "Calculation K2 re-executed: 38 / 31 = 1.2258064516129032 (claimed 1.23) → match",
+    "Calculation K3 re-executed: 300_000_000 * 768 * 4 / 1_000_000_000 = 921.6 (claimed 921.6) → match",
+    "Calculation K4 re-executed: 300_000_000 / 1_000_000_000 = 0.3 (claimed 0.3) → match",
+    "Calculation K5 re-executed: 300 / 200 = 1.5 (claimed 1.5) → match",
+    "Calculation K6 re-executed: 17 + 31 + 30 + 31 + 11 = 120 (claimed 120) → match",
+    "Calculation K7 re-executed: 50 - 38 = 12 (claimed 12) → match",
+    "Calculation K11 re-executed: 50 - 31 = 19 (claimed 19) → match",
+    "Calculation K8 re-executed: (1 - 0.95) / (1 - 0.97) = 1.6666666666666667 (claimed 1.67) → match",
+    "Calculation K9 re-executed: 300_000_000 * 768 * 4 / 1_000_000_000 / 3 = 307.2 (claimed 307.2) → match",
+    "Calculation K10 re-executed: 300 / 50 = 6 (claimed 6) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://arxiv.org/abs/2602.11443 — getaddrinfo ENOTFOUND arxiv.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not e",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: The changelog says sharded collections reach 1B, but no current Quiver 3.x limits doc or sharding documentation was available. Caveats on filters, cross-shard recall and latency are unknown.",
+    "Knowledge gap G3 unresolved: No benchmark above 200M vectors or at selectivities other than 10% was found. A proof-of-concept at 300M with real filters at 400 QPS and fixed recall is required.",
+    "Knowledge gap G4 unresolved: The team's filter selectivity distribution and complexity are not provided. Tessellate's metadata-field limit is not documented in the sources.",
+    "Knowledge gap G5 unresolved: Neither source covers HA, replication, upgrade or backup details for either engine. No Tessellate self-hosted documentation was found on the web.",
+    "Knowledge gap G6 unresolved: No memory, storage or quantization data for either engine.",
+    "Knowledge gap G7 unresolved: No ingestion or concurrent-write behaviour data for either engine.",
+    "Knowledge gap G8 unresolved: No licensing or support information was found for either engine. The products are not identifiable in public web search.",
+    "Knowledge gap G2 unresolved: The recomputed ratio is 141/34 ≈ 4.15 and is confirmed from the table. But the Tessellate benchmark's hardware, QPS, recall and tuning are not disclosed, so its methodology cannot be audited. OpenANN-Bench independence could not be verified: no external page was found, and the arxiv.org fetch was blocked by the session network policy.",
+    "Knowledge gap assumption:latest-versions unresolved: Could not confirm whether Quiver 3.2 regresses against 3.1 or whether Tessellate has a release newer than 4.0. No vendor release notes were found beyond the supplied Quiver changelog."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 100/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Whether Quiver's sharded collections support filters fully and without recall or latency penalties at 300M (E2). Quiver 3.1 served filtered queries on 200M vectors at Recall@10 0.97, but OpenANN-Bench does not disclose whether that used one sharded collection or several collections (E6).",
+    "Performance of either engine at 300M vectors and at selectivities other than 10% (E6, E11).",
+    "Whether OpenANN-Bench is truly independent and reproducible (E8).",
+    "Whether Quiver 3.2 matches 3.1's performance, and whether Tessellate has a newer release (E4, E6).",
+    "Memory, disk, node count and cost for either engine (E11).",
+    "Ingestion and concurrent-write behaviour (E11).",
+    "Licensing, support, and Tessellate's self-hosted deployment maturity. Neither product could be identified in public sources (E7, E11).",
+    "The team's recall target, filter selectivity distribution, filter complexity and write rate (E10).",
+    "E11 UNKNOWN: No evidence was found on either engine's performance at 300M vectors, memory, disk or node footprint, quantization or on-disk index support, ingestion or upsert behaviour, licensing, or support options.",
+    "Open question the reviewer judged decisive: Do Quiver 3.x sharded collections support filtered-HNSW queries across shards, with automatic shard management and acceptable recall after merging, at 300M?",
+    "Open question the reviewer judged decisive: What are Tessellate's per-collection or cluster vector limit, metadata-field limit, self-hosted deployment and HA model, and licence terms for self-hosting at 300M scale?",
+    "Open question the reviewer judged decisive: At about 300M vectors with filters at about 1% selectivity and 400 QPS at matched recall, does either engine exceed p95 50 ms?",
+    "Open question the reviewer judged decisive: What memory footprint does each engine need at the target recall, and does either support quantization or on-disk indexes without breaking the latency target?"
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T04:31:51.197Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [CL2; criteriaAssessments C1 (assessment, weaknesses); counterarguments[3]; remainingUncertainty[0]] The draft misses an inference the packet supports directly. OpenANN-Bench ran Quiver 3.1 on 200M vectors (E6). That is twice the 2.x per-collection cap of 100M (E1), so Quiver must have held more than 100M vectors there, presumably in a 3.x sharded collection or in several collections. It still served filtered queries at 38 ms p95 with Recall@10 0.97 at 400 QPS. This is partial evidence that filtered search works above 100M, probably through sharding. Yet CL2 says 'The packet does not show whether Quiver's sharded collections fully support filters', C1 treats sharded filter and recall behaviour as entirely unknown, and the 'application-side sharding' counterargument is answered without this point. The correct statement is that the configuration is unknown, but 200M filtered at 0.97 recall is direct if partial evidence on the hard gate C1. The draft should state the inference and its caveat (the benchmark setup is undisclosed and may have used several collections), and the PoC should confirm how OpenANN configured Quiver."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [practicalImplications[2] and practicalImplications[8]] The new hard requirement makes an engine fail if it misses p95 < 50 ms 'under concurrent writes'. Neither the request nor the packet gives a write rate (E10), and the pre-PoC step 'Define the team's recall target and filter selectivity distribution' leaves write and delete rates out. Without an agreed upsert/delete rate, that part of the elimination test cannot be applied consistently."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [practicalImplications[2] (decision rule); verdict ('Judge it with the pass/fail and weighted tie-break rule')] The new decision rule says 'If both pass, choose using the plan's criterion weights: C2 25, C1 20, C3 15, C4 15, C5 10, C6 8, C7 7', but it never says how each criterion is scored. There is no scale and no mapping from measured p95/recall/footprint to points. C1, C4 and C7 have also just been made pass/fail gates, so once both engines pass those gates their 42 points of weight cannot separate them, unless the draft says how a 'pass' is graded further. As written, two teams could apply the rule and reach different answers. The rule should state a scoring method, for example normalised measured values for C2, C3 and C5 and a 0-5 rubric for the others, or say which measured differences count as decisive.",
+        "[minor/reviewer] D3 [practicalImplications[2] (fallback sentence)] The new cut-down fallback is to 'run only the lowest-selectivity tier (about 1%) at about 300M, matched recall, on a sharded Quiver collection'. It names the Quiver configuration but not the matching Tessellate one (single collection, node count). It also does not say whether the C4 failover/upgrade drills and the concurrent-write test, both hard gates in the same rule, are kept or dropped. A cut-down PoC run this way could not apply the elimination rule just stated."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

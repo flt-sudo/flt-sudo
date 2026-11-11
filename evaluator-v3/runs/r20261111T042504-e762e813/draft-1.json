@@ -25,7 +25,7 @@
     },
     {
       "criterionId": "C2",
-      "assessment": "At 200M vectors, 10% selectivity and 400 QPS on identical 3-node hardware, both engines met the target. Tessellate 4.0 ran at 31 ms p95, leaving 19 ms under the target (K7b). Quiver 3.1 ran at 38 ms p95, leaving 12 ms (K7a). The ratio is about 1.23x (K2), not 4x (E6). The 4x figure (141/34 is about 4.15, K1) compares against Quiver 2.1's post-filtering, which Quiver 3.0 replaced with filtering during graph traversal (E3, E5). It does not describe current Quiver. Nothing is known about how either engine performs at 300M (1.5x the benchmarked size, K5) or at selectivities other than 10% (E6, E9, E11). Also, the latest Quiver release is 3.2, which has not been benchmarked (E4, E6).",
+      "assessment": "At 200M vectors, 10% selectivity and 400 QPS on identical 3-node hardware, both engines met the target. Tessellate 4.0 ran at 31 ms p95, leaving 19 ms under the target (K11). Quiver 3.1 ran at 38 ms p95, leaving 12 ms (K7). The ratio is about 1.23x (K2), not 4x (E6). The 4x figure (141/34 is about 4.15, K1) compares against Quiver 2.1's post-filtering, which Quiver 3.0 replaced with filtering during graph traversal (E3, E5). It does not describe current Quiver. Nothing is known about how either engine performs at 300M (1.5x the benchmarked size, K5) or at selectivities other than 10% (E6, E9, E11). Also, the latest Quiver release is 3.2, which has not been benchmarked (E4, E6).",
       "mechanisms": "Post-filtering runs the ANN search first and then drops results that fail the filter. At 10% selectivity, about 90% of candidates are thrown away. The engine has to fetch many more candidates or re-search, and that inflates latency, which explains Quiver 2.1's 141 ms. Filtering during graph traversal skips non-matching nodes while walking the graph, so much less work is wasted. With very restrictive filters (low selectivity), graph search can still slow down because the graph of matching nodes becomes poorly connected. Research snippets report partition-based (IVF) indexes beating HNSW in that regime (E9). Going from 200M to 300M adds graph depth or more shards and more memory per node, so 12 ms of headroom is not a guarantee.",
       "strengths": [
         "Both engines met p95 < 50 ms at 400 QPS at 200M on matched hardware (E6)",
@@ -183,8 +183,8 @@
       ],
       "calculationIds": [
         "K2",
-        "K7a",
-        "K7b"
+        "K7",
+        "K11"
       ]
     },
     {
@@ -446,14 +446,14 @@
       "tolerance": 0.001
     },
     {
-      "id": "K7a",
+      "id": "K7",
       "purpose": "Quiver 3.1 latency headroom under the 50 ms p95 target on OpenANN-Bench, in ms",
       "expression": "50 - 38",
       "claimedResult": 12,
       "tolerance": 0.001
     },
     {
-      "id": "K7b",
+      "id": "K11",
       "purpose": "Tessellate 4.0 latency headroom under the 50 ms p95 target on OpenANN-Bench, in ms",
       "expression": "50 - 31",
       "claimedResult": 19,

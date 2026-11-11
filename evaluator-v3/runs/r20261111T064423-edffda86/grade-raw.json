@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output deals with the actual decision and covers all four mustFlag issues: rate unpredictability, v3 superseding v1, EUR 6M, and the stale indicative quote. It also covers points an expert would expect, such as Audit Committee approval, the §4.1 tests, credit and settlement risk, and hedge accounting, without padding the answer with unrelated material.",
+      "quotes": [
+        "Nobody can reliably say where EUR/USD will be in June 2027",
+        "sell **EUR 6,000,000 forward**, value 15 June 2027",
+        "It is an *indicative* quote dated 25 Sep 2026"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked the claims against the supplied documents and they are correct: the v3 supersession and its date, §4.1–4.3, the quote date, spot and forward, and the 'valid on the date of issue' wording. The arithmetic is also correct (1.37% premium, scenario table, ±USD 520k/130k, the ~USD 336k overstatement). One weakness keeps this below 1.0. The live-forward estimate rests on market data from secondary web sources, and the option premium and volatility figures are unchecked assumptions. All of these are labelled as such.",
+      "quotes": [
+        "These come from secondary market sites, so they need confirming.",
+        "The live forward of 1.12–1.13 is my estimate, not a quote.",
+        "Cited from memory, not fetched."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains why the forward is not a forecast (interest rate parity, with the formula) and why forecasts fail (the random-walk literature). It quantifies variance across hedge ratios with a scenario table and a volatility estimate, and covers edge cases specific to this case: late payment, credit risk, ASC 815, ISDA limits, and how to read the maturity test.",
+      "quotes": [
+        "forward = spot × (1 + i_USD·t) / (1 + i_EUR·t)",
+        "Spread from 1.05 to 1.25 | 1.60M | 0.80M | 0.40M",
+        "Late or partial payment. The forward settles on 15 June regardless."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output challenges both of the user's premises: that the 50% rule still applies, and that a rate view should drive the decision. It takes on the treasurer's arguments fairly, offers options and collars as a governed alternative, and says what would change the conclusion (a newer policy, Audit Committee approval, net EUR flows).",
+      "quotes": [
+        "The treasurer's idea of staying unhedged if she expects the euro to strengthen is the kind of view-based change the policy forbids.",
+        "*\"Hedging locks in a loss if the euro rises.\"* That is only true compared with hindsight.",
+        "If a newer policy, or a Committee resolution, exists after v3, it would take precedence."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear. It says honestly that the rate cannot be forecast and gives a concrete hedge amount. The next steps are specific: get live quotes from several banks, prepare ASC 815 documentation, and send any deviation to the Audit Committee in writing.",
+      "quotes": [
+        "Request live, dealable forward quotes for selling EUR 6,000,000 for USD, value 15 June 2027, from Northbridge and at least one other bank.",
+        "she should submit a written deviation request to the Audit Committee and not act until it is approved."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The answer is well organised. Claims are tied to policy sections, the quote or explicit calculations, and there is a dedicated section on remaining uncertainty that separates estimates and assumptions from sourced facts.",
+      "quotes": [
+        "Treasury Policy v3, §4.2, says",
+        "(an assumption; I didn't check the live figure)",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Nobody can reliably say where EUR/USD will be in June 2027"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The policy number is 75%, not 50%. ... Policy v3 was board-approved on 22 April 2025 and says it \"supersedes v1 and v2\"."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "sell **EUR 6,000,000 forward**, value 15 June 2027, leaving EUR 2,000,000 unhedged"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "It is an *indicative* quote dated 25 Sep 2026 ... Get a live, dealable quote."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Provides a confident point forecast of EUR/USD for June 2027",
+      "triggered": false,
+      "evidence": "Says the rate cannot be reliably predicted. The 1.12–1.13 figure is an estimate of the current live forward, labelled 'an estimate, not a quote', and is not a June 2027 spot forecast. The scenario table uses a range of illustrative spots."
+    },
+    {
+      "condition": "Applies the superseded 50% ratio or recommends staying unhedged based on a rate view",
+      "triggered": false,
+      "evidence": "Recommends 75% (EUR 6M) under v3 and states that 50% or unhedged 'breaks v3' / 'breaks §4.2' and needs Audit Committee approval."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the output's claims against the three supplied source files and they are consistent with them. I did not check the external November 2026 market data (spot near 1.11–1.12, Fed and ECB rates), which comes from cited web sources. The output labels this data as secondary and as estimates, so I gave accuracy 0.75 rather than 1.0. The 1.12–1.13 'live forward' figure is not a June 2027 prediction and does not trigger N1."
+}

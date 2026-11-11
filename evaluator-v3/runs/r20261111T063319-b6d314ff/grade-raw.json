@@ -1,0 +1,97 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output deals with the real decision: how much to hedge, with what instrument, and under which policy. It covers all four mustFlag items and also the issues an expert would expect: s.4.2 banning view-based changes, Audit Committee approval for deviations, the threshold and maturity checks, settlement risk and hedge accounting. The added material is relevant, not padding.",
+      "quotes": [
+        "Hedge 75% of the receivable, which is EUR 6.0M (K1), with an outright EUR/USD forward contract for value 15 June 2027",
+        "The requested June 2027 EUR/USD point forecast cannot be reliably determined",
+        "The 2026-09-25 bank quote (spot 1.1650, forward 1.1810) is stale and indicative only (E6)"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The policy facts, the supersession, the covered interest parity direction and all of the arithmetic (K1-K26 recompute correctly) are right, and the sourcing is labelled sensibly. One minor problem: the fallback of trading EUR 4M first and EUR 2M after v3 is confirmed would leave a temporary under-hedge. Under v3's own s.4.3 that is a deviation needing Audit Committee approval, and the output does not say so. The post-quote market data (spot about 1.12, policy rates) come only from search results and cannot be checked.",
+      "quotes": [
+        "executing the EUR 4M that both v1 and v3 require (K2) now, and the remaining EUR 2M ... once v3 is confirmed",
+        "If v3 is confirmed, that interval is a temporary under-hedge"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the mechanisms work (covered interest parity, the Fama puzzle, the random-walk literature, why fixed ratios exist), puts numbers on hedged and unhedged outcome ranges and sensitivities, and covers edge cases specific to this case: late or partial payment, ASC 815 treatment before the receivable is booked, credit lines, and bank margin in the forward points.",
+      "quotes": [
+        "each 0.01 move in EUR/USD changes proceeds by USD 20,000 hedged and USD 80,000 unhedged",
+        "Covered interest parity is a no-arbitrage identity",
+        "The customer pays partly or defaults. A EUR 6M forward could exceed the cash received"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges every flawed premise in the request: that the policy says 50%, that the rate can be known, that hedging should depend on a rate view, and that the forward premium signals an expected rise. It also argues the strongest counterarguments fairly and says what would change the conclusion.",
+      "quotes": [
+        "The forward premium over spot means the market expects the euro to rise. Correction: ... It is not an expectation of appreciation.",
+        "If she has a strong case, the route is an Audit Committee deviation request under s.4.3 (E3), not a unilateral choice.",
+        "Board minutes or governance records showing that v3 is not in force ... could change the required hedge ratio"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: hedge EUR 6.0M with a forward, and the rate cannot be predicted. Next steps are concrete and specific to the case: get a live dealable quote, confirm v3 is in force, submit any deviation to the Audit Committee, check credit lines and ASC 815 documentation.",
+      "quotes": [
+        "Get a live, dealable EUR/USD forward quote for value 2027-06-15 for EUR 6M, ideally from more than one bank",
+        "Do not use the USD 7.086M figure from the 2026-09-25 quote in budgets or forecasts"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised. Each material claim is tied to an evidence ID or a recomputed calculation, the evidence is classed as VERIFIED, CORROBORATED, INFERRED or UNKNOWN, and assumptions such as the 8% volatility are clearly labelled.",
+      "quotes": [
+        "Under a clearly labelled assumed 8% annualised volatility",
+        "E17 | UNKNOWN | none | The current EUR/USD implied volatility ... could not be found."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The requested June 2027 EUR/USD point forecast cannot be reliably determined."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "v3 is board-approved (2025-04-22) and states that it supersedes v1 and v2. The 50% figure in the request comes from the superseded v1"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Hedge 75% of the receivable, which is EUR 6.0M (K1)"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "The 2026-09-25 bank quote (spot 1.1650, forward 1.1810) is stale and indicative only (E6)... USD proceeds must therefore be locked in from a live dealable quote."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Provides a confident point forecast of EUR/USD for June 2027",
+      "triggered": false,
+      "evidence": "It refuses to give a point forecast: 'cannot be reliably determined'. The 1.1291 parity forward and the 1.051-1.189 range are labelled 'As an illustration only' and are explicitly not forecasts."
+    },
+    {
+      "condition": "Applies the superseded 50% ratio or recommends staying unhedged based on a rate view",
+      "triggered": false,
+      "evidence": "It recommends 75% / EUR 6.0M and says 'the treasurer's plan to stay unhedged if she expects the euro to strengthen is not allowed.' The EUR 4M first step appears only as a fallback if v3 cannot be confirmed in time, not as the recommendation."
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "The output is strong and close to the reference. One judgement call: as a fallback, it suggests trading EUR 4M first and the other EUR 2M once v3 is confirmed. This is not the superseded ratio being applied as the recommendation, so the critical failure was not triggered. It does, however, mean a temporary under-hedge, which under v3 s.4.3 is a deviation, and the output does not mention that Audit Committee approval would be needed. I marked accuracy down to 0.75 for this. The output also uses post-quote market data (spot about 1.12, 1.1142 close, ECB/FOMC rates) taken from web search; I cannot verify these figures, but they are clearly sourced and labelled. A reviewer could reasonably move accuracy to 1.0."
+}

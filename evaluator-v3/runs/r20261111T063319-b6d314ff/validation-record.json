@@ -1,0 +1,439 @@
+{
+  "runId": "r20261111T063319-b6d314ff",
+  "generatedAt": "2026-11-11T06:44:23.565Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "EUR/USD exchange rate November 2026",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Meese Rogoff exchange rate forecasting random walk",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "ECB deposit facility rate decision October 2026",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "FOMC federal funds target range decision October 2026",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "EUR/USD implied volatility 1-year 2026",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "professional exchange rate forecasts accuracy consensus vs forward rate random walk study",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "ASC 815 cash flow hedge foreign currency forecasted receivable forward contract documentation requirements",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "covered interest parity forward points interest rate differential not forecast of future spot",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "EUR/USD implied volatility October 2026 options vols",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND ecb.europa.eu. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n"
+      },
+      {
+        "url": "https://federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND federalreserve.gov. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d"
+      }
+    ],
+    "fixturesRead": [
+      "bank-forward-quote.md",
+      "treasury-policy-v3-2025.md",
+      "treasury-policy-v1-2021.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-19 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 12713,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 37587,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 172
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 697,
+            "cache_read_input_tokens": 9045,
+            "output_tokens": 2969,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 697
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2969,
+                "cache_read_input_tokens": 9045,
+                "cache_creation_input_tokens": 697,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 697,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-19 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-19 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 37651,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 109123,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2260
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 19082,
+            "cache_read_input_tokens": 6158,
+            "output_tokens": 12409,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 19082
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 12409,
+                "cache_read_input_tokens": 6158,
+                "cache_creation_input_tokens": 19082,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 19082,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-19 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 40660,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 57949,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2707
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 697,
+            "cache_read_input_tokens": 34931,
+            "output_tokens": 5030,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 697
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5030,
+                "cache_read_input_tokens": 34931,
+                "cache_creation_input_tokens": 697,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 697,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-19 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-19 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 59833,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 52989,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 398
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 512,
+            "cache_read_input_tokens": 56677,
+            "output_tokens": 2642,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 512
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2642,
+                "cache_read_input_tokens": 56677,
+                "cache_creation_input_tokens": 512,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 512,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-19 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 31924,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 35427,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1179
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 23384,
+            "cache_read_input_tokens": 5070,
+            "output_tokens": 3468,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 23384
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3468,
+                "cache_read_input_tokens": 5070,
+                "cache_creation_input_tokens": 23384,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 23384,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "bank-forward-quote.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "treasury-policy-v3-2025.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "treasury-policy-v1-2021.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.poundsterlinglive.com/history/EUR-usd-2026",
+    "https://www.banque-france.fr/system/files/2026-10/Monetary_policy_decisions_29-10.pdf",
+    "https://stockanalysis.com/news/fed-holds-rates-steady-oct-2026/",
+    "https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/currency-exchange-rates-understanding-equilibrium-value",
+    "https://www.nber.org/papers/w1732.pdf",
+    "https://core.ac.uk/works/2818706",
+    "https://30rates.com/eur-usd-forecast-tomorrow-this-week",
+    "https://fxstreet.com/news/euro-policy-risks-could-revive-swings-against-us-dollar-commerzbank-202611020632",
+    "https://dart.deloitte.com/USDART/home/codification/broad-transactions/asc815-10/hedge-accounting/chapter-5-foreign-currency-hedges/5-3-foreign-currency-cash-flow"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 20 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 0.75 * 8_000_000 = 6000000 (claimed 6000000) → match",
+    "Calculation K2 re-executed: 0.5 * 8_000_000 = 4000000 (claimed 4000000) → match",
+    "Calculation K3 re-executed: 6_000_000 * 1.1810 = 7086000 (claimed 7086000) → match",
+    "Calculation K4 re-executed: (1.1810 / 1.1650 - 1) * 100 = 1.3733905579399242 (claimed 1.373) → match",
+    "Calculation K5 re-executed: (1.1810 / 1.1650 - 1) * 365 / 263 * 100 = 1.9060363256580697 (claimed 1.906) → match",
+    "Calculation K6 re-executed: 8_000_000 * 1.12 = 8960000 (claimed 8960000) → match",
+    "Calculation K7 re-executed: (1.12 / 1.1650 - 1) * 100 = -3.862660944205998 (claimed -3.863) → match",
+    "Calculation K8 re-executed: 1.1650 * (1 + 0.03875 * 263 / 360) / (1 + 0.025 * 263 / 360) = 1.1764926856714177 (claimed 1.1765) → match",
+    "Calculation K9 re-executed: 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) = 6774620.689655174 (claimed 6774600) → match",
+    "Calculation K10 re-executed: 19 + 31 + 31 + 28 + 31 + 30 + 31 + 15 = 216 (claimed 216) → match",
+    "Calculation K11 re-executed: 6_000_000 * 1.1810 - 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) = 311379.31034482643 (claimed 311400) → match",
+    "Calculation K12 re-executed: (8_000_000 - 6_000_000) * 0.01 = 20000 (claimed 20000) → match",
+    "Calculation K13 re-executed: 8_000_000 * 0.01 = 80000 (claimed 80000) → match",
+    "Calculation K14 re-executed: 2_000_000 * 0.20 = 400000 (claimed 400000) → match",
+    "Calculation K15 re-executed: 8_000_000 * 0.20 = 1600000 (claimed 1600000) → match",
+    "Calculation K16 re-executed: 8 * sqrt(216 / 365) = 6.154183341657911 (claimed 6.154) → match",
+    "Calculation K17 re-executed: 1.12 * (1 - 0.08 * sqrt(216 / 365)) = 1.0510731465734315 (claimed 1.0511) → match",
+    "Calculation K18 re-executed: 1.12 * (1 + 0.08 * sqrt(216 / 365)) = 1.1889268534265687 (claimed 1.1889) → match",
+    "Calculation K19 re-executed: 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) = 1.1291034482758624 (claimed 1.1291) → match",
+    "Calculation K20 re-executed: 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12 * (1 - 0.08 * sqrt(216 / 365)) = 8876766.982802037 (claimed 8876800) → match",
+    "Calculation K21 re-executed: 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12 = 9014620.689655174 (claimed 9014600) → match",
+    "Calculation K22 re-executed: 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12 * (1 + 0.08 * sqrt(216 / 365)) = 9152474.39650831 (claimed 9152500) → match",
+    "Calculation K23 re-executed: 8_000_000 * 1.12 * (1 - 0.08 * sqrt(216 / 365)) = 8408585.17258745 (claimed 8408600) → match",
+    "Calculation K24 re-executed: 8_000_000 * 1.12 * (1 + 0.08 * sqrt(216 / 365)) = 9511414.82741255 (claimed 9511400) → match",
+    "Calculation K25 re-executed: 2 * 2_000_000 * 1.12 * 0.08 * sqrt(216 / 365) = 275707.4137062744 (claimed 275700) → match",
+    "Calculation K26 re-executed: 2 * 8_000_000 * 1.12 * 0.08 * sqrt(216 / 365) = 1102829.6548250976 (claimed 1102800) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html — getaddrinfo ENOTFOUND ecb.europa.eu. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n",
+    "Fetch failed: https://federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm — getaddrinfo ENOTFOUND federalreserve.gov. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or d",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Supplied v3 says it supersedes v1/v2 and sets 75%, but nothing supplied confirms this against board minutes or governance records, v2 was not supplied, and no information on later versions or exceptions exists.",
+    "Knowledge gap G3 unresolved: Whether an Audit Committee deviation has been requested or granted is internal information and not available.",
+    "Knowledge gap G4 unresolved: No live dealable EUR/USD forward for value 2027-06-15 and no matched-tenor EUR/USD OIS rates were obtained. Spot (~1.12 in early Nov 2026) comes from search snippets only. WebFetch to ecb.europa.eu and federalreserve.gov failed because those hosts are not allowed in this session's network settings, so no further fetches were tried.",
+    "Knowledge gap G5 unresolved: No numeric current EUR/USD implied volatility for a ~7-month or 1-year tenor was found, so volatility-band scenarios need a market-data or bank quote.",
+    "Knowledge gap G6 unresolved: Receivable payment history, contract terms, credit lines and hedge-accounting election are internal and unavailable. ASC 815 guidance was seen only in search snippets."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Whether v3 is genuinely the board-approved policy in force, and whether a later version, a rescission or an approved exception exists (E20).",
+    "The content of v2, which was not supplied (E4).",
+    "The live spot and forward for value 2027-06-15. The current spot (~1.12, last reported close 1.1142) comes only from search summaries (E8).",
+    "Matched-tenor EUR and USD interest rates, and the rates in force on 2026-09-25. The parity checks use October policy rates as proxies (E9, E10, E11).",
+    "Current 7-month or 1-year EUR/USD implied volatility. The scenario bands use an assumed 8% that may differ materially from market (E17).",
+    "Receivable payment reliability and timing, whether the receivable is already recognised, credit lines and hedge-accounting election (E21, E18).",
+    "Whether s.4.1 maturity is measured from booking or from hedge date. Both appear to be within 12 months (E19).",
+    "E17 UNKNOWN: The current EUR/USD implied volatility for a ~7-month (to June 2027) or 1-year tenor could not be found.",
+    "E20 UNKNOWN: No evidence was found of a policy version later than v3, of an approved exception, or of an Audit Committee deviation request or approval for this exposure. The authenticity of the supplied files and the v3 approval date were not confirmed against governance records.",
+    "E21 UNKNOWN: The customer's payment history and contract terms, the certainty of the 15 June 2027 timing and amount, bank credit lines for forwards, and the hedge-accounting election are all unknown.",
+    "Open question the reviewer judged decisive: Do board minutes or governance records confirm that Treasury Policy v3 (2025-04-22) is in force, with no later version, rescission or Audit Committee exception for this exposure? What did v2 say?",
+    "Open question the reviewer judged decisive: What are the customer's contract terms and payment history? Is there material risk of late or partial payment that would justify a window forward or a smaller hedge through an Audit Committee deviation?"
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T06:39:47.992Z",
+        "reasons": [
+          "[coverage/major] D1 [criteriaAssessments C4; CL12, CL13; K12-K15; verdict] C4 asks for a quantified range of USD outcomes, hedged vs unhedged. The draft gives only sensitivities (USD 20k vs 80k per 0.01) and outcome spreads (USD 0.4M vs 1.6M) over an arbitrary ±0.10 band. It never shows USD proceeds at any rate, e.g. hedged = 6M x F + 2M x S_T vs unhedged = 8M x S_T at S_T = 1.02 / 1.12 / 1.22. The decision objective also asks for the forecast question to be framed as the forward plus a range of possible outcomes. No range of rates is given beyond the hypothetical ±0.10. Since no live implied vol was found (E17), the draft could have used a clearly labelled assumed vol, e.g. 7-9% annualised. That gives a 1-sigma move of about 5.4-6.9% over about 0.59 years, roughly ±0.06-0.08 around 1.12. Instead the ±0.10 band is not tied to any likelihood, so the treasurer cannot see how big a typical outcome is."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [CL3; counterarguments item 3] Draft 2 adds a fallback for the case where v3 can't be confirmed before the trade: execute EUR 4M now and the remaining EUR 2M once v3 is confirmed. Review-1 D5 proposed this, so the draft is not at fault for including it, but the review's suggestion was incomplete. If v3 is in force, holding back EUR 2M is itself a hedge below 75%. Under s.4.3 that is a deviation needing Audit Committee approval, and the draft never says so. It also never weighs the opposite error. If v1 turned out to govern, hedging EUR 6M would be an over-hedge, and whether that breaches v1 is unknown. The draft calls the delay 'a temporary under-hedge' and says it 'limits the risk', without showing that it does. It should either record the interim under-hedge as a deviation (for example by getting quick Audit Committee sign-off or confirmation) or explain why under-hedging is the safer error.",
+        "[minor/reviewer] D3 [criteriaAssessments C4; CL16; K21 vs K6] The new C4 scenarios centre future spot on 1.12 (random walk), but the hedged leg is valued at the 1.1291 parity forward. At the centre, hedged proceeds (K21, USD 9,014,620) therefore exceed unhedged (K6, USD 8,960,000) by about USD 54.6k. The draft doesn't explain this. A reader could take it as hedging having a positive expected payoff, when the gap is just the forward carry and the choice of centring convention. If the distribution were centred on the forward instead, the two centres would be equal. The draft should state this, or show both centrings."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [CL3 calculationIds; counterarguments item 3 response] K12 is the USD sensitivity calculation ((8M-6M) x 0.01 = USD 20,000). Draft 2 cites it as the 'basis' for the EUR 2M residual and the EUR 2M top-up in the staged-execution text, and adds it to CL3's calculationIds. K12 does not compute either EUR figure. The EUR 2M figures come from K1 minus K2, or a new calculation such as 8M - 6M."
+      ]
+    }
+  },
+  "certified": true
+}

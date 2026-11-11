@@ -1,0 +1,240 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [CL3; counterarguments item 3] Draft 2 adds a fallback for the case where v3 can't be confirmed before the trade: execute EUR 4M now and the remaining EUR 2M once v3 is confirmed. Review-1 D5 proposed this, so the draft is not at fault for including it, but the review's suggestion was incomplete. If v3 is in force, holding back EUR 2M is itself a hedge below 75%. Under s.4.3 that is a deviation needing Audit Committee approval, and the draft never says so. It also never weighs the opposite error. If v1 turned out to govern, hedging EUR 6M would be an over-hedge, and whether that breaches v1 is unknown. The draft calls the delay 'a temporary under-hedge' and says it 'limits the risk', without showing that it does. It should either record the interim under-hedge as a deviation (for example by getting quick Audit Committee sign-off or confirmation) or explain why under-hedging is the safer error."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C4; CL16; K21 vs K6] The new C4 scenarios centre future spot on 1.12 (random walk), but the hedged leg is valued at the 1.1291 parity forward. At the centre, hedged proceeds (K21, USD 9,014,620) therefore exceed unhedged (K6, USD 8,960,000) by about USD 54.6k. The draft doesn't explain this. A reader could take it as hedging having a positive expected payoff, when the gap is just the forward carry and the choice of centring convention. If the distribution were centred on the forward instead, the two centres would be equal. The draft should state this, or show both centrings."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [CL3 calculationIds; counterarguments item 3 response] K12 is the USD sensitivity calculation ((8M-6M) x 0.01 = USD 20,000). Draft 2 cites it as the 'basis' for the EUR 2M residual and the EUR 2M top-up in the staged-execution text, and adds it to CL3's calculationIds. K12 does not compute either EUR figure. The EUR 2M figures come from K1 minus K2, or a new calculation such as 8M - 6M."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.75 * 8_000_000",
+      "claimed": 6000000,
+      "actual": 6000000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0.5 * 8_000_000",
+      "claimed": 4000000,
+      "actual": 4000000,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "6_000_000 * 1.1810",
+      "claimed": 7086000,
+      "actual": 7086000,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(1.1810 / 1.1650 - 1) * 100",
+      "claimed": 1.373,
+      "actual": 1.3733905579399242,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(1.1810 / 1.1650 - 1) * 365 / 263 * 100",
+      "claimed": 1.906,
+      "actual": 1.9060363256580697,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "8_000_000 * 1.12",
+      "claimed": 8960000,
+      "actual": 8960000,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1.12 / 1.1650 - 1) * 100",
+      "claimed": -3.863,
+      "actual": -3.862660944205998,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "1.1650 * (1 + 0.03875 * 263 / 360) / (1 + 0.025 * 263 / 360)",
+      "claimed": 1.1765,
+      "actual": 1.1764926856714177,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360)",
+      "claimed": 6774600,
+      "actual": 6774620.689655174,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "19 + 31 + 31 + 28 + 31 + 30 + 31 + 15",
+      "claimed": 216,
+      "actual": 216,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "6_000_000 * 1.1810 - 6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360)",
+      "claimed": 311400,
+      "actual": 311379.31034482643,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(8_000_000 - 6_000_000) * 0.01",
+      "claimed": 20000,
+      "actual": 20000,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "8_000_000 * 0.01",
+      "claimed": 80000,
+      "actual": 80000,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "2_000_000 * 0.20",
+      "claimed": 400000,
+      "actual": 400000,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "8_000_000 * 0.20",
+      "claimed": 1600000,
+      "actual": 1600000,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "8 * sqrt(216 / 365)",
+      "claimed": 6.154,
+      "actual": 6.154183341657911,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1.12 * (1 - 0.08 * sqrt(216 / 365))",
+      "claimed": 1.0511,
+      "actual": 1.0510731465734315,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "1.12 * (1 + 0.08 * sqrt(216 / 365))",
+      "claimed": 1.1889,
+      "actual": 1.1889268534265687,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360)",
+      "claimed": 1.1291,
+      "actual": 1.1291034482758624,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12 * (1 - 0.08 * sqrt(216 / 365))",
+      "claimed": 8876800,
+      "actual": 8876766.982802037,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12",
+      "claimed": 9014600,
+      "actual": 9014620.689655174,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "6_000_000 * 1.12 * (1 + 0.03875 * 216 / 360) / (1 + 0.025 * 216 / 360) + 2_000_000 * 1.12 * (1 + 0.08 * sqrt(216 / 365))",
+      "claimed": 9152500,
+      "actual": 9152474.39650831,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "8_000_000 * 1.12 * (1 - 0.08 * sqrt(216 / 365))",
+      "claimed": 8408600,
+      "actual": 8408585.17258745,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "8_000_000 * 1.12 * (1 + 0.08 * sqrt(216 / 365))",
+      "claimed": 9511400,
+      "actual": 9511414.82741255,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "2 * 2_000_000 * 1.12 * 0.08 * sqrt(216 / 365)",
+      "claimed": 275700,
+      "actual": 275707.4137062744,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "2 * 8_000_000 * 1.12 * 0.08 * sqrt(216 / 365)",
+      "claimed": 1102800,
+      "actual": 1102829.6548250976,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "Do board minutes or governance records confirm that Treasury Policy v3 (2025-04-22) is in force, with no later version, rescission or Audit Committee exception for this exposure? What did v2 say?",
+    "What are the customer's contract terms and payment history? Is there material risk of late or partial payment that would justify a window forward or a smaller hedge through an Audit Committee deviation?"
+  ]
+}

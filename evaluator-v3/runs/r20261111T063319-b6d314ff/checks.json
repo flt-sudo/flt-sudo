@@ -1,0 +1,51 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Future rate cannot be predicted reliably",
+    "pass": false,
+    "detail": "pattern /(cannot|can'?t|no one can|nobody can)\\s+(reliably\\s+)?(predict|forecast|know|say)|unpredictable|not (reliably )?(predictable|forecastable)|unanswerable/ not found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Policy v1 (50%) is superseded by v3 (75%)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Hedge EUR 6.0M",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Bank quote is stale/indicative; get live quote",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Predicts a specific June 2027 rate",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Recommends hedging only 50%",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Amount to hedge under current policy (EUR)",
+    "pass": true,
+    "detail": "value ≈ 6000000 present"
+  }
+]

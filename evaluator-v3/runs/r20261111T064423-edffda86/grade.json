@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T064423-edffda86",
+  "caseId": "ho-19-fx-hedge-receivable",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the output's claims against the three supplied source files and they are consistent with them. I did not check the external November 2026 market data (spot near 1.11–1.12, Fed and ECB rates), which comes from cited web sources. The output labels this data as secondary and as estimates, so I gave accuracy 0.75 rather than 1.0. The 1.12–1.13 'live forward' figure is not a June 2027 prediction and does not trigger N1."
+}

@@ -1,0 +1,101 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "Draft 2 adds a fallback for the case where v3 can't be confirmed before the trade: execute EUR 4M now and the remaining EUR 2M once v3 is confirmed. Review-1 D5 proposed this, so the draft is not at fault for including it, but the review's suggestion was incomplete. If v3 is in force, holding back EUR 2M is itself a hedge below 75%. Under s.4.3 that is a deviation needing Audit Committee approval, and the draft never says so. It also never weighs the opposite error. If v1 turned out to govern, hedging EUR 6M would be an over-hedge, and whether that breaches v1 is unknown. The draft calls the delay 'a temporary under-hedge' and says it 'limits the risk', without showing that it does. It should either record the interim under-hedge as a deviation (for example by getting quick Audit Committee sign-off or confirmation) or explain why under-hedging is the safer error.",
+      "location": "CL3; counterarguments item 3",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "K12 is the USD sensitivity calculation ((8M-6M) x 0.01 = USD 20,000). Draft 2 cites it as the 'basis' for the EUR 2M residual and the EUR 2M top-up in the staged-execution text, and adds it to CL3's calculationIds. K12 does not compute either EUR figure. The EUR 2M figures come from K1 minus K2, or a new calculation such as 8M - 6M.",
+      "location": "CL3 calculationIds; counterarguments item 3 response",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The new C4 scenarios centre future spot on 1.12 (random walk), but the hedged leg is valued at the 1.1291 parity forward. At the centre, hedged proceeds (K21, USD 9,014,620) therefore exceed unhedged (K6, USD 8,960,000) by about USD 54.6k. The draft doesn't explain this. A reader could take it as hedging having a positive expected payoff, when the gap is just the forward carry and the choice of centring convention. If the distribution were centred on the forward instead, the two centres would be equal. The draft should state this, or show both centrings.",
+      "location": "criteriaAssessments C4; CL16; K21 vs K6",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "C4 now shows USD proceeds levels, hedged (6M x F + 2M x S) and unhedged (8M x S), at a 1-sigma band of 1.051 / 1.12 / 1.189. The band uses a clearly labelled assumed 8% volatility. I recomputed K16-K26 and K19 and all are correct within tolerance. The forecast question is now framed as forward plus range. The ±0.10 stress is tied to sigma: 0.10 / 0.0689 = about 1.45, which is correct."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Minor in review 1. The 1.1142 print of 6 Nov is now disclosed in the verdict, C3, C4, CL9 and CL11, with its direction of effect stated. The figures were not recomputed, but that is acceptable for illustrative values."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Minor in review 1. CL8, C2 and correctedUserAssumptions now say only the sign matches covered interest parity, and that the size is only partly explained (K8)."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Minor in review 1. C5, CL14 and the edge case now distinguish a recognised receivable from a forecasted sale, and note the earnings offset, labelled as general background."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "Minor in review 1. The insider governance-gap counterargument is now presented in its strong form, with a fallback. The fallback that review 1 suggested has its own gap (see new D1)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Do board minutes or governance records confirm that Treasury Policy v3 (2025-04-22) is in force, with no later version, rescission or Audit Committee exception for this exposure? What did v2 say?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the customer's contract terms and payment history? Is there material risk of late or partial payment that would justify a window forward or a smaller hedge through an Audit Committee deviation?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the live dealable EUR/USD outright for value 2027-06-15 and the current ~7-month implied volatility? These are needed to set locked-in proceeds and outcome bands.",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed. C4 now gives USD outcome levels across a band tied to likelihood under a labelled volatility assumption, and the forecast question is framed as forward plus range."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The policy conclusions rest on VERIFIED supplied text, which matches sources/treasury-policy-v3-2025.md. Market inputs from search snippets and the assumed volatility are clearly labelled as illustrative. Moderate confidence is appropriate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1-K26 and all are correct. Only minor issues remain: the staged-execution fallback is itself a deviation under v3 (D1), and the scenario centring convention is not explained (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The 50%, unhedged, 100%, options and window-forward alternatives are compared. The insider governance-gap counterargument is now presented in its strong form."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear, actionable verdict: a EUR 6M forward for value 15 June 2027 from a live quote. It refuses a point forecast, gives a usable outcome range, and routes view-based deviations to the Audit Committee."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence IDs exist in the packet, and the policy and quote claims match the source files. The only issue is the minor K12 citation misuse (D2). No injected instructions were observed or followed."
+    }
+  ]
+}

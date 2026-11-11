@@ -1,0 +1,91 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "C4 asks for a quantified range of USD outcomes, hedged vs unhedged. The draft gives only sensitivities (USD 20k vs 80k per 0.01) and outcome spreads (USD 0.4M vs 1.6M) over an arbitrary ±0.10 band. It never shows USD proceeds at any rate, e.g. hedged = 6M x F + 2M x S_T vs unhedged = 8M x S_T at S_T = 1.02 / 1.12 / 1.22. The decision objective also asks for the forecast question to be framed as the forward plus a range of possible outcomes. No range of rates is given beyond the hypothetical ±0.10. Since no live implied vol was found (E17), the draft could have used a clearly labelled assumed vol, e.g. 7-9% annualised. That gives a 1-sigma move of about 5.4-6.9% over about 0.59 years, roughly ±0.06-0.08 around 1.12. Instead the ±0.10 band is not tied to any likelihood, so the treasurer cannot see how big a typical outcome is.",
+      "location": "criteriaAssessments C4; CL12, CL13; K12-K15; verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "E8 reports a 6 Nov 2026 close of 1.1142, the most recent data point, below the 1.1219 on 5 Nov. The draft rounds spot to 'about 1.12' everywhere (K6, K7, K9, K11) and does not mention the later, lower print. Using 1.1142 gives an illustrative parity forward of about 1.1233 and about USD 6.74M on EUR 6M, not 6.77M. The stale-quote overstatement becomes about USD 0.35M, not 0.31M. The direction is unchanged, but this is selective rounding of the source.",
+      "location": "CL9, CL11; K7, K9, K11; verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "CL8 states flatly that the quoted forward premium 'reflects the USD-EUR interest-rate differential'. The draft's own K8 implies a parity forward of 1.1765, a premium of about 0.0115, against the quoted 0.0160. So about 28% of the quoted premium is unexplained by the policy-rate gap. The sign matches covered interest parity, but the size does not. CL8 should say only the sign is consistent, in line with the hedging already in CL10 and E11.",
+      "location": "CL8; criteriaAssessments C2; correctedUserAssumptions (forward premium)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The hedge-accounting failure mode ('Mark-to-market changes then hit earnings', E18) and the C5 mechanism (OCI vs earnings) ignore a basic point. For a recognised EUR receivable, ASC 830 remeasurement already goes through earnings and largely offsets the forward's mark-to-market. Hedge accounting is therefore often optional for receivable hedges. Presenting the absence of documentation as a failure mode overstates the accounting risk. It also skips the receivable-recognised vs forecasted-sale distinction that E18 itself raises.",
+      "location": "criteriaAssessments C5 mechanisms; edgeCasesAndFailureModes item 3; CL14",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The strongest version of the policy counterargument is left out. The user, an insider, says the policy is 50%. That could mean v3 was never adopted, was rescinded, or that v2 (not supplied) changed the rules. Instead the draft rebuts a weaker version ('everyone in treasury works to the 50% rule'). The caveat appears only as E20 in passing. The draft should treat the user's statement as possible evidence of a governance gap. It should also say what to do if v3 cannot be confirmed before the trade (e.g. execute the 50% that both versions require now, and the extra 25% once confirmed).",
+      "location": "counterarguments item 3; CL3",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Do board minutes or governance records confirm that Treasury Policy v3 (2025-04-22) is in force, with no later version, no rescission and no Audit Committee exception for this exposure? What did v2 say?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the customer's contract terms and payment history? Is there material risk of late or partial payment that would justify a window forward or a smaller hedge through an Audit Committee deviation?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the live dealable EUR/USD outright for value 2027-06-15, and the current ~7-month implied volatility, needed to set locked-in proceeds and outcome bands?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "All criteria are addressed, but C4 (weight 15) has no USD outcome levels and no likelihood-anchored range. The forecast question is not framed as the forward plus a range, as the decision objective asks."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Policy conclusions rest on VERIFIED supplied text. Snippet-level market evidence is flagged as such and used only for illustration. The confidence level is appropriately moderate. Only minor selective rounding of spot."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed all calculations (K1-K15, including the 263 and 216 day counts and the parity forwards) and they are correct. The supersession reasoning is sound. There are minor overstatements in CL8 and on hedge-accounting consequences."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The 50%, unhedged, 100%, options and window-forward alternatives are compared against the policy. The policy-status counterargument is somewhat strawmanned, but its caveat is acknowledged."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear and actionable (EUR 6M forward for 15 June 2027 from a live quote). It correctly refuses a point forecast and routes view-based deviations to the Audit Committee."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence IDs exist in the packet. Policy and quote claims match the source files. No injected instructions were observed or followed."
+    }
+  ]
+}

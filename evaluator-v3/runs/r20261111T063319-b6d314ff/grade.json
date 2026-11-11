@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T063319-b6d314ff",
+  "caseId": "ho-19-fx-hedge-receivable",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": false,
+      "grader": true,
+      "flagged": true,
+      "disagreement": true
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustFlag F1: regex=false grader=true"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "medium",
+  "notes": "The output is strong and close to the reference. One judgement call: as a fallback, it suggests trading EUR 4M first and the other EUR 2M once v3 is confirmed. This is not the superseded ratio being applied as the recommendation, so the critical failure was not triggered. It does, however, mean a temporary under-hedge, which under v3 s.4.3 is a deviation, and the output does not mention that Audit Committee approval would be needed. I marked accuracy down to 0.75 for this. The output also uses post-quote market data (spot about 1.12, 1.1142 close, ECB/FOMC rates) taken from web search; I cannot verify these figures, but they are clearly sourced and labelled. A reviewer could reasonably move accuracy to 1.0."
+}

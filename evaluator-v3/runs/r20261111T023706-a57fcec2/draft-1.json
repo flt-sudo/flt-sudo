@@ -1,0 +1,562 @@
+{
+  "verdict": "Do not approve the active-active two-region project as proposed for next quarter. Re-scope it. First, fund targeted fixes for the failure modes the incident log actually shows: progressive/canary deploys with automated rollback, schema-migration and config validation, certificate auto-renewal and expiry monitoring, and a fallback for the third-party payment API. Second, treat region loss as a separate tail risk and size a cheaper warm-standby or pilot-light DR option for it, once the ledger's consistency model and RPO/RTO are defined. The case for the project rests on three premises, and the evidence contradicts all three. (1) The contract target is 99.95% over a 30-day month, a budget of 21.6 min/month. It is not 99.99%, and 99.99% allows only 4.32 min/month, not about 52; 52.56 min is the yearly figure. (2) The 12-month log shows 0 region-wide outages. Bad deploys account for 92 of 115 customer-facing minutes (80%), and active-active would not clearly have prevented any of the 115 minutes. (3) The estimate requires 2 engineers for 2 quarters with the ledger consistency model still TBD, which conflicts with delivery next quarter. On a truncating reading of clause C.2, the two SLA misses (38 min in 2026-01, 22 min in 2026-08) triggered no service credit. Whether the full ~$492k/yr infrastructure spend could ever be justified cannot be determined, because Halvorsen's monthly fees and any termination or chronic-breach terms are not in the packet. Those terms, a confirmed provider/region outage base rate, and internal cost estimates for the alternatives would resolve it.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Poor fit. Bad deploys caused 92 of 115 customer-facing minutes (80%). Certificate expiry caused 11, the third-party payment API 9, and a single-AZ outage 3, which auto-failover already handled within one region. No minutes came from a region-wide outage. A second active region does not by itself prevent deploy, config, certificate or third-party failures.",
+      "mechanisms": "Active-active protects against failures scoped to one region (loss of a region's infrastructure). Deploys, config pushes and certificates are usually shared across regions, so a bad change rolled out globally takes both regions down together. A third-party API outage is outside the company's regions entirely. Multi-region helps with change-induced failures only if rollouts are staged region by region with health gating. The same progressive-rollout and automated-rollback approach can be applied within one region, using canaries or cells, at much lower cost. External SRE material reports that change is the dominant cause of outages, which matches the log.",
+      "strengths": [
+        "Would protect against a full region outage, a class of event that does occur (us-east-1 in Oct 2025, ~14.5h; Dec 2021, ~7h)",
+        "Region-staged rollout across two regions could contain some bad deploys if adopted together with it"
+      ],
+      "weaknesses": [
+        "Leaves the dominant cause of downtime (bad deploys, 80% of minutes) untouched unless deploy practice also changes",
+        "The one infrastructure incident (single AZ, 3 min) was already mitigated in-region",
+        "0 region-wide outages affected the company in the 12-month log"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E16",
+        "E13",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The VP's arithmetic is wrong and the contract target is lower than the VP assumes. Over a 30-day month, 99.95% allows 21.6 min and 99.99% allows 4.32 min. The ~52.56 min figure is the yearly allowance at 99.99%. Against the 99.95% budget only two months missed: 2026-01 (38 min, ~99.912%) and 2026-08 (22 min, ~99.949%, over by 0.4 min). Adopting 99.99% would turn 6 of the 7 incident months into misses, since only the 3-minute month stays under 4.32 min.",
+      "mechanisms": "Monthly budget = (1 - target) x 43,200 minutes in a 30-day month. Mixing up yearly and monthly allowances overstates the 99.99% budget by about 12x. Clause C.1 fixes the target at 99.95% over a 30-day month, excluding scheduled maintenance announced 72h ahead.",
+      "strengths": [
+        "The contract target is directly verified from Schedule C",
+        "With the dominant failure modes reduced, the current 99.95% budget looks attainable without multi-region"
+      ],
+      "weaknesses": [
+        "The log has not been reconciled with the contract's measurement rules (definition of available, degraded states, maintenance exclusions), so the two misses may not be contractual breaches",
+        "The canonical SRE availability table could not be fetched; the arithmetic is standard and checked here independently"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E7",
+        "E3",
+        "E8",
+        "E6",
+        "E19"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Measured credit exposure has been small. On a truncating reading of C.2, the first 10% credit tier needs availability at or below 99.85%, which is 64.8 min of downtime in a 30-day month. The worst month was 38 min, so no credit appears to have been owed in the last 12 months. The real size of the risk (customer loss, termination for chronic breach) cannot be determined: monthly fees, contract value and any termination or renewal terms are not in the packet.",
+      "mechanisms": "Credits are a step function: 10% of monthly fees per full 0.1% below 99.95%. Small misses like 22 or 38 minutes fall below the first step. Break-even: credits alone could offset $41k/month of infrastructure only if a first-tier credit occurred every month on a monthly fee of at least $410k. The excerpt shows no cap on credits. A single 14.5-hour regional outage like the Oct 2025 us-east-1 event would leave availability about 1.96 points below target, i.e. 19 full 0.1% steps, or a 190% credit on that month's fee if uncapped. That tail risk is the strongest financial argument for some regional resilience.",
+      "strengths": [
+        "The credit mechanism is verified, so exposure for ordinary incidents can be bounded",
+        "Recent history suggests $0 in credits, on the truncating interpretation"
+      ],
+      "weaknesses": [
+        "The fee amount is unknown, so dollar exposure cannot be computed",
+        "No chronic-breach or termination terms are visible; relationship and renewal risk may outweigh credits",
+        "How 'full 0.1%' is applied is inferred, not confirmed",
+        "There is no visible cap, so a long regional outage could produce a credit larger than a month's fee"
+      ],
+      "evidenceIds": [
+        "E2",
+        "E8",
+        "E9",
+        "E1",
+        "E10",
+        "E19"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "The proposed spend is at least $492k/yr in infrastructure plus 2 engineers for 2 quarters (one engineer-year). It excludes ongoing operational overhead, licensing, and cross-region replication or data-transfer costs. Cheaper targeted measures address the 103 minutes from deploy and certificate causes directly. Warm standby or pilot light hedges region loss at lower cost and complexity than active-active, according to AWS DR guidance. No company-specific cost figures exist for the alternatives, so the comparison is directional rather than quantified.",
+      "mechanisms": "Cost-effectiveness depends on minutes avoided per dollar. The active-active project avoids roughly 0 of the observed minutes. Deploy safety and certificate automation target up to 103 of 115. For region loss, warm standby (RTO/RPO in minutes) trades a short failover outage for much lower steady-state cost than running two full active sites.",
+      "strengths": [
+        "The platform estimate gives a clear infrastructure baseline ($41k/month)",
+        "AWS guidance explicitly reserves active/active for cases where business requirements necessitate it"
+      ],
+      "weaknesses": [
+        "The TCO is understated: no loaded engineering cost, operational overhead or database replication costs",
+        "There are no internal estimates for the alternatives' cost or downtime reduction",
+        "The engineering cost in dollars cannot be computed from the packet"
+      ],
+      "evidenceIds": [
+        "E5",
+        "E14",
+        "E17",
+        "E4"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "High implementation risk. The ledger database needs multi-region writes, but its consistency model and RPO/RTO are 'TBD with product/finance'. Active-active writes on a financial ledger bring conflict, split-brain and latency risk. The 2-quarter engineering estimate conflicts with delivery next quarter.",
+      "mechanisms": "Multi-leader writes make conflicting updates unavoidable. Ledger invariants spanning several records are among the hardest cases to reconcile. A two-site design without a third-location quorum or witness risks split-brain. Synchronous cross-region commit adds roughly 100-200 ms per write, from a low-authority source. The common pattern for ledgers is strong consistency with home-region routing, or active-passive. During migration, new failover and replication paths are new sources of change-induced outages, the very category that already dominates the log.",
+      "strengths": [
+        "Defining the ledger RPO/RTO is useful whichever option is chosen"
+      ],
+      "weaknesses": [
+        "Consistency model undefined",
+        "Timeline not credible for next quarter",
+        "Risk of lowering availability during the transition",
+        "Sources on active-active conflict risk are low-authority snippets"
+      ],
+      "evidenceIds": [
+        "E5",
+        "E15",
+        "E18",
+        "E14"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Region loss is a real low-probability, high-impact risk. Two multi-hour us-east-1 events are documented (Oct 2025 ~14.5h; Dec 2021 ~7h). One such event would exceed the 21.6-minute monthly budget about 40 times over. That justifies some regional DR, but not necessarily active-active, and not on the basis of this contract's routine SLA performance. The provider and region in use and any other-customer, sales or regulatory requirements are unknown.",
+      "mechanisms": "Expected loss = frequency x impact. Frequency is low and has no authoritative base rate. Impact is large because of the uncapped step credits and possible customer loss. Warm standby or pilot light cuts the impact of a long regional outage from hours to minutes or tens of minutes at lower cost, and keeps the ledger single-writer.",
+      "strengths": [
+        "Documented regional events show the risk is not hypothetical",
+        "Regional DR may serve other customers or future sales requirements"
+      ],
+      "weaknesses": [
+        "No base rate for the company's own provider and region",
+        "No evidence of other customers or regulations requiring active-active"
+      ],
+      "evidenceIds": [
+        "E10",
+        "E11",
+        "E12",
+        "E14"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The contract target is 99.95% availability per 30-day month, not 99.99%.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Over a 30-day month, 99.95% allows 21.6 minutes of downtime and 99.99% allows 4.32 minutes. The ~52.56 minutes at 99.99% is a yearly allowance, so the VP's 'about 52 minutes a month' is wrong by roughly 12x.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E7",
+        "E6"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3",
+        "K15"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The 12-month log records 115 customer-facing minutes. Bad deploys caused 92 of them (80%), and region-wide outages caused 0.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K4",
+        "K5",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Active-active across two regions would not clearly have prevented any of the 115 logged minutes. Deploy, config and certificate failures rolled out to both regions take both down, a third-party API outage is outside the regions, and auto-failover already contained the AZ event in-region.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E16",
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "Two months missed the 99.95% target: 2026-01 at ~99.912% (38 min) and 2026-08 at ~99.949% (22 min, over budget by 0.4 min).",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E8"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "On a truncating reading of C.2, the first credit tier needs at least 64.8 minutes of downtime in a 30-day month. No month reached that, so no service credit appears to have been owed in the last 12 months.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E8"
+      ],
+      "calculationIds": [
+        "K9"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "Annual incremental infrastructure cost is $492,000, plus 2 engineers for 2 quarters. Neither figure includes operational overhead or database replication costs.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": [
+        "K10"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "Service credits alone could offset $41k/month of infrastructure only if a first-tier (10%) credit occurred every month on a monthly fee of at least $410,000.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E5"
+      ],
+      "calculationIds": [
+        "K11"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "The ledger consistency model and RPO/RTO are undefined, and the estimate needs 2 quarters of engineering. Completing the project next quarter is therefore not credible, and multi-region ledger writes carry conflict and split-brain risk.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E18",
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "A regional outage as long as the Oct 2025 us-east-1 event (~14.5h, 870 minutes) would exceed the 21.6-minute monthly budget about 40 times over. It would leave availability about 1.96 points below target, which is 19 full 0.1% credit steps if uncapped.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E10",
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "AWS DR guidance places warm standby and pilot light below active/active in cost and complexity, and advises choosing active/active only when business requirements necessitate it.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E14"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "The total financial exposure to Halvorsen cannot be determined: monthly fees, contract value, and any termination-for-chronic-breach or renewal terms are not in the supplied documents.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The annual probability of a full region outage at the company's provider and region cannot be determined from the packet, so expected regional-outage minutes cannot be quantified.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "The cost and downtime reduction of the targeted alternatives cannot be quantified for this company, because no internal estimates exist.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL15",
+      "text": "It cannot be determined whether the logged minutes match the contract's availability measurement, so it is unconfirmed whether the 2026-01 and 2026-08 misses are contractual breaches.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E19"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL16",
+      "text": "Change-induced failures are the dominant cause of outages in external SRE experience as well, which supports prioritising deploy safety.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E13"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Deploy safety: progressive/canary rollout, automated rollback, schema-migration discipline, config validation",
+      "comparison": "Targets the 92 of 115 minutes (80%) caused by bad deploys, which active-active does not address. It can be done in a single region. The packet has no company-specific cost, but it requires no duplicate infrastructure, unlike the $492k/yr in the proposal."
+    },
+    {
+      "option": "Certificate auto-renewal and expiry monitoring",
+      "comparison": "Targets the 11-minute certificate incident directly. Active-active would not help if certificates are shared across regions."
+    },
+    {
+      "option": "Third-party payment API fallback (retry/queue, secondary provider or graceful degradation)",
+      "comparison": "Targets the 9-minute third-party incident, which lies outside the company's regions; active-active does nothing for it."
+    },
+    {
+      "option": "Warm standby or pilot light DR in a second region",
+      "comparison": "Hedges the region-loss tail risk (e.g. a ~14.5h regional event) with RTO in minutes (warm standby) or tens of minutes (pilot light). AWS guidance puts it at lower cost and complexity than active/active, and it lets the ledger remain single-writer, avoiding multi-region write conflicts."
+    },
+    {
+      "option": "Approve active-active as proposed",
+      "comparison": "Removes regional-outage risk with near-zero RTO. It costs at least $492k/yr plus one engineer-year, removes approximately none of the observed minutes, and carries ledger consistency risk with an undefined RPO/RTO."
+    },
+    {
+      "option": "Defer the decision pending contract terms and ledger RPO/RTO",
+      "comparison": "Little cost, and it closes the main unknowns (fees, termination terms, provider base rate). Deploy-safety work should not wait for this."
+    }
+  ],
+  "tradeoffs": [
+    "Near-zero regional RTO (active-active) against far lower cost and complexity with a short failover outage (warm standby)",
+    "Spending on the observed dominant risk (deploys) against the unobserved but high-impact tail risk (region loss)",
+    "Strong ledger consistency against multi-region write availability: active-active ledgers must accept conflict handling or added cross-region latency",
+    "Engineering capacity: one engineer-year on multi-region is capacity not spent on deploy safety, which addresses 80% of minutes"
+  ],
+  "edgeCasesAndFailureModes": [
+    "A global config or deploy push reaches both active regions at once, causing a two-region outage despite the spend",
+    "Split-brain on the ledger in a two-site design without a third-location witness, producing conflicting financial records",
+    "Failover or replication-lag bugs introduced during migration add new change-induced outages in the transition period",
+    "Shared control-plane or global services (DNS, identity, certificate issuance) fail and take down both regions, as the Oct 2025 DNS-automation event shows can happen",
+    "A single long regional outage in a month leaves availability far below target; with no visible credit cap, credits could exceed the month's fee",
+    "Log minutes may undercount contractual downtime, e.g. degraded-but-up states, or overcount it, e.g. maintenance exclusions, changing the breach history",
+    "Calendar-month incidents that span a month boundary could be attributed differently under the 30-day measurement basis"
+  ],
+  "counterarguments": [
+    {
+      "argument": "Zero regional outages in 12 months does not mean the risk is low; regional outages are rare but catastrophic.",
+      "response": "Agreed that the tail risk is real: a 14.5h event would exceed the monthly budget about 40x. But it argues for regional DR sized to a defined RTO, not specifically active-active. Warm standby or pilot light is the cheaper hedge recommended by AWS guidance."
+    },
+    {
+      "argument": "Active-active with region-by-region staged deploys would also contain bad deploys.",
+      "response": "True only if staged rollout is adopted, and staged rollout with health gating and automated rollback can be done within one region at much lower cost. The containment comes from the deploy practice, not from the second active region."
+    },
+    {
+      "argument": "The largest customer may expect 99.99% or multi-region regardless of the contract.",
+      "response": "The verified contract says 99.95%. No evidence in the packet shows a 99.99% requirement from this or any other customer. If one exists, the 4.32 min/month budget would be breached in 6 of 7 incident months, and deploy safety would still be the first fix needed."
+    },
+    {
+      "argument": "Credits may be computed non-truncated, so past misses may have cost money.",
+      "response": "Possible: the interpretation of C.2 is inferred. Even so, the misses were 16.4 and 0.4 minutes over budget, both deploy-caused, so the fix they argue for is deploy safety, not multi-region."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "99.99% availability 'still gives us around 52 minutes of downtime a month'",
+      "correction": "99.99% allows 4.32 minutes per 30-day month. 52.56 minutes is the yearly allowance.",
+      "evidenceIds": [
+        "E7",
+        "E6"
+      ]
+    },
+    {
+      "assumption": "The company should target 99.99% availability for this contract",
+      "correction": "Schedule C clause C.1 requires 99.95% per 30-day month (21.6 min budget). Nothing in the packet requires 99.99%.",
+      "evidenceIds": [
+        "E1",
+        "E6"
+      ]
+    },
+    {
+      "assumption": "Region failure is the biggest availability risk",
+      "correction": "The 12-month log shows 0 region-wide outages. Bad deploys caused 92 of 115 minutes (80%). Region loss remains a low-frequency tail risk (documented multi-hour us-east-1 events), not the observed dominant cause. The log is verified primary data, so it is more reliable than the premise; the short 12-month window leaves the tail risk open.",
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E20",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "The incremental cost is about $41k/month",
+      "correction": "That covers infrastructure only ($492k/yr). Add 2 engineers for 2 quarters, plus unquantified operational overhead and database replication or data-transfer costs.",
+      "evidenceIds": [
+        "E5"
+      ]
+    },
+    {
+      "assumption": "The project can be delivered next quarter",
+      "correction": "The estimate needs 2 quarters of engineering, and the ledger consistency model and RPO/RTO are still TBD. Completion next quarter is not credible, though starting next quarter might be.",
+      "evidenceIds": [
+        "E5",
+        "E18"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Downtime allowed at 99.95% over a 30-day month, in minutes",
+      "expression": "(1 - 0.9995) * 30 * 1440",
+      "claimedResult": 21.6,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Downtime allowed at 99.99% over a 30-day month, in minutes",
+      "expression": "(1 - 0.9999) * 30 * 1440",
+      "claimedResult": 4.32,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Downtime allowed at 99.99% over a 365-day year, in minutes",
+      "expression": "(1 - 0.9999) * 365 * 1440",
+      "claimedResult": 52.56,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Total customer-facing minutes in the 12-month log",
+      "expression": "18 + 38 + 9 + 14 + 3 + 22 + 11",
+      "claimedResult": 115,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "Minutes caused by bad deploys (INC-311, 327, 344, 371)",
+      "expression": "18 + 38 + 14 + 22",
+      "claimedResult": 92,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "Share of logged minutes caused by bad deploys",
+      "expression": "92 / 115",
+      "claimedResult": 0.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Availability in 2026-01 (38 min downtime, 30-day month), percent",
+      "expression": "(1 - 38 / 43200) * 100",
+      "claimedResult": 99.912,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Availability in 2026-08 (22 min downtime, 30-day month), percent",
+      "expression": "(1 - 22 / 43200) * 100",
+      "claimedResult": 99.949,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Minimum monthly downtime for the first full 0.1% credit tier (availability at or below 99.85%)",
+      "expression": "21.6 + 0.001 * 43200",
+      "claimedResult": 64.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Annual incremental infrastructure cost in USD",
+      "expression": "41000 * 12",
+      "claimedResult": 492000,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K11",
+      "purpose": "Monthly fee at which one 10% credit per month equals $41k/month of infrastructure",
+      "expression": "41000 / 0.10",
+      "claimedResult": 410000,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Minutes by which 2026-08 exceeded the 99.95% monthly budget",
+      "expression": "22 - 21.6",
+      "claimedResult": 0.4,
+      "tolerance": 0.01
+    },
+    {
+      "id": "K13",
+      "purpose": "Ratio of a 14.5-hour regional outage to the 21.6-minute monthly budget",
+      "expression": "14.5 * 60 / 21.6",
+      "claimedResult": 40.3,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "Percentage points below the 99.95% target in a 30-day month with an 870-minute outage",
+      "expression": "99.95 - (1 - 870 / 43200) * 100",
+      "claimedResult": 1.964,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Factor by which the yearly 99.99% allowance overstates the 30-day monthly allowance",
+      "expression": "52.56 / 4.32",
+      "claimedResult": 12.17,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Reject or defer the active-active approval for next quarter; do not commit $492k/yr plus one engineer-year on the current premises",
+    "Prioritise canary/progressive deploys with automated rollback, schema-migration and config validation; these target 80% of logged downtime",
+    "Automate certificate renewal and add expiry alerting; add a fallback or graceful degradation for the payment API",
+    "Have product/finance define the ledger RPO/RTO and consistency model before choosing any multi-region design",
+    "Ask the platform team to cost warm-standby and pilot-light DR as the regional-loss hedge, and to confirm the provider and region in use",
+    "Get Halvorsen's fee level and the full contract (termination, chronic breach, renewal, credit cap) from legal or sales to size the real exposure",
+    "Reconcile the incident log with monitoring and the contract's availability definition to confirm the breach history"
+  ],
+  "remainingUncertainty": [
+    "Monthly fees, contract value, credit cap and termination or chronic-breach terms are unknown (E9)",
+    "How 'full 0.1%' is applied in credit calculation is inferred, not confirmed",
+    "The provider, region and base rate of region-wide outages are unknown (E12); regional event durations come from search snippets",
+    "There are no internal cost or effectiveness estimates for the targeted alternatives (E17)",
+    "Log completeness and alignment with the contract's measurement are unverified (E19)",
+    "Whether 'next quarter' means start or completion is unconfirmed (E18)",
+    "Sources on active-active ledger conflict risk are low-authority snippets (E15)"
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Contract terms showing termination for chronic breach, a 99.99% commitment, or very high fees with uncapped credits could raise the value of regional resilience",
+    "Evidence that other customers, sales deals or regulators require active-active or near-zero RTO",
+    "A provider/region-specific outage base rate showing frequent multi-hour regional events",
+    "Platform-team estimates showing warm standby costs close to active-active, or cannot meet a required RTO",
+    "A ledger RPO/RTO requirement of near-zero data loss and near-zero recovery time, which only active-active meets",
+    "Monitoring data showing materially more contractual downtime than the log records, including region-scoped degradations"
+  ]
+}

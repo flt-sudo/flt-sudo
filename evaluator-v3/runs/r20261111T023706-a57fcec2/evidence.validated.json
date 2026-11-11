@@ -1,0 +1,563 @@
+{
+  "records": [
+    {
+      "id": "E1",
+      "claim": "Schedule C clause C.1: the Provider shall make the Service available 99.95% of the time in each calendar month, measured over a 30-day month for SLA calculation purposes, excluding scheduled maintenance announced 72h in advance.",
+      "source": {
+        "kind": "fixture",
+        "ref": "contract-sla-clause.md",
+        "title": "Schedule C - Service Levels (Customer: Halvorsen Logistics)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Sets the contractual target at 99.95%, not 99.99%. Directly relevant to C2 and C3.",
+      "limitations": "This is an excerpt only. It does not define 'available' (e.g. partial degradation, error-rate thresholds) or how incidents are measured, and it says nothing on fees, termination, chronic breach or renewal.",
+      "contradicts": [
+        "E6"
+      ],
+      "gapIds": [
+        "G1",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E2",
+      "claim": "Schedule C clause C.2: service credits are 10% of monthly fees for each full 0.1% below target.",
+      "source": {
+        "kind": "fixture",
+        "ref": "contract-sla-clause.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Defines the credit mechanism and so bounds financial exposure (C3).",
+      "limitations": "Monthly fee amount not stated. The excerpt has no cap on credits and no termination or chronic-breach remedy. 'Full 0.1%' suggests truncation (step function), but the excerpt does not show how it is applied.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E3",
+      "claim": "The 12-month incident log lists 7 incidents with customer-facing minutes: 2025-11 INC-311 bad deploy (config) 18; 2026-01 INC-327 bad deploy (schema migration) 38; 2026-02 INC-330 third-party payment API 9; 2026-04 INC-344 bad deploy (feature flag) 14; 2026-06 INC-358 single AZ outage (auto-failover worked) 3; 2026-08 INC-371 bad deploy (config) 22; 2026-09 INC-379 certificate expiry 11. The annotation reads: 'region-wide outages affecting us in last 12 months: 0'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "incident-log-12m.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Primary data for the failure-cause mix (C1) and the monthly breach history (C2, C3).",
+      "limitations": "Covers 12 months only. It is not checked against monitoring data, and it does not say whether minutes follow the contract's availability definition or maintenance exclusions. Months with no incident are not listed (presumably 0 minutes).",
+      "contradicts": [
+        "E20"
+      ],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E4",
+      "claim": "Summing the log by category gives: total 115 customer-facing minutes; bad deploys (4 incidents) 92 minutes; certificate expiry 11; third-party payment API 9; single-AZ outage 3 (already mitigated by auto-failover); region-wide outage 0. Active-active across two regions would not clearly have prevented any of the 115 minutes. The AZ event was already handled within one region, and deploy, certificate and third-party failures are not region-scoped.",
+      "source": {
+        "kind": "fixture",
+        "ref": "incident-log-12m.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Core to C1 and G2. It indicates the dominant cause (about 80% of minutes) is change/deploy-related.",
+      "limitations": "These are my sums of fixture values, and the mapping to 'would active-active have prevented it' is my reasoning. A cert or deploy rolled out region-by-region with health gating could be partly contained by multi-region, but the same gating can be done within one region.",
+      "contradicts": [
+        "E20"
+      ],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic over fixture rows"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E5",
+      "claim": "Platform team estimate: incremental infra ~$41,000/month; engineering 2 engineers x 2 quarters; the ledger DB needs multi-region writes, and its consistency model and RPO/RTO targets are 'TBD with product/finance'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "multi-region-estimate.md",
+        "title": "Active-active estimate (platform team)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Cost basis for C4 and delivery/consistency risk for C5.",
+      "limitations": "Infrastructure only. No loaded engineering cost, ongoing ops overhead, DB licensing/replication or cross-region data-transfer breakdown. $41k x 12 = $492k/yr infra (my arithmetic).",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E6",
+      "claim": "VP Engineering's premise: the company should target 99.99%, which 'still gives us around 52 minutes of downtime a month', and region failure is the biggest risk. The project is proposed for next quarter at about $41k/month extra.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "The premises under test (C2, C1).",
+      "limitations": "This is a user-reported claim, and the evidence contradicts it (see E7, E1, E4).",
+      "contradicts": [
+        "E7",
+        "E1",
+        "E4"
+      ],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Taken from request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E7",
+      "claim": "Over a 30-day month, 99.95% availability allows 21 minutes 36 seconds of downtime (4h22m48s per 365-day year), and 99.99% allows about 4.3 minutes per month. Average-month bases give 21.92 and 4.38 minutes. The ~52.6 minutes at 99.99% is the yearly allowance, not the monthly one.",
+      "source": {
+        "kind": "web",
+        "ref": "https://hyperping.com/99.95",
+        "title": "hyperping.com"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://pulsetic.com/blog/what-does-99-9-percent-uptime-mean/",
+        "https://docs.percona.com/postgresql/16/solutions/ha-measure.html"
+      ],
+      "applicability": "Refutes the '52 minutes a month' premise (C2). The contract budget is 21.6 min per 30-day month.",
+      "limitations": "Based on search-result snippets, not fetched pages. The canonical Google SRE availability table (https://sre.google/sre-book/availability-table/) appeared in results but could not be fetched (host not resolvable in this session). The 52.6 min/year figure is standard arithmetic (0.0001 x 525,600) and is not quoted from a snippet.",
+      "contradicts": [
+        "E6"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Multiple independent search snippets agree; consistent with arithmetic 0.0005x43200=21.6, 0.0001x43200=4.32"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E20",
+      "claim": "Premise: region failure is the biggest availability risk (VP Engineering).",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "The C1 premise under test.",
+      "limitations": "The 12-month log contradicts it: 0 region-wide outages and 92/115 minutes from bad deploys.",
+      "contradicts": [
+        "E3",
+        "E4"
+      ],
+      "gapIds": [
+        "G2",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Taken from request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E8",
+      "claim": "Against the 21.6-minute monthly budget, two months exceeded the target: 2026-01 (38 min, roughly 99.912%) and 2026-08 (22 min, roughly 99.949%, which misses by about 0.4 min). All other months were within budget. A 'full 0.1%' shortfall below 99.95% (availability at or below 99.85%) needs at least 64.8 min of downtime in a 30-day month (21.6 + 43.2). No month came close, so on a truncating reading of C.2 no service credit was owed in the last 12 months.",
+      "source": {
+        "kind": "fixture",
+        "ref": "incident-log-12m.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "contract-sla-clause.md"
+      ],
+      "applicability": "Shows that SLA misses occurred but that credit exposure under C.2 has been $0 on this reading (C3). The 2026-08 miss is marginal.",
+      "limitations": "My arithmetic and interpretation. If 'full 0.1%' is measured differently (e.g. from 100%), or partial credits are applied, the result changes. Assumes the log minutes equal contractually measured downtime and that no exclusions apply. The plan's '0.1% ~ 43 minutes' implies the first credit tier starts at 64.8 cumulative minutes, not 43.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic over fixture values"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E9",
+      "claim": "Halvorsen's monthly fees, annual contract value, and any termination-for-chronic-breach, renewal or escalation terms are not available in the supplied documents.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Needed to size maximum avoidable exposure against about $492k/yr infra plus engineering (C3, C4).",
+      "limitations": "This is private contract data that web research cannot supply.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Not present in fixtures; not publicly discoverable"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E10",
+      "claim": "AWS us-east-1 had a region-scoped disruption on 19-20 October 2025, triggered by a latent race condition in DynamoDB's DNS management automation that left an empty DNS record for the regional endpoint. AWS's summary gives 11:48 PM PDT Oct 19 to 2:20 PM PDT Oct 20 (about 14.5 hours), with three distinct impact periods. Some secondary sources report about 15 hours.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/message/101925",
+        "title": "AWS post-event summary"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.infoq.com/news/2025/11/aws-dynamodb-outage-postmortem",
+        "https://cybersecuritynews.com/aws-outage-resolved"
+      ],
+      "applicability": "Shows that region-wide outages do occur and can last many hours, which would exceed the monthly budget many times over (C6, G4). Relevant only if the company runs in us-east-1 or a similar region.",
+      "limitations": "Search snippets only. The aws.amazon.com fetch failed (host not resolvable in session). Duration figures differ slightly by source (14.5h vs ~15h12m). Customer impact varied by service, so not every workload was down for the full window.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from multiple domains; primary page fetch failed"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E11",
+      "claim": "AWS us-east-1 had a disruption on 7 December 2021 that began at 7:30 AM PST and was triggered by an automated capacity-scaling activity on the internal network. Route 53 APIs were impaired until 2:30 PM PST (about 7 hours). Running EC2 instances were unaffected, but EC2 APIs errored. Secondary estimates run to more than 8 hours in total.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/message/12721",
+        "title": "AWS post-event summary Dec 2021"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.thousandeyes.com/blog/aws-outage-analysis-dec-7-2021",
+        "https://parametrixinsurance.com/blog/were-monitoring-and-analyzing-the-aws-cloud-outage"
+      ],
+      "applicability": "A second data point for multi-hour regional events at one major provider and region (G4, C6).",
+      "limitations": "Search snippets only. Region-specific (us-east-1), so the provider and region in use here are unknown. Both incidents together do not give a rigorous annual probability.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E12",
+      "claim": "The provider and region the company uses are not stated, and no rigorous annual frequency of full-region outages could be established. The log reports 0 region-wide outages affecting the company in 12 months.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Limits how precisely expected regional-outage minutes can be compared with the observed deploy minutes (G4).",
+      "limitations": "Public incident histories are anecdotal. Providers do not publish a base rate of region-wide failures.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Not in fixtures; not determinable from search"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E13",
+      "claim": "Google SRE material states that most outages come from change (new configuration, feature launches, new traffic). Secondary notes on the SRE book cite roughly 70% of outages being due to changes in a live system, footnoted as Google internal data 2011-2018.",
+      "source": {
+        "kind": "web",
+        "ref": "https://sre.google/sre-book/",
+        "title": "Site Reliability Engineering - Chapter 1 Introduction"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://oreilly.com/ideas/tenets-of-sre",
+        "https://sre.google/workbook/postmortem-analysis"
+      ],
+      "applicability": "External support that the deploy-dominated mix in the log is typical, and that progressive rollout and fast rollback are high-leverage fixes (C1, G5).",
+      "limitations": "I could not confirm the exact 70% sentence on an official page. The SRE Workbook postmortem appendix snippet uses different categories (software 41.35%, development process failure 20.23%), and a secondary claim of binary push 37% / config push 31% is unconfirmed. Not fetched, since sre.google is not resolvable in session.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets; primary not fetched"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E14",
+      "claim": "AWS DR guidance describes four strategies in increasing cost and complexity: backup and restore (lowest cost, longest RTO), pilot light (RTO/RPO in tens of minutes), warm standby (RTO/RPO in minutes) and multi-site active/active (RPO near zero, RTO potentially zero). Active/active is the most complex and should only be selected when business requirements necessitate it. In a worked example, AWS says pilot light or warm standby satisfies both the RTO and the cost criteria.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_disaster_recovery.html",
+        "title": "REL13-BP02 Use defined recovery strategies to meet the recovery objectives"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://aws.amazon.com/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud",
+        "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html",
+        "https://www.rubrik.com/insights/aws-disaster-recovery-strategy-guide"
+      ],
+      "applicability": "Supports warm standby or pilot light as cheaper hedges against region loss (C4, C6, G5).",
+      "limitations": "Search snippets only; pages not fetched. RTO figures are generic. The 'pilot light or warm standby' conclusion comes from one worked example, not a general rule. No dollar costs given.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets across AWS docs/blog and an independent vendor guide"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E15",
+      "claim": "Multi-leader active-active writes make conflicts unavoidable. Ledger-style invariants spanning multiple records are among the hardest cases, and two-site setups risk split-brain without a quorum or witness in a third location. Synchronous cross-region commits add round-trip latency to every write (one source says roughly 100-200 ms for cross-region Paxos). Common guidance: keep financial ledger writes strongly consistent, route each entity's writes to a home region, or default to active-passive.",
+      "source": {
+        "kind": "web",
+        "ref": "https://archman.dev/docs/cloud-native-and-runtime-topology/topologies/multi-region-active-active-vs-active-passive",
+        "title": "Multi-Region Active-Active vs Active-Passive"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://techinterview.org/system-design-multi-region/",
+        "https://arpitbhayani.me/notes/active-active-setups-are-fascinating",
+        "https://geosurge.ai/corpus/gen-3695/geo-replication/active-active-geo-replication-conflict-resolution-and-write-semantics.html"
+      ],
+      "applicability": "Supports the C5 concern that multi-region writes on the ledger carry correctness and delivery risk, made worse because the consistency model is still TBD (E5).",
+      "limitations": "Low-authority sources (blogs and interview-prep pages), seen only as search snippets. Latency figures are rough and depend on the region pair and the database.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from several independent domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E16",
+      "claim": "A bad deploy, config push or expired certificate that is rolled out to both regions would take down both. Active-active therefore does not address the four bad-deploy incidents or the certificate expiry unless deploys are staged region-by-region with health gating. That staging (progressive rollout, automated rollback) can be done in a single region at much lower cost.",
+      "source": {
+        "kind": "fixture",
+        "ref": "incident-log-12m.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Explains why the proposed fix fits the observed failure modes poorly (C1).",
+      "limitations": "Reasoning from the log's cause categories, not empirical data on this system's deploy topology.",
+      "contradicts": [
+        "E20"
+      ],
+      "gapIds": [
+        "G2",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Reasoning"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E17",
+      "claim": "No cost figures or downtime-reduction estimates were found for this company's targeted alternatives (canary/progressive deploys with automated rollback, schema-migration discipline, config validation, certificate auto-renewal and monitoring, payment-API fallback, warm standby).",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Needed for the C4 TCO comparison.",
+      "limitations": "Requires internal estimates from the platform team.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Not in fixtures; company-specific"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E18",
+      "claim": "The estimate states 2 engineers x 2 quarters, and the ledger consistency model and RPO/RTO are TBD. That conflicts with delivering the project 'next quarter' as the request proposes.",
+      "source": {
+        "kind": "fixture",
+        "ref": "multi-region-estimate.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "request"
+      ],
+      "applicability": "Delivery risk and timeline realism (C5).",
+      "limitations": "'Next quarter' may mean starting next quarter rather than completing it. Needs confirmation with the platform team.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Comparison of fixture with request text"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E19",
+      "claim": "It is not known whether the incident log is complete or whether its customer-facing minutes match the contract's availability measurement (e.g. degraded-but-up states, maintenance exclusions, calendar vs 30-day month).",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Affects whether the 2026-01 and 2026-08 months count as contractual breaches (C2, C3).",
+      "limitations": "Requires comparing the log with monitoring data and the customer's SLA reports.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "No monitoring data supplied"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    }
+  ],
+  "rejected": [],
+  "violations": []
+}

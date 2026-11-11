@@ -61,7 +61,7 @@
       "applicability": "Primary data for the failure-cause mix (C1) and the monthly breach history (C2, C3).",
       "limitations": "Covers 12 months only. It is not checked against monitoring data, and it does not say whether minutes follow the contract's availability definition or maintenance exclusions. Months with no incident are not listed (presumably 0 minutes).",
       "contradicts": [
-        "E7b"
+        "E20"
       ],
       "gapIds": [
         "G1",
@@ -86,7 +86,7 @@
       "applicability": "Core to C1 and G2. It indicates the dominant cause (about 80% of minutes) is change/deploy-related.",
       "limitations": "These are my sums of fixture values, and the mapping to 'would active-active have prevented it' is my reasoning. A cert or deploy rolled out region-by-region with health gating could be partly contained by multi-region, but the same gating can be done within one region.",
       "contradicts": [
-        "E7b"
+        "E20"
       ],
       "gapIds": [
         "G2"
@@ -176,7 +176,7 @@
       "untrustedInstructionsObserved": false
     },
     {
-      "id": "E7b",
+      "id": "E20",
       "claim": "Premise: region failure is the biggest availability risk (VP Engineering).",
       "source": {
         "kind": "user_input",
@@ -417,7 +417,7 @@
       "applicability": "Explains why the proposed fix fits the observed failure modes poorly (C1).",
       "limitations": "Reasoning from the log's cause categories, not empirical data on this system's deploy topology.",
       "contradicts": [
-        "E7b"
+        "E20"
       ],
       "gapIds": [
         "G2",

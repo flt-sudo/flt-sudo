@@ -1,0 +1,212 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C3.mechanisms, C6.mechanisms; CL8; furtherResearchThatCouldChangeConclusion] The main unknown, Halvorsen's fees and contract value, is left open. There is no threshold or sensitivity analysis to bound the decision. The only break-even (CL8) covers credits alone with a first-tier credit every month. That is a strawman: the real case for the project is losing the customer or a rare long regional outage, not routine credits. The draft could have computed: (a) the regional-outage frequency at which expected credits plus churn loss reach about $492k/yr plus one engineer-year, using CL10's 19-step credit per event; and (b) the annual contract value at which avoiding one customer-loss event every N years pays for the project. Without this the decision-maker cannot tell how big a fee or termination clause would flip the verdict, even though the draft lists those as research that could change the conclusion. C3 (20%) and C6 (8%) are therefore assessed only qualitatively."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [CL10; C3.mechanisms; K13/K14] CL10 and the C3 figure of a 190% credit treat the 14.5h Oct 2025 window as 870 minutes of full unavailability. E10 says impact varied by service, came in three distinct periods, and not every workload was down for the whole window. The provider and region in use are also unknown (E12). The draft attaches these caveats to its general uncertainty statements but not to the quantified claim, which therefore reads as more precise than the snippet evidence supports."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [CL8; C3.mechanisms] CL8 says credits could offset $41k/month 'only if' a first-tier credit occurred every month on a fee of at least $410k. That does not follow. Multi-tier credits, or one long outage (the draft's own CL10 gives a 190% credit for a single 14.5h event), could offset the cost at lower fees or lower frequency. 'Only if' should be 'for example, if'. The calculation also leaves out the engineering cost."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [alternatives[3]; C6.mechanisms; counterarguments[0].response; tradeoffs[0]] The recommended hedge, warm standby or pilot light, is presented with upsides only. The draft does not check whether warm standby's RTO ('in minutes'; pilot light 'tens of minutes', per E14), plus detection and decision time, would keep a regional failover inside the 21.6-minute monthly budget or under the 64.8-minute first credit tier. Pilot light at tens of minutes could plausibly breach both. The draft also calls 'keeps the ledger single-writer' a pure benefit, but it does not mention that async-replicated standby means RPO above zero, i.e. possible loss of committed financial ledger transactions on failover. For a ledger that is the strongest argument for active-active or synchronous replication, and the draft leaves it out. Failover-drill cost and the risk that a rarely used standby does not work when needed are also absent. The comparison with active-active is therefore one-sided."
+        },
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [correctedUserAssumptions[1]; counterarguments[2]] The correction of the 99.99% premise treats 99.99% as relevant only if some customer contractually requires it. It does not consider the most charitable reading of the VP's target: an internal SLO set tighter than the 99.95% SLA to leave headroom, which is standard practice. A 0.4-minute miss in 2026-08 shows how thin the current headroom is. Taking this reading would not change the verdict, since multi-region still does not address the observed causes. But the opposing case is answered in a narrower form than it deserves."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [edgeCasesAndFailureModes[3]; compare criteriaAssessments C1.strengths[0], C6.assessment, CL10] The edge case says shared control-plane or global services (DNS, identity, certificate issuance) can 'fail and take down both regions, as the Oct 2025 DNS-automation event shows can happen'. E10 does not support this. It describes the Oct 2025 event as 'region-scoped': an empty DNS record for DynamoDB's regional endpoint in us-east-1. It says nothing about two regions going down together. The draft also uses the same event in C1, C3, C6 and CL10 as its main example of a single-region loss that multi-region would protect against. So one event is cited for two opposite points, and the cross-region claim has no support. This matters because a reader could take it as evidence that active-active would fail in exactly the tail scenario that is its main justification."
+        },
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [counterarguments[0].response; C4.strengths[1]] The counterargument response says warm standby or pilot light is 'the cheaper hedge recommended by AWS guidance'. E14's own limitations say that conclusion comes from one worked example, not a general rule, and that the source is search snippets only. The draft states the recommendation more strongly than its evidence allows. CL11 is worded more carefully."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 0.9995) * 30 * 1440",
+      "claimed": 21.6,
+      "actual": 21.59999999999762,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(1 - 0.9999) * 30 * 1440",
+      "claimed": 4.32,
+      "actual": 4.319999999999524,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "(1 - 0.9999) * 365 * 1440",
+      "claimed": 52.56,
+      "actual": 52.55999999999421,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "18 + 38 + 9 + 14 + 3 + 22 + 11",
+      "claimed": 115,
+      "actual": 115,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "18 + 38 + 14 + 22",
+      "claimed": 92,
+      "actual": 92,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "92 / 115",
+      "claimed": 0.8,
+      "actual": 0.8,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1 - 38 / 43200) * 100",
+      "claimed": 99.912,
+      "actual": 99.91203703703704,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1 - 22 / 43200) * 100",
+      "claimed": 99.949,
+      "actual": 99.94907407407408,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "21.6 + 0.001 * 43200",
+      "claimed": 64.8,
+      "actual": 64.80000000000001,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "41000 * 12",
+      "claimed": 492000,
+      "actual": 492000,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "41000 / 0.10",
+      "claimed": 410000,
+      "actual": 410000,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "22 - 21.6",
+      "claimed": 0.4,
+      "actual": 0.3999999999999986,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "14.5 * 60 / 21.6",
+      "claimed": 40.3,
+      "actual": 40.27777777777778,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "99.95 - (1 - 870 / 43200) * 100",
+      "claimed": 1.964,
+      "actual": 1.9638888888888886,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "52.56 / 4.32",
+      "claimed": 12.17,
+      "actual": 12.166666666666666,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "traceability",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [edgeCasesAndFailureModes[3]; compare criteriaAssessments C1.strengths[0], C6.assessment, CL10] The edge case says shared control-plane or global services (DNS, identity, certificate issuance) can 'fail and take down both regions, as the Oct 2025 DNS-automation event shows can happen'. E10 does not support this. It describes the Oct 2025 event as 'region-scoped': an empty DNS record for DynamoDB's regional endpoint in us-east-1. It says nothing about two regions going down together. The draft also uses the same event in C1, C3, C6 and CL10 as its main example of a single-region loss that multi-region would protect against. So one event is cited for two opposite points, and the cross-region claim has no support. This matters because a reader could take it as evidence that active-active would fail in exactly the tail scenario that is its main justification."
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [criteriaAssessments C3.mechanisms, C6.mechanisms; CL8; furtherResearchThatCouldChangeConclusion] The main unknown, Halvorsen's fees and contract value, is left open. There is no threshold or sensitivity analysis to bound the decision. The only break-even (CL8) covers credits alone with a first-tier credit every month. That is a strawman: the real case for the project is losing the customer or a rare long regional outage, not routine credits. The draft could have computed: (a) the regional-outage frequency at which expected credits plus churn loss reach about $492k/yr plus one engineer-year, using CL10's 19-step credit per event; and (b) the annual contract value at which avoiding one customer-loss event every N years pays for the project. Without this the decision-maker cannot tell how big a fee or termination clause would flip the verdict, even though the draft lists those as research that could change the conclusion. C3 (20%) and C6 (8%) are therefore assessed only qualitatively."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [alternatives[3]; C6.mechanisms; counterarguments[0].response; tradeoffs[0]] The recommended hedge, warm standby or pilot light, is presented with upsides only. The draft does not check whether warm standby's RTO ('in minutes'; pilot light 'tens of minutes', per E14), plus detection and decision time, would keep a regional failover inside the 21.6-minute monthly budget or under the 64.8-minute first credit tier. Pilot light at tens of minutes could plausibly breach both. The draft also calls 'keeps the ledger single-writer' a pure benefit, but it does not mention that async-replicated standby means RPO above zero, i.e. possible loss of committed financial ledger transactions on failover. For a ledger that is the strongest argument for active-active or synchronous replication, and the draft leaves it out. Failover-drill cost and the risk that a rarely used standby does not work when needed are also absent. The comparison with active-active is therefore one-sided."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What are Halvorsen's monthly fees and annual contract value, and does the full contract contain a credit cap, termination-for-chronic-breach, or renewal terms tied to availability?",
+    "What RPO does product/finance require for the ledger (is any loss of committed transactions acceptable on regional failover)? Can warm standby with synchronous or semi-synchronous replication meet it?",
+    "Which provider and region does the company run in, and what is that region's public history of multi-hour region-scoped outages over roughly 5 years?",
+    "What end-to-end failover time (detection plus promotion plus DNS/traffic shift) can warm standby or pilot light realistically achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?",
+    "Do other customers, pending sales deals or regulators require multi-region active-active or near-zero RTO?"
+  ]
+}

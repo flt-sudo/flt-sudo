@@ -1,0 +1,44 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Cost is identical ($7.68/h both ways), no 50% saving",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "72% is requested, not used; actual usage ~31%",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Recommend rightsizing pod requests / autoscaling",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses the 50% / $2,803 savings",
+    "pass": false,
+    "detail": "forbidden claim matched: \"saving of about $2,800\""
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Hourly cost of either configuration (USD)",
+    "pass": false,
+    "detail": "no number within ±0.005 of 7.68"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Monthly node cost at 730 h (USD)",
+    "pass": true,
+    "detail": "value ≈ 5606.4 present"
+  }
+]

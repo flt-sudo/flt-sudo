@@ -1,0 +1,110 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The draft treats QueueForge's latency-bounded operating point (340k at p99 < 50 ms) as if it were a throughput ceiling when it reasons about backlog. In the source, 410k is the sustained maximum and 340k is only the rate at which p99 stays under 50 ms. Once a backlog exists, the queued messages have already waited minutes, so the 50 ms SLO is already broken for them. Drain speed is then set by maximum throughput, not by the sub-50 ms point. This leads to three wrong statements. (1) 'Draining with the 40k msg/s surplus takes 24-48 minutes' (K26, K27). With full capacity back at 410k the surplus is about 110k msg/s, so the drain takes about 8.7-17.5 minutes. (2) 'On 5 nodes ... sub-50 ms capacity would be about 283k and the backlog would not drain at all / keeps growing.' Under the draft's own linear illustration, 5-node maximum throughput is about 341.7k (K28), so the backlog would drain at about 41.7k msg/s, with p99 above 50 ms. (3) 'Even a dip of about 12% would breach 300k at the sub-50 ms point' (counterargument 4, K13). A 12% dip breaks the 50 ms SLO, not the 300k throughput. Throughput falls below 300k only when the dip exceeds about 26.8% of the 410k maximum (K14). Similarly, the deficit during the dip should be measured against the dipped maximum, 246k, which gives 54k msg/s and about 32-65M messages. The draft instead uses the dipped latency point, 204k (96k msg/s, 57.6-115.2M messages). Together these overstate how badly QueueForge fails during and after a node loss, and that is the condition the verdict calls decisive.",
+      "location": "verdict (a); C3 assessment; CL15; counterargument 4; edgeCasesAndFailureModes 1-2; alternatives[0]; practicalImplications 5; furtherResearch 1; K21-K27",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "'Throughput may drop up to 40%' (queueforge-docs.md) does not say what the 40% is relative to. The draft assumes it is a share of benchmark capacity (340k or 410k). Read as a share of the live load, 300k, the dip would fall to 180k (a 120k msg/s deficit), which is worse than any figure the draft gives. The draft neither states this ambiguity nor bounds it.",
+      "location": "C3 assessment; CL5; K8, K19, K21",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "C3 is framed only around unplanned node failure. The docs tie the throughput dip to 'rebalancing after node loss', and planned maintenance also takes nodes out: rolling upgrades, OS patching and restarts. If a restart triggers a rebalance, the 10-20 minute dip of up to 40% could happen on every node in every upgrade cycle, not just in rare failures. That changes how acceptable a backlog-tolerance argument is. The draft never raises this, and its C5 analysis covers only resource bandwidth and storage, not the 'operational complexity' named in the criterion (upgrade procedure, tooling, maturity).",
+      "location": "C3 assessment; C5 assessment; edgeCasesAndFailureModes; practicalImplications 3",
+      "remedy": "both"
+    },
+    {
+      "id": "D4",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The draft suggests sizing producer buffers for a 58-115 GB backlog as a mitigation. It does not point out that buffering this much on the producer side is rarely practical, so this is not a realistic alternative to adding nodes. Because the figure also rests on the overstated deficit in D1, the mitigation looks more burdensome than it is, and still not workable at the figure given.",
+      "location": "practicalImplications 5; edgeCasesAndFailureModes 1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The bar for reconsidering StreamCore, a gain of about 54.5% to 340k (K20), simply borrows QueueForge's measured sub-50 ms capacity. That number is not a headroom requirement the requester stated. It is presented in the verdict and practicalImplications 1 as a threshold to act on. It is really a comparison point, and the actual bar depends on the requester's unknown headroom need (E10).",
+      "location": "verdict (final sentences); CL18; practicalImplications 1; K20",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "C5 and CL10 call the per-node bandwidths 'within reach of modern NVMe and 10-25 GbE hardware'. This comes from general knowledge, not from any supplied source. It is carried over from the packet's E11 applicability note without being flagged as an unsourced inference. The total per-node network load is also never added up: about 50 MB/s client ingest, 100 MB/s replication out, 100 MB/s replication in, and 50 MB/s per consumer group.",
+      "location": "C5 assessment; C5 strengths; CL10",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "At the partition count this workload actually needs, what are the depth and duration of QueueForge's rebalance dip, and what is its sustained maximum throughput on 5 nodes after rebalancing?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does a planned restart or rolling upgrade of a QueueForge node trigger the same 10-20 minute rebalance and throughput dip as an unplanned node loss?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the requester need 300k msg/s to hold during node loss and maintenance, and what latency SLO and backlog tolerance apply in degraded mode?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What hardware, acks setting, batching and client configuration did TechBench use, did both brokers run on identical setups, and was the test vendor-sponsored?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is QueueForge's 40% rebalance throughput drop measured against peak capacity or against the current offered load?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Can StreamCore's CPU-bound replication be tuned, or given more CPU, enough to reach 300k or more on 6 nodes?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All criteria and all parts of the request are addressed. Rebalancing during maintenance and the operational-complexity half of C5 are missing (D3), but this does not reverse the overall structure."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims are tied to the thin sources and the limitations are stated clearly. Moderate confidence fits a single untraceable benchmark. Only minor unsourced hardware statements remain (D6)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The backlog, drain and 5-node 'backlog never drains' reasoning treats the sub-50 ms operating point as a throughput ceiling (D1). This overstates QueueForge's failure-mode shortfall on the criterion the verdict calls decisive."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The draft considers more nodes, StreamCore tuning and choosing neither, and it addresses the strongest counterarguments, including the vendor claim and the 'up to 40%' hedge."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft gives a clear lead candidate, a reason to drop StreamCore, and concrete PoC and requester questions. The decision does not change, even though the backlog magnitudes need correcting."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "The cited evidence IDs exist and match the source text. The calculations recompute correctly as arithmetic. No injected instructions were followed."
+    }
+  ]
+}

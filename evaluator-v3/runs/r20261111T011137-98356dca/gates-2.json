@@ -1,0 +1,318 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [C3 assessment; C5 assessment; edgeCasesAndFailureModes; practicalImplications 3] C3 is framed only around unplanned node failure. The docs tie the throughput dip to 'rebalancing after node loss', and planned maintenance also takes nodes out: rolling upgrades, OS patching and restarts. If a restart triggers a rebalance, the 10-20 minute dip of up to 40% could happen on every node in every upgrade cycle, not just in rare failures. That changes how acceptable a backlog-tolerance argument is. The draft never raises this, and its C5 analysis covers only resource bandwidth and storage, not the 'operational complexity' named in the criterion (upgrade procedure, tooling, maturity)."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [C5 assessment; C5 strengths; CL10] C5 and CL10 call the per-node bandwidths 'within reach of modern NVMe and 10-25 GbE hardware'. This comes from general knowledge, not from any supplied source. It is carried over from the packet's E11 applicability note without being flagged as an unsourced inference. The total per-node network load is also never added up: about 50 MB/s client ingest, 100 MB/s replication out, 100 MB/s replication in, and 50 MB/s per consumer group."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict (a); C3 assessment; CL15; counterargument 4; edgeCasesAndFailureModes 1-2; alternatives[0]; practicalImplications 5; furtherResearch 1; K21-K27] The draft treats QueueForge's latency-bounded operating point (340k at p99 < 50 ms) as if it were a throughput ceiling when it reasons about backlog. In the source, 410k is the sustained maximum and 340k is only the rate at which p99 stays under 50 ms. Once a backlog exists, the queued messages have already waited minutes, so the 50 ms SLO is already broken for them. Drain speed is then set by maximum throughput, not by the sub-50 ms point. This leads to three wrong statements. (1) 'Draining with the 40k msg/s surplus takes 24-48 minutes' (K26, K27). With full capacity back at 410k the surplus is about 110k msg/s, so the drain takes about 8.7-17.5 minutes. (2) 'On 5 nodes ... sub-50 ms capacity would be about 283k and the backlog would not drain at all / keeps growing.' Under the draft's own linear illustration, 5-node maximum throughput is about 341.7k (K28), so the backlog would drain at about 41.7k msg/s, with p99 above 50 ms. (3) 'Even a dip of about 12% would breach 300k at the sub-50 ms point' (counterargument 4, K13). A 12% dip breaks the 50 ms SLO, not the 300k throughput. Throughput falls below 300k only when the dip exceeds about 26.8% of the 410k maximum (K14). Similarly, the deficit during the dip should be measured against the dipped maximum, 246k, which gives 54k msg/s and about 32-65M messages. The draft instead uses the dipped latency point, 204k (96k msg/s, 57.6-115.2M messages). Together these overstate how badly QueueForge fails during and after a node loss, and that is the condition the verdict calls decisive."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [C3 assessment; CL5; K8, K19, K21] 'Throughput may drop up to 40%' (queueforge-docs.md) does not say what the 40% is relative to. The draft assumes it is a share of benchmark capacity (340k or 410k). Read as a share of the live load, 300k, the dip would fall to 180k (a 120k msg/s deficit), which is worse than any figure the draft gives. The draft neither states this ambiguity nor bounds it."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict (final sentences); CL18; practicalImplications 1; K20] The bar for reconsidering StreamCore, a gain of about 54.5% to 340k (K20), simply borrows QueueForge's measured sub-50 ms capacity. That number is not a headroom requirement the requester stated. It is presented in the verdict and practicalImplications 1 as a threshold to act on. It is really a comparison point, and the actual bar depends on the requester's unknown headroom need (E10)."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [practicalImplications 5; edgeCasesAndFailureModes 1] The draft suggests sizing producer buffers for a 58-115 GB backlog as a mitigation. It does not point out that buffering this much on the producer side is rarely practical, so this is not a realistic alternative to adding nodes. Because the figure also rests on the overstated deficit in D1, the mitigation looks more burdensome than it is, and still not workable at the figure given."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "300000*1000/1000000",
+      "claimed": 300,
+      "actual": 300,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "300*3",
+      "claimed": 900,
+      "actual": 900,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "900/6",
+      "claimed": 150,
+      "actual": 150,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "220000/300000",
+      "claimed": 0.733,
+      "actual": 0.7333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(300000-220000)/220000",
+      "claimed": 0.364,
+      "actual": 0.36363636363636365,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(340000-300000)/300000",
+      "claimed": 0.133,
+      "actual": 0.13333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(410000-300000)/300000",
+      "claimed": 0.367,
+      "actual": 0.36666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "340000*(1-0.4)",
+      "claimed": 204000,
+      "actual": 204000,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "410000*(1-0.4)",
+      "claimed": 246000,
+      "actual": 246000,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "1000000*100/1000000",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "100/300",
+      "claimed": 0.333,
+      "actual": 0.3333333333333333,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "900/5",
+      "claimed": 180,
+      "actual": 180,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "300/6*2",
+      "claimed": 100,
+      "actual": 100,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-300000/340000",
+      "claimed": 0.118,
+      "actual": 0.11764705882352944,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "1-300000/410000",
+      "claimed": 0.268,
+      "actual": 0.2682926829268293,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "340000*5/6",
+      "claimed": 283333,
+      "actual": 283333.3333333333,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "4000*6",
+      "claimed": 24000,
+      "actual": 24000,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "4000*5",
+      "claimed": 20000,
+      "actual": 20000,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "300000/(220000/6)",
+      "claimed": 8.18,
+      "actual": 8.181818181818182,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(340000-220000)/220000",
+      "claimed": 0.545,
+      "actual": 0.5454545454545454,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "300000-340000*(1-0.4)",
+      "claimed": 96000,
+      "actual": 96000,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "96000*600",
+      "claimed": 57600000,
+      "actual": 57600000,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "96000*1200",
+      "claimed": 115200000,
+      "actual": 115200000,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "57600000*1000/1000000000",
+      "claimed": 57.6,
+      "actual": 57.6,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "115200000*1000/1000000000",
+      "claimed": 115.2,
+      "actual": 115.2,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "57600000/(340000-300000)",
+      "claimed": 1440,
+      "actual": 1440,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "115200000/(340000-300000)",
+      "claimed": 2880,
+      "actual": 2880,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "410000*5/6",
+      "claimed": 341667,
+      "actual": 341666.6666666667,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "900*86400/1000000",
+      "claimed": 77.76,
+      "actual": 77.76,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "77.76/6",
+      "claimed": 12.96,
+      "actual": 12.96,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "77.76/5",
+      "claimed": 15.55,
+      "actual": 15.552000000000001,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "300/6",
+      "claimed": 50,
+      "actual": 50,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict (a); C3 assessment; CL15; counterargument 4; edgeCasesAndFailureModes 1-2; alternatives[0]; practicalImplications 5; furtherResearch 1; K21-K27] The draft treats QueueForge's latency-bounded operating point (340k at p99 < 50 ms) as if it were a throughput ceiling when it reasons about backlog. In the source, 410k is the sustained maximum and 340k is only the rate at which p99 stays under 50 ms. Once a backlog exists, the queued messages have already waited minutes, so the 50 ms SLO is already broken for them. Drain speed is then set by maximum throughput, not by the sub-50 ms point. This leads to three wrong statements. (1) 'Draining with the 40k msg/s surplus takes 24-48 minutes' (K26, K27). With full capacity back at 410k the surplus is about 110k msg/s, so the drain takes about 8.7-17.5 minutes. (2) 'On 5 nodes ... sub-50 ms capacity would be about 283k and the backlog would not drain at all / keeps growing.' Under the draft's own linear illustration, 5-node maximum throughput is about 341.7k (K28), so the backlog would drain at about 41.7k msg/s, with p99 above 50 ms. (3) 'Even a dip of about 12% would breach 300k at the sub-50 ms point' (counterargument 4, K13). A 12% dip breaks the 50 ms SLO, not the 300k throughput. Throughput falls below 300k only when the dip exceeds about 26.8% of the 410k maximum (K14). Similarly, the deficit during the dip should be measured against the dipped maximum, 246k, which gives 54k msg/s and about 32-65M messages. The draft instead uses the dipped latency point, 204k (96k msg/s, 57.6-115.2M messages). Together these overstate how badly QueueForge fails during and after a node loss, and that is the condition the verdict calls decisive."
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [C3 assessment; C5 assessment; edgeCasesAndFailureModes; practicalImplications 3] C3 is framed only around unplanned node failure. The docs tie the throughput dip to 'rebalancing after node loss', and planned maintenance also takes nodes out: rolling upgrades, OS patching and restarts. If a restart triggers a rebalance, the 10-20 minute dip of up to 40% could happen on every node in every upgrade cycle, not just in rare failures. That changes how acceptable a backlog-tolerance argument is. The draft never raises this, and its C5 analysis covers only resource bandwidth and storage, not the 'operational complexity' named in the criterion (upgrade procedure, tooling, maturity)."
+    }
+  ],
+  "openDecisiveGaps": [
+    "At the partition count this workload actually needs, what are the depth and duration of QueueForge's rebalance dip, and what is its sustained maximum throughput on 5 nodes after rebalancing?",
+    "Does a planned restart or rolling upgrade of a QueueForge node trigger the same 10-20 minute rebalance and throughput dip as an unplanned node loss?",
+    "Does the requester need 300k msg/s to hold during node loss and maintenance, and what latency SLO and backlog tolerance apply in degraded mode?",
+    "What hardware, acks setting, batching and client configuration did TechBench use, did both brokers run on identical setups, and was the test vendor-sponsored?",
+    "Can StreamCore's CPU-bound replication be tuned, or given more CPU, enough to reach 300k or more on 6 nodes?"
+  ]
+}

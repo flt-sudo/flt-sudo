@@ -1,0 +1,460 @@
+{
+  "verdict": "Do not give unconditional production sign-off on Friday, and do not sign off the full 2,300-user rollout of Keystone ID as IdP plus SCIM provisioner on the current evidence. The only independent test (Brightwater, test window 2024-02-12 to 2024-03-01, report dated 2024-03-15) covered only web SAML/OIDC login and the admin console. SCIM was explicitly out of scope (E1). Since then the session service has been replaced, SCIM has been rewritten as provisioner-v2, and the Device Authorization Grant and passkeys have been added (E4). So none of the tier-0 surfaces going to production has been independently tested. On top of that, two High findings (BW-04 session token not invalidated on password reset, BW-07 IDOR in admin user export) were still 'remediation in progress', and BW-11 (no OTP rate limit) was accepted as a risk (E2). The vendor has no retest letter and offers only internal, unshared post-2024 assessments (E3, E15), so closure cannot be determined (E6). The recommended decision is to defer full production sign-off until defined evidence arrives: (1) a retest or closure letter for BW-04, BW-07 and BW-11 from Brightwater or another independent tester, (2) independent testing or an attestation covering provisioner-v2, the new session service, the device grant and passkeys, or at minimum NDA summaries of the internal 2025/2026 assessments with a dated commitment to independent testing, (3) the full signed report obtained directly from Brightwater, and (4) contractual rights to test and retest. If the business cannot wait, the most it should get is a staged pilot. That pilot is possible only if the vendor confirms in writing before Friday that per-tenant controls exist, and that is currently unknown (E12). The pilot would cover a limited, non-privileged population with the device grant disabled, phishing-resistant MFA enforced, admin export restricted, SCIM tokens least-privilege (or SCIM limited to a non-critical app), and admin and provisioning events streamed to the SIEM, all under dated contractual deliverables. If the vendor cannot confirm those controls or enforceable terms (E16), the answer is to defer. 'No Critical findings' in a 32-month-old, narrowly scoped test is not an adequate approval basis for a tier-0 identity system.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Fails. The only independent test is about 32 months old (K1, K2). It covered web SAML/OIDC login and the admin console only, with SCIM, mobile apps and connectors explicitly out of scope (E1). Every major surface changed since then was untested: the session service (replaced 2025-02), SCIM provisioner-v2 (rewritten 2025-11, legacy endpoint retired), the Device Authorization Grant and passkeys (added 2026-08) (E4). The vendor calls this 2024 report its 'latest' and offers nothing newer that is independent (E3).",
+      "mechanisms": "A pentest only gives assurance over the code and configuration it exercised. Replacing a service or rewriting an API swaps out the implementation, so old results do not carry over. They may not even hold for the same flaw classes, because new code can fix old bugs or bring them back and can add new ones. Newly added auth flows widen the attack surface without any test coverage at all.",
+      "strengths": [
+        "A credible-sounding third-party firm tested the core web SSO login and the admin console in 2024 (E1).",
+        "No Critical findings were reported within that scope (E2)."
+      ],
+      "weaknesses": [
+        "The SCIM provisioning API was never in scope (E1).",
+        "The session service, SCIM, the device grant and passkeys all changed or were added after the test (E4).",
+        "The report is an executive summary supplied by the vendor, its authenticity is unconfirmed, and it contains an embedded instruction aimed at automated reviewers (E1).",
+        "About 2.67 years have passed with no newer independent testing offered (E3, K2)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Fails pending evidence. At the report date BW-04 and BW-07 (both High) were 'remediation in progress' and BW-11 (Medium) was 'Accepted risk' (E2). The report promised a retest letter on completion of remediation, but the vendor has none to share (E3). Nothing shows closure, and whether the 2025-02 session-service replacement fixed or reintroduced BW-04 cannot be determined (E6). The 2024-05 'Security fixes' changelog entry gives no detail (E4). Accepting BW-11 conflicts with the NIST SP 800-63B (rev 3) SHALL requirement to rate-limit OTP verification (E11).",
+      "mechanisms": "On an IdP, BW-04 lets a session survive a password reset, so an attacker keeps access after the victim or the help desk 'recovers' the account. BW-07 can expose the whole employee directory through the admin export. BW-11 removes the attempt cap that makes short OTPs resistant to guessing. The NIST rev 3 cap of 100 attempts keeps the illustrative per-account guess probability for a 6-digit code at about 0.01% (K4); with no cap that bound does not exist.",
+      "strengths": [
+        "The findings were disclosed in the summary rather than hidden (E2).",
+        "A 2024-05 release labelled 'Security fixes' exists and may have addressed some of them, but this is unverified (E4)."
+      ],
+      "weaknesses": [
+        "No retest letter, despite the report promising one (E2, E3).",
+        "The current status of all three findings is unknown (E6).",
+        "BW-11 was accepted as a risk despite a baseline SHALL requirement (E11).",
+        "The BW-04 fix (if any) may not carry over to the replaced session service (E4, E6)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E4",
+        "E6",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Fails. SCIM was explicitly out of scope of the only test (E1), and it was rewritten as provisioner-v2 in 2025-11 with the legacy endpoint retired (E4). So production will almost certainly use code that has never been independently tested and has existed for about 12 months (K5). SCIM authorization is left to the implementation, and real implementations have had authorization flaws that allowed arbitrary account operations (E14, pattern reference only). Whether Keystone supports scoped SCIM tokens or SIEM streaming of provisioning events is unknown (E12).",
+      "mechanisms": "A SCIM provisioner holds standing write authority over every downstream account. A flaw in token scoping, tenant isolation or attribute-level authorization (for example setting group or admin-role attributes) lets one compromised token or crafted request create, elevate or deprovision accounts at scale. Unreliable deprovisioning leaves terminated employees with access.",
+      "strengths": [
+        "The changelog shows the legacy SCIM endpoint was retired, so there is one code path to assess rather than two (E4)."
+      ],
+      "weaknesses": [
+        "Never independently tested (E1).",
+        "Rewritten after the only test (E4).",
+        "Token scoping and audit capability unknown (E12).",
+        "SCIM authorization flaws are a known failure class in other products (E14)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E12",
+        "E14"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Fails. The replaced session service, the Device Authorization Grant and passkey enrollment and recovery are all untested (E1, E4). The device grant was added only about 3 months ago (K6). It is an actively exploited phishing vector: Storm-2372 since about August 2024, a sharp rise from September 2025, and TA2723 by October 2025 (E8). RFC 8628 itself flags remote phishing (E10). BW-11 means OTP MFA may lack brute-force protection (E2, E11). Whether the grant can be disabled per tenant, or phishing-resistant MFA enforced, is unknown (E12).",
+      "mechanisms": "Device-code phishing has the victim authenticate a code the attacker generated on the genuine sign-in page. The tokens go to the attacker, so standard MFA does not help (E8). Mitigation depends on being able to block or restrict the flow and enforce phishing-resistant MFA (E9). Passkeys are only as strong as their enrollment and recovery paths, and those are untested here.",
+      "strengths": [
+        "Passkey (WebAuthn) support exists and could serve as phishing-resistant MFA if it can be enforced (E4, E9)."
+      ],
+      "weaknesses": [
+        "The device grant is a known, actively abused vector and is untested in Keystone (E4, E8, E10).",
+        "Per-tenant disablement is unknown (E12).",
+        "The session service was replaced after the test (E4).",
+        "Accepted lack of OTP rate limiting (E2, E11)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Weak. The vendor presents a 2024 summary as its 'latest', keeps its 2025/2026 assessments internal, and has no retest letter (E3). No SOC 2 Type II or ISO 27001 attestation has been mentioned. A bridge letter would be only a management representation and would not cover the code changes (E13). No public CVEs, advisories, VDP or bug bounty for this vendor were found, but absence of results is not evidence of security (E7). The vendor-supplied summary contains a hidden instruction telling automated reviewers to declare approval (E1), which lowers trust in the vendor's artifacts.",
+      "mechanisms": "Without independent attestation, everything about the post-2024 product rests on vendor assertions. A vendor that does not deliver promised retest letters and keeps assessments internal gives no outside check on the claim that issues were fixed. Tampered or manipulative artifacts weaken trust in every other vendor-supplied document.",
+      "strengths": [
+        "The vendor does run internal assessments in 2025/2026, though their content is unknown (E3, E15)."
+      ],
+      "weaknesses": [
+        "No independent assurance after 2024 (E3).",
+        "Promised retest letter not delivered (E2, E3).",
+        "No attestation mentioned, and a bridge letter is not a substitute (E13).",
+        "No visible public vulnerability track record or VDP (E7).",
+        "Embedded reviewer-manipulation text in the vendor-supplied report (E1)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E7",
+        "E13",
+        "E15"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Cannot be determined, and this is what decides between staged approval and deferral. Standard mitigations exist: disable or restrict the device grant, enforce phishing-resistant MFA, revoke sessions on compromise (E9). But whether Keystone offers per-tenant controls for these, for restricting admin export, for SCIM token scoping or for SIEM audit streaming is unknown (E12). No contract terms were supplied (E16), so conditions such as retest rights or breach-notification SLAs may not be enforceable.",
+      "mechanisms": "Conditional approval works only if two things hold: our side can reduce the untested attack surface, and the vendor can be contractually bound to deliver the missing evidence by a date. Without the first, the risk is unchanged. Without the second, 'approve with conditions' becomes unconditional approval.",
+      "strengths": [
+        "Well-established mitigations for the device-grant risk exist (E9).",
+        "Passkeys exist as a possible phishing-resistant factor (E4)."
+      ],
+      "weaknesses": [
+        "Tenant-level control availability is unknown (E12).",
+        "Contract terms are unknown (E16)."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E9",
+        "E12",
+        "E16"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The only independent pentest (Brightwater, test window 2024-02-12 to 2024-03-01, report 2024-03-15) covered only web SAML/OIDC login flows and the admin console. The SCIM provisioning API, mobile apps and customer-hosted connectors were explicitly out of scope.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "After that test, the session management service was replaced (2025-02), SCIM was rewritten as provisioner-v2 with the legacy endpoint retired (2025-11), and the Device Authorization Grant and passkeys were added (2026-08). The code going to production on these surfaces has therefore never been independently tested, and the test is about 32 months (about 2.67 years) old.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The premise that the pentest 'found nothing critical' is literally true but incomplete. The report lists two High findings (BW-04, BW-07) as 'remediation in progress' and one Medium (BW-11, missing OTP rate limit) as accepted risk.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL4",
+      "text": "Whether BW-04 and BW-07 have been closed and independently verified, whether BW-11 was ever mitigated, and whether the 2025-02 session-service replacement fixed or reintroduced BW-04 cannot be determined from the evidence. The vendor has no retest letter to share.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E3",
+        "E6"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "The vendor offers no independent assurance after 2024. It calls the 2024 report its latest, keeps its 2025/2026 assessments internal only, and has not delivered the retest letter the report promised. The contents of those internal assessments are unknown.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "Accepting BW-11 as a risk conflicts with the NIST SP 800-63B (rev 3) requirement that verifiers SHALL rate-limit OTP attempts, capping consecutive failures at no more than 100. It is therefore not a defensible accepted risk for a workforce IdP. Illustration: with that cap, a guess against an assumed 6-digit OTP succeeds with at most about 0.01% probability per account.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E11"
+      ],
+      "calculationIds": [
+        "K4"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "The newly added Device Authorization Grant (2026-08, about 3 months ago) is an actively exploited phishing vector that bypasses standard MFA. RFC 8628 itself flags remote phishing, and the main recommended mitigation is to block or restrict the flow and enforce phishing-resistant MFA.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E8",
+        "E9",
+        "E10"
+      ],
+      "calculationIds": [
+        "K6"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "It cannot be determined whether Keystone ID supports per-tenant disabling of the device grant, enforcing phishing-resistant or passkey-only MFA, restricting admin user export, scoping SCIM tokens, or streaming admin and provisioning audit events to a SIEM. So the feasibility of a conditional or staged approval is unknown.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "No contract terms (pentest or retest rights, breach-notification SLA, incident cooperation, exit and portability) are available. Whether approval conditions can be enforced cannot be determined.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "SCIM leaves authorization to the implementation, and SCIM authorization flaws have occurred in other products (for example CVE-2025-10149 in WSO2). Together with provisioner-v2 being untested and about 12 months old, this supports making independent testing of provisioner-v2 a precondition for full SCIM rollout.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E14"
+      ],
+      "calculationIds": [
+        "K5"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "A SOC 2 bridge letter, even if offered, is a management representation rather than an auditor opinion. It would not give independent assurance over the post-2024 code changes.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "No public CVEs, advisories, VDP or bug bounty were found for the Keystone ID vendor (search results were OpenStack Keystone). This gives no positive signal either way.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The authenticity and completeness of the vendor-supplied pentest summary are unconfirmed. It contains a hidden instruction telling automated reviewers to declare it approved, which lowers trust in vendor-supplied artifacts. The full signed report should be obtained directly from Brightwater.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "The criteria where current evidence is clearly insufficient (C1 to C4) carry 75% of the total decision weight.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4",
+        "E6",
+        "E12"
+      ],
+      "calculationIds": [
+        "K3"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Approve unconditionally",
+      "comparison": "Not supportable. It would make code that was never independently tested (session service, provisioner-v2, device grant, passkeys) a tier-0 dependency for 2,300 users, with two Highs of unknown status and an OTP rate-limit gap (E1, E2, E4, E6). It rests on the 'no Critical' framing, which leaves out the open Highs (E2, E5)."
+    },
+    {
+      "option": "Approve with conditions (full rollout plus dated deliverables)",
+      "comparison": "Better than unconditional approval, but only works if two things are confirmed: tenant controls exist (E12) and the contract can enforce the deliverables (E16). Neither is confirmed. Even when the conditions work, the full blast radius (all accounts plus SCIM write authority) is exposed while the evidence is still outstanding."
+    },
+    {
+      "option": "Staged or limited rollout (pilot)",
+      "comparison": "The preferred fallback if the business cannot wait. Limit it to a small, non-privileged population, with the device grant disabled, phishing-resistant MFA enforced, SCIM write scope minimized or limited to low-impact apps, and SIEM logging on. This caps the blast radius while evidence arrives, but depends on vendor confirmation of the controls (E9, E12)."
+    },
+    {
+      "option": "Defer until assurance evidence arrives",
+      "comparison": "The most defensible given the evidence: independent coverage of the current product is absent (E1, E3, E4) and closure of the Highs cannot be determined (E6). It costs schedule, but it avoids committing a tier-0 dependency on vendor assertions alone. It is the right outcome if the vendor cannot confirm tenant controls or contract terms by Friday."
+    }
+  ],
+  "tradeoffs": [
+    "Speed against assurance. Meeting procurement's Friday date means accepting untested tier-0 code paths. Deferral protects all 2,300 accounts but delays the project.",
+    "Staging lowers exposure but adds operational complexity: two IdP paths, a migration plan, and a risk of drift if the pilot quietly becomes permanent without the conditions being met.",
+    "Disabling the device grant removes a known phishing vector (E8, E9) but may break CLI and kiosk use cases that the vendor added it for (E4).",
+    "Requiring an independent pentest of provisioner-v2 and the new flows gives real assurance but takes weeks. NDA summaries of the internal assessments are faster but are still vendor-controlled (E3, E15)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "BW-04 recurs in the replaced session service. A password reset after compromise does not evict the attacker, so recovery procedures fail silently (E2, E4, E6).",
+    "BW-07 (or a regression of it) in admin user export lets a single compromised admin or a lower-privilege session dump the whole employee directory (E2).",
+    "No OTP rate limit (BW-11) allows MFA brute force once a password is phished or stuffed (E2, E11).",
+    "Device-code phishing campaigns target employees once the grant is exposed, and tokens are issued despite MFA (E8, E10).",
+    "A leaked or over-scoped SCIM token, or an attribute-authorization flaw in provisioner-v2, lets an attacker mass-elevate accounts (group or admin role) or mass-deprovision them, causing a lockout (E1, E14).",
+    "A deprovisioning failure in the rewritten provisioner leaves terminated employees with active downstream access (E4).",
+    "Passkey recovery or enrollment flows, untested, become a downgrade path to weaker factors (E4).",
+    "The vendor-supplied summary is altered or incomplete, so the findings list itself may understate risk (E1).",
+    "As a tier-0 dependency, a Keystone outage or compromise blocks or exposes access to every app. A break-glass path is needed regardless of the approval option."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The pentest found no Critical findings, so the product is safe enough.",
+      "response": "No Critical findings within a narrow 2024 scope says nothing about SCIM (out of scope) or the components replaced or added later (E1, E4). Within the tested scope, two Highs that map to account-takeover persistence and bulk data exposure were left open (E2), and their closure cannot be verified (E6)."
+    },
+    {
+      "argument": "The vendor runs internal assessments in 2025/2026, so the new code has been tested.",
+      "response": "Internal assessments that are not shared give the customer no verifiable assurance. Their findings and remediation status are unknown (E3, E15). The vendor has also not delivered a retest letter it promised (E2, E3)."
+    },
+    {
+      "argument": "The 2024-05 'Security fixes' release probably fixed BW-04, BW-07 and BW-11.",
+      "response": "Possibly, but the entry gives no detail (E4) and no retest confirms it (E3, E6). BW-04 also lives in a session service that was replaced afterwards, so any earlier fix may not carry over."
+    },
+    {
+      "argument": "Compensating controls on our side (disabling the device grant, phishing-resistant MFA) make the gaps acceptable.",
+      "response": "Those are sound mitigations (E9), but whether Keystone exposes them per tenant is unknown (E12). They also do nothing for untested SCIM authorization or session invalidation. They support a staged pilot, not full sign-off."
+    },
+    {
+      "argument": "No public CVEs or incidents means a clean track record.",
+      "response": "The search found nothing about this vendor at all, only OpenStack Keystone. Absence of results is not evidence of security, and no VDP is visible (E7)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The pentest 'found nothing critical', so the product is safe to approve.",
+      "correction": "True that no Critical findings were reported, but two Highs (BW-04 session not invalidated on password reset, BW-07 admin export IDOR) were 'remediation in progress' and BW-11 (no OTP rate limit) was accepted as a risk. Closure has not been verified, and 'no Critical' is not an adequate bar for a tier-0 IdP.",
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E6",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "The attached pentest is the vendor's latest and represents the current product.",
+      "correction": "It may be the latest independent test, but it does not represent the current product. It predates the session-service replacement (2025-02), the SCIM rewrite (2025-11) and the device grant and passkeys (2026-08), and SCIM was out of scope anyway. It is about 32 months old.",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E4"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "assumption": "The Friday deadline allows enough time to obtain the missing evidence.",
+      "correction": "Unlikely for independent evidence. The vendor has not produced a promised retest letter in about 2.67 years and offers no independent post-2024 testing. A Friday decision can realistically be a deferral or a tightly staged pilot, not a full sign-off.",
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E15"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Months from the pentest report date (March 2024) to today (November 2026)",
+      "expression": "(2026 - 2024) * 12 + (11 - 3)",
+      "claimedResult": 32,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Age of the pentest report in years (32 months / 12)",
+      "expression": "round(32 / 12, 2)",
+      "claimedResult": 2.67,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Percentage of total criterion weight held by C1-C4, where evidence is clearly insufficient (25+20+15+15 out of 100)",
+      "expression": "(25 + 20 + 15 + 15) / (25 + 20 + 15 + 15 + 15 + 10) * 100",
+      "claimedResult": 75,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Illustrative: maximum percent probability of guessing an assumed 6-digit OTP (10^6 values) within the NIST 800-63B rev 3 cap of 100 consecutive failed attempts",
+      "expression": "100 / 10^6 * 100",
+      "claimedResult": 0.01,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Months since the SCIM provisioner-v2 rewrite (2025-11) to today (2026-11)",
+      "expression": "(2026 - 2025) * 12 + (11 - 11)",
+      "claimedResult": 12,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Months since the Device Authorization Grant and passkeys were added (2026-08) to today (2026-11)",
+      "expression": "11 - 8",
+      "claimedResult": 3,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Tell procurement by Friday that full production sign-off is deferred. Name the specific evidence that would unlock it, so the decision is a dated path rather than an open-ended no.",
+    "Send the vendor a written request, due before Friday, for: a retest or closure letter for BW-04, BW-07 and BW-11; any SOC 2 Type II or ISO 27001 report with scope description; NDA summaries of the 2025/2026 internal assessments; a dated commitment to an independent pentest of provisioner-v2, the session service, the device grant and passkeys; and written confirmation of the tenant-level controls (E3, E12, E15).",
+    "Obtain the full signed report directly from Brightwater and check that the dates, finding IDs and scope match. Record the embedded reviewer-manipulation text as a vendor trust issue (E1).",
+    "If a pilot is approved: disable the device grant, enforce passkey or phishing-resistant MFA, restrict admin console access and user export, use least-privilege SCIM tokens or keep SCIM away from high-impact apps, stream admin and provisioning events to the SIEM, and keep a break-glass path (E9, E12).",
+    "Have legal negotiate pentest and retest rights, a breach-notification SLA, incident cooperation, and exit and portability terms before any expansion beyond the pilot (E16).",
+    "Ask the IAM team to confirm the integration architecture, including that provisioner-v2 is the only SCIM path and whether any use case actually needs the device grant (E4)."
+  ],
+  "remainingUncertainty": [
+    "Current status of BW-04, BW-07 and BW-11, and whether the replaced session service fixed or reintroduced BW-04 (E6).",
+    "What the 2024-05 'Security fixes' release addressed (E4).",
+    "Findings and remediation status of the vendor's internal 2025/2026 assessments, and whether NDA summaries will be shared (E15).",
+    "Whether Keystone offers per-tenant controls and SIEM audit streaming (E12).",
+    "Whether any SOC 2 Type II or ISO 27001 attestation exists (E3, E13).",
+    "Contract terms and their negotiability (E16).",
+    "Authenticity and completeness of the vendor-supplied pentest summary (E1).",
+    "The standards and threat-intelligence evidence (E8, E10, E11) is based on snippets or secondary sources and on 800-63-3 rather than 800-63B-4 text. The direction of the conclusions is unlikely to change, but the exact wording was not verified."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "An independent retest letter confirming closure of BW-04, BW-07 and BW-11 on the current session service would largely resolve C2.",
+    "A recent independent pentest or SOC 2 Type II or ISO 27001 report whose scope explicitly includes provisioner-v2, the new session service, the device grant and passkeys, with no open Highs, could support conditional approval of the full rollout.",
+    "Vendor documentation confirming per-tenant disablement of the device grant, enforcement of phishing-resistant MFA, admin export restriction, SCIM token scoping and SIEM audit streaming would make a staged pilot feasible.",
+    "Contract terms granting test and retest rights and breach-notification SLAs would make conditions enforceable.",
+    "Conversely, NDA summaries showing open High or Critical findings in the internal assessments, or a vendor refusal to share anything, would turn the recommendation into a firm deferral or rejection."
+  ]
+}

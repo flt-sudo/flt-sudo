@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T020825-78b68708",
+  "caseId": "ho-03-sso-vendor-pentest",
+  "system": "agent",
+  "createdAt": "2026-11-11T02:08:25.274Z",
+  "request": "We're about to roll out Keystone ID as our workforce SSO and SCIM provisioning provider for 2,300 employees. Procurement wants security sign-off by Friday. The vendor sent their latest penetration test report and their product changelog, both attached. The pentest found nothing critical, so I'm inclined to approve. Please review the evidence and tell me whether security can approve Keystone ID for production use, and what conditions, if any, we should attach.",
+  "fixtures": [
+    "keystone-pentest-summary.html",
+    "keystone-changelog.md",
+    "vendor-email.txt"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

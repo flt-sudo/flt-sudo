@@ -1,0 +1,129 @@
+{
+  "subject": "Keystone ID (vendor-hosted workforce SSO via SAML/OIDC plus SCIM 2.0 provisioning) for production rollout to 2,300 employees",
+  "domain": "Third-party security risk assessment / identity and access management (IdP vendor due diligence)",
+  "decisionObjective": "Decide whether security can give production sign-off by Friday for Keystone ID as the workforce IdP and SCIM provisioner, which would make it a tier-0 dependency able to authenticate every employee and create, modify or deprovision their accounts. The options are: approve unconditionally; approve with conditions (named compensating controls, contractual or evidence deliverables, deadlines); approve only a limited or staged rollout; or defer until missing assurance evidence arrives. The decision has to rest on whether the vendor evidence actually covers the product as it runs today (current session service, SCIM provisioner-v2, device grant, passkeys). Having no Critical findings in an older, narrowly scoped test is not enough.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Currency and coverage of independent security testing",
+      "weight": 25,
+      "rationale": "The only third-party pentest is from Feb-Mar 2024 (report dated 2024-03-15). Its scope was web SAML/OIDC login and the admin console. SCIM was explicitly out of scope. Since then the changelog shows the session service was replaced (2025-02), SCIM was rewritten as provisioner-v2 (2025-11), and the OAuth Device Authorization Grant and passkeys were added (2026-08). The approval rests on whether tested code is the code going to production. This is the most decisive factor."
+    },
+    {
+      "id": "C2",
+      "name": "Remediation status of known High and Medium findings",
+      "weight": 20,
+      "rationale": "BW-04 (session token not invalidated on password reset) and BW-07 (IDOR in admin console user export) were rated High and listed as 'remediation in progress'. The vendor says it has no retest letter. BW-11 (no rate limit on MFA OTP verification) was accepted as a risk. For an IdP these issues map directly to account takeover, bulk exposure of employee data, and MFA brute-forcing. Without verified closure they are open Highs on a tier-0 system."
+    },
+    {
+      "id": "C3",
+      "name": "SCIM provisioning and lifecycle security",
+      "weight": 15,
+      "rationale": "SCIM can create, elevate and deprovision every employee account in downstream apps. It has never been independently tested, and it was rewritten after the only test. Token scoping, tenant isolation, authorization on attribute changes (such as group or admin role), and reliable deprovisioning on termination all decide the blast radius if it fails."
+    },
+    {
+      "id": "C4",
+      "name": "Authentication and session robustness of new and changed flows",
+      "weight": 15,
+      "rationale": "The new session service, the Device Authorization Grant (known to be abused for device-code phishing), passkey enrollment and recovery, and MFA brute-force protection determine whether an attacker can get or keep sessions across 2,300 accounts. All of these are untested or carry known weaknesses."
+    },
+    {
+      "id": "C5",
+      "name": "Vendor assurance posture and transparency",
+      "weight": 15,
+      "rationale": "The vendor calls a 2024 report its 'latest' and says its 2025/2026 assessments are internal only. Whether it can provide an independent attestation (SOC 2 Type II, ISO 27001), a bridge letter, a retest letter, a vulnerability disclosure or CVE history, and its incident history tells us whether conditions can be met at all, and how much trust the vendor's own statements deserve."
+    },
+    {
+      "id": "C6",
+      "name": "Customer-side compensating controls and contractual leverage",
+      "weight": 10,
+      "rationale": "Conditional approval only works if the gaps can be mitigated on our side and enforced contractually. Examples include disabling the device grant, enforcing phishing-resistant MFA, restricting admin console access, SCIM token least-privilege, monitoring and alerting on admin and provisioning actions, a break-glass path, contractual rights to a pentest and retest, breach notification SLAs, and exit or portability terms."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Have BW-04 and BW-07 actually been fixed, verified by the original tester or another independent one, and do the fixes carry over to the replacement session service (2025-02)? What is the current status of BW-11 (MFA OTP rate limiting)?",
+      "whyItMatters": "Unverified open Highs covering session invalidation and admin data export on an IdP would on their own justify withholding or tightly conditioning approval. The session service replacement could have fixed BW-04 or brought it back.",
+      "criteria": [
+        "C2",
+        "C4"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Is there any independent security testing (pentest, retest, or a SOC 2 Type II or ISO 27001 audit with an in-scope product description) covering the current product, in particular SCIM provisioner-v2, the new session service, the Device Authorization Grant and passkeys? Can the vendor commit to one before or soon after go-live?",
+      "whyItMatters": "This decides whether approval can rest on independent evidence or only on vendor assertions. It also decides whether 'test SCIM and the new flows by date X' is a feasible condition.",
+      "criteria": [
+        "C1",
+        "C3",
+        "C5"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Can the risky new features be disabled or restricted per tenant (Device Authorization Grant, OTP-based MFA in favour of phishing-resistant MFA, admin console user export, SCIM token scopes), and what logging and audit events are exposed to our SIEM for admin and provisioning actions?",
+      "whyItMatters": "This decides whether the untested surfaces can be reduced enough on our side to support a conditional or staged approval by Friday.",
+      "criteria": [
+        "C4",
+        "C6",
+        "C3"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What did the vendor's internal 2025/2026 assessments find, at what severities, and what is their remediation status? Will the vendor share summaries under NDA?",
+      "whyItMatters": "The vendor's statements are currently the only evidence about the post-2024 product. A summary under NDA would partly close the coverage gap, and a refusal would itself count against the vendor's assurance posture.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What is Keystone ID's public security track record since 2024 (CVEs, security advisories, disclosed incidents, the content of the 2024-05 'Security fixes' release), and does it run a vulnerability disclosure or bug bounty program?",
+      "whyItMatters": "Independent outside signals can confirm or contradict the vendor's account and show how mature its vulnerability handling is.",
+      "criteria": [
+        "C5",
+        "C2"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What contractual terms are on offer or negotiable: a right to annual independent pentests and retest letters, breach notification SLAs, security incident cooperation, data residency, and exit and data portability?",
+      "whyItMatters": "Approval conditions only hold if they can be enforced. Without contractual leverage, 'approve with conditions' effectively becomes unconditional approval.",
+      "criteria": [
+        "C6",
+        "C5"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The pentest 'found nothing critical', so the product is safe to approve.",
+      "source": "user",
+      "howToCheck": "The report does say there were no Critical findings, but it lists two Highs (BW-04, BW-07) still in remediation and one accepted Medium (BW-11). Assess severity in the context of an IdP, and confirm closure through a retest letter or independent verification. Having no Critical findings is not the approval bar for a tier-0 system."
+    },
+    {
+      "assumption": "The attached pentest is the vendor's latest and represents the current product.",
+      "source": "user",
+      "howToCheck": "Compare the test window (2024-02-12 to 2024-03-01) and scope against the changelog: session service replaced 2025-02, SCIM rewritten 2025-11, device grant and passkeys added 2026-08. Ask the vendor for any newer independent testing or attestations."
+    },
+    {
+      "assumption": "The attached documents are authentic, complete and unaltered vendor or tester artifacts.",
+      "source": "planner",
+      "howToCheck": "Ask for the full signed report directly from Brightwater Offensive Security or through a verified vendor channel, rather than relying on an executive summary supplied by the vendor. Check that the dates, finding IDs and scope match."
+    },
+    {
+      "assumption": "The production deployment will use SCIM provisioner-v2 and may expose the Device Authorization Grant, neither of which has been independently tested.",
+      "source": "planner",
+      "howToCheck": "Confirm the planned integration architecture with the IAM or rollout team and confirm the tenant feature configuration with the vendor."
+    },
+    {
+      "assumption": "The Friday deadline allows enough time to obtain the missing evidence.",
+      "source": "user",
+      "howToCheck": "Ask the vendor how quickly it can deliver a retest letter, an attestation and NDA summaries. If it cannot meet Friday, consider a conditional or staged approval with dated deliverables, or a short deferral."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

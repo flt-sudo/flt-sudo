@@ -1,0 +1,307 @@
+{
+  "records": [
+    {
+      "id": "E1",
+      "claim": "The architecture wiki (Last edited: 2021-06-02) describes sessions stored in a single Redis 5.0 node (sess-redis-01), no replicas, no persistence (RDB disabled), states 'A node restart logs out all users', and has an open 'TODO: add replication'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "wiki-session-store.md",
+        "title": "Session store (architecture wiki)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the only source for the request's premise. It describes the state as of June 2021.",
+      "limitations": "It predates every 2025 changelog entry by more than three years and nothing more recent confirms it, so it is probably stale. Verified only as what the wiki says, not as the current production state.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E2",
+      "claim": "Changelog entry 2025-02-18: sessions migrated from sess-redis-01 to the managed Valkey 8 cluster 'sessions-prod' (3 shards x 1 primary + 1 replica each, multi-AZ, automatic failover). sess-redis-01 decommissioned 2025-03-04.",
+      "source": {
+        "kind": "fixture",
+        "ref": "platform-changelog-2025.md",
+        "title": "Platform changelog (excerpt)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This directly contradicts the premise. Replication and automatic failover already exist, so 'add replication' would be the wrong work item if the entry is still accurate.",
+      "limitations": "It is an excerpt, and the latest entry is 2025-07-22. There was no infra-as-code, console, or service-owner confirmation as of November 2026. It does not say whether any service still points at sess-redis-01, or whether anything was rolled back or changed after July 2025.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E3",
+      "claim": "Changelog entry 2025-03-10: session TTL reduced from 30d to 14d.",
+      "source": {
+        "kind": "fixture",
+        "ref": "platform-changelog-2025.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is a further post-2021 change missing from the wiki, so it is more evidence the wiki has drifted (C6). It also limits how much session data a full-cluster loss could affect.",
+      "limitations": "It has no direct bearing on replication or persistence.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E4",
+      "claim": "Incident INC-2291 (2025-07-22): failover of the shard 2 primary took 41s; ~6% of active sessions saw errors during failover; no logouts.",
+      "source": {
+        "kind": "fixture",
+        "ref": "platform-changelog-2025.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Contradicts the premise that a node failure logs everyone out. Today's residual impact is partial errors lasting tens of seconds, not mass logout.",
+      "limitations": "This is a single data point. No later incidents or failover/chaos tests were available, so we cannot tell whether 41s and ~6% are representative. With 3 shards, one shard would hold about a third of the keyspace, so ~6% erroring suggests the errors were spread unevenly or filtered by client behaviour. That is an inference, not something the source says.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E5",
+      "claim": "INC-2291 action item 'client retry/backoff on MOVED/failover errors' is marked OPEN in the changelog excerpt.",
+      "source": {
+        "kind": "fixture",
+        "ref": "platform-changelog-2025.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Points to the client-side retry gap as the likely concrete remaining work item, rather than replication.",
+      "limitations": "The status is only known as of the excerpt (mid-2025). Its status in November 2026 is unknown, and no incident tracker was available.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture file"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E6",
+      "claim": "Industry guidance says that during a cluster failover a replica takes over a failed primary's slots, and clients see MOVED redirects and timeouts. Clients should refresh topology and retry with exponential backoff and jitter. Cluster-aware clients (e.g. Valkey GLIDE, valkey-py) can handle MOVED automatically.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/blogs/database/best-practices-valkey-redis-oss-clients-and-amazon-elasticache/",
+        "title": "AWS Database Blog - best practices Valkey/Redis OSS clients and ElastiCache"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://glide.valkey.io/concepts/client-features/command-routing/",
+        "https://valkey-py.readthedocs.io/en/stable/_modules/valkey/asyncio/cluster.html",
+        "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/BestPractices.Clients.Redis.Discovery.html"
+      ],
+      "applicability": "Suggests the INC-2291 errors are consistent with clients not handling MOVED or failover well. Fixing this is usually a client-library configuration or retry-policy change, likely cheap compared with re-architecture (C3, C5).",
+      "limitations": "Based on search-result summaries only, because WebFetch was blocked and no page was inspected. It is general guidance, not specific to this organisation's client stack.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets only; fetch unavailable"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E7",
+      "claim": "Valkey cluster spec: unavailability during failover is bounded by NODE_TIMEOUT (cluster-node-timeout). Failure detection happens on the order of the node timeout, which is configurable.",
+      "source": {
+        "kind": "web",
+        "ref": "https://valkey.io/topics/cluster-spec/",
+        "title": "Valkey Documentation: Cluster specification"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://valkey.io/events/keyspace-2025/./slides/demystifying-valkey-clustering.pdf"
+      ],
+      "applicability": "A 41s failover is plausibly tied to node-timeout and managed-service settings, so the failover duration may be tunable or partly fixed by provider configuration.",
+      "limitations": "From search snippets only. The managed service's actual timeout settings for sessions-prod are unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E8",
+      "claim": "ElastiCache (Valkey/Redis OSS) supports cluster-level snapshot/backup and restore in cluster mode enabled. Replication is asynchronous, so some data loss on failover is possible. Snapshots are an option, not a guarantee of zero loss. AWS recommends at least three shards and at least two replicas per shard for high-availability workloads, and testing client resilience with the Test Failover API.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups.html",
+        "title": "Snapshot and restore - Amazon ElastiCache"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ReliabilityPillar.html"
+      ],
+      "applicability": "Relevant to C4 and G4 only if sessions-prod is on ElastiCache, which the changelog does not say ('managed Valkey 8'). The current setup (1 replica per shard) is below the two-replica recommendation for high-availability workloads, which is a possible but lower-priority improvement.",
+      "limitations": "From search snippets only. The provider is unconfirmed. The snippet also mentioned a 'durability enabled' multi-AZ transaction log, which more likely describes MemoryDB than ElastiCache, so treat it as a possibly conflated summary. Whether sessions-prod has persistence or backups enabled is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Web search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E9",
+      "claim": "Whether persistence or backups are enabled on sessions-prod, and therefore whether a full-cluster loss would still log everyone out, could not be determined.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Determines whether a mass-logout scenario still exists despite replication (C4).",
+      "limitations": "The changelog says nothing about persistence. The wiki's 'RDB disabled' refers to the decommissioned 2021 node.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "No internal infra config available"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E10",
+      "claim": "Competing roadmap items and effort estimates for the candidate session-store work are unknown.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Needed to set relative priority (C5).",
+      "limitations": "No roadmap or backlog documents were supplied.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "No source available"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E11",
+      "claim": "The user's request asserts that the session store is a single Redis 5 node with no replication and that a node failure logs everyone out, citing the architecture wiki.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This premise is contradicted by the newer changelog (E2, E4).",
+      "limitations": "It rests entirely on the stale 2021 wiki.",
+      "contradicts": [
+        "E2",
+        "E4"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    }
+  ],
+  "rejected": [],
+  "violations": []
+}

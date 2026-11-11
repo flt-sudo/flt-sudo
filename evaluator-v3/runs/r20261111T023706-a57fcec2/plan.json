@@ -1,0 +1,137 @@
+{
+  "subject": "Whether to approve a ~$41k/month active-active, two-region architecture project next quarter to meet the availability SLA in the largest customer contract (Halvorsen Logistics, Schedule C)",
+  "domain": "Site reliability engineering / cloud infrastructure investment and contract SLA risk",
+  "decisionObjective": "Decide whether to approve, reject, defer or re-scope the multi-region active-active project. The test is whether it is the most cost-effective way to cut the real risk of breaching the contracted SLA (99.95% monthly over a 30-day month, with service credits) and of losing the customer, compared with cheaper fixes aimed at the failure modes the incident log actually shows.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Fit between the proposed fix and observed failure causes",
+      "weight": 25,
+      "rationale": "The project only pays off if it removes the downtime that actually happens. The incident log attributes most customer-facing minutes to bad deploys, certificate expiry and a third-party API, and records zero region-wide outages. Active-active across regions does not prevent any of these, and a deploy that reaches both regions can take both down."
+    },
+    {
+      "id": "C2",
+      "name": "Correct SLA target and downtime budget arithmetic",
+      "weight": 20,
+      "rationale": "The VP's premise ties 99.99% to about 52 minutes a month. Over a 30-day month 99.99% allows about 4.3 minutes; 52.6 minutes is the yearly figure. The contract requires 99.95%, which allows about 21.6 minutes a month. Which target applies, and how big its budget really is, determines whether the project is needed at all."
+    },
+    {
+      "id": "C3",
+      "name": "Contractual exposure: credits, breach history and termination risk",
+      "weight": 20,
+      "rationale": "The dollar value of avoided breaches sets the upper bound on what is worth spending. Credits are 10% of monthly fees per full 0.1% below target. A breach of 0.1% is about 43 minutes, so the past misses (for example 38 and 22 minutes) may have triggered no credit or a small one. The true size of the risk depends on monthly fees and on any termination or chronic-breach clauses."
+    },
+    {
+      "id": "C4",
+      "name": "Total cost of ownership versus alternatives",
+      "weight": 15,
+      "rationale": "The cost is about $492k a year in infrastructure plus 2 engineers for 2 quarters. It should be compared with targeted measures such as safer deploys (canary, progressive rollout, automated rollback, migration discipline), certificate automation and third-party fallbacks, and with warm-standby or pilot-light DR as a cheaper hedge against region loss."
+    },
+    {
+      "id": "C5",
+      "name": "Implementation and data-consistency risk",
+      "weight": 12,
+      "rationale": "The ledger DB needs multi-region writes, and its consistency model and RPO/RTO are still TBD. Active-active writes on a financial ledger bring correctness risk (split-brain, conflicting writes) and new failure modes. During the transition this can lower availability rather than raise it."
+    },
+    {
+      "id": "C6",
+      "name": "Strategic and other-customer value of regional resilience",
+      "weight": 8,
+      "rationale": "A region-loss event has low probability but high impact. Other customers, sales requirements or regulatory and DR expectations could justify some regional redundancy even if this contract's SLA does not. That value should be weighed separately from the SLA case."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the correct monthly downtime allowance at 99.95% and at 99.99% over a 30-day month, and how did each month in the incident log perform against 99.95% (including whether a 22-minute month counts as a breach)?",
+      "whyItMatters": "It confirms or refutes the VP's '52 minutes' figure and shows whether the contract is being breached now. If 99.99% allows only about 4.3 minutes a month, adopting it as a target changes the scope of the project entirely.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "What share of customer-facing minutes in the last 12 months (and longer, if data exists) would active-active multi-region have prevented, by cause category?",
+      "whyItMatters": "The log appears to show about 92 of 115 minutes from bad deploys and 0 from region outages. If that holds, the project targets a risk that has not materialised and leaves the dominant cause untouched.",
+      "criteria": [
+        "C1",
+        "C4"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What are Halvorsen's monthly fees and annual contract value? Does the contract have termination-for-chronic-breach, renewal or escalation terms beyond Schedule C? How is 'full 0.1%' applied when computing credits?",
+      "whyItMatters": "These terms set the maximum financial exposure the project could avoid, and so whether $41k a month plus engineering time can be justified.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What is the realistic probability and typical duration of a full region outage at the provider and region in use, based on the provider's historical public incident record?",
+      "whyItMatters": "It quantifies the expected downtime from the risk the VP calls the biggest, so that risk can be compared with the observed deploy-related downtime and with the SLA budget.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What would targeted alternatives cost and how much downtime would they remove? Candidates are progressive or canary deploys with automated rollback, safer schema migrations, config validation, certificate auto-renewal and monitoring, a third-party payment fallback, and warm-standby DR with a defined RTO.",
+      "whyItMatters": "If cheaper measures bring monthly downtime well under 21.6 minutes, the multi-region spend is not the best way to protect the SLA.",
+      "criteria": [
+        "C4",
+        "C1"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What consistency model and RPO/RTO does the ledger DB require, and what is the realistic delivery risk and timeline for multi-region writes?",
+      "whyItMatters": "Unresolved ledger consistency requirements could make 'next quarter' unrealistic. They could also add correctness and availability risk that offsets the expected gains.",
+      "criteria": [
+        "C5",
+        "C4"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "99.99% availability 'still gives us around 52 minutes of downtime a month'",
+      "source": "user",
+      "howToCheck": "Recompute: 0.0001 x 30 days x 1440 min = 4.32 min per month. 52.56 min is the yearly allowance. Also compute 99.95%: 21.6 min per month."
+    },
+    {
+      "assumption": "The company should target 99.99% availability",
+      "source": "user",
+      "howToCheck": "Compare with contract clause C.1, which specifies 99.95%. Check whether any other contract or business requirement demands 99.99%."
+    },
+    {
+      "assumption": "Region failure is the biggest availability risk",
+      "source": "user",
+      "howToCheck": "Group the incident log by cause and sum minutes. The log records 0 region-wide outages and a majority of minutes from bad deploys. Add the provider's historical regional-outage frequency."
+    },
+    {
+      "assumption": "Incremental cost is about $41k/month",
+      "source": "user",
+      "howToCheck": "Review the platform team estimate. It covers infrastructure only. Add 2 engineers x 2 quarters, ongoing operational overhead and any ledger DB licensing or replication costs to get the full TCO."
+    },
+    {
+      "assumption": "Active-active multi-region would materially improve measured availability against this SLA",
+      "source": "planner",
+      "howToCheck": "Map each incident to whether a second active region would have prevented it. Consider whether global deploys, shared config or cross-region data replication would spread the same failures to both regions."
+    },
+    {
+      "assumption": "The incident log is complete and its customer-facing minutes match how the contract measures availability",
+      "source": "planner",
+      "howToCheck": "Check the log against monitoring data and the contract's definition of availability and maintenance exclusions. Confirm that no incidents are missing and that the minutes are counted per 30-day month."
+    },
+    {
+      "assumption": "The project can be delivered next quarter",
+      "source": "planner",
+      "howToCheck": "The estimate states 2 quarters of engineering and lists the ledger consistency model and RPO/RTO as TBD. Confirm the timeline with the platform team."
+    }
+  ],
+  "answerability": "answerable"
+}

@@ -1,0 +1,1 @@
+{"ts":"2026-11-11T02:37:56.976Z","stage":"eval-planner","output":"plan.json","agentId":"af8899bbcf7b0d907","models":["claude-opus-5-5"],"inputTokens":6,"outputTokens":3680,"cacheReadTokens":17278,"cacheCreationTokens":6940,"webSearchRequests":0,"assistantMessages":3}

@@ -1,0 +1,483 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "Month-end used storage on prod-orders-pg primary: 2026-07 1,690 GB; 2026-08 1,725 GB; 2026-09 1,760 GB; 2026-10 1,840 GB. Provisioned volume 2,000 GB. Report generated 2026-11-02 by platform-sre.",
+      "source": {
+        "kind": "fixture",
+        "ref": "capacity-report-2026-10.md",
+        "title": "Orders DB capacity report (prod-orders-pg, primary)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the base series for recomputing growth and runway (G1). The month-over-month deltas it gives are 35, 35 and 80 GB.",
+      "limitations": "There are only 4 data points, so 3 deltas. No longer history was supplied, so it cannot be checked whether growth is accelerating. The report does not say whether 'used' includes WAL, replication-slot retention or temp files.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Per the capacity report, October includes a one-off 45 GB backfill of the shipment_events table (migration ORD-2231) that is 'Not expected to recur.'",
+      "source": {
+        "kind": "fixture",
+        "ref": "capacity-report-2026-10.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "table-sizes.csv"
+      ],
+      "applicability": "Removing the 45 GB one-off from October's 80 GB delta leaves 35 GB, the same as July-August and August-September. That points to an organic rate of about 35 GB/month, not 80.",
+      "limitations": "Ticket ORD-2231 itself was not available, so 'not expected to recur' is SRE's statement and could not be checked independently. table-sizes.csv only says shipment_events 'includes Oct backfill' and does not give the size.",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read both fixtures; ORD-2231 ticket not available"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "Staff engineer: 'We went from 1,760 to 1,840 last month, that's 80 GB/month. 160 GB free / 80 = 2 months. We need to shard, nothing else scales. Proposing 16 shards on customer_id via Citus-style routing.'",
+      "source": {
+        "kind": "fixture",
+        "ref": "slack-thread-staff-eng.txt"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the source of the 80 GB/month and 2-month runway premise. It extrapolates from a single month, the one that contains the documented 45 GB one-off.",
+      "limitations": "What is verified is that the statement was made, not that it is correct. It conflicts with the report's backfill note (E2) and the compute summary (E7).",
+      "contradicts": [
+        "E2",
+        "E7"
+      ],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "Arithmetic from E1 and E2: the deltas are 35, 35 and 80 GB, or 35 GB in October once the 45 GB backfill is excluded. Free space is 2,000 - 1,840 = 160 GB, and 1,840/2,000 = 92%. At 35 GB/month, 160 GB lasts about 4.6 months to 100%, compared with 2 months at 80 GB/month.",
+      "source": {
+        "kind": "fixture",
+        "ref": "capacity-report-2026-10.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This confirms the 92% figure and gives the corrected runway before any action (C1). Practical alert thresholds such as 85-90% would shorten the usable runway.",
+      "limitations": "Derived arithmetic that downstream stages should recompute. It assumes linear growth from 3 data points.",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on fixture values"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "Table sizes: audit_events 1,020 GB, 8,900M rows, append-only, 'rows older than 13 months = 780 GB'; orders 310 GB, 410M rows; order_items 240 GB, 1,300M rows; shipment_events 150 GB, 620M rows (includes Oct backfill); customers 40 GB, 18M rows; other (62 tables) 80 GB.",
+      "source": {
+        "kind": "fixture",
+        "ref": "table-sizes.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "audit_events is about 55% of used space. At least 780 GB is past the 12-month online-retention point, and more than 780 GB once months 12-13 are counted (G2). The listed sizes add up to exactly 1,840 GB, the reported 'used' figure, which suggests 'used' is relation size only. That would mean WAL and slot retention are either not counted or not measured.",
+      "limitations": "The file does not say whether audit_events is partitioned by time, so the removal mechanism (DROP partition vs DELETE plus repack) is unknown. It also gives no bloat, index-versus-heap split or unused-index data (G6). The size of the 12-to-13-month band is not given.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "Data retention policy v3 (Legal + Security, approved 2026-03), section 4.2: 'Audit events must be retained online for 12 months and may then be moved to cold archive (object storage) for 6 years. There is no requirement for archived audit events to be queryable from the transactional database.'",
+      "source": {
+        "kind": "fixture",
+        "ref": "data-retention-policy-excerpt.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The policy allows moving audit_events older than 12 months off the primary to object storage, as long as the archive is kept for 6 years (C2).",
+      "limitations": "This is an excerpt only. The policy does not show whether any application, report or foreign key reads old audit_events today. That needs pg_stat_statements or query-log confirmation, which was not available.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "Compute, 30-day p95: CPU 34%; write TPS 2,150 (tested headroom on current instance 9,000); 2 read replicas with p99 replica lag 140 ms; connections 410/1,000. Report summary: 'Storage is the only resource trending toward a limit. Compute and write throughput have >3x headroom.'",
+      "source": {
+        "kind": "fixture",
+        "ref": "capacity-report-2026-10.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "None of the measured compute, throughput or connection metrics is near a limit, which weakens the throughput case for sharding now (C4).",
+      "limitations": "These are point-in-time p95 figures with no trend. There is no data on working set versus RAM, vacuum duration, or freeze/wraparound age on the 8.9B-row audit_events table, so hidden operational limits cannot be ruled out.",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "The capacity report describes the volume as 'gp-ssd, online-resizable up to 16,000 GB, no downtime'. In Slack, the SRE lead says 'the volume can be grown online'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "capacity-report-2026-10.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "slack-thread-staff-eng.txt"
+      ],
+      "applicability": "This is the internal claim that the immediate storage wall can be removed within days (C3).",
+      "limitations": "Both statements come from the same SRE team, so they are not fully independent. The cloud platform or provider is not named ('gp-ssd' is generic), so vendor documentation can only be matched provisionally (see E9-E11).",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read both fixtures"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Search results describe AWS EBS Elastic Volumes. Volume size can be increased while the volume is in use, and the gp2/gp3 size range is 1-16,384 GiB. After a size change the volume enters an 'optimizing' state, which can take 6 to 24 hours to complete.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html",
+        "title": "Modify an Amazon EBS volume using Elastic Volumes operations"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://imageserver.redfishgroup.co.uk/modify-volume-aws-cli-2-3-2-command-reference.html",
+        "https://www.repost.aws/knowledge-center/ebs-volume-stuck-optimizing-on-modification"
+      ],
+      "applicability": "If the platform is AWS EBS gp3, the 16 TB ceiling and online resize match the SRE claim. A self-managed setup would also need a filesystem grow step.",
+      "limitations": "Based on search snippets only. A WebFetch of docs.aws.amazon.com failed (host not allowed in this session). The platform is not confirmed to be AWS. Cost, IOPS/throughput scaling, and the effect of the larger volume on backup, restore and replica rebuild times were not researched.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch blocked (ENOTFOUND docs.aws.amazon.com); based on search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Older AWS ModifyVolume documentation in the search results says at least six hours must pass between modifications of the same volume.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/APIReference/API_ModifyVolume.html",
+        "title": "ModifyVolume - Amazon Elastic Compute Cloud"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This is an operational caveat for staged resizes. Under it, only one resize per 6 hours is possible.",
+      "limitations": "Single search snippet, and probably outdated (see E11).",
+      "contradicts": [
+        "E11"
+      ],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "AWS announced on 2026-07-15 that RDS supports up to four storage modifications per instance in a rolling 24-hour window. A new modification can start once storage optimization for the previous one completes, without downtime, and the change applies to RDS for PostgreSQL. Classmethod write-ups (including a 2026-01-16 article on EBS) report that the earlier 6-hour cooldown was removed.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/about-aws/whats-new/2026/07/amazon-rds-upto-four-storage-modifications-24-hours",
+        "title": "Amazon RDS now supports up to four storage modifications in 24 hours"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://dev.classmethod.jp/en/articles/amazon-rds-storage-4-modifications-24-hours/",
+        "https://dev.classmethod.jp/en/articles/ebs-elastic-volumes-4-modifications/"
+      ],
+      "applicability": "On RDS or EBS, a resize can be done within hours with no downtime, and repeated resizes are feasible. That supports the conclusion that the disk wall can be removed within days (C3).",
+      "limitations": "The AWS announcement was not fetched, only seen in search results. The platform is not confirmed as AWS or RDS. RDS rules seen in snippets: an increase must be at least 10%, storage cannot be shrunk later, and a modification in progress cannot be cancelled. An older AWS Knowledge Center article mentions several minutes of downtime on Single-AZ instances, which conflicts with 'no downtime'.",
+      "contradicts": [
+        "E10"
+      ],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from AWS and Classmethod; fetch not possible"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "Plain VACUUM does not return space to the operating system in most cases; freed space stays available for reuse within the same table. VACUUM FULL rewrites the table into a new file and returns the space, but it is much slower and holds an exclusive lock on each table while it runs.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.postgresql.org/docs/13/sql-vacuum.html",
+        "title": "PostgreSQL VACUUM documentation"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://access.crunchydata.com/documentation/postgresql17/17.1/sql-vacuum.html",
+        "https://man.archlinux.org/man/VACUUM.7.en"
+      ],
+      "applicability": "Batch-DELETEing old audit_events will not shrink files on disk. It only stops future growth until the space is reused. Getting the space back on an unpartitioned table needs a rewrite (C2).",
+      "limitations": "Mirrors of the official docs across versions, seen in search results and not fetched. The behavior is consistent across versions.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Consistent search snippets from multiple doc mirrors"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "PostgreSQL docs: 'Dropping an individual partition using DROP TABLE, or doing ALTER TABLE DETACH PARTITION, is far faster than a bulk operation. These commands also entirely avoid the VACUUM overhead caused by a bulk DELETE.' DETACH PARTITION ... CONCURRENTLY cannot run in a transaction block, is not allowed if the table has a default partition, and takes a SHARE UPDATE EXCLUSIVE lock on the parent.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.postgresql.org/docs/18/ddl-partitioning.html",
+        "title": "PostgreSQL 18 Table Partitioning"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.postgresql.org/docs/13/ddl-partitioning.htm",
+        "https://www.postgresql.org/message-id/20201201013051.GA24052@telsasoft.com"
+      ],
+      "applicability": "If audit_events is, or is converted to, time-range partitioned, dropping old partitions (after exporting them to object storage) frees space immediately. It also gives a repeatable monthly retention job, which matters for durability (C2, C6).",
+      "limitations": "Search snippets only. Whether audit_events is already partitioned is unknown. Converting an existing 1 TB unpartitioned table to partitions takes its own migration effort and temporary space.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from postgresql.org pages"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "pg_repack runs online without holding exclusive locks for the whole operation. A full-table repack needs free disk space about twice the size of the target tables and their indexes, and runs that run out of space fail partway through.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.pgxn.org/dist/pg_repack/doc/pg_repack.html",
+        "title": "pg_repack documentation"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.netdata.cloud/guides/postgres/postgres-vacuum-full-vs-pg-repack/",
+        "https://supabase.com/docs/guides/database/extensions/pg_repack.md"
+      ],
+      "applicability": "Reclaiming space after a DELETE on an unpartitioned audit_events with pg_repack would need free space well beyond the current 160 GB. In practice that means doing the online resize first. The doc's '2x' wording should be checked; the rebuilt copy would hold only the retained rows (about 240 GB or less).",
+      "limitations": "Search snippets only. The exact space figure depends on the size of the retained data and indexes, plus the log of changes made during the copy.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "Citus multi-tenant migration guidance: every table must carry the tenant/distribution column, and missing columns must be added and backfilled. Primary and foreign keys usually have to become compound keys that include the distribution column, because Citus cannot otherwise enforce uniqueness, and this is often described as the most invasive change. Distribution column types must match across tables. Inserts must include the tenant ID. Shared small tables become reference tables.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.citusdata.com/en/v12.1/develop/migration_mt_schema.html",
+        "title": "Citus: Identify Distribution Strategy"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://docs.citusdata.com/en/latest/sharding/colocation.html",
+        "https://stackgres.io/doc/1.18/administration/sharded-cluster/citus"
+      ],
+      "applicability": "This describes the schema and application work a customer_id sharding project would involve (C5). Whether audit_events and shipment_events carry customer_id is unknown.",
+      "limitations": "No source gave a person-time estimate for the effort. The schema and how evenly data spreads across customer_id are unknown, so the 2-3 quarter estimate cannot be checked against this schema.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from Citus docs"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "Secondary write-ups of Notion's Postgres sharding (2021) describe a 5-minute maintenance window that reflected 'months of focused engineering effort'.",
+      "source": {
+        "kind": "web",
+        "ref": "https://notion.com/blog/sharding-postgres-at-notion",
+        "title": "Herding elephants: Lessons learned from sharding Postgres at Notion"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://sneaky-potato.github.io/blog/notion-sharding/"
+      ],
+      "applicability": "A rough comparable suggesting that application-level sharding of a large Postgres takes months of dedicated effort. That is consistent in scale with the 2-3 quarter estimate (C5).",
+      "limitations": "The primary post was not inspected and the duration is not quantified. Notion's motivation and scale differ from this case.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets, mostly secondary"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "For insert-only tables, anti-wraparound autovacuum starts when the oldest unfrozen row is more than about 200 million transactions old (the autovacuum_freeze_max_age default), and on such tables this is often the first vacuum the table gets. PostgreSQL 13+ added autovacuum_vacuum_insert_threshold and autovacuum_vacuum_insert_scale_factor to vacuum insert-only tables earlier.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.cybertec-postgresql.com/en/?p=14916",
+        "title": "CYBERTEC blog on insert-only tables and autovacuum"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.postgresql.org/docs/18/static/runtime-config-vacuum.html"
+      ],
+      "applicability": "This is a possible hidden operational limit on the 8.9B-row append-only audit_events (G4). Shrinking the table through archival also reduces freeze and vacuum work.",
+      "limitations": "No vacuum, freeze-age or PostgreSQL version data was supplied for this cluster, so it is unknown whether this is actually a problem here.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E18",
+      "claim": "The user's request states the cluster is at 92% disk, is growing about 80 GB/month with about two months of runway, and that the staff engineer proposes a 2-3 quarter, 16-shard customer_id project that would freeze most feature work.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "These are the premises being evaluated. The 92% figure matches the fixtures; the growth and runway figures do not (E2, E4).",
+      "limitations": "These are user and staff-engineer assertions, not measurements.",
+      "contradicts": [
+        "E4"
+      ],
+      "gapIds": [
+        "G1",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "Only 4 month-end data points were supplied, so there is no longer history to test for acceleration. Ticket ORD-2231, which would confirm the backfill does not recur, was not available."
+    },
+    {
+      "gapId": "G2",
+      "reason": "It is unknown whether audit_events is partitioned by time, and the size of the 12-to-13-month band is not given. No query logs or pg_stat_statements were available to confirm that nothing reads rows older than 12 months, and no foreign-key information was available."
+    },
+    {
+      "gapId": "G3",
+      "reason": "The cloud platform is not named ('gp-ssd'). docs.aws.amazon.com could not be fetched because WebFetch is blocked (ENOTFOUND); the domain would need to be allowed in the session's network settings. Volume cost, IOPS/throughput scaling, and the effect on backup, restore and replica rebuild times were not established."
+    },
+    {
+      "gapId": "G4",
+      "reason": "No data was supplied on working set versus RAM, vacuum durations, XID or freeze age, or trends for the CPU and TPS figures."
+    },
+    {
+      "gapId": "G5",
+      "reason": "No schema, cross-customer query inventory or customer_id skew data was available. No public source quantifies Citus migration effort for a comparable schema."
+    },
+    {
+      "gapId": "G6",
+      "reason": "No bloat estimates, unused-index statistics, or WAL and replication-slot retention figures were supplied. Table sizes add up to exactly 1,840 GB, which suggests 'used' may exclude WAL and slots or that they were not measured."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

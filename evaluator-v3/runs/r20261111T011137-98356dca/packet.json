@@ -1,0 +1,383 @@
+{
+  "subject": "StreamCore 4.0 vs QueueForge 2.3 as a durable message broker for a sustained 300,000 msg/s of 1 KB messages (persisted and replicated) on at most 6 nodes",
+  "decisionObjective": "Decide which of the two brokers, if either, can reliably sustain 300,000 durable 1 KB msg/s (about 300 MB/s ingest, about 900 MB/s cluster-wide writes at replication factor 3) on 6 or fewer nodes. It has to hold that rate with enough headroom and acceptable latency, including during node failure and rebalancing, so the team can commit to one product, or conclude that neither qualifies without more nodes, tuning or its own proof-of-concept testing. The StreamCore vendor's 1M msg/s figure must not be taken as evidence for this workload.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Sustained durable throughput at 1 KB, RF3, 6 nodes versus the 300k msg/s requirement",
+      "weight": 35,
+      "rationale": "This is the hard pass/fail requirement. Only measurements made with persistence on, replication on, 1 KB payloads and 6 or fewer nodes count. The independent benchmark shows StreamCore at 220k (below the requirement) and QueueForge at 410k."
+    },
+    {
+      "id": "C2",
+      "name": "Throughput under the latency target (p99) and headroom margin",
+      "weight": 20,
+      "rationale": "Raw peak throughput can come at unacceptable tail latency. QueueForge reaches 410k only at 61 ms p99, and 340k under 50 ms, which is about 13% headroom over 300k. Whether that margin is enough depends on the requester's latency SLO, which they did not state."
+    },
+    {
+      "id": "C3",
+      "name": "Behaviour under failure: node loss, rebalancing, degraded-mode capacity",
+      "weight": 20,
+      "rationale": "A durable broker has to keep up through failures. QueueForge's docs say throughput can drop up to 40% for 10-20 minutes during rebalancing, which would put it at about 204k-246k msg/s, below 300k. With N-1 (5 nodes), capacity may also fall short. This could be decisive."
+    },
+    {
+      "id": "C4",
+      "name": "Quality and comparability of evidence",
+      "weight": 15,
+      "rationale": "The sources range from a vendor blog with a non-comparable setup (100 B messages, in-memory, RF1, 3 nodes) to a single third-party benchmark. How far each figure can be trusted, and how closely it matches the target workload, determines how much weight the recommendation can carry."
+    },
+    {
+      "id": "C5",
+      "name": "Operational complexity and resource efficiency at target scale",
+      "weight": 5,
+      "rationale": "Per-node disk/network/CPU load (about 150 MB/s writes per node at RF3), partition limits (4,000 per node for QueueForge) and the CPU-bound replication reported for StreamCore affect whether 6 nodes is realistic and how much tuning is needed."
+    },
+    {
+      "id": "C6",
+      "name": "Licensing, support and cost",
+      "weight": 5,
+      "rationale": "QueueForge is Apache 2.0 with optional commercial support. StreamCore's licence and support terms are not documented in the sources. This is secondary to meeting the capacity requirement, but matters for the final commitment."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "StreamCore does 1 million messages per second (vendor claim) and this is relevant to the requirement.",
+      "source": "user",
+      "howToCheck": "Compare the conditions of the vendor claim (streamcore-blog.md: 100 B messages, in-memory with persistence disabled, RF1, 3 nodes) with the requirement (1 KB, durable, replicated, 6 nodes or fewer). Payload is 10x smaller, so the 1M figure is only about 100 MB/s with no durability. Treat it as non-comparable and rely on the independent benchmark's 220k figure instead."
+    },
+    {
+      "assumption": "The requirement is 300k msg/s sustained continuously, including during failures, on no more than 6 nodes, with replication meaning RF3.",
+      "source": "user",
+      "howToCheck": "Confirm with the requester whether 300k must hold during node loss and rebalancing, what replication factor and acks level 'replicated' means, and whether peak versus average load differs."
+    },
+    {
+      "assumption": "The TechBench Labs benchmark setup (fsync per batch, RF3, 6 nodes, 1 KB) represents the requester's durability semantics and hardware.",
+      "source": "planner",
+      "howToCheck": "Review the benchmark's methodology details and funding, and compare them with the target durability guarantees and hardware. If they differ, recommend a proof-of-concept on target hardware."
+    },
+    {
+      "assumption": "A p99 latency target of under 50 ms is the relevant latency bar.",
+      "source": "planner",
+      "howToCheck": "The 50 ms target comes from the benchmark, not the request. Ask the requester for their actual latency SLO."
+    },
+    {
+      "assumption": "QueueForge's documented 40% throughput drop during rebalancing applies at the partition count this workload needs.",
+      "source": "planner",
+      "howToCheck": "Check the QueueForge docs and community or benchmark reports for rebalance impact as a function of partition count and data volume, and estimate the partitions needed for 300k msg/s."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "Is there any measurement of StreamCore under a comparable workload (1 KB, persistence on, RF3, 6 or fewer nodes) other than the TechBench result of 220k msg/s, and can tuning or hardware close the gap to 300k given that it was CPU-bound on replication?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "TechBench Labs independent benchmark (dated 2026-08), setup: 1 KB messages, fsync per batch, replication factor 3, 6 nodes, p99 latency target < 50 ms. StreamCore 4.0 sustained 220,000 msg/s at 38 ms p99.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "This is the only measurement in the sources that matches the target workload (1 KB, durable, RF3, 6 nodes). 220,000 msg/s is below the 300,000 msg/s requirement.",
+          "limitations": "The excerpt is very short. It gives no hardware specs, client or producer config, batch size, acks or consistency level, test duration, number of runs, funding or sponsorship. 'fsync per batch' may not match the requester's durability semantics. It is a single source, and a web search found no other trace of TechBench Labs.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E3",
+          "claim": "StreamCore was CPU bound on replication in the TechBench test.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "This suggests faster or more CPU cores, or replication tuning, might raise StreamCore's throughput. No source quantifies how much, so closing a 36% gap (220k to 300k) on 6 nodes is unsupported.",
+          "limitations": "CPU model and core count are not stated. Whether tuning was attempted is not stated.",
+          "contradicts": []
+        },
+        {
+          "id": "E4",
+          "claim": "StreamCore vendor blog (2026-04-02): StreamCore 4.0 sustained 1,000,000 msg/s on a 3-node cluster with 100-byte messages, in-memory mode (persistence disabled), replication factor 1.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "streamcore-blog.md",
+          "applicability": "This is not comparable to the requirement. The payload is 10x smaller, there is no persistence and no replication, and the cluster has 3 nodes. It confirms the assumption that the 1M figure is not evidence for a durable 1 KB RF3 workload.",
+          "limitations": "This is vendor marketing with no methodology beyond one sentence. It predates the independent benchmark (April vs August 2026). It only conflicts with E1 on the headline number, not under matching conditions.",
+          "contradicts": [
+            "E1"
+          ]
+        },
+        {
+          "id": "E5",
+          "claim": "Arithmetic on E4: 1,000,000 msg/s x 100 B is about 100 MB/s of payload with no durability or replication. That is about one third of the target's 300 MB/s ingest (300,000 x 1 KB) before any replication.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "streamcore-blog.md",
+          "applicability": "This supports discounting the vendor claim.",
+          "limitations": "Derived calculation. The plan says not to recompute in research, so this is flagged for the analysis stage to confirm.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "The supplied documents are the only evidence. Independence and reproducibility of the benchmark cannot be checked externally. A proof-of-concept on target hardware is the only way to close G1, G3 and G4.",
+          "limitations": "Search snippets only. WebFetch was not attempted because the environment blocks it.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "What is the requester's latency SLO (p99 or p999), and what headroom margin do they need above 300k msg/s?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "In the same benchmark, QueueForge 2.3 sustained 410,000 msg/s at 61 ms p99. It achieved 340,000 msg/s with p99 < 50 ms.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "QueueForge exceeds 300k msg/s in steady state with no failures. At the benchmark's 50 ms p99 target, the margin is 340k vs 300k. At 61 ms p99, it is 410k.",
+          "limitations": "The 410k figure misses the benchmark's own 50 ms p99 target. The 50 ms target comes from the benchmark, not the requester, who gave no SLO. The p999 figure and the test duration are not reported. Steady state only: no failure or rebalance scenario was tested.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "Requirement as stated by the user: sustain 300,000 durable (persisted, replicated) 1 KB msg/s on at most 6 nodes. The user gives no latency SLO, replication factor, acks level, headroom requirement, or whether the rate must hold during failures.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "user_input",
+          "ref": "request",
+          "applicability": "RF3, the 50 ms p99 target and the failure-mode requirement are planner or benchmark assumptions, not user statements.",
+          "limitations": "Needs confirmation from the requester.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "What sustained throughput does each broker deliver during node loss and rebalancing (5 surviving nodes, rebalance in progress) at 1 KB, RF3, and does the 40% QueueForge drop apply at the partition count this workload needs?",
+      "evidence": [
+        {
+          "id": "E6",
+          "claim": "QueueForge 2.3 operations guide: rebalancing after node loss can take 10-20 minutes at high partition counts, during which throughput may drop up to 40%.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "queueforge-docs.md",
+          "applicability": "A worst-case 40% drop from 340k-410k would give about 204k-246k msg/s, below 300k, for 10-20 minutes. Whether this applies depends on partition count ('high partition counts' is not defined) and on whether the requirement must hold during failures.",
+          "limitations": "'Up to' 40% is a ceiling, not a typical value. 'High partition counts' is not quantified. There is no curve of impact versus partition count or data volume. No independent measurement of failure behaviour exists for either broker. StreamCore's failure behaviour is undocumented.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "QueueForge recommended max partitions per node: 4,000.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "queueforge-docs.md",
+          "applicability": "On 6 nodes, the ceiling is about 24,000 partition replicas (or 20,000 on 5 surviving nodes). No source states the partition count needed for 300k msg/s, so the analysis cannot tell whether that ceiling is near the 'high partition counts' that trigger long rebalances.",
+          "limitations": "It is unclear whether the limit counts leader partitions or all replicas.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "Requirement as stated by the user: sustain 300,000 durable (persisted, replicated) 1 KB msg/s on at most 6 nodes. The user gives no latency SLO, replication factor, acks level, headroom requirement, or whether the rate must hold during failures.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "user_input",
+          "ref": "request",
+          "applicability": "RF3, the 50 ms p99 target and the failure-mode requirement are planner or benchmark assumptions, not user statements.",
+          "limitations": "Needs confirmation from the requester.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "The supplied documents are the only evidence. Independence and reproducibility of the benchmark cannot be checked externally. A proof-of-concept on target hardware is the only way to close G1, G3 and G4.",
+          "limitations": "Search snippets only. WebFetch was not attempted because the environment blocks it.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "How independent and reproducible is the TechBench Labs benchmark: hardware specs, client/producer config, batch and fsync settings, acks/consistency level, test duration, and any vendor sponsorship?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "TechBench Labs independent benchmark (dated 2026-08), setup: 1 KB messages, fsync per batch, replication factor 3, 6 nodes, p99 latency target < 50 ms. StreamCore 4.0 sustained 220,000 msg/s at 38 ms p99.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "This is the only measurement in the sources that matches the target workload (1 KB, durable, RF3, 6 nodes). 220,000 msg/s is below the 300,000 msg/s requirement.",
+          "limitations": "The excerpt is very short. It gives no hardware specs, client or producer config, batch size, acks or consistency level, test duration, number of runs, funding or sponsorship. 'fsync per batch' may not match the requester's durability semantics. It is a single source, and a web search found no other trace of TechBench Labs.",
+          "contradicts": [
+            "E4"
+          ]
+        },
+        {
+          "id": "E2",
+          "claim": "In the same benchmark, QueueForge 2.3 sustained 410,000 msg/s at 61 ms p99. It achieved 340,000 msg/s with p99 < 50 ms.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "QueueForge exceeds 300k msg/s in steady state with no failures. At the benchmark's 50 ms p99 target, the margin is 340k vs 300k. At 61 ms p99, it is 410k.",
+          "limitations": "The 410k figure misses the benchmark's own 50 ms p99 target. The 50 ms target comes from the benchmark, not the requester, who gave no SLO. The p999 figure and the test duration are not reported. Steady state only: no failure or rebalance scenario was tested.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "The supplied documents are the only evidence. Independence and reproducibility of the benchmark cannot be checked externally. A proof-of-concept on target hardware is the only way to close G1, G3 and G4.",
+          "limitations": "Search snippets only. WebFetch was not attempted because the environment blocks it.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "Recompute the resource load: 300k x 1 KB = about 300 MB/s ingest; with RF3, about 900 MB/s cluster writes, about 150 MB/s disk writes and about 100 MB/s replication egress per node on 6 nodes. Can the planned hardware sustain this with headroom, and how many partitions are needed relative to QueueForge's 4,000/node limit?",
+      "evidence": [
+        {
+          "id": "E3",
+          "claim": "StreamCore was CPU bound on replication in the TechBench test.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "independent-benchmark.md",
+          "applicability": "This suggests faster or more CPU cores, or replication tuning, might raise StreamCore's throughput. No source quantifies how much, so closing a 36% gap (220k to 300k) on 6 nodes is unsupported.",
+          "limitations": "CPU model and core count are not stated. Whether tuning was attempted is not stated.",
+          "contradicts": []
+        },
+        {
+          "id": "E5",
+          "claim": "Arithmetic on E4: 1,000,000 msg/s x 100 B is about 100 MB/s of payload with no durability or replication. That is about one third of the target's 300 MB/s ingest (300,000 x 1 KB) before any replication.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "streamcore-blog.md",
+          "applicability": "This supports discounting the vendor claim.",
+          "limitations": "Derived calculation. The plan says not to recompute in research, so this is flagged for the analysis stage to confirm.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "QueueForge recommended max partitions per node: 4,000.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "queueforge-docs.md",
+          "applicability": "On 6 nodes, the ceiling is about 24,000 partition replicas (or 20,000 on 5 surviving nodes). No source states the partition count needed for 300k msg/s, so the analysis cannot tell whether that ceiling is near the 'high partition counts' that trigger long rebalances.",
+          "limitations": "It is unclear whether the limit counts leader partitions or all replicas.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "Resource load at the target, assuming RF3: about 300 MB/s ingest and about 900 MB/s cluster-wide writes. On 6 nodes that is about 150 MB/s disk writes per node and about 100 MB/s replication egress per node (each leader sends 2 copies of its 50 MB/s share). On 5 surviving nodes, about 180 MB/s writes per node.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "user_input",
+          "ref": "request",
+          "applicability": "These bandwidths are within reach of modern NVMe and 10-25 GbE hardware. The planned target hardware is unknown, so whether 6 nodes is physically realistic cannot be confirmed.",
+          "limitations": "Arithmetic from the request and the plan's RF3 assumption. Ignores protocol overhead, consumer egress and rebalance traffic. No hardware specs are available from the requester or the benchmark.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "What are StreamCore's licence, support and cost terms compared with QueueForge's Apache 2.0 plus optional commercial support?",
+      "evidence": [
+        {
+          "id": "E8",
+          "claim": "QueueForge licence: open source (Apache 2.0); commercial support optional.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "queueforge-docs.md",
+          "applicability": "Answers the QueueForge side of C6.",
+          "limitations": "No support pricing is given.",
+          "contradicts": []
+        },
+        {
+          "id": "E9",
+          "claim": "StreamCore licence, support and cost terms are not documented in any supplied source, and a web search found no product by that name.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "C6 cannot be scored for StreamCore.",
+          "limitations": "The web search for StreamCore broker licensing returned only unrelated products (Lightstreamer, HiveMQ, streamco.org).",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "The supplied documents are the only evidence. Independence and reproducibility of the benchmark cannot be checked externally. A proof-of-concept on target hardware is the only way to close G1, G3 and G4.",
+          "limitations": "Search snippets only. WebFetch was not attempted because the environment blocks it.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E1",
+      "b": "E4",
+      "aClaim": "TechBench Labs independent benchmark (dated 2026-08), setup: 1 KB messages, fsync per batch, replication factor 3, 6 nodes, p99 latency target < 50 ms. StreamCore 4.0 sustained 220,000 msg/s at 38 ms p99.",
+      "bClaim": "StreamCore vendor blog (2026-04-02): StreamCore 4.0 sustained 1,000,000 msg/s on a 3-node cluster with 100-byte messages, in-memory mode (persistence disabled), replication factor 1."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E9",
+      "claim": "StreamCore licence, support and cost terms are not documented in any supplied source, and a web search found no product by that name.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "C6 cannot be scored for StreamCore.",
+      "limitations": "The web search for StreamCore broker licensing returned only unrelated products (Lightstreamer, HiveMQ, streamco.org).",
+      "contradicts": []
+    },
+    {
+      "id": "E12",
+      "claim": "No external information exists online for StreamCore 4.0, QueueForge 2.3 or TechBench Labs. Web searches returned only unrelated brokers and benchmarks (meshIQ 2026, SoftwareMill mqperf, OpenMessaging Benchmark, Solace).",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "The supplied documents are the only evidence. Independence and reproducibility of the benchmark cannot be checked externally. A proof-of-concept on target hardware is the only way to close G1, G3 and G4.",
+      "limitations": "Search snippets only. WebFetch was not attempted because the environment blocks it.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "The only comparable StreamCore measurement is TechBench's 220k msg/s. No source quantifies gains from tuning or hardware for the CPU-bound replication, and an external search found nothing."
+    },
+    {
+      "gapId": "G2",
+      "reason": "The requester did not state a latency SLO or headroom requirement. The 50 ms p99 target comes from the benchmark. The requester needs to be asked."
+    },
+    {
+      "gapId": "G3",
+      "reason": "No measurement of throughput under node loss or rebalancing exists for either broker. The QueueForge docs give only an 'up to 40%' ceiling for 'high partition counts' without defining that threshold. StreamCore's failure behaviour is undocumented."
+    },
+    {
+      "gapId": "G4",
+      "reason": "The TechBench methodology (hardware, client config, acks, batch size, duration, sponsorship) is not in the excerpt, and no external copy or publisher page could be found."
+    },
+    {
+      "gapId": "G5",
+      "reason": "Target hardware specs are unknown, and no source gives the partition count needed for 300k msg/s. Only the arithmetic load estimates are available."
+    },
+    {
+      "gapId": "G6",
+      "reason": "StreamCore licence, support and cost terms are not in the sources and could not be found online."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

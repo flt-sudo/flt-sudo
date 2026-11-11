@@ -1,0 +1,9 @@
+alert_name,pages,led_to_human_action
+disk-usage-warning-80pct,148,0
+queue-lag-warning,121,2
+cert-check-flap,66,0
+api-5xx-rate-high,71,63
+db-replica-lag,48,41
+payment-webhook-failures,39,37
+other (14 alerts),47,30
+# total pages: 540; 58% of pages fired between 20:00 and 08:00 US Pacific time

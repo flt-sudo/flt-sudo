@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T044611-883c6949",
+  "caseId": "ho-13-oncall-redesign",
+  "system": "agent",
+  "createdAt": "2026-11-11T04:46:11.034Z",
+  "request": "Our platform on-call is burning people out. Nine engineers share a weekly 24/7 primary rotation: five are in San Francisco and four in Berlin. Two options are on the table: (a) keep weekly 24/7 but add a secondary on-call, or (b) switch to follow-the-sun 12-hour shifts split between the two offices. Using the attached page data, roster and HR notes, recommend a design and the rollout steps. I'd like the reasoning to cover workload, fairness and anything that could block or complicate the rollout.",
+  "fixtures": [
+    "pages-last-90-days.csv",
+    "roster.md",
+    "hr-notes.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

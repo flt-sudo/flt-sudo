@@ -107,3 +107,13 @@ unresolved. Per the handoff ("stop earlier when all quality gates pass and furth
 value"), the orchestrator stopped. To make this deterministic rather than an orchestrator judgement:
 `combineGates` no longer recommends revision once a draft is certified; open decisive gaps are listed in
 `gates-N.json` (`openDecisiveGaps`) and reach the validation record via the draft's remaining uncertainty.
+
+### Run isolation (2026-11-11, from dev-03 baseline; before any held-out run)
+
+The dev-03 baseline was launched with a placeholder run path (orchestrator error) and, before the correction
+arrived, ran `Glob runs/*/request.md`, which listed other run directory names. The tool log and its transcript
+show it read no file outside its own run (3 Reads, all in its run; no Grep), so the run was kept. The episode showed
+that nothing prevented a stage from reading another run's outputs (e.g. a held-out baseline reading the agent's
+report for the same case), and that Glob/Grep were not logged.
+Changes: the guard denies subagent Read/Glob/Grep outside the active run directory (agent definitions excepted);
+the PostToolUse/PostToolUseFailure hooks now also log Glob and Grep. Tests added.

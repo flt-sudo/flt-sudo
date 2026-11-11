@@ -1,0 +1,30 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Wiki is outdated (2021) relative to 2025 migration",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Replication/failover already exists in the Valkey cluster",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Open client retry/backoff action item from INC-2291 is the remaining risk",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Recommends adding replication as if none exists",
+    "pass": false,
+    "detail": "forbidden claim matched: \"Should we prioritise adding replication\""
+  }
+]

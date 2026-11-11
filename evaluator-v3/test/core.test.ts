@@ -231,7 +231,7 @@ describe("hooks (run as real processes)", () => {
     fs.writeFileSync(path.join(runs, "r1", ".stage"), "eval-analyst");
     expect(hook("guard.mjs", { tool_name: "WebSearch", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("stage eval-analyst is not permitted");
     expect(hook("guard.mjs", { tool_name: "Write", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toContain("deny");
-    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
+    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", agent_type: "general-purpose", tool_input: { file_path: path.join(runs, "r1", "plan.json") } })).toBe("");
     // a stage must still be able to hand its report back and load deferred tool schemas
     expect(hook("guard.mjs", { tool_name: "SubagentHandback", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
     expect(hook("guard.mjs", { tool_name: "ToolSearch", agent_id: "a1", agent_type: "general-purpose", tool_input: {} })).toBe("");
@@ -239,6 +239,17 @@ describe("hooks (run as real processes)", () => {
     // the orchestrator itself (no agent_id) is not leased
     expect(hook("guard.mjs", { tool_name: "Write", tool_input: {} })).toBe("");
     fs.unlinkSync(path.join(runs, "r1", ".stage"));
+  });
+  it("run isolation: subagents may read only inside the active run", () => {
+    const inRun = path.join(runs, "r1", "sources", "a.md");
+    const other = path.join(runs, "r2", "report.md");
+    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", tool_input: { file_path: inRun } })).toBe("");
+    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", tool_input: { file_path: other } })).toContain("run isolation");
+    expect(hook("guard.mjs", { tool_name: "Read", agent_id: "a1", tool_input: { file_path: path.join(runs, "r1", "..", "r2", "x") } })).toContain("run isolation");
+    expect(hook("guard.mjs", { tool_name: "Glob", agent_id: "a1", tool_input: { pattern: "runs/*/report.md" } })).toContain("run isolation");
+    expect(hook("guard.mjs", { tool_name: "Grep", agent_id: "a1", tool_input: { pattern: "x", path: path.join(runs, "r1") } })).toBe("");
+    // the orchestrator (no agent_id) is not restricted
+    expect(hook("guard.mjs", { tool_name: "Read", tool_input: { file_path: other } })).toBe("");
   });
   it("does nothing when no run is active", () => {
     fs.unlinkSync(path.join(runs, ".active"));

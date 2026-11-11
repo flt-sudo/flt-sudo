@@ -60,6 +60,19 @@ process.stdin.on("end", () => {
     }
   }
 
+  // Run isolation: while a run is active, a subagent may only read inside that run's directory
+  // (and the agent definitions, for the general-purpose fallback). This stops a stage from reading
+  // another run's outputs, e.g. a baseline reading the agent's report for the same case.
+  if (ev.agent_id && (tool === "Read" || tool === "Glob" || tool === "Grep")) {
+    const inp = ev.tool_input ?? {};
+    const target = tool === "Read" ? inp.file_path : inp.path;
+    const allowedRoots = [runDir + path.sep, path.join(root, ".claude", "agents") + path.sep];
+    const abs = target ? path.resolve(target) : null;
+    const pattern = String(inp.pattern ?? "");
+    const ok = abs !== null && allowedRoots.some((r) => (abs + path.sep).startsWith(r)) && !pattern.includes("..");
+    if (!ok) return deny(`run isolation: ${tool} outside the active run directory is not permitted (${target ?? "no path"})`, runDir);
+  }
+
   if (tool !== "WebSearch" && tool !== "WebFetch") return;
   let budgets = { maxWebSearches: 12, maxWebFetches: 8 };
   try {

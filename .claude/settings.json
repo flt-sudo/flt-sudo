@@ -47,13 +47,13 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "WebSearch|WebFetch|Read|Agent|Task",
+        "matcher": "WebSearch|WebFetch|Read|Glob|Grep|Agent|Task",
         "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/evaluator-v3/hooks/log-tool.mjs\"", "timeout": 10 }]
       }
     ],
     "PostToolUseFailure": [
       {
-        "matcher": "WebSearch|WebFetch|Read|Agent|Task",
+        "matcher": "WebSearch|WebFetch|Read|Glob|Grep|Agent|Task",
         "hooks": [{ "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/evaluator-v3/hooks/log-tool.mjs\"", "timeout": 10 }]
       }
     ]

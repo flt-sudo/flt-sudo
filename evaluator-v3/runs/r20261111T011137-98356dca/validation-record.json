@@ -1,6 +1,6 @@
 {
   "runId": "r20261111T011137-98356dca",
-  "generatedAt": "2026-11-11T01:26:29.121Z",
+  "generatedAt": "2026-11-11T01:27:10.236Z",
   "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
   "researchPerformed": {
     "webSearches": [
@@ -81,6 +81,11 @@
         "agentType": "eval-adversary",
         "description": "dev-05 adversary review 3",
         "ok": true
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "dev-05 agent blind grading",
+        "ok": true
       }
     ]
   },
@@ -149,7 +154,7 @@
     "Knowledge gap G5 unresolved: Target hardware specs are unknown, and no source gives the partition count needed for 300k msg/s. Only the arithmetic load estimates are available.",
     "Knowledge gap G6 unresolved: StreamCore licence, support and cost terms are not in the sources and could not be found online."
   ],
-  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v4); total 100/100; critical failures: none. Grader is the same model family as the agent.",
   "remainingUncertainty": [
     "Methodology, hardware, sponsorship and reproducibility of the TechBench benchmark, including whether both brokers ran on identical hardware and client configuration (E1, E12).",
     "Throughput of either broker during node loss and rebalancing, and QueueForge's sustained maximum and sub-50 ms capacity on 5 nodes after rebalancing. QueueForge has only an 'up to 40%' ceiling for undefined 'high partition counts', and StreamCore has nothing (E6, E12).",

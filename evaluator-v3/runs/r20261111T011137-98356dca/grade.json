@@ -1,0 +1,46 @@
+{
+  "runId": "r20261111T011137-98356dca",
+  "caseId": "dev-05-queue-throughput",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "grader score 100 conflicts with in-pipeline quality gates (not certified); see final gates-N.json"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "This is a strong output that matches the reference conclusion: recommend QueueForge conditionally, with a PoC. It does not compute the reference's 204k (340k*0.6) variant. Instead it offers 180k (40% applied to the 300k live load) as an alternative baseline reading. That is defensible, not an error. The supplied source documents were not available to check independently, so quoted source facts were accepted where they are consistent with the reference. Clarity could arguably be 0.75 because the verdict paragraph is dense and some content repeats, but traceability is exemplary."
+}

@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T012710-f5f754f5",
+  "caseId": "dev-05-queue-throughput",
+  "system": "baseline",
+  "createdAt": "2026-11-11T01:27:10.632Z",
+  "request": "We need a message broker that sustains 300,000 durable (persisted, replicated) messages per second of 1 KB each, on at most 6 nodes. The vendor of 'StreamCore' says it does 1 million messages per second. Compare StreamCore with 'QueueForge' using the attached documents and recommend one.",
+  "fixtures": [
+    "streamcore-blog.md",
+    "independent-benchmark.md",
+    "queueforge-docs.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v4",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output addresses the actual decision and covers all three mustFlag issues: the non-comparable vendor figure, StreamCore's 220k shortfall and the QueueForge rebalance dip. It also covers expert-expected criteria such as latency headroom, 5-node capacity after a node loss, planned maintenance, storage and licensing. The storage and retention sizing is relevant to a 6-node constraint, so it is not padding.",
+      "quotes": [
+        "The vendor's 1M msg/s figure (E4) was measured under non-comparable conditions and is not evidence for this workload.",
+        "Its own docs say throughput may drop by up to 40% for 10-20 minutes while rebalancing after node loss",
+        "Storage capacity is a separate and possibly binding constraint."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "All numbers match the reference, and the calculation table recomputes them correctly (246k worst case, 220k, 410k/340k, 100 B, in-memory, RF1). Each claim is tied to a source and classified, and the unsupported linear-scaling and hardware inferences are explicitly labelled as such. Nothing appears fabricated. The 180k reading is presented as an alternative interpretation, not as fact.",
+      "quotes": [
+        "Measured against the 410k sustained maximum, the worst case leaves about 246k msg/s (K19).",
+        "As an illustration only, if capacity scaled linearly with node count (an assumption no source supports)",
+        "That is a general-knowledge inference, not a sourced measurement"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains why the vendor number does not transfer, why the latency knee matters, and how losing a node raises per-node load. It quantifies backlog, drain time and headroom, and analyses failure modes including a second failure, maintenance-triggered rebalances and bursty load.",
+      "quotes": [
+        "the vendor test removed exactly the work that bound it",
+        "Over 10-20 minutes that builds a backlog of about 32.4M-64.8M messages",
+        "A capacity loss therefore breaks the latency SLO well before it breaks throughput."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output corrects the user's 1M premise and surfaces its own assumptions (RF3, 50 ms SLO, through-failure requirement) as unconfirmed. It presents counterarguments fairly, including the case for StreamCore and the reliability of the benchmark, and states what would change the conclusion.",
+      "quotes": [
+        "None of these was stated by the requester.",
+        "**QueueForge clearly wins at 410k, so just pick it.** — 410k misses the benchmark's own 50 ms p99 target",
+        "A requirement that only steady-state throughput matters would make QueueForge a pass on current evidence."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear and conditional: QueueForge is the lead candidate and StreamCore is dropped for 6 nodes. It gives specific next steps (a PoC with node-kill, rolling-upgrade and 5-node capacity tests) and specific questions for the requester.",
+      "quotes": [
+        "Recommendation: treat QueueForge as the lead candidate. Run a proof-of-concept on target hardware that includes node-kill, planned-restart or rolling-upgrade, and rebalance tests",
+        "Do not shortlist StreamCore for a 6-node deployment on current evidence."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised by criterion, with an evidence registry, re-executed calculations and explicit labelling of uncertainty and unknowns. Nearly every material claim cites an E or K id. The verdict paragraph is dense and some content repeats, but traceability is excellent.",
+      "quotes": [
+        "E9 UNKNOWN: StreamCore licence, support and cost terms are not documented",
+        "| K19 | QueueForge worst-case rebalance throughput if the 40% drop applies to the 410k maximum | `410000*(1-0.4)` | 246000 | 246000 | yes |"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The 1M msg/s figure is from a vendor test with 100 B messages, in-memory mode with persistence disabled, RF1 and 3 nodes."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "StreamCore sustained 220,000 msg/s, which is 73.3% of the requirement (K4)"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Measured against the 410k sustained maximum, the worst case leaves about 246k msg/s (K19). Measured against the 300k live load, it leaves about 180k (K33). Both are below 300k."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the vendor's 1M msg/s claim as applicable to the requirement",
+      "triggered": false,
+      "evidence": "The StreamCore vendor figure of 1,000,000 msg/s ... is not evidence for this workload."
+    },
+    {
+      "condition": "Recommends StreamCore as meeting 300k durable msg/s",
+      "triggered": false,
+      "evidence": "StreamCore 4.0 does not qualify on 6 nodes."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "This is a strong output that matches the reference conclusion: recommend QueueForge conditionally, with a PoC. It does not compute the reference's 204k (340k*0.6) variant. Instead it offers 180k (40% applied to the 300k live load) as an alternative baseline reading. That is defensible, not an error. The supplied source documents were not available to check independently, so quoted source facts were accepted where they are consistent with the reference. Clarity could arguably be 0.75 because the verdict paragraph is dense and some content repeats, but traceability is exemplary."
+}

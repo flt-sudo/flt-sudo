@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T014544-6c6ca9d5",
+  "caseId": "ho-01-postgres-sharding",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the output's figures against the run's source files (capacity report, table sizes, retention policy). They match, except that it calls the retained backlog 'policy-noncompliant' when the policy is permissive ('may'). The output never states the reference's numeric targets: V1, the 50 GB/month Jul-Oct average, and V2, the 3.2-month runway. It uses the 35 GB/month backfill-excluded rate and a 4.6-month runway instead. The reference summary explicitly accepts ~35 GB/month and its F1 pattern matches, but an automated numeric check on V1/V2 would mark both as missed."
+}

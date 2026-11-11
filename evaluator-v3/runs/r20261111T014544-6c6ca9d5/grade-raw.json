@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "It answers the sharding decision directly and covers all four mustFlag issues: the inflated growth rate, storage rather than throughput as the bottleneck, archiving audit_events, and an online resize. It also covers what an expert would expect, such as replicas, legal hold and triggers for revisiting sharding. Nothing in it is irrelevant padding.",
+      "quotes": [
+        "No. Don't commit to a 16-shard migration next sprint.",
+        "grow the volume online on the primary and both replicas",
+        "partition audit_events by time, archive rows older than 12 months to object storage"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked the figures against the supplied sources and they are correct: 35/35/80 deltas, the 45 GB backfill, CPU 34%, 2,150 vs 9,000 TPS, 780 GB (42%), 1,060 GB after archiving and 8.7x headroom to 16,000 GB. The post-archive growth projections are presented as inferences. There is one minor inaccuracy. It calls the retained audit backlog 'policy-noncompliant', but policy v3 §4.2 only says the data 'may' be moved after 12 months. Also, it never states the 50 GB/month raw average or the 3.2-month runway; it uses the 35 GB/month organic rate instead, which the reference accepts.",
+      "quotes": [
+        "The underlying rate is about **35 GB/month**",
+        "At 35 GB/month: about 4.6 months to 100%.",
+        "leaves the policy-noncompliant audit backlog in place"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why sharding misfits the problem: it spreads throughput, and it copies the audit bloat to every shard. It quantifies runway before and after archiving. It covers Postgres space-reclamation mechanics (dropping partitions vs DELETE/VACUUM, the free space pg_repack needs) and lists edge cases and failure modes, including CDC, replication slots, WAL from bulk deletes and future backfills.",
+      "quotes": [
+        "Sixteen shards of a database that is 55% stale audit log is still 55% stale audit log",
+        "Plain VACUUM generally does not return space to the operating system, so you would delete 780 GB and the disk would stay full.",
+        "If you use pg_repack, its documentation says it needs free space of roughly twice the target table plus its indexes."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It rejects both premises of the staff engineer's case: the 80 GB/month figure and the claim that this is an architecture problem. It answers the strongest counterarguments fairly and lists specific triggers that would change the conclusion. It also notes that seasonal growth could weaken its own 35 GB/month estimate.",
+      "quotes": [
+        "The sharding proposal rests on two premises, and the attached sources contradict both.",
+        "\"We'll need sharding eventually, so start now.\" Maybe.",
+        "Revisit sharding when any of these triggers fires"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear and comes with a phased plan, a specific ask for the review, talking points for Thursday, and a list of the open questions that need resolving.",
+      "quotes": [
+        "Ask: approve an online volume resize this week, and audit partitioning and archiving over the next 4–6 weeks.",
+        "Sharding: put it on a trigger-based watch list with lightweight readiness work. No feature freeze."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised. The calculations are shown in tables tied to the source files, external claims are cited, and uncertainty is labelled explicitly, including which claims it could not verify.",
+      "quotes": [
+        "The claims that plain VACUUM doesn't return space to the OS and that VACUUM FULL takes an exclusive lock come from general PostgreSQL knowledge. My search didn't verify them directly.",
+        "The AWS EBS limits cited here are illustrative."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The staff engineer's 80 GB/month comes from October, and October includes a one-off 45 GB backfill (ORD-2231)... The underlying rate is about **35 GB/month**"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Storage is the only constrained resource. Compute and write throughput have more than 3x headroom."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "780 GB of the 1,840 GB used (about 42%), is audit_events rows older than 13 months. Retention policy v3 §4.2 already allows that data to move to cold storage"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "This week: grow the volume online on the primary and both replicas, for example to 2,500–3,000 GB."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends starting the 16-shard project now on the basis of the 80 GB/month / two-month runway figure",
+      "triggered": false,
+      "evidence": "No. Don't commit to a 16-shard migration next sprint."
+    },
+    {
+      "condition": "Fails to notice that compute and write throughput have ample headroom, i.e. treats the problem as a throughput scaling problem",
+      "triggered": false,
+      "evidence": "CPU is at 34% p95, write TPS is 2,150 against a tested 9,000, and connections are 410 of 1,000."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the output's figures against the run's source files (capacity report, table sizes, retention policy). They match, except that it calls the retained backlog 'policy-noncompliant' when the policy is permissive ('may'). The output never states the reference's numeric targets: V1, the 50 GB/month Jul-Oct average, and V2, the 3.2-month runway. It uses the 35 GB/month backfill-excluded rate and a 4.6-month runway instead. The reference summary explicitly accepts ~35 GB/month and its F1 pattern matches, but an automated numeric check on V1/V2 would mark both as missed."
+}

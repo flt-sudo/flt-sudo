@@ -1,0 +1,58 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Growth rate is ~50 GB/month (or less), not 80; runway ~3.2 months",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Bottleneck is storage, not compute/write throughput",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Archive/partition old audit_events (~780 GB) per retention policy",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Volume can be resized online as immediate mitigation",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses committing to sharding now as necessary",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Accepts the two-month runway",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Average monthly growth Jul-Oct in GB",
+    "pass": true,
+    "detail": "value ≈ 50 present"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Runway in months at average growth (160 GB free / 50)",
+    "pass": false,
+    "detail": "no number within ±0.05 of 3.2"
+  }
+]

@@ -1,0 +1,135 @@
+{
+  "subject": "Proposed migration of the production Kubernetes cluster from 40 x n4.large to 20 x n4.xlarge nodes on Nimbus Cloud",
+  "domain": "Cloud FinOps / Kubernetes capacity planning",
+  "decisionObjective": "Decide whether to approve the node migration (40 x n4.large to 20 x n4.xlarge) this month. That means checking three things: whether it actually lowers compute cost, whether it keeps enough capacity and resilience for production, and whether some other action (such as right-sizing requests or cutting node count) would do better on cost than a change of node shape. The claimed 50% / ~$2,800 saving and the 72% utilization figure are premises to test, not facts to accept.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Verified net compute cost change",
+      "weight": 30,
+      "rationale": "The proposal rests on cost. Recompute monthly spend for both configurations from the Nimbus price sheet (per-hour rates, 730 h/month), including any discounts or commitments. A quick reading suggests the per-vCPU price is the same (n4.xlarge costs exactly 2x n4.large for 2x the resources), so both configurations would cost about the same. That would leave the claimed saving with nothing to stand on."
+    },
+    {
+      "id": "C2",
+      "name": "Correct interpretation of utilization (requested vs used)",
+      "weight": 20,
+      "rationale": "FinOps and SRE disagree because they read different metrics. The 72% figure matches CPU requested of allocatable. Actual CPU use is 31% on average and 44% at p95. Which metric drives scheduling and which drives waste decides whether the cluster is over-provisioned and where any savings would come from."
+    },
+    {
+      "id": "C3",
+      "name": "Real efficiency gain from fewer, larger nodes",
+      "weight": 15,
+      "rationale": "The stated rationale is lower per-node overhead from kubelet and daemonsets. Measure how big that gain is: daemonset CPU of 0.25 vCPU per node times 20 fewer nodes, plus kubelet/system reserved and bin-packing effects, compared with total allocatable. That shows whether it gives any meaningful room to shrink the cluster."
+    },
+    {
+      "id": "C4",
+      "name": "Availability and blast-radius risk",
+      "weight": 15,
+      "rationale": "Halving the node count doubles the share of capacity lost when one node fails or drains. It also affects PodDisruptionBudgets, zone spread, and N+1 headroom. For production, a change that saves no money but adds risk should not be approved."
+    },
+    {
+      "id": "C5",
+      "name": "Alternative savings options (right-sizing, node reduction, autoscaling, commitments)",
+      "weight": 15,
+      "rationale": "If the cluster is mostly idle by actual use, the decision-relevant question is what really cuts spend. Options include lowering inflated requests, reducing node count, using a cluster autoscaler, or buying committed-use discounts. Comparing against these shows whether approving this migration is the right move at all."
+    },
+    {
+      "id": "C6",
+      "name": "Migration execution risk and timing",
+      "weight": 5,
+      "rationale": "The requester wants to act this month. Weigh the effort of draining and rescheduling, the disruption to workloads, change-freeze windows, and rollback complexity against a benefit that may not exist."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What is the actual monthly cost of 40 x n4.large compared with 20 x n4.xlarge, using the price sheet (0.192 vs 0.384 USD/h, 730 h) and any negotiated discounts, reservations, or sustained-use pricing that apply to this account?",
+      "whyItMatters": "If list prices are linear in vCPU and memory, both configurations cost about $5,606/month and the saving is zero. The claimed $2,803 would then be exactly half the current spend, which points to an arithmetic error, probably from ignoring the 2x hourly price of n4.xlarge. That would invalidate the proposal.",
+      "criteria": [
+        "C1"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Is the 72% figure CPU requested of allocatable rather than CPU used, and what are the actual used CPU and memory figures (avg and p95/peak) over a representative window that includes peak events?",
+      "whyItMatters": "It decides whether FinOps or SRE has the right picture. It also shows the right-sizing potential (requests 72% vs use 31% avg / 44% p95) and how many nodes could be removed safely.",
+      "criteria": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "How much allocatable capacity does consolidation actually free up? That means per-node overhead (daemonsets at 0.25 vCPU/node, kubelet/system reserved, memory overhead) times 20 nodes, as a share of the cluster's 160 vCPU / 640 GiB, plus any bin-packing improvement for large pods.",
+      "whyItMatters": "It gauges how much substance there is behind 'bigger nodes are more efficient'. The early estimate is about 5 vCPU, roughly 3% of capacity, which is far from 50%.",
+      "criteria": [
+        "C3",
+        "C1"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What resilience constraints apply to the production workloads: zone distribution, PDBs, anti-affinity rules, minimum replica counts, and N+1 headroom needed to survive losing a node or zone at 20 vs 40 nodes?",
+      "whyItMatters": "It sets the risk cost of consolidation and the minimum safe node count for any capacity reduction.",
+      "criteria": [
+        "C4",
+        "C5"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Which alternative actions are feasible, and what would they save? Options include right-sizing requests toward observed p95 use plus headroom, reducing node count, enabling a cluster autoscaler, and buying committed-use or reserved pricing.",
+      "whyItMatters": "If the migration saves nothing, the useful recommendation is the option that actually cuts spend. Its size depends on these figures.",
+      "criteria": [
+        "C5",
+        "C1"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "Are there operational constraints this month (change freezes, upcoming peak traffic, pending upgrades) and what effort and disruption would the migration involve?",
+      "whyItMatters": "It affects whether acting this month is sensible even if there were a benefit.",
+      "criteria": [
+        "C6"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The production cluster is 72% utilized.",
+      "source": "user",
+      "howToCheck": "Compare with the SRE export: 72% is cpu_requested_pct_of_allocatable (30d avg), while cpu_used is 31% avg and 44% p95. Confirm which metric the FinOps report used."
+    },
+    {
+      "assumption": "Replacing 40 n4.large with 20 n4.xlarge halves compute cost.",
+      "source": "user",
+      "howToCheck": "Recompute 40 x 0.192 x 730 against 20 x 0.384 x 730 from the Nimbus price sheet, and check for account-specific discounts that differ between instance types."
+    },
+    {
+      "assumption": "The migration saves about $2,800/month (~$2,803).",
+      "source": "user",
+      "howToCheck": "Recompute from the price sheet. Check whether $2,803 equals half of current spend (about $5,606.40), which would mean the n4.xlarge price was left out."
+    },
+    {
+      "assumption": "Bigger nodes are more efficient.",
+      "source": "user",
+      "howToCheck": "Calculate the overhead freed by consolidation (daemonset 0.25 vCPU/node x 20 nodes, kubelet/system reserved) as a share of allocatable, and check bin-packing effects for the actual pod size distribution."
+    },
+    {
+      "assumption": "The cluster is mostly idle (SRE claim).",
+      "source": "user",
+      "howToCheck": "Check used-CPU and used-memory avg and p95 over a longer window that includes known peaks. Also confirm the dashboard covers all node pools and whether limits or bursting matter."
+    },
+    {
+      "assumption": "Nimbus price sheet on-demand rates are the rates the organization actually pays, and 730 h/month is the right billing basis.",
+      "source": "planner",
+      "howToCheck": "Compare against recent invoices or the billing export for the cluster's node pool."
+    },
+    {
+      "assumption": "The cluster currently runs only n4.large nodes in a single node pool, with no autoscaling changing the count.",
+      "source": "planner",
+      "howToCheck": "Check node pool configuration and node-count history over the 30-day window."
+    }
+  ],
+  "answerability": "answerable"
+}

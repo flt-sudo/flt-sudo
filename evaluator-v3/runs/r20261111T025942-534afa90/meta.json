@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T025942-534afa90",
+  "caseId": "ho-06-k8s-node-consolidation",
+  "system": "agent",
+  "createdAt": "2026-11-11T02:59:42.853Z",
+  "request": "Our FinOps analyst says our production Kubernetes cluster is 72% utilized and proposes replacing the 40 n4.large nodes with 20 n4.xlarge nodes, claiming this halves compute cost and saves about $2,800 a month because 'bigger nodes are more efficient'. The SRE team says the cluster is mostly idle. I need to decide whether to approve the node migration this month. The FinOps report, Nimbus Cloud price sheet and the SRE utilization dashboard export are attached.",
+  "fixtures": [
+    "finops-report.md",
+    "nimbus-price-sheet.csv",
+    "sre-dashboard-export.csv"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

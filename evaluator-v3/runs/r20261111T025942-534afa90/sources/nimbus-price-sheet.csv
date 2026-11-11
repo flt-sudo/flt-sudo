@@ -1,0 +1,5 @@
+instance_type,vcpu,memory_gib,on_demand_usd_per_hour
+n4.large,4,16,0.192
+n4.xlarge,8,32,0.384
+n4.2xlarge,16,64,0.768
+# Billing: 730 hours per month for estimates

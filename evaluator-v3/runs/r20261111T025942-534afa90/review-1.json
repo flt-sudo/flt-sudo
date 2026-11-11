@@ -1,0 +1,83 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "The draft says that, until requests are lowered, nodes cannot safely be removed and autoscaling 'will remove few nodes'. From that it concludes that right-sizing must come first (CL5, C5 assessment, 'Right-size ... then remove' alternative). The draft's own numbers contradict this. CPU requests are 72% of allocatable, about 115 of 160 vCPU. Memory requests are 68%, about 435 of 640 GiB. CL9 already finds that single-node loss fits inside the 28% request headroom. So the cluster can drop some nodes now, before any right-sizing. At an illustrative 85% request ceiling, CPU needs about 34 nodes and memory about 32. That means about 6 n4.large nodes could go, roughly 6 x 140.16 = ~840 USD/month at list price, subject to N+1, zone and PDB checks. The decision objective names 'cutting node count' as a separate alternative. The draft never assesses a direct node reduction on the current shape, and it gives no cluster-specific estimate, even an illustrative one, for any alternative. It leans instead on a generic vendor figure of 30-50% (E12). The decision-maker is left without the one quantified, low-risk option that could be acted on this month.",
+      "location": "CL5; criteriaAssessments C5; alternatives (no 'reduce n4.large count now' option); practicalImplications",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "K13/K14 (N+1 request saturation, 73.8% / 75.8%) assume the same allocatable and the same absolute requests in both layouts. They ignore the draft's own C3 finding that consolidation frees about 5 vCPU of daemonset requests and some kubelet/system reserve. That would lower request share at 20 nodes. Separately, K9 measures the freed 5 vCPU against 160 vCPU of capacity rather than against allocatable. The direction of error is small and does not change the conclusion, but the two analyses are not internally consistent.",
+      "location": "CL9, K13, K14, K9",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "C6 notes that the migration means bringing up 20 new nodes while draining 40. It does not mention or estimate the temporary extra cost of running both pools during cutover. At list price that is about 0.384 USD/h per surge n4.xlarge. This strengthens the case against the migration and belongs in the execution-cost discussion.",
+      "location": "criteriaAssessments C6; tradeoffs",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "CL12 is marked material and repeats the 30-50% savings range from E12. E12 is a vendor blog snippet, and the packet itself calls it 'vendor marketing'. The draft does flag it as generic. Even so, putting it in a material claim invites the reader to anchor on about 1,700-2,800 USD/month, which this cluster's data does not support. Replace it with a cluster-derived illustrative range (see D1) or demote it.",
+      "location": "CL12; C5 assessment",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Do invoices or the billing export show a materially different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the memory p95, peak CPU/memory values and per-zone node distribution over a longer window (90 days or more)? These determine how many n4.large nodes can be removed immediately or after right-sizing.",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Did the FinOps author use a cost model or discount assumption not shown in the report to derive the ~$2,803 figure?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and all user premises are addressed with appropriate depth. The only gap is the transient dual-pool cost (minor)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core cost and utilization findings rest on VERIFIED fixture data, and the arithmetic checks out (5,606.40 both ways; 2,803.20 = half). Snippet-sourced evidence is flagged as such. The only weakness is the vendor 30-50% figure in a material claim."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "The calculations K1-K15 recompute correctly. The conclusion that the shape change saves nothing at list price follows from linear pricing. Small inconsistencies remain in the N+1 analysis (D2), and the CL5 overstatement is covered under D1."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "The draft omits direct node-count reduction on the current shape, although its own headroom figures support it. It gives no cluster-specific estimate for any alternative (D1)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict clearly answers the approve-this-month question, names the one factor that could reverse it, and gives actionable next steps. It would be stronger with a quantified immediate saving option."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Every cited evidence and calculation ID exists. The claims match the source files (finops-report.md, sre-dashboard-export.csv, nimbus-price-sheet.csv), and no injected instructions were followed."
+    }
+  ]
+}

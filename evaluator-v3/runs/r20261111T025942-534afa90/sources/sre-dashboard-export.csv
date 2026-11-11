@@ -1,0 +1,7 @@
+metric,value,window
+cpu_requested_pct_of_allocatable,72,30d avg
+cpu_used_pct_of_allocatable,31,30d avg
+cpu_used_pct_of_allocatable_p95,44,30d
+mem_requested_pct_of_allocatable,68,30d avg
+mem_used_pct_of_allocatable,39,30d avg
+daemonset_cpu_per_node_vcpu,0.25,

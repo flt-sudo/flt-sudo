@@ -1,0 +1,411 @@
+{
+  "records": [
+    {
+      "id": "E1",
+      "claim": "The FinOps report (2026-10) states: cluster utilization 72% (CPU); current 40 x n4.large; proposed 20 x n4.xlarge; estimated saving '50% of node spend, ~$2,803/month'; rationale 'larger nodes reduce per-node overhead (kubelet, daemonsets)'. The report does not say which CPU metric (requested or used) the 72% is, and it shows no cost arithmetic.",
+      "source": {
+        "kind": "fixture",
+        "ref": "finops-report.md",
+        "title": "FinOps recommendation - prod-k8s (2026-10)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The proposal under evaluation (C1, C2, C3).",
+      "limitations": "No calculation, no metric definition, no data window and no discount assumptions are given.",
+      "contradicts": [
+        "E4"
+      ],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied file in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E2",
+      "claim": "The Nimbus price sheet lists on-demand rates: n4.large has 4 vCPU and 16 GiB at 0.192 USD/h; n4.xlarge has 8 vCPU and 32 GiB at 0.384 USD/h; n4.2xlarge has 16 vCPU and 64 GiB at 0.768 USD/h. A note says to use 730 hours per month for estimates. The sheet shows no discounts, commitments or sustained-use pricing.",
+      "source": {
+        "kind": "fixture",
+        "ref": "nimbus-price-sheet.csv",
+        "title": "Nimbus Cloud price sheet"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The cost basis for C1/G1. Prices are exactly linear in vCPU and memory across the n4 family: 0.048 USD per vCPU-hour for every size.",
+      "limitations": "List on-demand prices only. Account-specific negotiated discounts, CUDs or invoices were not supplied. Nimbus Cloud is not a provider I could check publicly.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied file in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E3",
+      "claim": "Calculated from the price sheet: 40 x 0.192 x 730 = 5,606.40 USD/month for the current fleet, and 20 x 0.384 x 730 = 5,606.40 USD/month for the proposed one. The net list-price change is 0 USD/month. The claimed ~$2,803 equals 5,606.40 / 2 = 2,803.20. That fits an error where the old per-node price (0.192) was applied to 20 nodes, or where the doubled n4.xlarge rate was left out. Total resources are the same in both setups: 160 vCPU / 640 GiB.",
+      "source": {
+        "kind": "fixture",
+        "ref": "nimbus-price-sheet.csv",
+        "title": "Nimbus Cloud price sheet (derived arithmetic)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "finops-report.md"
+      ],
+      "applicability": "Directly tests the 50% / $2,803 saving claim (C1).",
+      "limitations": "Uses list prices only. A discount applying to one instance type but not the other could change the result, but no evidence of such a discount was supplied. How the $2,803 was produced is inferred from the numbers matching exactly; the report does not show it.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on the values in the supplied price sheet, checked against the FinOps report figure"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E4",
+      "claim": "The SRE dashboard export reports: cpu_requested_pct_of_allocatable 72 (30d avg); cpu_used_pct_of_allocatable 31 (30d avg); cpu_used_pct_of_allocatable_p95 44 (30d); mem_requested_pct_of_allocatable 68 (30d avg); mem_used_pct_of_allocatable 39 (30d avg); daemonset_cpu_per_node_vcpu 0.25.",
+      "source": {
+        "kind": "fixture",
+        "ref": "sre-dashboard-export.csv",
+        "title": "SRE utilization dashboard export"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The FinOps 72% matches CPU requested of allocatable exactly, not CPU used (C2). Actual use is 31% avg / 44% p95 CPU and 39% avg memory, which supports the SRE view that capacity is largely idle by use.",
+      "limitations": "30-day window only. No memory p95, no peak or max values, and no node-pool or zone breakdown. Whether the window includes seasonal peaks is unknown. The FinOps report does not confirm it used this metric; the match is by value.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied file in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E5",
+      "claim": "Calculated: daemonset overhead freed by going from 40 to 20 nodes = 0.25 vCPU x 20 nodes = 5 vCPU, which is 5/160 = about 3.1% of total vCPU (about 1.3 n4.large-equivalents). Kubelet/system-reserved savings come on top of that and are expected to be small (see E8).",
+      "source": {
+        "kind": "fixture",
+        "ref": "sre-dashboard-export.csv",
+        "title": "SRE export (derived arithmetic)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "nimbus-price-sheet.csv"
+      ],
+      "applicability": "Sizes the 'bigger nodes are more efficient' rationale (C3). The gain is single-digit percent, far below 50%, and is only realized as savings if nodes are actually removed.",
+      "limitations": "Assumes the 0.25 vCPU/node daemonset figure is per-node requests and the same on larger nodes. Nimbus kubelet/system-reserved values are unknown. Memory overhead was not quantified. The pod-size distribution for bin-packing effects was not supplied.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on supplied values"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E6",
+      "claim": "Kubernetes docs (per search snippet): the scheduler checks, for each resource type, that the sum of requests of containers already scheduled on a node stays below the node's capacity (allocatable). It does this even when actual usage is low, so scheduling is driven by requests, not usage.",
+      "source": {
+        "kind": "web",
+        "ref": "https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+        "title": "Resource Management for Pods and Containers"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://v1-34.docs.kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+        "https://norazhao0728githubio.readthedocs.io/en/latest/concepts/configuration/manage-compute-resources-container/"
+      ],
+      "applicability": "The 72% requested figure limits how many more pods can be scheduled. The 31%/44% used figure measures real waste. Lowering inflated requests is what frees capacity for removal (C2, C5).",
+      "limitations": "Taken from search snippets. The direct WebFetch of kubernetes.io failed (DNS not allowed in this session). The corroborating refs are a versioned copy and a mirror of the same documentation, so they are not fully independent.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets only; fetch failed"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E7",
+      "claim": "Cluster Autoscaler marks a node as a scale-down candidate when the sum of CPU and memory requests of its pods is below a utilization threshold (default 0.5 of allocatable, set with --scale-down-utilization-threshold). The test uses requests, not actual usage, and pods must be movable without violating PDBs or affinity rules.",
+      "source": {
+        "kind": "web",
+        "ref": "https://github.com/Azure/AKS/issues/3348",
+        "title": "AKS GitHub issue #3348"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://cast.ai/blog/kubernetes-cluster-autoscaler/",
+        "https://www.xelon.ch/en/docs/kubernetes-cluster-autoscaler",
+        "https://docs.cloud.google.com/kubernetes-engine/docs/troubleshooting/cluster-autoscaler-scale-down"
+      ],
+      "applicability": "At 72% requested, an autoscaler would remove few nodes. Right-sizing requests toward observed p95 plus headroom must come first before autoscaling or node reduction cuts spend (C5).",
+      "limitations": "From search snippets. The official autoscaler FAQ text did not appear in results. Whether Nimbus offers a managed autoscaler is unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E8",
+      "claim": "Managed Kubernetes (GKE) reserves CPU on a tiered, regressive scale (6% of the first core, 1% of the next core, with smaller tiers beyond per a third-party source). Larger nodes therefore lose a slightly smaller share to system reservations, but the difference is modest.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/plan-node-sizes?hl=en",
+        "title": "About GKE node sizing"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://learnk8s.io/allocatable-resources",
+        "https://dipankardas-portfolio.pages.dev/blog/kubelet-config-rabbit-hole-sizing-kubernetes-nodes"
+      ],
+      "applicability": "An analogy for C3. Going from 4- to 8-vCPU nodes frees only a small amount of reserved CPU, adding a little to the about 5 vCPU daemonset saving.",
+      "limitations": "GKE-specific. Nimbus reservation formulas are unknown. The fetch of docs.cloud.google.com failed (DNS not allowed), so the numbers come from snippets. Tiers beyond the second core were not confirmed against the official page.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets; fetch failed"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E9",
+      "claim": "Fewer, larger nodes increase blast radius: each node failure or drain removes a larger share of capacity and pods. They also cut repeated DaemonSet overhead, but can be harder to handle during upgrades and outages. Smaller nodes give finer autoscaling increments.",
+      "source": {
+        "kind": "web",
+        "ref": "https://itnext.io/architecting-kubernetes-clusters-choosing-a-worker-node-size-b3729cc0c78f",
+        "title": "Architecting Kubernetes clusters - choosing a worker node size"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.cncf.io/blog/2023/06/15/optimized-kubernetes-cluster-architecture-considerations-and-best-practices/",
+        "https://oneuptime.com/blog/post/2026-09-07-choose-cpu-memory-optimized-kubernetes-nodes/view"
+      ],
+      "applicability": "C4. At 20 nodes, one node is 5% of capacity instead of 2.5% at 40. N+1 headroom must double in absolute share. With requests at 72% there is 28% request headroom either way, but per-node drain moves twice as many pods.",
+      "limitations": "General practitioner guidance from snippets, not provider-specific. The 2.5%/5% share figures are my arithmetic.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets from multiple domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E10",
+      "claim": "Node drains honor PodDisruptionBudgets through the Eviction API. A PDB allowing zero disruptions can block a drain indefinitely. Topology spread constraints (e.g. maxSkew 1 on topology.kubernetes.io/zone) and anti-affinity handle placement, while PDBs protect it during drains and autoscaler scale-down.",
+      "source": {
+        "kind": "web",
+        "ref": "https://oneuptime.com/blog/post/2026-02-20-kubernetes-pod-disruption-budgets/view",
+        "title": "How to Use Kubernetes Pod Disruption Budgets for Safe Maintenance"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://codemia.io/archive/kubernetes-pod-anti-affinity-and-pdb",
+        "https://dev.to/cloud-sky-ops/post-210-reliability-by-design-probes-poddisruptionbudgets-and-topology-spread-constraints-473d"
+      ],
+      "applicability": "C4/C6. Migration means draining 40 nodes. Restrictive PDBs and zone-spread rules add execution risk and time.",
+      "limitations": "Blog sources from snippets, not official docs. The cluster's actual PDBs, zones and replica counts were not supplied.",
+      "contradicts": [
+        "E11"
+      ],
+      "gapIds": [
+        "G4",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E11",
+      "claim": "One source says kubectl drain bypasses the Eviction API and therefore ignores PDBs.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.resumelens.org/blog/kubernetes/pod-disruption-budgets",
+        "title": "pod disruption budgets"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Conflicts with E10. If it were true, drains during migration would be riskier.",
+      "limitations": "A single low-authority snippet that disagrees with other sources and with standard Kubernetes behavior. Likely wrong.",
+      "contradicts": [
+        "E10"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Single search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E12",
+      "claim": "Vendor and practitioner guides recommend right-sizing requests toward observed usage (e.g. P95, using VPA in recommendation mode or Kubecost request sizing). They report typical savings of 30-50% on over-provisioned resources, but only when nodes are actually removed afterwards.",
+      "source": {
+        "kind": "web",
+        "ref": "https://oneuptime.com/blog/post/2026-01-06-kubernetes-right-size-cluster/view",
+        "title": "How to Right-Size Your Kubernetes Cluster"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://sealos.io/blog/rightsizing-kubernetes-workloads-how-to-stop-wasting-money-on-cpu-and-memory-requests/",
+        "https://www.apptio.com/?p=158078"
+      ],
+      "applicability": "C5. With CPU used at 44% p95 against 72% requested, right-sizing plus node reduction is the plausible path to real savings, unlike the shape change.",
+      "limitations": "Vendor marketing with general percentages, not specific to this cluster. Savings for this cluster were not computed here and depend on memory p95, peak data and headroom policy.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E13",
+      "claim": "No information was supplied on account-specific discounts, committed-use or reserved pricing, invoices, node-pool configuration, autoscaling history, zone layout, PDBs, change freezes or upcoming peak events.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "Affects G1 (discounts), G4 (resilience), G5 (CUD savings) and G6 (timing).",
+      "limitations": "Needs internal data from the requester.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G4",
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Checked all supplied sources; not present"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    },
+    {
+      "id": "E14",
+      "claim": "The requester wants to decide on the migration this month. The SRE team says the cluster is mostly idle.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "C6 timing pressure; the SRE claim is checked by E4.",
+      "limitations": "User statement only.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    }
+  ],
+  "rejected": [],
+  "violations": []
+}

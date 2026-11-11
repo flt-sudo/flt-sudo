@@ -1,0 +1,110 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The 'divisible fleet' migration analysis gets wrong how a Savings Plan works. A Compute SP charges a fixed committed $/hr (here $0.0511 per original instance-equivalent) whether or not that coverage is used. If the requester moves to M8i and cuts instance-hours by about 1/1.2, their eligible usage at the SP rate falls to about $0.0447/hr, but they still pay $0.0511/hr. The unused $0.0064/hr is wasted. Cutting instance-hours therefore saves nothing under an existing commitment. The draft makes exactly this point for fixed fleets in K36, so it contradicts itself here. The per-unit figure of $0.0447 (K24), the 2.2% gain (K25), the roughly 6-month payback window (K26) and its 0-11 month sensitivity (K38, K39), and the 16-month Graviton window (K29) are only valid if the freed commitment is absorbed by workload growth or by other eligible usage. They are not valid simply because the fleet 'can shrink in proportion'. The arithmetic is correct, but the premise is false. As a result the verdict, CL17, CL18 and the Compute SP alternative all overstate the Compute SP's value for voluntary migration.",
+      "location": "verdict item (2); C3 assessment part (b); CL17; CL18; K24-K26, K29, K38, K39; alternatives 'Compute Savings Plan'; tradeoffs[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The comparison of forced-move stranding ($1,201, K9) against the Compute SP premium ($142, K42) is not like-for-like, and the draft never turns it into a decision threshold. Suppose a forced move happens at t=0 under an EC2 Instance SP. The requester pays the stranded $1,201 plus full on-demand for the new family (about $2,781 for M8i at 0.1008x1.05x26,280), which is about $3,980 in total. Under a Compute SP they pay about $1,343 plus a small on-demand top-up (about $132), which is about $1,475. The real gap is about $2,500, not $1,201 against $142. The draft also never computes the forced-move probability at which the Compute SP premium pays for itself (roughly 6-12% depending on when the move happens). That threshold is the single most decision-useful number for choosing the plan type, and it can be computed from the packet's figures.",
+      "location": "verdict item (2); C3 part (c); CL17; counterarguments[1]; tradeoffs[0]; practicalImplications[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "description": "The whole break-even framework and the plan-type preference rest on two rates ($0.0511 and $0.0457) from one INFERRED aggregator search snippet (E3). The packet itself says the search summaries were inconsistent: one snippet reported no m7i.large reserved figure. Even so, the verdict gives precise thresholds (50.7%, 18.25 months, 3.7 months, a 6-month window) to three or four significant figures. Overall confidence is marked low, and the draft does caveat the plan-type choice. But it presents the core 24-month commitment rule and the 'do not delay more than 3.7 months' guidance without that caveat, and both depend on the same unverified rates.",
+      "location": "verdict items (1) and (3); CL5; CL20; practicalImplications[1], [4]",
+      "remedy": "research"
+    },
+    {
+      "id": "D4",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The draft says K18 (M8i at 0.875 of M7i cost per unit of performance, i.e. about 14.3% better price-performance) is 'consistent' with AWS's 'up to 15%' claim. It also uses the 'up to 20%' performance figure as a point value in K18, K22, K24, K27 and K40. The draft lists vendor maxima as a weakness, but it does not show how far the M8i figures move at more typical gains, for example 10%.",
+      "location": "C3 strengths[1]; K18, K24, K27, K40",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The delay analysis (K41) sets 'forgone m7i EC2 Instance SP savings' against the M8i penalty. It ignores that during a short delay the requester could run on M8i on-demand (cheaper per unit of performance) or buy a 1-year term. It also prices the penalty under the shrinkable-fleet assumption used for new purchases. The 3.7-month threshold is therefore a rough heuristic, but it is presented as a firm cutoff.",
+      "location": "verdict item (3); CL20; K40, K41",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "CL16 and the availability assumption rely on E14, whose ref is docs.aws.eu, not the official AWS docs domain. The draft does not flag that the source's provenance is uncertain. The M4 launch year is also stated as background knowledge.",
+      "location": "CL16; E14",
+      "remedy": "research"
+    },
+    {
+      "id": "D7",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The draft does not mention that EC2 Instance SPs and regional Standard RIs already flex across sizes, OS and tenancy within the m7i family in the region (which lowers the stranding risk from resizing), or that m7i-flex is in the same family for EC2 Instance SP purposes. This omission makes the rigidity of an EC2 Instance SP look larger than it is.",
+      "location": "C3 mechanisms; alternatives 'EC2 Instance Savings Plan'",
+      "remedy": "research"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What are the official AWS Price List us-east-1 Linux shared-tenancy rates for m7i.large under 3-year and 1-year Compute SP, EC2 Instance SP, Standard RI and Convertible RI, for all payment options?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the official Compute SP and EC2 Instance SP rates for m8i/m8i-flex/m7i-flex/m7g/m8g in us-east-1, and do successor families get the same percentage discount?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How likely is the requester to be forced off m7i (architecture, Graviton port, region or OS change) during the term, and does the requester have other eligible compute or growth that could absorb freed Compute SP commitment?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the requester's 36-month usage floor and its variance?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, both user premises, and the main alternatives (Spot, flex, Graviton, tranches, RIs) are addressed. Gaps in RI and upfront data are disclosed."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": false,
+      "reason": "The precise thresholds that drive the recommendation all come from one INFERRED snippet (E3) with acknowledged inconsistencies, yet they are stated to high precision in the verdict's core rules."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The arithmetic recomputes correctly. But K24-K29/K38-K39 assume that shrinking instance-hours under a fixed $/hr commitment saves money, which is false, and the stranding-versus-premium comparison is not like-for-like."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Opposing cases (price cuts, a larger EC2 SP discount, price rises, the need for usage data) are fairly stated and answered, and alternatives are broad."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft correctly declines to forecast a point price and gives a conditional rule. It would be more useful with a break-even forced-move probability."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Claims map to existing evidence and calculation IDs, and the cited packet text supports them. There are only minor provenance concerns (E14 domain). No sign of injection."
+    }
+  ]
+}

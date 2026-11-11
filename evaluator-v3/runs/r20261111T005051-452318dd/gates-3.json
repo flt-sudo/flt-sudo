@@ -1,0 +1,406 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [C3 mechanisms; alternatives 'EC2 Instance Savings Plan'] The draft does not mention that EC2 Instance SPs and regional Standard RIs already flex across sizes, OS and tenancy within the m7i family in the region (which lowers the stranding risk from resizing), or that m7i-flex is in the same family for EC2 Instance SP purposes. This omission makes the rigidity of an EC2 Instance SP look larger than it is."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict items (1) and (3); CL5; CL20; practicalImplications[1], [4]] The whole break-even framework and the plan-type preference rest on two rates ($0.0511 and $0.0457) from one INFERRED aggregator search snippet (E3). The packet itself says the search summaries were inconsistent: one snippet reported no m7i.large reserved figure. Even so, the verdict gives precise thresholds (50.7%, 18.25 months, 3.7 months, a 6-month window) to three or four significant figures. Overall confidence is marked low, and the draft does caveat the plan-type choice. But it presents the core 24-month commitment rule and the 'do not delay more than 3.7 months' guidance without that caveat, and both depend on the same unverified rates."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict item (2); C3 assessment part (b); CL17; CL18; K24-K26, K29, K38, K39; alternatives 'Compute Savings Plan'; tradeoffs[0]] The 'divisible fleet' migration analysis gets wrong how a Savings Plan works. A Compute SP charges a fixed committed $/hr (here $0.0511 per original instance-equivalent) whether or not that coverage is used. If the requester moves to M8i and cuts instance-hours by about 1/1.2, their eligible usage at the SP rate falls to about $0.0447/hr, but they still pay $0.0511/hr. The unused $0.0064/hr is wasted. Cutting instance-hours therefore saves nothing under an existing commitment. The draft makes exactly this point for fixed fleets in K36, so it contradicts itself here. The per-unit figure of $0.0447 (K24), the 2.2% gain (K25), the roughly 6-month payback window (K26) and its 0-11 month sensitivity (K38, K39), and the 16-month Graviton window (K29) are only valid if the freed commitment is absorbed by workload growth or by other eligible usage. They are not valid simply because the fleet 'can shrink in proportion'. The arithmetic is correct, but the premise is false. As a result the verdict, CL17, CL18 and the Compute SP alternative all overstate the Compute SP's value for voluntary migration."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict item (2); C3 part (c); CL17; counterarguments[1]; tradeoffs[0]; practicalImplications[2]] The comparison of forced-move stranding ($1,201, K9) against the Compute SP premium ($142, K42) is not like-for-like, and the draft never turns it into a decision threshold. Suppose a forced move happens at t=0 under an EC2 Instance SP. The requester pays the stranded $1,201 plus full on-demand for the new family (about $2,781 for M8i at 0.1008x1.05x26,280), which is about $3,980 in total. Under a Compute SP they pay about $1,343 plus a small on-demand top-up (about $132), which is about $1,475. The real gap is about $2,500, not $1,201 against $142. The draft also never computes the forced-move probability at which the Compute SP premium pays for itself (roughly 6-12% depending on when the move happens). That threshold is the single most decision-useful number for choosing the plan type, and it can be computed from the packet's figures."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [C3 strengths[1]; K18, K24, K27, K40] The draft says K18 (M8i at 0.875 of M7i cost per unit of performance, i.e. about 14.3% better price-performance) is 'consistent' with AWS's 'up to 15%' claim. It also uses the 'up to 20%' performance figure as a point value in K18, K22, K24, K27 and K40. The draft lists vendor maxima as a weakness, but it does not show how far the M8i figures move at more typical gains, for example 10%."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict item (3); CL20; K40, K41] The delay analysis (K41) sets 'forgone m7i EC2 Instance SP savings' against the M8i penalty. It ignores that during a short delay the requester could run on M8i on-demand (cheaper per unit of performance) or buy a 1-year term. It also prices the penalty under the shrinkable-fleet assumption used for new purchases. The 3.7-month threshold is therefore a rough heuristic, but it is presented as a firm cutoff."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [CL16; E14] CL16 and the availability assumption rely on E14, whose ref is docs.aws.eu, not the official AWS docs domain. The draft does not flag that the source's provenance is uncertain. The M4 launch year is also stated as background knowledge."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.0511/0.1008",
+      "claimed": 0.5069,
+      "actual": 0.5069444444444444,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0.0457/0.1008",
+      "claimed": 0.4534,
+      "actual": 0.45337301587301587,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "1-0.0511/0.1008",
+      "claimed": 0.4931,
+      "actual": 0.4930555555555556,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "1-0.0457/0.1008",
+      "claimed": 0.5466,
+      "actual": 0.5466269841269842,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(0.0511-0.0457)/0.1008",
+      "claimed": 0.05357,
+      "actual": 0.05357142857142859,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.1008*730",
+      "claimed": 73.584,
+      "actual": 73.584,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "0.1008*3*8760",
+      "claimed": 2649.024,
+      "actual": 2649.024,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.0511*3*8760",
+      "claimed": 1342.908,
+      "actual": 1342.908,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "0.0457*3*8760",
+      "claimed": 1200.996,
+      "actual": 1200.996,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "36*0.0511/0.1008",
+      "claimed": 18.25,
+      "actual": 18.25,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "36*0.0457/0.1008",
+      "claimed": 16.32,
+      "actual": 16.321428571428573,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "1-0.0511/(0.1008*0.95)",
+      "claimed": 0.4664,
+      "actual": 0.466374269005848,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "1-0.0511/(0.1008*0.55)",
+      "claimed": 0.0783,
+      "actual": 0.0782828282828284,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "1-0.0457/(0.1008*0.55)",
+      "claimed": 0.1757,
+      "actual": 0.17568542568542578,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "0.1008/0.0960",
+      "claimed": 1.05,
+      "actual": 1.05,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "1.6934/1.6128",
+      "claimed": 1.05,
+      "actual": 1.0499751984126984,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1.6128/16",
+      "claimed": 0.1008,
+      "actual": 0.1008,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "1.6934/1.6128/1.2",
+      "claimed": 0.875,
+      "actual": 0.874979332010582,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "41.49/34.28",
+      "claimed": 1.21,
+      "actual": 1.2103267211201867,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "0.7*0.1008*26280-0.0511*26280",
+      "claimed": 511.41,
+      "actual": 511.4087999999999,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "0.5*0.1008*26280-0.0511*26280",
+      "claimed": -18.396,
+      "actual": -18.395999999999958,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "1.6934/16/1.2",
+      "claimed": 0.0882,
+      "actual": 0.08819791666666667,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "0.0511/0.0457",
+      "claimed": 1.1182,
+      "actual": 1.1181619256017505,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "0.0511*1.05/1.2",
+      "claimed": 0.04471,
+      "actual": 0.0447125,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "1-0.0511*1.05/1.2/0.0457",
+      "claimed": 0.0216,
+      "actual": 0.021608315098468167,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "36*(0.0457-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2)",
+      "claimed": 5.566,
+      "actual": 5.5655577299412675,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "0.0457*1.05/1.2",
+      "claimed": 0.03999,
+      "actual": 0.0399875,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "0.0816*0.0511/0.1008",
+      "claimed": 0.04137,
+      "actual": 0.04136666666666667,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "36*(0.0457-0.0816*0.0511/0.1008)/(0.0511-0.0816*0.0511/0.1008)",
+      "claimed": 16.03,
+      "actual": 16.027397260273958,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "0.0511/(0.1008*0.55)",
+      "claimed": 0.9217,
+      "actual": 0.9217171717171716,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "0.0457/(0.1008*0.55)",
+      "claimed": 0.8243,
+      "actual": 0.8243145743145742,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "0.0511/(0.1008*0.95)",
+      "claimed": 0.5336,
+      "actual": 0.533625730994152,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "1-0.0816/0.1008",
+      "claimed": 0.1905,
+      "actual": 0.19047619047619047,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "0.0445/0.1008",
+      "claimed": 0.4415,
+      "actual": 0.44146825396825395,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "(0.1008-0.0457)*730",
+      "claimed": 40.223,
+      "actual": 40.223,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "0.0511+(1-0.0511/(0.0511*1.05))*0.1008*1.05",
+      "claimed": 0.05614,
+      "actual": 0.05614000000000001,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "0.0511/(0.0816*0.0511/0.1008)",
+      "claimed": 1.2353,
+      "actual": 1.2352941176470587,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "36*(0.0457+0.01*0.1008-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2)",
+      "claimed": 11.25,
+      "actual": 11.24665362035224,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "36*(0.0457-0.01*0.1008-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2)",
+      "claimed": -0.1155,
+      "actual": -0.1155381604697047,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "(0.0457-0.0457*1.05/1.2)*26280",
+      "claimed": 150.12,
+      "actual": 150.12449999999987,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "(0.0457-0.0457*1.05/1.2)*26280/((0.1008-0.0457)*730)",
+      "claimed": 3.732,
+      "actual": 3.732304900181485,
+      "ok": true
+    },
+    {
+      "id": "K42",
+      "expression": "(0.0511-0.0457)*26280",
+      "claimed": 141.912,
+      "actual": 141.91200000000006,
+      "ok": true
+    },
+    {
+      "id": "K43",
+      "expression": "36*0.0511/(0.1008*0.95)",
+      "claimed": 19.21,
+      "actual": 19.210526315789473,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": false,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict item (2); C3 assessment part (b); CL17; CL18; K24-K26, K29, K38, K39; alternatives 'Compute Savings Plan'; tradeoffs[0]] The 'divisible fleet' migration analysis gets wrong how a Savings Plan works. A Compute SP charges a fixed committed $/hr (here $0.0511 per original instance-equivalent) whether or not that coverage is used. If the requester moves to M8i and cuts instance-hours by about 1/1.2, their eligible usage at the SP rate falls to about $0.0447/hr, but they still pay $0.0511/hr. The unused $0.0064/hr is wasted. Cutting instance-hours therefore saves nothing under an existing commitment. The draft makes exactly this point for fixed fleets in K36, so it contradicts itself here. The per-unit figure of $0.0447 (K24), the 2.2% gain (K25), the roughly 6-month payback window (K26) and its 0-11 month sensitivity (K38, K39), and the 16-month Graviton window (K29) are only valid if the freed commitment is absorbed by workload growth or by other eligible usage. They are not valid simply because the fleet 'can shrink in proportion'. The arithmetic is correct, but the premise is false. As a result the verdict, CL17, CL18 and the Compute SP alternative all overstate the Compute SP's value for voluntary migration."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict item (2); C3 part (c); CL17; counterarguments[1]; tradeoffs[0]; practicalImplications[2]] The comparison of forced-move stranding ($1,201, K9) against the Compute SP premium ($142, K42) is not like-for-like, and the draft never turns it into a decision threshold. Suppose a forced move happens at t=0 under an EC2 Instance SP. The requester pays the stranded $1,201 plus full on-demand for the new family (about $2,781 for M8i at 0.1008x1.05x26,280), which is about $3,980 in total. Under a Compute SP they pay about $1,343 plus a small on-demand top-up (about $132), which is about $1,475. The real gap is about $2,500, not $1,201 against $142. The draft also never computes the forced-move probability at which the Compute SP premium pays for itself (roughly 6-12% depending on when the move happens). That threshold is the single most decision-useful number for choosing the plan type, and it can be computed from the packet's figures."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict items (1) and (3); CL5; CL20; practicalImplications[1], [4]] The whole break-even framework and the plan-type preference rest on two rates ($0.0511 and $0.0457) from one INFERRED aggregator search snippet (E3). The packet itself says the search summaries were inconsistent: one snippet reported no m7i.large reserved figure. Even so, the verdict gives precise thresholds (50.7%, 18.25 months, 3.7 months, a 6-month window) to three or four significant figures. Overall confidence is marked low, and the draft does caveat the plan-type choice. But it presents the core 24-month commitment rule and the 'do not delay more than 3.7 months' guidance without that caveat, and both depend on the same unverified rates."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What are the official AWS Price List us-east-1 Linux shared-tenancy rates for m7i.large under 3-year and 1-year Compute SP, EC2 Instance SP, Standard RI and Convertible RI, for all payment options?",
+    "What are the official Compute SP and EC2 Instance SP rates for m8i/m8i-flex/m7i-flex/m7g/m8g in us-east-1, and do successor families get the same percentage discount?",
+    "How likely is the requester to be forced off m7i (architecture, Graviton port, region or OS change) during the term, and does the requester have other eligible compute or growth that could absorb freed Compute SP commitment?",
+    "What is the requester's 36-month usage floor and its variance?"
+  ]
+}

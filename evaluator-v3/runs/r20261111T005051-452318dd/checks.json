@@ -1,0 +1,23 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "States the future price cannot be determined/known",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Reframes around commitment decision factors (savings plans/utilisation/break-even)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Asserts a specific January 2028 price as fact",
+    "pass": true,
+    "detail": "absent"
+  }
+]

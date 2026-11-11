@@ -1,0 +1,300 @@
+{
+  "runId": "r20261111T005051-452318dd",
+  "generatedAt": "2026-11-11T01:08:20.562Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "Amazon EC2 m8i instances general availability price performance m7i",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "AWS price reduction EC2 on-demand instances history last price cut",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "m7i.large us-east-1 on-demand price per hour Linux reserved 3 year",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "Savings Plans cannot be cancelled resold; Convertible Reserved Instances exchange; Standard RI Marketplace sell rules",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "AWS price reduction P5 P4d On-Demand June 2025 up to 45%",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "m7i.large 3-year Compute Savings Plan rate us-east-1 EC2 Instance Savings Plan $ per hour",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "m8i.large on-demand price us-east-1 m8g.large m7g.large price per hour",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "doit m7i.large us-east-1 on-demand $0.1008 savings plan",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "AWS EC2 previous generation instances m4 still available retire m5 on-demand price unchanged since launch",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "AWS M8i pricing higher than M7i per vCPU on-demand price comparison",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "m7i 5% higher price than m6i; m5.large $0.096 m6i.large $0.096 on-demand us-east-1",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "Savings Plans pricing m7i.large 3 year all upfront no upfront reserved instance standard convertible us-east-1 Linux",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://calculator.holori.com/aws/ec2/m7i.large/us-east-1",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND calculator.holori.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or "
+      }
+    ],
+    "fixturesRead": [],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "dev-04 planner",
+        "ok": true
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "dev-04 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-04 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-04 adversary review 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-04 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-04 adversary review 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "dev-04 analyst draft 3 final",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "dev-04 adversary review 3",
+        "ok": true
+      }
+    ]
+  },
+  "sourcesInspected": [],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.doit.com/compute/spot/us-east-1/m7i.large",
+    "https://calculator.holori.com/aws/ec2/m7i.large/us-east-1",
+    "https://aws-pricing.com/m7i.large.html",
+    "https://aws.amazon.com/about-aws/whats-new/2025/06/pricing-usage-model-ec2-instances-nvidia-gpus",
+    "https://www.datacenterdynamics.com/en/news/aws-quietly-increases-prices-for-h200-ec2-instances-by-15/",
+    "https://awsinsider.net/Articles/2016/01/05/AWS-EC2-Price-Cuts.aspx",
+    "https://cloudprice.net/aws/ec2/compare/m6id.large-vs-m7i.large",
+    "https://aws.amazon.com/about-aws/whats-new/2025/08/amazon-ec2-m8i-and-m8i-flex-instances-generally-available",
+    "https://cloudprice.net/aws/ec2/compare/m7a.8xlarge-vs-m8i.8xlarge",
+    "https://conductatlas.com/platform/aws-bedrock/aws-service-terms/non-cancellable-reserved-instance-and-capacity-block-commitments/",
+    "https://vantage.sh/blog/aws-reserved-instances-resellers-updates",
+    "https://zesty.co/?p=376",
+    "https://docs.aws.eu/ec2/latest/instancetypes/pg.html"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 16 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 0.0511/0.1008 = 0.5069444444444444 (claimed 0.5069) → match",
+    "Calculation K2 re-executed: 0.0457/0.1008 = 0.45337301587301587 (claimed 0.4534) → match",
+    "Calculation K3 re-executed: 1-0.0511/0.1008 = 0.4930555555555556 (claimed 0.4931) → match",
+    "Calculation K4 re-executed: 1-0.0457/0.1008 = 0.5466269841269842 (claimed 0.5466) → match",
+    "Calculation K5 re-executed: (0.0511-0.0457)/0.1008 = 0.05357142857142859 (claimed 0.05357) → match",
+    "Calculation K6 re-executed: 0.1008*730 = 73.584 (claimed 73.584) → match",
+    "Calculation K7 re-executed: 0.1008*3*8760 = 2649.024 (claimed 2649.024) → match",
+    "Calculation K8 re-executed: 0.0511*3*8760 = 1342.908 (claimed 1342.908) → match",
+    "Calculation K9 re-executed: 0.0457*3*8760 = 1200.996 (claimed 1200.996) → match",
+    "Calculation K10 re-executed: 36*0.0511/0.1008 = 18.25 (claimed 18.25) → match",
+    "Calculation K11 re-executed: 36*0.0457/0.1008 = 16.321428571428573 (claimed 16.32) → match",
+    "Calculation K12 re-executed: 1-0.0511/(0.1008*0.95) = 0.466374269005848 (claimed 0.4664) → match",
+    "Calculation K13 re-executed: 1-0.0511/(0.1008*0.55) = 0.0782828282828284 (claimed 0.0783) → match",
+    "Calculation K14 re-executed: 1-0.0457/(0.1008*0.55) = 0.17568542568542578 (claimed 0.1757) → match",
+    "Calculation K15 re-executed: 0.1008/0.0960 = 1.05 (claimed 1.05) → match",
+    "Calculation K16 re-executed: 1.6934/1.6128 = 1.0499751984126984 (claimed 1.05) → match",
+    "Calculation K17 re-executed: 1.6128/16 = 0.1008 (claimed 0.1008) → match",
+    "Calculation K18 re-executed: 1.6934/1.6128/1.2 = 0.874979332010582 (claimed 0.875) → match",
+    "Calculation K19 re-executed: 41.49/34.28 = 1.2103267211201867 (claimed 1.21) → match",
+    "Calculation K20 re-executed: 0.7*0.1008*26280-0.0511*26280 = 511.4087999999999 (claimed 511.41) → match",
+    "Calculation K21 re-executed: 0.5*0.1008*26280-0.0511*26280 = -18.395999999999958 (claimed -18.396) → match",
+    "Calculation K22 re-executed: 1.6934/16/1.2 = 0.08819791666666667 (claimed 0.0882) → match",
+    "Calculation K23 re-executed: 0.0511/0.0457 = 1.1181619256017505 (claimed 1.1182) → match",
+    "Calculation K24 re-executed: 0.0511*1.05/1.2 = 0.0447125 (claimed 0.04471) → match",
+    "Calculation K25 re-executed: 1-0.0511*1.05/1.2/0.0457 = 0.021608315098468167 (claimed 0.0216) → match",
+    "Calculation K26 re-executed: 36*(0.0457-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2) = 5.5655577299412675 (claimed 5.566) → match",
+    "Calculation K27 re-executed: 0.0457*1.05/1.2 = 0.0399875 (claimed 0.03999) → match",
+    "Calculation K28 re-executed: 0.0816*0.0511/0.1008 = 0.04136666666666667 (claimed 0.04137) → match",
+    "Calculation K29 re-executed: 36*(0.0457-0.0816*0.0511/0.1008)/(0.0511-0.0816*0.0511/0.1008) = 16.027397260273958 (claimed 16.03) → match",
+    "Calculation K30 re-executed: 0.0511/(0.1008*0.55) = 0.9217171717171716 (claimed 0.9217) → match",
+    "Calculation K31 re-executed: 0.0457/(0.1008*0.55) = 0.8243145743145742 (claimed 0.8243) → match",
+    "Calculation K32 re-executed: 0.0511/(0.1008*0.95) = 0.533625730994152 (claimed 0.5336) → match",
+    "Calculation K33 re-executed: 1-0.0816/0.1008 = 0.19047619047619047 (claimed 0.1905) → match",
+    "Calculation K34 re-executed: 0.0445/0.1008 = 0.44146825396825395 (claimed 0.4415) → match",
+    "Calculation K35 re-executed: (0.1008-0.0457)*730 = 40.223 (claimed 40.223) → match",
+    "Calculation K36 re-executed: 0.0511+(1-0.0511/(0.0511*1.05))*0.1008*1.05 = 0.05614000000000001 (claimed 0.05614) → match",
+    "Calculation K37 re-executed: 0.0511/(0.0816*0.0511/0.1008) = 1.2352941176470587 (claimed 1.2353) → match",
+    "Calculation K38 re-executed: 36*(0.0457+0.01*0.1008-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2) = 11.24665362035224 (claimed 11.25) → match",
+    "Calculation K39 re-executed: 36*(0.0457-0.01*0.1008-0.0511*1.05/1.2)/(0.0511-0.0511*1.05/1.2) = -0.1155381604697047 (claimed -0.1155) → match",
+    "Calculation K40 re-executed: (0.0457-0.0457*1.05/1.2)*26280 = 150.12449999999987 (claimed 150.12) → match",
+    "Calculation K41 re-executed: (0.0457-0.0457*1.05/1.2)*26280/((0.1008-0.0457)*730) = 3.732304900181485 (claimed 3.732) → match",
+    "Calculation K42 re-executed: (0.0511-0.0457)*26280 = 141.91200000000006 (claimed 141.912) → match",
+    "Calculation K43 re-executed: 36*0.0511/(0.1008*0.95) = 19.210526315789473 (claimed 19.21) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://calculator.holori.com/aws/ec2/m7i.large/us-east-1 — getaddrinfo ENOTFOUND calculator.holori.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o",
+    "Fetch failed: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html — getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or ",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Official AWS Price List API and pricing pages could not be inspected. WebFetch failed with DNS/network-policy errors for calculator.holori.com and docs.aws.amazon.com; those hosts would need to be allowed. Only aggregator snippets were available. No us-east-1 figures were found for 1-year rates, Standard or Convertible RI rates, or Partial/All Upfront options for m7i.large. The supplied run directory has no sources/ folder.",
+    "Knowledge gap G2 unresolved: No systematic price history for m5, m6i or m7i was retrieved. The conclusion that no general-purpose on-demand cut has occurred since about 2016 rests on absence of evidence within a 12-search budget.",
+    "Knowledge gap G3 unresolved: On-demand prices for m8i.large and m8g.large in us-east-1 were not confirmed. Graviton (m8g) price-performance was not researched.",
+    "Knowledge gap G4 unresolved: This is a requester input and cannot be researched. Steady-state usage and confidence over 36 months are not given in the request.",
+    "Knowledge gap G6 unresolved: This is a requester input. Their cost of capital or discount rate is not given.",
+    "Knowledge gap G5 unresolved: Partially resolved from secondary sources only. Primary AWS documentation on RI Marketplace eligibility and Convertible RI exchange rules could not be fetched."
+  ],
+  "independentValidationStatus": "NOT INDEPENDENTLY VALIDATED. Only the in-pipeline adversarial review (same model family, fresh context) and deterministic checks were applied.",
+  "remainingUncertainty": [
+    "All commitment rates come from a single aggregator snippet (E3). The plan-type choice rests on a 0.54-cent/hr gap between two of them, and the payback windows swing from about 0 to 11 months for a 1-point rate change (K38, K39). No us-east-1 rates were found for RIs, 1-year terms or upfront payment options.",
+    "Savings Plan rates for m8i, m8i-flex, m7i-flex, m7g and m8g are not in the packet, and no new research was possible. K24-K29 and K36-K41 assume the same percentage discount as m7i, and on-demand prices for m7i-flex, m8i-flex and m8g are missing.",
+    "Whether the requester's fleet can shrink in instance count after migrating is unknown (E16). The migration benefit under a Compute SP exists only if it can (K36, K37).",
+    "The likelihood of a forced move off m7i, which decides whether the Compute SP premium is worth paying as insurance, is unknown.",
+    "The probable Spot range (E2) is an ambiguously labelled single snippet, and Spot prices change over time and by AZ.",
+    "Graviton performance relative to m7i, and the cost of porting, are unknown. K29 assumes performance parity.",
+    "The M8i figures rely on vendor 'up to' performance claims (E9) and on 8xlarge prices from different aggregators (E10).",
+    "Which services can absorb unused Compute SP commitment (for example Fargate or Lambda) is not verified in the packet.",
+    "The near-zero base rate for general-purpose cuts is inferred from absence of evidence within a limited search (E7). E8 shows only a current m6i price, not its history.",
+    "The 'narrow exceptions' to nonrefundability in E11 are not identified. Whether AWS offers a short post-purchase return window for small Savings Plans could not be checked because the research budget was exhausted.",
+    "The requester's usage, OS, tenancy and cost of capital are unknown (E16).",
+    "Primary AWS documentation on resale and exchange rules was not retrieved (E11-E13).",
+    "Contradiction E1 vs E2 is resolved in favour of E1 ($0.1008/hr). E1 is CORROBORATED by two aggregators and consistent with aggregator m7i.8xlarge/16 pricing (K17), though those sources may share an upstream feed, and the m6i x 1.05 match is circular. E2 is a single ambiguous snippet whose range looks like Spot pricing. The figure still needs confirmation from the AWS Price List.",
+    "E15 UNKNOWN: AWS does not publish future on-demand prices, so the January 2028 on-demand price for m7i.large cannot be known. No source found gives a forecast. RI and Savings Plan rates are fixed at purchase for the whole term, so the decision depends on usage across all 36 months, not on the price at one date.",
+    "Open question the reviewer judged decisive: What are the official AWS Price List us-east-1 Linux shared-tenancy rates for m7i.large under 3-year and 1-year Compute SP, EC2 Instance SP, Standard RI and Convertible RI, for all payment options?",
+    "Open question the reviewer judged decisive: What are the official Compute SP and EC2 Instance SP rates for m8i/m8i-flex/m7i-flex/m7g/m8g in us-east-1, and do successor families get the same percentage discount?",
+    "Open question the reviewer judged decisive: How likely is the requester to be forced off m7i (architecture, Graviton port, region or OS change) during the term, and does the requester have other eligible compute or growth that could absorb freed Compute SP commitment?",
+    "Open question the reviewer judged decisive: What is the requester's 36-month usage floor and its variance?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T00:57:59.035Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict; C3 assessment; alternatives (Compute SP, EC2 Instance SP); counterarguments #2; tradeoffs #1; K5] The main recommendation is to prefer a Compute SP over the m7i-locked EC2 Instance SP, but the draft's own numbers do not back it. Committed spend under the Compute SP is 0.0511/0.0457 = 1.118, so it costs about 11.8% more for the same m7i usage. The draft calls this 'about 5.4 percentage points' (K5), which makes the premium sound smaller than it is. The hedge also buys little. If the workload moves to M8i and the Compute SP gives the same percentage discount, the cost per m7i-equivalent of performance is about 0.0511*1.05/1.2 = 0.0447/hr. A locked EC2 Instance SP costs 0.0457/hr. That is a gain of about 2%, set against paying about 12% more for every hour before migration. Graviton (m7g at $0.0816, so about 0.0414 under a Compute SP at the same discount) changes the picture only modestly. The draft never weighs migration timing or likelihood against the premium. It asserts that the flexible plan 'avoids being locked' without showing that the flexibility is worth the price. On these figures the EC2 Instance SP may well come out ahead unless the workload changes family, region or OS, or moves to Fargate or Lambda.",
+          "[reasoning_validity/major] D2 [C3 assessment; K22] In C3 the draft argues that an m7i lock is 'more of an opportunity cost than an outright loss' by comparing the locked m7i rate ($0.0457) with M8i ON-DEMAND (K22, about $0.088). That is the wrong comparison. The real alternative to a locked EC2 Instance SP is M8i under a commitment (Compute SP or an M8i EC2 Instance SP), which costs about $0.045 per m7i-equivalent. Against that alternative the two are nearly equal. The comparison chosen is a strawman, and it tells the reader nothing about how big the stranding risk is.",
+          "[reasoning_validity/major] D3 [verdict; CL8; K13; K14; counterarguments #1] The price-cut stress test (K12-K14, CL8, counterargument #1) assumes 100% utilization. A 45% cut on day one would raise break-even utilization to 0.0511/0.05544 = 92% for the Compute SP and 0.0457/0.05544 = 82% for the EC2 Instance SP. So at realistic utilization, a cut combined with under-use would wipe out the discount. 'Even a GPU-style 45% cut leaves both plans slightly ahead' and 'the price-cut risk is small next to utilization risk' therefore overstate how robust the result is. The draft never examines how price-cut risk and utilization risk interact.",
+          "[coverage/major] D5 [alternatives; C3] The draft leaves out obvious alternatives that a FinOps expert would weigh. (1) m7i-flex and m8i-flex: E9 says M8i-flex offers 5% lower prices, and m7i-flex is likewise priced below m7i. (2) Graviton m7g/m8g treated as a real option rather than a footnote: m7g.large at $0.0816 is about 19% cheaper per instance than m7i.large and appears only in practicalImplications. (3) Spot for interruptible portions of the workload. All three could change both the size of the commitment and which instance it should be bought for.",
+          "[alternatives_counterarguments/major] reviewer gate opinion: The strongest case for the EC2 Instance SP (about 12% cheaper, with little performance-equivalent gain from migrating) is dismissed rather than engaged. Waiting or staggering the purchase is not analysed (D9).",
+          "D5 needs flex/Graviton prices, but the web-search budget is exhausted (12/12); handled as reanalysis with the gap recorded"
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T01:03:18.335Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [C3 assessment; CL17; CL18; K24-K29; alternatives 'Compute SP', 'Move or test first'; tradeoffs[0]; counterarguments[1]] K24-K29 and CL17/CL18 express the Compute SP's post-migration cost 'per m7i-equivalent hour', as if a fixed $/hr commitment got cheaper when the workload moves to a faster family. A Savings Plan charges the committed $0.0511/hr whatever runs. The saving from moving only appears if the extra performance lets the requester run fewer instance-hours, or if the surplus coverage soaks up growth or other usage. For a single m7i.large, or any fleet that cannot be shrunk in fractional steps, moving to one m8i.large under a $0.0511 Compute SP costs more, not less. The SP rate would be about 0.0511*1.05 = $0.0537/hr, so the commitment covers only about 95% of the hour and the rest is billed at on-demand, giving about $0.056/hr against $0.0457 for staying on the m7i EC2 Instance SP. The same applies to the m7g case: at performance parity, a $0.0511 commitment covers about 1.24 m7g.large, so one migrated instance saves nothing. The draft never states this divisibility or fleet-scale assumption, yet the 5.6-month (K26) and 16-month (K29) payback windows and the 'commit on Graviton/M8i' advice depend on it.",
+          "[reasoning_validity/major] D2 [CL20; alternatives 'Delay, or buy in staggered tranches'; tradeoffs[2]; practicalImplications[4]; verdict point (2)] CL20 and the 'Delay' alternative call waiting 'cheap insurance' and say the $40/instance-month cost of delay is 'small next to the risk of committing to the wrong family'. The draft's own figures say the opposite. Committing now on the m7i EC2 Instance SP instead of later on M8i costs about (0.0457-0.03999)*26,280 = about $150 per instance over the whole term (K9, K27), or about $4.2/month. Each month of delay costs about $40 (K35). Under the draft's own numbers, a delay of more than about 4 months costs more than the entire 36-month wrong-family penalty. The claim contradicts K25/K27, and the recommendation it supports (delay while deciding the family) is not justified as stated.",
+          "[reasoning_validity/major] D3 [C3 assessment conclusion; edgeCasesAndFailureModes[0]; alternatives 'EC2 Instance SP on m7i'] The cost of an m7i lock is framed only as a 'forgone gain' of about 2.2%, which assumes the workload can always keep running on m7i. If a move is forced, for example by a feature or capacity need, an architecture change, or a Graviton port that is actually carried out, an m7i-locked EC2 Instance SP or Standard RI is left stranded. The downside is then the whole remaining commitment, not 2.2% (the draft itself says there is no exit, E11). The edge cases and C3 conclusion understate this, which skews the EC2 Instance SP versus Compute SP recommendation.",
+          "[evidence_sufficiency/major] D4 [verdict point (2); CL17; CL18; K26; K29] The main plan-type recommendation (EC2 Instance SP is 'the cheaper choice', with a 5.6-month payback window) depends on a 0.54-cent/hr gap between two rates that both come from one INFERRED Holori snippet (E3). The packet itself flags the Holori source as unreliable (E2 mislabelling; earlier snippet saying no reserved figure was found). The recommendation also depends on unverified same-percentage-discount assumptions for M8i and m7g. K26 is very sensitive to the rates: a 1-point change in either discount moves the window substantially. The draft does give a general 'verify' caveat, but it presents the 5.6- and 16-month windows to four significant figures and states the family-first rule firmly, with no sensitivity range."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D7 [C3 mechanisms; alternatives 'EC2 Instance Savings Plan'] The draft does not mention that EC2 Instance SPs and regional Standard RIs already flex across sizes, OS and tenancy within the m7i family in the region (which lowers the stranding risk from resizing), or that m7i-flex is in the same family for EC2 Instance SP purposes. This omission makes the rigidity of an EC2 Instance SP look larger than it is."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        "[major/reviewer] D3 [verdict items (1) and (3); CL5; CL20; practicalImplications[1], [4]] The whole break-even framework and the plan-type preference rest on two rates ($0.0511 and $0.0457) from one INFERRED aggregator search snippet (E3). The packet itself says the search summaries were inconsistent: one snippet reported no m7i.large reserved figure. Even so, the verdict gives precise thresholds (50.7%, 18.25 months, 3.7 months, a 6-month window) to three or four significant figures. Overall confidence is marked low, and the draft does caveat the plan-type choice. But it presents the core 24-month commitment rule and the 'do not delay more than 3.7 months' guidance without that caveat, and both depend on the same unverified rates."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        "[major/reviewer] D1 [verdict item (2); C3 assessment part (b); CL17; CL18; K24-K26, K29, K38, K39; alternatives 'Compute Savings Plan'; tradeoffs[0]] The 'divisible fleet' migration analysis gets wrong how a Savings Plan works. A Compute SP charges a fixed committed $/hr (here $0.0511 per original instance-equivalent) whether or not that coverage is used. If the requester moves to M8i and cuts instance-hours by about 1/1.2, their eligible usage at the SP rate falls to about $0.0447/hr, but they still pay $0.0511/hr. The unused $0.0064/hr is wasted. Cutting instance-hours therefore saves nothing under an existing commitment. The draft makes exactly this point for fixed fleets in K36, so it contradicts itself here. The per-unit figure of $0.0447 (K24), the 2.2% gain (K25), the roughly 6-month payback window (K26) and its 0-11 month sensitivity (K38, K39), and the 16-month Graviton window (K29) are only valid if the freed commitment is absorbed by workload growth or by other eligible usage. They are not valid simply because the fleet 'can shrink in proportion'. The arithmetic is correct, but the premise is false. As a result the verdict, CL17, CL18 and the Compute SP alternative all overstate the Compute SP's value for voluntary migration.",
+        "[major/reviewer] D2 [verdict item (2); C3 part (c); CL17; counterarguments[1]; tradeoffs[0]; practicalImplications[2]] The comparison of forced-move stranding ($1,201, K9) against the Compute SP premium ($142, K42) is not like-for-like, and the draft never turns it into a decision threshold. Suppose a forced move happens at t=0 under an EC2 Instance SP. The requester pays the stranded $1,201 plus full on-demand for the new family (about $2,781 for M8i at 0.1008x1.05x26,280), which is about $3,980 in total. Under a Compute SP they pay about $1,343 plus a small on-demand top-up (about $132), which is about $1,475. The real gap is about $2,500, not $1,201 against $142. The draft also never computes the forced-move probability at which the Compute SP premium pays for itself (roughly 6-12% depending on when the move happens). That threshold is the single most decision-useful number for choosing the plan type, and it can be computed from the packet's figures.",
+        "[minor/reviewer] D4 [C3 strengths[1]; K18, K24, K27, K40] The draft says K18 (M8i at 0.875 of M7i cost per unit of performance, i.e. about 14.3% better price-performance) is 'consistent' with AWS's 'up to 15%' claim. It also uses the 'up to 20%' performance figure as a point value in K18, K22, K24, K27 and K40. The draft lists vendor maxima as a weakness, but it does not show how far the M8i figures move at more typical gains, for example 10%.",
+        "[minor/reviewer] D5 [verdict item (3); CL20; K40, K41] The delay analysis (K41) sets 'forgone m7i EC2 Instance SP savings' against the M8i penalty. It ignores that during a short delay the requester could run on M8i on-demand (cheaper per unit of performance) or buy a 1-year term. It also prices the penalty under the shrinkable-fleet assumption used for new purchases. The 3.7-month threshold is therefore a rough heuristic, but it is presented as a firm cutoff."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D6 [CL16; E14] CL16 and the availability assumption rely on E14, whose ref is docs.aws.eu, not the official AWS docs domain. The draft does not flag that the source's provenance is uncertain. The M4 launch year is also stated as background knowledge."
+      ]
+    }
+  },
+  "certified": false
+}

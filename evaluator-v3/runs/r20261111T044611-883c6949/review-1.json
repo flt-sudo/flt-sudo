@@ -1,0 +1,123 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The legal analysis of the recommended Berlin 07:00-19:00 12-hour shift only checks the ArbZG night window (s.2) and the 11-hour rest rule (s.5). It leaves out the daily maximum working time in ArbZG s.3 (8 h, extendable to 10 h) and the Sunday and public-holiday work ban in ArbZG s.9-10. Under follow-the-sun, a Berlin engineer works a normal day and is also on call 07:00-19:00, every day of their on-call week including Saturday and Sunday. Call-outs at 07:00-09:00 or 17:00-19:00 count as working time and can push the day past 10 h. Any weekend or holiday call-out is Sunday or holiday work, which needs a statutory exception. The request asks for 'anything that could block or complicate the rollout', and the verdict calls the Berlin shift legally clean because it 'sits entirely outside the statutory night window'. That framing leaves out a plausible complication, and possibly a blocker, for the recommended design. The packet does not research it either, so the gap was not flagged.",
+      "location": "criteriaAssessments C4; CL5, CL9, CL10; verdict; practicalImplications step 3",
+      "remedy": "research"
+    },
+    {
+      "id": "D2",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The verdict and the rollout steps disagree on when works council approval comes. The verdict says 'Step 2: run a time-boxed pilot... Step 3: confirm it only after the works council agrees', which implies the pilot can start before approval. practicalImplications step 5 says the pilot starts 'after approval'. HR notes (E5) and BetrVG s.87 (E15) say any change to the Berlin on-call schedule, a pilot included, needs works council approval first. A reader of the verdict alone could start an unlawful pilot in Berlin.",
+      "location": "verdict (Step 2/Step 3 wording) vs practicalImplications step 3 and step 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "C1 covers 'night-time and out-of-hours interruptions', but the draft only analyses the local-night window (22:00-06:00). Under the recommended split, SF is on call until 22:00 local on every on-call day, which covers the evening 18:00-22:00. Berlin covers 07:00-09:00 and 17:00-19:00 outside normal hours. Both offices also cover full 12-hour weekend days. The fairness comparison (CL7: 16.8 h vs 21 h vs 18.7 h today) treats business-hours on-call time the same as out-of-hours time. That makes the comparison apples-to-oranges: much of a 12-hour daytime shift overlaps normal working hours and costs far less than 24/7 hours. The draft does not quantify out-of-hours or weekend on-call hours per person per office, which is the metric that actually matters for burnout and fairness.",
+      "location": "criteriaAssessments C1, C3; CL7, CL8; K12-K14, K23-K24",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "Option (a) is never assessed together with noise tuning. The alternatives list contains '(a) with no noise tuning', '(b) with no noise tuning', 'noise removal only' and 'hybrid = tuning + (b)'. The recommended hybrid therefore gets credit for tuning (1.1 pages per shift) that option (a) would get too. The fair comparison is (a)+tuning vs (b)+tuning, and it is missing. The counterargument response on (a) ('after tuning, load is about 2.3 pages a day') quietly uses tuning against (a) without scoring (a)+tuning. Variants of (a) are also not considered, such as a secondary in the opposite office who takes the primary's local-night pages. That variant would answer C1 without 12-hour shifts.",
+      "location": "alternatives; counterarguments[0]; criteriaAssessments C1/C5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C6 and the verdict say option (a) 'roughly doubles on-call pay-outs'. CL14 and E5 say no US secondary stipend is defined and the German allowance amount is unknown. The doubling figure comes from the planner's rationale, not from evidence, and conflicts with the draft's own limitation.",
+      "location": "criteriaAssessments C6; alternatives[0]; tradeoffs[1] vs CL14",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C4 says 'PT business hours fall in Berlin's night'. 09:00-17:00 PT is 18:00-02:00 Berlin, so only about 3 hours (23:00-02:00) fall inside the ArbZG night window. The main Berlin night exposure under 24/7 weeks comes from PT evening and night alerts, not PT business hours. The point is overstated.",
+      "location": "criteriaAssessments C4 assessment; verdict ('PT daytime (which is Berlin night)')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The recommended 30-minute handoff overlap (E9) at the 22:00 PT boundary keeps the outgoing SF engineer on duty until about 22:30 local time. In the 8-hour-offset weeks, if boundaries are fixed to Berlin time, that becomes 23:30. Either way it goes into the 22:00-06:00 window that CL5 says the split avoids. The claim that neither office has local-night duty does not hold once the overlap is added.",
+      "location": "CL5; practicalImplications step 5; edgeCasesAndFailureModes[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The headline justification that post-tuning load (1.1 per 12-hour shift) is within the SRE limit of 2 incidents per shift assumes pages are spread evenly. The draft itself notes that, if the 58% annotation holds, more pages would land in Berlin's 22:00-10:00 PT half. It also compares pages with incidents and rests on search snippets. The verdict states the benchmark fit without these caveats. They appear only in the C2 weaknesses.",
+      "location": "verdict; CL4; criteriaAssessments C2",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What is the hour-of-day distribution of actionable pages after the three noise alerts are removed (raw timestamped logs)? Is residual night load material, and how would it split between the Berlin 22:00-10:00 PT half and the SF half?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do ArbZG s.3 (daily max 8/10 h) and s.9-10 (Sunday and public-holiday work) restrict Berlin 12-hour daytime on-call shifts that include weekends? What does the company's collective agreement or works agreement allow?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can each office independently handle every paging alert type (runbooks, access, service ownership)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How do option (a) with tuning and option (b) with tuning compare on out-of-hours and weekend on-call hours per person per office?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the actual German collective on-call allowance, and would a US secondary stipend be paid?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "ArbZG daily-maximum and Sunday-work constraints on the recommended Berlin shift are missing (D1), and out-of-hours and weekend burden is not quantified (D3)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Limits are generally flagged honestly (snippet-only legal and SRE sources, no timestamps). The verdict overstates the benchmark fit slightly (D8)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "Arithmetic K1-K24 recomputes correctly, including the DST day count (21+7). The remaining issues are minor (D5-D7)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "Option (a) with tuning, and a cross-office secondary variant, are never compared, so the hybrid gets credit for tuning (D4)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The verdict's step order implies the pilot can start before works council approval, which contradicts the rollout steps and the HR constraint (D2)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited evidence IDs exist and match the packet and source files. No injected instructions were found or followed. Minor: the pay-out doubling is drawn from the planner's rationale, not from evidence (D5)."
+    }
+  ]
+}

@@ -1,0 +1,678 @@
+{
+  "verdict": "Neither option on its own is the best choice. The evidence points to a staged hybrid. Step 1: remove alert noise first, as a precondition for any schedule change. Step 2: run a time-boxed pilot of follow-the-sun 12-hour shifts, with Berlin on 07:00-19:00 Berlin local time and SF on 10:00-22:00 PT. Step 3: confirm it only after the works council agrees, timestamped page logs exist and a per-office runbook check has been done. The reasons are as follows. Three alerts (disk-usage-warning-80pct, queue-lag-warning, cert-check-flap) produce 335 of 540 pages (about 62%) and only 2 of the 173 actions (E1, E2; K1-K5). Demoting them cuts load from about 6 to about 2.3 pages a day and keeps about 98.8% of actionable pages (K7, K8, K16). That brings load down to about 1.1 pages per 12-hour shift, within the SRE benchmark of 2 incidents per shift (E6; K11). It does this without works council schedule approval, although whether monitoring changes need works council involvement was not checked (E15). Option (a), weekly 24/7 plus a secondary, does not remove local-night duty for either office. It doubles each person's on-call exposure. And for Berlin engineers whose duty covers PT daytime (which is Berlin night), it adds more ways to trigger the 11-hour rest restart (E5, E11, E13). Option (b) with the 07:00-19:00 / 10:00-22:00 PT split removes local-night duty (22:00-06:00) for both offices, and the German statutory night window (23:00-06:00) for Berlin (E11, E16). Its costs are about 25% more on-call hours per Berlin engineer than per SF engineer (E12; K12-K14), team sizes below the SRE 6-per-site benchmark (E7), two handoffs a day, DST drift for about 28 days a year (E10; K22), and per-office skills coverage that is unknown (E18). How much night load follow-the-sun removes after noise is gone cannot be determined. The CSV has no timestamps, and the 58% night figure is an unverified annotation (E1, E3). Timestamped page logs would settle this.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Follow-the-sun with Berlin 07:00-19:00 and SF 10:00-22:00 PT is the only design in the evidence that removes local-night duty (22:00-06:00) for both offices. Option (a) keeps 24/7 weeks, so whoever is primary still takes night pages; the secondary only adds escalation depth. Noise removal cuts total interruptions by about 62%. How much of that cut falls at night cannot be determined, because the data has no timestamps.",
+      "mechanisms": "Night interruptions = (pages that land in someone's local night) x (people exposed). Option (a) leaves the first factor unchanged and adds exposure. A secondary is reachable 24/7 and can be woken for escalations. Follow-the-sun moves the coverage hours into each office's local day, so the first factor drops to about zero by design, whatever the page volume. Noise removal reduces the page count at every hour. If the 58% annotation is right (313.2 pages in 20:00-08:00 PT), at least 140 of those night-window pages were non-actionable, because only 173 pages were actionable at all. Tuning therefore has to remove some night pages, but the exact share is unknown.",
+      "strengths": [
+        "The E11 split puts neither office on duty in 22:00-06:00 local time, and keeps Berlin out of 23:00-06:00 (E11, E16)",
+        "Noise removal lowers interruptions at all hours and keeps 171 of 173 actionable pages (E2; K16)",
+        "Survey: 7 of 9 engineers name night pages as the main stressor, so this criterion targets the stated problem (E5)"
+      ],
+      "weaknesses": [
+        "The 58% night share is unverified and there is no hour-of-day breakdown of actionable pages (E1, E3)",
+        "During the 8-hour-offset weeks, a split fixed to Berlin time pushes SF to 11:00-23:00 PT, which adds 1 hour of late evening (E10, E11)",
+        "Option (a) does not reduce primary night exposure at all (E11, E12)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E5",
+        "E10",
+        "E11",
+        "E16",
+        "E19"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Alert noise is the single biggest lever. The three noise alerts produce 335 of 540 pages (62.0%) with 2 actions (0.6% actionable). The remaining four rows are 83.4% actionable. After demotion, load is about 2.3 pages a day, or about 1.1 per 12-hour shift. That is within the SRE benchmark of at most 2 incidents per 12-hour shift. Current load (about 3 per 12 hours) is above it.",
+      "mechanisms": "Cause-based or flapping warnings, such as disk usage at 80%, queue-lag warnings and flapping certificate checks, fire often but rarely need a human. SRE guidance is to page only on urgent, actionable, user-visible symptoms and to move cause signals to dashboards or tickets (E8). Removing them leaves the symptom alerts (api-5xx, db-replica-lag, payment-webhook) that drive real response.",
+      "strengths": [
+        "Arithmetic checked from the VERIFIED CSV: total 540, actionable 173, rate 32.0% (E1, E2; K1-K3)",
+        "Demotion loses only 2 of 173 actionable pages (E2; K16)",
+        "The benchmark is consistent: post-tuning load sits below 2 per 12-hour shift (E6; K11)"
+      ],
+      "weaknesses": [
+        "queue-lag-warning did lead to 2 actions, so it needs replacing with a symptom-based alert, not just deleting (E2)",
+        "Per-day figures assume pages are spread evenly over 90 days; the 'other (14 alerts)' row cannot be broken down (E1, E2)",
+        "The SRE benchmark counts incidents, not pages, and comes from search snippets only (E6)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E6",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Follow-the-sun is fairer on night exposure but less fair on hours. Each office covers 84 h a week, which is 16.8 h per SF engineer against 21 h per Berlin engineer, about 25% more for Berlin. Compared with today's average of about 18.7 h per person per week, Berlin's on-call hours rise and SF's fall. Option (a) shares hours evenly (2 weeks in 9) but doubles everyone's exposure, and keeps nights for everyone. Pay fairness cannot be assessed: the German allowance amount and any US secondary stipend are not given.",
+      "mechanisms": "Splitting a fixed 168 h a week across unequal headcounts (4 vs 5) concentrates hours on the smaller office. If the unverified 58% figure is right, most pages fall in 20:00-08:00 PT, so more of them would land in Berlin's 22:00-10:00 PT half. The page burden per Berlin person could then exceed the hours ratio.",
+      "strengths": [
+        "No office has local-night duty under the E11 split (E11)",
+        "Per-person hour figures checked: 16.8 vs 21 h a week (E12; K12-K14)"
+      ],
+      "weaknesses": [
+        "Berlin carries about 25% more hours and possibly more pages (E12)",
+        "Under option (a), each person goes from 1 week in 9 to 2 weeks in 9 on call, about 37.3 h a week on average (E12; K19, K24)",
+        "The German allowance is unknown, so it cannot be compared with the US $400/week (E5, E17)"
+      ],
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E11",
+        "E12",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Both options change the Berlin on-call plan, so both need works council agreement. The typical lead time is 4-8 weeks, and a deadlock goes to the conciliation board (Einigungsstelle). Follow-the-sun with Berlin on 07:00-19:00 keeps Berlin entirely outside the statutory night window, so the 11-hour rest restart after night call-outs is largely avoided. Option (a) puts Berlin primaries and secondaries on 24/7 weeks. PT business hours fall in Berlin's night, so night call-outs, rest restarts and lost next-day capacity follow. Noise removal does not change the schedule. Whether monitoring changes need works council involvement under BetrVG s.87(1) no.6 was not researched.",
+      "mechanisms": "Under BetrVG s.87(1) no.2, the works council co-determines the start and end of working time and how it is distributed, and on-call plans fall under this. Under ArbZG s.5, a call-out generally restarts the full 11-hour rest. So any design that wakes Berlin at night costs capacity the next day. A shift ending at 19:00 still pushes the next start to 06:00 or later after a late call-out, which is compatible with a 07:00 start.",
+      "strengths": [
+        "The 07:00-19:00 Berlin shift avoids 23:00-06:00 entirely (E11, E16)",
+        "The HR notes and the secondary legal sources agree on the approval gate and the rest rule (E5, E13, E15)"
+      ],
+      "weaknesses": [
+        "The legal points rest on search snippets; the statute texts were not retrieved (E13, E15, E16)",
+        "Whether a trivial interruption, such as a short acknowledgement, restarts rest is disputed (E13 vs E14)",
+        "An Einigungsstelle could push the timeline beyond 8 weeks (E15)"
+      ],
+      "evidenceIds": [
+        "E5",
+        "E11",
+        "E13",
+        "E14",
+        "E15",
+        "E16"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Option (a) adds escalation depth and avoids handoffs, but keeps a fatigued 24/7 primary. Follow-the-sun adds two handoffs a day. It needs written handoffs and an overlap window, a DST-tolerant boundary rule, and confirmation that each office can handle every alert type alone, which is currently UNKNOWN. Both sites are below the SRE multi-site staffing benchmark of 6 per site, and Berlin is lowest at 4.",
+      "mechanisms": "Handoffs create gaps in context and coverage, especially for incidents that run across a boundary. Vendor guidance recommends a roughly 30-minute overlap and a mandatory structured handoff (E9). The PT-Berlin offset drops from 9 to 8 hours for about 28 days a year, which moves one office's boundary by an hour (E10). Small sites have little slack for absences or holidays, and US and German public holidays differ (E7, E9).",
+      "strengths": [
+        "Handoff safeguards are well described (E9)",
+        "After tuning, a shift carries about 1.1 pages, leaving headroom for follow-up (E6; K11)"
+      ],
+      "weaknesses": [
+        "Per-office skills and runbook coverage is UNKNOWN (E18)",
+        "No empirical data on handoff-related incident risk (E9)",
+        "5 and 4 engineers per site is below the 6-per-site benchmark (E7)",
+        "Weekend and holiday coverage is not modelled (E11)"
+      ],
+      "evidenceIds": [
+        "E6",
+        "E7",
+        "E9",
+        "E10",
+        "E11",
+        "E18"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Noise removal is the cheapest, fastest and most reversible step. It needs no new stipends, and alerts can be restored. Option (a) roughly doubles on-call pay-outs, because a secondary is added to every week. Follow-the-sun needs works council approval (4-8 weeks or more), scheduling tool changes and a DST rule. It can be piloted and rolled back, but its rollback also touches the Berlin on-call plan. Pay for 12-hour shifts under the German collective policy is unknown.",
+      "mechanisms": "Cost scales with the number of people on paid standby. Lead time is set by the works council gate. Reversibility depends on whether a change touches the co-determined plan.",
+      "strengths": [
+        "Tuning can start immediately and in parallel with the works council consultation (E2, E15)",
+        "The pilot-then-confirm sequence fits the 4-8 week approval window (E5)"
+      ],
+      "weaknesses": [
+        "German allowance and US secondary stipend amounts are missing (E5, E17)",
+        "The works council position on a pilot is unknown (E15)"
+      ],
+      "evidenceIds": [
+        "E2",
+        "E5",
+        "E15",
+        "E17"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The CSV rows sum to 540 pages with 173 actionable, an actionable rate of about 32.0%.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "disk-usage-warning-80pct, queue-lag-warning and cert-check-flap produce 335 pages (about 62.0% of all pages) with only 2 actions (about 0.6% actionable). The remaining 205 pages are about 83.4% actionable.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K4",
+        "K5",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Demoting the three noise alerts would cut average load from about 6.0 to about 2.3 pages a day (about 15.9 a week; about 1.1 per 12-hour shift instead of 3). It would keep about 98.8% of actionable pages.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E12"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9",
+        "K10",
+        "K11",
+        "K16"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Post-tuning load per 12-hour shift (about 1.1) sits within the SRE benchmark of at most 2 incidents per 12-hour shift. Current load (about 3) exceeds it. The benchmark counts incidents rather than pages and comes from search snippets.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E6"
+      ],
+      "calculationIds": [
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "With a 9-hour offset, a split of Berlin 07:00-19:00 and SF 10:00-22:00 PT leaves neither office on duty in 22:00-06:00 local time, and keeps Berlin outside the ArbZG night window of 23:00-06:00.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E11",
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "The PT-Berlin offset is not a constant 9 hours. In 2026 it is 8 hours from 8-29 March and from 25 October to 1 November, about 28 days in total.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E10"
+      ],
+      "calculationIds": [
+        "K22"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "Under follow-the-sun, each office covers 84 h a week: about 16.8 h per SF engineer against 21 h per Berlin engineer. That is about 25% more per Berlin person, and more than today's average of about 18.7 h per person.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E12"
+      ],
+      "calculationIds": [
+        "K12",
+        "K13",
+        "K14",
+        "K23"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "Option (a) puts each engineer on call (primary or secondary) about 2 weeks in 9 (about 22.2% of weeks, about 37.3 h a week on average), with 24/7 night exposure unchanged.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E12"
+      ],
+      "calculationIds": [
+        "K19",
+        "K24"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Any change to the Berlin on-call plan, whether a secondary role or 12-hour shifts, needs works council agreement. HR reports a typical lead time of 4-8 weeks, and a deadlock goes to the Einigungsstelle.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "In Berlin, a night call-out generally restarts the full 11-hour rest period. Designs that keep Berlin off night duty therefore avoid lost next-day capacity. Whether trivial interruptions count is disputed.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E13",
+        "E14"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The claim that 58% of pages fired between 20:00 and 08:00 PT cannot be verified. The CSV has no timestamps, and 58% of 540 is 313.2, not a whole number. The night share of actionable pages cannot be determined.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K15"
+      ]
+    },
+    {
+      "id": "CL12",
+      "text": "If the 58% annotation is correct, at least about 140 of the roughly 313 night-window pages were non-actionable, because only 173 pages in total were actionable. Noise removal would then necessarily remove some night pages. The exact share remains unknown.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "calculationIds": [
+        "K15",
+        "K17",
+        "K18"
+      ]
+    },
+    {
+      "id": "CL13",
+      "text": "Whether both offices can handle every alert type independently, which follow-the-sun requires, cannot be determined from the evidence.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E18"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Pay fairness between offices cannot be determined. The German collective allowance amount and any US secondary stipend are not specified.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5",
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL15",
+      "text": "Both sites (5 SF, 4 Berlin) are below the SRE multi-site benchmark of at least 6 engineers per site, which is a sustainability risk for follow-the-sun, especially in Berlin.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL16",
+      "text": "Burnout is unlikely to come from rotation structure alone. Night exposure (structure) and noise (volume) are separate contributors, and noise makes up about 62% of pages.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E5",
+        "E19"
+      ],
+      "calculationIds": [
+        "K4"
+      ]
+    },
+    {
+      "id": "CL17",
+      "text": "With raw load of about 42 pages per 24/7 week, if the 58% annotation is correct, about 24.4 of them would fall in 20:00-08:00 PT. Under option (a) these land in an SF primary's local night.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E12"
+      ],
+      "calculationIds": [
+        "K20",
+        "K21"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Option (a): weekly 24/7 primary plus a secondary, with no noise tuning",
+      "comparison": "It keeps about 42 pages a week on a 24/7 primary (K20) and does not remove local-night duty (E11). Each person's on-call exposure doubles to about 2 weeks in 9 (K19), and pay-outs roughly double (C6). Berlin weeks put PT daytime into Berlin's night, so rest restarts follow (E13). It scores worst on C1 and C4 and best only on handoff avoidance (C5)."
+    },
+    {
+      "option": "Option (b): follow-the-sun 12-hour shifts, with no noise tuning",
+      "comparison": "It removes local-night duty (E11), but each shift carries about 3 pages, above the 2-per-12h benchmark (E6; K10). Berlin takes about 25% more hours (K14) and possibly most of the reportedly night-heavy pages (E12). Better than (a) on C1 and C4, but it carries the noise problem into a smaller-per-site setup."
+    },
+    {
+      "option": "Noise removal only, keeping the current weekly 24/7 primary",
+      "comparison": "Fastest and cheapest. Load drops to about 15.9 pages a week (K9), and no schedule approval is needed for the schedule itself (E15). But the primary is still woken at night by real api-5xx, db-replica-lag and payment-webhook alerts, and Berlin primaries still face night call-outs in PT daytime (E11, E13). Load is still on one person all week. A credible fallback if the works council or the skills audit blocks follow-the-sun."
+    },
+    {
+      "option": "Recommended hybrid: noise removal first, then a follow-the-sun pilot (Berlin 07:00-19:00, SF 10:00-22:00 PT) with structured handoffs",
+      "comparison": "It combines the volume cut (about 1.1 pages per 12-hour shift, K11) with removal of night duty (E11). It requires works council agreement (E15), a per-office runbook audit (E18) and a DST rule (E10). It accepts higher per-person hours in Berlin (K14), which needs mitigation such as compensation or cross-office backfill. A same-office daytime secondary is possible, but the evidence does not show it is needed once load is about 1.1 per shift, and it would strain a 4-person office."
+    }
+  ],
+  "tradeoffs": [
+    "Night relief against hours fairness: follow-the-sun removes nights but gives each Berlin engineer about 25% more on-call hours than each SF engineer (E12; K14).",
+    "Escalation depth against exposure: a secondary adds backup but doubles each person's on-call weeks and pay-outs (E12; K19).",
+    "Fewer handoffs against fatigue: weekly 24/7 avoids two daily handoffs but keeps one person exposed around the clock (E9, E11).",
+    "Speed against durability: noise removal is quick and reversible, while schedule changes are gated by the works council for 4-8 weeks or longer (E5, E15).",
+    "Aggressive demotion against hidden incidents: queue-lag-warning had 2 real actions, so deleting it outright risks missing them (E2)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "DST mismatch weeks (8-29 March, 25 October to 1 November 2026): a boundary fixed to Berlin time moves SF to 11:00-23:00 PT, and one fixed to PT moves Berlin to 06:00-18:00. Pick one rule in advance and tell both offices (E10, E11).",
+    "Incidents that span the 19:00 Berlin / 10:00 PT boundary: without an overlap window and a written handoff, context is lost (E9).",
+    "A Berlin call-out that runs late into the 19:00 boundary pushes the next-day start back under the 11-hour rule (E11, E13).",
+    "US and German public holidays and weekends: a 4-person Berlin office may not be able to staff every day. Coverage is not modelled (E9, E11).",
+    "Absence or attrition at a site with 4 engineers puts more load on the remaining 3 (E7).",
+    "Demoted alerts turn into real incidents, for example disk fill or certificate expiry. Symptom-based or deadline-based replacements and ticket routing are needed (E2, E8).",
+    "If timestamps show that actionable pages cluster in the Berlin half or near boundaries, the fairness and reliability picture changes (E3, E12).",
+    "Even a brief night acknowledgement by a Berlin engineer may restart rest under the strict view (E13, E14)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Option (a) is safer because a secondary adds escalation depth and avoids handoff risk.",
+      "response": "True for handoffs, but there is no evidence of high-severity escalation demand: after tuning, load is about 2.3 pages a day (K8). Option (a) leaves the stated stressor, night pages, untouched and doubles exposure (E5, E12). Handoff risk can be reduced with an overlap and written handoffs (E9)."
+    },
+    {
+      "argument": "Once noise is removed, a schedule change may not be needed at all.",
+      "response": "Possibly. That is why tuning comes first and the schedule change is piloted and measured. But real actionable alerts would still wake a 24/7 primary at night, and Berlin primaries would still face rest-period call-outs (E11, E13). Whether residual night load is material cannot be determined without timestamps (E3)."
+    },
+    {
+      "argument": "Follow-the-sun is unfair to Berlin, which has fewer people.",
+      "response": "Correct on hours: about 21 vs 16.8 h a week (K12, K13). The offset is that Berlin escapes all statutory night duty and rest restarts (E11, E16). Mitigations include compensating 12-hour shifts under the collective policy (amount unknown, E17), SF absorbing weekend or holiday shifts, or a tuned load that keeps each shift light. These belong in the works council negotiation."
+    },
+    {
+      "argument": "The 58% night figure shows most load is at night, so the schedule is the root cause.",
+      "response": "The figure is an unverified annotation (E1, E3). Even if accurate, at least about 140 of those night pages were non-actionable (K18), so noise is a large share of the night problem too (E19)."
+    },
+    {
+      "argument": "Short night acknowledgements do not interrupt rest under German law, so option (a) is fine for Berlin.",
+      "response": "That is a contested minority view from 2012-era commentary (E14). The mainstream secondary sources say a call-out restarts the full 11 hours (E13). A design should not depend on the contested view. Labour counsel should confirm."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The only options are (a) weekly 24/7 plus a secondary or (b) follow-the-sun 12-hour shifts.",
+      "correction": "Alert-noise removal is a stronger first lever than either schedule. It removes about 62% of pages while keeping 171 of 173 actionable ones. The evidence supports a hybrid: tune first, then follow-the-sun.",
+      "evidenceIds": [
+        "E2",
+        "E6",
+        "E8"
+      ]
+    },
+    {
+      "assumption": "58% of pages fired between 20:00 and 08:00 US Pacific time.",
+      "correction": "Unverified. It is a free-text annotation with no timestamps, and 58% of 540 is 313.2, not a whole number. Treat it as an estimate until raw logs are supplied.",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "The CSV total of 540 pages is correct and the 'other' row is complete.",
+      "correction": "The total is confirmed: the rows sum to 540, with 173 actionable. Whether the combined 'other (14 alerts)' row is complete cannot be checked.",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "assumption": "Burnout is caused mainly by the rotation structure.",
+      "correction": "Structure and noise are separate contributors. About 62% of pages are near-zero-action noise, so fixing the structure alone would leave most of the volume in place.",
+      "evidenceIds": [
+        "E2",
+        "E19"
+      ]
+    },
+    {
+      "assumption": "The PT/CET offset is a constant 9 hours.",
+      "correction": "It is 8 hours for about 28 days a year (8-29 March and 25 October to 1 November in 2026), so shift boundaries need a DST rule.",
+      "evidenceIds": [
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "Both offices can handle every alert type independently.",
+      "correction": "Unknown. There is no evidence on per-office skills, ownership or runbook coverage, so this must be audited before follow-the-sun goes live.",
+      "evidenceIds": [
+        "E18"
+      ]
+    },
+    {
+      "assumption": "The HR notes accurately reflect ArbZG and BetrVG.",
+      "correction": "Broadly consistent with secondary legal sources. Additional points: a deadlock goes to the Einigungsstelle, which can take longer than 4-8 weeks, and whether trivial interruptions restart rest is disputed. Statute texts were not retrieved, so this needs counsel confirmation.",
+      "evidenceIds": [
+        "E5",
+        "E13",
+        "E14",
+        "E15"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Total pages from CSV rows",
+      "expression": "148+121+66+71+48+39+47",
+      "claimedResult": 540,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "Total actionable pages",
+      "expression": "0+2+0+63+41+37+30",
+      "claimedResult": 173,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Actionable rate in percent",
+      "expression": "173/540*100",
+      "claimedResult": 32.04,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Share of pages from the three noise alerts, in percent",
+      "expression": "(148+121+66)/540*100",
+      "claimedResult": 62.04,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Actionable rate of the three noise alerts, in percent",
+      "expression": "2/(148+121+66)*100",
+      "claimedResult": 0.597,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Actionable rate of the remaining four rows, in percent",
+      "expression": "(63+41+37+30)/(71+48+39+47)*100",
+      "claimedResult": 83.41,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Raw pages per day",
+      "expression": "540/90",
+      "claimedResult": 6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "Pages per day after removing the three noise alerts",
+      "expression": "(71+48+39+47)/90",
+      "claimedResult": 2.278,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Pages per week after noise removal",
+      "expression": "(71+48+39+47)/90*7",
+      "claimedResult": 15.94,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Raw pages per 12-hour shift",
+      "expression": "540/90/2",
+      "claimedResult": 3,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K11",
+      "purpose": "Pages per 12-hour shift after noise removal",
+      "expression": "(71+48+39+47)/90/2",
+      "claimedResult": 1.139,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Follow-the-sun on-call hours per SF engineer per week",
+      "expression": "84/5",
+      "claimedResult": 16.8,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K13",
+      "purpose": "Follow-the-sun on-call hours per Berlin engineer per week",
+      "expression": "84/4",
+      "claimedResult": 21,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K14",
+      "purpose": "Percent more on-call hours per Berlin engineer than per SF engineer",
+      "expression": "(21/16.8-1)*100",
+      "claimedResult": 25,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Pages implied by the 58% night annotation",
+      "expression": "0.58*540",
+      "claimedResult": 313.2,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K16",
+      "purpose": "Percent of actionable pages retained after demoting noise alerts",
+      "expression": "(173-2)/173*100",
+      "claimedResult": 98.84,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "Total non-actionable pages",
+      "expression": "540-173",
+      "claimedResult": 367,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K18",
+      "purpose": "Minimum non-actionable pages within the 58% night window if the annotation is correct",
+      "expression": "0.58*540-173",
+      "claimedResult": 140.2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K19",
+      "purpose": "Percent of weeks each engineer is on call (primary or secondary) under option (a)",
+      "expression": "2/9*100",
+      "claimedResult": 22.22,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K20",
+      "purpose": "Raw pages per 24/7 week",
+      "expression": "540/90*7",
+      "claimedResult": 42,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K21",
+      "purpose": "Raw weekly pages in 20:00-08:00 PT if the 58% annotation holds",
+      "expression": "540/90*7*0.58",
+      "claimedResult": 24.36,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K22",
+      "purpose": "Days in 2026 with an 8-hour PT-Berlin offset (8-29 March plus 25 October to 1 November)",
+      "expression": "21+7",
+      "claimedResult": 28,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K23",
+      "purpose": "Current average on-call hours per engineer per week (one 168 h week in 9)",
+      "expression": "168/9",
+      "claimedResult": 18.67,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K24",
+      "purpose": "Average on-call hours per engineer per week under option (a) with a secondary",
+      "expression": "2*168/9",
+      "claimedResult": 37.33,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Rollout step 1 (weeks 0-4): demote disk-usage-warning-80pct to a ticket or dashboard, with a separate symptom or fill-rate page if needed. Fix the flapping in cert-check-flap and replace it with an expiry-deadline alert. Review the 2 actionable queue-lag-warning cases and replace that alert with a user-visible symptom alert (E2, E8). Ask HR whether these monitoring changes need works council involvement, since BetrVG s.87(1) no.6 was not researched (E15).",
+    "Rollout step 2 (start in week 0, in parallel): export raw timestamped page logs and measure the hour-of-day split of actionable pages before and after tuning. This settles the 58% question and the Berlin page share (E3).",
+    "Rollout step 3 (start in week 0): open the works council consultation on a time-boxed follow-the-sun pilot. Cover Berlin 07:00-19:00, the DST boundary rule, the handoff overlap, the 12-hour shift allowance under the collective policy, and rollback terms. Plan for 4-8 weeks plus the risk of an Einigungsstelle (E5, E15, E17).",
+    "Rollout step 4 (weeks 2-6): audit runbook, access and service-ownership coverage per office for every paging alert. Close the gaps through pairing and shadow shifts before the pilot (E18).",
+    "Rollout step 5 (after approval): pilot follow-the-sun for a fixed period. Use a 30-minute overlap, a mandatory written handoff in a fixed channel, an agreed weekend and holiday plan (consider SF absorbing some weekend shifts to offset Berlin's extra hours), and one DST rule chosen in advance (E9, E10, E11, E12).",
+    "Rollout step 6: set success and rollback criteria in advance. Examples: local-night pages per person at or near zero, pages per shift below 2, no missed or late acknowledgements on api-5xx, db-replica-lag or payment-webhook alerts, and a repeat burnout pulse survey. Roll back to the tuned weekly rotation if the criteria fail (E5, E6).",
+    "Do not adopt option (a) as the main fix. If a secondary is wanted for depth, make it a daytime, same-office backup within follow-the-sun, and only if pilot data shows a need (E11, E13)."
+  ],
+  "remainingUncertainty": [
+    "The hour-of-day distribution of all pages and of actionable pages is unknown, and the 58% figure is unverified (E3).",
+    "Per-office skills, ownership and runbook coverage are unknown (E18).",
+    "The German collective on-call allowance and any US secondary stipend are not specified, so pay fairness and cost cannot be quantified (E5, E17).",
+    "Legal points rest on search snippets. The statute texts were not retrieved, and the trivial-interruption question is disputed (E13, E14, E15, E16).",
+    "The SRE benchmarks (2 incidents per 12-hour shift, 6 per site) come from search snippets, count incidents rather than pages, and assume Google-scale services (E6, E7).",
+    "Whether led_to_human_action was recorded reliably, and whether the 'other (14 alerts)' row hides further noise, is unknown (E1, E2).",
+    "Weekend, public-holiday and boundary-crossing incident handling under follow-the-sun is not modelled (E9, E11).",
+    "There is no empirical evidence on handoff-related incident risk (E9)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Timestamped page logs. If actionable pages cluster in PT daytime, or near the boundaries, the night benefit or the fairness picture changes.",
+    "A per-office runbook and access audit. Large gaps could make follow-the-sun infeasible in the near term, favouring tuning plus the current weekly rotation.",
+    "The works council position. A refusal, or conditions such as limits on Berlin shift frequency, could block or reshape the pilot.",
+    "Labour-counsel confirmation of ArbZG s.5 and the Bagatelle view. A permissive ruling would weaken the C4 case against Berlin night duty under option (a).",
+    "The actual German allowance and the US secondary stipend amounts, which could change the cost and fairness ranking.",
+    "Post-tuning page volume measured over 2-4 weeks. If residual night load is negligible, a schedule change may be unnecessary."
+  ]
+}

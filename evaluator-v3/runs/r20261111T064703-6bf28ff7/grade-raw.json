@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Covers the actual decision and all three mustFlag issues: the Enterprise tier requirement, the undocumented Formline private connectivity, and Brickwork being cheaper like-for-like. It also covers growth to 550 end users, the break-even point, contract terms and the questions to ask before signing. No irrelevant padding.",
+      "quotes": [
+        "The lowest Formline tier with those features is Enterprise at $9,500 per month.",
+        "Brickwork stays cheaper only up to about 593 end users with 12 builders",
+        "Questions to answer before signing"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "Every number is correct ($6,600, $8,850, $9,500, 30.5%, about 593). There is one claim with weaker sourcing than stated: the output says Formline 'fails' requirement 3 and 'can connect only by making the database internet-reachable'. The documents are only silent on private connectivity, so the evidence shows 'unknown', not 'fails'. The output does hedge this elsewhere.",
+      "quotes": [
+        "Formline fails the mandatory private-connectivity requirement on every plan",
+        "So Formline can connect only by making the database internet-reachable, which the requirement forbids.",
+        "A private option might exist but be undocumented here"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains why IP allowlisting cannot reach a database with no public IP and how an outbound agent avoids that. It quantifies the costs now, at 2-year scale, over 24 months and at break-even. It also analyses specific edge cases: a Relay fee above $650, the 500-user cap on Team, named vs active billing, and the risk of a single agent host as a point of failure.",
+      "quotes": [
+        "An egress-IP allowlist only works if the database has a routable, reachable address.",
+        "A Brickwork Relay fee or plan restriction above about $650 per month would wipe out Brickwork's list-price lead",
+        "A Relay with no high-availability setup would make a single agent host a single point of failure for all 30 apps"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Rejects IT's like-for-like framing and points out that the memo's arithmetic is right but compares the wrong tier. It gives the strongest counterarguments fairly, including that Formline may have an undocumented connector and that its flat pricing protects against growth. It also states what would change the conclusion, and examines Brickwork's own gaps rather than taking Brickwork's compliance on trust.",
+      "quotes": [
+        "The memo's arithmetic is right ($6,600 per month; 27.3% cheaper), but the comparison is wrong because it sets a non-compliant tier against Brickwork",
+        "Formline probably has a private connector that simply isn't in the excerpt. — That is possible.",
+        "Formline confirming in writing a private connectivity option that Security accepts. That would make Formline Enterprise eligible"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear bottom line with conditions attached and a specific list of questions for each vendor. It also sets out concrete next steps: a proof of concept, a security review, a written quote, and budget figures.",
+      "quotes": [
+        "Brickwork is the preferred candidate. Sign with it only after it confirms three things in writing",
+        "Do not sign Formline Team as IT recommends.",
+        "Budget about $79,200 a year for Brickwork now, rising to about $106,200 at 550 end users, at list price"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised, with an evidence registry, evidence classes and a calculations table that was re-executed by code. Claims cite E or K ids, and uncertainty is labelled explicitly.",
+      "quotes": [
+        "| K9 | End-user count at which Brickwork (12 builders) equals Formline Enterprise $9,500 per month | `(9500 - 12*50) / 15` | 593.3 |",
+        "E10 UNKNOWN: No public web presence for 'Formline'"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The lowest Formline tier with those features is Enterprise at $9,500 per month."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The available evidence cannot determine several points: whether Formline offers an undocumented private connectivity option"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "On compliant tiers at list price, Brickwork is cheaper now ($6,600 vs $9,500 per month, 30.5% less)"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends Formline Team plan, which lacks mandatory SCIM and audit logs",
+      "triggered": false,
+      "evidence": "Do not sign Formline Team as IT recommends."
+    },
+    {
+      "condition": "Assumes Formline supports private connectivity to the no-public-IP database without evidence",
+      "triggered": false,
+      "evidence": "A requirement cannot be passed on an assumption. Formline must confirm in writing and Security must accept the mechanism."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The only shortfall is in accuracy. The reference treats Formline's private connectivity as unknown, but the output's headline says Formline 'fails' requirement 3. The output hedges this elsewhere and lists it as an open question, so I gave accuracy 0.75 rather than 1.0. The output also adds well-founded caveats about Brickwork (PostgreSQL support over Relay is unconfirmed, and audit-log scope is unstated) that go beyond the reference. I did not penalise these."
+}

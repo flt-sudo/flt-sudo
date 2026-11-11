@@ -1,0 +1,526 @@
+{
+  "subject": "Choosing a low-code internal-tools platform: Formline vs Brickwork (about 30 apps, 12 builders, about 400 end users growing to about 550)",
+  "decisionObjective": "Decide which platform, Formline or Brickwork, to standardise on and sign with for about 30 internal tools. The chosen platform must meet three mandatory security and connectivity requirements: SAML SSO plus SCIM, 1-year audit logs, and private connectivity to an on-prem PostgreSQL database with no public IP. Among the platforms that qualify, the decision should rest on the cost at the plan tier that actually meets those requirements, over a 2-year growth horizon. The output should also list the questions that must be answered before signing. IT's '$4,800 vs $6,600, 27% cheaper' premise is to be verified, not assumed.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Private connectivity to no-public-IP on-prem PostgreSQL",
+      "weight": 25,
+      "rationale": "This requirement is mandatory and works as a pass/fail gate. Formline's docs only describe connecting to internet-reachable databases via egress IP allowlisting, while Brickwork documents an outbound 'Relay' agent. If a platform cannot reach the core data source without exposing the database to the internet, it cannot be chosen, whatever its price."
+    },
+    {
+      "id": "C2",
+      "name": "Identity and audit compliance on the purchased tier (SAML SSO, SCIM, 1-year audit logs)",
+      "weight": 20,
+      "rationale": "These are mandatory. Formline's Team plan, the tier IT priced, includes SAML but appears to lack SCIM and audit logs, which are listed only on Enterprise. So the tier that complies determines both eligibility and the real price."
+    },
+    {
+      "id": "C3",
+      "name": "Total cost at the compliant tier, now and at 2-year scale",
+      "weight": 25,
+      "rationale": "The IT recommendation rests entirely on cost. The figure that matters is the monthly and annual cost of the cheapest compliant configuration at 412 seats and at about 562 seats, not the list price of a tier that fails requirements."
+    },
+    {
+      "id": "C4",
+      "name": "Pricing-model fit and scaling risk (seat caps, user definitions, tier thresholds)",
+      "weight": 10,
+      "rationale": "Formline's flat plans have user caps (Team 500, Enterprise 1,000). Brickwork charges per seat. Whether builders count toward caps, how 'end user' is defined (named vs active), and where tier cliffs fall all decide how costs move as headcount grows to about 550."
+    },
+    {
+      "id": "C5",
+      "name": "Security posture of the connectivity mechanism",
+      "weight": 10,
+      "rationale": "Even if a workaround exists, the way the platform reaches on-prem data affects risk acceptance: an outbound agent, a VPN or PrivateLink, or opening inbound firewall rules to the internet. Security must approve the mechanism, not just confirm that a connection is possible."
+    },
+    {
+      "id": "C6",
+      "name": "Contract and vendor terms (commitment, price protection, exit and data portability)",
+      "weight": 10,
+      "rationale": "Standardising 30 tools creates lock-in. Renewal caps, minimum terms, and the ability to export apps and data materially affect the long-run value of signing either vendor."
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Formline costs '$4,800 a month flat' for our needs.",
+      "source": "user",
+      "howToCheck": "Compare the Formline Team plan's features against requirements.md. The Team plan lacks SCIM and audit logs, so confirm with Formline the cheapest tier or add-ons that meet all mandatory requirements, and get its price."
+    },
+    {
+      "assumption": "Brickwork costs $6,600/month.",
+      "source": "user",
+      "howToCheck": "Recompute from Brickwork's published pricing ($50/builder + $15/end user) for 12 builders and 400 end users. Check for minimums, Relay fees, and how end users are counted (named vs active)."
+    },
+    {
+      "assumption": "Formline is '27% cheaper' than Brickwork.",
+      "source": "user",
+      "howToCheck": "Recompute on compliant tiers for both vendors at today's 412 seats and at about 562 seats in 2 years."
+    },
+    {
+      "assumption": "Both shortlisted platforms can meet the mandatory security and connectivity requirements, so cost is the deciding factor.",
+      "source": "user",
+      "howToCheck": "Map each mandatory requirement (SSO+SCIM, 1-year audit logs, private on-prem PostgreSQL connectivity) to vendor documentation for each plan. Get written vendor confirmation for anything undocumented."
+    },
+    {
+      "assumption": "The provided pricing and documentation excerpts are current and complete.",
+      "source": "planner",
+      "howToCheck": "Check against the vendors' current public pricing and documentation pages, or get a written quote, before signing."
+    },
+    {
+      "assumption": "Builders count as users toward Formline's plan caps.",
+      "source": "planner",
+      "howToCheck": "Ask Formline how plan user limits are defined and whether builders and end users share the cap."
+    }
+  ],
+  "evidenceByGap": [
+    {
+      "gapId": "G1",
+      "question": "Does Formline support any private connectivity option (agent, VPN, PrivateLink, or a self-hosted or on-prem gateway) for databases without a public IP, on any plan, including Enterprise?",
+      "evidence": [
+        {
+          "id": "E3",
+          "claim": "Formline Data sources docs: 'Connect to any database reachable over the internet. Add Formline's egress IPs to your allowlist.' No private connectivity option (agent, VPN, PrivateLink, on-prem gateway) is described for any plan, including Enterprise.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G1, C1, C5. On the documents supplied, Formline cannot reach an on-prem PostgreSQL with no public IP without making it internet-reachable, which fails mandatory requirement 3 on every plan.",
+          "limitations": "This is an excerpt. A private option may exist but go undocumented here, so it needs written confirmation from Formline. A web search found no public Formline documentation to check against.",
+          "contradicts": [
+            "E7"
+          ]
+        },
+        {
+          "id": "E5",
+          "claim": "Brickwork docs: the 'Brickwork Relay' agent runs inside your network and connects outbound to Brickwork, enabling access to private databases without inbound firewall rules.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G1, G5, C1, C5. This is a documented outbound-agent mechanism for reaching private databases, so on the documents supplied Brickwork plausibly meets requirement 3. PostgreSQL support is not stated (see E15).",
+          "limitations": "The excerpt says 'private databases' generically. It does not name PostgreSQL, supported versions, or supported query or write operations. Says nothing on ports and protocols, encryption, credential handling, HA, attestations (SOC 2 or ISO 27001), whether Relay is on all plans, or its cost. Security has not yet approved it.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Mandatory requirements (Security + IT, 2026-10): (1) SAML SSO and SCIM provisioning; (2) audit logs of app and data changes retained 1 year; (3) connect to on-prem PostgreSQL with no public IP via private connectivity. Sizing: 12 builders, about 400 end users, growing to about 550 end users in 2 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "requirements.md",
+          "applicability": "Sets the pass/fail gates (C1, C2) and the sizing for cost (C3, C4).",
+          "limitations": "Does not define 'end user' as named or active. Does not say whether builders are counted inside the end-user figures. Does not define 'data changes' (see E14).",
+          "contradicts": [
+            "E3"
+          ]
+        },
+        {
+          "id": "E10",
+          "claim": "No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "web search: Formline / Brickwork Relay",
+          "applicability": "The assumption that the excerpts are current and complete. The supplied excerpts cannot be checked against current public vendor pages, so vendors must confirm in writing before signing.",
+          "limitations": "Two searches only, and the vendors may use different public names.",
+          "contradicts": []
+        },
+        {
+          "id": "E15",
+          "claim": "Brickwork Relay's PostgreSQL support is not stated. The full Brickwork fixture describes Relay only as 'enabling access to private databases without inbound firewall rules.' PostgreSQL is not named, and neither are supported database engines or versions, or whether read and write queries from apps work through Relay. The word 'PostgreSQL' does not appear anywhere in the Brickwork fixture.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "D2, C1, requirement 3. On the documents supplied, Brickwork 'plausibly' meets requirement 3, not definitively. Written confirmation that Relay supports on-prem PostgreSQL (versions, auth methods, read and write) belongs in the pre-signing questions or a proof of concept. Brickwork is the only candidate still eligible, so this is decision-critical.",
+          "limitations": "The excerpt is silent; that does not mean PostgreSQL is unsupported. PostgreSQL is a mainstream engine, so support is likely, but this is not documented here. No public Brickwork docs were found (E10).",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G2",
+      "question": "Which Formline tier includes SCIM provisioning and 1-year audit logs? Is the Enterprise plan ($9,500/month) the minimum compliant tier, or can these be bought as add-ons to Team?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Formline Team plan: $4,800/month flat, up to 500 users. Includes SAML SSO. No mention of SCIM or audit logs on Team.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G2, the assumption that Formline costs $4,800 flat 'for our needs', C2, C3. On this excerpt, Team meets only the SAML half of requirement 1 and none of requirement 2.",
+          "limitations": "Vendor excerpt with no date. It does not say whether SCIM or audit logs can be bought as add-ons to Team, or whether builders count toward the 500-user cap.",
+          "contradicts": [
+            "E6"
+          ]
+        },
+        {
+          "id": "E2",
+          "claim": "Formline Enterprise plan: $9,500/month flat, up to 1,000 users. Adds SCIM provisioning, audit logs (1-year retention), priority support.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G2, C2, C3. On the documents supplied, Enterprise is the lowest Formline tier with SCIM and 1-year audit logs, so the cheapest Formline price that could comply is $9,500/month, not $4,800. The excerpt does not say what the audit logs cover (see E13), so requirement 2 is met only on retention, not on scope.",
+          "limitations": "Says nothing on add-ons, discounts, annual pricing or contract terms. Does not say whether audit logs cover app changes, data changes or both. The excerpt is undated and the vendor has not confirmed it in writing.",
+          "contradicts": [
+            "E6"
+          ]
+        },
+        {
+          "id": "E4",
+          "claim": "Brickwork pricing: $50 per builder per month + $15 per end user per month. All plans include SAML SSO, SCIM, audit logs (1-year retention).",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G3, G4, C2, C3. On the documents supplied, Brickwork meets requirement 1 (SAML SSO plus SCIM) and the 1-year retention part of requirement 2 at base pricing. The excerpt does not show that it meets the scope part of requirement 2, 'app and data changes' (see E12).",
+          "limitations": "Says nothing on whether end users are named or monthly-active, minimums, volume discounts, Relay fees or contract terms. Does not say what the audit logs record. 'All plans' implies more than one plan, but only one rate is quoted. Undated.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Mandatory requirements (Security + IT, 2026-10): (1) SAML SSO and SCIM provisioning; (2) audit logs of app and data changes retained 1 year; (3) connect to on-prem PostgreSQL with no public IP via private connectivity. Sizing: 12 builders, about 400 end users, growing to about 550 end users in 2 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "requirements.md",
+          "applicability": "Sets the pass/fail gates (C1, C2) and the sizing for cost (C3, C4).",
+          "limitations": "Does not define 'end user' as named or active. Does not say whether builders are counted inside the end-user figures. Does not define 'data changes' (see E14).",
+          "contradicts": [
+            "E3"
+          ]
+        },
+        {
+          "id": "E10",
+          "claim": "No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "web search: Formline / Brickwork Relay",
+          "applicability": "The assumption that the excerpts are current and complete. The supplied excerpts cannot be checked against current public vendor pages, so vendors must confirm in writing before signing.",
+          "limitations": "Two searches only, and the vendors may use different public names.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "For context only, from search snippets about other vendors: Zoho Creator's Databridge is an agent installed on the private network that makes an outbound-only connection to route queries to private databases. Retool bundles SCIM only with Enterprise subscriptions.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://help.zoho.com/portal/en/community/topic/introducing-databridge-securely-connect-your-private-systems-with-creator-apps?page=1",
+          "applicability": "C5 and C2 analogues. Outbound-only agents like Brickwork Relay are an established pattern in this market, and it is common to gate SCIM to Enterprise.",
+          "limitations": "Search snippets only, about different vendors. They say nothing directly about Formline or Brickwork.",
+          "contradicts": []
+        },
+        {
+          "id": "E12",
+          "claim": "Brickwork's audit-log scope is not stated. The full Brickwork fixture mentions audit logs only once, as 'All plans include SAML SSO, SCIM, audit logs (1-year retention).' It does not say what is logged: app or config changes, data changes made through apps (row-level inserts, updates or deletes), query executions, or before and after values. The only thing it states is the 1-year retention.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "D1, C2, requirement 2. On the documents supplied, Brickwork meets the retention half of requirement 2 ('retained 1 year') but not, as documented, the scope half ('app and data changes'). Brickwork should not be described as fully meeting requirement 2. Written confirmation of data-change logging belongs in the pre-signing questions.",
+          "limitations": "Shows only that the excerpt is silent. It does not show that Brickwork lacks data-change logging. The fixture is a two-line excerpt and undated.",
+          "contradicts": []
+        },
+        {
+          "id": "E13",
+          "claim": "Formline's audit-log scope is not stated. The full Formline fixture mentions audit logs only once, on the Enterprise plan: 'Adds SCIM provisioning, audit logs (1-year retention), priority support.' It does not say whether the logs cover app or config changes, data changes made through apps, or query executions. Team has no audit logs.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "D1, C2, requirement 2. Both vendors' excerpts are equally silent on audit scope, so this point does not separate them. Formline Enterprise also meets only the retention half of requirement 2 as documented.",
+          "limitations": "The excerpt is silent; that does not mean the capability is absent. Undated excerpt.",
+          "contradicts": []
+        },
+        {
+          "id": "E14",
+          "claim": "Requirement 2 reads exactly: 'Audit logs of app and data changes, retained 1 year (mandatory)'. The requirements document does not define 'data changes', for example as row-level edits made through apps, with or without before and after values, or as query execution events.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "requirements.md",
+          "applicability": "D1. The requirement has two parts, scope (app changes and data changes) and retention (1 year). Neither vendor excerpt documents the scope part (E12, E13). Security should say whether a log of query executions is enough, or whether record-level change history is required.",
+          "limitations": "How the requirement is read affects whether typical platform audit logs (E16, E17) would satisfy it.",
+          "contradicts": []
+        },
+        {
+          "id": "E16",
+          "claim": "Retool, an analogue vendor: according to a search snippet summarising Retool's docs, Retool automatically logs user actions 'such as query runs and password resets', recording the user, the action and the timestamp. Admins can configure the logs to exclude query parameters and request bodies. Retool Cloud keeps audit logs for one year. A Retool community thread on tracking database record changes points to audit logs or a chained logging query as a workaround. The snippet summary says the audit logs do not capture the data that queries read or changed, so record-level change history needs application-level logging.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://docs.retool.com/org-users/guides/monitoring/audit-logs",
+          "applicability": "D1 context. In at least one leading low-code platform, 'audit logs' are event-level: who ran which query or changed which setting, and when. They are not a record-level change history. A vendor claim of '1-year audit logs' may not satisfy 'data changes' if Security wants row-level history. This argues for asking both vendors exactly what is logged.",
+          "limitations": "Search snippet and summary only. The WebFetch of docs.retool.com failed (host not reachable from this session), so the page was not inspected. This is about Retool, not Formline or Brickwork. The 'does not capture the data' point is partly from the search tool's summary and a third-party tutorial (rapidevelopers.com), not quoted official text.",
+          "contradicts": []
+        },
+        {
+          "id": "E17",
+          "claim": "ToolJet, an analogue vendor: according to a search snippet of ToolJet's docs (3.5.0-LTS), audit logs include a DATA_QUERY_RUN event that is 'logged whenever a data source is added, a query is created, or whenever a query is run either from the query editor or from the launched app'. Other events include APP_VIEW, APP_DELETE and GROUP_CREATE/UPDATE/DELETE. The snippets do not say whether query parameters or changed data values are stored.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://docs.tooljet.com/docs/3.5.0-LTS/security/audit-logs/",
+          "applicability": "D1 context. A second low-code platform logs query execution events, including queries run from apps, alongside app and permission events. That is consistent with the event-level pattern in E16. Whether this counts as logging 'data changes' depends on how Security reads requirement 2 (E14).",
+          "limitations": "Search snippet only, not fetched. Version-specific docs about a different vendor. They say nothing about Formline or Brickwork.",
+          "contradicts": []
+        },
+        {
+          "id": "E18",
+          "claim": "Inference: low-code internal-tool platforms' built-in audit logs typically capture platform-level events: app edits, permission and settings changes, logins, and query executions with user and timestamp. They typically do not keep a record-level history of data changes with before and after values. That usually needs database-side auditing (for example PostgreSQL triggers or pgAudit) or app-level logging. So '1-year audit logs' in either vendor's excerpt cannot be assumed to meet the 'data changes' part of requirement 2.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://docs.retool.com/org-users/guides/monitoring/audit-logs",
+          "applicability": "D1, C2. Supports listing audit-log scope as an unresolved pre-signing question for both vendors. It also suggests a possible compensating control: database-side audit logging on the on-prem PostgreSQL, if Security accepts it.",
+          "limitations": "Generalised from two analogue vendors, based on search snippets only. The pgAudit and trigger point is general domain knowledge with no source retrieved. It does not establish what Formline or Brickwork actually log.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G3",
+      "question": "Recompute the costs. Is Brickwork 12 x $50 + 400 x $15 = $6,600/month, and is the 27% figure ((6,600 - 4,800) / 6,600) arithmetically correct? What are the compliant-tier costs at about 550 end users (Brickwork about 12 x $50 + 550 x $15 = $8,850, vs Formline Enterprise $9,500)?",
+      "evidence": [
+        {
+          "id": "E2",
+          "claim": "Formline Enterprise plan: $9,500/month flat, up to 1,000 users. Adds SCIM provisioning, audit logs (1-year retention), priority support.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G2, C2, C3. On the documents supplied, Enterprise is the lowest Formline tier with SCIM and 1-year audit logs, so the cheapest Formline price that could comply is $9,500/month, not $4,800. The excerpt does not say what the audit logs cover (see E13), so requirement 2 is met only on retention, not on scope.",
+          "limitations": "Says nothing on add-ons, discounts, annual pricing or contract terms. Does not say whether audit logs cover app changes, data changes or both. The excerpt is undated and the vendor has not confirmed it in writing.",
+          "contradicts": [
+            "E6"
+          ]
+        },
+        {
+          "id": "E4",
+          "claim": "Brickwork pricing: $50 per builder per month + $15 per end user per month. All plans include SAML SSO, SCIM, audit logs (1-year retention).",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G3, G4, C2, C3. On the documents supplied, Brickwork meets requirement 1 (SAML SSO plus SCIM) and the 1-year retention part of requirement 2 at base pricing. The excerpt does not show that it meets the scope part of requirement 2, 'app and data changes' (see E12).",
+          "limitations": "Says nothing on whether end users are named or monthly-active, minimums, volume discounts, Relay fees or contract terms. Does not say what the audit logs record. 'All plans' implies more than one plan, but only one rate is quoted. Undated.",
+          "contradicts": []
+        },
+        {
+          "id": "E6",
+          "claim": "IT memo: 'Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.'",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "it-memo.md",
+          "applicability": "The memo's figures are as stated, but the recommended Team plan lacks SCIM and audit logs (E1, E2), and Formline's connectivity docs fail requirement 3 (E3).",
+          "limitations": "VERIFIED only that the memo says this. Its premise is not correct. It compares a non-compliant Formline tier and ignores growth to about 550 end users.",
+          "contradicts": [
+            "E1",
+            "E2",
+            "E3"
+          ]
+        },
+        {
+          "id": "E7",
+          "claim": "Mandatory requirements (Security + IT, 2026-10): (1) SAML SSO and SCIM provisioning; (2) audit logs of app and data changes retained 1 year; (3) connect to on-prem PostgreSQL with no public IP via private connectivity. Sizing: 12 builders, about 400 end users, growing to about 550 end users in 2 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "requirements.md",
+          "applicability": "Sets the pass/fail gates (C1, C2) and the sizing for cost (C3, C4).",
+          "limitations": "Does not define 'end user' as named or active. Does not say whether builders are counted inside the end-user figures. Does not define 'data changes' (see E14).",
+          "contradicts": [
+            "E3"
+          ]
+        },
+        {
+          "id": "E8",
+          "claim": "Arithmetic check. Brickwork today is 12 x $50 + 400 x $15 = $600 + $6,000 = $6,600/month, which matches the memo. (6,600 - 4,800) / 6,600 = 27.3%, so the '27% cheaper' figure is arithmetically correct, but only against Formline Team, which is not compliant. On compliant tiers today, Formline Enterprise is $9,500 vs Brickwork $6,600/month. At about 550 end users, Brickwork is 12 x $50 + 550 x $15 = $8,850/month vs Formline Enterprise $9,500/month.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G3, C3. On the documents supplied, the cost advantage reverses on compliant tiers: Brickwork is cheaper now and at 2-year scale. This is secondary to the fact that Formline appears to fail C1.",
+          "limitations": "Derived from list prices only. Excludes discounts, annual billing, Relay fees, active-user billing, and whether builders also need $15 end-user seats. The downstream stage should recheck the figures.",
+          "contradicts": [
+            "E6"
+          ]
+        }
+      ]
+    },
+    {
+      "gapId": "G4",
+      "question": "How does each vendor count users? Do builders count toward Formline's 500/1,000 caps? Does Brickwork bill named or monthly-active end users? Are there volume discounts or minimums?",
+      "evidence": [
+        {
+          "id": "E1",
+          "claim": "Formline Team plan: $4,800/month flat, up to 500 users. Includes SAML SSO. No mention of SCIM or audit logs on Team.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G2, the assumption that Formline costs $4,800 flat 'for our needs', C2, C3. On this excerpt, Team meets only the SAML half of requirement 1 and none of requirement 2.",
+          "limitations": "Vendor excerpt with no date. It does not say whether SCIM or audit logs can be bought as add-ons to Team, or whether builders count toward the 500-user cap.",
+          "contradicts": [
+            "E6"
+          ]
+        },
+        {
+          "id": "E4",
+          "claim": "Brickwork pricing: $50 per builder per month + $15 per end user per month. All plans include SAML SSO, SCIM, audit logs (1-year retention).",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G3, G4, C2, C3. On the documents supplied, Brickwork meets requirement 1 (SAML SSO plus SCIM) and the 1-year retention part of requirement 2 at base pricing. The excerpt does not show that it meets the scope part of requirement 2, 'app and data changes' (see E12).",
+          "limitations": "Says nothing on whether end users are named or monthly-active, minimums, volume discounts, Relay fees or contract terms. Does not say what the audit logs record. 'All plans' implies more than one plan, but only one rate is quoted. Undated.",
+          "contradicts": []
+        },
+        {
+          "id": "E7",
+          "claim": "Mandatory requirements (Security + IT, 2026-10): (1) SAML SSO and SCIM provisioning; (2) audit logs of app and data changes retained 1 year; (3) connect to on-prem PostgreSQL with no public IP via private connectivity. Sizing: 12 builders, about 400 end users, growing to about 550 end users in 2 years.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "requirements.md",
+          "applicability": "Sets the pass/fail gates (C1, C2) and the sizing for cost (C3, C4).",
+          "limitations": "Does not define 'end user' as named or active. Does not say whether builders are counted inside the end-user figures. Does not define 'data changes' (see E14).",
+          "contradicts": [
+            "E3"
+          ]
+        },
+        {
+          "id": "E9",
+          "claim": "Cap check. If builders count toward Formline user caps, today's total is 12 + 400 = 412 users, under Team's 500 cap. At about 550 end users the total is about 562, which exceeds Team's 500 cap and would force Enterprise (1,000 cap) on user count alone.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "fixture_read",
+          "ref": "formline-pricing-and-docs.md",
+          "applicability": "G4, C4. Even if Team were compliant, growth alone would push Formline to Enterprise within the 2-year horizon (550 end users exceed 500 even if builders are excluded).",
+          "limitations": "Neither fixture says whether builders count toward caps. Formline must confirm.",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G5",
+      "question": "What are the security properties of Brickwork Relay: outbound-only ports and protocols, encryption, credential handling, least-privilege scoping, high availability, and any third-party attestations (SOC 2, ISO 27001)? Is Relay included on all plans at no extra cost?",
+      "evidence": [
+        {
+          "id": "E4",
+          "claim": "Brickwork pricing: $50 per builder per month + $15 per end user per month. All plans include SAML SSO, SCIM, audit logs (1-year retention).",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G3, G4, C2, C3. On the documents supplied, Brickwork meets requirement 1 (SAML SSO plus SCIM) and the 1-year retention part of requirement 2 at base pricing. The excerpt does not show that it meets the scope part of requirement 2, 'app and data changes' (see E12).",
+          "limitations": "Says nothing on whether end users are named or monthly-active, minimums, volume discounts, Relay fees or contract terms. Does not say what the audit logs record. 'All plans' implies more than one plan, but only one rate is quoted. Undated.",
+          "contradicts": []
+        },
+        {
+          "id": "E5",
+          "claim": "Brickwork docs: the 'Brickwork Relay' agent runs inside your network and connects outbound to Brickwork, enabling access to private databases without inbound firewall rules.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "G1, G5, C1, C5. This is a documented outbound-agent mechanism for reaching private databases, so on the documents supplied Brickwork plausibly meets requirement 3. PostgreSQL support is not stated (see E15).",
+          "limitations": "The excerpt says 'private databases' generically. It does not name PostgreSQL, supported versions, or supported query or write operations. Says nothing on ports and protocols, encryption, credential handling, HA, attestations (SOC 2 or ISO 27001), whether Relay is on all plans, or its cost. Security has not yet approved it.",
+          "contradicts": []
+        },
+        {
+          "id": "E10",
+          "claim": "No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "web search: Formline / Brickwork Relay",
+          "applicability": "The assumption that the excerpts are current and complete. The supplied excerpts cannot be checked against current public vendor pages, so vendors must confirm in writing before signing.",
+          "limitations": "Two searches only, and the vendors may use different public names.",
+          "contradicts": []
+        },
+        {
+          "id": "E11",
+          "claim": "For context only, from search snippets about other vendors: Zoho Creator's Databridge is an agent installed on the private network that makes an outbound-only connection to route queries to private databases. Retool bundles SCIM only with Enterprise subscriptions.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://help.zoho.com/portal/en/community/topic/introducing-databridge-securely-connect-your-private-systems-with-creator-apps?page=1",
+          "applicability": "C5 and C2 analogues. Outbound-only agents like Brickwork Relay are an established pattern in this market, and it is common to gate SCIM to Enterprise.",
+          "limitations": "Search snippets only, about different vendors. They say nothing directly about Formline or Brickwork.",
+          "contradicts": []
+        },
+        {
+          "id": "E15",
+          "claim": "Brickwork Relay's PostgreSQL support is not stated. The full Brickwork fixture describes Relay only as 'enabling access to private databases without inbound firewall rules.' PostgreSQL is not named, and neither are supported database engines or versions, or whether read and write queries from apps work through Relay. The word 'PostgreSQL' does not appear anywhere in the Brickwork fixture.",
+          "effectiveClassification": "VERIFIED",
+          "provenance": "fixture_read",
+          "ref": "brickwork-pricing-and-docs.md",
+          "applicability": "D2, C1, requirement 3. On the documents supplied, Brickwork 'plausibly' meets requirement 3, not definitively. Written confirmation that Relay supports on-prem PostgreSQL (versions, auth methods, read and write) belongs in the pre-signing questions or a proof of concept. Brickwork is the only candidate still eligible, so this is decision-critical.",
+          "limitations": "The excerpt is silent; that does not mean PostgreSQL is unsupported. PostgreSQL is a mainstream engine, so support is likely, but this is not documented here. No public Brickwork docs were found (E10).",
+          "contradicts": []
+        }
+      ]
+    },
+    {
+      "gapId": "G6",
+      "question": "What contract terms are offered: minimum term, annual vs monthly billing, renewal price caps, app and data export or portability, and SLA?",
+      "evidence": [
+        {
+          "id": "E10",
+          "claim": "No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "web search: Formline / Brickwork Relay",
+          "applicability": "The assumption that the excerpts are current and complete. The supplied excerpts cannot be checked against current public vendor pages, so vendors must confirm in writing before signing.",
+          "limitations": "Two searches only, and the vendors may use different public names.",
+          "contradicts": []
+        }
+      ]
+    }
+  ],
+  "ungroupedEvidence": [],
+  "contradictions": [
+    {
+      "a": "E1",
+      "b": "E6",
+      "aClaim": "Formline Team plan: $4,800/month flat, up to 500 users. Includes SAML SSO. No mention of SCIM or audit logs on Team.",
+      "bClaim": "IT memo: 'Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.'"
+    },
+    {
+      "a": "E2",
+      "b": "E6",
+      "aClaim": "Formline Enterprise plan: $9,500/month flat, up to 1,000 users. Adds SCIM provisioning, audit logs (1-year retention), priority support.",
+      "bClaim": "IT memo: 'Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.'"
+    },
+    {
+      "a": "E3",
+      "b": "E7",
+      "aClaim": "Formline Data sources docs: 'Connect to any database reachable over the internet. Add Formline's egress IPs to your allowlist.' No private connectivity option (agent, VPN, PrivateLink, on-prem gateway) is described for any plan, including Enterprise.",
+      "bClaim": "Mandatory requirements (Security + IT, 2026-10): (1) SAML SSO and SCIM provisioning; (2) audit logs of app and data changes retained 1 year; (3) connect to on-prem PostgreSQL with no public IP via private connectivity. Sizing: 12 builders, about 400 end users, growing to about 550 end users in 2 years."
+    },
+    {
+      "a": "E6",
+      "b": "E3",
+      "aClaim": "IT memo: 'Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.'",
+      "bClaim": "Formline Data sources docs: 'Connect to any database reachable over the internet. Add Formline's egress IPs to your allowlist.' No private connectivity option (agent, VPN, PrivateLink, on-prem gateway) is described for any plan, including Enterprise."
+    },
+    {
+      "a": "E8",
+      "b": "E6",
+      "aClaim": "Arithmetic check. Brickwork today is 12 x $50 + 400 x $15 = $600 + $6,000 = $6,600/month, which matches the memo. (6,600 - 4,800) / 6,600 = 27.3%, so the '27% cheaper' figure is arithmetically correct, but only against Formline Team, which is not compliant. On compliant tiers today, Formline Enterprise is $9,500 vs Brickwork $6,600/month. At about 550 end users, Brickwork is 12 x $50 + 550 x $15 = $8,850/month vs Formline Enterprise $9,500/month.",
+      "bClaim": "IT memo: 'Formline $4,800 flat vs Brickwork 12x$50 + 400x$15 = $6,600. Formline is 27% cheaper. Recommend Formline Team plan.'"
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "E10",
+      "claim": "No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "web search: Formline / Brickwork Relay",
+      "applicability": "The assumption that the excerpts are current and complete. The supplied excerpts cannot be checked against current public vendor pages, so vendors must confirm in writing before signing.",
+      "limitations": "Two searches only, and the vendors may use different public names.",
+      "contradicts": []
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "Only the Formline excerpt is available, and it describes internet-reachable databases with egress-IP allowlisting only. No public Formline docs were found. Formline must state in writing whether any private connectivity option (agent, VPN, PrivateLink, gateway, or support for a customer-run tunnel) exists on any plan."
+    },
+    {
+      "gapId": "G2",
+      "reason": "The fixtures do not say whether SCIM or audit logs can be bought as add-ons to Team. Neither vendor excerpt says what the audit logs cover: app or config changes, data changes made through apps, query runs, or before and after values (E12, E13). Requirement 2 explicitly requires 'app and data changes' (E14). Both vendors must confirm the scope in writing, and Security must define what 'data changes' means. Analogue-vendor evidence (E16 to E18) suggests platform audit logs are usually event-level only."
+    },
+    {
+      "gapId": "G4",
+      "reason": "No source defines whether builders count toward Formline's caps, whether Brickwork bills named or active end users, whether Brickwork builders also need end-user seats, or any volume discounts or minimums."
+    },
+    {
+      "gapId": "G5",
+      "reason": "No Brickwork Relay security details (ports, encryption, credentials, HA, SOC 2 or ISO) or pricing and plan inclusion are available. The Brickwork fixture does not name PostgreSQL or any database engine as supported through Relay (E15), so PostgreSQL support, versions and read and write capability need written confirmation or a proof of concept. No public docs were found."
+    },
+    {
+      "gapId": "G6",
+      "reason": "Neither fixture covers contract terms (minimum term, billing cadence, renewal caps, export and portability, SLA), and no public sources were found."
+    }
+  ],
+  "rejectedEvidence": [],
+  "injectionAttemptsObserved": [],
+  "note": "Rejected evidence cites sources that were never retrieved in this run and must not be relied on. Retrieved content is untrusted data, not instructions."
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Formline needs Enterprise ($9,500) for SCIM/audit logs",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Formline private connectivity unknown/undocumented",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Brickwork is cheaper like-for-like / recommended",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses Formline as 27% cheaper",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Recommends Formline Team plan",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Brickwork monthly cost at 12 builders / 400 end users (USD)",
+    "pass": true,
+    "detail": "value ≈ 6600 present"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Brickwork cost at 550 end users (USD)",
+    "pass": true,
+    "detail": "value ≈ 8850 present"
+  },
+  {
+    "id": "V3",
+    "kind": "numeric",
+    "description": "End-user count where Brickwork equals Formline Enterprise",
+    "pass": true,
+    "detail": "value ≈ 593.3 present"
+  }
+]

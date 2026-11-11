@@ -1,0 +1,495 @@
+{
+  "verdict": "Standardise on Brickwork, provided Security approves the Brickwork Relay agent and Brickwork confirms the open pricing and contract questions in writing. Do not sign Formline Team as IT recommends. In the documents supplied, Formline fails the mandatory private-connectivity requirement on every plan. Its data-sources docs only describe connecting to internet-reachable databases through egress-IP allowlisting (E3, E7). Team also lacks SCIM and 1-year audit logs (E1, E2). The memo's arithmetic is right ($6,600 per month; 27.3% cheaper) but the comparison is wrong, because it sets a non-compliant tier against a compliant one (E6, E8). On compliant tiers, Brickwork is cheaper now ($6,600 vs $9,500 per month, 30.5% less). It is still cheaper at the 2-year size of about 550 end users ($8,850 vs $9,500 per month, 6.8% less) (E2, E4, E8). Brickwork's lead at 2-year scale is thin. At list prices it stays cheaper only up to about 593 end users with 12 builders. A Relay fee, minimum commitment or other surcharge above about $650 per month would close the gap at 550 end users. Formline is excluded on the connectivity gate, not on price. Formline could only come back into the decision if it confirmed in writing a private connectivity option (agent, VPN, PrivateLink or gateway) that Security accepts. Even then its compliant tier would be Enterprise at $9,500 per month, not Team at $4,800. Questions to answer before signing: (1) Formline: is there any private connectivity option on any plan? (2) Brickwork Relay: ports and protocols, encryption, credential handling, least-privilege scoping, high availability, SOC 2 or ISO 27001 attestations, and whether it is on all plans and at what cost. (3) Brickwork: are end users billed as named or monthly-active, and are there minimums or volume discounts? (4) Formline: do builders count toward the user caps, and can SCIM and audit logs be bought as Team add-ons? (5) Both vendors: minimum term, annual vs monthly billing, renewal price caps, app and data export, and SLA. (6) Both vendors: written confirmation that the pricing and feature excerpts are current.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Brickwork passes on the documents supplied. Formline fails. Brickwork documents an in-network Relay agent that connects outbound and reaches private databases without inbound firewall rules (E5). Formline's data-sources docs describe only internet-reachable databases with egress-IP allowlisting, and describe no private option on any plan, Enterprise included (E3). Requirement 3 explicitly demands private connectivity to an on-prem PostgreSQL with no public IP (E7). So Formline can only connect by making the database internet-reachable, which the requirement forbids.",
+      "mechanisms": "An egress-IP allowlist only works if the database has a routable, reachable address. Formline's servers make inbound connections to it, so a database with no public IP cannot be reached at all unless it is exposed through NAT or port forwarding, which breaks the requirement. An outbound agent turns the connection around. The agent inside the network opens the session to the vendor and queries are passed back over it. The database therefore never needs a public address or an inbound rule (E5). Other vendors use the same pattern, for example Zoho's Databridge (E11, context only).",
+      "strengths": [
+        "Brickwork has a documented mechanism that fits a no-public-IP database (E5)",
+        "The requirement is unambiguous and dated 2026-10 by Security and IT (E7)"
+      ],
+      "weaknesses": [
+        "The Formline evidence is an excerpt. A private option might exist but be undocumented here, and no public Formline docs could be found to check (E3, E10)",
+        "Security has not yet approved Brickwork Relay, and its plan availability and cost are not documented (E5)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E7",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Brickwork includes SAML SSO, SCIM and 1-year audit logs on all plans (E4). Formline Team includes SAML only, with no mention of SCIM or audit logs (E1). Formline's lowest tier with SCIM and 1-year audit logs is Enterprise at $9,500 per month (E2). The tier IT recommended therefore fails mandatory requirements 1 (the SCIM half) and 2 (E7).",
+      "mechanisms": "Vendors commonly reserve SCIM and long audit retention for enterprise tiers, as Retool does with SCIM (E11, context). Formline follows that pattern, so meeting compliance on Formline means a forced tier jump. Brickwork bundles these features into per-seat pricing, so compliance does not change the price.",
+      "strengths": [
+        "Both vendors' excerpts say plainly which plans carry which features (E1, E2, E4)"
+      ],
+      "weaknesses": [
+        "The excerpts do not say whether SCIM or audit logs could be bought as Team add-ons (E1)",
+        "The excerpts are undated and the vendors have not confirmed them in writing (E2, E4, E10)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4",
+        "E7",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "At list prices on compliant tiers, Brickwork is cheaper both now and at 2-year scale. Today: Brickwork $6,600 per month (K1) vs Formline Enterprise $9,500, so Brickwork is 30.5% cheaper (K4). At about 550 end users: Brickwork $8,850 per month (K3) vs $9,500, so 6.8% cheaper (K5), a gap of $650 per month (K10). Annual cost: Formline Enterprise $114,000 (K8), Brickwork $79,200 today (K11) rising to $106,200 at 550 end users (K12). Over 24 months, assuming end users grow linearly from 400 to 550, Brickwork costs about $185,400 (K6) against Formline Enterprise's $228,000 (K7). The memo's 27% figure (K2) is correct arithmetic, but it prices a Formline tier that does not comply.",
+      "mechanisms": "Formline's price is a flat step function: $9,500 for up to 1,000 users. Brickwork's price rises linearly at $15 per end user. Brickwork's lead therefore shrinks as headcount grows. With 12 builders the two prices meet at about 593 end users (K9). Above that, Formline's flat Enterprise price would be cheaper at list price, as long as Formline were eligible.",
+      "strengths": [
+        "Every figure follows directly from list prices in the vendor excerpts and the sizing in the requirements (E2, E4, E7, E8)"
+      ],
+      "weaknesses": [
+        "List prices only. Discounts, annual-billing rates, Relay fees and minimums are unknown (E4, E8)",
+        "The 24-month total assumes linear growth, which the evidence does not state (E7)",
+        "At 2-year scale the margin is small, so an undisclosed fee could reverse it (K10)"
+      ],
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Formline Team's 500-user cap would be exceeded within the 2-year horizon whether or not builders count: 550 end users alone exceeds 500, and the total would be 562 (K13) (E9). So Team cannot last the horizon even on user count. Brickwork has no cap, but its per-seat cost rises steadily. Its main unknown is whether end users are named or monthly-active, which could cut its cost noticeably if billing is by active users (E4).",
+      "mechanisms": "A capped flat plan creates cost cliffs: moving from Team to Enterprise nearly doubles the price, by $4,700 per month (K14). Per-seat pricing has no cliffs but rises with every hire. How each vendor defines a user (builders inside or outside the cap; named vs active) decides where the cliffs fall and the slope of the per-seat line.",
+      "strengths": [
+        "The cap arithmetic holds under both readings of whether builders count (E9)"
+      ],
+      "weaknesses": [
+        "Neither vendor defines how users are counted (E4, E7, E9)",
+        "Builder headcount growth is not forecast. Each extra Brickwork builder adds $50 per month (E4, E7)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E4",
+        "E7",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Brickwork's outbound-only agent is the stronger posture in principle, because it needs no inbound firewall rules and no public IP (E5). Formline's documented method would require exposing the database to the internet behind an IP allowlist, which is the very exposure requirement 3 forbids (E3, E7). But the Relay's security properties are not documented in the packet, so Security cannot approve it yet.",
+      "mechanisms": "An outbound agent removes the inbound attack surface. In exchange, a third-party process runs inside the trust boundary with database credentials, and the vendor's cloud becomes a path that can issue queries against internal data. The real risk therefore depends on how the agent stores credentials, what privileges it holds, how it encrypts traffic and how it is updated, and on the vendor's own security controls. None of that is documented here (E5).",
+      "strengths": [
+        "Documented outbound-only design with no inbound rules (E5)",
+        "This is an established pattern in the market (E11, context only)"
+      ],
+      "weaknesses": [
+        "No details on ports and protocols, encryption, credential handling, high availability or attestations (E5)",
+        "No public Brickwork Relay documentation could be found to cross-check (E10)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E7",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "Cannot be determined. No evidence covers either vendor's minimum term, billing cadence, renewal price caps, app and data export, or SLA (E10, unresolved gap G6). This criterion cannot currently tell the vendors apart, and it must be settled in negotiation before signing.",
+      "mechanisms": "Standardising about 30 apps on one platform builds high switching costs. Without renewal caps or export rights, the vendor can raise prices at renewal. That would hit Brickwork's per-seat model harder, because every seat is multiplied by the increase.",
+      "strengths": [],
+      "weaknesses": [
+        "There is no evidence for either vendor (E10)"
+      ],
+      "evidenceIds": [
+        "E10"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "In the documentation supplied, Formline supports only internet-reachable databases through egress-IP allowlisting and describes no private connectivity option on any plan. It therefore fails mandatory requirement 3 (private connectivity to a no-public-IP on-prem PostgreSQL).",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Brickwork documents a Relay agent that runs inside the customer network and connects outbound, reaching private databases without inbound firewall rules. In the documents supplied, this plausibly satisfies requirement 3, pending Security approval.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "Formline Team ($4,800 per month), the plan IT recommends, includes SAML SSO but not SCIM or audit logs. The lowest Formline tier with SCIM and 1-year audit logs is Enterprise at $9,500 per month.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL4",
+      "text": "Brickwork includes SAML SSO, SCIM and 1-year audit logs on all plans, priced at $50 per builder and $15 per end user per month.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "The memo's arithmetic is correct: Brickwork is $6,600 per month for 12 builders and 400 end users, and Formline Team is 27.3% cheaper than that. But the comparison is invalid, because Formline Team does not comply.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E6",
+        "E8",
+        "E1"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "On compliant tiers today, Brickwork ($6,600 per month) is 30.5% cheaper than Formline Enterprise ($9,500 per month). At about 550 end users, Brickwork ($8,850 per month) is 6.8% cheaper, a gap of $650 per month.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E7",
+        "E8"
+      ],
+      "calculationIds": [
+        "K1",
+        "K3",
+        "K4",
+        "K5",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "At list prices with 12 builders, Brickwork stays cheaper than Formline Enterprise up to about 593 end users. Past that point, Formline's flat Enterprise price would be lower.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4"
+      ],
+      "calculationIds": [
+        "K9"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "Assuming end users grow linearly from 400 to 550, Brickwork's 24-month list cost is about $185,400, against $228,000 for Formline Enterprise.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E7"
+      ],
+      "calculationIds": [
+        "K6",
+        "K7"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Even if Formline Team were compliant, growth to about 550 end users would exceed its 500-user cap whether or not builders count (562 users if they do). That would force Formline onto Enterprise within the 2-year horizon.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E7",
+        "E9"
+      ],
+      "calculationIds": [
+        "K13"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "The available evidence cannot determine whether Formline offers an undocumented private connectivity option, whether Brickwork Relay has extra fees or is limited to certain plans, or what the Relay's security properties are. No public documentation for either vendor could be found to check the excerpts.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E10",
+        "E3",
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Contract terms (minimum term, billing cadence, renewal caps, export and portability, SLA) cannot be determined for either vendor from the evidence.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E10"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "How users are counted cannot be determined from the evidence: whether builders count toward Formline's caps, and whether Brickwork bills named or active end users.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E4",
+        "E7",
+        "E9"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Formline Team at $4,800 per month (IT's recommendation)",
+      "comparison": "This is not a valid option. It lacks SCIM and 1-year audit logs (E1), it has no documented private connectivity (E3), and it would exceed its 500-user cap at about 550 end users (E9). Its $1,800 per month saving over Brickwork today comes from leaving out required features."
+    },
+    {
+      "option": "Formline Enterprise at $9,500 per month",
+      "comparison": "Meets requirements 1 and 2 (E2) but still has no documented private connectivity (E3), so it fails the gate. Even if Formline confirmed a private option, it would cost $2,900 per month more than Brickwork today and $650 per month more at about 550 end users (K4, K5, K10). It only becomes cheaper above about 593 end users (K9)."
+    },
+    {
+      "option": "Brickwork per-seat with Relay",
+      "comparison": "The only option that meets all three requirements in the documents supplied (E4, E5). It costs $6,600 per month today and $8,850 at about 550 end users (K1, K3). It depends on Security approving the Relay and on there being no material Relay fee."
+    },
+    {
+      "option": "Formline with the database exposed to the internet behind an egress-IP allowlist",
+      "comparison": "This directly violates requirement 3, which requires no public IP (E7), so it is not permissible without a formal change to the requirements by Security."
+    },
+    {
+      "option": "Reopen the shortlist to other vendors with outbound agents and bundled SCIM",
+      "comparison": "Other vendors offer the outbound-agent pattern (E11, context only), but the packet holds no pricing or compliance evidence for them, so they cannot be compared here."
+    }
+  ],
+  "tradeoffs": [
+    "Brickwork's per-seat price has no cliffs but rises by $15 for every end user and $50 for every builder. Formline's flat Enterprise price is predictable up to 1,000 users but starts higher (E2, E4).",
+    "Brickwork's outbound Relay avoids inbound exposure, but it puts vendor-controlled software, holding database credentials, inside the network (E5).",
+    "Brickwork's cost lead shrinks from 30.5% today to 6.8% at about 550 end users, so the benefit of choosing it on cost falls over time (K4, K5)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "A Brickwork Relay fee or plan restriction above about $650 per month would wipe out Brickwork's list-price lead at about 550 end users (K10), although Formline would still fail connectivity.",
+    "Growth beyond about 593 end users, or extra builders, would make Brickwork dearer at list price than Formline Enterprise (K9).",
+    "If Brickwork bills named users (with no active-user discount), SCIM-provisioned accounts for occasional users would all be charged. Deprovisioning discipline would then affect cost directly (E4).",
+    "Security might reject the Relay (for example over credential handling or a missing SOC 2 report). That would leave no compliant option in the shortlist (E5).",
+    "Formline might confirm an undocumented private option in writing. Formline Enterprise would then become eligible, and the decision would turn on the cost and the Relay comparison (E3).",
+    "A Relay with no high-availability setup would make a single agent host a single point of failure for all 30 apps (E5 has no HA detail).",
+    "The excerpts may be out of date. They could not be checked against public vendor pages (E10)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Formline is 27% cheaper, as IT calculated.",
+      "response": "The arithmetic is correct (K2), but it prices Formline Team, which lacks SCIM and audit logs and has no documented private connectivity (E1, E3). On compliant tiers, Brickwork is 30.5% cheaper today (K4)."
+    },
+    {
+      "argument": "Formline probably has a private connector that simply isn't in the excerpt.",
+      "response": "Possible. The excerpt is partial and no public docs could be found (E3, E10). But a requirement cannot be passed on an assumption. Formline must confirm in writing, and even then its compliant price is $9,500 per month (E2)."
+    },
+    {
+      "argument": "Formline's flat pricing protects against growth, while Brickwork's per-seat cost keeps rising.",
+      "response": "True in principle, but the crossover is about 593 end users (K9), above the 2-year forecast of about 550 (E7). This only matters if Formline also passes the connectivity gate."
+    },
+    {
+      "argument": "Putting a vendor agent inside the network is itself a security risk.",
+      "response": "Agreed. That is why approval of the Relay is a condition of signing. Still, the alternative documented for Formline is internet exposure of the database, which requirement 3 rules out (E3, E5, E7)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Formline costs $4,800 a month flat for our needs.",
+      "correction": "$4,800 is the Team plan price, and Team lacks SCIM and 1-year audit logs. The lowest Formline tier with those features is Enterprise at $9,500 per month. Even Enterprise has no documented private connectivity.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "Brickwork costs $6,600 per month.",
+      "correction": "Correct at list price for 12 builders and 400 end users today. It rises to $8,850 per month at about 550 end users. Relay fees, minimums and the named-vs-active definition are unconfirmed.",
+      "evidenceIds": [
+        "E4",
+        "E8"
+      ]
+    },
+    {
+      "assumption": "Formline is 27% cheaper than Brickwork.",
+      "correction": "The figure is correct arithmetic only against the non-compliant Team plan. On compliant tiers, Brickwork is 30.5% cheaper today and 6.8% cheaper at about 550 end users.",
+      "evidenceIds": [
+        "E6",
+        "E8",
+        "E2",
+        "E4"
+      ]
+    },
+    {
+      "assumption": "Both platforms meet the mandatory requirements, so cost decides.",
+      "correction": "In the documents supplied, Formline fails the private-connectivity requirement on every plan, and Team also fails on SCIM and audit logs. Eligibility, not cost, decides.",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E7"
+      ]
+    },
+    {
+      "assumption": "The provided pricing and documentation excerpts are current and complete.",
+      "correction": "This could not be verified, because no public documentation for either vendor was found. Written vendor confirmation is needed before signing.",
+      "evidenceIds": [
+        "E10"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Brickwork monthly list cost today: 12 builders at $50 plus 400 end users at $15",
+      "expression": "12*50 + 400*15",
+      "claimedResult": 6600,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "IT memo's percentage saving of Formline Team over Brickwork today, as % of Brickwork cost",
+      "expression": "(6600 - 4800) / 6600 * 100",
+      "claimedResult": 27.27,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Brickwork monthly list cost at 2-year scale: 12 builders at $50 plus 550 end users at $15",
+      "expression": "12*50 + 550*15",
+      "claimedResult": 8850,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "Brickwork saving vs Formline Enterprise today, as % of Formline Enterprise cost",
+      "expression": "(9500 - 6600) / 9500 * 100",
+      "claimedResult": 30.53,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Brickwork saving vs Formline Enterprise at about 550 end users, as % of Formline Enterprise cost",
+      "expression": "(9500 - 8850) / 9500 * 100",
+      "claimedResult": 6.842,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Brickwork 24-month list cost assuming linear growth from 400 to 550 end users (average of start and end monthly cost times 24)",
+      "expression": "(6600 + 8850) / 2 * 24",
+      "claimedResult": 185400,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7",
+      "purpose": "Formline Enterprise 24-month list cost",
+      "expression": "9500 * 24",
+      "claimedResult": 228000,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "Formline Enterprise annual list cost",
+      "expression": "9500 * 12",
+      "claimedResult": 114000,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K9",
+      "purpose": "End-user count at which Brickwork (12 builders) equals Formline Enterprise $9,500 per month",
+      "expression": "(9500 - 12*50) / 15",
+      "claimedResult": 593.3,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Monthly gap between Formline Enterprise and Brickwork at about 550 end users (maximum extra Brickwork fee before parity)",
+      "expression": "9500 - (12*50 + 550*15)",
+      "claimedResult": 650,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K11",
+      "purpose": "Brickwork annual list cost today",
+      "expression": "(12*50 + 400*15) * 12",
+      "claimedResult": 79200,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Brickwork annual list cost at about 550 end users",
+      "expression": "(12*50 + 550*15) * 12",
+      "claimedResult": 106200,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K13",
+      "purpose": "Total users at 2-year scale if builders count toward Formline caps",
+      "expression": "12 + 550",
+      "claimedResult": 562,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K14",
+      "purpose": "Monthly price step from Formline Team to Enterprise",
+      "expression": "9500 - 4800",
+      "claimedResult": 4700,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Do not sign Formline Team. It fails requirements 1 (SCIM), 2 and 3 in the documents supplied (E1, E3).",
+    "Move Brickwork to a security review of the Relay: ports and protocols, encryption, credential storage, least privilege, high availability and attestations (E5).",
+    "Get a written Brickwork quote that confirms Relay inclusion and cost, how end users are counted, minimums and discounts. Any Relay fee above about $650 per month would cancel the list-price lead at 2-year scale (K10).",
+    "Send Formline a written question on private connectivity on any plan. Treat Formline as ineligible unless it answers yes (E3).",
+    "Negotiate renewal price caps and app and data export rights before standardising 30 apps. Per-seat renewals compound with headcount (E10).",
+    "Budget about $79,200 a year for Brickwork now, rising to about $106,200 at 550 end users, at list price (K11, K12)."
+  ],
+  "remainingUncertainty": [
+    "Whether Formline offers an undocumented private connectivity option (E3, E10).",
+    "The Relay's security properties, plan availability and cost (E5).",
+    "How end users are counted (named or active), and minimums or discounts, for Brickwork. Whether builders count toward Formline's caps, and whether SCIM and audit logs can be bought as Team add-ons (E1, E4, E9).",
+    "Contract terms for both vendors (E10).",
+    "Whether the excerpts are current. None could be checked publicly (E10).",
+    "Builder headcount growth and the actual end-user path to 550 (E7)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Formline confirming in writing a private connectivity option that Security accepts. That would make Formline Enterprise eligible and turn the decision on cost and contract terms.",
+    "Security rejecting Brickwork Relay. That would leave no compliant option in the shortlist.",
+    "Brickwork disclosing Relay fees, minimums or enterprise-tier gating that add more than about $650 per month at 2-year scale.",
+    "Growth forecasts beyond about 593 end users or substantially more builders, which would favour Formline Enterprise on cost if it were eligible.",
+    "Negotiated discounts or annual-billing pricing from either vendor that shift the cost gap."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T065717-f234258c",
+  "caseId": "ho-20-internal-tools-platform",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 97.5,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 7.5
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "I checked all arithmetic independently and it is correct. I could not verify three details against the supplied documents because the packet only names them: the Formline user caps (Team 500, Enterprise 1,000), the 550-end-user growth projection, and the quoted vendor wording. They agree with the reference where it overlaps. The output frames the gap as Formline being 44% more expensive, while the reference frames it as Brickwork being about 30% cheaper. These are the same figures expressed two ways, and the output also gives the 30% figure. None of the mustNotClaim patterns appear."
+}

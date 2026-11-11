@@ -1,0 +1,152 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C4 assessment; edgeCasesAndFailureModes; calculations (missing)] The newly added C4 text and verdict question (3) raise whether Brickwork builders also need $15 end-user seats, but the draft never puts a number on it. The cost is easy to work out: 12 x $15 = $180 a month. That cuts the 2-year gap from $650 (K10) to $470 a month, and moves the crossover with Formline Enterprise from about 593 (K9) to about 581 end users ((9500 - 12*65)/15 = 581.3). The draft names this as one cause of the thin-margin risk, so the figure should appear next to K9/K10 instead of being described only as something that 'would narrow its lead'."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict (opening conditions sentence); practicalImplications item 3; furtherResearchThatCouldChangeConclusion item 3] The verdict says Brickwork should be signed 'only after it confirms three things in writing'. Two of those three conditions don't hold up as written. (a) The third, 'that Security approves Relay', is an internal approval and not something Brickwork can confirm in writing. (b) The audit-log condition is a hard gate: Brickwork must confirm its logs 'cover both app changes and data changes'. Yet the same verdict, practicalImplications item 3 and furtherResearch item 3 allow a database-side compensating control if Security accepts it. E16-E18 suggest platform logs are usually event-level only, so the most likely outcome is that Brickwork cannot confirm record-level coverage. Read literally, the hard gate would then block signing even though the draft elsewhere describes an acceptable path. The signing conditions should say: data-change coverage confirmed by Brickwork, OR a compensating control that Security accepts."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "12*50 + 400*15",
+      "claimed": 6600,
+      "actual": 6600,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(6600 - 4800) / 6600 * 100",
+      "claimed": 27.27,
+      "actual": 27.27272727272727,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "12*50 + 550*15",
+      "claimed": 8850,
+      "actual": 8850,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(9500 - 6600) / 9500 * 100",
+      "claimed": 30.53,
+      "actual": 30.526315789473685,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(9500 - 8850) / 9500 * 100",
+      "claimed": 6.842,
+      "actual": 6.842105263157896,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(6600 + 8850) / 2 * 24",
+      "claimed": 185400,
+      "actual": 185400,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "9500 * 24",
+      "claimed": 228000,
+      "actual": 228000,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "9500 * 12",
+      "claimed": 114000,
+      "actual": 114000,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(9500 - 12*50) / 15",
+      "claimed": 593.3,
+      "actual": 593.3333333333334,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "9500 - (12*50 + 550*15)",
+      "claimed": 650,
+      "actual": 650,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(12*50 + 400*15) * 12",
+      "claimed": 79200,
+      "actual": 79200,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(12*50 + 550*15) * 12",
+      "claimed": 106200,
+      "actual": 106200,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "12 + 550",
+      "claimed": 562,
+      "actual": 562,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "9500 - 4800",
+      "claimed": 4700,
+      "actual": 4700,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "Does Brickwork Relay support the on-prem PostgreSQL version and authentication method in use, with the read/write queries the apps need (confirmed by a proof of concept)?",
+    "What exactly do Brickwork's audit logs record, how does Security define 'data changes', and would Security accept database-side auditing (e.g. pgAudit or triggers) as a compensating control?",
+    "Will Security approve Relay once ports, encryption, credential handling, HA and attestations are disclosed?",
+    "Does Formline offer, on any plan, a private connectivity option that Security accepts?"
+  ]
+}

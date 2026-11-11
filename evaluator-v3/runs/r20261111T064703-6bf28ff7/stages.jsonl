@@ -1,0 +1,8 @@
+{"ts":"2026-11-11T06:47:03.445Z","stage":"eval-planner"}
+{"ts":"2026-11-11T06:47:59.016Z","stage":"eval-researcher"}
+{"ts":"2026-11-11T06:49:11.957Z","stage":"eval-analyst"}
+{"ts":"2026-11-11T06:51:00.066Z","stage":"eval-adversary"}
+{"ts":"2026-11-11T06:52:00.125Z","stage":"eval-researcher"}
+{"ts":"2026-11-11T06:53:50.592Z","stage":"eval-analyst"}
+{"ts":"2026-11-11T06:55:45.383Z","stage":"eval-adversary"}
+{"ts":"2026-11-11T06:56:43.653Z","stage":"eval-grader"}

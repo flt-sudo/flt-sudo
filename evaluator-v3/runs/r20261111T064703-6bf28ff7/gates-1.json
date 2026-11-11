@@ -1,0 +1,183 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C2; claims CL4; alternatives 'Brickwork per-seat with Relay'; verdict pre-signing question list] The draft says Brickwork fully meets mandatory requirement 2 (C2 assessment, CL4, alternatives 'the only option that meets all three requirements'). The sources do not support that. requirements.md asks for 'Audit logs of app and data changes, retained 1 year'. The Brickwork excerpt only says 'audit logs (1-year retention)' and does not say what is logged. The Formline Enterprise excerpt is the same. Nothing in the packet shows that either vendor logs data changes, which may mean row-level edits made through apps, as well as app and config changes. On a pass/fail gate this is a real gap. The draft does not mention it in C2's weaknesses, and the six pre-signing questions do not include it."
+        },
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C1 assessment ('Brickwork passes'); verdict question (2); CL2] Requirement 3 is about on-prem PostgreSQL specifically. The Brickwork source only says Relay enables 'access to private databases'. It does not name PostgreSQL, the versions supported, or whether the queries the apps need will work through Relay. C1 still says 'Brickwork passes on the documents supplied'. That is stronger than CL2's own 'plausibly satisfies' and stronger than the evidence (E5 limitations). The pre-signing questions about Relay cover ports, encryption, attestations and cost, but not confirmed PostgreSQL support over Relay. Whether the only eligible candidate actually passes the gate rests on this point."
+        },
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [verdict question (3); criteriaAssessments C4; CL12] The user-counting questions ask whether Brickwork end users are named or active. They do not ask whether the 12 builders also need $15 end-user seats to use the apps, which would add $180 a month and narrow the $650 gap at 550 end users. They also do not ask whether Brickwork's 'All plans' wording means there are multiple priced tiers beyond the single rate quoted."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C6 mechanisms; practicalImplications item 5] C6 mechanisms says a renewal increase 'would hit Brickwork's per-seat model harder, because every seat is multiplied by the increase'. A percentage uplift hits a flat fee and a per-seat fee the same way, and at the forecast sizes Formline Enterprise's base is larger ($9,500 vs $6,600 to $8,850). Per-seat exposure grows with headcount, not with the uplift itself. The claim does not follow, and practicalImplications repeats it ('Per-seat renewals compound with headcount')."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [alternatives; counterarguments item 2] The alternatives leave out customer-side ways Formline might reach the database without a public IP and without a Formline-provided agent, for example a site-to-site VPN or a customer-hosted tunnel or proxy. They also leave out self-hosted or on-prem deployment of either platform. Security might or might not accept these, but they are the obvious next question before Formline is ruled out on every plan, and the only alternative offered for Formline is a publicly exposed database."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "12*50 + 400*15",
+      "claimed": 6600,
+      "actual": 6600,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(6600 - 4800) / 6600 * 100",
+      "claimed": 27.27,
+      "actual": 27.27272727272727,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "12*50 + 550*15",
+      "claimed": 8850,
+      "actual": 8850,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "(9500 - 6600) / 9500 * 100",
+      "claimed": 30.53,
+      "actual": 30.526315789473685,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(9500 - 8850) / 9500 * 100",
+      "claimed": 6.842,
+      "actual": 6.842105263157896,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(6600 + 8850) / 2 * 24",
+      "claimed": 185400,
+      "actual": 185400,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "9500 * 24",
+      "claimed": 228000,
+      "actual": 228000,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "9500 * 12",
+      "claimed": 114000,
+      "actual": 114000,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(9500 - 12*50) / 15",
+      "claimed": 593.3,
+      "actual": 593.3333333333334,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "9500 - (12*50 + 550*15)",
+      "claimed": 650,
+      "actual": 650,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(12*50 + 400*15) * 12",
+      "claimed": 79200,
+      "actual": 79200,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(12*50 + 550*15) * 12",
+      "claimed": 106200,
+      "actual": 106200,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "12 + 550",
+      "claimed": 562,
+      "actual": 562,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "9500 - 4800",
+      "claimed": 4700,
+      "actual": 4700,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C2; claims CL4; alternatives 'Brickwork per-seat with Relay'; verdict pre-signing question list] The draft says Brickwork fully meets mandatory requirement 2 (C2 assessment, CL4, alternatives 'the only option that meets all three requirements'). The sources do not support that. requirements.md asks for 'Audit logs of app and data changes, retained 1 year'. The Brickwork excerpt only says 'audit logs (1-year retention)' and does not say what is logged. The Formline Enterprise excerpt is the same. Nothing in the packet shows that either vendor logs data changes, which may mean row-level edits made through apps, as well as app and config changes. On a pass/fail gate this is a real gap. The draft does not mention it in C2's weaknesses, and the six pre-signing questions do not include it."
+    },
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [criteriaAssessments C1 assessment ('Brickwork passes'); verdict question (2); CL2] Requirement 3 is about on-prem PostgreSQL specifically. The Brickwork source only says Relay enables 'access to private databases'. It does not name PostgreSQL, the versions supported, or whether the queries the apps need will work through Relay. C1 still says 'Brickwork passes on the documents supplied'. That is stronger than CL2's own 'plausibly satisfies' and stronger than the evidence (E5 limitations). The pre-signing questions about Relay cover ports, encryption, attestations and cost, but not confirmed PostgreSQL support over Relay. Whether the only eligible candidate actually passes the gate rests on this point."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Does Formline offer, on any plan, a private connectivity option (agent, VPN, PrivateLink, gateway, or support for a customer-run tunnel) that Security accepts?",
+    "Will Security approve Brickwork Relay once ports and protocols, encryption, credential handling, high availability and attestations are disclosed? Does Relay support on-prem PostgreSQL?",
+    "Do Brickwork's and Formline Enterprise's audit logs capture both app changes and data changes for 1 year, as requirement 2 specifies?"
+  ]
+}

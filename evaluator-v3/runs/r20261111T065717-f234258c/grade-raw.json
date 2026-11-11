@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Answers the actual decision and covers all three mustFlag issues: the Enterprise requirement, the undocumented private connectivity, and Brickwork being cheaper. It also covers capacity, growth, billing definitions, audit-log coverage and contract questions, with no irrelevant padding.",
+      "quotes": [
+        "Formline only offers those on its Enterprise plan, which costs **$9,500/month**.",
+        "Formline may fail the private-database requirement on any plan.",
+        "Brickwork is the only option that meets all three mandatory requirements on paper."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Every number I checked is correct: $6,600, $8,850, the 593 break-even, 43.9%, the 2-year totals of $185,400 vs $228,000, and the 20-builder break-even of about 567. It also confirms IT's 27.3% arithmetic while correctly saying the wrong plan was compared. Nothing appears fabricated, and the web search that found no independent source is disclosed.",
+      "quotes": [
+        "12 × $50 + 400 × $15 = $600 + $6,000 = $6,600",
+        "Year 2: 12 builders, 550 end users | $8,850 | $9,500",
+        "With 12 builders, that happens at about **593 end users**."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains why an IP allowlist cannot reach a database with no public IP, and quantifies break-even, 2-year total cost and when the Team plan's user cap is hit. It analyses failure modes specific to this case: billing definitions, the Relay agent as a single point of failure, and whether audit logs cover data changes.",
+      "quotes": [
+        "An IP allowlist only controls who may connect to an address that is already reachable from the internet.",
+        "If there is only one Relay instance, all 30 tools that use on-prem data go down when it does.",
+        "If builders do count toward the cap, you would reach 500 at about 488 end users, roughly 14 months in at linear growth."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Challenges IT's framing directly and presents fair counterarguments (flat pricing, a possible Formline private option, negotiation). It also states what would change the conclusion, such as the discount Formline would need and the growth thresholds.",
+      "quotes": [
+        "The sums are correct; the plan they compare is not",
+        "It would need to come down by more than about 30%, to below $6,600, to beat Brickwork today.",
+        "Re-open Formline only if it can show a supported private connectivity option and a price that beats Brickwork."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear bottom line with conditions, specific questions for each vendor, a proof of concept, and contract actions.",
+      "quotes": [
+        "Do not sign the Formline Team plan. Treat Brickwork as the provisional front-runner.",
+        "Is there any supported way to reach a database with no public IP (an agent, VPN, PrivateLink-style link, self-hosted option)?",
+        "Run a short proof of concept with Brickwork Relay against the real database."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "0.75",
+      "justification": "Well organised, with calculations shown and uncertainty labelled explicitly. However, several material claims, such as the user caps of 500 and 1,000 and the 550-user growth projection, are not tied to a specific source file.",
+      "quotes": [
+        "Capacity, today (412 users) | Yes (limit 500) | Yes (limit 1,000)",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Formline only offers those on its Enterprise plan, which costs **$9,500/month**."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Private connection to Postgres with no public IP (mandatory) | **Not documented.**"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Brickwork is the only option that meets all three mandatory requirements on paper. It is also cheaper at today's headcount and at the projected 2-year headcount."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends Formline Team plan, which lacks mandatory SCIM and audit logs",
+      "triggered": false,
+      "evidence": "Do not sign the Formline Team plan."
+    },
+    {
+      "condition": "Assumes Formline supports private connectivity to the no-public-IP database without evidence",
+      "triggered": false,
+      "evidence": "Formline may have an undocumented option ... The excerpt you have does not show one, so for now it counts as not met."
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "I checked all arithmetic independently and it is correct. I could not verify three details against the supplied documents because the packet only names them: the Formline user caps (Team 500, Enterprise 1,000), the 550-end-user growth projection, and the quoted vendor wording. They agree with the reference where it overlaps. The output frames the gap as Formline being 44% more expensive, while the reference frames it as Brickwork being about 30% cheaper. These are the same figures expressed two ways, and the output also gives the 30% figure. None of the mustNotClaim patterns appear."
+}

@@ -1,0 +1,133 @@
+{
+  "subject": "Choosing a low-code internal-tools platform: Formline vs Brickwork (about 30 apps, 12 builders, about 400 end users growing to about 550)",
+  "domain": "Enterprise software procurement / low-code internal tooling platforms",
+  "decisionObjective": "Decide which platform, Formline or Brickwork, to standardise on and sign with for about 30 internal tools. The chosen platform must meet three mandatory security and connectivity requirements: SAML SSO plus SCIM, 1-year audit logs, and private connectivity to an on-prem PostgreSQL database with no public IP. Among the platforms that qualify, the decision should rest on the cost at the plan tier that actually meets those requirements, over a 2-year growth horizon. The output should also list the questions that must be answered before signing. IT's '$4,800 vs $6,600, 27% cheaper' premise is to be verified, not assumed.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Private connectivity to no-public-IP on-prem PostgreSQL",
+      "weight": 25,
+      "rationale": "This requirement is mandatory and works as a pass/fail gate. Formline's docs only describe connecting to internet-reachable databases via egress IP allowlisting, while Brickwork documents an outbound 'Relay' agent. If a platform cannot reach the core data source without exposing the database to the internet, it cannot be chosen, whatever its price."
+    },
+    {
+      "id": "C2",
+      "name": "Identity and audit compliance on the purchased tier (SAML SSO, SCIM, 1-year audit logs)",
+      "weight": 20,
+      "rationale": "These are mandatory. Formline's Team plan, the tier IT priced, includes SAML but appears to lack SCIM and audit logs, which are listed only on Enterprise. So the tier that complies determines both eligibility and the real price."
+    },
+    {
+      "id": "C3",
+      "name": "Total cost at the compliant tier, now and at 2-year scale",
+      "weight": 25,
+      "rationale": "The IT recommendation rests entirely on cost. The figure that matters is the monthly and annual cost of the cheapest compliant configuration at 412 seats and at about 562 seats, not the list price of a tier that fails requirements."
+    },
+    {
+      "id": "C4",
+      "name": "Pricing-model fit and scaling risk (seat caps, user definitions, tier thresholds)",
+      "weight": 10,
+      "rationale": "Formline's flat plans have user caps (Team 500, Enterprise 1,000). Brickwork charges per seat. Whether builders count toward caps, how 'end user' is defined (named vs active), and where tier cliffs fall all decide how costs move as headcount grows to about 550."
+    },
+    {
+      "id": "C5",
+      "name": "Security posture of the connectivity mechanism",
+      "weight": 10,
+      "rationale": "Even if a workaround exists, the way the platform reaches on-prem data affects risk acceptance: an outbound agent, a VPN or PrivateLink, or opening inbound firewall rules to the internet. Security must approve the mechanism, not just confirm that a connection is possible."
+    },
+    {
+      "id": "C6",
+      "name": "Contract and vendor terms (commitment, price protection, exit and data portability)",
+      "weight": 10,
+      "rationale": "Standardising 30 tools creates lock-in. Renewal caps, minimum terms, and the ability to export apps and data materially affect the long-run value of signing either vendor."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Does Formline support any private connectivity option (agent, VPN, PrivateLink, or a self-hosted or on-prem gateway) for databases without a public IP, on any plan, including Enterprise?",
+      "whyItMatters": "The only Formline documentation provided describes internet-reachable databases plus IP allowlisting. If no private option exists, Formline fails a mandatory requirement and the recommendation is invalid whatever it costs.",
+      "criteria": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Which Formline tier includes SCIM provisioning and 1-year audit logs? Is the Enterprise plan ($9,500/month) the minimum compliant tier, or can these be bought as add-ons to Team?",
+      "whyItMatters": "If Enterprise is required, Formline's compliant cost is $9,500/month, not $4,800. That reverses the cost comparison against Brickwork's $6,600.",
+      "criteria": [
+        "C2",
+        "C3"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Recompute the costs. Is Brickwork 12 x $50 + 400 x $15 = $6,600/month, and is the 27% figure ((6,600 - 4,800) / 6,600) arithmetically correct? What are the compliant-tier costs at about 550 end users (Brickwork about 12 x $50 + 550 x $15 = $8,850, vs Formline Enterprise $9,500)?",
+      "whyItMatters": "The 27% arithmetic may be correct, but it compares a non-compliant Formline tier. The comparison needs recomputing on like-for-like compliant tiers and at the 2-year headcount.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "How does each vendor count users? Do builders count toward Formline's 500/1,000 caps? Does Brickwork bill named or monthly-active end users? Are there volume discounts or minimums?",
+      "whyItMatters": "412 users today grows to about 562 in 2 years, which would exceed Formline Team's 500 cap. Active-user billing or volume discounts could also substantially lower Brickwork's per-seat cost.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What are the security properties of Brickwork Relay: outbound-only ports and protocols, encryption, credential handling, least-privilege scoping, high availability, and any third-party attestations (SOC 2, ISO 27001)? Is Relay included on all plans at no extra cost?",
+      "whyItMatters": "Brickwork's eligibility on C1 depends on Security accepting the Relay agent inside the network. Any extra Relay cost would change the cost comparison.",
+      "criteria": [
+        "C1",
+        "C3",
+        "C5"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What contract terms are offered: minimum term, annual vs monthly billing, renewal price caps, app and data export or portability, and SLA?",
+      "whyItMatters": "These terms determine lock-in risk and the total cost of ownership over several years for 30 standardised tools.",
+      "criteria": [
+        "C6",
+        "C3"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Formline costs '$4,800 a month flat' for our needs.",
+      "source": "user",
+      "howToCheck": "Compare the Formline Team plan's features against requirements.md. The Team plan lacks SCIM and audit logs, so confirm with Formline the cheapest tier or add-ons that meet all mandatory requirements, and get its price."
+    },
+    {
+      "assumption": "Brickwork costs $6,600/month.",
+      "source": "user",
+      "howToCheck": "Recompute from Brickwork's published pricing ($50/builder + $15/end user) for 12 builders and 400 end users. Check for minimums, Relay fees, and how end users are counted (named vs active)."
+    },
+    {
+      "assumption": "Formline is '27% cheaper' than Brickwork.",
+      "source": "user",
+      "howToCheck": "Recompute on compliant tiers for both vendors at today's 412 seats and at about 562 seats in 2 years."
+    },
+    {
+      "assumption": "Both shortlisted platforms can meet the mandatory security and connectivity requirements, so cost is the deciding factor.",
+      "source": "user",
+      "howToCheck": "Map each mandatory requirement (SSO+SCIM, 1-year audit logs, private on-prem PostgreSQL connectivity) to vendor documentation for each plan. Get written vendor confirmation for anything undocumented."
+    },
+    {
+      "assumption": "The provided pricing and documentation excerpts are current and complete.",
+      "source": "planner",
+      "howToCheck": "Check against the vendors' current public pricing and documentation pages, or get a written quote, before signing."
+    },
+    {
+      "assumption": "Builders count as users toward Formline's plan caps.",
+      "source": "planner",
+      "howToCheck": "Ask Formline how plan user limits are defined and whether builders and end users share the cap."
+    }
+  ],
+  "answerability": "answerable"
+}

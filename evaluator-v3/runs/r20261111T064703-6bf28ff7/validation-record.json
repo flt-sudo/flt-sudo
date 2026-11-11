@@ -1,0 +1,513 @@
+{
+  "runId": "r20261111T064703-6bf28ff7",
+  "generatedAt": "2026-11-11T06:57:17.314Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "\"Brickwork Relay\" agent private database low-code",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Formline low-code internal tools platform pricing Enterprise SCIM",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "Retool audit logs capture queries run data changes user actions",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "ToolJet audit logs what events are logged app data query",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://docs.retool.com/org-users/guides/monitoring/audit-logs",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.retool.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does"
+      }
+    ],
+    "fixturesRead": [
+      "requirements.md",
+      "formline-pricing-and-docs.md",
+      "brickwork-pricing-and-docs.md",
+      "it-memo.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-20 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13071,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 40695,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 233
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 977,
+            "cache_read_input_tokens": 9079,
+            "output_tokens": 3013,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 977
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3013,
+                "cache_read_input_tokens": 9079,
+                "cache_creation_input_tokens": 977,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 977,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-20 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 23169,
+          "totalToolUseCount": 10,
+          "totalDurationMs": 60450,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 292
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 3188,
+            "cache_read_input_tokens": 15139,
+            "output_tokens": 4840,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 3188
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4840,
+                "cache_read_input_tokens": 15139,
+                "cache_creation_input_tokens": 3188,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 3188,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-20 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 35679,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 95980,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 905
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18682,
+            "cache_read_input_tokens": 6159,
+            "output_tokens": 10836,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 18682
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10836,
+                "cache_read_input_tokens": 6159,
+                "cache_creation_input_tokens": 18682,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 18682,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-20 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 38161,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 47489,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1768
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 977,
+            "cache_read_input_tokens": 33207,
+            "output_tokens": 3975,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 977
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3975,
+                "cache_read_input_tokens": 33207,
+                "cache_creation_input_tokens": 977,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 977,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-20 follow-up research",
+        "ok": true,
+        "usage": {
+          "totalTokens": 36850,
+          "totalToolUseCount": 12,
+          "totalDurationMs": 97728,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 711
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1802,
+            "cache_read_input_tokens": 25847,
+            "output_tokens": 9199,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1802
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 9199,
+                "cache_read_input_tokens": 25847,
+                "cache_creation_input_tokens": 1802,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1802,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-20 analyst draft 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 60526,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 103792,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1872
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 41106,
+            "cache_read_input_tokens": 6219,
+            "output_tokens": 13199,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 41106
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 13199,
+                "cache_read_input_tokens": 6219,
+                "cache_creation_input_tokens": 41106,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 41106,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-20 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 58780,
+          "totalToolUseCount": 10,
+          "totalDurationMs": 43508,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 263
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 796,
+            "cache_read_input_tokens": 55488,
+            "output_tokens": 2494,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 796
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2494,
+                "cache_read_input_tokens": 55488,
+                "cache_creation_input_tokens": 796,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 796,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-20 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 28190,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 22664,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 418
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20793,
+            "cache_read_input_tokens": 5071,
+            "output_tokens": 2324,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 20793
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2324,
+                "cache_read_input_tokens": 5071,
+                "cache_creation_input_tokens": 20793,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 20793,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "requirements.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "formline-pricing-and-docs.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "brickwork-pricing-and-docs.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "it-memo.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://help.zoho.com/portal/en/community/topic/introducing-databridge-securely-connect-your-private-systems-with-creator-apps?page=1",
+    "https://docs.retool.com/org-users/guides/monitoring/audit-logs",
+    "https://docs.tooljet.com/docs/3.5.0-LTS/security/audit-logs/"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 18 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 12*50 + 400*15 = 6600 (claimed 6600) → match",
+    "Calculation K2 re-executed: (6600 - 4800) / 6600 * 100 = 27.27272727272727 (claimed 27.27) → match",
+    "Calculation K3 re-executed: 12*50 + 550*15 = 8850 (claimed 8850) → match",
+    "Calculation K4 re-executed: (9500 - 6600) / 9500 * 100 = 30.526315789473685 (claimed 30.53) → match",
+    "Calculation K5 re-executed: (9500 - 8850) / 9500 * 100 = 6.842105263157896 (claimed 6.842) → match",
+    "Calculation K6 re-executed: (6600 + 8850) / 2 * 24 = 185400 (claimed 185400) → match",
+    "Calculation K7 re-executed: 9500 * 24 = 228000 (claimed 228000) → match",
+    "Calculation K8 re-executed: 9500 * 12 = 114000 (claimed 114000) → match",
+    "Calculation K9 re-executed: (9500 - 12*50) / 15 = 593.3333333333334 (claimed 593.3) → match",
+    "Calculation K10 re-executed: 9500 - (12*50 + 550*15) = 650 (claimed 650) → match",
+    "Calculation K11 re-executed: (12*50 + 400*15) * 12 = 79200 (claimed 79200) → match",
+    "Calculation K12 re-executed: (12*50 + 550*15) * 12 = 106200 (claimed 106200) → match",
+    "Calculation K13 re-executed: 12 + 550 = 562 (claimed 562) → match",
+    "Calculation K14 re-executed: 9500 - 4800 = 4700 (claimed 4700) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://docs.retool.com/org-users/guides/monitoring/audit-logs — getaddrinfo ENOTFOUND docs.retool.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Only the Formline excerpt is available, and it describes internet-reachable databases with egress-IP allowlisting only. No public Formline docs were found. Formline must state in writing whether any private connectivity option (agent, VPN, PrivateLink, gateway, or support for a customer-run tunnel) exists on any plan.",
+    "Knowledge gap G2 unresolved: The fixtures do not say whether SCIM or audit logs can be bought as add-ons to Team. Neither vendor excerpt says what the audit logs cover: app or config changes, data changes made through apps, query runs, or before and after values (E12, E13). Requirement 2 explicitly requires 'app and data changes' (E14). Both vendors must confirm the scope in writing, and Security must define what 'data changes' means. Analogue-vendor evidence (E16 to E18) suggests platform audit logs are usually event-level only.",
+    "Knowledge gap G4 unresolved: No source defines whether builders count toward Formline's caps, whether Brickwork bills named or active end users, whether Brickwork builders also need end-user seats, or any volume discounts or minimums.",
+    "Knowledge gap G5 unresolved: No Brickwork Relay security details (ports, encryption, credentials, HA, SOC 2 or ISO) or pricing and plan inclusion are available. The Brickwork fixture does not name PostgreSQL or any database engine as supported through Relay (E15), so PostgreSQL support, versions and read and write capability need written confirmation or a proof of concept. No public docs were found.",
+    "Knowledge gap G6 unresolved: Neither fixture covers contract terms (minimum term, billing cadence, renewal caps, export and portability, SLA), and no public sources were found."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Whether Formline offers an undocumented private connectivity option, or would support a customer-run VPN or tunnel or self-hosted deployment (E3, E10).",
+    "Whether Brickwork Relay supports on-prem PostgreSQL, which versions, and read and write queries from apps (E15).",
+    "Whether either vendor's audit logs capture data changes as well as app changes, and how Security defines 'data changes' (E12, E13, E14).",
+    "Relay's security properties, plan availability and cost (E5).",
+    "For Brickwork: how end users are counted (named or active), whether builders need end-user seats, whether 'All plans' means several priced tiers, and any minimums or discounts. For Formline: whether builders count toward its caps, and whether SCIM and audit logs can be bought as Team add-ons (E1, E4, E9).",
+    "Contract terms for both vendors (E10).",
+    "Whether the excerpts are current. None could be checked publicly (E10).",
+    "Builder headcount growth and the actual end-user path to 550 (E7).",
+    "E10 UNKNOWN: No public web presence for 'Formline' (low-code internal tools) or 'Brickwork Relay' turned up. Searches returned only other vendors (Retool, Appsmith, ToolJet, Zoho Creator and others).",
+    "Open question the reviewer judged decisive: Does Brickwork Relay support the on-prem PostgreSQL version and authentication method in use, with the read/write queries the apps need (confirmed by a proof of concept)?",
+    "Open question the reviewer judged decisive: What exactly do Brickwork's audit logs record, how does Security define 'data changes', and would Security accept database-side auditing (e.g. pgAudit or triggers) as a compensating control?",
+    "Open question the reviewer judged decisive: Will Security approve Relay once ports, encryption, credential handling, HA and attestations are disclosed?",
+    "Open question the reviewer judged decisive: Does Formline offer, on any plan, a private connectivity option that Security accepts?"
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T06:51:59.730Z",
+        "reasons": [
+          "[coverage/major] D1 [criteriaAssessments C2; claims CL4; alternatives 'Brickwork per-seat with Relay'; verdict pre-signing question list] The draft says Brickwork fully meets mandatory requirement 2 (C2 assessment, CL4, alternatives 'the only option that meets all three requirements'). The sources do not support that. requirements.md asks for 'Audit logs of app and data changes, retained 1 year'. The Brickwork excerpt only says 'audit logs (1-year retention)' and does not say what is logged. The Formline Enterprise excerpt is the same. Nothing in the packet shows that either vendor logs data changes, which may mean row-level edits made through apps, as well as app and config changes. On a pass/fail gate this is a real gap. The draft does not mention it in C2's weaknesses, and the six pre-signing questions do not include it.",
+          "[coverage/major] D2 [criteriaAssessments C1 assessment ('Brickwork passes'); verdict question (2); CL2] Requirement 3 is about on-prem PostgreSQL specifically. The Brickwork source only says Relay enables 'access to private databases'. It does not name PostgreSQL, the versions supported, or whether the queries the apps need will work through Relay. C1 still says 'Brickwork passes on the documents supplied'. That is stronger than CL2's own 'plausibly satisfies' and stronger than the evidence (E5 limitations). The pre-signing questions about Relay cover ports, encryption, attestations and cost, but not confirmed PostgreSQL support over Relay. Whether the only eligible candidate actually passes the gate rests on this point."
+        ],
+        "action": "both"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [criteriaAssessments C4 assessment; edgeCasesAndFailureModes; calculations (missing)] The newly added C4 text and verdict question (3) raise whether Brickwork builders also need $15 end-user seats, but the draft never puts a number on it. The cost is easy to work out: 12 x $15 = $180 a month. That cuts the 2-year gap from $650 (K10) to $470 a month, and moves the crossover with Formline Enterprise from about 593 (K9) to about 581 end users ((9500 - 12*65)/15 = 581.3). The draft names this as one cause of the thin-margin risk, so the figure should appear next to K9/K10 instead of being described only as something that 'would narrow its lead'."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict (opening conditions sentence); practicalImplications item 3; furtherResearchThatCouldChangeConclusion item 3] The verdict says Brickwork should be signed 'only after it confirms three things in writing'. Two of those three conditions don't hold up as written. (a) The third, 'that Security approves Relay', is an internal approval and not something Brickwork can confirm in writing. (b) The audit-log condition is a hard gate: Brickwork must confirm its logs 'cover both app changes and data changes'. Yet the same verdict, practicalImplications item 3 and furtherResearch item 3 allow a database-side compensating control if Security accepts it. E16-E18 suggest platform logs are usually event-level only, so the most likely outcome is that Brickwork cannot confirm record-level coverage. Read literally, the hard gate would then block signing even though the draft elsewhere describes an acceptable path. The signing conditions should say: data-change coverage confirmed by Brickwork, OR a compensating control that Security accepts."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

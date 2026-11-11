@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T064703-6bf28ff7",
+  "caseId": "ho-20-internal-tools-platform",
+  "system": "agent",
+  "createdAt": "2026-11-11T06:47:03.086Z",
+  "request": "We're standardising on a low-code platform for about 30 internal tools. IT has narrowed it to Brickwork and Formline and recommends Formline because it is '$4,800 a month flat versus $6,600 for Brickwork - 27% cheaper'. We have 12 builders and about 400 end users, and our security requirements are attached along with both vendors' pricing and documentation excerpts. Is Formline the right choice, and if there are gaps in what we know, what must we ask before signing?",
+  "fixtures": [
+    "requirements.md",
+    "brickwork-pricing-and-docs.md",
+    "formline-pricing-and-docs.md",
+    "it-memo.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

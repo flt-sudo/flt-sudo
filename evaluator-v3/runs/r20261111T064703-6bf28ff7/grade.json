@@ -1,0 +1,47 @@
+{
+  "runId": "r20261111T064703-6bf28ff7",
+  "caseId": "ho-20-internal-tools-platform",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"Formline is 27% cheaper\"); human to decide if it is an endorsement or a quoted rejection",
+    "mustNotClaim N2 regex hit not confirmed by grader (forbidden claim matched: \"Recommend Formline Team plan\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "The only shortfall is in accuracy. The reference treats Formline's private connectivity as unknown, but the output's headline says Formline 'fails' requirement 3. The output hedges this elsewhere and lists it as an open question, so I gave accuracy 0.75 rather than 1.0. The output also adds well-founded caveats about Brickwork (PostgreSQL support over Relay is unconfirmed, and audit-log scope is unstated) that go beyond the reference. I did not penalise these."
+}

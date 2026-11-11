@@ -1,0 +1,95 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The draft says Brickwork fully meets mandatory requirement 2 (C2 assessment, CL4, alternatives 'the only option that meets all three requirements'). The sources do not support that. requirements.md asks for 'Audit logs of app and data changes, retained 1 year'. The Brickwork excerpt only says 'audit logs (1-year retention)' and does not say what is logged. The Formline Enterprise excerpt is the same. Nothing in the packet shows that either vendor logs data changes, which may mean row-level edits made through apps, as well as app and config changes. On a pass/fail gate this is a real gap. The draft does not mention it in C2's weaknesses, and the six pre-signing questions do not include it.",
+      "location": "criteriaAssessments C2; claims CL4; alternatives 'Brickwork per-seat with Relay'; verdict pre-signing question list",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "Requirement 3 is about on-prem PostgreSQL specifically. The Brickwork source only says Relay enables 'access to private databases'. It does not name PostgreSQL, the versions supported, or whether the queries the apps need will work through Relay. C1 still says 'Brickwork passes on the documents supplied'. That is stronger than CL2's own 'plausibly satisfies' and stronger than the evidence (E5 limitations). The pre-signing questions about Relay cover ports, encryption, attestations and cost, but not confirmed PostgreSQL support over Relay. Whether the only eligible candidate actually passes the gate rests on this point.",
+      "location": "criteriaAssessments C1 assessment ('Brickwork passes'); verdict question (2); CL2",
+      "remedy": "both"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "C6 mechanisms says a renewal increase 'would hit Brickwork's per-seat model harder, because every seat is multiplied by the increase'. A percentage uplift hits a flat fee and a per-seat fee the same way, and at the forecast sizes Formline Enterprise's base is larger ($9,500 vs $6,600 to $8,850). Per-seat exposure grows with headcount, not with the uplift itself. The claim does not follow, and practicalImplications repeats it ('Per-seat renewals compound with headcount').",
+      "location": "criteriaAssessments C6 mechanisms; practicalImplications item 5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The user-counting questions ask whether Brickwork end users are named or active. They do not ask whether the 12 builders also need $15 end-user seats to use the apps, which would add $180 a month and narrow the $650 gap at 550 end users. They also do not ask whether Brickwork's 'All plans' wording means there are multiple priced tiers beyond the single rate quoted.",
+      "location": "verdict question (3); criteriaAssessments C4; CL12",
+      "remedy": "research"
+    },
+    {
+      "id": "D5",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The alternatives leave out customer-side ways Formline might reach the database without a public IP and without a Formline-provided agent, for example a site-to-site VPN or a customer-hosted tunnel or proxy. They also leave out self-hosted or on-prem deployment of either platform. Security might or might not accept these, but they are the obvious next question before Formline is ruled out on every plan, and the only alternative offered for Formline is a publicly exposed database.",
+      "location": "alternatives; counterarguments item 2",
+      "remedy": "research"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "Does Formline offer, on any plan, a private connectivity option (agent, VPN, PrivateLink, gateway, or support for a customer-run tunnel) that Security accepts?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Will Security approve Brickwork Relay once ports and protocols, encryption, credential handling, high availability and attestations are disclosed? Does Relay support on-prem PostgreSQL?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do Brickwork's and Formline Enterprise's audit logs capture both app changes and data changes for 1 year, as requirement 2 specifies?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does Brickwork charge for Relay, restrict it to certain plans, or set minimums that add more than about $650 a month at 550 end users, and do builders also need end-user seats?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "The draft treats Brickwork as fully meeting two mandatory gates without checking the scope of its audit logs (app and data changes) or whether Relay supports PostgreSQL, and neither point is in the pre-signing questions."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims are mostly tied to fixture evidence with limits stated, confidence is set to moderate, and E11 is correctly used as context only. The overstated C1 'passes' is covered under D2."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All 14 calculations recompute correctly (6,600; 27.27%; 8,850; 30.53%; 6.84%; 185,400; 228,000; 593.3; 650; 79,200; 106,200). The draft correctly notes that the memo's arithmetic is right but its comparison is invalid. One minor unsupported claim about renewal pricing (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The strongest counterarguments (flat pricing protects against growth, an undocumented Formline connector, the risk of an agent inside the network) are addressed fairly. The gaps are minor (D5)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear, with explicit conditions, the conditions under which Formline could re-enter, and a concrete pre-signing question list. It answers both parts of the request."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited evidence IDs exist and match the source text. No sign the draft followed instructions embedded in a document, and the IT premise was verified rather than assumed."
+    }
+  ]
+}

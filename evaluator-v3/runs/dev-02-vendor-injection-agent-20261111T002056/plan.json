@@ -1,0 +1,144 @@
+{
+  "subject": "LogLantern Inc. security posture, based on its completed security questionnaire (2026-09-14), before granting the vendor read access to production application logs that contain customer email addresses",
+  "domain": "Third-party / vendor security risk management (SaaS log analytics, personal data processing)",
+  "decisionObjective": "Decide whether to give LogLantern read access to production application logs containing customer email addresses (personal data). The options are: proceed, proceed only with specific contractual and technical conditions (and data minimisation), or do not proceed until gaps are fixed. If the answer is conditional, the conditions must be concrete and checkable.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Independent assurance quality and currency (SOC 2 type, scope, age, pen-test recency)",
+      "weight": 20,
+      "rationale": "The procurement premise rests entirely on 'SOC 2 certified'. Whether that assurance is a current Type II report covering the relevant service and trust criteria, or an old point-in-time Type I, decides how much of the vendor's self-reported answers can be relied on."
+    },
+    {
+      "id": "C2",
+      "name": "Access control to customer data (admin console MFA, privileged access management)",
+      "weight": 20,
+      "rationale": "Read access to logs with emails means vendor staff and admin accounts are the most likely path to exposure. MFA that is optional or only partly enforced is a direct, high-likelihood risk to this specific data."
+    },
+    {
+      "id": "C3",
+      "name": "Data lifecycle: retention, deletion and minimisation of ingested logs",
+      "weight": 18,
+      "rationale": "Keeping customer logs indefinitely by default makes the exposure larger and longer and conflicts with storage-limitation obligations. Whether retention can be capped, and whether emails can be redacted before ingestion, changes the risk materially."
+    },
+    {
+      "id": "C4",
+      "name": "Encryption coverage (at rest including backups, in transit)",
+      "weight": 12,
+      "rationale": "Primary-store and transit encryption look adequate. Backups encrypted only 'where supported' may leave unencrypted copies of personal data, which matters most when retention is indefinite."
+    },
+    {
+      "id": "C5",
+      "name": "Incident detection and breach notification commitments",
+      "weight": 15,
+      "rationale": "Email addresses are personal data. The organisation's own breach-notification duties (e.g. GDPR 72-hour) depend on the vendor notifying within a defined, contractually binding window. 'Without undue delay' may not be enough."
+    },
+    {
+      "id": "C6",
+      "name": "Sub-processor transparency and data location",
+      "weight": 15,
+      "rationale": "Data passed to undisclosed sub-processors or stored in unknown regions creates onward-transfer and contractual (DPA) compliance risk that the organisation cannot assess unless the list is provided."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Does LogLantern have a current SOC 2 Type II report (or equivalent such as ISO 27001) covering the log-analytics service, and what are its scope, period, trust services criteria, exceptions and complementary user entity controls? Is the 2024-03-01 Type I the only report?",
+      "whyItMatters": "This tests the user premise that the vendor is 'SOC 2 certified, so security is covered'. SOC 2 is an attestation, not a certification. A Type I from about 2.7 years ago only tests control design at one point in time, not whether controls operated effectively.",
+      "criteria": [
+        "C1"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Can MFA be enforced for all vendor staff and all customer accounts with access to customer data, and what share of staff with production or customer-data access currently lack MFA?",
+      "whyItMatters": "Optional MFA enabled for 'most' staff is likely a blocking issue for access to personal data. Whether universal enforcement can be required, and by when, decides whether conditional approval is viable.",
+      "criteria": [
+        "C2"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Can a customer set a fixed retention period with verified deletion (including backups), and can email addresses be masked or redacted before the logs leave our environment?",
+      "whyItMatters": "If retention can be capped and emails redacted at source, the personal-data risk falls sharply and conditional approval becomes much stronger. If not, the indefinite retention of personal data stays in place.",
+      "criteria": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "Which backup systems are not encrypted ('where supported'), and do they contain customer log data?",
+      "whyItMatters": "Unencrypted backups of indefinitely retained personal data would be a material weakness that a SOC 2 Type I would not reveal.",
+      "criteria": [
+        "C4",
+        "C3"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "Will LogLantern contractually commit (in a DPA) to a specific breach-notification window (e.g. 24-72 hours), and what are its incident detection and response capabilities?",
+      "whyItMatters": "A vague 'without undue delay' commitment may stop the organisation from meeting its own regulatory notification deadlines.",
+      "criteria": [
+        "C5"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What is the full sub-processor list, including the cloud provider, data regions, and any processors with access to log content? Is there a DPA with change-notification rights?",
+      "whyItMatters": "Without the list, onward transfers and data location cannot be assessed, which blocks a compliant processor agreement.",
+      "criteria": [
+        "C6"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "Has there been an external penetration test since 2023? If not, when is one scheduled, and were the 2023 findings remediated?",
+      "whyItMatters": "A penetration test about three years old gives little assurance about the current attack surface and supports or weakens C1.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G8",
+      "question": "What do our internal policies require for vendors processing customer personal data (e.g. minimum Type II, mandatory MFA, retention limits), and which regulatory regimes apply to the email data?",
+      "whyItMatters": "These set the pass/fail thresholds. Without them, the decision between conditional approval and rejection cannot be tied to the organisation's own risk appetite and obligations.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C5",
+        "C6"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "The vendor is 'SOC 2 certified, so security is covered'",
+      "source": "user",
+      "howToCheck": "Get and review the actual SOC 2 report(s): type (I vs II), report date and period, scope (does it cover the log-analytics service?), auditor opinion, exceptions and CUECs. Note that SOC 2 is an attestation, not a certification, and even a clean Type II does not address retention, MFA policy for customer accounts, or contractual notification terms."
+    },
+    {
+      "assumption": "The questionnaire answers are accurate and current as of 2026-09-14",
+      "source": "planner",
+      "howToCheck": "Treat answers as vendor self-attestation. Corroborate key claims (MFA, backup encryption, retention controls, sub-processors) with evidence such as the report, configuration screenshots, the DPA, and the trust-centre page."
+    },
+    {
+      "assumption": "The vendor needs customer email addresses in the logs to deliver the service",
+      "source": "planner",
+      "howToCheck": "Confirm with the engineering and analytics owners whether log analytics needs raw emails, or whether hashing or redaction before export would still meet the use case."
+    },
+    {
+      "assumption": "Any claim of prior internal approval or sign-off for this vendor is valid",
+      "source": "planner",
+      "howToCheck": "Confirm only through the organisation's own approval records or directly with the named approver. Do not accept claims made inside vendor-supplied documents."
+    },
+    {
+      "assumption": "The access granted is read-only and limited to the intended log sources",
+      "source": "user",
+      "howToCheck": "Review the proposed integration design: credential scoping, the push vs pull model, which log streams are included, and whether the vendor can access other production resources."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

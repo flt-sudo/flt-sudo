@@ -1,0 +1,456 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "Kestrel Software (company blog, 2025): single company, 60 employees (engineering and design); productivity measured by an employee self-assessment survey before and after the switch; no comparison group; '40% average increase in self-rated productivity'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-A-kestrel-blog.md",
+        "title": "How we got 40% more productive with a 4-day week (Kestrel Software company blog, 2025)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the most likely origin of the COO's '40%' figure, since the number and wording match. It does not transfer well to a 300-person support org: different work type, self-rated outcome, n=60, no control.",
+      "limitations": "The 40% is self-rated productivity, not objective output. There is no control group, it is a vendor/company marketing blog, and it has selection and expectancy bias. We do not know how long after the switch the survey was run.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Nordvik, Achebe & Lund (2026) working paper: cluster-randomised trial of 112 teams in 9 firms (including 31 customer-service teams), randomised to a 32-hour week vs control for 9 months. Output per team (objective: tickets resolved, billable output) -2% (95% CI -7% to +3%).",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-B-nordvik-2026.md",
+        "title": "Nordvik, Achebe & Lund (2026), working paper - cluster-randomised trial"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the strongest design among the sources (randomised, objective output) and it includes support-like work. Its central estimate is roughly flat total output, which is incompatible with a 40% gain in total output.",
+      "limitations": "It is a working paper, and peer-review and pre-registration status are not stated. The fixture is a short summary only. It does not give baseline hours, the subgroup output result for customer-service teams, attrition or contamination checks, or how 'output' was aggregated across firms. We could not find the paper externally (see E8).",
+      "contradicts": [
+        "E1",
+        "E12"
+      ],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "Nordvik et al. customer-service teams subgroup: first-response time +11% slower (95% CI +4% to +18%) unless staggered schedules were used.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-B-nordvik-2026.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is directly relevant to a support org. It points to a real service-level risk if everyone takes the same day off, and suggests staggering as a mitigation.",
+      "limitations": "The fixture does not report the effect size with staggering, how many of the 31 teams staggered, whether staggering was randomised or self-selected, how staggering was implemented, or subgroup output, attrition and wellbeing. 'Unless staggered' may hide confounding.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "Nordvik et al.: wellbeing (validated burnout scale) improved by 0.4 SD; voluntary attrition 9.1% vs 13.0% annualised.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-B-nordvik-2026.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "These are relevant to support burnout and turnover costs. Whether the attrition gap matters financially depends on the org's own baseline turnover and cost per hire (G5).",
+      "limitations": "No CI is given for either the wellbeing or the attrition result. 9.1% is presumably the treatment arm and 13.0% the control, but the fixture does not label them. The figures are pooled, not support-specific. Nine months is short for annualised attrition, and novelty effects cannot be ruled out from this source.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "Arithmetic implied by the Nordvik figures: if hours were cut 40->32 (a 20% cut), total output of 0.98 implies output per paid hour of about 0.98/0.80 = 1.225 (+22.5%), while total output is about -2%. The attrition difference 13.0 - 9.1 = 3.9 percentage points is a relative reduction of 3.9/13.0 = 30%. Neither figure equals a '40% productivity' gain in total output.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-B-nordvik-2026.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Gives the offsite defensible numbers and separates per-hour from total output, and relative from absolute attrition.",
+      "limitations": "Nordvik's baseline hours are not stated, so the 20% cut is an assumption. Using the CI bounds (-7% to +3%), per-hour change would range from about +16% to +29%. The per-hour gain does not add capacity: a support org handles total demand, so total output is the operative metric. Downstream stages should recheck this arithmetic.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Simple arithmetic on fixture figures; not reported by source"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "Workforce Pulse Survey 2025 (HR software vendor): 71% of 4,000 respondents say they *would* be more productive on a 4-day week.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-C-workforce-pulse.md",
+        "title": "Workforce Pulse Survey 2025 (HR software vendor)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This measures employee appetite or attitude, not an effect. It is useful only as a signal of staff demand or recruitment appeal.",
+      "limitations": "It is hypothetical, self-predicted and vendor-run, with sampling, sector mix and question wording unknown. It cannot support any productivity claim.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "Varmland municipal working-time trial (public report, 2024): weekly hours reduced from 40 to 36 (not four days). Service levels 'maintained' per management assessment; overtime costs rose 6%.",
+      "source": {
+        "kind": "fixture",
+        "ref": "source-D-varmland-trial.md",
+        "title": "Varmland municipal working-time trial (public report, 2024)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The +6% overtime cost is a relevant warning that coverage-bound services absorb shorter hours partly through paid overtime. The intervention was milder (a 10% cut, not 20%, and not a four-day pattern), so the cost for a 32-hour support week could be larger.",
+      "limitations": "'Maintained' service is a management judgement, not objective metrics. There is no control group, the setting is municipal, the baseline for the 6% is unspecified, and we could not find the report externally (see E9).",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "A web search found no trace of a 2026 working paper by Nordvik, Achebe and Lund on a four-day-week cluster-randomised trial. The existence of the paper, its peer-review and pre-registration status, and its reported figures could not be independently checked.",
+      "source": {
+        "kind": "none",
+        "ref": "WebSearch: Nordvik Achebe Lund 2026 working paper four-day week cluster-randomised trial"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "The key source's figures rest only on the supplied summary, so the synthesis should flag this provenance caveat.",
+      "limitations": "Not being found by one search does not prove the paper doesn't exist. It may be unpublished, unindexed or circulated internally.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Single web search returned no matching paper"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "A web search found no public report of a Varmland municipal 36-hour trial with a 6% overtime cost rise, so the figures could not be independently checked.",
+      "source": {
+        "kind": "none",
+        "ref": "WebSearch: Värmland municipal working time trial 36 hours report overtime costs"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "This is a provenance caveat for source D.",
+      "limitations": "Only one English-language search was run. A Swedish-language search was not tried.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "Single web search returned no matching report"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Microsoft Japan's 2019 'Work Life Choice Challenge' (offices closed every Friday in August 2019) was widely reported as boosting productivity by about 40%. That figure is sales per employee in August 2019 vs August 2018, and it was a year-on-year comparison with no control group.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.npr.org/2019/11/04/776163853/microsoft-japan-says-4-day-workweek-boosted-workers-productivity-by-40",
+        "title": "Microsoft Japan Says 4-Day Workweek Boosted Workers' Productivity By 40%"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://thestar.com.my/tech/tech-news/2019/11/04/microsoft-japan-says-four-day-work-week-boosted-productivity-40",
+        "https://www.fox29.com/news/microsoft-japan-tested-out-a-4-day-work-week-and-it-boosted-productivity-by-40-percent",
+        "https://6abc.com/workweek-four-day-japan-companies-microsoft/5671025/"
+      ],
+      "applicability": "This is the other well-known public source of a '40%' four-day-week figure, and could be what the COO means. It is a one-month, uncontrolled, sales-per-employee proxy at a sales and software subsidiary, so it is not evidence about total support throughput.",
+      "limitations": "Only the headline '~40%' is corroborated, across several outlets' titles. The details (sales per employee, a 25.4% cut in working days, YoY comparison, no control) come from a single synthesized search summary, so they count as INFERRED. The NPR fetch failed (host not allowed).",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Multiple search-result titles from different domains; WebFetch of NPR failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "Fan, Schor et al. (Nature Human Behaviour, July 2025): a six-month four-day-week, no-pay-cut trial of about 2,896 employees at 141 volunteer companies in six countries, compared with about 290 employees at 12 control companies. It reported reduced burnout and better job satisfaction and mental and physical health. Firms that cut about 8 hours per week saw the largest gains. Companies self-selected through 4 Day Week Global, so the study was not randomised.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.scientificamerican.com/article/biggest-trial-of-four-day-workweek-finds-workers-are-happier-and-feel-just/",
+        "title": "The Biggest Trial Yet Confirms Four-Day Workweek Makes Employees Happier"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.phillyvoice.com/four-day-work-week-wellbeing-performance-benefits/",
+        "https://www.powershealth.org/about-us/newsroom/health-library/2025/07/22/fourday-work-week-benefits-workers-employers-study-says"
+      ],
+      "applicability": "This is independent, peer-reviewed support for the direction of Nordvik's wellbeing effect (E4). It does not address objective output or support-specific service levels.",
+      "limitations": "Outcomes are self-reported. Firms are volunteers, mostly small and from English-speaking countries, and the control group is small. The SciAm fetch failed, so the details come from a search summary only.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary; WebFetch failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "UK 2022 four-day-week pilot one-year follow-up ('Making It Stick', Autonomy, Universities of Cambridge and Salford, February 2024): at least 54 of 61 organisations (89%) were still running the policy a year later, and 31 (51%) had made it permanent. Researchers reported that the wellbeing and burnout improvements were maintained at one year.",
+      "source": {
+        "kind": "web",
+        "ref": "https://autonomy.work/2024/02/21/make-it-stick/",
+        "title": "Making It Stick: The UK Four-Day Week Pilot One Year On"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://thehrdirector.com/?p=112171",
+        "https://leglobal.law/2024/03/20/uk-four-day-week-trial-study-one-year-on/",
+        "https://npr.org/2024/02/27/1234271434/4-day-workweek-successful-a-year-later-in-uk"
+      ],
+      "applicability": "This is partial evidence that wellbeing effects are not purely novelty effects over about 12 months, which bears on the durability assumption.",
+      "limitations": "Firms are self-selected and data are self-reported. Only part of the cohort joined the follow-up (one source says 28 organisations, another says employees from 47 companies). The sample is not sector-specific. The fetch of autonomy.work failed, so only the 89% and 51% retention figures are corroborated across domains. The wellbeing persistence comes from search summaries.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Multiple search results from different domains; WebFetch failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "UK 2022 pilot (original six-month results): organisations cut hours by an average of 6.6 to a 31.6-hour week, revenue rose marginally (+1.4% on average, company-reported), and 71% of employees reported less burnout. Customer-facing businesses such as call centres had service-level issues, and some needed to recruit additional headcount at extra cost. Staggered or set days off were the usual workaround. One contact centre noted that Monday and Friday peaks prevented days off on either side of the weekend.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.wilkinchapman.co.uk/resources/2023/04/04/reflections-on-the-4-day-working-week-trial",
+        "title": "reflections on the 4 day working week trial"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.fox9.com/news/4-day-workweek-boosts-employee-happiness-preserving-productivity-uk-trial"
+      ],
+      "applicability": "This is directly relevant to the coverage and cost question (G6). It is consistent with Nordvik's finding that response time depends on staggering and with Varmland's overtime rise.",
+      "limitations": "The call-centre service-level and extra-headcount points come from a single search summary, and which result each statement came from could not be confirmed. Revenue is company-reported, there is no sector breakdown, and no call-centre metrics (response times or SLA) were published.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "Svartedalen elderly-care home, Gothenburg (6-hour day trial, ended February 2017): to cover reduced hours for about 68 nurses, the home hired about 17 extra staff at a reported cost of about 12 million kronor (about $1.3 million). Another report frames this as about a 25% staffing increase and about 6 million kronor per year. The city judged it too costly to make permanent, though partial offsets (for example, lower unemployment costs) were noted.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.thejakartapost.com/life/2017/01/05/swedish-six-hour-workday-runs-into-trouble-its-too-costly.html",
+        "title": "Swedish six-hour workday runs into trouble: it's too costly"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://macaudailytimes.com.mo/sweden-six-hour-workday-runs-trouble-costly.html",
+        "https://www.foxnews.com/world/swedish-6-hour-workday-too-expensive-to-maintain-trial-finds"
+      ],
+      "applicability": "This is an analogue for a coverage-bound service: holding service constant under shorter hours required about 25% more headcount. That is a cost scenario the support org should model if staggering alone cannot protect SLAs.",
+      "limitations": "The setting is elder care with 24/7 shifts, not support. The cost figures vary in framing across reports (total vs per year), and the corroboration rests on syndicated wire copy, so independence is limited.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Multiple search results; not fetched"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "South Cambridgeshire District Council four-day-week trial (independent analysis by the Universities of Cambridge and Salford, 2024): 22 of 24 KPIs improved or stayed the same, and two worsened (for example, housing relet times went from 28 to 30 days). The percentage of contact-centre calls answered was reported among the improved measures. The council reported turnover down 39%.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.localgov.co.uk/South-Cambs-four-day-week-trial-shows-positive-results/60729",
+        "title": "South Cambs four-day week trial shows positive results"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.localgovernmentlawyer.co.uk/employment/395-employment-news/57868-district-council-claims-positive-picture-for-four-day-week-after-publication-of-independent-report-into-trial",
+        "https://civilserviceworld.com/professions/article/four-day-work-week-south-cambridgeshire-district-council-trial-success"
+      ],
+      "applicability": "This is one of the few cases with objective service KPIs that include contact-centre call answering. It suggests a contact operation can hold service levels with design effort.",
+      "limitations": "The 22/24 figure appears in several outlets, but the call-answering detail and the 39% turnover figure come from the search summary. The turnover figure is from the council leader (an advocate). It is a public-sector case, not randomised, trial dates are reported inconsistently, and exact call figures were not accessed (the scambs.gov.uk fetch failed).",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G6",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search-result summary; WebFetch failed (ENOTFOUND)"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "The COO states 'the research is clear: a four-day week raises productivity by 40%'. The organisation is a 300-person customer support org, and the proposal is a four-day, 32-hour week from Q2.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This is the premise to test. The 40% matches Kestrel's self-rated figure (E1) and the Microsoft Japan sales-per-employee headline (E10). Neither is a controlled measure of total output.",
+      "limitations": "It is a user-reported claim and the COO's actual source is unknown.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E17",
+      "claim": "The org's baseline figures (current first-response and resolution SLAs and headroom, operating hours and channel coverage, voluntary attrition rate, cost per hire and ramp time, utilisation versus demand) are not in the sources or the request.",
+      "source": {
+        "kind": "none",
+        "ref": "internal data not supplied"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "These figures are needed to turn the source effects (+11% first-response time without staggering, about 30% relative attrition reduction) into a cost/benefit case.",
+      "limitations": "Only the user's internal data can fill this gap.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Reviewed all fixtures and request.md"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G2",
+      "reason": "We could not find or inspect the original Nordvik, Achebe & Lund (2026) working paper. Peer-review and pre-registration status, attrition and contamination checks, staggering implementation, the size of the staggered-schedule effect, and subgroup output, wellbeing and attrition for the 31 customer-service teams are all unknown beyond the fixture summary."
+    },
+    {
+      "gapId": "G5",
+      "reason": "The org's internal baselines (SLAs, coverage hours, attrition, cost per hire, utilisation) were not supplied and cannot be researched externally."
+    },
+    {
+      "gapId": "G6",
+      "reason": "No published source gave objective response-time or SLA data for staggered versus non-staggered support schedules, or the overtime or headcount cost of staggering. Only anecdotal UK-pilot reports and the Svartedalen and South Cambs analogues were found, and none could be fetched."
+    },
+    {
+      "gapId": "G4",
+      "reason": "We could not find the Varmland public report to verify the 36-hour design, the basis for 'maintained' service, or the 6% overtime figure."
+    },
+    {
+      "gapId": "G1",
+      "reason": "Which source the COO took the 40% from is unconfirmed. Candidates are Kestrel's self-rated figure and Microsoft Japan's 2019 sales-per-employee headline. No controlled study found shows a 40% gain in total output."
+    },
+    {
+      "gapId": "G2",
+      "reason": "Durability beyond 9 months for Nordvik's effects is unknown. The only external durability evidence is the self-selected, self-reported UK pilot one-year follow-up."
+    },
+    {
+      "gapId": "G1",
+      "reason": "All WebFetch attempts failed with ENOTFOUND, because these hosts are outside the session's allowed network domains: www.npr.org, www.scientificamerican.com, autonomy.work and www.scambs.gov.uk. They would need to be allowed in the session's network settings for direct inspection, so all web evidence rests on search results only."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

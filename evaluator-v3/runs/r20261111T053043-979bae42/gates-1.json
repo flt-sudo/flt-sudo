@@ -1,0 +1,182 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [criteriaAssessments C6; tradeoffs; alternatives (full rollout and do-not-proceed); CL7, CL10] The draft never asks whether the 32-hour week keeps full pay or cuts pay pro rata, and it does not ask what pay terms applied in Nordvik, Varmland or the UK pilot. That one question decides the cost case under C6 and how well the benefits transfer. At full pay, cost per paid hour rises 25% (40/32). That is the main cost line, bigger than the overtime and backfill scenarios the draft models: K7's 375 FTE at full pay means about 25% more payroll. At reduced pay, Nordvik's wellbeing and attrition effects (E4) may not carry over at all, because the source does not say the trial arms had the same pay. The draft also leaves out contract, benefits, employee-consultation and legal implementation issues, which matter for a 300-person Q2 change."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [verdict ('Two benefits look real'); alternatives 'Do not proceed'; C4 assessment ('Wellbeing improves'); CL5, CL6] The verdict says 'Two benefits look real', and the do-not-proceed alternative cites 'a validated burnout improvement and a possible 30% relative attrition reduction'. The supplied source (source-B) gives no CI, p-value or significance test for either result. It does not label the 9.1% and 13.0% arms. It also does not say whether the 0.4 SD burnout improvement is a difference between arms or a before-and-after change within the treatment arm. The draft notes the unlabelled arms under C5, but it does not flag the before-and-after vs between-arm ambiguity for wellbeing. In this sample, a 3.9-point attrition gap over 9 months, annualised, could easily be non-significant. 'Validated' describes the scale, not the finding, but the alternatives section reads it as a validated effect. Nordvik's existence also cannot be verified (E8). On this evidence, 'look real' overstates what is known. These benefits are the draft's main reason for rejecting 'do not proceed'."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D3 [verdict; C2 assessment and strengths; CL2; CL10/K8] The draft calls output 'roughly flat on 20% fewer hours' as if it were established. Two problems. (a) The 20% cut is an assumption: source-B does not state baseline hours, a point the draft itself makes in E5 and C2 but drops from the verdict. (b) The -2% is pooled across 112 teams, including non-support 'billable output'. The customer-service subgroup output is not reported. For a coverage-bound support org, the lower CI bound of -7% is material: about 21 FTE-equivalents of throughput at 300 staff. The subgroup's own +11% first-response penalty suggests support may sit at the worse end of the range. C2's strength that 'the CI excludes large losses' treats the pooled interval as if it applied to support. K8 (306 staff) builds on this by assuming the pooled per-hour gain carries over to support, which E3 calls into question."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [counterarguments (South Cambridgeshire)] The draft settles the E15 vs E3 contradiction by saying South Cambs 'presumably used rostering design'. No evidence supports this. It should be labelled as speculation or left unresolved."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D6 [C6; CL7; K8, K11] Svartedalen's roughly 25% headcount increase came with a 6-hour day: an 8-to-6-hour cut, which is 25%. The extra staffing therefore just matched the hours lost, with no productivity offset. The draft does not state this, so readers cannot scale the analogue to a 20% cut. Separately, K8 claims 306.1 for 300/0.98 = 306.12. If the 0.005 tolerance is absolute, the claimed value is outside it."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D4 [verdict; alternatives 'Staggered, measured pilot'; practicalImplications] The recommended pilot ('2 to 4 teams for 3 to 6 months') does not fit the outcomes it is meant to test, and the draft has no decision rules. Assume roughly 10 to 30 agents in the pilot, at 9 to 13% annual attrition. A 3 to 6 month window would produce only a handful of leavers, so the attrition effect, which the draft treats as a main benefit, cannot be detected. The draft concedes 'attrition effects need longer' but does not resize the pilot. It also gives no go/no-go or scale-up thresholds, for example an acceptable change in first-response time or SLA, or an overtime ceiling. It says nothing on timing relative to Q2, on how pilot teams would be chosen (volunteer teams bring back selection and Hawthorne bias), or on what happens after the pilot. 'Stop rules in advance' is stated, but no rules are given."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D7 [verdict; CL1; C1 strengths] CL1 and the verdict state Microsoft Japan's figure as an 'uncontrolled sales-per-employee' measure without caveat. The packet marks only the ~40% headline as corroborated. The sales-per-employee, year-on-year and no-control details are INFERRED from a single search summary. Separately, C1 calls Fan, Schor et al. 'peer-reviewed', but E11 is INFERRED from a search summary after the fetch failed."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.98 / 0.80",
+      "claimed": 1.225,
+      "actual": 1.2249999999999999,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(13.0 - 9.1) / 13.0",
+      "claimed": 0.3,
+      "actual": 0.30000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.93 / 0.80",
+      "claimed": 1.1625,
+      "actual": 1.1625,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "1.03 / 0.80",
+      "claimed": 1.2875,
+      "actual": 1.2874999999999999,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "1 - 32 / 40",
+      "claimed": 0.2,
+      "actual": 0.19999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(40 - 36) / 40",
+      "claimed": 0.1,
+      "actual": 0.1,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "300 * 40 / 32",
+      "claimed": 375,
+      "actual": 375,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "300 / 0.98",
+      "claimed": 306.1,
+      "actual": 306.12244897959187,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "300 * (13.0 - 9.1) / 100",
+      "claimed": 11.7,
+      "actual": 11.7,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "17 / 68",
+      "claimed": 0.25,
+      "actual": 0.25,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "coverage",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [criteriaAssessments C6; tradeoffs; alternatives (full rollout and do-not-proceed); CL7, CL10] The draft never asks whether the 32-hour week keeps full pay or cuts pay pro rata, and it does not ask what pay terms applied in Nordvik, Varmland or the UK pilot. That one question decides the cost case under C6 and how well the benefits transfer. At full pay, cost per paid hour rises 25% (40/32). That is the main cost line, bigger than the overtime and backfill scenarios the draft models: K7's 375 FTE at full pay means about 25% more payroll. At reduced pay, Nordvik's wellbeing and attrition effects (E4) may not carry over at all, because the source does not say the trial arms had the same pay. The draft also leaves out contract, benefits, employee-consultation and legal implementation issues, which matter for a 300-person Q2 change."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [verdict ('Two benefits look real'); alternatives 'Do not proceed'; C4 assessment ('Wellbeing improves'); CL5, CL6] The verdict says 'Two benefits look real', and the do-not-proceed alternative cites 'a validated burnout improvement and a possible 30% relative attrition reduction'. The supplied source (source-B) gives no CI, p-value or significance test for either result. It does not label the 9.1% and 13.0% arms. It also does not say whether the 0.4 SD burnout improvement is a difference between arms or a before-and-after change within the treatment arm. The draft notes the unlabelled arms under C5, but it does not flag the before-and-after vs between-arm ambiguity for wellbeing. In this sample, a 3.9-point attrition gap over 9 months, annualised, could easily be non-significant. 'Validated' describes the scale, not the finding, but the alternatives section reads it as a validated effect. Nordvik's existence also cannot be verified (E8). On this evidence, 'look real' overstates what is known. These benefits are the draft's main reason for rejecting 'do not proceed'."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D3 [verdict; C2 assessment and strengths; CL2; CL10/K8] The draft calls output 'roughly flat on 20% fewer hours' as if it were established. Two problems. (a) The 20% cut is an assumption: source-B does not state baseline hours, a point the draft itself makes in E5 and C2 but drops from the verdict. (b) The -2% is pooled across 112 teams, including non-support 'billable output'. The customer-service subgroup output is not reported. For a coverage-bound support org, the lower CI bound of -7% is material: about 21 FTE-equivalents of throughput at 300 staff. The subgroup's own +11% first-response penalty suggests support may sit at the worse end of the range. C2's strength that 'the CI excludes large losses' treats the pooled interval as if it applied to support. K8 (306 staff) builds on this by assuming the pooled per-hour gain carries over to support, which E3 calls into question."
+    },
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D4 [verdict; alternatives 'Staggered, measured pilot'; practicalImplications] The recommended pilot ('2 to 4 teams for 3 to 6 months') does not fit the outcomes it is meant to test, and the draft has no decision rules. Assume roughly 10 to 30 agents in the pilot, at 9 to 13% annual attrition. A 3 to 6 month window would produce only a handful of leavers, so the attrition effect, which the draft treats as a main benefit, cannot be detected. The draft concedes 'attrition effects need longer' but does not resize the pilot. It also gives no go/no-go or scale-up thresholds, for example an acceptable change in first-response time or SLA, or an overtime ceiling. It says nothing on timing relative to Q2, on how pilot teams would be chosen (volunteer teams bring back selection and Hawthorne bias), or on what happens after the pilot. 'Stop rules in advance' is stated, but no rules are given."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Was pay held constant in the Nordvik trial, and will this org keep full pay at 32 hours? Is the 0.4 SD wellbeing figure a between-arm difference, and are the attrition difference and its CI statistically significant?",
+    "What is Nordvik's first-response-time effect for customer-service teams that used staggered schedules, and was staggering randomised?",
+    "What are the org's SLA headroom, utilisation versus demand, current voluntary attrition and fully loaded cost per hire or ramp time?",
+    "Does the Nordvik working paper exist, and does it report a separate output result for customer-service teams?"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T053043-979bae42",
+  "caseId": "ho-15-four-day-week-evidence",
+  "system": "agent",
+  "createdAt": "2026-11-11T05:30:43.186Z",
+  "request": "Our COO wants to move our 300-person customer support organisation to a four-day, 32-hour week from Q2. She says 'the research is clear: a four-day week raises productivity by 40%'. Before the leadership offsite I need an honest synthesis of the evidence I've collected (attached) - what does it actually show about productivity, wellbeing and retention, how strong is each source, and what should we do for a support org specifically?",
+  "fixtures": [
+    "source-A-kestrel-blog.md",
+    "source-B-nordvik-2026.md",
+    "source-C-workforce-pulse.md",
+    "source-D-varmland-trial.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

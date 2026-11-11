@@ -1,0 +1,462 @@
+{
+  "verdict": "Do not roll out a 32-hour four-day week to all 300 support staff from Q2 on the strength of the COO's '40% productivity' claim. Instead, run a limited, measured pilot with staggered schedules, objective throughput and SLA metrics and a concurrent control group. The 40% figure matches a self-rated survey at a 60-person engineering and design firm (Kestrel, E1) and an uncontrolled Microsoft Japan sales-per-employee headline (E10). Neither is a controlled measure of total output. The strongest source, the Nordvik et al. cluster-RCT (E2), found team output of -2% (95% CI -7% to +3%), which means output was roughly flat on 20% fewer hours. In its 31 customer-service teams, first-response time was 11% slower (95% CI +4% to +18%) unless schedules were staggered (E3). Two benefits look real but are unquantified for this org: wellbeing up 0.4 SD, and annualised voluntary attrition of 9.1% vs 13.0%, a relative reduction of about 30% (E4, K2). Coverage-bound services in other trials also absorbed shorter hours through overtime or extra headcount (E7, E13, E14). Whether a full rollout would pay off cannot be determined without the org's own SLA headroom, coverage hours, attrition rate and cost per hire (E17), and the existence and details of the Nordvik paper could not be checked independently (E8). A pilot is the option that produces the missing evidence while capping service risk. Not proceeding at all is not supported, given the wellbeing and retention signals.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "Evidence quality varies widely. Nordvik (E2, E3, E4) is the only randomised, objectively measured source with a customer-service subgroup, so it should dominate. Kestrel (E1) is a self-rated, uncontrolled company blog about 60 engineering and design staff. Workforce Pulse (E6) measures hypothetical intent, not an effect. Varmland (E7) is a milder 40-to-36-hour change in a municipal setting, with service judged by management. External sources (E10 to E15) are non-randomised and self-selected, and they rest on search summaries only. Nordvik's own existence, peer-review status and figures could not be externally verified (E8), and neither could Varmland's (E9).",
+      "mechanisms": "Self-rated productivity after a desired policy change is inflated by expectancy, gratitude and selection effects, and without a control group secular trends cannot be separated from the treatment. Randomising at team level removes selection bias, and objective ticket counts remove reporting bias. That is why E2 outranks E1 despite their contradictory headlines. Transfer to support work also depends on how far the work is coverage-bound: engineering output can be shifted in time, but live queue response cannot.",
+      "strengths": [
+        "One randomised trial with objective output and a support-specific subgroup (E2, E3)",
+        "Independent, peer-reviewed though non-randomised evidence points the same way on wellbeing (E11) and suggests durability to about 12 months (E12)",
+        "Several independent analogues agree on the coverage-cost mechanism (E7, E13, E14)"
+      ],
+      "weaknesses": [
+        "Nordvik is an unverified working paper known only from a short summary, with peer-review, pre-registration and contamination checks unknown (E2, E8)",
+        "Kestrel, Workforce Pulse and Varmland are weak or poorly transferable (E1, E6, E7, E9)",
+        "All web-sourced evidence rests on search summaries because fetches failed (E10, E11, E12, E13, E15)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The best estimate is that total team output stays roughly flat: -2%, with a CI of -7% to +3% (E2). If hours fall from 40 to 32 (a 20% cut, K5), output per paid hour rises by about 22.5% (K1), with a range of about +16% to +29% across the CI (K3, K4). That per-hour gain is not a 40% gain in total output. No source in the packet shows a controlled 40% increase in total output (E1, E10, E16). Support capacity is set by total tickets handled against demand, so total output, not output per hour, is the operative metric (E5).",
+      "mechanisms": "Shorter weeks raise output per hour through less fatigue, fewer low-value meetings and more intense work, but this mostly offsets the lost hours rather than adding net capacity. In support, part of the work is reactive and arrives at fixed times, which limits how much intensity can compensate.",
+      "strengths": [
+        "Objective, randomised output measure (E2)",
+        "The CI excludes large losses (worse than -7%) and large gains (better than +3%) in total output"
+      ],
+      "weaknesses": [
+        "No customer-service subgroup output figure is reported (E2)",
+        "Nordvik's baseline hours are not stated, so the 20% cut used in the per-hour arithmetic is an assumption (E5)",
+        "Aggregation of 'output' across firms is unknown (E2)"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E5",
+        "E10",
+        "E16"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "This is the main org-specific risk. In Nordvik's customer-service teams, first-response time was 11% slower (95% CI +4% to +18%) unless schedules were staggered (E3). The size of the effect with staggering, and whether staggering was randomised, are not reported. UK pilot reports describe service-level problems in call centres, fixed by staggering or extra hiring, and note that Monday and Friday peaks limit which days can be taken off (E13). South Cambridgeshire reports improved contact-centre call answering, with 22 of 24 KPIs holding or improving (E15), so design effort may protect service. However, that case is non-randomised and rests on search summaries. Whether this org has the SLA headroom to absorb any slowdown is unknown (E17).",
+      "mechanisms": "If everyone takes the same day off, coverage falls on that day and queues build. Even with staggering, each day has about 20% fewer agent-hours unless headcount or overtime rises, so response time depends on how close current staffing runs to demand peaks.",
+      "strengths": [
+        "Support-specific, randomised and objectively measured response-time evidence (E3)",
+        "Mitigation (staggering) is identified across several sources (E3, E13)"
+      ],
+      "weaknesses": [
+        "The effect size under staggering is not reported (E3)",
+        "No objective SLA data for staggered vs non-staggered support schedules in any source (E13, E15)",
+        "The org's SLA headroom and coverage hours are unknown (E17)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E13",
+        "E15",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Wellbeing improves. Nordvik reports a 0.4 SD improvement on a validated burnout scale (E4). Fan, Schor et al. in Nature Human Behaviour independently report reduced burnout in a large, non-randomised trial (E11). The UK pilot follow-up reports the gains holding at about one year (E12). The direction is consistent across sources, but none is specific to support and the size for this org is uncertain.",
+      "mechanisms": "An extra recovery day reduces cumulative emotional exhaustion, which is high in support work because of repeated customer interactions. Burnout scales capture exhaustion and cynicism, which respond to recovery time.",
+      "strengths": [
+        "A validated scale in a randomised design (E4)",
+        "Independent replication of the direction (E11) and some durability evidence (E12)"
+      ],
+      "weaknesses": [
+        "No CI for the 0.4 SD figure, and the result is pooled rather than support-specific (E4)",
+        "Novelty or Hawthorne effects cannot be excluded beyond 9 to 12 months, and the durability evidence is self-selected and self-reported (E4, E12)",
+        "If staggering raises the intensity of the remaining shifts, the wellbeing gain could shrink in support (inference from E3, E13)"
+      ],
+      "evidenceIds": [
+        "E4",
+        "E11",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Annualised voluntary attrition was 9.1% vs 13.0% (E4). That is 3.9 percentage points, or a relative reduction of about 30% (K2), presumably treatment vs control, though the arms are unlabelled. Applied illustratively to 300 staff, it would mean about 11.7 fewer leavers a year (K10) if this org's attrition matched Nordvik's control rate. That is unknown (E17). South Cambs reports turnover down 39%, but the figure comes from an advocate and was not verified (E15). The financial value depends on the org's cost per hire and ramp time, which were not supplied (E17).",
+      "mechanisms": "Lower burnout and a scarce benefit raise the cost of leaving, which cuts voluntary exits. In support, each avoided exit saves recruiting, training and ramp-up time, and fewer novice agents also supports throughput and quality.",
+      "strengths": [
+        "Measured in a randomised design (E4)",
+        "Directionally supported by another case (E15)"
+      ],
+      "weaknesses": [
+        "No CI is given, the arms are unlabelled, and the result is pooled rather than support-specific (E4)",
+        "Nine months is short for an annualised attrition estimate (E4)",
+        "No org baseline or cost-per-hire data are available (E17)"
+      ],
+      "evidenceIds": [
+        "E4",
+        "E15",
+        "E17"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "A company-wide Q2 launch carries hidden-cost risk. Varmland's milder 10% hours cut (K6) still raised overtime costs by 6% (E7), though the figure could not be verified (E9). Svartedalen needed about 17 extra staff for about 68 nurses, roughly 25% more (K11), and was judged too costly to keep (E14). UK pilot call centres sometimes had to hire extra staff (E13). As an illustration, holding agent-hours constant at 300 staff would take about 375 FTE at 32 hours (K7). If Nordvik's per-hour gain transferred fully, holding total output at the central estimate would need only about 306 staff (K8). The real figure for this org is unknown and depends on how coverage-bound it is (E17). Designing staggered rosters, setting up a control group and choosing metrics all need lead time, which argues for a phased start.",
+      "mechanisms": "Coverage-bound work cannot shift demand into fewer days, so any shortfall in agent-hours at peak times is filled by overtime, new hires or slower service. Per-hour productivity gains help with backlog work but less with live queues.",
+      "strengths": [
+        "Several independent analogues agree on the cost mechanism (E7, E13, E14)",
+        "Staggering is a known, low-cost first mitigation (E3, E13)"
+      ],
+      "weaknesses": [
+        "None of the cost analogues is a support org (E7, E14)",
+        "The Varmland figures are unverified (E9)",
+        "The org's utilisation and coverage data are absent (E17)"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E7",
+        "E9",
+        "E13",
+        "E14",
+        "E17"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The COO's '40%' matches a self-rated productivity figure from an uncontrolled survey of 60 engineering and design staff (Kestrel) and an uncontrolled sales-per-employee headline (Microsoft Japan). Neither is a controlled measure of total output.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E10",
+        "E16"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "The only randomised, objectively measured source found team output of -2% (95% CI -7% to +3%) under a 32-hour week. Both a 40% gain in total output and a large loss fall outside this interval.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "Assuming a 40-to-32-hour cut (20%), Nordvik's central estimate implies output per paid hour up about 22.5%, and about +16% to +29% across the CI. That still does not add total capacity.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E5"
+      ],
+      "calculationIds": [
+        "K1",
+        "K3",
+        "K4",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "In customer-service teams, first-response time was 11% slower (95% CI +4% to +18%) unless schedules were staggered, so a same-day-off company-wide switch puts service levels at material risk.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "Wellbeing on a validated burnout scale improved by 0.4 SD, and the direction is independently supported by a large non-randomised trial.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "Annualised voluntary attrition was 9.1% vs 13.0%, a relative reduction of about 30%. Applied illustratively to 300 staff at a 13.0% baseline, that is about 11.7 fewer leavers a year.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4"
+      ],
+      "calculationIds": [
+        "K2",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "Coverage-bound services in other trials absorbed shorter hours partly through overtime (+6% at Varmland, from only a 10% hours cut) or extra headcount (about 25% at Svartedalen), and some call centres in the UK pilot needed extra hires.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E7",
+        "E13",
+        "E14"
+      ],
+      "calculationIds": [
+        "K6",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "Whether a full rollout is net positive for this org cannot be determined, because its SLA headroom, coverage hours, attrition rate, cost per hire and utilisation were not supplied.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E17"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "The existence, peer-review status and reported figures of the Nordvik working paper could not be checked independently, and neither could the Varmland report. The conclusions rest on the supplied summaries.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E8",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "As illustrative bounds for 300 staff: holding agent-hours constant at 32 hours would need about 375 FTE, while holding total output at Nordvik's central estimate, if the per-hour gain transferred fully, would need about 306.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E17"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8"
+      ]
+    },
+    {
+      "id": "CL11",
+      "text": "A contact operation has reportedly held or improved call answering under a four-day week (South Cambridgeshire), which suggests careful design can reduce the service risk. This evidence is non-randomised and rests on search summaries.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E15"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "Employee appetite for a four-day week is high (71% of 4,000 vendor-survey respondents say they would be more productive), but this measures attitude, not an effect.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E6"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Full company-wide rollout to all 300 staff from Q2",
+      "comparison": "This brings the wellbeing and attrition benefits (E4) to everyone soonest. But the case rests on an unsupported 40% premise (E1, E16), with no internal control, and it exposes all queues to the +11% first-response risk if staggering is imperfect (E3). It also risks the overtime or headcount costs seen elsewhere (E7, E14). It cannot be reversed cleanly and would generate no causal evidence."
+    },
+    {
+      "option": "Staggered, measured pilot (for example 2 to 4 teams for 3 to 6 months, with matched or randomised control teams)",
+      "comparison": "This tests the risks that matter most here, response time and cost (E3, E7), on real data. It captures early wellbeing and retention signals (E4) and fills the missing baselines (E17). It costs time and creates temporary inequity between teams, and attrition effects need longer to show."
+    },
+    {
+      "option": "Do not proceed",
+      "comparison": "This avoids service and cost risk. But it forgoes a validated burnout improvement and a possible 30% relative attrition reduction (E4, K2), which are valuable in a high-turnover function, and it ignores strong staff demand (E6)."
+    },
+    {
+      "option": "Milder reduction (for example 36 hours, or a 9-day fortnight)",
+      "comparison": "A 10% cut (K6), as at Varmland, still raised overtime by 6% (E7) but reportedly maintained service. It may balance coverage and wellbeing, but no source here tests its effect on support output or attrition."
+    }
+  ],
+  "tradeoffs": [
+    "Wellbeing and retention gains (E4) against a first-response slowdown unless staggered (E3)",
+    "Staggering protects coverage (E3, E13) but complicates scheduling and may dilute the perceived benefit, for example when the day off is midweek rather than a Friday",
+    "Speed of rollout against quality of evidence: a Q2 company-wide start gives up the chance to measure causal impact",
+    "Possible hiring or overtime cost (E7, E14) against avoided replacement cost from lower attrition (E4). The net depends on internal figures (E17)"
+  ],
+  "edgeCasesAndFailureModes": [
+    "Demand peaks on Mondays and Fridays make long-weekend patterns unworkable and push days off to midweek (E13)",
+    "Teams already running near capacity will see the slowdown turn into SLA breaches and backlog, not just slower responses (E3, E17)",
+    "Hidden overtime or after-hours work could erode both the cost case and the wellbeing gain (E7)",
+    "A 9-month novelty effect could fade, so attrition and wellbeing benefits shrink after rollout (E4, E12)",
+    "A Goodhart effect: agents might close tickets faster at the expense of resolution quality or reopen rates, inflating ticket counts while customer satisfaction falls",
+    "Contamination in a pilot, where control teams absorb overflow from pilot teams and bias the comparison",
+    "24/7 or multi-timezone queues need shift-based designs closer to Svartedalen's than an office four-day week (E14)"
+  ],
+  "counterarguments": [
+    {
+      "argument": "Output per hour rises about 22.5%, so the COO is directionally right that productivity goes up.",
+      "response": "Per-hour productivity does rise (K1). But total output is flat to slightly down (E2), and a support org must meet total demand, so per-hour gains do not create capacity (E5). The claimed 40% is also not that per-hour figure; it matches self-rated or sales-per-employee numbers (E1, E10)."
+    },
+    {
+      "argument": "Many companies kept the policy after the UK pilot, which shows it works.",
+      "response": "89% continuing (E12) shows employers were satisfied but says nothing about objective support throughput or SLAs. The firms were self-selected, and call centres in the same pilot reported service problems (E13)."
+    },
+    {
+      "argument": "South Cambridgeshire improved call answering, contradicting Nordvik's response-time penalty.",
+      "response": "The two are reconcilable: Nordvik's penalty applies unless schedules are staggered (E3), and South Cambs presumably used rostering design. South Cambs is non-randomised and its call figures rest on search summaries (E15), so Nordvik's randomised estimate should carry more weight on the risk. South Cambs shows only that mitigation is possible."
+    },
+    {
+      "argument": "Nordvik cannot be found, so it should be ignored.",
+      "response": "Failing to find it in one search does not show it doesn't exist (E8). It is the supplied source with the strongest design. Its unverified status is the reason this recommendation is a pilot that generates internal evidence, not a full commitment."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "'The research is clear: a four-day week raises productivity by 40%'",
+      "correction": "The 40% matches a self-rated survey (Kestrel) and an uncontrolled sales-per-employee comparison (Microsoft Japan). The randomised trial found total team output of -2% (95% CI -7% to +3%), and output per hour of about +22.5% if hours fell 20%. No source shows a controlled 40% gain in total output.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E5",
+        "E10",
+        "E16"
+      ]
+    },
+    {
+      "assumption": "The evidence applies uniformly across job types, including customer support",
+      "correction": "Customer-service teams showed a specific penalty, with first-response time 11% slower unless schedules were staggered. Kestrel covers engineering and design staff, and Varmland made a different, milder hours change in a municipal setting.",
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E7"
+      ]
+    },
+    {
+      "assumption": "A company-wide switch from Q2 is feasible without degrading service",
+      "correction": "This is not supported. Without staggering, response times worsen. Coverage-bound analogues needed overtime (+6%) or extra headcount (about 25%), and call centres in the UK pilot reported service problems. Feasibility for this org cannot be judged without its SLA and coverage data.",
+      "evidenceIds": [
+        "E3",
+        "E7",
+        "E13",
+        "E14",
+        "E17"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Output per paid hour implied by Nordvik's central estimate (0.98 total output) with an assumed 40-to-32-hour cut",
+      "expression": "0.98 / 0.80",
+      "claimedResult": 1.225,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Relative reduction in annualised voluntary attrition (13.0% vs 9.1%)",
+      "expression": "(13.0 - 9.1) / 13.0",
+      "claimedResult": 0.3,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Output per paid hour at the lower CI bound of total output (-7%)",
+      "expression": "0.93 / 0.80",
+      "claimedResult": 1.1625,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Output per paid hour at the upper CI bound of total output (+3%)",
+      "expression": "1.03 / 0.80",
+      "claimedResult": 1.2875,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Fractional hours cut from 40 to 32 hours",
+      "expression": "1 - 32 / 40",
+      "claimedResult": 0.2,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Fractional hours cut in Varmland (40 to 36 hours)",
+      "expression": "(40 - 36) / 40",
+      "claimedResult": 0.1,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "FTE at 32 hours needed to keep total agent-hours equal to 300 staff at 40 hours (no productivity offset)",
+      "expression": "300 * 40 / 32",
+      "claimedResult": 375,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Headcount needed to restore total output if Nordvik's central -2% applied to 300 staff",
+      "expression": "300 / 0.98",
+      "claimedResult": 306.1,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Illustrative annual reduction in leavers for 300 staff at a 3.9 percentage-point attrition gap",
+      "expression": "300 * (13.0 - 9.1) / 100",
+      "claimedResult": 11.7,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Svartedalen staffing increase: about 17 extra staff over about 68 nurses",
+      "expression": "17 / 68",
+      "claimedResult": 0.25,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Present the COO's 40% at the offsite as an untested premise, and replace it with Nordvik's roughly flat total output (-2%, CI -7% to +3%) and the per-hour vs total distinction (E2, K1)",
+    "Design any pilot around staggered days off, with no shared Friday, and avoid Monday and Friday peaks (E3, E13)",
+    "Set objective pilot metrics and stop rules in advance: first-response time, SLA attainment, tickets resolved per agent, reopen rate and CSAT, overtime hours and cost, burnout score and voluntary attrition, all against concurrent control teams",
+    "Collect internal baselines before the offsite decision: SLA headroom, coverage hours by channel, current attrition, cost per hire and ramp time, and utilisation vs demand (E17)",
+    "Budget explicitly for possible overtime or backfill, using the analogues as scenarios (E7, E14, K7)",
+    "Treat staff appetite (E6) as a recruitment and retention signal, not as evidence of productivity"
+  ],
+  "remainingUncertainty": [
+    "Whether the Nordvik working paper exists and reports these figures as summarised. Its peer-review status, pre-registration and contamination checks are also unknown (E8)",
+    "The size of Nordvik's response-time effect under staggered schedules, and whether staggering was randomised or self-selected (E3)",
+    "Output, wellbeing and attrition results for the customer-service subgroup specifically (E2, E4)",
+    "Whether the wellbeing and attrition effects last beyond 9 to 12 months (E4, E12)",
+    "The org's own SLA headroom, attrition baseline, cost per hire and utilisation (E17)",
+    "Whether the Varmland figures are accurate and how the 6% overtime increase was measured (E9)",
+    "Which source the COO's 40% actually comes from (E16)"
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Getting the full Nordvik paper: a large response-time penalty even with staggering would argue against proceeding, while a near-zero penalty with staggering and stable subgroup output would strengthen the case for a faster rollout",
+    "Internal data showing SLA headroom and high attrition with a high cost per hire would strengthen the business case, while tight SLAs and low turnover would weaken it",
+    "Objective SLA and response-time data from support or contact-centre four-day-week implementations, such as South Cambs' actual call figures",
+    "Long-run (more than 12 months) follow-up of attrition and burnout effects in randomised or controlled designs",
+    "Verifying the Varmland report through Swedish-language sources"
+  ]
+}

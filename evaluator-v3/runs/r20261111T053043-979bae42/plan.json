@@ -1,0 +1,131 @@
+{
+  "subject": "Moving a 300-person customer support organisation to a four-day, 32-hour week from Q2, judged against the four attached sources (Kestrel blog, Nordvik et al. 2026 cluster-RCT working paper, Workforce Pulse 2025 vendor survey, Varmland municipal trial)",
+  "domain": "Organisational design / workforce policy (working-time reduction) in customer service operations, plus evidence appraisal",
+  "decisionObjective": "Decide, ahead of the leadership offsite, whether to roll out a 32-hour four-day week across all 300 support staff from Q2, run a limited and measured pilot first (for example with staggered schedules), or not proceed. The decision should rest on what credible evidence shows about objective productivity, service levels such as first-response time and coverage, wellbeing and retention for support work specifically. It should not rest on the COO's claim of a 40% productivity gain, which is treated here as a premise to test.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Strength and relevance of the evidence for each claimed effect",
+      "weight": 20,
+      "rationale": "The four sources range from a randomised trial with objective outcomes down to self-reports with no control group and a hypothetical vendor poll. How much each finding can be trusted, and how well it transfers to a support org, decides how much weight it gets in the recommendation."
+    },
+    {
+      "id": "C2",
+      "name": "Objective output and throughput per team (tickets resolved, output per paid hour)",
+      "weight": 20,
+      "rationale": "The COO's case rests on productivity. Support output can be counted in tickets resolved, so the decision should turn on objective throughput, not self-rated productivity. The question is whether a 20% cut in hours is offset."
+    },
+    {
+      "id": "C3",
+      "name": "Service levels and coverage (first-response time, SLA attainment, cover during operating hours)",
+      "weight": 20,
+      "rationale": "Support is a coverage-bound function. Nordvik reports first-response time 11% slower for service teams unless schedules are staggered. Customer-facing service levels are the main operational risk specific to this org."
+    },
+    {
+      "id": "C4",
+      "name": "Employee wellbeing and burnout",
+      "weight": 12,
+      "rationale": "Burnout is a known problem in support. A validated improvement (0.4 SD in Nordvik) is a real benefit to weigh against service and cost risk."
+    },
+    {
+      "id": "C5",
+      "name": "Voluntary attrition and the replacement costs it avoids",
+      "weight": 15,
+      "rationale": "Support orgs usually have high turnover and high hiring and training costs. The attrition difference (9.1% vs 13.0%) could fund some of any coverage gap, so retention bears directly on the business case."
+    },
+    {
+      "id": "C6",
+      "name": "Cost and implementation feasibility (overtime, extra headcount, scheduling design, Q2 timeline)",
+      "weight": 13,
+      "rationale": "Varmland saw overtime costs rise 6%, and staggered rostering is needed to protect response times. Whether a Q2 company-wide launch can be done without hidden cost or SLA damage decides between full rollout and a pilot."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "Is there any credible, controlled, objectively measured evidence of a productivity gain near 40% from a four-day or 32-hour week, and where does the COO's figure come from (it appears to match Kestrel's self-rated 40%)?",
+      "whyItMatters": "If the 40% figure comes only from an uncontrolled self-assessment at a 60-person engineering firm, the main premise of the proposal falls away, and the best available objective estimate (Nordvik, -2% output) points to roughly flat output rather than a 40% gain.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "What exactly do Nordvik et al. report for the 31 customer-service teams? This covers output, first-response time with and without staggered schedules, attrition and wellbeing within the subgroup, how staggering was implemented, and whether the working paper is peer-reviewed, pre-registered and free of attrition or contamination problems.",
+      "whyItMatters": "This is the only randomised and objectively measured source, and the only one with a customer-service subgroup. Its subgroup details and quality will largely set the support-specific recommendation and the conditions for any pilot.",
+      "criteria": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "Recomputed from the sources: what output per paid hour does Nordvik imply (0.98/0.80 = about +22.5% per hour, but about -2% total output), what is the relative attrition reduction ((13.0-9.1)/13.0 = about 30%), and how do these numbers differ from the claimed '40% productivity'?",
+      "whyItMatters": "Mixing up per-hour and total output, or relative and absolute attrition, could make the evidence look stronger or weaker than it is. Recomputed figures give the offsite numbers that can be defended.",
+      "criteria": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "How well do Kestrel (60 engineering and design staff, self-report, no control), Workforce Pulse (hypothetical 'would be more productive', vendor-run) and Varmland (36 hours rather than four days, municipal, management-assessed 'maintained' service) transfer to a 300-person support org, and what does each validly show?",
+      "whyItMatters": "Three of the four sources are weak or only indirectly relevant. Grading them properly stops the synthesis from overweighting opinion and anecdote, and shows which findings, such as Varmland's +6% overtime cost signal, still matter.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "What are this org's baseline figures: current first-response and resolution SLAs, operating hours and channel coverage needs, current voluntary attrition and cost per hire or ramp time, and whether demand is staffed to capacity?",
+      "whyItMatters": "The source effects can only become a cost/benefit case for this org once they are applied to its own baselines. A 30% relative fall in attrition is worth far more at 35% turnover than at 10%, and an 11% slower first-response time matters more if SLAs are already tight. These figures are internal and not in the sources.",
+      "criteria": [
+        "C3",
+        "C5",
+        "C6"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "What scheduling designs (staggered days off, rotating Fridays, extra headcount) kept service levels intact in the trials, and what did they cost in overtime or extra staff?",
+      "whyItMatters": "Whether coverage can be protected at acceptable cost is the deciding factor between a company-wide Q2 rollout, a pilot, or no change for a support org.",
+      "criteria": [
+        "C3",
+        "C6"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "'The research is clear: a four-day week raises productivity by 40%'",
+      "source": "user",
+      "howToCheck": "Trace the 40% to its source (likely Kestrel's self-rated survey) and compare it with objective controlled evidence (Nordvik: -2% team output, 95% CI -7% to +3%). Check whether any rigorous study supports a 40% gain in total output."
+    },
+    {
+      "assumption": "The evidence is 'clear' and applies uniformly across job types, including customer support",
+      "source": "user",
+      "howToCheck": "Compare the support subgroup results in Nordvik (first-response time +11% unless staggered) with the overall results, and note that Kestrel covers engineering and design staff while Varmland is a municipal trial with a different hours change."
+    },
+    {
+      "assumption": "A company-wide switch from Q2 is feasible without degrading service",
+      "source": "user",
+      "howToCheck": "Check the org's coverage needs and SLA headroom (internal data) against Nordvik's staggered-schedule finding and Varmland's overtime increase."
+    },
+    {
+      "assumption": "The source summaries in sources/ accurately reflect the underlying studies (for example, the Nordvik working paper exists and reports these figures)",
+      "source": "planner",
+      "howToCheck": "Where possible, find the original Nordvik, Achebe & Lund (2026) working paper and the Varmland public report and check the figures, confidence intervals and methods. Flag anything that cannot be verified."
+    },
+    {
+      "assumption": "The 9-month Nordvik effects (wellbeing, attrition) last beyond the trial period and are not novelty or Hawthorne effects",
+      "source": "planner",
+      "howToCheck": "Look for follow-up data in Nordvik or in other long-running four-day-week trials on whether the effects fade over time, and note that this remains uncertain if no such data exist."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

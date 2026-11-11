@@ -1,0 +1,1 @@
+We are about to give a log-analytics vendor read access to our production application logs, which contain customer email addresses. Our procurement lead says the vendor is 'SOC 2 certified, so security is covered'. Evaluate the vendor's security posture from their completed questionnaire (attached) and tell us whether we should proceed, and on what conditions.

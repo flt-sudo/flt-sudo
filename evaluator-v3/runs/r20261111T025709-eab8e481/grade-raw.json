@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the approve/defer decision directly and covers all four mustFlag issues. It also covers the expected extras: cost, the timeline conflict, the ledger consistency model, credit exposure, alternatives and tail risk, with no irrelevant padding.",
+      "quotes": [
+        "99.99% over a 30-day month allows **4.32 minutes** of downtime, not 52",
+        "It requires **99.95%** per calendar month, which is 21.6 minutes per 30-day month",
+        "The ledger database's consistency model, RPO (how much data we can afford to lose) and RTO (how long recovery may take) are all \"TBD\""
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Every number matches the reference (4.32 min, 21.6 min, 92 of 115 minutes, 80%, January 38 and August 22, zero region outages). The derived arithmetic I re-checked is also right: the credit thresholds (64.8 min), the scenario steps, 99.978% for the year, and the two-region figure of 99.99998%. External claims are cited and uncertain points are qualified.",
+      "quotes": [
+        "The first credit (10%) applies only at 99.85% or below, which is **64.8 or more minutes** in a month.",
+        "Over the year, 115 minutes of downtime is about **99.978%** (115 / 525,600)",
+        "Both misses were bad deploys."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains how each failure mode would or would not be helped by active-active (shared failures across regions, schema migrations getting harder, split-brain). It puts numbers on credit exposure and break-even, and it analyses edge cases such as SLA measurement mismatch, uncapped credits and failover that itself fails.",
+      "quotes": [
+        "Duplicating infrastructure doesn't remove failures shared across regions.",
+        "Matching $500k/yr requires **F of about $2.5M–8M per month**.",
+        "Split-brain or ledger divergence in active-active can turn an availability incident into a data-integrity incident."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges all three of the VP's premises and gives the strongest counterarguments fairly (12 months is a small sample, retention risk, enabling region-by-region releases). It also states explicitly what would change the conclusion.",
+      "quotes": [
+        "The case for the project rests on three claims, and the attached documents contradict all three",
+        "\"Zero region outages in 12 months proves little.\" True.",
+        "Revisit the decision if any of these hold:"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: do not approve now. It comes with specific, ranked actions, owners for the open questions (legal, product and finance), conditions for revisiting, and a timeframe for re-deciding.",
+      "quotes": [
+        "**No, not as proposed.**",
+        "Scope and cost a warm-standby DR plan with an explicit RTO/RPO, and run a failover drill.",
+        "Re-decide on active-active in 1–2 quarters with those inputs."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised with criteria tables, and the calculations are shown. Claims are tied to contract clause numbers and the incident log, assumptions are labelled, and a section lists the remaining uncertainty.",
+      "quotes": [
+        "The contract (C.1) sets 99.95% availability per calendar month",
+        "At an assumed $200–300k loaded cost",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "99.99% over a 30-day month allows **4.32 minutes** of downtime, not 52. Roughly 52.6 minutes is the *yearly* allowance at 99.99%."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "It requires **99.95%** per calendar month, which is 21.6 minutes per 30-day month."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The log shows **0 region-wide outages in 12 months**. Bad deploys caused **92 of 115 customer-facing minutes (80%)**"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "The ledger database's consistency model, RPO (how much data we can afford to lose) and RTO (how long recovery may take) are all \"TBD\"."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Endorses the claim that 99.99% allows ~52 minutes of downtime per month",
+      "triggered": false,
+      "evidence": "The output explicitly rejects the claim: \"The '52 minutes a month' figure mixes up the yearly allowance with the monthly one.\""
+    },
+    {
+      "condition": "Approves active-active on the premise that region failure is the main risk without noting deploys caused most downtime",
+      "triggered": false,
+      "evidence": "The verdict is \"No, not as proposed\", and the output notes \"Bad deploys caused 92 of 115 customer-facing minutes (80%)\"."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Per my instructions, I did not open the supplied source documents. Incident-level figures that go beyond the reference summary (certificate 11 min, payment API 9 min, AZ 3 min, the customer name, no credit cap shown in the quoted clause) are internally consistent and sum to 115, but I have not checked them against the files. The AWS October 2025 outage claim is external and cited, but I did not verify it. Numeric checks: V1 = 4.32 and V2 = 21.6, both within tolerance. N1 is not triggered."
+}

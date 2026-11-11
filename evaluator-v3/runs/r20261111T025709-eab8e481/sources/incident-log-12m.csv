@@ -1,0 +1,9 @@
+month,incident,cause_category,customer_facing_minutes
+2025-11,INC-311,bad deploy (config),18
+2026-01,INC-327,bad deploy (schema migration),38
+2026-02,INC-330,third-party payment API,9
+2026-04,INC-344,bad deploy (feature flag),14
+2026-06,INC-358,single AZ outage (auto-failover worked),3
+2026-08,INC-371,bad deploy (config),22
+2026-09,INC-379,certificate expiry,11
+# region-wide outages affecting us in last 12 months: 0

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "99.99% monthly allows ~4.3 min, not 52 (52 is yearly)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Contract requires 99.95% (21.6 min/month)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Dominant cause is deploys, not region failures",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "RPO/RTO / consistency model undefined",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Accepts 52 minutes per month for 99.99%",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Allowed downtime at 99.99% in 30-day month (minutes)",
+    "pass": true,
+    "detail": "value ≈ 4.32 present"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Allowed downtime at contractual 99.95% in 30-day month (minutes)",
+    "pass": true,
+    "detail": "value ≈ 21.6 present"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "runId": "r20261111T025709-eab8e481",
+  "caseId": "ho-05-active-active-region",
+  "system": "baseline",
+  "createdAt": "2026-11-11T02:57:09.145Z",
+  "request": "Our biggest customer contract (attached) has an availability SLA and our VP Engineering wants us to go active-active across two cloud regions next quarter at about $41k/month extra. Her reasoning: we should target 99.99%, which 'still gives us around 52 minutes of downtime a month', and region failure is our biggest risk. I've attached the contract clause, our incident log for the last 12 months and the cost estimate. Should we approve the multi-region project?",
+  "fixtures": [
+    "contract-sla-clause.md",
+    "incident-log-12m.csv",
+    "multi-region-estimate.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

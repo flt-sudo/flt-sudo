@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T025709-eab8e481",
+  "caseId": "ho-05-active-active-region",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "Per my instructions, I did not open the supplied source documents. Incident-level figures that go beyond the reference summary (certificate 11 min, payment API 9 min, AZ 3 min, the customer name, no credit cap shown in the quoted clause) are internally consistent and sum to 115, but I have not checked them against the files. The AWS October 2025 outage claim is external and cited, but I did not verify it. Numeric checks: V1 = 4.32 and V2 = 21.6, both within tolerance. N1 is not triggered."
+}

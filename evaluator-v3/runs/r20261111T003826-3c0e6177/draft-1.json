@@ -1,0 +1,378 @@
+{
+  "verdict": "Do not put 'add replication to the session store' on next quarter's roadmap. Its premise is contradicted by the newest evidence in the packet. The 2025-02-18 changelog says sessions moved from the single node sess-redis-01 to the managed Valkey 8 cluster 'sessions-prod': 3 shards, each with 1 primary and 1 replica, multi-AZ, with automatic failover. It also says sess-redis-01 was decommissioned on 2025-03-04 (E2). The only real shard failover on record, INC-2291, took 41s, about 6% of active sessions saw errors, and nobody was logged out (E4). The single-node, no-replica picture comes from a wiki last edited in 2021-06 (E1, E11), about 1357 days before the migration (K1).\n\nThe remaining gaps are smaller and different:\n(1) Confirm the current state in infra-as-code or the provider console. The changelog excerpt ends 2025-07-22, about 477 days ago (K2), and no live source was checked (E2).\n(2) Close the INC-2291 action item 'client retry/backoff on MOVED/failover errors'. It was OPEN in the excerpt (E5), and general guidance says this kind of fix is usually client-library configuration or retry-policy work (E6).\n(3) Find out whether persistence or backups are on for sessions-prod. This is unknown (E9), and it decides whether a whole-cluster loss would still log everyone out.\n(4) Rewrite the stale wiki page (E1, E2, E3).\n\nRecommended scope for next quarter: a small, time-boxed piece of session-store work made of these four items, not a replication project. Whether even that should rank above other roadmap work cannot be determined, because the packet has no competing roadmap items or effort estimates (E10). The cheapest step, checking the live config and the action item's status, should come before any commitment, because it could show nothing is left to do (for example, if the retry fix shipped after July 2025).",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The premise that the store is a single Redis 5 node with no replication is contradicted by more recent and more specific evidence. The 2025 changelog records a migration to a replicated, multi-AZ Valkey 8 cluster with automatic failover, and the decommissioning of the old node (E2). The wiki (E1) is stale: it predates the migration by about 1357 days (K1) and also misses the 2025 TTL change (E3). Remaining doubt: the changelog is an excerpt ending 2025-07-22. Nothing after that date, and no live config, confirms it, so a later rollback or a service still pointing at sess-redis-01 cannot be ruled out (E2). On the packet's evidence, the cluster has 6 nodes (K3).",
+      "mechanisms": "Wikis drift because nobody has to update them when infrastructure changes. Changelogs are written when the change happens. So when the two disagree, the later and more specific changelog entry is the better guide to current state, unless live config says otherwise. The INC-2291 record (E4) gives separate support for the migration, because a 'shard 2 primary failover' is only possible on a sharded, replicated cluster.",
+      "strengths": [
+        "Two separate changelog facts, the migration/decommission (E2) and a shard failover incident (E4), both point to a replicated cluster.",
+        "The changelog names a concrete topology and dates, which makes the claim specific and checkable (E2)."
+      ],
+      "weaknesses": [
+        "No infra-as-code, console or service-owner confirmation as of November 2026 (E2).",
+        "There is nothing on whether any service still references sess-redis-01 (E2).",
+        "The packet does not name the managed provider (E8)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The one recorded shard-primary failure (INC-2291) caused partial errors, not a mass logout: 41s to fail over, about 6% of active sessions erroring, no logouts (E4). That contradicts 'a node failure logs everyone out', which came from the wiki's description of the old single node (E1). It is one data point, so whether it is typical is unknown (E4). A single shard would hold about a third of the keyspace, so 6% erroring is roughly 0.18 of the share you would naively expect (K4). That gap hints that client behaviour (retries, connection reuse) or traffic patterns shaped the impact. This is an inference, not something the source states (E4, E6).",
+      "mechanisms": "With replicas and automatic failover, a replica takes over the failed primary's slots. Sessions on the other shards are unaffected, and sessions on the failed shard survive on the replica. During the switch, clients see MOVED redirects and timeouts until they refresh their view of the topology (E6). Failure detection is tied to the cluster node timeout, which bounds how long the shard is unavailable (E7). Replication is asynchronous, so a few very recent writes can be lost on failover (E8, provider unconfirmed).",
+      "strengths": [
+        "Direct incident evidence with numbers (E4).",
+        "A clear mechanism explains why the impact was partial and temporary (E6, E7)."
+      ],
+      "weaknesses": [
+        "Only one incident, and no failover or chaos tests on record (E4).",
+        "41s of errors may still breach SLOs, which the packet does not give.",
+        "There is nothing about full-cluster or multi-AZ failure (E9)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "The concrete remaining gap on record is the INC-2291 action item 'client retry/backoff on MOVED/failover errors', marked OPEN in the excerpt (E5). Its status in November 2026 is unknown, so it may already be done (E5). General guidance says cluster-aware clients can handle MOVED automatically, and that clients should refresh topology and retry with exponential backoff and jitter (E6). That suggests the fix is mostly configuration or library work, though this is not verified for this organisation's client stack (E6).",
+      "mechanisms": "Clients that are not cluster-aware, or that have no retry policy, turn routine slot migration and failover into errors that users see. Making the client refresh its topology on MOVED and retry with jittered backoff absorbs most of the failover window. Some errors can remain if the window (41s, E4) is longer than the client's retry budget.",
+      "strengths": [
+        "It ties directly to the incident that showed the residual impact (E4, E5).",
+        "It is likely to be cheap compared with infrastructure work (E6)."
+      ],
+      "weaknesses": [
+        "Current status is unknown, with no incident-tracker access (E5).",
+        "The guidance is from search snippets only and is not specific to this client stack (E6)."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E6"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "This cannot be determined. Nothing says whether persistence or backups are enabled on sessions-prod (E9). The wiki's 'RDB disabled' refers to the decommissioned 2021 node and says nothing about the current cluster (E1, E9). If persistence is off, losing the whole cluster (a bad deploy, a multi-AZ event) would still log everyone out, which replication does not prevent. The 14-day TTL (E3) caps how long any session lives, so it limits how much stale data a restore would bring back. It does not prevent logouts if the data is gone.",
+      "mechanisms": "Replicas protect against losing a node, not against correlated or logical failure. Only snapshots or a persistent log allow recovery after the whole cluster is lost. Asynchronous replication means even failover can lose recent writes (E8, for a provider that is not confirmed to be the one used).",
+      "strengths": [
+        "The question is narrow and can be answered with a quick config check (E9)."
+      ],
+      "weaknesses": [
+        "The packet gives no persistence or backup data at all (E9).",
+        "Provider-specific guidance may not apply, because the provider is unnamed and the snippet may mix up two services (E8)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E3",
+        "E8",
+        "E9"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Relative priority cannot be determined, because the packet has no competing roadmap items or effort estimates (E10). Judged qualitatively, the candidate work is cheap compared with a replication project. Live-state verification, the client retry fix (E6), a persistence/backup check (E9) and a wiki update look like a small, time-boxed bundle. The one potentially larger option is moving to 2 replicas per shard, the AWS high-availability recommendation (E8). That would go from 6 to 9 nodes, 50% more node capacity (K3, K5), and it only applies if the cluster is on ElastiCache.",
+      "mechanisms": "Effort grows with how much is touched. Client configuration and documentation are local changes. Adding replicas or persistence changes infrastructure cost and operations.",
+      "strengths": [
+        "The cheapest steps (verification, docs) are useful whatever the other priorities are."
+      ],
+      "weaknesses": [
+        "No effort estimates or roadmap were provided (E10).",
+        "The node-capacity increase is not a cost figure. Pricing is unknown (E8, E10)."
+      ],
+      "evidenceIds": [
+        "E6",
+        "E8",
+        "E9",
+        "E10"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "The architecture documentation has drifted badly. The wiki (2021-06-02) still describes a node that was decommissioned on 2025-03-04, still has a 'TODO: add replication' that the migration resolved, and misses the 30-day to 14-day TTL change (E1, E2, E3). This drift directly produced the request under evaluation (E11), and that is evidence the stale page is already causing wrong decisions. Fixing it is cheap and justified.",
+      "mechanisms": "Responders and planners use the wiki as their mental model. A page that says 'a node restart logs out all users' (E1) leads to the wrong triage during incidents and the wrong work items in planning, as this request shows.",
+      "strengths": [
+        "The drift is directly observed, with dated sources (E1, E2, E3).",
+        "The request itself shows the harm is real (E11)."
+      ],
+      "weaknesses": [
+        "Other pages may be stale too. Only one wiki page is in the packet (E1)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E11"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Production sessions were migrated in 2025-02 to a managed Valkey 8 cluster with 3 shards, each with 1 primary and 1 replica, multi-AZ, with automatic failover, and sess-redis-01 was decommissioned on 2025-03-04, so replication already exists unless something changed after July 2025.",
+      "material": true,
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": [
+        "K3"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The architecture wiki is stale. It was last edited about 1357 days before the migration it fails to reflect, and it also misses the TTL change.",
+      "material": true,
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "calculationIds": [
+        "K1"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "The one recorded shard-primary failover (INC-2291) caused about 41s of disruption, with about 6% of active sessions seeing errors and no logouts, which contradicts 'a node failure logs everyone out'.",
+      "material": true,
+      "evidenceIds": [
+        "E4"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL4",
+      "text": "The most concrete remaining gap on record is the INC-2291 client retry/backoff action item, OPEN as of the mid-2025 excerpt. Its current status is unknown.",
+      "material": true,
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "General guidance suggests the client-side fix is mostly cluster-aware client configuration plus exponential backoff with jitter, which is likely cheaper than infrastructure work. This is not verified for this client stack.",
+      "material": false,
+      "evidenceIds": [
+        "E6"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL6",
+      "text": "Whether a whole-cluster loss would still log everyone out cannot be determined, because the persistence and backup configuration of sessions-prod is unknown.",
+      "material": true,
+      "evidenceIds": [
+        "E9",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "About 6% of sessions erroring is roughly 0.18 of the naive one-third share held by a single shard. This may point to client behaviour or traffic patterns shaping the impact, and it is an inference only.",
+      "material": false,
+      "evidenceIds": [
+        "E4",
+        "E6"
+      ],
+      "calculationIds": [
+        "K4"
+      ]
+    },
+    {
+      "id": "CL8",
+      "text": "The changelog evidence is about 477 days old as of 2026-11-11 and has not been confirmed against live infrastructure.",
+      "material": true,
+      "evidenceIds": [
+        "E2",
+        "E4"
+      ],
+      "calculationIds": [
+        "K2"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Relative priority against other roadmap work cannot be set, because no competing items or effort estimates were supplied.",
+      "material": true,
+      "evidenceIds": [
+        "E10"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "If sessions-prod is on ElastiCache, the current 1 replica per shard is below AWS's 2-replica recommendation for high availability. Meeting it would take the cluster from 6 to 9 nodes, a 50% increase.",
+      "material": false,
+      "evidenceIds": [
+        "E8",
+        "E2"
+      ],
+      "calculationIds": [
+        "K3",
+        "K5"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Add replication, as requested",
+      "comparison": "According to E2, the cluster already has 1 replica per shard with automatic failover, so this work item is redundant. It would only make sense if live checks show a rollback or a service still on sess-redis-01, and nothing in the packet suggests either."
+    },
+    {
+      "option": "Close the INC-2291 client retry/backoff gap",
+      "comparison": "This targets the one observed user impact, errors during a 41s failover (E4, E5). It is likely cheap, being client configuration or retry-policy work (E6). It is the highest-value candidate if the item is still open, and it needs a status check first."
+    },
+    {
+      "option": "Verify and, if needed, enable persistence or backups on sessions-prod",
+      "comparison": "It addresses the only plausible remaining mass-logout scenario, losing the whole cluster (E9). Its value depends entirely on the unknown current setting. The first step, checking the config, costs almost nothing."
+    },
+    {
+      "option": "Increase to 2 replicas per shard",
+      "comparison": "This follows AWS high-availability guidance (E8) but adds 50% more nodes (K5). It protects against a second failure in the same shard, while the observed problem was client-side error handling (E4, E5). It is lower priority than the two items above, and the guidance may not apply to this provider."
+    },
+    {
+      "option": "Tune failover detection time (node timeout or managed-service settings)",
+      "comparison": "This could shorten the 41s window (E7), but managed services may not expose the setting, and lowering it too far risks spurious failovers. It works alongside the client retry fix rather than replacing it."
+    },
+    {
+      "option": "Do nothing on the session store next quarter beyond fixing the docs",
+      "comparison": "This is reasonable if live checks show the retry fix has shipped and persistence or backups are on. Capacity then goes to other roadmap work (E10 unknown)."
+    }
+  ],
+  "tradeoffs": [
+    "Spending a small amount of capacity on verification now delays committing to anything, but it avoids building redundant work, which is what the original request would have done (E1, E2).",
+    "Aggressive client retries shorten the window in which users see errors, but they can amplify load on the surviving nodes during failover unless backoff and jitter are used (E6).",
+    "Turning on persistence (AOF or frequent snapshots) improves recovery from whole-cluster loss, but adds write overhead and cost. With a 14-day TTL (E3), losing sessions means re-login, not data loss, so the business value of durability is moderate.",
+    "A lower node timeout gives faster failover detection but a higher risk of false failovers on network blips (E7).",
+    "More replicas per shard improve tolerance of multiple failures, but add about 50% to node count (K5)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "A legacy service, cron job or config still points at sess-redis-01. If it was really decommissioned, that path is broken. If it was not, a single non-replicated node may still exist (E2 limitations).",
+    "A rollback or a provider change after 2025-07-22 that the excerpt does not show (E2).",
+    "Whole-cluster or multi-AZ loss with persistence off would still log everyone out, and replication does not help (E9).",
+    "Asynchronous replication: sessions written just before a primary fails may be lost, so a few users could be logged out even in an otherwise clean failover (E8).",
+    "Clients that are not cluster-aware or that cache topology could fail for longer than the 41s detection window if they never refresh (E6).",
+    "A bad deploy or a mass key deletion copies itself to the replicas immediately. Only backups protect against that (E8, E9).",
+    "Failover of a shard that holds a hot key range could affect far more than 6% of sessions. The INC-2291 figure may not generalise (E4)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The wiki is the official architecture document, so it should be trusted over a changelog excerpt.",
+      "response": "The wiki was last edited 2021-06-02, about 1357 days before the 2025-02-18 migration (K1). It also misses the 2025 TTL change (E3). The INC-2291 shard failover (E4) only makes sense on a sharded, replicated cluster. Two independent changelog facts beat a page that has not been touched in years. Live config should still be checked to settle the question for good."
+    },
+    {
+      "argument": "No logouts in one incident does not prove failover is safe. Replication might still be inadequate.",
+      "response": "Agreed that one data point is thin (E4). But the gap shown was errors during failover, not lost replicas. The fix for that is client handling (E5, E6) and possibly failover tuning (E7), not adding replication that already exists. A failover test would give more data points (E8)."
+    },
+    {
+      "argument": "Even if replication exists, a mass logout is still possible, so 'session-store reliability' deserves a big investment.",
+      "response": "That is possible only for whole-cluster loss without persistence or backups, and whether those are on is unknown (E9). The right first step is a cheap config check, not a large project. A larger investment is only justified if the check shows persistence and backups are off."
+    },
+    {
+      "argument": "The INC-2291 action item may already be done, so there may be nothing left to prioritise.",
+      "response": "True, and the status is unknown (E5). That is why the recommendation is a verification-first, time-boxed bundle. If the item is closed and persistence or backups are on, the session-store work shrinks to a documentation update."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The session store is a single Redis 5 node with no replication.",
+      "correction": "According to the 2025-02-18 changelog, sessions run on the managed Valkey 8 cluster 'sessions-prod': 3 shards, each with 1 primary and 1 replica, multi-AZ, with automatic failover. sess-redis-01 was decommissioned on 2025-03-04. This has not yet been confirmed against live infrastructure.",
+      "evidenceIds": [
+        "E2",
+        "E1",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "A node failure logs everyone out.",
+      "correction": "In INC-2291 (2025-07-22), a shard 2 primary failover took 41s, about 6% of active sessions saw errors, and nobody was logged out. A whole-cluster loss might still cause logouts if persistence is off, which is unknown.",
+      "evidenceIds": [
+        "E4",
+        "E9"
+      ]
+    },
+    {
+      "assumption": "The architecture wiki is an up-to-date, authoritative description of production.",
+      "correction": "The wiki was last edited 2021-06-02. It predates the 2025 migration and the TTL change (30 days to 14 days), so it is stale.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Days between the wiki's last edit (2021-06-02) and the migration changelog entry (2025-02-18): 1461 days from 2021-06-02 to 2025-06-02 (including 2024-02-29), minus 104 days from 2025-02-18 to 2025-06-02",
+      "expression": "1461 - 104",
+      "claimedResult": 1357,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "Days from the latest changelog entry (2025-07-22) to today (2026-11-11): 365 days to 2026-07-22, plus 112 days (31+31+30+20) to 2026-11-11",
+      "expression": "365 + 31 + 31 + 30 + 20",
+      "claimedResult": 477,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Current node count of sessions-prod per the changelog: 3 shards x (1 primary + 1 replica)",
+      "expression": "3 * (1 + 1)",
+      "claimedResult": 6,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "Ratio of the observed ~6% erroring sessions to the naive one-third keyspace share of a single shard out of 3",
+      "expression": "6 / (100 / 3)",
+      "claimedResult": 0.18,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Relative increase in node count from 1 to 2 replicas per shard across 3 shards (6 nodes to 9 nodes)",
+      "expression": "(3 * (1 + 2) - 3 * (1 + 1)) / (3 * (1 + 1))",
+      "claimedResult": 0.5,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Drop 'add replication' from the roadmap candidates unless live checks show a rollback or a remaining single-node path (E2).",
+    "Before quarterly planning, check live infra-as-code or the provider console for sessions-prod's topology, persistence and backup settings, and search configs for any remaining reference to sess-redis-01 (E2, E9).",
+    "Look up the INC-2291 retry/backoff action item in the incident tracker. If it is still open, schedule it as a small, high-value item: cluster-aware client, topology refresh on MOVED, exponential backoff with jitter (E5, E6).",
+    "If persistence or backups are off, decide explicitly whether a whole-cluster mass logout is acceptable given the 14-day TTL. If it is not, enable snapshots (E3, E9).",
+    "Run a controlled failover test, for example through the provider's test-failover feature if one exists, to get a second data point after the client fix (E8).",
+    "Rewrite the session-store wiki page now, and add an owner or review date to stop it drifting again (E1, E2, E3)."
+  ],
+  "remainingUncertainty": [
+    "Whether the changelog's topology is still the production state as of November 2026. There is no live confirmation, and the latest entry is about 477 days old (E2, K2).",
+    "Whether any service still references sess-redis-01 (E2).",
+    "The current status of the INC-2291 retry/backoff action item (E5).",
+    "Whether persistence or backups are enabled on sessions-prod (E9).",
+    "Whether 41s and about 6% are typical failover impact. Only one incident is on record (E4).",
+    "Which managed provider hosts sessions-prod, and so whether the ElastiCache guidance applies (E8).",
+    "Competing roadmap items and effort estimates (E10)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Live infra-as-code or console data showing a rollback, a single-node configuration, or a service still on sess-redis-01. Any of these would make replication or migration work relevant again.",
+    "Incident-tracker data showing the retry/backoff item closed, which would shrink the remaining session-store work to persistence checks and docs.",
+    "Persistence and backup settings for sessions-prod. If both are off, durability work could deserve real priority.",
+    "Later incidents or failover-test results showing larger impact (longer windows, higher error rates, logouts), which would raise the priority of failover tuning or more replicas.",
+    "The roadmap and effort estimates for competing work, which are needed to rank even the small bundle."
+  ]
+}

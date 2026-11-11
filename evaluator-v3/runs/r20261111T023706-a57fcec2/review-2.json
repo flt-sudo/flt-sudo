@@ -1,0 +1,127 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "description": "The verdict is new in draft-2. It says the break-even thresholds assume active-active would avoid the whole regional event, 'which is doubtful: recent large outages have spread through shared global layers that a second region at the same provider would still depend on.' The evidence does not support 'doubtful'. CL20 says 'the extent of data-plane impact in other regions is not established', and E21's own limitations say the snippets cover IAM 'updates' (control-plane changes), not authentication or data planes in other regions. The two other examples are not regional events. Google Cloud June 2025 (E23) and Azure Front Door Oct 2025 (E24) were global-layer failures, so they say nothing about whether a second region would have survived a region-scoped trigger like us-east-1 Oct 2025. That scenario is exactly what active-active is built for. E33 also describes itself as 'anecdotes, not a base rate'. Using global-outage anecdotes to discount active-active's main benefit against regional outages mixes two failure classes, and states the conclusion with more confidence than the snippet-level evidence allows. A decision-maker could undervalue regional redundancy as a result. The verdict does not need this point: it holds on C1, C2 and C5 alone.",
+      "location": "verdict (final sentences on lower bounds); C3.mechanisms ('which E21/E22 cast doubt on'); CL17",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The new sensitivity analysis calls all its thresholds 'lower bounds'. That holds for the credit thresholds (K16, K17): they assume uncapped credits, full unavailability and no engineering cost, and each relaxation raises the threshold. It does not hold for the churn threshold (K18, about $2.46M/yr). K18 assumes losing Halvorsen forfeits exactly one year of contract value. If the customer would otherwise stay several years, the forfeited value is larger and the threshold falls (about $820k/yr for a 3-year remaining lifetime). Using revenue rather than margin pushes the other way. The 'one loss every 5 years' frequency is arbitrary and not tied to any evidence (E12 gives no base rate). So $2.46M/yr is an illustrative point estimate under arbitrary assumptions, not a bound. Yet practicalImplications and furtherResearchThatCouldChangeConclusion tell the decision-maker to compare the real contract value against it. A contract worth, say, $1.5M/yr with a multi-year relationship could wrongly look as if it fails to clear the bar.",
+      "location": "CL17; K18; C3.mechanisms (b); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[0]; verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "Prior defect D4 has come back in new material. The verdict says avoided credits pay for the project 'only if two things hold: the monthly fee is at least about $259k, and an uncapped, fully customer-facing outage on the scale of the 14.5h regional event is avoided every year.' The next sentence contradicts this: a $1.29M/month fee with one event every 5 years also breaks even. So yearly frequency is not a necessary condition. Two events a year, or multi-tier credits from shorter outages, would also lower the fee threshold. CL8 was correctly reworded to 'as one example', but the verdict reintroduces the 'only if' framing.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "CL20 and the edge case say global features relying on us-east-1 endpoints (IAM updates, DynamoDB Global Tables) 'were reported impaired'. E21 quotes AWS status updates, via secondary outlets, saying these features 'may also be experiencing issues'. That is a hedged status-page statement, not a confirmed impairment, and it reached the draft only through snippets. The draft's wording is firmer than its source. C6.assessment also says the event 'also impaired global features'.",
+      "location": "CL20; edgeCasesAndFailureModes[3]; C6.assessment",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The edge case no longer claims the Oct 2025 event took down two regions. It now cites E21-E24 for shared global-layer failures. CL20 explicitly reconciles the regional trigger (E10) with impairment of global control-plane functions (E21). A new overstatement in the same area is raised as new D1 and D4."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Break-even thresholds for credits and churn are added (K16-K18, CL17) and used in the verdict and practicalImplications. The arithmetic checks: 492000/1.9 = 258,947; 492000/0.38 = 1,294,737; 492000*5 = 2,460,000. The 'lower bound' framing of the churn threshold is wrong in direction (new D2)."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "CL18, CL19, the expanded C6 mechanisms and the revised alternatives[3] and tradeoffs[0] now test warm standby and pilot light against the 21.6-minute budget and the 64.8-minute tier. They cover the conflicting RTO ranges (E28/E29), RPO above zero under async replication (E25/E27), the synchronous-replication option (E30/E31), drill cost and control-plane dependence. K19 (0.5056 points, 5 steps) recomputes correctly."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "CL8 now reads 'as one example' and excludes engineering cost. The same 'only if' logic reappears in the new verdict text (raised as new D3, minor)."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "The counterargument response now says AWS guidance 'ranks' warm standby and pilot light below active/active and 'in one worked example' finds them sufficient, labelled snippet-level. C4.strengths is reworded the same way."
+    },
+    {
+      "id": "D6",
+      "status": "fixed",
+      "note": "The internal-SLO-headroom reading is now steelmanned in counterarguments[2] and correctedUserAssumptions[1], including the 0.4-minute margin."
+    },
+    {
+      "id": "D7",
+      "status": "fixed",
+      "note": "CL10 and C3.mechanisms now present 870 minutes as an upper-bound illustration and give E10's partial-impact caveat and the unknown provider and region (E12)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What are Halvorsen's monthly fees, contract value, expected remaining relationship length, credit cap and any termination-for-chronic-breach or renewal terms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What ledger RPO does product/finance require, and can a single-writer standby with synchronous or semi-synchronous replication meet it at acceptable commit latency for this database engine?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which provider and region does the company use, and what is that region's multi-year record of multi-hour region-scoped outages?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "During the Oct 2025 us-east-1 event, did workloads running active-active or warm standby in other AWS regions stay available at the data-plane level? This decides whether same-provider multi-region would have avoided the event.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What end-to-end failover time does a rehearsed warm standby achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and every premise are addressed. The new sensitivity analysis bounds the main unknown, and the RPO/RTO weaknesses of warm standby are now covered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": false,
+      "reason": "The verdict calls it 'doubtful' that active-active would avoid a regional event like Oct 2025. The support is snippet-level anecdotes, two of them global-layer failures, and CL20 itself says other-region data-plane impact is not established (D1)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All 19 calculations recompute correctly. But the churn break-even is mislabelled as a lower bound when its one-year-forfeit and arbitrary-frequency assumptions cut both ways (D2), and the verdict reintroduces an 'only if' that its own next sentence contradicts (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Warm standby and pilot light are now tested against the SLA budget, the credit tier and the ledger RPO. The internal-SLO reading of 99.99% is steelmanned. The async-RPO counterargument is answered on its merits."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear (do not approve as proposed; re-scope). It gives concrete next steps and thresholds to check against the real contract, though the churn threshold needs relabelling (D2)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence IDs exist and largely match the packet. The prior misuse of E10 is fixed. One minor overstatement of E21's hedged wording remains (D4)."
+    }
+  ]
+}

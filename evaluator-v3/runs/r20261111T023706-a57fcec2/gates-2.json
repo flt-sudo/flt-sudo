@@ -1,0 +1,214 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict (final sentences on lower bounds); C3.mechanisms ('which E21/E22 cast doubt on'); CL17] The verdict is new in draft-2. It says the break-even thresholds assume active-active would avoid the whole regional event, 'which is doubtful: recent large outages have spread through shared global layers that a second region at the same provider would still depend on.' The evidence does not support 'doubtful'. CL20 says 'the extent of data-plane impact in other regions is not established', and E21's own limitations say the snippets cover IAM 'updates' (control-plane changes), not authentication or data planes in other regions. The two other examples are not regional events. Google Cloud June 2025 (E23) and Azure Front Door Oct 2025 (E24) were global-layer failures, so they say nothing about whether a second region would have survived a region-scoped trigger like us-east-1 Oct 2025. That scenario is exactly what active-active is built for. E33 also describes itself as 'anecdotes, not a base rate'. Using global-outage anecdotes to discount active-active's main benefit against regional outages mixes two failure classes, and states the conclusion with more confidence than the snippet-level evidence allows. A decision-maker could undervalue regional redundancy as a result. The verdict does not need this point: it holds on C1, C2 and C5 alone."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D2 [CL17; K18; C3.mechanisms (b); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[0]; verdict] The new sensitivity analysis calls all its thresholds 'lower bounds'. That holds for the credit thresholds (K16, K17): they assume uncapped credits, full unavailability and no engineering cost, and each relaxation raises the threshold. It does not hold for the churn threshold (K18, about $2.46M/yr). K18 assumes losing Halvorsen forfeits exactly one year of contract value. If the customer would otherwise stay several years, the forfeited value is larger and the threshold falls (about $820k/yr for a 3-year remaining lifetime). Using revenue rather than margin pushes the other way. The 'one loss every 5 years' frequency is arbitrary and not tied to any evidence (E12 gives no base rate). So $2.46M/yr is an illustrative point estimate under arbitrary assumptions, not a bound. Yet practicalImplications and furtherResearchThatCouldChangeConclusion tell the decision-maker to compare the real contract value against it. A contract worth, say, $1.5M/yr with a multi-year relationship could wrongly look as if it fails to clear the bar."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict] Prior defect D4 has come back in new material. The verdict says avoided credits pay for the project 'only if two things hold: the monthly fee is at least about $259k, and an uncapped, fully customer-facing outage on the scale of the 14.5h regional event is avoided every year.' The next sentence contradicts this: a $1.29M/month fee with one event every 5 years also breaks even. So yearly frequency is not a necessary condition. Two events a year, or multi-tier credits from shorter outages, would also lower the fee threshold. CL8 was correctly reworded to 'as one example', but the verdict reintroduces the 'only if' framing."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [CL20; edgeCasesAndFailureModes[3]; C6.assessment] CL20 and the edge case say global features relying on us-east-1 endpoints (IAM updates, DynamoDB Global Tables) 'were reported impaired'. E21 quotes AWS status updates, via secondary outlets, saying these features 'may also be experiencing issues'. That is a hedged status-page statement, not a confirmed impairment, and it reached the draft only through snippets. The draft's wording is firmer than its source. C6.assessment also says the event 'also impaired global features'."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 0.9995) * 30 * 1440",
+      "claimed": 21.6,
+      "actual": 21.59999999999762,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(1 - 0.9999) * 30 * 1440",
+      "claimed": 4.32,
+      "actual": 4.319999999999524,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "(1 - 0.9999) * 365 * 1440",
+      "claimed": 52.56,
+      "actual": 52.55999999999421,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "18 + 38 + 9 + 14 + 3 + 22 + 11",
+      "claimed": 115,
+      "actual": 115,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "18 + 38 + 14 + 22",
+      "claimed": 92,
+      "actual": 92,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "92 / 115",
+      "claimed": 0.8,
+      "actual": 0.8,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1 - 38 / 43200) * 100",
+      "claimed": 99.912,
+      "actual": 99.91203703703704,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1 - 22 / 43200) * 100",
+      "claimed": 99.949,
+      "actual": 99.94907407407408,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "21.6 + 0.001 * 43200",
+      "claimed": 64.8,
+      "actual": 64.80000000000001,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "41000 * 12",
+      "claimed": 492000,
+      "actual": 492000,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "41000 / 0.10",
+      "claimed": 410000,
+      "actual": 410000,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "22 - 21.6",
+      "claimed": 0.4,
+      "actual": 0.3999999999999986,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "14.5 * 60 / 21.6",
+      "claimed": 40.3,
+      "actual": 40.27777777777778,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "99.95 - (1 - 870 / 43200) * 100",
+      "claimed": 1.964,
+      "actual": 1.9638888888888886,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "52.56 / 4.32",
+      "claimed": 12.17,
+      "actual": 12.166666666666666,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "41000 * 12 / 1.9",
+      "claimed": 258947,
+      "actual": 258947.36842105264,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "41000 * 12 / (1.9 * 0.2)",
+      "claimed": 1294737,
+      "actual": 1294736.8421052631,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "41000 * 12 * 5",
+      "claimed": 2460000,
+      "actual": 2460000,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "99.95 - (1 - 240 / 43200) * 100",
+      "claimed": 0.5056,
+      "actual": 0.50555555555556,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "evidence_sufficiency",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict (final sentences on lower bounds); C3.mechanisms ('which E21/E22 cast doubt on'); CL17] The verdict is new in draft-2. It says the break-even thresholds assume active-active would avoid the whole regional event, 'which is doubtful: recent large outages have spread through shared global layers that a second region at the same provider would still depend on.' The evidence does not support 'doubtful'. CL20 says 'the extent of data-plane impact in other regions is not established', and E21's own limitations say the snippets cover IAM 'updates' (control-plane changes), not authentication or data planes in other regions. The two other examples are not regional events. Google Cloud June 2025 (E23) and Azure Front Door Oct 2025 (E24) were global-layer failures, so they say nothing about whether a second region would have survived a region-scoped trigger like us-east-1 Oct 2025. That scenario is exactly what active-active is built for. E33 also describes itself as 'anecdotes, not a base rate'. Using global-outage anecdotes to discount active-active's main benefit against regional outages mixes two failure classes, and states the conclusion with more confidence than the snippet-level evidence allows. A decision-maker could undervalue regional redundancy as a result. The verdict does not need this point: it holds on C1, C2 and C5 alone."
+    },
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D2 [CL17; K18; C3.mechanisms (b); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[0]; verdict] The new sensitivity analysis calls all its thresholds 'lower bounds'. That holds for the credit thresholds (K16, K17): they assume uncapped credits, full unavailability and no engineering cost, and each relaxation raises the threshold. It does not hold for the churn threshold (K18, about $2.46M/yr). K18 assumes losing Halvorsen forfeits exactly one year of contract value. If the customer would otherwise stay several years, the forfeited value is larger and the threshold falls (about $820k/yr for a 3-year remaining lifetime). Using revenue rather than margin pushes the other way. The 'one loss every 5 years' frequency is arbitrary and not tied to any evidence (E12 gives no base rate). So $2.46M/yr is an illustrative point estimate under arbitrary assumptions, not a bound. Yet practicalImplications and furtherResearchThatCouldChangeConclusion tell the decision-maker to compare the real contract value against it. A contract worth, say, $1.5M/yr with a multi-year relationship could wrongly look as if it fails to clear the bar."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What are Halvorsen's monthly fees, contract value, expected remaining relationship length, credit cap and any termination-for-chronic-breach or renewal terms?",
+    "What ledger RPO does product/finance require, and can a single-writer standby with synchronous or semi-synchronous replication meet it at acceptable commit latency for this database engine?",
+    "Which provider and region does the company use, and what is that region's multi-year record of multi-hour region-scoped outages?",
+    "During the Oct 2025 us-east-1 event, did workloads running active-active or warm standby in other AWS regions stay available at the data-plane level? This decides whether same-provider multi-region would have avoided the event.",
+    "What end-to-end failover time does a rehearsed warm standby achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?"
+  ]
+}

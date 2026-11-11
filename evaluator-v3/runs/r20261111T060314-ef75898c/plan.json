@@ -1,0 +1,141 @@
+{
+  "subject": "Whether extracting billing from the Rails monolith into a separate service is the right and feasible way to meet audit finding AF-2026-09's 'logical segregation' requirement by 30 April 2027, including effort and schedule risk",
+  "domain": "Software architecture / engineering estimation / IT audit compliance",
+  "decisionObjective": "The exec meeting needs to decide how to close audit finding AF-2026-09 by 30 April 2027. That means choosing between full service extraction and cheaper controls the auditor also accepts (database-level access controls, separate schemas with restricted roles, segregation of duties, audit logging), and judging how likely each option is to finish in time. The request asks for an exact engineer-month figure and a firm yes/no. The plan has no phase estimates and the coupling analysis is incomplete, so the evaluation should produce a defensible range with explicit uncertainty and the conditions that would turn it into a yes or a no. It should not invent false precision.",
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Fit to the audit requirement",
+      "weight": 25,
+      "rationale": "AF-2026-09 asks for restricted access to billing data and code paths, segregation of duties and change audit logging, and it explicitly does not prescribe an architecture. The option chosen has to produce controls the auditors can see working. A finished extraction that lacks access controls and audit logging would still fail, and lighter options may be enough."
+    },
+    {
+      "id": "C2",
+      "name": "Schedule feasibility against 30 April 2027",
+      "weight": 25,
+      "rationale": "The exec wants a yes/no on meeting the deadline. Planned staffing is 4 engineers at 50% from January, which is about 2 FTE over roughly 4 months, or about 8 engineer-months of capacity before the deadline. That capacity has to be compared with realistic effort, including dual-write and cutover phases that cannot be compressed."
+    },
+    {
+      "id": "C3",
+      "name": "Effort estimate credibility, calibrated to history",
+      "weight": 20,
+      "rationale": "The three past extractions overran their estimates by about 1.8x, 2.6x and 2.4x. Any engineer-month figure has to be adjusted for this record and stated as a range, not one exact number."
+    },
+    {
+      "id": "C4",
+      "name": "Scope and coupling uncertainty",
+      "weight": 15,
+      "rationale": "214 files reference Billing::, shared tables have not been analysed, and the background-job scan is incomplete (at least 17 jobs). These unknowns drive both the effort and the risk of a failed cutover, and they are what currently make an exact estimate impossible."
+    },
+    {
+      "id": "C5",
+      "name": "Delivery readiness and execution risk",
+      "weight": 10,
+      "rationale": "The plan has no owner, every phase is marked TBD, and staffing is part-time. Weak governance makes slippage more likely and affects whether a firm commitment is credible at all."
+    },
+    {
+      "id": "C6",
+      "name": "Fallback and interim compliance path",
+      "weight": 5,
+      "rationale": "If extraction overruns, the company needs interim controls such as DB roles, schema separation or audit logging that can satisfy the auditors by the deadline while extraction continues, so that missing the deadline does not mean failing the audit."
+    }
+  ],
+  "knowledgeGaps": [
+    {
+      "id": "G1",
+      "question": "What exactly will the auditors accept as evidence of 'logical segregation' by 30 April 2027? Would database-level access controls or separate schemas with restricted roles, plus segregation of duties and change audit logging, fully close AF-2026-09 without extracting a service?",
+      "whyItMatters": "If lighter controls close the finding, the deadline question for extraction no longer decides audit compliance. Extraction becomes an optional architecture investment and the recommendation changes completely.",
+      "criteria": [
+        "C1",
+        "C6"
+      ]
+    },
+    {
+      "id": "G2",
+      "question": "Which database tables does billing share with other domains, and how many write paths outside billing touch billing data?",
+      "whyItMatters": "Shared tables decide how complex the dual-write ledger and cutover phases are. They are the main unknown behind the effort estimate and the cutover risk.",
+      "criteria": [
+        "C3",
+        "C4",
+        "C2"
+      ]
+    },
+    {
+      "id": "G3",
+      "question": "What is the full set of background jobs and other code paths touching invoices and billing, given that the current scan is incomplete at 'at least 17'?",
+      "whyItMatters": "The scope of decoupling work grows with these paths. Without a complete inventory, any effort figure is a guess.",
+      "criteria": [
+        "C4",
+        "C3"
+      ]
+    },
+    {
+      "id": "G4",
+      "question": "What is a bottom-up estimate for each phase (boundaries, dual-write ledger, invoice cutover, decommission), and what does it become after applying the historical overrun ratios of 1.8x to 2.6x (mean about 2.27x)?",
+      "whyItMatters": "No phase currently has an estimate, so a calibrated range is needed before anyone can compare effort with the roughly 8 engineer-months of capacity available before the deadline.",
+      "criteria": [
+        "C3",
+        "C2"
+      ]
+    },
+    {
+      "id": "G5",
+      "question": "How much engineering capacity is actually available before 30 April 2027? This means confirming the 4 engineers at 50% from January and the real start date, and checking whether full-time staffing or an assigned owner is possible.",
+      "whyItMatters": "Capacity is the denominator of the deadline calculation. 2 FTE for about 4 months gives about 8 engineer-months, and changing staffing or the start date moves the yes/no answer directly.",
+      "criteria": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "G6",
+      "question": "Does 'finished' for audit purposes mean full decommissioning of monolith billing code, or only that access controls and logging are in force on the billing paths?",
+      "whyItMatters": "The definition of done decides which phases have to land before the deadline. Phase 4 decommissioning may not be needed for compliance.",
+      "criteria": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "G7",
+      "question": "How do the past extractions (search, notifications, auth) compare with billing in size and coupling, and what caused their overruns?",
+      "whyItMatters": "This tells us whether the historical overrun ratios apply to billing, or whether billing's financial-data and dual-write needs make it riskier still.",
+      "criteria": [
+        "C3"
+      ]
+    }
+  ],
+  "assumptionsToVerify": [
+    {
+      "assumption": "Extracting billing into its own service is needed, or is the right way, to satisfy the auditors' 'logical segregation' requirement.",
+      "source": "user",
+      "howToCheck": "Compare against the text of AF-2026-09, which says no architecture is prescribed and DB-level controls or separate schemas are acceptable. Confirm with the auditors what evidence they expect."
+    },
+    {
+      "assumption": "An exact engineer-month figure can be produced for the extraction.",
+      "source": "user",
+      "howToCheck": "Check whether bottom-up phase estimates and a complete coupling analysis exist. Currently all phases are TBD and the dependency analysis is partial, so only a range calibrated to history can be justified."
+    },
+    {
+      "assumption": "A firm yes/no on completion before 30 April 2027 can be given.",
+      "source": "user",
+      "howToCheck": "Compare calibrated effort ranges with confirmed capacity. Report a probability or conditional answer unless the range sits entirely above or below the available capacity."
+    },
+    {
+      "assumption": "The audit deadline is 30 April 2027 and the requirement is 'logical segregation'.",
+      "source": "user",
+      "howToCheck": "Confirm the deadline date and wording against the formal audit finding or the auditor correspondence. The attached finding does not state a date."
+    },
+    {
+      "assumption": "Staffing of 4 engineers at 50% from January gives about 8 engineer-months before the deadline.",
+      "source": "planner",
+      "howToCheck": "Recompute from confirmed start date, allocation, holidays and on-call load. Confirm with engineering leadership that these engineers are committed."
+    },
+    {
+      "assumption": "The historical overrun ratios (18/10=1.8, 13/5=2.6, 16.8/7=2.4) apply to the billing extraction.",
+      "source": "planner",
+      "howToCheck": "Recompute the ratios from estimate-history.csv and check that the past projects are comparable in scope, team and coupling."
+    }
+  ],
+  "answerability": "partially_answerable"
+}

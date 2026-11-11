@@ -1,0 +1,107 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "alternatives_counterarguments",
+      "severity": "major",
+      "description": "The draft recommends database-level controls (restricted billing schema and roles) as the main way to comply, but never deals with the strongest objection to that option in a Rails monolith. A single Rails app normally connects to the database with one credential. Schema or role restrictions only separate access if billing code and non-billing code use different database roles, for example through Rails multi-database connections. The supplied coupling data works against the draft here: 214 files reference Billing::, shared tables are 'not yet analysed' (E4), and there are at least 17 invoice jobs. Those unknowns make it hard to say which code should hold the billing role, so they affect the lighter path as well as extraction. The draft treats the coupling unknowns only as an extraction risk (C4, CL11). It presents the lighter path as free of migration risk ('There is no data-migration or cutover risk'). It does not say how 'billing code paths' would be restricted inside a monolith beyond a generic mention of repository controls. The comparison between the options is lopsided as a result.",
+      "location": "C1 mechanisms; C6 assessment and mechanisms; alternatives[1] and [2]; counterarguments[0]; practicalImplications[2]",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The full-time staffing alternative is described inaccurately. tradeoffs[3] says 16 engineer-months 'is still at or below the lower part of past actuals (13 to 18)'. But 16 is above the lowest actual (13) and close to auth's 16.8, so full-time staffing would cover the effort of one of the three reference projects. In calendar terms, 13 engineer-months at 4 FTE is about 3.25 months, which fits January to April. The counterargument response ('within or below') is closer, but it then dismisses the option by citing E10 for 'added headcount does not reliably shorten the schedule'. E10 says nothing about headcount or compressibility. 'Hard to compress' comes from the planner's applicability note, not the source. A decision-relevant lever, more staff, is understated on the basis of a misstatement and unsupported attribution.",
+      "location": "tradeoffs[3]; counterarguments[3]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The user asked for an engineer-month figure. The packet's decision objective says to produce 'a defensible range with explicit uncertainty' instead of false precision. The draft gives no effort range for the billing extraction at all. It offers a break-even threshold (an uncalibrated estimate of 3.1 to 4.4 engineer-months would fit capacity, K7/K8) and a conditional (CL5, 'if billing needed effort similar to the past extractions'). The exec still has no figure to put on the table, not even a low-confidence outside-view range such as 'roughly 13 to 18+ engineer-months if billing resembles past extractions, possibly more given ledger and dual-write complexity'. The draft also gives no likelihood (for example 'under 20%') for the deadline question, only 'unlikely'.",
+      "location": "verdict; C3 assessment; CL4; CL5; CL6; correctedUserAssumptions[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The recommended path, lighter controls by the deadline, gets no feasibility assessment against 30 April 2027. The draft admits its effort is unquantified (CL13, C6 weaknesses). Yet it does not apply to that path the yes/no-and-conditions analysis it applies to extraction. Points it leaves out: staffing could be redirected to it; the work components are schema and role refactoring, pgAudit rollout, SoD matrix, CODEOWNERS or deploy controls, and access reviews; and the timeline to meet a possible operating-effectiveness testing period. Today is 11 Nov 2026. If the auditor wants, say, three months of operating evidence, the controls must be live by about the end of January 2027. The draft mentions this only as a generic edge case. The exec is told to switch paths without any check that the new path can make the date.",
+      "location": "verdict recommendation; C6; alternatives[1]-[2]; edgeCasesAndFailureModes[3]",
+      "remedy": "both"
+    },
+    {
+      "id": "D5",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict leans on two outside-view heuristics that assume comparability the draft elsewhere says is unknown (CL7). (a) K9: 'smallest past estimate x smallest ratio = 9 > 8'. This assumes billing's base estimate cannot fall below 5 engineer-months, with no support. (b) The absolute actuals of three projects of unknown size (13 to 18) are used as a proxy for billing's effort. Ratio calibration is a defensible use of history; absolute actuals of non-comparable projects are not. The conclusion is plausible, but these steps are presented as stronger evidence than they are.",
+      "location": "verdict; CL3; CL4; K9; alternatives[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "C2 mechanisms and CL11 attribute 'hard to compress' to E10. The packet's E10 claim covers dual-write discrepancy risk, outbox/CDC, time-boxing sync bridges, and doing data-ownership migration last. Compressibility appears only in the planner's applicability field. The draft also states 'Part-time allocation adds context-switching' with no evidence. C1 weaknesses describe pgAudit's 14+ floor as settled, but the packet notes a conflicting 13+ snippet.",
+      "location": "C2 mechanisms; CL11; counterarguments[3]; C1 weaknesses",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What exactly will the auditor accept to close AF-2026-09? Is an operating-effectiveness testing period required before 30 April 2027, and what is the formal deadline?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which database engine and version does the monolith use? Does the Rails app use a single DB credential? Could billing access be split onto separate roles or connections without large refactoring, given 214 referencing files and unanalysed shared tables?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is a bottom-up effort estimate for the lighter-controls path (schema and roles, audit logging, SoD, code-path/deploy restriction), and can it go live early enough for any testing period?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Could staffing be raised to full-time or started earlier, and how large and coupled were the search, notifications and auth extractions compared with billing?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Complete shared-table, write-path and background-job inventory for billing, plus bottom-up phase estimates for extraction.",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "The feasibility and schedule of the recommended lighter-controls path against the deadline, including any testing period, is not assessed (D4)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core claims rest on the verified fixtures (E1, E3, E4, E5). Snippet-level external evidence (E7, E8, E10) is used with stated limits, and confidence is held at moderate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "The full-time staffing alternative is misstated (16 engineer-months is not 'at or below' the low end of 13 to 18) and dismissed on an unsupported attribution (D2). The outside-view heuristics overstate comparability (D5). The calculations themselves recompute correctly."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "The strongest objection to DB-level controls in a single-credential Rails monolith with heavy, unanalysed coupling is missing, which makes the option comparison one-sided (D1)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "No engineer-month range and no likelihood is given for extraction, despite the packet asking for a defensible range. The exec gets a break-even threshold instead of an answer (D3)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited IDs exist, and the claims mostly match the packet and source text. There are minor over-attributions to E10 and unsupported asides (D6)."
+    }
+  ]
+}

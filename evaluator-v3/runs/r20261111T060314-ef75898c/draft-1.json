@@ -1,0 +1,486 @@
+{
+  "verdict": "Extracting billing into a separate service is not required to close AF-2026-09. The supplied finding says the auditors do not prescribe an architecture, and that database-level access controls, separate schemas with restricted roles, or service extraction are all acceptable if the controls can be demonstrated (E1). The evidence also points against extraction being finished by 30 April 2027 with the planned staffing, though a firm 'no' cannot be proven. Planned capacity is about 8 engineer-months (K6). All three past extractions took 13 to 18 engineer-months in actual effort (E5). Even the smallest past original estimate (5 engineer-months), multiplied by the smallest past overrun ratio (1.8x), comes to 9 engineer-months, which is more than capacity (K9). The only way extraction fits is if a bottom-up estimate, which does not yet exist, comes in at about 3.1 to 4.4 engineer-months before calibration (K7, K8). That is below every past extraction estimate, and it is unlikely given 214 Billing:: file references, unanalysed shared tables and at least 17 background jobs (E3, E4, E5). An exact engineer-month figure cannot be given: every phase is TBD and the coupling analysis is partial (E3, E4, E11). Recommendation: close the finding with demonstrable controls by the deadline. These are restricted database roles or schemas, segregation of duties, change approval and audit logging (E1, E6, E7, E8). First confirm with the auditor what evidence they accept and over what testing period. Treat extraction, if it is still wanted, as a separate architecture investment that is not on the audit's critical path. The 30 April 2027 date and the 'logical segregation' wording come from the request only. They are not in the supplied finding and need confirming (E2).",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The lighter-controls path fits the audit requirement at least as well as extraction, and it addresses the tested controls more directly. AF-2026-09 asks for access to billing data and code paths to be restricted to authorised roles, for segregation of duties, and for change audit logging. It names DB-level controls, restricted schemas and extraction as equally acceptable if the controls are demonstrable (E1). Extraction on its own produces none of the evidence auditors usually sample, such as access listings, approvals, SoD role matrices and change tickets (E8).",
+      "mechanisms": "Auditors test whether controls operate, for example by sampling access reviews, approvals and logs, rather than whether the architecture has a particular shape (E8). A service boundary only changes where controls have to be applied. It does not create role restrictions, an SoD matrix or audit trails by itself. PostgreSQL privileges are deny-by-default and can be granted at schema and object level through roles (E7), and pgAudit adds session and object audit logs aimed at compliance (E6). Together these map directly onto the 'restricted roles' and 'audit logging' parts of the finding.",
+      "strengths": [
+        "The finding explicitly accepts non-architectural options (E1).",
+        "Off-the-shelf DB mechanisms exist for role-based restriction (E7) and change audit logging (E6).",
+        "General ITGC practice focuses on evidence of controls operating, which the lighter path produces directly (E8)."
+      ],
+      "weaknesses": [
+        "E1 is a two-sentence summary. It does not define 'demonstrable' or any testing period.",
+        "The database engine is not stated. E6 and E7 apply only if it is PostgreSQL, and pgAudit needs version 14 or later according to its README (E6).",
+        "DB controls do not cover restriction of billing code paths or deployment SoD. Those need repository, deployment and change-management controls (E1, E8).",
+        "pgAudit logging is best-effort and not transactional (E6). Superusers bypass object privileges, so who holds DBA or superuser access has to be part of the SoD design (E7)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "Extraction is unlikely to finish by 30 April 2027 with the planned staffing, but this is a strong probability judgement, not a proven 'no'. Nominal capacity is 4 x 0.5 FTE x about 4 months, roughly 8 engineer-months (K6, E3). Every past extraction took 13 to 18 engineer-months in actual effort (E5). At 2 FTE that would take about 6.5 to 9 months (K10, K11), well past the end of April. The deadline itself is only supported by the user's statement (E2).",
+      "mechanisms": "Effort has to fit inside fixed capacity, and the dual-write ledger and invoice cutover phases carry the most risk and are hard to compress (E10). Data-ownership migration is best done last (E10), which pushes the riskiest work towards the deadline. Part-time allocation (E3) adds context-switching. There is no confirmed start date, commitment, holiday or on-call allowance (E11), so 8 engineer-months is an upper-bound nominal figure.",
+      "strengths": [
+        "Capacity arithmetic is simple and checkable (K6).",
+        "The reference-class actuals give an outside view that does not depend on the missing bottom-up estimates (E5, E9)."
+      ],
+      "weaknesses": [
+        "No billing-specific estimate exists (E3, E11).",
+        "Comparability of billing with search, notifications and auth is unknown (E5).",
+        "The 30 April 2027 date is not in the supplied finding (E1, E2).",
+        "Whether Phase 4 decommissioning is needed for compliance is undefined (E1, E3)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E3",
+        "E5",
+        "E9",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "No credible point estimate exists. The only defensible approach is to calibrate any future bottom-up estimate with the company's own overrun history. The recomputed ratios are 1.8x, 2.6x and 2.4x (K1 to K3), with a mean of about 2.27x (K4) and a pooled ratio of about 2.17x (K5). Applied to 8 engineer-months of capacity, a bottom-up estimate would need to be no more than about 3.08 to 4.44 engineer-months to fit (K7, K8), or about 3.53 at the mean ratio (K12).",
+      "mechanisms": "Reference class forecasting corrects optimism by placing the project within the outcome distribution of similar past projects (E9). This company's history shows a consistent overrun of at least 1.8x (E5). The PMI source warns the effect is institution- and domain-specific (E9), which is a reason to use internal history rather than industry figures.",
+      "strengths": [
+        "The ratios recompute exactly from the raw data (K1 to K3, E5).",
+        "Using institution-specific history follows the method's own recommendation (E9)."
+      ],
+      "weaknesses": [
+        "Only three data points (E5, E9).",
+        "There is no data on size, coupling or causes for the past projects, so applicability to billing is unverified (E5).",
+        "There is no base estimate to apply the ratios to (E3, E11)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E9",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "Scope is mostly unquantified, and this is the main reason an exact figure is impossible. There are 214 files referencing Billing::. Shared DB tables are 'not yet analysed'. Background jobs number 'at least 17' and the scan is incomplete (E4).",
+      "mechanisms": "Shared tables and write paths outside billing decide how complex the dual-write ledger and cutover become. Application-level dual writes risk data discrepancies, and sync bridges tend to become permanent if they are not time-boxed (E10). Every unknown write path is a potential source of divergence at cutover.",
+      "strengths": [
+        "The partial analysis at least sets lower bounds (E4)."
+      ],
+      "weaknesses": [
+        "The file count does not measure coupling depth (E4).",
+        "The job count is a lower bound (E4).",
+        "There is no shared-table or write-path inventory (E4, E11)."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "Delivery readiness is weak. The plan is a draft with no owner, every phase is TBD, and staffing is 50% part-time from 'January' with no year stated (E3). There is no confirmed commitment or start date (E11). A firm commitment to the executives is not credible on this basis.",
+      "mechanisms": "Without an owner, nobody is accountable for scoping the TBD phases or for escalating slippage. Part-time allocation exposes the work to competing priorities. With about 4 calendar months, any start delay takes a large share of capacity.",
+      "strengths": [
+        "A phased structure exists, including a dual-write step that is consistent with safer migration practice (E3, E10)."
+      ],
+      "weaknesses": [
+        "No owner (E3).",
+        "No estimates (E3).",
+        "Staffing is unconfirmed (E11)."
+      ],
+      "evidenceIds": [
+        "E3",
+        "E10",
+        "E11"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "A viable interim or primary compliance path exists. It consists of restricted DB roles and schemas (E7), DB change audit logging (E6), and SoD and change-management controls (E8), all of which the finding accepts (E1). This path separates audit compliance from extraction risk.",
+      "mechanisms": "These controls sit on top of the current monolith and do not need data-ownership migration. If extraction continues later, the same role, SoD and logging design can carry over to the new service.",
+      "strengths": [
+        "The finding explicitly accepts it (E1).",
+        "It uses standard mechanisms (E6, E7)."
+      ],
+      "weaknesses": [
+        "The effort for the lighter path is not estimated anywhere in the packet.",
+        "It depends on the database engine and version (E6, E7).",
+        "pgAudit logging is best-effort (E6).",
+        "The auditor's expected testing period is unknown (E1)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E6",
+        "E7",
+        "E8"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "The supplied AF-2026-09 summary does not require service extraction. It accepts database-level access controls, separate schemas with restricted roles, or extraction, provided the controls are demonstrable.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL2",
+      "text": "Nominal planned capacity before the deadline is about 8 engineer-months (4 engineers x 0.5 x about 4 months). This is an upper bound because start date, commitment, holidays and on-call load are unconfirmed.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": [
+        "K6"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Past extractions overran their estimates by 1.8x, 2.6x and 2.4x (mean about 2.27x, pooled about 2.17x), and their actual effort ranged from 13 to 18 engineer-months. All of these actuals exceed the roughly 8 engineer-months of planned capacity.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "Using the company's overrun history, the extraction would fit in 8 engineer-months only if a bottom-up estimate came in at about 3.08 to 4.44 engineer-months before calibration. That is below the smallest past extraction estimate of 5 engineer-months, and 5 x 1.8 = 9 engineer-months already exceeds capacity.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E9"
+      ],
+      "calculationIds": [
+        "K7",
+        "K8",
+        "K9",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "If billing needed effort similar to the past extractions (13 to 18 engineer-months), at 2 FTE it would take about 6.5 to 9 calendar months from the start. That means completion around mid-July to late September 2027 if work starts in January 2027, after the 30 April deadline.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3",
+        "E5"
+      ],
+      "calculationIds": [
+        "K10",
+        "K11"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "An exact engineer-month figure for the billing extraction cannot be determined from the evidence. All phases are TBD, shared tables are not analysed, the background-job count is a lower bound, and there is no confirmed staffing.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Whether billing is comparable to the search, notifications and auth extractions cannot be determined. The estimate history has no size, coupling, team or overrun-cause data, so the historical ratios are a reasonable reference class but are not validated for billing.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5",
+        "E9"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "The 30 April 2027 deadline and the 'logical segregation' wording come only from the user's request. Neither appears in the supplied finding, so the deadline cannot be verified from the packet.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E2",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL9",
+      "text": "Auditors typically test evidence of controls operating (access listings and reviews, SoD role matrices, approved change tickets) rather than system architecture. A completed extraction without these controls would not by itself close the finding.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E8",
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL10",
+      "text": "Off-the-shelf PostgreSQL mechanisms support the lighter path: deny-by-default GRANT-based schema and object privileges through roles, and pgAudit session and object audit logging aimed at compliance. Both apply only if the monolith uses PostgreSQL, and pgAudit only on version 14 or later according to its README.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "The dual-write ledger and invoice cutover phases are the riskiest parts of extraction and the hardest to compress. Application-level dual writes risk data discrepancies, and data-ownership migration is best done last.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E10",
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "The extraction plan has no owner and no phase estimates, so a firm delivery commitment is not credible on the current plan.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "The effort and schedule of the lighter-controls path cannot be quantified from the packet. No estimate for DB roles, schema separation, SoD or audit-logging work exists in the evidence, and the database engine is not stated.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E11",
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Full service extraction (Phases 1 to 4) as the way to close the finding",
+      "comparison": "The finding accepts it (E1), but on the evidence it is unlikely to fit in about 8 engineer-months (K6). Past extractions took 13 to 18 engineer-months (E5), and even the smallest past estimate times the smallest overrun ratio gives 9 engineer-months (K9). It also carries the highest cutover risk, from dual writes and data-ownership migration (E10). It still needs access, SoD and logging controls on top to satisfy the auditors (E8)."
+    },
+    {
+      "option": "Database-level controls: separate billing schema with restricted roles, plus pgAudit change logging, plus SoD and change-management controls",
+      "comparison": "The finding explicitly accepts it (E1). It uses standard mechanisms (E6, E7) and produces the kind of evidence auditors sample (E8). There is no data-migration or cutover risk. Its effort is not quantified in the packet, and it depends on the database being PostgreSQL 14 or later for pgAudit (E6)."
+    },
+    {
+      "option": "Hybrid: lighter controls to close the finding by the deadline, with extraction continuing afterwards on its own timeline",
+      "comparison": "This separates audit compliance from extraction schedule risk (C6). The role and logging design carries over to the future service. It costs some duplicated effort, and the monolith-side controls must be maintained while extraction continues."
+    },
+    {
+      "option": "Partial extraction (Phases 1 to 3 without decommissioning) by the deadline",
+      "comparison": "This reduces scope, but Phases 2 and 3 are the riskiest and the hardest to compress (E10). Whether a partial state satisfies the auditor is undefined (E1). It is still unestimated (E3)."
+    }
+  ],
+  "tradeoffs": [
+    "Extraction gives a cleaner long-term boundary, but at high and uncalibrated effort and cutover risk. Lighter controls give faster compliance evidence but leave billing coupled to the monolith (E1, E4, E10).",
+    "Putting the 4 part-time engineers on extraction takes capacity away from building the controls the auditor actually tests (E3, E8).",
+    "Database-level controls do not cover code-path restriction or deployment SoD. Those need separate repository and deployment controls whichever option is chosen (E1, E8).",
+    "Raising staffing to full-time would double nominal capacity to about 16 engineer-months. That is still at or below the lower part of past actuals (13 to 18, E5), and it brings opportunity cost elsewhere."
+  ],
+  "edgeCasesAndFailureModes": [
+    "The monolith is not on PostgreSQL, or is on a version before 14. Then pgAudit and the cited GRANT semantics do not apply as described, and equivalent controls must be found (E6, E7).",
+    "pgAudit logging is best-effort and not transactional, so gaps in the audit trail are possible. The auditor may need compensating evidence (E6).",
+    "Superuser or DBA accounts bypass object privileges. If developers hold these, the role restrictions do not give real segregation (E7).",
+    "The auditor requires controls to have operated over a testing period before 30 April. Then controls must go live well before the deadline, not on it (E1).",
+    "Unanalysed shared tables or undiscovered background jobs write to billing data, which causes ledger divergence during dual write or a failed invoice cutover (E4, E10).",
+    "A temporary sync bridge becomes permanent, leaving both a monolith and a service footprint to control (E10).",
+    "The January start slips or the engineers are pulled onto other work, so capacity shrinks below 8 engineer-months (E3, E11).",
+    "The real deadline or wording differs from the request (E2)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Extraction is the only way to get true 'logical segregation'. Shared-database controls are a half-measure the auditor will reject.",
+      "response": "The supplied finding explicitly lists database-level access controls and separate schemas with restricted roles as acceptable if they are demonstrable (E1). The risk lies in the 'demonstrable' standard, not the architecture, and it should be confirmed with the auditor directly."
+    },
+    {
+      "argument": "The historical overrun ratios may not apply. Billing might be smaller or better understood than the past extractions.",
+      "response": "That is possible (E5 has no comparability data). But to fit capacity, a bottom-up estimate would need to be about 3.1 to 4.4 engineer-months (K7, K8). That is below every past estimate, while billing shows 214 referencing files and at least 17 jobs (E4). The burden of proof sits with a bottom-up estimate that does not yet exist."
+    },
+    {
+      "argument": "Doing lighter controls now and extraction later wastes work.",
+      "response": "Role design, SoD matrices and change-approval processes are needed in either architecture (E8), so much of that work carries over. Some monolith-side DB configuration may be thrown away. The packet does not quantify how much."
+    },
+    {
+      "argument": "With more staff, extraction could still make the deadline.",
+      "response": "Doubling to 4 FTE gives about 16 engineer-months nominal, which is still within or below the 13 to 18 engineer-month range of past actuals (E5). Dual-write and cutover steps resist compression (E10), so added headcount does not reliably shorten the schedule."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "Extracting billing into its own service is needed, or is the right way, to satisfy the auditors.",
+      "correction": "The supplied finding does not prescribe an architecture. DB-level controls or separate schemas with restricted roles are equally acceptable if the controls are demonstrable. Extraction is one option, not a requirement.",
+      "evidenceIds": [
+        "E1"
+      ]
+    },
+    {
+      "assumption": "An exact engineer-month figure can be produced.",
+      "correction": "No phase estimates exist and the coupling analysis is partial, so only a conditional, history-calibrated range is defensible. Any future bottom-up estimate should be multiplied by about 1.8x to 2.6x.",
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "A firm yes/no on finishing extraction by 30 April 2027 can be given.",
+      "correction": "Only a probability judgement is defensible. Extraction is unlikely to fit, because past actuals of 13 to 18 engineer-months exceed the roughly 8 engineer-months of capacity. The answer would become 'yes' only if a bottom-up estimate came in at about 3 to 4.4 engineer-months and capacity were confirmed.",
+      "evidenceIds": [
+        "E3",
+        "E5",
+        "E11"
+      ]
+    },
+    {
+      "assumption": "The audit deadline is 30 April 2027 and the requirement is 'logical segregation'.",
+      "correction": "Neither the date nor that wording appears in the supplied finding, which describes restricted access, segregation of duties and audit logging. Confirm both with the formal finding or the auditor.",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Overrun ratio for the search-service extraction (actual / estimated engineer-months)",
+      "expression": "18/10",
+      "claimedResult": 1.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Overrun ratio for the notifications extraction",
+      "expression": "13/5",
+      "claimedResult": 2.6,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Overrun ratio for the auth extraction",
+      "expression": "16.8/7",
+      "claimedResult": 2.4,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Mean of the three overrun ratios",
+      "expression": "(18/10 + 13/5 + 16.8/7)/3",
+      "claimedResult": 2.26667,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Pooled overrun ratio (total actual / total estimated engineer-months)",
+      "expression": "(18 + 13 + 16.8)/(10 + 5 + 7)",
+      "claimedResult": 2.17273,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Nominal capacity before the deadline: 4 engineers x 50% x about 4 months (January to April)",
+      "expression": "4*0.5*4",
+      "claimedResult": 8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the worst historical ratio (2.6x)",
+      "expression": "8/2.6",
+      "claimedResult": 3.07692,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K8",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the best historical ratio (1.8x)",
+      "expression": "8/1.8",
+      "claimedResult": 4.44444,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K9",
+      "purpose": "Smallest past extraction estimate (5 engineer-months) times smallest overrun ratio (1.8x), compared with 8 engineer-months of capacity",
+      "expression": "5*1.8",
+      "claimedResult": 9,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Calendar months at 2 FTE to deliver the smallest past actual effort (13 engineer-months)",
+      "expression": "13/(4*0.5)",
+      "claimedResult": 6.5,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Calendar months at 2 FTE to deliver the largest past actual effort (18 engineer-months)",
+      "expression": "18/(4*0.5)",
+      "claimedResult": 9,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K12",
+      "purpose": "Largest bottom-up estimate that fits 8 engineer-months at the mean historical ratio",
+      "expression": "8/((18/10 + 13/5 + 16.8/7)/3)",
+      "claimedResult": 3.52941,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Do not commit to the executives that extraction will finish by 30 April 2027, and do not quote a single engineer-month figure. Present the conditional range instead (CL4, CL5, CL6).",
+    "Ask the auditor now, in writing, what evidence closes AF-2026-09, whether a testing period applies, and what the formal deadline is (E1, E2).",
+    "Make lighter controls the primary compliance path: a restricted billing schema and roles, pgAudit or equivalent change logging, an SoD role matrix including DBA and superuser holders, and approved change tickets for billing code and deployments (E1, E6, E7, E8).",
+    "Confirm the database engine and version before relying on pgAudit or PostgreSQL GRANT semantics (E6, E7).",
+    "If extraction is still wanted, assign an owner, finish the shared-table and job inventory, produce bottom-up phase estimates, and multiply them by 1.8x to 2.6x before scheduling (E3, E4, E5).",
+    "If extraction proceeds, use outbox or CDC rather than application-level dual writes, and time-box any sync bridge (E10)."
+  ],
+  "remainingUncertainty": [
+    "The auditor's exact acceptance criteria and testing period, and whether the controls must have operated over a period before the deadline (E1).",
+    "Whether the 30 April 2027 date and the 'logical segregation' wording are correct (E2).",
+    "Billing's real scope: shared tables, write paths outside billing, and the full background-job inventory (E4, E11).",
+    "Whether the three past extractions are comparable to billing (E5).",
+    "Actual capacity, meaning start date, commitment, holidays and on-call load (E3, E11).",
+    "The database engine and version, and therefore whether pgAudit and the cited GRANT semantics apply (E6, E7).",
+    "The effort for the lighter-controls path, which no evidence quantifies."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Written auditor confirmation. If the auditor actually requires a separate service, or a testing period that lighter controls cannot meet in time, the recommendation changes.",
+    "A complete coupling analysis plus bottom-up phase estimates. A calibrated estimate at or below about 3 to 4.4 engineer-months would make on-time extraction plausible.",
+    "Size and coupling data for the search, notifications and auth extractions, to validate or adjust the overrun ratios.",
+    "Confirmed staffing. Full-time allocation or an earlier start would change the capacity side of the calculation.",
+    "An estimate of the effort for the lighter-controls path, and confirmation of the database engine and version."
+  ]
+}

@@ -1,0 +1,320 @@
+{
+  "records": [
+    {
+      "id": "E1",
+      "claim": "Audit finding AF-2026-09 requires that access to billing data and billing code paths be restricted to authorised roles, with segregation of duties and audit logging of changes. It states that the auditors do not prescribe an architecture, and that database-level access controls, separate schemas with restricted roles, or service extraction are all acceptable if the controls are demonstrable.",
+      "source": {
+        "kind": "fixture",
+        "ref": "audit-finding.md",
+        "title": "Audit finding AF-2026-09"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "G1 and the assumption that extraction is required. The finding's own text says extraction is not necessary, so lighter controls can close the finding if they are demonstrable.",
+      "limitations": "This is a two-sentence summary, not the full finding. It does not define what 'demonstrable' evidence is, it names no testing period, and it does not say whether the auditor wants the controls operating effectively over a period or only designed and implemented.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied fixture in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E2",
+      "claim": "The user states that the auditors require billing to be 'logically segregated' from the Rails monolith by 30 April 2027, and that engineering leadership wants to extract billing into its own service to satisfy this.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request",
+        "title": "request.md"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "The deadline and the framing of the requirement. Neither the phrase 'logically segregated' nor the date 30 April 2027 appears in the supplied audit-finding.md, which also says extraction is not required.",
+      "limitations": "The deadline and wording could not be checked against the formal finding or auditor correspondence. The supplied finding contains no date.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Compared with audit-finding.md. No date or 'logical segregation' wording was found there."
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E3",
+      "claim": "The billing extraction plan (draft) has four phases: Phase 1 identify boundaries (TBD), Phase 2 dual-write ledger (estimate TBD), Phase 3 cut over invoices (TBD), Phase 4 decommission monolith billing code (TBD). Owner: unassigned. Staffing: 4 engineers at 50% from January.",
+      "source": {
+        "kind": "fixture",
+        "ref": "billing-extraction-plan.md",
+        "title": "Billing extraction plan (draft)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "G4, G5 and C5. No phase has an estimate, so a bottom-up engineer-month figure cannot be built from the plan. Ownership is missing. Nominal capacity is 4 x 0.5 = 2 FTE.",
+      "limitations": "The plan gives no year for 'January' (presumably January 2027), no end date, and nothing on holidays, on-call load or whether the engineers are committed. The roughly 8 engineer-month figure (2 FTE x about 4 months, January to April) is the planner's own calculation, not a number stated in the source.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied fixture in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E4",
+      "claim": "The static analysis of billing coupling (partial, 2026-10) found 214 files referencing the Billing:: namespace. Shared DB tables between billing and other domains are 'not yet analysed'. Background jobs touching invoices number 'at least 17 (scan incomplete)'.",
+      "source": {
+        "kind": "fixture",
+        "ref": "dependency-analysis.md",
+        "title": "Static analysis of billing coupling (partial, 2026-10)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "G2, G3 and C4. The main scope drivers are unquantified, so an exact estimate cannot be justified.",
+      "limitations": "The analysis is partial. Shared tables and write paths outside billing are unknown, and the job count is a lower bound. A file reference count does not measure coupling depth.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied fixture in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E5",
+      "claim": "Estimate history (estimated vs actual engineer-months): search-service extraction 10 vs 18, notifications extraction 5 vs 13, auth extraction 7 vs 16.8.",
+      "source": {
+        "kind": "fixture",
+        "ref": "estimate-history.csv",
+        "title": "estimate-history.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "G4, G7 and C3. The planner's ratios (1.8x, 2.6x, 2.4x, mean about 2.27x) are consistent with these raw figures. Every past extraction overran by at least 1.8x.",
+      "limitations": "Only three data points. There is no information on the size, coupling, team or causes of the overruns, so whether billing is comparable (G7) cannot be judged. Billing involves financial data and a dual-write ledger, which may make it riskier than the reference class, but there is no evidence either way. Ratios have not been recomputed at this stage.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G7"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read the supplied fixture in full"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E6",
+      "claim": "pgAudit is a PostgreSQL extension that provides session audit logging (statements by class, e.g. READ, WRITE, DDL) and object audit logging (statements affecting particular relations, controlled through pgaudit.role, limited to SELECT/INSERT/UPDATE/DELETE). Its stated goal is 'to produce audit logs often required to comply with government, financial, or ISO certifications.' The README states 'pgAudit supports PostgreSQL 14 or greater' and 'Audit logging is best-effort and not transactional.'",
+      "source": {
+        "kind": "web",
+        "ref": "https://github.com/pgaudit/pgaudit",
+        "title": "pgaudit/pgaudit GitHub README"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://supabase.com/docs/guides/database/extensions/pgaudit",
+        "https://www.enterprisedb.com/docs/warehousepg/7.3/ref_guide/modules/edb_modules/pgaudit/"
+      ],
+      "applicability": "G1 and C6. Database-level change audit logging on billing tables is available off the shelf and does not require extracting a service, which supports a lighter or interim compliance path.",
+      "limitations": "This only applies if the monolith uses PostgreSQL, and the supplied documents do not name the database engine. 'Best-effort and not transactional' could matter for audit evidence. A search snippet said PostgreSQL 13+, while the fetched README says 14+, so the version floor depends on the README version. Database audit logs do not cover code-path access or segregation of duties in deployment on their own.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of the GitHub README; vendor docs seen only in search results"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fetched",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E7",
+      "claim": "PostgreSQL GRANT gives no public access by default for tables, columns and schemas. The schema USAGE privilege lets a role look up objects in a schema, and each object's own privileges still apply. Roles can be granted to other roles. Superusers bypass object privileges.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.postgresql.org/docs/12/sql-grant.html",
+        "title": "PostgreSQL GRANT documentation"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://access.crunchydata.com/documentation/postgresql16/16.0/sql-grant.html"
+      ],
+      "applicability": "G1 and C6. Separate schemas with restricted roles are a standard database mechanism and match the option the finding explicitly accepts.",
+      "limitations": "Search snippet only. The WebFetch of www.postgresql.org failed (host not allowed in this session's network settings). The two refs are an official page and a vendor mirror of the same documentation, so they are not truly independent, and this is kept at INFERRED. The superuser bypass means segregation of duties also has to cover who holds superuser or DBA access. Applicable only if the database is PostgreSQL.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch attempted and failed (ENOTFOUND, host not allowed); relied on search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E8",
+      "claim": "Practitioner and exam-prep sources describe ITGC audit evidence for logical access (access listings, tickets, approvals, review sign-offs), segregation of duties (role matrices showing requester, approver and administrator are different people; developers without production deploy rights) and change management (sampled change tickets with authorisation, testing and deployment segregation). They note that SoD gaps and missing change approvals are frequent causes of findings.",
+      "source": {
+        "kind": "web",
+        "ref": "https://open-exam-prep.com/study-guides/cpa-isc/ch-3-itgc-sdlc-application-controls/change-management",
+        "title": "3.3 Program Change Management & Release Controls"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://startwithidentity.com/articles/itgc-access-certification-audit-evidence/",
+        "https://www.accaglobal.com/content/dam/members-beta/docs/sectors-industries-roles/ia/IT%20General%20Controls.pdf"
+      ],
+      "applicability": "G1 and G6. Auditors typically test whether controls are operating, through access reviews, approvals and logs, rather than the system's architecture. A 'finished' extraction without these controls would not by itself produce the evidence auditors sample.",
+      "limitations": "Based only on search-result summaries; no page was fetched. Most sources are not primary standards (PCAOB AS 2201, COBIT and NIST 800-53 were not inspected). This is general practice and cannot stand in for confirmation from this company's auditor.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E9",
+      "claim": "Reference class forecasting (Flyvbjerg) corrects the planning fallacy by placing a project within the outcome distribution of similar past projects (the 'outside view'). A PMI paper notes the approach is 'highly institution and domain specific', and one of its datasets showed little or no planning fallacy.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.pmi.org/learning/library/planning-fallacy-causes-solutions-project-expectations-6374",
+        "title": "Planning for the planning fallacy (PMI)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://ora.ox.ac.uk/objects/uuid:3aa12b48-3281-412b-904a-cb5bbd9dca8e/files/m8e39305c81700d2664df157f53050c4c"
+      ],
+      "applicability": "G4, G7 and C3. This supports using the company's own extraction history (E5) as an institution-specific reference class and stating effort as a range, not a point estimate.",
+      "limitations": "Neither page was fetched; the support comes from search summaries across two domains. A reference class of three projects is very small. Industry overrun figures that appeared in the results (e.g. TechCrunch's 107% cost overrun) come from unnamed surveys and were not recorded as evidence.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G7"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets from two independent domains"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E10",
+      "claim": "Practitioner guidance on strangler-fig extractions says application-level dual writes risk data discrepancies, and that outbox or change-data-capture patterns are safer. Shared-database sync bridges should be time-boxed or they tend to become permanent. Migrating data ownership is called the most dangerous step and is best done last.",
+      "source": {
+        "kind": "web",
+        "ref": "https://archman.dev/docs/modernization-and-migration/strangler-fig-pattern",
+        "title": "Strangler Fig Pattern"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://oneuptime.com/blog/post/2026-02-09-strangler-fig-monolith-microservices/view",
+        "https://dev.to/kapil/strangler-fig-migration-seamlessly-extracting-microservices-g0f"
+      ],
+      "applicability": "G2 and C2/C4. Phases 2 (dual-write ledger) and 3 (invoice cutover) carry the most risk and are hard to compress. Their effort depends on the unanalysed shared tables (E4).",
+      "limitations": "Practitioner blogs, opinion rather than standards. Search snippets only, not fetched. There is no quantitative effort data.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E11",
+      "claim": "No bottom-up phase estimates, no shared-table or write-path inventory, no complete background-job inventory, and no confirmed staffing commitment or start date exist in the supplied materials or could be found externally. They are internal to the company.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "G2, G3, G4 and G5, and the assumptions that an exact engineer-month figure and a firm yes/no can be given. Only a calibrated range or a conditional answer can be defended.",
+      "limitations": "Internal data cannot be found through web research.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Reviewed all supplied fixtures; the data is not available externally"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    }
+  ],
+  "rejected": [],
+  "violations": []
+}

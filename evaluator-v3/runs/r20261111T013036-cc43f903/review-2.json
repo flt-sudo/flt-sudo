@@ -1,0 +1,90 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The verdict sentence added in draft 2 reads: 'The resize should come first. A rewrite does not strictly need it, but the archival steps generate WAL...'. That contradicts the draft's own CL8 ('Every reading exceeds the 160 GB free, so a rewrite would need the resize first'), the C2 path (3) analysis, tradeoffs[2], and edgeCasesAndFailureModes ('A pg_repack that runs out of space fails partway (E14), so any rewrite must happen after the resize'). The path that does not strictly need the resize is DELETE-and-reuse, not a rewrite. The verdict is the part that goes to Thursday's review, so this wording could lead someone to start pg_repack or VACUUM FULL on a disk that is 92% full, which is the exact failure the draft warns about elsewhere.",
+      "location": "verdict (sentence beginning 'The resize should come first')",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "New claims CL15 (DELETE-and-reuse with the 18.5/16.5 GB/month split) and CL16 (replica volumes must be grown too) are marked material: false, yet the verdict and recommendation rely on both. The verdict uses the replica-resize ordering and K24/K25 to justify 'resize first'. CL8 was also downgraded to non-material, although it carries the main safety constraint on rewrites. These materiality flags understate what the decision rests on.",
+      "location": "claims CL8, CL15, CL16",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "K23-K25 split the 35 GB/month into about 18.5 GB/month for audit and about 16.5 GB/month for everything else. The split assumes the 240 GB of audit rows younger than 13 months accumulated evenly, and it ignores the unquantified 12-13 month band, which would also be deleted under the 12-month policy. The draft labels it an estimate, which is right. But the 9.67-month DELETE-and-reuse runway (K25) is quoted with two-decimal precision in the verdict and in alternative b3 as if it were firm. A per-table growth query would settle it. Presenting it as a range, for example roughly 8-12 months, would be more honest.",
+      "location": "verdict; CL5; CL15; K23-K25; alternatives b3",
+      "remedy": "both"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft 2 now says replica volumes (and any standby or backup target) must be grown first or alongside the primary (verdict, C3, b1, practicalImplications[0], CL16, edge cases). It correctly notes that the capacity report covers the primary only and that the replication type is not stated, and it covers the WAL burst on replicas."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Alternative b3 has been rewritten as DELETE-and-reuse with no rewrite (E12, append-only E5), with an estimated growth reduction (K24) and runway (K25). It is rejected as a standalone plan on WAL, headroom and replica-lag grounds rather than on the pg_repack space need. C2 now lists three removal paths. The one leftover inconsistency in the verdict wording is raised as new defect D1."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Is audit_events time-range partitioned, and does any application, report or foreign key read rows older than 12 months (pg_stat_statements or query logs)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which platform and deployment (self-managed EBS, RDS Single-AZ or Multi-AZ, other) hosts prod-orders-pg and its 2 replicas? Are the replica volumes separately provisioned, and can they be resized online?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does a 12-24 month per-table storage history show about organic growth and the audit/non-audit split, and is growth accelerating?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How much WAL would a batched 780 GB DELETE (with full-page images) or a partition export generate, and is WAL or replication-slot retention excluded from the 'used' figure?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed. The replica and backup volume and WAL implications flagged in review 1 are now covered, and the opportunity-cost frame has been added to C5."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims trace to VERIFIED fixtures or clearly caveated snippet evidence. Assumed thresholds and the estimated growth split are labelled. Only minor over-precision remains on K25 (D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed K1-K25 and all fall within tolerance (for example 240/13 = 18.46, 160/16.54 = 9.67, 940/35 = 26.86). But the new verdict sentence saying a rewrite does not strictly need the resize contradicts the draft's own CL8 and edge-case analysis on a safety-relevant step (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "DELETE-and-reuse is now weighed fairly with its real WAL and headroom risks. The staff engineer's 'kicking the can' objection is answered, and the operational limits of a 16 TB single node are acknowledged."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear recommendation with ordered next steps, replica handling, revisit triggers and an opportunity-cost formula suitable for the architecture review. It still needs the D1 wording fix so the headline does not suggest an unsafe rewrite order."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and match the packet and source text (the capacity report covers the primary with 2 replicas; table sizes sum to 1,840). No injected instructions were followed. Materiality flags on new claims are understated (D2)."
+    }
+  ]
+}

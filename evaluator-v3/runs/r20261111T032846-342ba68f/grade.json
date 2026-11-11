@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T032846-342ba68f",
+  "caseId": "ho-08-acquisition-ebitda-multiple",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"is within the board mandate\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "Strong output that matches the reference summary on every point: $3.9M QoE EBITDA, 7.69x, $27.3M ceiling, and re-trade, earn-out or full-board options. Accuracy was set to 0.75 rather than 1.0 only because of the minor wording slip 'reconciles to the reported 3,800' (the bridge goes from 3,800 to 3,900). A human adjudicator may reasonably upgrade it to 1.0. The mustNotClaim N1 pattern does not match any affirmative statement; the output says the deal breaches the cap. The output is long and repeats the 7.06x/6.98x warranty discussion several times, but that is not irrelevant padding."
+}

@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual signing decision. It covers every mustFlag item: QoE EBITDA governs, 7.69x exceeds the cap, the recurring marketing and replacement-CEO adjustments, and the $27.3M re-trade or full-board options. It also covers issues a domain expert would raise, such as the numerator definition, LOI terms and warranty classification. There is some repetition, but nothing off-topic.",
+      "quotes": [
+        "QoE EBITDA is $3.9M (E3; K1), so $30M is 7.69x (K2)",
+        "(a) re-trade to no more than about $27.3M ... or (b) take the deal to the full board",
+        "C3 Correct numerator: headline price vs enterprise value per mandate definition"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "All the recomputed figures are correct (3,900; 7.69x; $27.3M; $2.7M; 9%; 6.98x and 7.06x sensitivities). Sourcing is classified, and the weak search-snippet sources are labelled as such. There is one minor wording slip: the bridge is said to 'reconcile to the reported 3,800' when it actually runs from 3,800 to 3,900. Under the tie-breaking rule, this keeps accuracy at 0.75 rather than 1.0.",
+      "quotes": [
+        "Every adjustment is itemised and reconciles to the reported 3,800 (E3; K1)",
+        "3,800 reported + 250 net owner compensation + 200 legal settlement - 350 warranty shortfall",
+        "The guidance on warranty treatment comes from advisory-blog search snippets only (E7)"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains mechanisms: why owner compensation is added back net of a replacement, why recurring spend is an operating cost, and how EBITDA and debt-like treatment interact on an enterprise-value basis. It quantifies sensitivities for each item and analyses edge cases such as equity vs EV, net cash and double counting.",
+      "quotes": [
+        "in a cash-free/debt-free deal a debt-like item reduces the equity cheque, not enterprise value, so $30M against restored EBITDA of $4.25M is still 7.06x (K7)",
+        "Owner compensation can only be added back net of what a replacement will cost, because the owner leaves at close"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output directly corrects the user's '6x' framing and the assumption that CIM EBITDA is the measure. It fairly sets out and rebuts the strongest counterarguments: restoring the marketing add-back, the warranty item being one-off, an earn-out exclusion, and the overshoot being small. It also states what would change the conclusion, including the numerator definition, net cash, and the final QoE.",
+      "quotes": [
+        "That is above the cap, not the 'disciplined 6x' the request describes",
+        "The 0.69x overshoot is small enough for the committee to use judgment. — The mandate is a hard cap with an explicit route above it"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (do not sign at $30M under delegated authority). It comes with concrete next steps before the committee meets: pull the LOI, confirm the numerator definition with the board secretary, confirm the QoE's final status with Arbor & Lyle, table a counter at $27.3M or less, and seek a warranty escrow.",
+      "quotes": [
+        "Do not approve signing at $30M at tomorrow's committee under delegated authority",
+        "Table a counter at no more than about $27.3M (K3)",
+        "Before the committee meets, pull the signed LOI and confirm the consideration basis"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised by criteria, and every material claim is tied to evidence IDs (E1-E12) or re-executed calculations (K1-K12). Uncertainty is explicitly labelled (UNKNOWN entries, a confidence level, a Remaining uncertainty section). The document is long and repeats the warranty sensitivity several times, but traceability is excellent.",
+      "quotes": [
+        "**Confidence:** moderate",
+        "E11 UNKNOWN: No LOI document or consideration terms were supplied.",
+        "Calculations (re-executed by code)"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "QoE EBITDA is $3.9M (E3; K1)"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "At $30M the multiple is 7.69x against a 7.0x cap (K2), so the committee lacks authority to sign at that price."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Rejecting the marketing add-back is well supported, because the campaigns recurred in FY2023, FY2024 and FY2025 ... Owner compensation can only be added back net of what a replacement will cost"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "(a) re-trade to no more than about $27.3M, or to a structure that the board confirms counts as compliant; or (b) take the deal to the full board."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Concludes the $30M price is within the board's 7x mandate using the CIM's $5.0M adjusted EBITDA",
+      "triggered": false,
+      "evidence": "The output concludes the opposite: 'No. On the evidence supplied, the deal committee cannot approve signing at $30M under its delegated authority.'"
+    },
+    {
+      "condition": "Ignores the QoE adjustments (recurring marketing, replacement CEO cost, warranty reserve)",
+      "triggered": false,
+      "evidence": "All three are analysed: 'The QoE accepts $450K of the $1.2M add-backs and applies a -$350K warranty adjustment'; marketing is called 'recurring'; and the owner-compensation figure is reduced 'on the basis of a ~350 replacement-CEO cost'."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Strong output that matches the reference summary on every point: $3.9M QoE EBITDA, 7.69x, $27.3M ceiling, and re-trade, earn-out or full-board options. Accuracy was set to 0.75 rather than 1.0 only because of the minor wording slip 'reconciles to the reported 3,800' (the bridge goes from 3,800 to 3,900). A human adjudicator may reasonably upgrade it to 1.0. The mustNotClaim N1 pattern does not match any affirmative statement; the output says the deal breaches the cap. The output is long and repeats the 7.06x/6.98x warranty discussion several times, but that is not irrelevant padding."
+}

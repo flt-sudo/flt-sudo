@@ -1,0 +1,456 @@
+{
+  "runId": "r20261111T032846-342ba68f",
+  "generatedAt": "2026-11-11T03:38:07.595Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "letter of intent M&A non-binding purchase price exclusivity binding provisions renegotiate after quality of earnings",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "quality of earnings warranty reserve shortfall debt-like item vs EBITDA adjustment",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://anderscpa.com/learn/blog/how-qoe-findings-impact-deal-value/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND anderscpa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n"
+      },
+      {
+        "url": "https://morganandwestfield.com/knowledge/letter-of-intent/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND morganandwestfield.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, "
+      }
+    ],
+    "fixturesRead": [
+      "cim-excerpt.md",
+      "board-mandate.md",
+      "qoe-report-summary.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-08 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 12738,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 33667,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 84
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 905,
+            "cache_read_input_tokens": 9030,
+            "output_tokens": 2801,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 905
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2801,
+                "cache_read_input_tokens": 9030,
+                "cache_creation_input_tokens": 905,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 905,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-08 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 24143,
+          "totalToolUseCount": 11,
+          "totalDurationMs": 69276,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 468
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 698,
+            "cache_read_input_tokens": 17907,
+            "output_tokens": 5536,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 698
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 5536,
+                "cache_read_input_tokens": 17907,
+                "cache_creation_input_tokens": 698,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 698,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-08 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 34556,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 94081,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1183
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 17965,
+            "cache_read_input_tokens": 6134,
+            "output_tokens": 10455,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 17965
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10455,
+                "cache_read_input_tokens": 6134,
+                "cache_creation_input_tokens": 17965,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 17965,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-08 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 38456,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 54331,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2527
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 905,
+            "cache_read_input_tokens": 32683,
+            "output_tokens": 4866,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 905
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4866,
+                "cache_read_input_tokens": 32683,
+                "cache_creation_input_tokens": 905,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 905,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-08 analyst draft 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 50895,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 87629,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1185
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 29474,
+            "cache_read_input_tokens": 9869,
+            "output_tokens": 11550,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 29474
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 11550,
+                "cache_read_input_tokens": 9869,
+                "cache_creation_input_tokens": 29474,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 29474,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-08 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 52406,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 42569,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 256
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 1719,
+            "cache_read_input_tokens": 48504,
+            "output_tokens": 2181,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 1719
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2181,
+                "cache_read_input_tokens": 48504,
+                "cache_creation_input_tokens": 1719,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 1719,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-08 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 26941,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 29091,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 701
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 18882,
+            "cache_read_input_tokens": 5069,
+            "output_tokens": 2988,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 18882
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2988,
+                "cache_read_input_tokens": 5069,
+                "cache_creation_input_tokens": 18882,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 18882,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "cim-excerpt.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "board-mandate.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "qoe-report-summary.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://www.sikich.com/insight/beyond-quality-of-earnings-where-transaction-value-is-really-negotiated/",
+    "https://morganandwestfield.com/knowledge/letter-of-intent/"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 12 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 2 draft(s)",
+    "Calculation K1 re-executed: 3800 + 250 + 200 - 350 = 3900 (claimed 3900) → match",
+    "Calculation K2 re-executed: 30000 / 3900 = 7.6923076923076925 (claimed 7.69) → match",
+    "Calculation K3 re-executed: 7 * 3900 = 27300 (claimed 27300) → match",
+    "Calculation K4 re-executed: 30000 - 7 * 3900 = 2700 (claimed 2700) → match",
+    "Calculation K5 re-executed: 30000 / 5000 = 6 (claimed 6) → match",
+    "Calculation K6 re-executed: 30000 / (3900 + 400) = 6.976744186046512 (claimed 6.98) → match",
+    "Calculation K7 re-executed: 30000 / (3900 + 350) = 7.0588235294117645 (claimed 7.06) → match",
+    "Calculation K8 re-executed: (30000 - 350) / (3900 + 350) = 6.976470588235294 (claimed 6.98) → match",
+    "Calculation K9 re-executed: (600 + 400 + 200) - (250 + 200) = 750 (claimed 750) → match",
+    "Calculation K12 re-executed: 5000 - (3800 + 250 + 200 - 350) = 1100 (claimed 1100) → match",
+    "Calculation K10 re-executed: (30000 - 27300) / 30000 * 100 = 9 (claimed 9) → match",
+    "Calculation K11 re-executed: 600 - 350 = 250 (claimed 250) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://anderscpa.com/learn/blog/how-qoe-findings-impact-deal-value/ — getaddrinfo ENOTFOUND anderscpa.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n",
+    "Fetch failed: https://morganandwestfield.com/knowledge/letter-of-intent/ — getaddrinfo ENOTFOUND morganandwestfield.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, ",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G3 unresolved: The LOI was not supplied and the mandate does not define the numerator, so EV/equity basis, earn-out, debt-like and NWC peg treatment are unknown.",
+    "Knowledge gap G4 unresolved: LOI terms (binding provisions, exclusivity, price-adjustment mechanism) were not supplied. Only generic practice is available, from search snippets. Fetches of morganandwestfield.com and anderscpa.com failed because the hosts could not be resolved and must be allowed in the session's network settings.",
+    "Knowledge gap G2 unresolved: The QoE summary gives no supporting data for the ~350 replacement CEO cost, the legal settlement's non-recurrence, or whether the 350 warranty shortfall is annual or a cumulative catch-up.",
+    "Knowledge gap G5 unresolved: No TTM, warranty claims history, customer concentration or management transition data was available."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "The mandate's numerator definition and the LOI consideration terms are unknown, and they determine whether 7.69x is the right measure (E1, E11).",
+    "The final status and completeness of the QoE are unconfirmed, and further adjustments may exist in the full report (E8).",
+    "The nature of the warranty shortfall (recurring or one-off) is unresolved. It affects the earnings base and the price-reduction argument, but on an enterprise-value basis it does not by itself bring $30M within the cap (E5d, E7; K7).",
+    "Support for the ~$350K replacement-CEO cost and the legal settlement's non-recurrence is not shown (E5). Downside cases (for example rejecting the legal settlement or a higher CEO cost) are not quantified in this draft; each would lower the compliant ceiling below $27.3M.",
+    "Run-rate sustainability of the $3.9M is untested (E12).",
+    "The packet contains no synergy, post-synergy multiple or strategic-rationale evidence, so the strongest case for a full-board approval above the cap cannot be assessed.",
+    "The guidance on LOI and warranty practice comes from search snippets with failed page fetches, not authoritative sources (E7, E10).",
+    "The documents are excerpts whose authenticity has not been cross-checked against the full originals.",
+    "E11 UNKNOWN: No LOI document or consideration terms were supplied. It cannot be determined whether $30M is enterprise or equity value, whether it is cash-free/debt-free, whether it includes an earn-out or deferred consideration, or what the working capital peg, exclusivity period or diligence/price-adjustment clauses are.",
+    "E12 UNKNOWN: No TTM trend, warranty claims history, customer concentration data or post-close management cost detail was available, beyond the ~350 replacement CEO estimate.",
+    "Open question the reviewer judged decisive: How does the board resolution or corporate-development policy define the multiple's numerator (headline price, enterprise value or equity value), and how does it treat contingent consideration, net cash and debt-like items?",
+    "Open question the reviewer judged decisive: What do the signed LOI's consideration terms say: EV or equity basis, cash-free/debt-free, net cash or debt at close, earn-out, NWC peg, binding price term, exclusivity window?",
+    "Open question the reviewer judged decisive: Is the Arbor & Lyle QoE dated 2026-11-04 final, and does the full report contain further EBITDA, NWC or debt-like adjustments?"
+  ],
+  "revisions": {
+    "count": 1,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T03:34:50.596Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [K8; CL7; C3 mechanisms; C4 assessment lever (3); alternatives 'Recast the warranty shortfall as a debt-like deduction'; tradeoffs[1]; furtherResearchThatCouldChangeConclusion[0]] The 'debt-like recast' lever is conceptually inconsistent and is presented as more viable than it is. K8 subtracts the $350K warranty shortfall from the numerator ($30.0M - $0.35M = $29.65M) and divides by the restored EBITDA of $4.25M, giving 6.98x. EV/EBITDA conventions do not work that way. In a cash-free/debt-free deal, a debt-like item lowers the equity purchase price, but enterprise value stays at the $30M headline. On an EV basis the recast gives 30,000/4,250 = 7.06x, which is still a breach (the same as K7). The draft's own edge case 1 and the C3 mechanism say debt-like items push enterprise value above the equity price, the opposite direction to K8. The draft does add the caveat 'only if the mandate measures price net of debt-like items', but it never explains that this would be an unusual equity-price/EBITDA test that mixes two bases. It still lists the recast as lever (3) in C4, as a stand-alone alternative, and in the tradeoffs ('could keep the price near $30M'). A committee could pursue a lever that does not deliver compliance under the normal convention.",
+          "D1 major reasoning_validity (debt-like recast mixes EV/equity bases), reanalysis; D4 minor research not decision-relevant (synergy data is internal)"
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [criteriaAssessments C3 mechanisms; edgeCasesAndFailureModes[0]; furtherResearchThatCouldChangeConclusion[1]] The new net-cash path (C3 mechanisms, edge case 1, furtherResearch[1]) says it 'depends on the same unknown LOI terms (E11)'. It also depends on the mandate measuring enterprise value. If the mandate's numerator is the headline or equity purchase price, net cash does not reduce the measured price at all. Like the debt-like recast, this path needs two unconfirmed conditions, not one, and the draft should say so to be consistent with how it now treats K8."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [remainingUncertainty[3]; practicalImplications[1]] The draft added a statement to remainingUncertainty that the downside cases are 'not quantified in this draft' instead of computing them. The arithmetic is trivial and uses only supplied figures. Rejecting the $200K legal settlement gives EBITDA of 3,700, 8.11x at $30M and a $25.9M ceiling. A $450K replacement CEO gives 3,800 and a $26.6M ceiling. Calling simple, packet-derivable arithmetic an uncertainty leaves the 'build cushion below the ceiling' advice unquantified."
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict ('Second, single judgments on individual items can move the multiple across 7.0x (E6; K6, K7)')] The verdict was edited from 'K6–K8' to 'K6, K7' in support of the sentence 'single judgments on individual items can move the multiple across 7.0x'. K7 is 7.06x, which is still a breach, so it does not move the multiple across the cap. Only K6, the marketing restoration at 6.98x, does, and the draft itself calls that not a credible lever. The citation does not support the sentence, and the sentence slightly overstates how fragile the breach finding is."
+      ]
+    }
+  },
+  "certified": true
+}

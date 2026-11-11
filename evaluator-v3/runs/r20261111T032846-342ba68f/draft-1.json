@@ -5,7 +5,7 @@
     {
       "criterionId": "C1",
       "assessment": "Fails. The mandate's denominator is QoE EBITDA (E1). The QoE summary gives $3.9M (E3; K1). At $30M the multiple is 7.69x against a 7.0x cap (K2), so the committee lacks authority to sign at that price. The user's 6.0x uses the CIM's $5.0M (E2; K5), which the mandate expressly does not use.",
-      "mechanisms": "The mandate deliberately ties the cap to diligence-adjusted earnings rather than seller-prepared figures, so that the price is measured against earnings an independent provider is prepared to support. The CIM's $1.2M of add-backs come from the sell side. The QoE accepts only $450K of them and adds a -$350K adjustment (E3; K9). That cuts the denominator by $1.1M (K9b), which pushes the multiple up from 6.0x to 7.69x.",
+      "mechanisms": "The mandate deliberately ties the cap to diligence-adjusted earnings rather than seller-prepared figures, so that the price is measured against earnings an independent provider is prepared to support. The CIM's $1.2M of add-backs come from the sell side. The QoE accepts only $450K of them and adds a -$350K adjustment (E3; K9). That cuts the denominator by $1.1M (K12), which pushes the multiple up from 6.0x to 7.69x.",
       "strengths": [
         "The mandate text is explicit and VERIFIED (E1).",
         "The QoE bridge arithmetic is VERIFIED and reproducible (E3; K1)."
@@ -187,7 +187,7 @@
       "calculationIds": [
         "K5",
         "K9",
-        "K9b"
+        "K12"
       ]
     },
     {
@@ -426,7 +426,7 @@
       "tolerance": 0.0001
     },
     {
-      "id": "K9b",
+      "id": "K12",
       "purpose": "Reduction from CIM adjusted EBITDA to QoE EBITDA, in $000",
       "expression": "5000 - (3800 + 250 + 200 - 350)",
       "claimedResult": 1100,

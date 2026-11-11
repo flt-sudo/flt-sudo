@@ -1,0 +1,164 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "coverage",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [alternatives 'Take the deal to the full board at $30M'; tradeoffs[2]] The 'take it to the full board' option never mentions what the board would actually weigh: synergies or the post-synergy multiple, and the strategic rationale for a bolt-on. The option is described only as asking the board to accept 7.69x on a weaker earnings base, which understates the strongest case for going to the board."
+        }
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [K8; CL7; C3 mechanisms; C4 assessment lever (3); alternatives 'Recast the warranty shortfall as a debt-like deduction'; tradeoffs[1]; furtherResearchThatCouldChangeConclusion[0]] The 'debt-like recast' lever is conceptually inconsistent and is presented as more viable than it is. K8 subtracts the $350K warranty shortfall from the numerator ($30.0M - $0.35M = $29.65M) and divides by the restored EBITDA of $4.25M, giving 6.98x. EV/EBITDA conventions do not work that way. In a cash-free/debt-free deal, a debt-like item lowers the equity purchase price, but enterprise value stays at the $30M headline. On an EV basis the recast gives 30,000/4,250 = 7.06x, which is still a breach (the same as K7). The draft's own edge case 1 and the C3 mechanism say debt-like items push enterprise value above the equity price, the opposite direction to K8. The draft does add the caveat 'only if the mandate measures price net of debt-like items', but it never explains that this would be an unusual equity-price/EBITDA test that mixes two bases. It still lists the recast as lever (3) in C4, as a stand-alone alternative, and in the tradeoffs ('could keep the price near $30M'). A committee could pursue a lever that does not deliver compliance under the normal convention."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C3 mechanisms; edgeCasesAndFailureModes[0]; furtherResearchThatCouldChangeConclusion[1]] The C3 numerator analysis is one-sided. It says that if $30M is equity value and the target has debt, the breach is worse. It leaves out the opposite case: if $30M is equity value and Tamarind holds net cash, enterprise value is below $30M. For example, about $2.7M of net cash would bring EV to the $27.3M ceiling. This is a real path to compliance and depends on the same unknown LOI terms (E11)."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [calculations K6-K8; C4 assessment; C5 mechanisms; practicalImplications[1]] The sensitivities only test upward moves. K6, K7 and K8 each explore ways back toward compliance. No downside cases are computed, even though the draft itself calls the legal-settlement acceptance and the ~$350K CEO cost the least supported judgments. Rejecting the $200K legal settlement gives 3,700, which is 8.11x at $30M and a 7.0x ceiling of $25.9M. A replacement CEO costing $450K instead of $350K gives 3,800 and a ceiling of $26.6M. The C4/C5 advice to 'build cushion below the ceiling' is therefore never quantified, which weakens the counter-offer guidance."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [claims CL10, CL11] CL10 is marked non-material, but it covers whether the $350K warranty item is an annual or a one-off charge. The draft's own analysis (K7, K8, C2 weaknesses) says this decides whether one of the levers holds up. CL11 (LOI binding terms) is also marked non-material, yet it decides whether renegotiation is possible before tomorrow. The materiality flags do not match how the claims are used."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "3800 + 250 + 200 - 350",
+      "claimed": 3900,
+      "actual": 3900,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "30000 / 3900",
+      "claimed": 7.69,
+      "actual": 7.6923076923076925,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "7 * 3900",
+      "claimed": 27300,
+      "actual": 27300,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "30000 - 7 * 3900",
+      "claimed": 2700,
+      "actual": 2700,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "30000 / 5000",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "30000 / (3900 + 400)",
+      "claimed": 6.98,
+      "actual": 6.976744186046512,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "30000 / (3900 + 350)",
+      "claimed": 7.06,
+      "actual": 7.0588235294117645,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(30000 - 350) / (3900 + 350)",
+      "claimed": 6.98,
+      "actual": 6.976470588235294,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(600 + 400 + 200) - (250 + 200)",
+      "claimed": 750,
+      "actual": 750,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "5000 - (3800 + 250 + 200 - 350)",
+      "claimed": 1100,
+      "actual": 1100,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "(30000 - 27300) / 30000 * 100",
+      "claimed": 9,
+      "actual": 9,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "600 - 350",
+      "claimed": 250,
+      "actual": 250,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [K8; CL7; C3 mechanisms; C4 assessment lever (3); alternatives 'Recast the warranty shortfall as a debt-like deduction'; tradeoffs[1]; furtherResearchThatCouldChangeConclusion[0]] The 'debt-like recast' lever is conceptually inconsistent and is presented as more viable than it is. K8 subtracts the $350K warranty shortfall from the numerator ($30.0M - $0.35M = $29.65M) and divides by the restored EBITDA of $4.25M, giving 6.98x. EV/EBITDA conventions do not work that way. In a cash-free/debt-free deal, a debt-like item lowers the equity purchase price, but enterprise value stays at the $30M headline. On an EV basis the recast gives 30,000/4,250 = 7.06x, which is still a breach (the same as K7). The draft's own edge case 1 and the C3 mechanism say debt-like items push enterprise value above the equity price, the opposite direction to K8. The draft does add the caveat 'only if the mandate measures price net of debt-like items', but it never explains that this would be an unusual equity-price/EBITDA test that mixes two bases. It still lists the recast as lever (3) in C4, as a stand-alone alternative, and in the tradeoffs ('could keep the price near $30M'). A committee could pursue a lever that does not deliver compliance under the normal convention."
+    }
+  ],
+  "openDecisiveGaps": [
+    "How does the board resolution or corporate-development policy define the multiple's numerator: headline price, enterprise value, or equity value, and how does it treat contingent consideration and debt-like items?",
+    "What do the signed LOI's consideration terms say: EV or equity basis, cash-free/debt-free, net cash or debt at close, earn-out, NWC peg, binding price term, exclusivity window?",
+    "Is the Arbor & Lyle QoE dated 2026-11-04 final, and does the full report contain further EBITDA, NWC or debt-like adjustments?"
+  ]
+}

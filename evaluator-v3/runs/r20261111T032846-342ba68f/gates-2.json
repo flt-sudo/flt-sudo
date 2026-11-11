@@ -1,0 +1,144 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [criteriaAssessments C3 mechanisms; edgeCasesAndFailureModes[0]; furtherResearchThatCouldChangeConclusion[1]] The new net-cash path (C3 mechanisms, edge case 1, furtherResearch[1]) says it 'depends on the same unknown LOI terms (E11)'. It also depends on the mandate measuring enterprise value. If the mandate's numerator is the headline or equity purchase price, net cash does not reduce the measured price at all. Like the debt-like recast, this path needs two unconfirmed conditions, not one, and the draft should say so to be consistent with how it now treats K8."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "alternatives_counterarguments",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [remainingUncertainty[3]; practicalImplications[1]] The draft added a statement to remainingUncertainty that the downside cases are 'not quantified in this draft' instead of computing them. The arithmetic is trivial and uses only supplied figures. Rejecting the $200K legal settlement gives EBITDA of 3,700, 8.11x at $30M and a $25.9M ceiling. A $450K replacement CEO gives 3,800 and a $26.6M ceiling. Calling simple, packet-derivable arithmetic an uncertainty leaves the 'build cushion below the ceiling' advice unquantified."
+        }
+      ]
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict ('Second, single judgments on individual items can move the multiple across 7.0x (E6; K6, K7)')] The verdict was edited from 'K6–K8' to 'K6, K7' in support of the sentence 'single judgments on individual items can move the multiple across 7.0x'. K7 is 7.06x, which is still a breach, so it does not move the multiple across the cap. Only K6, the marketing restoration at 6.98x, does, and the draft itself calls that not a credible lever. The citation does not support the sentence, and the sentence slightly overstates how fragile the breach finding is."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "3800 + 250 + 200 - 350",
+      "claimed": 3900,
+      "actual": 3900,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "30000 / 3900",
+      "claimed": 7.69,
+      "actual": 7.6923076923076925,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "7 * 3900",
+      "claimed": 27300,
+      "actual": 27300,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "30000 - 7 * 3900",
+      "claimed": 2700,
+      "actual": 2700,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "30000 / 5000",
+      "claimed": 6,
+      "actual": 6,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "30000 / (3900 + 400)",
+      "claimed": 6.98,
+      "actual": 6.976744186046512,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "30000 / (3900 + 350)",
+      "claimed": 7.06,
+      "actual": 7.0588235294117645,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(30000 - 350) / (3900 + 350)",
+      "claimed": 6.98,
+      "actual": 6.976470588235294,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(600 + 400 + 200) - (250 + 200)",
+      "claimed": 750,
+      "actual": 750,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "5000 - (3800 + 250 + 200 - 350)",
+      "claimed": 1100,
+      "actual": 1100,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "(30000 - 27300) / 30000 * 100",
+      "claimed": 9,
+      "actual": 9,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "600 - 350",
+      "claimed": 250,
+      "actual": 250,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "How does the board resolution or corporate-development policy define the multiple's numerator (headline price, enterprise value or equity value), and how does it treat contingent consideration, net cash and debt-like items?",
+    "What do the signed LOI's consideration terms say: EV or equity basis, cash-free/debt-free, net cash or debt at close, earn-out, NWC peg, binding price term, exclusivity window?",
+    "Is the Arbor & Lyle QoE dated 2026-11-04 final, and does the full report contain further EBITDA, NWC or debt-like adjustments?"
+  ]
+}

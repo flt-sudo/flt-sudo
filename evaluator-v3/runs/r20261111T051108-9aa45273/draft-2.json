@@ -1,0 +1,478 @@
+{
+  "verdict": "Under the evidence supplied, the on-call lead's sign-off alone is not a valid approval path for PR #8812 during the freeze. Change Management Policy v4 took effect on 2026-09-01 and states that it supersedes any team runbook that conflicts with it [E1]. That overrides the 2023 runbook's rule letting Sev-1 and Sev-2 fixes skip CAB [E2]. Under v4, on-call leads may approve rollbacks only, not forward fixes [E4]. During an active freeze, a Sev-2 forward fix is deferred unless the CAB chair AND the VP Engineering grant a written freeze exception [E3]. Emergency CAB is only for Sev-1 [E5]. The ticket shows no outage, no data loss and no security incident, and a workaround exists, so Sev-1 is not supported [E6, E7]. One premise also looks wrong. Today is 2026-11-11, which is 34 days before the freeze start the user stated (Dec 15) [E8, K2]. If 'tonight' really means 2026-11-11, the freeze rules (6.1 to 6.3) do not apply yet, and the normal non-freeze change process governs. That process was not supplied, so its exact approvers cannot be determined. Section 6.4 sits directly after the freeze provisions in the supplied excerpt, so the evidence does not establish whether it also applies outside a freeze [E4, E5, E8]. Recommended action: (a) if the freeze has not started, send PR #8812 through the normal change process now, before Dec 15, which avoids needing an exception at all; (b) if the freeze is actually active, either defer to Jan 5 or ask the CAB chair and VP Engineering for a written exception. During the freeze, deploying on the on-call lead's approval alone breaches v4 [E3, E4]. Outside the freeze, not relying on on-call-only approval is our recommended precaution, not a rule the supplied evidence establishes. Whether the impact justifies an exception depends on conditions the evidence cannot settle. Against an exception: a manual workaround exists, at about 6 cases a day, or about 132 cases over the 22-day freeze [E7, K3, K4], and the retry carries an unverified double-refund risk, because no idempotency, rollback-plan or test-coverage evidence was supplied [E10, E11]. For an exception: holiday cover is a period of higher payment-operations error and fraud risk, so the same low staffing that argues against deploying also weakens the manual workaround for refunds over EUR 10k [E19, E20, E21]. Refunds may also face external completion deadlines, such as the 14-day EU consumer-withdrawal limit, Visa's roughly five-day credit expectation, and 'credit not processed' chargebacks [E13, E14, E16, E17]. These limits govern when a refund is completed, not how it is processed, so they are at risk only if the manual queue falls behind [E23]. Finance's holiday capacity, the refund type and the payment rail are all unknown [E22]. The exception case is therefore moderate if finance can keep pace with controls in place, and stronger if a holiday backlog is likely [E23].",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "v4 governs and the runbook rule is void. v4 is dated effective 2026-09-01, before today, and explicitly supersedes conflicting team runbooks [E1]. The runbook was last edited 2023-11-20 [E2]. It conflicts directly with v4 6.2 (Sev-1 needs Emergency CAB), 6.3 (Sev-2 deferred unless a written exception is granted) and 6.4 (on-call leads approve rollbacks only) [E3, E4, E5]. The packet records E1/E2, E2/E3, E2/E4 and E2/E5 as contradictions. They resolve in v4's favour on three grounds: it is more recent (the runbook predates it by more than 33 months [K5]), it is the higher-ranking document (a formal policy versus a team wiki page), and it addresses the conflict directly (an explicit supersession clause). The remaining doubt is whether v4 is the latest version and authentic. Only the supplied copy could be checked [E1].",
+      "mechanisms": "An explicit supersession clause in a higher-ranking, later-dated policy displaces any conflicting rule in a lower-ranking document, whether or not that document was ever updated. A runbook that was never revised after the policy changed keeps showing the old rule, and that misleads operators who rely on the wiki.",
+      "strengths": [
+        "The supersession text is explicit and dated [E1]",
+        "The conflict is direct and specific (6.2, 6.3, 6.4 against the runbook bypass) [E2, E3, E4, E5]"
+      ],
+      "weaknesses": [
+        "No access to the policy repository or history to rule out a v5, an amendment or a granted exception [E1, E12]",
+        "The runbook remains published and uncorrected, a process gap that can mislead other on-call staff [E2]"
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "If the freeze is active and the incident is Sev-2, v4 allows exactly two outcomes: defer until the freeze ends, or obtain a written freeze exception signed by both the CAB chair and the VP Engineering [E3]. The on-call lead cannot approve a forward fix. Her authority is limited to rollbacks [E4]. Logging the change in #changes, as the runbook says, does not make the deploy compliant [E2, E4]. Emergency CAB (at least two approvers, one of them the VP Engineering or a delegate, and a post-implementation review within 2 business days) applies only to Sev-1 [E5]. Whether the on-call lead holds delegated CAB chair or VP Engineering authority, or whether an exception already exists, is unknown [E12].",
+      "mechanisms": "v4 ties approval authority to severity and change type. Forward fixes during a freeze need senior sign-off from two people (both named roles under 6.3). Rollbacks, which return the system to a known state, are delegated to on-call leads.",
+      "strengths": [
+        "The policy text clearly names the required approvers and the conjunction 'AND' [E3]",
+        "The rule limiting on-call leads to rollbacks is unambiguous [E4]"
+      ],
+      "weaknesses": [
+        "v4 does not say what an exception request must contain or what criteria decide it [E3]",
+        "Delegation records and existing exceptions are unknown [E12]"
+      ],
+      "evidenceIds": [
+        "E3",
+        "E4",
+        "E5",
+        "E2",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "The ticket facts fit Sev-2 or lower, not Sev-1. Under v4, Sev-1 is a full outage of a tier-1 service, data loss, or an active security incident [E6]. The ticket describes intermittent timeouts on 0.3% of refunds over EUR 10k, with a manual workaround, and records no outage, data loss or security issue [E7]. That matches 'partial degradation of a tier-1 service with a workaround available' [E6]. 'Financial integrity risk' is not a Sev-1 criterion in v4 [E6]. Sev-2 requires a tier-1 service, and the service's tier is unknown [E12]. If the service is not tier-1, the incident is Sev-3, which is also 'lower' and deferred under 6.3 [E3, E6]. A second Sev-3 reading is also possible: v4 defines Sev-3 only as 'minor impact' and does not define 'minor', so failures on 0.3% of one refund segment with a working workaround could arguably count as minor impact even on a tier-1 service [E6, E7]. The evidence cannot settle this. If that reading were adopted, the case for an exception would weaken further. Either way the path does not change: Emergency CAB is not available, and the outcome is a written exception or deferral [E3].",
+      "mechanisms": "Severity is set by definitional criteria (outage scope, data loss, security), not by money value alone. A working workaround keeps an incident below Sev-1 even when it involves high-value transactions. The boundary between 'partial degradation' and 'minor impact' is undefined, so classification between Sev-2 and Sev-3 involves judgement.",
+      "strengths": [
+        "The definitions are explicit [E6]",
+        "The ticket records the workaround and limited scope [E7]"
+      ],
+      "weaknesses": [
+        "Service tier unknown [E12]",
+        "v4 does not define 'minor impact', so the Sev-2/Sev-3 boundary is a matter of judgement [E6]",
+        "Unknown whether timed-out refunds leave partial ledger state, which could amount to data loss [E7]"
+      ],
+      "evidenceIds": [
+        "E6",
+        "E7",
+        "E3",
+        "E12"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "The user's premise 'we're in the freeze' conflicts with the date. Today is 2026-11-11, and the stated freeze starts Dec 15, 34 days later [E8, K2]. A deploy tonight would come before the freeze, so 6.1 to 6.3 would not apply and the normal non-freeze change process would govern. That process was not in the supplied excerpt [E5, E8]. Section 6.4's limit on on-call leads is not explicitly worded as freeze-only, but it follows directly after the freeze provisions (6.1 opens with 'Freeze periods'), so it is equally plausible that it is scoped to freezes [E4, E5, E8]. Whether on-call-only approval is enough outside the freeze therefore cannot be determined from the evidence. Not relying on it is a recommended precaution. The freeze dates come only from the user, and no freeze calendar was supplied [E8].",
+      "mechanisms": "Freeze provisions apply only during the defined freeze window. Outside it, the standard change process governs. Deploying before the freeze starts avoids the exception requirement entirely.",
+      "strengths": [
+        "The date arithmetic is simple and checkable [K2]"
+      ],
+      "weaknesses": [
+        "No freeze calendar was supplied, and the scenario date may be hypothetical [E8]",
+        "The non-freeze process text is missing, and the scope of 6.4 is ambiguous [E5, E4]"
+      ],
+      "evidenceIds": [
+        "E8",
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "The impact is real, and whether it justifies an exception depends on whether the manual workaround holds through the freeze. Finance handles about 6 failed refunds a day manually [E7]. Over a 22-day freeze (Dec 15 to Jan 5 inclusive) that is about 132 manual cases [K3, K4]. Those cases involve at least about EUR 1.32M of refunds, because each one exceeds EUR 10k [K7]. That is value processed manually, not money lost. The stated figures imply about 2,000 refunds over EUR 10k a day, or at least about EUR 20M a day in high-value refunds [E9, K1, K6]. That is plausible only for a very large payments platform, and refund metrics were not supplied [E9]. Against an exception: the workaround exists and is operating, so deferral is viable [E7]. For an exception, there are three points. (1) Holiday staffing works against the workaround as well as against deploying. Holiday cover brings 'vacation coverage gaps', less careful approvals and elevated fraud timing [E19, E21], and manual payment handling is more prone to errors and fraud than automation [E20]. Each error on a refund over EUR 10k costs at least EUR 10k to correct or recover [E20]. Keeping segregation of duties for about 6 such refunds a day may be hard on a thin roster [E21]. (2) External completion deadlines may apply. If these are EU consumer withdrawals, the trader must refund within 14 days by the same means of payment [E13]. If they are Visa card refunds, scheme guidance expects credits to be processed within about five calendar days [E14], late credits can draw chargebacks [E15], and unprocessed credits expose the merchant to 'credit not processed' disputes (Visa 13.6, Mastercard 4853), with fees and dispute workload on top of the refund [E16, E17]. PSD2 D+1 execution matters only if the company is itself the payer's payment service provider [E18]. (3) Customers waiting on delayed high-value refunds carry reputational cost, though no complaint data was supplied [E22]. These deadlines govern when a refund is completed, not how it is done, so a manual workaround completed on time meets them [E23]. The deciding facts are unknown: finance's holiday capacity, the refund type and payment rail, contractual SLAs, PSP status and the manual error rate [E22]. The exception case is moderate if finance can keep pace with controls in place, and strong if a holiday backlog is likely [E23].",
+      "mechanisms": "A manual workaround turns an availability problem into an operational-cost, human-error and timeliness problem. Its adequacy depends on staff capacity, which falls over the holidays at the same time as fraud and approval risk rise. External refund deadlines run per refund, so they are breached only when the manual queue falls behind. The longer the deferral, the more cases go through the manual path.",
+      "strengths": [
+        "A workaround exists and is operating [E7]",
+        "Refund time limits govern completion, not method, so a workaround that keeps pace meets them [E23]"
+      ],
+      "weaknesses": [
+        "Implied volume unchecked; ambiguity over whether '~6/day' counts failures or workload [E9]",
+        "Holiday staffing may degrade the workaround, raising error and fraud risk on refunds over EUR 10k [E19, E20, E21]",
+        "Refund type, payment rail, finance holiday roster, SLAs and manual error rate are unknown, so it is unknown which deadlines apply or are at risk [E22]",
+        "The regulatory and scheme evidence rests on search snippets, some dated (Visa 2021) or secondary [E13, E14, E15, E16, E17, E18]"
+      ],
+      "evidenceIds": [
+        "E7",
+        "E9",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20",
+        "E21",
+        "E22",
+        "E23"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "The only evidence that the change is low-risk is 'reviewed, passing CI' [E7]. There is no evidence on idempotency of the retried ledger call, test coverage of the timeout path, or a rollback plan [E11]. Payment-provider guidance is to use idempotency keys when a timeout leaves the outcome of a state-changing call such as a refund uncertain, because a blind retry can create a duplicate [E10]. A retry on refund calls over EUR 10k that are not idempotent could cause double refunds of at least EUR 10k each [E10, E7]. Approvers should require proof of idempotency and a rollback plan before granting any exception or approving the change. Under 6.4, rolling back is the one action the on-call lead could approve if the fix misbehaves [E4].",
+      "mechanisms": "A timeout does not tell the caller whether the server committed the operation. If the retry has no idempotency key, a committed-but-timed-out refund can be applied twice.",
+      "strengths": [
+        "The change is small in scope (timeout config plus retry) and passed review and CI [E7]"
+      ],
+      "weaknesses": [
+        "Idempotency, tests and rollback plan unknown [E11]",
+        "The external guidance comes from search snippets only and may not reflect how the internal ledger behaves [E10]"
+      ],
+      "evidenceIds": [
+        "E7",
+        "E10",
+        "E11",
+        "E4"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "Change Management Policy v4 (effective 2026-09-01) supersedes the conflicting 2023 holiday-freeze runbook, so the runbook's on-call-lead bypass for Sev-1 and Sev-2 fixes is not a valid approval path.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "calculationIds": [
+        "K5"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "Under v4 6.4, an on-call lead may approve rollbacks only, so during the freeze her sign-off alone cannot authorise the forward fix in PR #8812.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL3",
+      "text": "During an active freeze, a Sev-2 (or lower) forward fix is deferred unless the CAB chair and the VP Engineering both grant a written freeze exception.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E3"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL4",
+      "text": "The ticket facts (intermittent timeouts on 0.3% of refunds over EUR 10k, a manual workaround, no recorded outage, data loss or security incident) do not meet v4's Sev-1 definition, so Emergency CAB is not the applicable path.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E5",
+        "E6",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL5",
+      "text": "If 'tonight' is 2026-11-11, the deploy falls 34 days before the stated Dec 15 freeze start, so the freeze provisions would not yet apply.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": [
+        "K2"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "The approvers required by the normal non-freeze change process, and whether section 6.4 applies outside a freeze, cannot be determined, because that part of v4 was not supplied.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E5",
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL7",
+      "text": "Whether the incident is Sev-2 or Sev-3 cannot be determined. The refund/ledger service tier is unknown, and v4 does not define 'minor impact'. Whether any delegation or freeze exception already exists is also unknown.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E12",
+        "E6"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "At about 6 manual cases a day, deferring through a 22-day freeze means about 132 manually processed refunds, each over EUR 10k, totalling at least about EUR 1.32M processed manually.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E7",
+        "E8"
+      ],
+      "calculationIds": [
+        "K3",
+        "K4",
+        "K7"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "The stated figures imply about 2,000 refunds over EUR 10k a day, or at least EUR 20M a day. This cannot be checked against actual volume metrics.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E9"
+      ],
+      "calculationIds": [
+        "K1",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "Whether PR #8812's retry is idempotent, whether the timeout path is tested, and whether a rollback plan exists cannot be determined. A non-idempotent retry of a timed-out refund could cause a duplicate refund.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E11",
+        "E10",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Whether v4 is the latest, authentic version with no amendments cannot be confirmed. Only the supplied copy was checked.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E1"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "Holiday staffing weakens the manual workaround as well as the case for deploying. Holiday cover is a period of coverage gaps, less careful approvals and elevated fraud risk, and manual payment handling is more error-prone than automation. That raises the risk on about 6 refunds over EUR 10k a day handled manually.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E19",
+        "E20",
+        "E21",
+        "E7"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL13",
+      "text": "External refund deadlines may apply: 14 days for EU consumer withdrawals, about five days for Visa credit processing, and 'credit not processed' chargeback exposure under Visa 13.6 and Mastercard 4853. These govern when a refund is completed, not how, so they strengthen the exception case only if the manual queue falls behind.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E13",
+        "E14",
+        "E16",
+        "E17",
+        "E23"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Whether the impact justifies an exception cannot be determined from the evidence. Finance's holiday capacity, the refund type and payment rail, contractual SLAs, PSP status and the manual error rate are all unknown.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E22",
+        "E23"
+      ],
+      "calculationIds": []
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "On-call lead sign-off only (runbook path)",
+      "comparison": "Not compliant during the freeze. Superseded by v4 [E1, E2], and on-call leads cannot approve forward fixes [E4]. This is the user's plan and is rejected. Outside the freeze, its sufficiency is undetermined, and we advise against relying on it [E5, E8]."
+    },
+    {
+      "option": "Written freeze exception from the CAB chair AND VP Engineering",
+      "comparison": "The compliant way to deploy during an active freeze for Sev-2 or lower [E3]. It needs two senior signatures. Approvers should first see evidence of idempotency and a rollback plan [E10, E11], and the case is stronger if finance's holiday capacity or refund deadlines put the manual workaround at risk [E22, E23]."
+    },
+    {
+      "option": "Emergency CAB",
+      "comparison": "Available only for Sev-1 [E5]. The ticket facts do not meet the Sev-1 criteria [E6, E7], so this path is not open unless new facts appear, such as confirmed data loss from partial ledger commits."
+    },
+    {
+      "option": "Defer until the freeze ends (Jan 5)",
+      "comparison": "The v4 default for Sev-2 during a freeze [E3]. It costs about 132 manual cases over 22 days [K4], and it avoids deploying an unverified retry on money-moving calls during low staffing [E11]. The same holiday staffing also weakens the manual workaround: error and fraud risk rise during holiday cover [E19, E20, E21], and refund deadlines or chargebacks may follow if the manual queue falls behind [E13, E14, E16, E23]."
+    },
+    {
+      "option": "Normal non-freeze change process now (if the freeze has not started)",
+      "comparison": "If the date is 2026-11-11, the freeze starts in 34 days [K2, E8], so this path avoids any exception. Its approvers are not specified in the supplied evidence [E5]. Probably the best option if the date premise holds."
+    },
+    {
+      "option": "Rollback of whatever change caused the timeouts (if one exists)",
+      "comparison": "The one action the on-call lead may approve [E4]. The evidence does not show that a regressing change exists to roll back [E7]."
+    }
+  ],
+  "tradeoffs": [
+    "Speed versus compliance. Deploying tonight on the on-call lead's sign-off during the freeze is fast but breaches v4 6.3 and 6.4 [E3, E4]. Getting two senior approvals or using the normal process takes longer but is compliant.",
+    "Manual-workaround risk versus change risk. Deferral keeps about 6 manual cases a day [E7, K4], with higher error and fraud risk and possible deadline breaches during holiday cover [E19, E20, E21, E23]. Deploying an unverified retry risks double refunds of at least EUR 10k each [E10, E11].",
+    "Deploying before the freeze avoids the exception requirement, but it still needs the normal change process and the same idempotency checks [E8, E11]."
+  ],
+  "edgeCasesAndFailureModes": [
+    "Timed-out refunds may already have committed in the ledger. A retry without an idempotency key would then refund twice [E10, E11].",
+    "If failed refunds are re-queued or replayed after the fix is deployed (the evidence does not show that they are), a refund finance already processed manually could be paid again. Reconciling the two paths would then be needed to avoid duplicates [E7, E10].",
+    "A 'credit not processed' chargeback on a refund that finance also completes manually could lead to a double payout (an inference, not a source claim) [E16].",
+    "The refund/ledger service may not be tier-1, or the impact may be judged 'minor'. The incident would then be Sev-3, which weakens the case for an exception further [E6, E12].",
+    "The on-call lead might hold delegated VP Engineering or CAB chair authority, which would change who can sign [E12].",
+    "A newer policy version or an existing exception could change the answer [E1, E12].",
+    "The freeze dates may differ from what the user stated, or the scenario date may be hypothetical [E8].",
+    "Other on-call staff may still follow the stale runbook and create further non-compliant changes [E2]."
+  ],
+  "counterarguments": [
+    {
+      "argument": "The runbook is the documented on-call procedure and explicitly allows Sev-2 bypass with the on-call lead's approval.",
+      "response": "v4 is later, higher-ranking and explicitly supersedes conflicting runbooks [E1]. The runbook has not been edited since 2023-11-20 [E2, K5]."
+    },
+    {
+      "argument": "Refunds over EUR 10k are financially significant, so this should be treated as Sev-1 and sent to Emergency CAB.",
+      "response": "v4's Sev-1 criteria are full outage, data loss or an active security incident. Monetary value alone is not listed [E6]. The ticket records none of these and a workaround exists [E7]. Confirmed partial-commit data loss would change this."
+    },
+    {
+      "argument": "The fix is reviewed and passes CI, so it is low-risk and does not need senior approval.",
+      "response": "Approval authority depends on policy, not on how risky the change is [E3, E4]. Review and CI also do not show idempotency, timeout-path tests or a rollback plan [E11], and those are the main concerns for retries on refunds [E10]."
+    },
+    {
+      "argument": "We are in the freeze, so the freeze rules apply.",
+      "response": "The current date of 2026-11-11 is 34 days before the stated Dec 15 start [E8, K2]. If that holds, the normal process applies. Freeze dates and the deploy date should be confirmed."
+    },
+    {
+      "argument": "The impact justifies an exception. Over the holidays, finance is thinly staffed, so manually processing about 6 refunds over EUR 10k a day raises error and fraud risk. Customers are waiting on high-value refunds, and delays could breach refund deadlines (14 days for EU consumer withdrawals, about five days for Visa credits) and trigger 'credit not processed' chargebacks and reputational harm.",
+      "response": "This is the strongest case for an exception, and it is partly supported. Holiday cover does raise payment-operations and manual-handling risk [E19, E20, E21], and these deadlines and chargeback mechanisms exist [E13, E14, E16, E17]. But the deadlines govern when a refund is completed, not how, so they are breached only if the manual queue falls behind [E23]. Whether that happens depends on finance's holiday roster, the refund type and rail, and SLAs, all of which are unknown [E22]. The argument is decisive if those facts show a likely backlog. It belongs in the exception request to the CAB chair and VP Engineering [E3, E23]. It does not justify on-call-only approval [E4]."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The runbook rule allowing Sev-2 fixes to bypass CAB with the on-call lead's approval is the current, valid process.",
+      "correction": "v4 (effective 2026-09-01) supersedes conflicting runbooks. During the freeze, Sev-2 needs a written exception from the CAB chair AND VP Engineering, or deferral.",
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "On-call lead sign-off is enough authority for a forward fix.",
+      "correction": "v4 6.4 limits on-call leads to approving rollbacks only. This applies at least during the freeze. Its scope outside the freeze is not established by the supplied excerpt.",
+      "evidenceIds": [
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "assumption": "The holiday freeze is currently in effect.",
+      "correction": "Today is 2026-11-11, 34 days before the stated Dec 15 start, so the freeze is likely not active tonight and the normal change process would govern.",
+      "evidenceIds": [
+        "E8"
+      ]
+    },
+    {
+      "assumption": "The fix is low-risk because it has been reviewed and passes CI.",
+      "correction": "There is no evidence of retry idempotency, timeout-path tests or a rollback plan, and retries on timed-out refunds can cause duplicates.",
+      "evidenceIds": [
+        "E11",
+        "E10",
+        "E7"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Implied daily count of refunds over EUR 10k if about 6 failures a day is 0.3%",
+      "expression": "6 / 0.003",
+      "claimedResult": 2000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K2",
+      "purpose": "Days from 2026-11-11 to the stated freeze start on 2026-12-15 (19 remaining November days plus 15)",
+      "expression": "30 - 11 + 15",
+      "claimedResult": 34,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K3",
+      "purpose": "Length of the freeze window Dec 15 to Jan 5 inclusive, in days",
+      "expression": "31 - 15 + 1 + 5",
+      "claimedResult": 22,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K4",
+      "purpose": "Approximate manual refund cases over the full freeze at about 6 a day",
+      "expression": "6 * 22",
+      "claimedResult": 132,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K5",
+      "purpose": "Whole months between the runbook's last edit (2023-11-20) and 2026-08-20, the last same-day month boundary before v4 took effect on 2026-09-01",
+      "expression": "(2026 - 2023) * 12 + (8 - 11)",
+      "claimedResult": 33,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K6",
+      "purpose": "Lower bound on daily value of refunds over EUR 10k implied by about 2,000 a day",
+      "expression": "2000 * 10000",
+      "claimedResult": 20000000,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K7",
+      "purpose": "Lower bound on the value of refunds processed manually over the freeze (132 cases, each over EUR 10k)",
+      "expression": "132 * 10000",
+      "claimedResult": 1320000,
+      "tolerance": 0.005
+    }
+  ],
+  "practicalImplications": [
+    "Do not deploy PR #8812 tonight on the on-call lead's approval alone. During the freeze this breaches v4. Outside the freeze, this is a recommended precaution until the non-freeze process and the scope of 6.4 are confirmed.",
+    "Confirm the actual deploy date and the freeze calendar. If the freeze has not started, send the change through the normal change process before Dec 15.",
+    "If the freeze is active, ask the CAB chair and the VP Engineering for a written exception, or defer to Jan 5 and keep the manual workaround. An exception request should include finance's holiday roster, which refund deadlines apply (by refund type and payment rail), and a backlog projection [E23].",
+    "Before any approval, require evidence that the retried ledger refund call is idempotent (for example, it uses an idempotency key), tests covering the timeout path, and a documented rollback plan.",
+    "Reconcile manually processed refunds against any retried or replayed ledger calls to prevent duplicates.",
+    "Have the holiday-freeze runbook updated or withdrawn so it matches v4."
+  ],
+  "remainingUncertainty": [
+    "Whether v4 is the latest, authentic version, with no amendments or exceptions already granted [E1, E12].",
+    "Whether the freeze is actually active at the planned deploy time, since the dates come only from the user [E8].",
+    "The approvers required by the non-freeze change process, which was not supplied, and whether 6.4 applies outside a freeze [E5, E4].",
+    "The tier of the refund/ledger service, whether the impact counts as 'minor' (Sev-3), and whether timed-out refunds leave partial ledger state [E12, E6, E7].",
+    "Actual refund volumes and the cost of manual handling [E9].",
+    "Finance's holiday capacity, the refund type and payment rail, contractual SLAs, PSP status and the manual error rate. These decide whether the external refund deadlines apply and are at risk [E22].",
+    "The regulatory and card-scheme evidence rests on search snippets. Primary texts (EUR-Lex, current Visa Core Rules, Mastercard rules) were not inspected [E13, E14, E15, E16, E17, E18].",
+    "The idempotency, tests and rollback plan of PR #8812 [E11]."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "The policy repository history showing a v5, an amendment or a granted exception.",
+    "Delegation records showing that the on-call lead holds CAB chair or VP Engineering authority.",
+    "An official freeze calendar showing the freeze is already active, or has different dates.",
+    "A service catalogue entry for the refund/ledger service tier.",
+    "Ledger audit data showing that timed-out refunds were partially committed, which could support a Sev-1 data-loss classification and the Emergency CAB path.",
+    "Review of the PR #8812 diff for idempotency keys and tests of the timeout path.",
+    "Finance's holiday roster and a mapping of the failing refunds to refund type (consumer, B2B, card) and payment rail. A likely backlog against an applicable deadline would strengthen the exception case considerably."
+  ]
+}

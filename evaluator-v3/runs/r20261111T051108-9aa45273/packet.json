@@ -264,6 +264,116 @@
           "applicability": "G5/C5: this is a plausibility check on the impact figures. Whether the implied volume is realistic cannot be checked without refund metrics.",
           "limitations": "This is arithmetic only, flagged as suspect. It is ambiguous whether '~6 per day' counts failures or manual workload, and whether 0.3% is measured per day. No volume metrics were supplied. The total value and manual-handling cost through Jan 5 could not be determined.",
           "contradicts": []
+        },
+        {
+          "id": "E13",
+          "claim": "EU Consumer Rights Directive 2011/83/EU Article 13(1): 'The trader shall reimburse all payments received from the consumer, including, if applicable, the costs of delivery without undue delay and in any event not later than 14 days from the day on which he is informed of the consumer's decision to withdraw from the contract in accordance with Article 11.' The reimbursement must use the same means of payment as the original transaction unless the consumer expressly agrees otherwise, and the consumer must not incur any fees.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.legislation.gov.uk/eudr/2011/83/article/13/adopted",
+          "applicability": "G5/C5 (pro-exception case): if the failing refunds are EU consumer withdrawals from distance or off-premises contracts, there is a hard 14-day legal deadline to refund, and the refund must go back through the original payment method. Manual back-office handling still has to meet that deadline and the same-means rule. A manual backlog during holiday staffing over a 22-day freeze, or 56 days if deferral runs from 2026-11-11, could breach it. This is the strongest regulatory time limit found. It applies to the merchant (trader), and to the user's company only if the company is the trader or contractually carries the trader's obligation.",
+          "limitations": "Search snippets only. They quote the legislation.gov.uk copy of the text, but the fetch failed because the host is not allowed in this session's network settings. legislation.gov.uk is a UK republication, not EUR-Lex. The ticket does not say whether refunds over EUR 10k are consumer withdrawals, B2B refunds, or something else. B2B refunds are outside this Directive. The clock runs per refund, so it is breached only if a manual refund is not completed within 14 days. A working manual workaround satisfies it.",
+          "contradicts": []
+        },
+        {
+          "id": "E14",
+          "claim": "Visa guidance refers to a five-calendar-day window for merchants to process credit (refund) transactions. A merchant-services source says merchants must initiate a credit within five calendar days of agreeing to refund the customer. A Visa April 2021 dispute-management document (as summarised in search results) frames it as processing returns and credit transactions within five calendar days from the transaction date.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://usa.review.visa.com/content/dam/VCOM/global/support-legal/documents/managing-disputes-through-covid-19-apr21-vbn.pdf",
+          "applicability": "G5/C5 (pro-exception case): if these refunds go back to Visa cards, card-scheme expectations put refund processing in days, not weeks. Refunds that time out and wait in a manual queue that is thinly staffed over the holidays risk missing that window.",
+          "limitations": "Search snippets only. The Visa PDF fetch failed (host not allowed). The two sources start the five-day clock from different events (the agreement to refund versus the transaction date). The Visa document is from 2021 and was written for COVID-era dispute handling, so it may be outdated. The current Visa Core Rules were not inspected. The ticket does not say whether these refunds are card refunds at all; a 'ledger service' plus a 'back-office tool' could mean bank transfers.",
+          "contradicts": []
+        },
+        {
+          "id": "E15",
+          "claim": "According to the Visa April 2021 document as summarised in search results, in all regions except the U.S., an issuer must post a credit to the cardholder's account within five days from the settlement date. One source also says credits cleared 5 or more calendar days after the refund transaction date may be subject to an authorization-related chargeback.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://usa.review.visa.com/content/dam/VCOM/global/support-legal/documents/managing-disputes-through-covid-19-apr21-vbn.pdf",
+          "applicability": "G5/C5: shows that the scheme expects refund credits to reach the cardholder quickly once they are submitted, and that late credits can draw chargebacks. That supports reducing the delay in high-value refunds.",
+          "limitations": "Single search snippet, not inspected. The issuer obligation applies after the merchant submits the credit, so it does not directly limit how long a refund can sit in a merchant's manual queue. The source is dated 2021.",
+          "contradicts": []
+        },
+        {
+          "id": "E16",
+          "claim": "Visa dispute reason code 13.6 'Credit Not Processed' applies when a cardholder has a credit or void receipt that the merchant never processed. The issuer's dispute time limit is 120 calendar days, counted from the transaction processing date or the date on the credit transaction receipt.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://chargebacks911.com/chargeback-reason-codes/visa/13-6-credit-not-processed/",
+          "applicability": "G5/C5 (pro-exception case): high-value refunds that are promised but delayed or lost in manual handling expose the merchant to 'credit not processed' chargebacks. Each chargeback has fees and dispute workload on top of the refund amount, and repeated ones can hurt the merchant's dispute ratios.",
+          "limitations": "Third-party chargeback-vendor summaries via search snippets, not the Visa rulebook. The search did not confirm any waiting period before a 13.6 dispute can be filed (such as 15 days). A chargeback alongside a manual refund that also succeeds could mean a double payout, but that is my inference, not a source claim. Applies only if these are Visa card refunds.",
+          "contradicts": []
+        },
+        {
+          "id": "E17",
+          "claim": "Mastercard handles 'Credit Not Processed' disputes under reason code 4853 (legacy 4860 is being folded into 4853). The dispute applies when the cardholder says a credit is due and the merchant has not processed it. Common merchant causes include forgetting to process a promised refund and customers growing impatient while waiting for it. Merchants are pointed to Mastercard Transaction Processing Rules section 3.7 (cancellation and refund conditions) for compliance.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://chargebacks911.com/chargeback-reason-codes/mastercard/4853-credit-not-processed/",
+          "applicability": "G5/C5: Mastercard has the same chargeback exposure for delayed or missed refunds as Visa (E16).",
+          "limitations": "Secondary vendor sources via snippets. No specific Mastercard deadline for merchants to submit refunds was found, and the contents of section 3.7 were not checked. Applies only if these are Mastercard card refunds.",
+          "contradicts": []
+        },
+        {
+          "id": "E18",
+          "claim": "PSD2 (Directive (EU) 2015/2366) Article 83: once a payment order is received, the payer's payment service provider must ensure the amount is credited to the payee's payment service provider's account by the end of the following business day, extendable by one further business day for paper-initiated transactions.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://ECB.eu/paym/groups/shared/docs/99431-ami-pay-2017-05-03-item-4-review-of-psd2-aspects-in-the-context-of-the-sct-inst-scheme.pdf",
+          "applicability": "G5/C5: limited relevance. Article 83 sets execution time for a payment service provider after a payment order is received. It does not limit how long a merchant or platform can take to decide on or initiate a refund. It matters only if the user's company is itself the payer's payment service provider and the failing refunds are payment orders it has already accepted. In that case, timeouts or a manual queue that pushes execution past D+1 could breach PSD2 execution-time rules, which would make this a much stronger regulatory case for an exception.",
+          "limitations": "Search snippets only. The ECB document is a 2017 discussion paper, and the legislation.gov.uk text is a UK republication. EUR-Lex was not consulted. The ticket does not say whether the company is a payment service provider or what payment rail the refunds use. I found no PSD2 provision that sets a deadline for merchant-initiated refunds of purchases. PSD2 refund rules (Articles 73 and 76, from training knowledge, not retrieved in this run) cover unauthorised transactions and direct debits, not merchant refunds.",
+          "contradicts": []
+        },
+        {
+          "id": "E19",
+          "claim": "Industry guidance says the year-end holiday period raises payment-operations risk because of 'higher transaction volumes, vacation coverage gaps, and tight deadlines'. Staff covering for absent colleagues 'may not know a supplier's usual contacts', and managers who would normally approve payments carefully may be too busy to review them.",
+          "effectiveClassification": "CORROBORATED",
+          "provenance": "search_result",
+          "ref": "https://kvia.com/money/stacker-money/2025/12/09/cyber-season-a-cfos-10-step-payment-and-data-security-check-before-holiday-phishing-peaks/",
+          "applicability": "D1/G5/C5 (pro-exception case): the holiday staffing shortage that the draft cited against deploying a retry also weakens the manual workaround. Finance staff covering about 6 high-value refunds (over EUR 10k) a day manually during holiday cover face higher error and fraud exposure and less careful approvals.",
+          "limitations": "Search snippets from syndicated vendor or media content (ktvz.com and abc17news.com carry the same Stacker article, so they are not independent). The content is about accounts payable and wires, not refunds specifically. It is not specific to this company, and finance's actual holiday staffing is unknown.",
+          "contradicts": []
+        },
+        {
+          "id": "E20",
+          "claim": "U.S. Bank says organisations using manual accounts payable 'are more susceptible to errors, payment fraud, and higher processing costs than those who automate', and that 'data entry mistakes, lost invoices, and unclear approval chains are far more likely when humans handle every step.'",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://www.usbank.com/corporate-and-commercial-banking/insights/payments-hub/payables/manual-ap-process-risks-solutions.html",
+          "applicability": "D1/G5/C5: supports the point that manually re-keying high-value refunds in a back-office tool carries more error risk (wrong amount, wrong account, duplicates) than automated processing. Each error on a refund over EUR 10k costs at least EUR 10k to correct or recover.",
+          "limitations": "Single search snippet from bank marketing content about accounts payable, not refunds. No error rates were given, and the page was not inspected.",
+          "contradicts": []
+        },
+        {
+          "id": "E21",
+          "claim": "A CFO payment-security checklist advises: 'Avoid processing high-value wires on Friday afternoons or during holiday coverage, as fraudsters time attacks when staff are least available.' It also recommends segregation of duties, and manager approval for any temporary reassignment of payment authority during absences.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "search_result",
+          "ref": "https://kvia.com/money/stacker-money/2025/12/09/cyber-season-a-cfos-10-step-payment-and-data-security-check-before-holiday-phishing-peaks/",
+          "applicability": "D1/G5/C5: the manual workaround routes high-value outbound payments through humans during holiday coverage, which this guidance names as a time of elevated risk. If finance staffing is thin, segregation of duties (one person preparing, another approving) may be hard to keep for about 6 refunds over EUR 10k a day. That supports either an exception or extra controls on the workaround.",
+          "limitations": "Single source; the syndicated copies are not independent. The guidance is about wires and fraud in general, and its applicability to internal refund processing is my inference.",
+          "contradicts": []
+        },
+        {
+          "id": "E22",
+          "claim": "No evidence was available on: finance's actual holiday staffing and capacity for the manual workaround; whether the failing refunds are EU consumer refunds, B2B refunds or card refunds, and on which payment rail; any contractual refund SLAs with merchants or customers; customer complaints or reputational impact so far; whether the user's company is a regulated payment service provider; or the manual error rate to date.",
+          "effectiveClassification": "UNKNOWN",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "D1/G5/C5: these facts decide whether the time limits in E13 to E18 actually apply and are at risk. The strongest impact-based case for an exception needs them: a documented finance staffing gap, the applicable refund deadline, and the expected backlog.",
+          "limitations": "Not in the ticket or the other supplied documents; internal data is needed.",
+          "contradicts": []
+        },
+        {
+          "id": "E23",
+          "claim": "Synthesis: the external refund time limits found (CRD 14 days, the Visa five-day credit expectation, PSD2 D+1 execution for payment service providers) govern when a refund is completed, not how it is processed. A manual workaround that is completed on time meets them. The impact-based case for an exception therefore depends on whether manual capacity holds through the freeze. If holiday staffing creates a backlog, deadlines may be breached, 'credit not processed' chargebacks may follow, and manual error and fraud risk on refunds over EUR 10k rises, which strengthens the case. If finance can keep pace with controls in place, the case stays moderate.",
+          "effectiveClassification": "INFERRED",
+          "provenance": "none",
+          "ref": "none",
+          "applicability": "D1/C5: the counterargument the draft is missing, together with the condition that decides it. An exception request to the CAB chair and VP Engineering should include finance's holiday roster, refund-type and deadline mapping, and backlog projections.",
+          "limitations": "My reasoning from E13 to E22, not a source claim. It rests on unknowns listed in E22.",
+          "contradicts": []
         }
       ]
     },
@@ -351,6 +461,16 @@
       "applicability": "G3/G2: the service tier decides Sev-2 versus Sev-3. Existing exceptions or delegations would change the approval path.",
       "limitations": "No service catalogue, CAB records or delegation records were supplied.",
       "contradicts": []
+    },
+    {
+      "id": "E22",
+      "claim": "No evidence was available on: finance's actual holiday staffing and capacity for the manual workaround; whether the failing refunds are EU consumer refunds, B2B refunds or card refunds, and on which payment rail; any contractual refund SLAs with merchants or customers; customer complaints or reputational impact so far; whether the user's company is a regulated payment service provider; or the manual error rate to date.",
+      "effectiveClassification": "UNKNOWN",
+      "provenance": "none",
+      "ref": "none",
+      "applicability": "D1/G5/C5: these facts decide whether the time limits in E13 to E18 actually apply and are at risk. The strongest impact-based case for an exception needs them: a documented finance staffing gap, the applicable refund deadline, and the expected backlog.",
+      "limitations": "Not in the ticket or the other supplied documents; internal data is needed.",
+      "contradicts": []
     }
   ],
   "unresolvedGaps": [
@@ -368,7 +488,7 @@
     },
     {
       "gapId": "G5",
-      "reason": "No refund volume or value metrics were available, so the implied ~2,000 refunds over EUR 10k per day and the total exposure through Jan 5 could not be checked."
+      "reason": "No refund volume or value metrics were available. Finance's holiday staffing, the refund type and payment rail (consumer, B2B or card), contractual SLAs and regulated-PSP status are all unknown, so I could not confirm which external time limits apply. Primary texts could not be inspected: WebFetch failed for www.legislation.gov.uk and usa.review.visa.com (hosts not allowed in this session's network settings). The CRD, PSD2 and Visa claims rest on search snippets. Current Visa Core Rules and Mastercard rulebooks were not found or inspected, and no Mastercard merchant refund deadline or Visa 13.6 waiting period was confirmed."
     },
     {
       "gapId": "G6",

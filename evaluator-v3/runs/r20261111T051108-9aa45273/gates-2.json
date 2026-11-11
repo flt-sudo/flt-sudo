@@ -1,0 +1,131 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [CL12; verdict ('so the same low staffing that argues against deploying also weakens the manual workaround'); C5 point (1)] CL12 is a material 'finding' stated as fact: 'Holiday staffing weakens the manual workaround'. It rests on generic Stacker media content about AP and wires (E19, E21, syndicated, not independent, E21 INFERRED) and on U.S. Bank marketing copy (E20, INFERRED single snippet). None of these is about refunds. E22 also says finance's holiday staffing is unknown. The verdict repeats this as 'the same low staffing', which takes thin staffing as given. CL12 should be worded conditionally (if finance staffing is thin), and its evidentiary weakness should be stated in the claim, not only in the C5 weaknesses."
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D5 [verdict; CL13] The verdict lists 'Visa's roughly five-day credit expectation' without qualification. E14 rests on snippets, comes from a 2021 COVID-era dispute document, and gives conflicting clock-start events. The caveats appear only in the C5 weaknesses and in remainingUncertainty. Since this figure is put forward as a decision input, the verdict should flag it as unverified."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict ('These limits govern when a refund is completed, not how it is processed'); C5 assessment and strengths ('Refund time limits govern completion, not method'); CL13; counterarguments item 5 response] The new synthesis that holds up the pro-exception analysis says external refund limits 'govern when a refund is completed, not how it is processed', so 'a manual workaround completed on time meets them'. The draft's own evidence contradicts this. E13 (CRD Art. 13) requires reimbursement 'using the same means of payment as the original transaction unless the consumer expressly agrees otherwise', and C5 itself says 'the trader must refund within 14 days by the same means of payment'. Card-scheme credit rules (E14, E16, E17) also assume the credit goes back to the original card. The workaround uses a 'back-office tool' whose payment rail is unknown (E22, E14 limitations note it may be bank transfer). So the workaround may break the 'how' requirement even when finance keeps pace. The conditional 'moderate if finance can keep pace' therefore understates a possible compliance problem with the workaround itself, which is the one condition the draft says decides the exception case. This is new material in draft-2."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [verdict; C5 assessment; counterarguments item 5 response] Draft-2 states the strength of the exception case three different ways. The verdict says 'stronger if a holiday backlog is likely'. C5 says 'strong if a holiday backlog is likely'. Counterargument 5 says the argument 'is decisive if those facts show a likely backlog'. 'Decisive' overreaches. Under 6.3, an exception remains a discretionary decision by the CAB chair and VP Engineering, and the unverified double-refund risk (E10, E11) still counts against it. The wording should be made consistent."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [criteriaAssessments C5, point (1)] C5 says 'Each error on a refund over EUR 10k costs at least EUR 10k to correct or recover [E20]'. E20's source says nothing of the kind. This sentence is the drafter's own inference from E20's applicability field, and it is also overstated. Many manual errors (a delay, a wrong reference, a recoverable misdirected payment) do not cost the full refund amount. Only an unrecovered duplicate or misdirected payment would. It should be marked as inference and narrowed."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "6 / 0.003",
+      "claimed": 2000,
+      "actual": 2000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "30 - 11 + 15",
+      "claimed": 34,
+      "actual": 34,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "31 - 15 + 1 + 5",
+      "claimed": 22,
+      "actual": 22,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "6 * 22",
+      "claimed": 132,
+      "actual": 132,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "(2026 - 2023) * 12 + (8 - 11)",
+      "claimed": 33,
+      "actual": 33,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "2000 * 10000",
+      "claimed": 20000000,
+      "actual": 20000000,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "132 * 10000",
+      "claimed": 1320000,
+      "actual": 1320000,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict ('These limits govern when a refund is completed, not how it is processed'); C5 assessment and strengths ('Refund time limits govern completion, not method'); CL13; counterarguments item 5 response] The new synthesis that holds up the pro-exception analysis says external refund limits 'govern when a refund is completed, not how it is processed', so 'a manual workaround completed on time meets them'. The draft's own evidence contradicts this. E13 (CRD Art. 13) requires reimbursement 'using the same means of payment as the original transaction unless the consumer expressly agrees otherwise', and C5 itself says 'the trader must refund within 14 days by the same means of payment'. Card-scheme credit rules (E14, E16, E17) also assume the credit goes back to the original card. The workaround uses a 'back-office tool' whose payment rail is unknown (E22, E14 limitations note it may be bank transfer). So the workaround may break the 'how' requirement even when finance keeps pace. The conditional 'moderate if finance can keep pace' therefore understates a possible compliance problem with the workaround itself, which is the one condition the draft says decides the exception case. This is new material in draft-2."
+    }
+  ],
+  "openDecisiveGaps": [
+    "What payment rail does finance's back-office workaround use, and does it refund through the same means as the original payment? Are the failing refunds EU consumer withdrawals, card refunds or B2B? A different-means manual refund could breach CRD Art. 13 or scheme rules whatever the timing, which would change the exception case.",
+    "What is finance's actual holiday roster and capacity for about 6 manual refunds over EUR 10k a day, including segregation of duties, and what backlog is projected through Jan 5?",
+    "Is the freeze actually active at the planned deploy time (official freeze calendar, actual meaning of 'tonight'), and is v4 section 6.4 scoped to freezes or general?",
+    "Is the retried ledger call in PR #8812 idempotent, are there timeout-path tests, and is there a rollback plan?",
+    "Do timed-out refunds leave partially committed ledger entries (possible Sev-1 data loss and the Emergency CAB path)?"
+  ]
+}

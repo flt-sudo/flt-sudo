@@ -1,0 +1,105 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The new synthesis that holds up the pro-exception analysis says external refund limits 'govern when a refund is completed, not how it is processed', so 'a manual workaround completed on time meets them'. The draft's own evidence contradicts this. E13 (CRD Art. 13) requires reimbursement 'using the same means of payment as the original transaction unless the consumer expressly agrees otherwise', and C5 itself says 'the trader must refund within 14 days by the same means of payment'. Card-scheme credit rules (E14, E16, E17) also assume the credit goes back to the original card. The workaround uses a 'back-office tool' whose payment rail is unknown (E22, E14 limitations note it may be bank transfer). So the workaround may break the 'how' requirement even when finance keeps pace. The conditional 'moderate if finance can keep pace' therefore understates a possible compliance problem with the workaround itself, which is the one condition the draft says decides the exception case. This is new material in draft-2.",
+      "location": "verdict ('These limits govern when a refund is completed, not how it is processed'); C5 assessment and strengths ('Refund time limits govern completion, not method'); CL13; counterarguments item 5 response",
+      "remedy": "both"
+    },
+    {
+      "id": "D2",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "CL12 is a material 'finding' stated as fact: 'Holiday staffing weakens the manual workaround'. It rests on generic Stacker media content about AP and wires (E19, E21, syndicated, not independent, E21 INFERRED) and on U.S. Bank marketing copy (E20, INFERRED single snippet). None of these is about refunds. E22 also says finance's holiday staffing is unknown. The verdict repeats this as 'the same low staffing', which takes thin staffing as given. CL12 should be worded conditionally (if finance staffing is thin), and its evidentiary weakness should be stated in the claim, not only in the C5 weaknesses.",
+      "location": "CL12; verdict ('so the same low staffing that argues against deploying also weakens the manual workaround'); C5 point (1)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "C5 says 'Each error on a refund over EUR 10k costs at least EUR 10k to correct or recover [E20]'. E20's source says nothing of the kind. This sentence is the drafter's own inference from E20's applicability field, and it is also overstated. Many manual errors (a delay, a wrong reference, a recoverable misdirected payment) do not cost the full refund amount. Only an unrecovered duplicate or misdirected payment would. It should be marked as inference and narrowed.",
+      "location": "criteriaAssessments C5, point (1)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "Draft-2 states the strength of the exception case three different ways. The verdict says 'stronger if a holiday backlog is likely'. C5 says 'strong if a holiday backlog is likely'. Counterargument 5 says the argument 'is decisive if those facts show a likely backlog'. 'Decisive' overreaches. Under 6.3, an exception remains a discretionary decision by the CAB chair and VP Engineering, and the unverified double-refund risk (E10, E11) still counts against it. The wording should be made consistent.",
+      "location": "verdict; C5 assessment; counterarguments item 5 response",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The verdict lists 'Visa's roughly five-day credit expectation' without qualification. E14 rests on snippets, comes from a 2021 COVID-era dispute document, and gives conflicting clock-start events. The caveats appear only in the C5 weaknesses and in remainingUncertainty. Since this figure is put forward as a decision input, the verdict should flag it as unverified.",
+      "location": "verdict; CL13",
+      "remedy": "research"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft-2 adds a full pro-exception counterargument (counterargument 5), holiday-staffing effects on the workaround (CL12, C5 point 1, Defer alternative), and external refund deadlines and chargeback exposure (CL13, E13-E18). It replaces 'moderate at best' with a conditional judgement that depends on finance capacity (E22, E23). The weighing is now two-sided. The new synthesis has its own reasoning flaw, raised separately as new D1."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What payment rail does finance's back-office workaround use, and does it refund through the same means as the original payment? Are the failing refunds EU consumer withdrawals, card refunds or B2B? A different-means manual refund could breach CRD Art. 13 or scheme rules whatever the timing, which would change the exception case.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is finance's actual holiday roster and capacity for about 6 manual refunds over EUR 10k a day, including segregation of duties, and what backlog is projected through Jan 5?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the freeze actually active at the planned deploy time (official freeze calendar, actual meaning of 'tonight'), and is v4 section 6.4 scoped to freezes or general?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is the retried ledger call in PR #8812 idempotent, are there timeout-path tests, and is there a rollback plan?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Do timed-out refunds leave partially committed ledger entries (possible Sev-1 data loss and the Emergency CAB path)?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and the user's question are answered. Draft-2 adds the Sev-3 'minor impact' reading, the scope of 6.4, and the pro-exception impact factors. The split-PR option and the 56-day exposure figure from the prior minor defects remain unaddressed, but they are minor."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The policy findings rest on verified fixture text. The new external evidence is snippet-level and mostly disclosed as such. CL12 and the Visa figure are stated more firmly than the evidence supports (D2, D5), but the overall confidence of 'moderate' is appropriate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "I recomputed K1 to K7 and all are correct (2000, 34, 22, 132, 33, 20M, 1.32M). However, the 'when, not how' synthesis that decides the exception case conflicts with the CRD same-means requirement the draft itself cites (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "The strongest pro-exception case is now argued and answered fairly. The prior one-sidedness is fixed."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft clearly rejects on-call-only approval during the freeze, labels the non-freeze branch as a precaution, and gives branch-specific actions and exception-request contents. Its wording on the exception's strength is slightly inconsistent (D4)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist in the packet or the draft, and cited claims generally match the packet. One inference is attributed to E20 (D3). No injected instructions were followed."
+    }
+  ]
+}

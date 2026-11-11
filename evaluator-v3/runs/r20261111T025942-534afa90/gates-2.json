@@ -1,0 +1,239 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict; practicalImplications[1]; CL15] The immediate cut is sized on a 30-day average of requests. Requests are not constant: HPA scale-out and rolling-update surge pods (maxSurge) raise them temporarily. The draft lists this as an edge case. But the verdict and the practicalImplications still present 4-6 nodes as 'the action for this month' without any request-peak figure. The confidence attached to the action should be lower, or the action should be made conditional on first pulling peak or max request data, which the dashboard almost certainly holds."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [verdict; CL15; CL12; criteriaAssessments C5; alternatives 'Reduce n4.large count now'; tradeoffs[1]; practicalImplications[1]; K16, K18, K21, K24] The new immediate node-cut estimate (CL15, C5 step 1, the 'Reduce n4.large count now' alternative, the verdict and practicalImplications) is inconsistent with its own safety condition. The draft sets an illustrative 85% request ceiling and sizes the fleet to the steady state: 40 x 72 / 85 = 33.88, so 34 nodes. It then shows (K21) that losing one node at 34 takes CPU requests to 87.3%, which breaches the ceiling the draft itself chose. It still presents 6 nodes / 840.96 USD/month as 'provided N+1 ... checks pass'. On the draft's own numbers, N+1 at 34 nodes fails an 85% ceiling. If the ceiling has to hold after losing one node, the fleet must satisfy (n-1) >= 33.88, so n = 35 and 5 nodes can go (700.80 USD/month). At 80%, (n-1) >= 36, so n = 37 and 3 nodes can go (420.48 USD/month). The N+1-consistent range is therefore 3-5 nodes, about 420-701 USD/month (7.5-12.5%), not 4-6 nodes and 561-841 USD/month (10-15%). The same flaw affects CL12's memory-bound floor: 32 nodes is exactly 85% memory requested at steady state, and N+1 at 31 nodes gives about 87.7%. The prior review (review-1 D1) proposed the ~6 nodes / ~840 USD figure without applying N+1, so the draft inherited the error by following it. The figure the review proposed was itself optimistic. Even so, the draft added and computed K21 and should have reconciled it. This is a production cluster, so the headline figure in the verdict overstates the safe immediate saving by about one node."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [CL15; K16, K17, K19, K21] The node-count sizing (K16, K17, K19) treats all 72% of requested CPU as fixed load that moves to the remaining nodes. Part of it is the 0.25 vCPU/node daemonset request, which disappears with each node removed (e.g. 6 nodes x 0.25 = 1.5 vCPU). The estimate is therefore slightly conservative. This partly offsets D1 but does not remove it. Say so, or correct for it."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "40 * 0.192 * 730",
+      "claimed": 5606.4,
+      "actual": 5606.4,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "20 * 0.384 * 730",
+      "claimed": 5606.4,
+      "actual": 5606.4,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "(20 * 0.384 * 730) / (40 * 0.192 * 730)",
+      "claimed": 1,
+      "actual": 1,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "40 * 0.192 * 730 / 2",
+      "claimed": 2803.2,
+      "actual": 2803.2,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "0.192 / 4",
+      "claimed": 0.048,
+      "actual": 0.048,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.384 / 8",
+      "claimed": 0.048,
+      "actual": 0.048,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "72 - 44",
+      "claimed": 28,
+      "actual": 28,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.25 * 20",
+      "claimed": 5,
+      "actual": 5,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "0.25 * 20 / 160 * 100",
+      "claimed": 3.125,
+      "actual": 3.125,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "0.25 * 20 / 4",
+      "claimed": 1.25,
+      "actual": 1.25,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "100 / 40",
+      "claimed": 2.5,
+      "actual": 2.5,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "100 / 20",
+      "claimed": 5,
+      "actual": 5,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "72 / (100 - 2.5) * 100",
+      "claimed": 73.8,
+      "actual": 73.84615384615385,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "72 / (100 - 5) * 100",
+      "claimed": 75.8,
+      "actual": 75.78947368421053,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "0.192 * 730",
+      "claimed": 140.16,
+      "actual": 140.16,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "40 * 72 / 85",
+      "claimed": 33.88,
+      "actual": 33.88235294117647,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "40 * 68 / 85",
+      "claimed": 32,
+      "actual": 32,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "6 * 0.192 * 730",
+      "claimed": 840.96,
+      "actual": 840.9600000000002,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "40 * 72 / 80",
+      "claimed": 36,
+      "actual": 36,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "4 * 0.192 * 730",
+      "claimed": 560.64,
+      "actual": 560.64,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "40 * 72 / 33",
+      "claimed": 87.27,
+      "actual": 87.27272727272727,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "6 / 40 * 100",
+      "claimed": 15,
+      "actual": 15,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "4 / 40 * 100",
+      "claimed": 10,
+      "actual": 10,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "8 * 0.192 * 730",
+      "claimed": 1121.28,
+      "actual": 1121.28,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "20 * 0.384 * 24",
+      "claimed": 184.32,
+      "actual": 184.32,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [verdict; CL15; CL12; criteriaAssessments C5; alternatives 'Reduce n4.large count now'; tradeoffs[1]; practicalImplications[1]; K16, K18, K21, K24] The new immediate node-cut estimate (CL15, C5 step 1, the 'Reduce n4.large count now' alternative, the verdict and practicalImplications) is inconsistent with its own safety condition. The draft sets an illustrative 85% request ceiling and sizes the fleet to the steady state: 40 x 72 / 85 = 33.88, so 34 nodes. It then shows (K21) that losing one node at 34 takes CPU requests to 87.3%, which breaches the ceiling the draft itself chose. It still presents 6 nodes / 840.96 USD/month as 'provided N+1 ... checks pass'. On the draft's own numbers, N+1 at 34 nodes fails an 85% ceiling. If the ceiling has to hold after losing one node, the fleet must satisfy (n-1) >= 33.88, so n = 35 and 5 nodes can go (700.80 USD/month). At 80%, (n-1) >= 36, so n = 37 and 3 nodes can go (420.48 USD/month). The N+1-consistent range is therefore 3-5 nodes, about 420-701 USD/month (7.5-12.5%), not 4-6 nodes and 561-841 USD/month (10-15%). The same flaw affects CL12's memory-bound floor: 32 nodes is exactly 85% memory requested at steady state, and N+1 at 31 nodes gives about 87.7%. The prior review (review-1 D1) proposed the ~6 nodes / ~840 USD figure without applying N+1, so the draft inherited the error by following it. The figure the review proposed was itself optimistic. Even so, the draft added and computed K21 and should have reconciled it. This is a production cluster, so the headline figure in the verdict overstates the safe immediate saving by about one node."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Do invoices or the billing export show a different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?"
+  ]
+}

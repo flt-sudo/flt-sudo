@@ -1,0 +1,96 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The new immediate node-cut estimate (CL15, C5 step 1, the 'Reduce n4.large count now' alternative, the verdict and practicalImplications) is inconsistent with its own safety condition. The draft sets an illustrative 85% request ceiling and sizes the fleet to the steady state: 40 x 72 / 85 = 33.88, so 34 nodes. It then shows (K21) that losing one node at 34 takes CPU requests to 87.3%, which breaches the ceiling the draft itself chose. It still presents 6 nodes / 840.96 USD/month as 'provided N+1 ... checks pass'. On the draft's own numbers, N+1 at 34 nodes fails an 85% ceiling. If the ceiling has to hold after losing one node, the fleet must satisfy (n-1) >= 33.88, so n = 35 and 5 nodes can go (700.80 USD/month). At 80%, (n-1) >= 36, so n = 37 and 3 nodes can go (420.48 USD/month). The N+1-consistent range is therefore 3-5 nodes, about 420-701 USD/month (7.5-12.5%), not 4-6 nodes and 561-841 USD/month (10-15%). The same flaw affects CL12's memory-bound floor: 32 nodes is exactly 85% memory requested at steady state, and N+1 at 31 nodes gives about 87.7%. The prior review (review-1 D1) proposed the ~6 nodes / ~840 USD figure without applying N+1, so the draft inherited the error by following it. The figure the review proposed was itself optimistic. Even so, the draft added and computed K21 and should have reconciled it. This is a production cluster, so the headline figure in the verdict overstates the safe immediate saving by about one node.",
+      "location": "verdict; CL15; CL12; criteriaAssessments C5; alternatives 'Reduce n4.large count now'; tradeoffs[1]; practicalImplications[1]; K16, K18, K21, K24",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The node-count sizing (K16, K17, K19) treats all 72% of requested CPU as fixed load that moves to the remaining nodes. Part of it is the 0.25 vCPU/node daemonset request, which disappears with each node removed (e.g. 6 nodes x 0.25 = 1.5 vCPU). The estimate is therefore slightly conservative. This partly offsets D1 but does not remove it. Say so, or correct for it.",
+      "location": "CL15; K16, K17, K19, K21",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The immediate cut is sized on a 30-day average of requests. Requests are not constant: HPA scale-out and rolling-update surge pods (maxSurge) raise them temporarily. The draft lists this as an edge case. But the verdict and the practicalImplications still present 4-6 nodes as 'the action for this month' without any request-peak figure. The confidence attached to the action should be lower, or the action should be made conditional on first pulling peak or max request data, which the dashboard almost certainly holds.",
+      "location": "verdict; practicalImplications[1]; CL15",
+      "remedy": "both"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft-2 adds a direct node-reduction alternative on the current shape (CL15, C5 step 1, a new alternative entry, and the verdict), cluster-specific illustrative estimates (K16-K24), and a CPU-to-memory binding analysis. It revises CL5 so it no longer says capacity cannot be removed before right-sizing. The omission is fixed. The new figures carry an N+1 inconsistency, raised as new defect D1, which partly originates in the prior review's own proposed figures."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Minor in the prior review. K9, K14, CL9 and C4 now state that the figures are measured against total capacity and ignore the freed daemonset overhead."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Minor in the prior review. The dual-pool surge cost is now quantified (K25 = 184.32 USD per full day, CL16, C6, tradeoffs). Arithmetic verified."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Minor in the prior review. The 30-50% vendor range has been demoted to 'not relied on'. CL12 now uses a cluster-derived figure (1,121.28 USD/month)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What are per-node request distribution and request peaks (max or p95 of requested CPU and memory, including deploy surges and HPA scale-out) over the last 30-90 days? They decide whether 3, 5 or 6 n4.large nodes can safely be removed this month.",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "Do invoices or the billing export show a different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What headroom policy (request ceiling, N+1 or zone-loss survivability) does the organization require for production? This sets the safe node-reduction target.",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and all user premises are addressed. Draft-2 adds direct node reduction and the transition cost, which closes the prior gaps."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core cost and utilization findings rest on VERIFIED fixture data (checked against the price sheet, SRE CSV and FinOps report). The new estimates are labelled illustrative. Their reliance on 30-day average requests is a minor weakness (D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All K1-K25 expressions recompute correctly. However, the headline immediate-cut figure (6 nodes / 840.96 USD) breaches the draft's own 85% ceiling under N+1 (K21 = 87.3%). The N+1-consistent range is 3-5 nodes / about 420-701 USD/month (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Status quo, shape change, immediate node cut, right-sizing, autoscaler and commitments are all compared with quantified figures. The bin-packing counterargument for larger nodes is acknowledged."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict clearly rejects the migration this month and gives a concrete alternative action. The quantified saving is slightly overstated (D1) but conditioned on checks. The direction of the decision is unaffected."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited evidence and calculation IDs exist and match the packet and sources. No injected instructions were present or followed."
+    }
+  ]
+}

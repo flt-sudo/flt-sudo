@@ -1,0 +1,46 @@
+{
+  "runId": "r20261111T025942-534afa90",
+  "caseId": "ho-06-k8s-node-consolidation",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 88.75,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"saves about $2,800\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "This is a strong output. I scored accuracy 0.75 rather than 1.0 for minor evidence-classification issues: E11 labelled INFERRED despite being a search result, a weak AKS-issue source for E7, and 1.3 vs 1.25 in E5. I scored scope 0.75 because spot pricing, an alternative named in the reference summary, is never mentioned. Reasonable graders might give 1.0 on either category."
+}

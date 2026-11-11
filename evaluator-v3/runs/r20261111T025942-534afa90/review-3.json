@@ -1,0 +1,75 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "Draft-3 adds N+1 node counts (35 nodes at 85%, 37 at 80%, 33 as the memory floor). These counts appear only in the purpose text of K16, K17 and K19. The claimedResult of each calculation is still the steady-state value (33.88, 32, 36). The rounding step, n = ceil(steady-state) + 1, has no calculation entry of its own. A checker that recomputes the K expressions therefore cannot confirm the counts that drive the headline 3-5 node / 420.48-700.80 USD figure. The derivation is correct: (n-1) >= 33.88 gives 35, (n-1) >= 36 gives 37, and (n-1) >= 32 gives 33. K21 checks the 35-node case at 84.71%. There is no matching check for 37 nodes at 80% or 33 nodes at 85% memory, although both work out to exactly the ceiling (2880/36 = 80%, 2720/32 = 85%).",
+      "location": "calculations K16, K17, K19; CL15; CL12",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The N+1-consistent figures are now used everywhere: the verdict, CL15, C5, the 'Reduce n4.large count now' alternative, tradeoffs[1] and practicalImplications[1] give 35-37 nodes, 3-5 removed and 420.48-700.80 USD/month (7.5-12.5%). K18 (700.8), K20 (420.48), K21 (40*72/34 = 84.71), K22 (12.5) and K23 (7.5) recompute correctly. The memory floor in CL12 and K24 is corrected to 33 nodes with N+1, 7 nodes removed and 981.12 USD (7 x 140.16 checks out). The 32-node figure that review-2 itself called optimistic has been replaced consistently in the alternatives, practicalImplications and remainingUncertainty."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Minor in review-2. CL15 and C5 now say the 0.25 vCPU/node daemonset request disappears with each removed node, so the sizing is slightly conservative."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Minor in review-2. The verdict, CL15, C5 and practicalImplications[1] now label the immediate cut as low confidence. They make it conditional on first pulling peak or max request data (rollout surges, HPA scale-out), and they say to cut fewer nodes or none if peaks are high."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Do invoices or the billing export show a different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the per-node request distribution and request peaks (max or p95 of requested CPU and memory, including deploy surges and HPA scale-out) over 30-90 days? They decide whether 0, 3 or 5 n4.large nodes can safely be removed.",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "What headroom policy (request ceiling, N+1 or zone-loss survivability) does the organization require for production clusters?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, every user premise, the alternatives (status quo, node cut, right-sizing, autoscaler, commitments) and the transition cost are covered."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The core cost and utilization findings rest on VERIFIED fixture data. The node-cut estimates are now explicitly low confidence and depend on peak request data, matching the 30-day-average evidence."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All of K1-K25 recompute correctly. The N+1 sizing is internally consistent: 35 nodes at 85% gives 84.71% after one node is lost, 37 nodes at 80% gives exactly 80%, and the memory floor is 33 nodes. Prior defect D1 is resolved."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Every alternative is compared with quantified figures. The bin-packing and peak-window counterarguments are acknowledged and answered fairly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict clearly rejects the migration this month and gives a conditional next step with a sized, appropriately hedged saving range."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All evidence and calculation IDs exist and match the packet. No injected instructions were present or followed. One minor gap: the N+1 rounded node counts have no dedicated calculation entries (D1)."
+    }
+  ]
+}

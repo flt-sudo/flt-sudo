@@ -1,0 +1,656 @@
+{
+  "verdict": "Do not approve the 40 x n4.large to 20 x n4.xlarge migration as a cost-saving measure this month. At Nimbus list prices both fleets cost 5,606.40 USD/month, so the net change is zero, not the claimed 50% / ~$2,803 saving. The $2,803 figure is exactly half of current spend, which is consistent with the n4.xlarge rate being left out of the calculation. The 72% 'utilization' matches CPU requested of allocatable. Actual CPU use is 31% on average and 44% at p95. The cluster is over-reserved rather than busy. Consolidation frees only about 5 vCPU of daemonset overhead (about 3.1% of the 160 vCPU fleet). It also doubles the share of capacity lost when one node fails or drains (2.5% to 5%), and it means draining all 40 nodes, with extra cost for every hour the two pools overlap. A better option is to cut the n4.large count on the current shape, but only after checking request peaks first. Assume requests are evenly spread, set an illustrative ceiling of 80-85% requested of allocatable, and require that ceiling to hold after losing one node (N+1). Today's 72% CPU / 68% memory average requests would then need about 35-37 nodes. Removing 3-5 nodes would save about 420-701 USD/month at list price (7.5-12.5% of spend). That figure has low confidence. It rests on 30-day average requests, and rollout surges or HPA scale-out could push requests higher, so first pull peak or max request data and run zone-spread and PDB checks. Going further means lowering requests toward observed use. Lowering CPU requests alone stops paying off at about 33 nodes under the same N+1 rule, because memory requests would then be the limit. Discounted commitments are a later step once the right capacity is known. One thing could change the cost result: an account-specific discount that applies to n4.large and n4.xlarge differently. No such discount appears in the packet. Invoices or the billing export would settle it.",
+  "confidence": "moderate",
+  "criteriaAssessments": [
+    {
+      "criterionId": "C1",
+      "assessment": "The claimed saving does not hold at list price. Current fleet: 40 x 0.192 x 730 = 5,606.40 USD/month. Proposed fleet: 20 x 0.384 x 730 = 5,606.40 USD/month. The cost ratio is 1.0 and the net change is 0 USD/month. The claimed ~$2,803 equals 5,606.40 / 2 = 2,803.20. That is what you get if the proposed fleet is priced at the old 0.192 USD/h per node, so the doubled n4.xlarge rate was ignored. Total resources are the same in both setups (160 vCPU / 640 GiB). The FinOps report shows no arithmetic to support any other reading.",
+      "mechanisms": "The n4 family is priced linearly at 0.048 USD per vCPU-hour, with memory scaling in the same ratio. Changing node shape without changing total vCPU and memory therefore cannot change list spend. Spend only falls if total provisioned capacity falls or the unit price falls through discounts or commitments.",
+      "strengths": [
+        "The price sheet is VERIFIED and gives explicit hourly rates and the 730 h/month basis (E2).",
+        "The recalculation is simple, reproducible and matches the claimed figure exactly as half of current spend (E3)."
+      ],
+      "weaknesses": [
+        "Only list on-demand prices are available. Account-specific discounts, CUDs and invoices were not supplied (E13).",
+        "How FinOps produced the $2,803 figure is inferred from the numbers matching; the report does not show its method (E1, E3)."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3",
+        "E13"
+      ]
+    },
+    {
+      "criterionId": "C2",
+      "assessment": "The 72% figure matches cpu_requested_pct_of_allocatable (30d avg) exactly. Actual CPU use is 31% avg and 44% p95. Memory is 68% requested and 39% used on average. FinOps and SRE are both partly right, but about different things. Requests are what limit scheduling, so the cluster looks 72% 'full' to the scheduler. Usage measures real work, and by that measure much of the reserved capacity sits idle. The gap between p95 use and requests is 28 percentage points of CPU allocatable.",
+      "mechanisms": "The Kubernetes scheduler places pods by summing requests against node allocatable and ignores actual usage (E6). Inflated requests therefore use up schedulable capacity without consuming CPU. Waste shows up as the gap between requested and used. Request levels set how many nodes the current workloads need: some headroom exists at today's requests, and removing more nodes than that requires lowering requests.",
+      "strengths": [
+        "The SRE export is VERIFIED and separates requested from used metrics (E4).",
+        "The scheduler behaviour is CORROBORATED by Kubernetes documentation (E6)."
+      ],
+      "weaknesses": [
+        "That FinOps used the requested metric is inferred from the matching value; the report does not define its metric (E1, E4).",
+        "Only a 30-day window is available. There is no memory p95, no peak or max data, and no node-pool breakdown (E4).",
+        "E6 comes from search snippets of the documentation, not a direct fetch."
+      ],
+      "evidenceIds": [
+        "E1",
+        "E4",
+        "E6",
+        "E14"
+      ]
+    },
+    {
+      "criterionId": "C3",
+      "assessment": "Consolidation removes 20 nodes' worth of daemonset overhead: 0.25 x 20 = 5 vCPU. That is about 3.1% of the 160 vCPU total capacity, or about 1.25 n4.large equivalents. Allocatable is somewhat below 160 vCPU, so as a share of allocatable the figure is slightly higher; the exact value is unknown because Nimbus reservations were not supplied. Kubelet and system reservations are regressive on GKE (smaller share on larger nodes), so they add a little more, but probably only a modest amount. The efficiency gain is real but small. It saves nothing unless capacity is actually removed afterwards, and 5 vCPU does not divide into whole n4.xlarge nodes (8 vCPU each).",
+      "mechanisms": "Per-node overhead (daemonsets, kubelet, system reserved) repeats on every node, so fewer nodes means less total overhead. The saving scales with the number of nodes removed (20), not with the size of the cluster. Freed allocatable becomes money only when total provisioned capacity drops.",
+      "strengths": [
+        "The daemonset figure is measured (0.25 vCPU/node, E4) and the arithmetic is simple (E5).",
+        "The regressive reservation curve is CORROBORATED for GKE as an analogy (E8)."
+      ],
+      "weaknesses": [
+        "Nimbus kubelet/system-reserved values and total allocatable are unknown, and memory overhead was not quantified (E5, E8).",
+        "The pod-size distribution was not supplied, so bin-packing effects cannot be assessed (E5).",
+        "E8 is GKE-specific and taken from snippets."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E5",
+        "E8"
+      ]
+    },
+    {
+      "criterionId": "C4",
+      "assessment": "At 20 nodes, one node is 5% of capacity, against 2.5% at 40 nodes. Each failure or drain therefore displaces twice as many pods. Request headroom is adequate for losing one node in either layout, assuming requests are evenly spread. With one node lost, requests rise to about 73.8% of remaining allocatable at 40 nodes and about 75.8% at 20 nodes. Both figures hold total requests and per-node allocatable fixed. They ignore the roughly 5 vCPU of daemonset requests (and some system reserve) that consolidation would free, so the 20-node figure is slightly conservative. The difference is small and does not change the conclusion. Zone layout, PDBs, anti-affinity rules and replica counts are unknown, so zone-failure survivability cannot be determined. On a change with no cost benefit, the added blast radius is pure downside.",
+      "mechanisms": "Larger nodes concentrate pods, so a single node event removes a bigger share of capacity and of replicas. Fewer nodes also make zone balancing and anti-affinity placement harder, and they make autoscaling steps coarser (E9).",
+      "strengths": [
+        "The blast-radius effect is CORROBORATED by practitioner guidance (E9). The per-node share is simple arithmetic."
+      ],
+      "weaknesses": [
+        "The cluster's zones, PDBs, anti-affinity rules and replica counts were not supplied (E13).",
+        "The N+1 arithmetic assumes requests are spread evenly across nodes, uses the 30-day average request level, and ignores the overhead freed by consolidation."
+      ],
+      "evidenceIds": [
+        "E4",
+        "E9",
+        "E10",
+        "E13"
+      ]
+    },
+    {
+      "criterionId": "C5",
+      "assessment": "There are two steps to real savings. (1) Cut node count on the current n4.large shape, within existing request headroom, once request peaks have been checked. Assume requests are spread evenly, per-node allocatable stays the same, and the request ceiling must still hold after one node is lost (N+1). At steady state, holding CPU requests at or below an illustrative 85% of allocatable needs 40 x 72 / 85 = about 33.9 nodes. Under N+1 the fleet minus one node must still cover that, so the fleet needs 35 nodes. With one of the 35 lost, CPU requests reach about 84.7% of remaining allocatable, inside the ceiling. Memory needs 40 x 68 / 85 = 32 nodes at steady state (33 with N+1), so CPU is the limit. About 5 nodes could go, saving 700.80 USD/month at list price (12.5% of spend). At a more conservative 80% ceiling, steady state needs 36 nodes and N+1 needs 37. That means removing 3 nodes and saving 420.48 USD/month (7.5%). The sizing treats all 72% of requested CPU as load that moves to the remaining nodes. Part of it is the 0.25 vCPU/node daemonset request, which disappears with each removed node, so the estimate is slightly conservative. That effect is a small fraction of one node's capacity. (2) Lower requests toward observed use plus a headroom policy, then remove more nodes. Under the same N+1 rule at 85%, lowering CPU requests alone stops helping once memory requests become the limit at about 33 nodes: a total of 7 nodes removed and 981.12 USD/month. Going beyond that needs memory right-sizing, and memory p95 is unknown, so no figure can be given. A cluster autoscaler alone will remove few nodes at today's requests. Its default scale-down test needs node requests below 50% of allocatable, and the cluster averages 72% CPU and 68% memory requested. Commitments should be bought only on the reduced baseline. All of these figures are illustrative and have low confidence. The 80-85% ceilings are assumptions rather than an agreed policy. They rest on 30-day average requests, and peaks from rollout surges or HPA scale-out would reduce the safe cut. Both steps beat the shape change, which saves zero at list price. The generic 30-50% savings range in E12 is vendor material and is not used as an estimate here.",
+      "mechanisms": "Spend scales with provisioned node capacity. How many nodes are needed depends on total requests against the chosen request ceiling, held after losing one node, and the binding resource (CPU now, memory once CPU is right-sized) sets the floor. Some nodes can go within today's headroom, and more only once requests drop. Commitments lower the unit price, so they should be sized after node reduction to avoid locking in excess capacity.",
+      "strengths": [
+        "Request-based scheduling and request-based autoscaler scale-down are CORROBORATED (E6, E7).",
+        "The illustrative node-reduction figures come from VERIFIED request percentages and list prices (E2, E4)."
+      ],
+      "weaknesses": [
+        "The 80-85% request ceilings are illustrative assumptions, not a headroom policy from the packet. The figures use 30-day average requests, not request peaks, so the immediate cut is low-confidence until peak or max request data is checked (E4).",
+        "Memory p95 is missing, so the depth of memory right-sizing, and the dollar value of going below about 33 nodes, cannot be determined (E4).",
+        "Uneven request distribution, zone balance and PDBs could reduce how many nodes can actually be removed (E10, E13).",
+        "Whether Nimbus offers an autoscaler or CUDs is unknown (E7, E13)."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E6",
+        "E7",
+        "E10",
+        "E12",
+        "E13"
+      ]
+    },
+    {
+      "criterionId": "C6",
+      "assessment": "The migration means draining all 40 nodes while bringing up 20 new ones. Drains go through the Eviction API and honor PDBs, so a PDB that allows zero disruptions can block a drain indefinitely. Topology and zone-spread rules make rescheduling harder. The cutover also costs money while both pools run. At list price each surge n4.xlarge costs 0.384 USD/h, so a full day with all 20 new nodes running beside the old pool adds about 184.32 USD. All of that effort, risk and transition cost buys no list-price saving. Change freezes, upcoming peaks and pending upgrades this month are unknown. Acting this month adds risk with no demonstrated benefit. Removing a few n4.large nodes involves far fewer drains and no surge pool.",
+      "mechanisms": "Every drain evicts pods subject to PDBs and needs capacity elsewhere to reschedule them, which usually means running new nodes before the old ones are removed. Rollback means re-provisioning the old node pool and draining again.",
+      "strengths": [
+        "Drain and PDB behaviour is CORROBORATED (E10).",
+        "The surge-cost rate comes straight from the VERIFIED price sheet (E2)."
+      ],
+      "weaknesses": [
+        "No cluster-specific PDB, freeze or peak-calendar data (E13).",
+        "How long the overlap lasts is unknown, so the total transition cost depends on the migration plan.",
+        "E10 is blog-sourced and conflicts with the low-authority E11."
+      ],
+      "evidenceIds": [
+        "E2",
+        "E10",
+        "E11",
+        "E13",
+        "E14"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL1",
+      "text": "At Nimbus list prices the current fleet (40 x n4.large) and the proposed fleet (20 x n4.xlarge) each cost 5,606.40 USD/month, so the migration's net list-price cost change is zero (ratio 1.0).",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E3"
+      ],
+      "calculationIds": [
+        "K1",
+        "K2",
+        "K3"
+      ]
+    },
+    {
+      "id": "CL2",
+      "text": "The claimed ~$2,803/month saving equals exactly half of current spend (2,803.20 USD). This is consistent with pricing the 20 new nodes at the old n4.large rate, so the doubled n4.xlarge rate was ignored. The FinOps report shows no arithmetic that would support any other derivation.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ],
+      "calculationIds": [
+        "K4"
+      ]
+    },
+    {
+      "id": "CL3",
+      "text": "Nimbus n4 pricing is linear at 0.048 USD per vCPU-hour for both n4.large and n4.xlarge, so changing node shape cannot reduce list spend unless total capacity changes.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2"
+      ],
+      "calculationIds": [
+        "K5",
+        "K6"
+      ]
+    },
+    {
+      "id": "CL4",
+      "text": "The FinOps 72% figure matches the SRE metric cpu_requested_pct_of_allocatable (30d avg), not CPU used. Used CPU is 31% avg and 44% p95, a 28-percentage-point gap between p95 use and requests.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ],
+      "calculationIds": [
+        "K7"
+      ]
+    },
+    {
+      "id": "CL5",
+      "text": "Scheduling, and request-based autoscaler scale-down, depend on requests rather than actual usage. Request levels therefore set how many nodes can be removed. A limited number can go within today's request headroom (see CL15), but deeper capacity cuts, and autoscaler-driven scale-down below the default 50% threshold, require lowering inflated requests first.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E6",
+        "E7"
+      ],
+      "calculationIds": [
+        "K16",
+        "K19"
+      ]
+    },
+    {
+      "id": "CL6",
+      "text": "Consolidating from 40 to 20 nodes frees about 5 vCPU of daemonset overhead. That is about 3.1% of the 160 vCPU total capacity (slightly more as a share of the unknown, smaller allocatable), or about 1.25 n4.large equivalents, far below the claimed 50%.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E5"
+      ],
+      "calculationIds": [
+        "K8",
+        "K9",
+        "K10"
+      ]
+    },
+    {
+      "id": "CL7",
+      "text": "Kubelet/system reservations are regressive with node size on GKE, so larger nodes recover slightly more allocatable. The amount for Nimbus cannot be quantified from the packet.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E8"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL8",
+      "text": "Halving the node count doubles the capacity share lost per node failure or drain, from 2.5% to 5%.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E9"
+      ],
+      "calculationIds": [
+        "K11",
+        "K12"
+      ]
+    },
+    {
+      "id": "CL9",
+      "text": "Assuming requests are spread evenly and total requests stay fixed, losing one node raises CPU requests to about 73.8% of remaining allocatable at 40 nodes and about 75.8% at 20 nodes. Single-node loss fits within request headroom in both layouts. The 20-node figure ignores the roughly 5 vCPU of daemonset requests that consolidation frees, so it slightly overstates saturation.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E4",
+        "E9"
+      ],
+      "calculationIds": [
+        "K13",
+        "K14"
+      ]
+    },
+    {
+      "id": "CL10",
+      "text": "Zone-failure survivability, PDB constraints and minimum safe node count cannot be determined, because zone layout, PDBs, anti-affinity rules and replica counts were not supplied.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL11",
+      "text": "Whether account-specific discounts or commitments apply differently to n4.large and n4.xlarge cannot be determined. The zero-saving result is established at list price only.",
+      "material": true,
+      "type": "limitation",
+      "evidenceIds": [
+        "E13",
+        "E2"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL12",
+      "text": "Right-sizing requests toward observed use, followed by node removal, is the route to savings beyond the immediate node cut. At an illustrative 85% request ceiling, memory requests (68%) need 32 nodes at steady state, so 33 nodes if the ceiling must hold after losing one node. Lowering CPU requests alone therefore stops helping at about 33 nodes. That caps the illustrative saving at 7 nodes, or 981.12 USD/month at list price. Savings below 33 nodes cannot be determined without memory p95, peak data and a headroom policy. The generic 30-50% vendor range (E12) is not specific to this cluster and is not relied on.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E12",
+        "E13"
+      ],
+      "calculationIds": [
+        "K17",
+        "K24"
+      ]
+    },
+    {
+      "id": "CL13",
+      "text": "Node drains during migration go through the Eviction API and honor PDBs, so restrictive PDBs can block or slow the migration. The single contrary source (E11) is low-authority and less reliable.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E10",
+        "E11"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL14",
+      "text": "Whether the 30-day window includes peak events, and whether memory rather than CPU will limit node reduction after CPU right-sizing, cannot be determined precisely from the packet. Memory is 68% requested and 39% used on average, with no p95.",
+      "material": false,
+      "type": "limitation",
+      "evidenceIds": [
+        "E4",
+        "E13"
+      ],
+      "calculationIds": []
+    },
+    {
+      "id": "CL15",
+      "text": "Assume requests are spread evenly, per-node allocatable stays the same, and an illustrative request ceiling of 80-85% of allocatable must still hold after losing one node (N+1). Today's average requests (72% CPU, 68% memory) then need about 35-37 n4.large nodes, with CPU as the limit. At 85%, steady state needs about 33.9 nodes, so N+1 needs 35. Losing one of the 35 leaves CPU requests at about 84.7% of remaining allocatable. At 80%, steady state needs 36 nodes, so N+1 needs 37. Removing 3-5 nodes would save about 420.48-700.80 USD/month at list price (7.5-12.5% of current spend). The sizing treats the 0.25 vCPU/node daemonset request as load that moves to the remaining nodes, although it disappears with each removed node, so the estimate is slightly conservative. The estimate rests on 30-day average requests and has low confidence. Before acting, check it against peak or max request data, including rollout surges and HPA scale-out, and run zone-spread and PDB checks.",
+      "material": true,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E4",
+        "E10",
+        "E13"
+      ],
+      "calculationIds": [
+        "K15",
+        "K16",
+        "K17",
+        "K18",
+        "K19",
+        "K20",
+        "K21",
+        "K22",
+        "K23"
+      ]
+    },
+    {
+      "id": "CL16",
+      "text": "Running the new pool alongside the old one during the cutover adds list cost of 0.384 USD/h per surge n4.xlarge. That is about 184.32 USD for each full day all 20 new nodes overlap the old pool, which adds a transition cost to a change with no steady-state saving.",
+      "material": false,
+      "type": "finding",
+      "evidenceIds": [
+        "E2",
+        "E10"
+      ],
+      "calculationIds": [
+        "K25"
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "option": "Approve the migration as proposed (20 x n4.xlarge)",
+      "comparison": "List-price saving 0 USD/month (5,606.40 vs 5,606.40). It frees about 5 vCPU of overhead but removes no capacity. It doubles per-node blast radius (2.5% to 5%), requires draining 40 nodes, and adds about 184.32 USD for each full day of dual-pool overlap. Worse than the status quo on risk and equal on cost (E2, E3, E5, E9)."
+    },
+    {
+      "option": "Status quo (keep 40 x n4.large)",
+      "comparison": "Same 5,606.40 USD/month at list price, with no migration risk and the smaller blast radius. Does nothing about the requested-vs-used gap (72% vs 44% p95 CPU) (E3, E4)."
+    },
+    {
+      "option": "Reduce n4.large count now on the current shape, without right-sizing",
+      "comparison": "Illustrative, with requests evenly spread and an 80-85% request ceiling that must hold after losing one node: drop from 40 to about 35-37 nodes, saving 420.48-700.80 USD/month at list price (7.5-12.5%). CPU requests are the limit (35 nodes at 85% with N+1, against 33 for memory). Losing one of 35 nodes leaves CPU requests at about 84.7% of remaining allocatable. Only a handful of nodes need draining, no surge pool is needed, and the 2.5%-per-node blast radius stays roughly the same. Low confidence: it rests on 30-day average requests, so it should wait for peak or max request data, and it requires zone and PDB checks (E2, E4, E10, E13)."
+    },
+    {
+      "option": "Right-size requests toward observed p95 use plus headroom, then remove more n4.large nodes",
+      "comparison": "Goes beyond the immediate cut. At an 85% ceiling with N+1, lowering CPU requests alone stops helping at about 33 nodes because memory requests then bind: 7 nodes removed, 981.12 USD/month at list price. Deeper savings need memory right-sizing, which cannot be sized without memory p95. Each n4.large removed saves 140.16 USD/month. Keeping the 4-vCPU shape also keeps finer reduction steps (E2, E4, E6)."
+    },
+    {
+      "option": "Enable a cluster autoscaler",
+      "comparison": "At 72% CPU / 68% memory requested, above the usual 0.5 scale-down threshold, few nodes would qualify for removal until requests are lowered. Best used after right-sizing. Availability on Nimbus is unknown (E7, E13)."
+    },
+    {
+      "option": "Committed-use or reserved pricing",
+      "comparison": "Lowers the unit price instead of capacity. It should be sized on the reduced baseline to avoid committing to idle capacity. Nimbus commitment terms were not supplied (E2, E13)."
+    }
+  ],
+  "tradeoffs": [
+    "Fewer, larger nodes give about 5 vCPU less daemonset overhead, at the cost of twice the capacity share lost per node event and coarser 8-vCPU scaling steps (E5, E9).",
+    "Cutting n4.large nodes delivers a quick, modest saving (about 420-701 USD/month) but shrinks request headroom: even with N+1 sizing, losing one of 35 nodes reaches about 84.7% CPU requested. A lower ceiling keeps more headroom and saves less (E4).",
+    "Aggressive right-sizing toward p95 use frees the most capacity but leaves less burst headroom. The 30-day window may miss peaks, and memory p95 is unknown (E4, E12).",
+    "Buying commitments early locks in a lower price on capacity that may be excess. Waiting until after node reduction delays the discount but sizes it correctly (E13).",
+    "A slower, more careful migration lowers drain risk but lengthens the dual-pool overlap, adding about 184.32 USD for each full day of overlap with no steady-state saving to offset it (E2, E10).",
+    "Acting this month meets the requester's timeline (E14), but the shape change carries execution risk and no list-price benefit (E3, E10)."
+  ],
+  "edgeCasesAndFailureModes": [
+    "A PDB with zero allowed disruptions, or single-replica workloads, can block drains indefinitely during the migration or a node reduction (E10).",
+    "Pods with large requests may fit better on 8-vCPU nodes. Bin-packing could slightly favour n4.xlarge, but the pod-size distribution was not supplied (E5).",
+    "If the cluster spans 3 zones, neither 20 nor 35 or 37 nodes divides evenly. Uneven zone capacity combined with maxSkew topology constraints could leave pods Pending after a node or zone loss (E10, E13).",
+    "Requests may be unevenly spread, or may peak above the 30-day average (rollouts, HPA scale-out). Either would mean fewer nodes can be removed safely than the illustrative 3-5 (E4).",
+    "Memory may limit node reduction once CPU requests are lowered: 68% of memory is requested, and memory p95 is unknown (E4).",
+    "An account discount specific to n4.large (or n4.xlarge) would make the migration cost more (or less) than list price suggests (E13).",
+    "Lowering requests below real peaks causes CPU throttling, or OOM kills if memory requests and limits are cut too far. The 30-day window may not include seasonal peaks (E4).",
+    "Using kubectl drain with eviction disabled or forced deletion would bypass PDBs and risk outages. This is the scenario behind the E11 claim (E10, E11)."
+  ],
+  "counterarguments": [
+    {
+      "argument": "Bigger nodes are inherently more efficient because per-node overhead is shared.",
+      "response": "True but small here. Daemonset overhead freed is 5 vCPU, about 3.1% of capacity. It only becomes savings if capacity is removed, and the proposal keeps 160 vCPU (E5, K8, K9)."
+    },
+    {
+      "argument": "The cluster is 72% utilized, so it is not over-provisioned.",
+      "response": "72% is CPU requested of allocatable. Actual use is 31% avg and 44% p95, so the cluster is over-reserved. Requests limit scheduling, but they are the thing to reduce (E4, E6)."
+    },
+    {
+      "argument": "Negotiated discounts might make n4.xlarge cheaper per vCPU than n4.large.",
+      "response": "Possible, but no discount evidence was supplied, and the list sheet is exactly linear. Even then, the saving would be far below 50% unless the discount gap were very large. Invoices or the billing export would settle it (E2, E13)."
+    },
+    {
+      "argument": "Halving node count is fine because request headroom (28%) easily absorbs one node loss.",
+      "response": "For a single node, yes: about 75.8% of remaining allocatable at 20 nodes. But zone loss, PDBs and anti-affinity are unknown. With no cost benefit, any added blast radius is uncompensated risk (E9, E13, K14)."
+    },
+    {
+      "argument": "The SRE claim that the cluster is mostly idle may be overstated if peaks are missing from the 30-day window.",
+      "response": "Fair. The window and missing memory p95 are real limits. That argues for a longer data window before deep right-sizing, and for a conservative ceiling in any immediate node cut. It does not argue for the shape change, which saves nothing regardless (E4, E3)."
+    }
+  ],
+  "correctedUserAssumptions": [
+    {
+      "assumption": "The production cluster is 72% utilized.",
+      "correction": "72% matches CPU requested of allocatable (30d avg). Actual CPU used is 31% avg / 44% p95, and memory used is 39% avg against 68% requested.",
+      "evidenceIds": [
+        "E1",
+        "E4"
+      ]
+    },
+    {
+      "assumption": "Replacing 40 n4.large with 20 n4.xlarge halves compute cost.",
+      "correction": "At list price both fleets cost 5,606.40 USD/month. n4.xlarge costs exactly twice n4.large for twice the resources, so the cost is unchanged.",
+      "evidenceIds": [
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "The migration saves about $2,800/month (~$2,803).",
+      "correction": "2,803.20 is half of current spend, which is consistent with ignoring the doubled n4.xlarge rate. The list-price saving is 0 USD/month.",
+      "evidenceIds": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "assumption": "Bigger nodes are more efficient.",
+      "correction": "Only marginally. Consolidation frees about 5 vCPU of daemonset overhead (about 3.1% of 160 vCPU) plus a small, unquantified kubelet/system-reserved gain, and saves money only if capacity is removed.",
+      "evidenceIds": [
+        "E5",
+        "E8"
+      ]
+    },
+    {
+      "assumption": "The cluster is mostly idle (SRE claim).",
+      "correction": "Largely supported by use: 31% avg / 44% p95 CPU and 39% avg memory. But the window is only 30 days, with no memory p95 or peak data, so 'mostly idle' should be confirmed over a longer window before deep cuts.",
+      "evidenceIds": [
+        "E4",
+        "E14"
+      ]
+    }
+  ],
+  "calculations": [
+    {
+      "id": "K1",
+      "purpose": "Monthly list cost of current fleet: 40 n4.large at 0.192 USD/h for 730 h (USD)",
+      "expression": "40 * 0.192 * 730",
+      "claimedResult": 5606.4,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K2",
+      "purpose": "Monthly list cost of proposed fleet: 20 n4.xlarge at 0.384 USD/h for 730 h (USD)",
+      "expression": "20 * 0.384 * 730",
+      "claimedResult": 5606.4,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K3",
+      "purpose": "Ratio of proposed to current monthly list cost (1 means no saving)",
+      "expression": "(20 * 0.384 * 730) / (40 * 0.192 * 730)",
+      "claimedResult": 1,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K4",
+      "purpose": "Half of current monthly spend, compared with the claimed ~$2,803 saving (USD)",
+      "expression": "40 * 0.192 * 730 / 2",
+      "claimedResult": 2803.2,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K5",
+      "purpose": "n4.large price per vCPU-hour (USD)",
+      "expression": "0.192 / 4",
+      "claimedResult": 0.048,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K6",
+      "purpose": "n4.xlarge price per vCPU-hour (USD)",
+      "expression": "0.384 / 8",
+      "claimedResult": 0.048,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K7",
+      "purpose": "Gap between CPU requested (72%) and CPU used p95 (44%) of allocatable, in percentage points",
+      "expression": "72 - 44",
+      "claimedResult": 28,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K8",
+      "purpose": "Daemonset CPU freed by removing 20 nodes at 0.25 vCPU/node (vCPU)",
+      "expression": "0.25 * 20",
+      "claimedResult": 5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K9",
+      "purpose": "Freed daemonset CPU as a percentage of total fleet vCPU capacity (160), not of allocatable",
+      "expression": "0.25 * 20 / 160 * 100",
+      "claimedResult": 3.125,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K10",
+      "purpose": "Freed daemonset CPU in n4.large (4 vCPU) equivalents",
+      "expression": "0.25 * 20 / 4",
+      "claimedResult": 1.25,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K11",
+      "purpose": "Capacity share lost per node at 40 nodes (%)",
+      "expression": "100 / 40",
+      "claimedResult": 2.5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K12",
+      "purpose": "Capacity share lost per node at 20 nodes (%)",
+      "expression": "100 / 20",
+      "claimedResult": 5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K13",
+      "purpose": "CPU requests as % of remaining allocatable after losing 1 of 40 nodes (even distribution, fixed total requests)",
+      "expression": "72 / (100 - 2.5) * 100",
+      "claimedResult": 73.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K14",
+      "purpose": "CPU requests as % of remaining allocatable after losing 1 of 20 nodes (even distribution, fixed total requests, ignores freed daemonset overhead)",
+      "expression": "72 / (100 - 5) * 100",
+      "claimedResult": 75.8,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K15",
+      "purpose": "Monthly list saving per n4.large node removed (USD)",
+      "expression": "0.192 * 730",
+      "claimedResult": 140.16,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K16",
+      "purpose": "n4.large nodes needed to keep current CPU requests (72% of 40 nodes' allocatable) at or below an illustrative 85% ceiling at steady state. Under N+1 the fleet minus one node must cover this, so n - 1 >= 33.88 and the fleet needs 35 nodes",
+      "expression": "40 * 72 / 85",
+      "claimedResult": 33.88,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K17",
+      "purpose": "n4.large nodes needed to keep current memory requests (68% of 40 nodes' allocatable) at or below an illustrative 85% ceiling at steady state. Under N+1 the fleet needs 33 nodes",
+      "expression": "40 * 68 / 85",
+      "claimedResult": 32,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K18",
+      "purpose": "Monthly list saving from removing 5 n4.large nodes (40 to 35, N+1 at 85% ceiling) (USD)",
+      "expression": "5 * 0.192 * 730",
+      "claimedResult": 700.8,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K19",
+      "purpose": "n4.large nodes needed to keep current CPU requests at or below an illustrative 80% ceiling at steady state. Under N+1 the fleet needs 37 nodes, and losing one of them leaves exactly this 80% level",
+      "expression": "40 * 72 / 80",
+      "claimedResult": 36,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K20",
+      "purpose": "Monthly list saving from removing 3 n4.large nodes (40 to 37, N+1 at 80% ceiling) (USD)",
+      "expression": "3 * 0.192 * 730",
+      "claimedResult": 420.48,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K21",
+      "purpose": "CPU requests as % of remaining allocatable after losing 1 of 35 n4.large nodes (even distribution); at or below the 85% ceiling",
+      "expression": "40 * 72 / 34",
+      "claimedResult": 84.71,
+      "tolerance": 0.005
+    },
+    {
+      "id": "K22",
+      "purpose": "Saving from removing 5 of 40 nodes as % of current list spend",
+      "expression": "5 / 40 * 100",
+      "claimedResult": 12.5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K23",
+      "purpose": "Saving from removing 3 of 40 nodes as % of current list spend",
+      "expression": "3 / 40 * 100",
+      "claimedResult": 7.5,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K24",
+      "purpose": "Monthly list saving from removing 7 n4.large nodes (40 to 33, memory-bound floor at 85% ceiling with N+1) (USD)",
+      "expression": "7 * 0.192 * 730",
+      "claimedResult": 981.12,
+      "tolerance": 0.001
+    },
+    {
+      "id": "K25",
+      "purpose": "Extra list cost per full day of running all 20 new n4.xlarge nodes alongside the old pool during cutover (USD)",
+      "expression": "20 * 0.384 * 24",
+      "claimedResult": 184.32,
+      "tolerance": 0.001
+    }
+  ],
+  "practicalImplications": [
+    "Reject or withdraw the migration as a cost measure. Ask FinOps to correct the saving estimate to 0 USD/month at list price and to state which utilization metric the report uses.",
+    "Before cutting any nodes, pull peak or max requested CPU and memory (including rollout surges and HPA scale-out) and the per-node request distribution from the dashboard. If peaks support it, consider removing about 3-5 n4.large nodes (to 35-37), sized so the request ceiling still holds after losing one node, and check zone balance and PDBs. That is worth about 420-701 USD/month at list price. If peaks are well above the 30-day average, cut fewer nodes or none. Remove nodes one at a time and watch for Pending pods.",
+    "Report utilization as both requested and used (avg and p95) for CPU and memory, so FinOps and SRE work from the same metrics.",
+    "Start a request right-sizing exercise (for example VPA in recommendation mode) targeting observed p95 plus an agreed headroom for both CPU and memory, then remove further n4.large nodes in 140.16 USD/month steps. Memory requests will cap the gains at about 33 nodes (with N+1 at an 85% ceiling) unless memory is right-sized too.",
+    "After node reduction, evaluate a cluster autoscaler (if Nimbus supports one) and commitments sized to the reduced baseline.",
+    "Before any node reduction, audit PDBs, zone spread and replica counts so drains do not block and zone-loss capacity is preserved."
+  ],
+  "remainingUncertainty": [
+    "Account-specific discounts, CUDs or invoices could make the real costs differ from list price; none were supplied (E13).",
+    "Which metric the FinOps report used is inferred from the 72% value matching; the report does not state it (E1, E4).",
+    "There is no memory p95, no peak or max data, and only a 30-day window. Safe right-sizing depth and the savings below about 33 nodes are therefore unknown (E4).",
+    "The 80-85% request ceilings and the N+1 rule behind the immediate node-reduction estimate are illustrative assumptions, not an organizational headroom policy. Those estimates use 30-day average requests and assume an even spread; the request distribution and request peaks were not supplied, so the 3-5 node figure has low confidence (E4).",
+    "Nimbus kubelet/system-reserved values, total allocatable and the pod-size distribution are unknown, so the full consolidation gain and bin-packing effects are unquantified (E5, E8).",
+    "How long the dual-pool overlap would last is unknown, so the total transition cost of the migration cannot be computed.",
+    "Zone layout, PDBs, anti-affinity rules, replica counts, change freezes and upcoming peaks are unknown (E13).",
+    "Official Kubernetes and GKE docs were seen only through search snippets (E6, E8)."
+  ],
+  "furtherResearchThatCouldChangeConclusion": [
+    "Billing export or invoices showing a materially different effective per-vCPU rate for n4.xlarge than for n4.large.",
+    "The FinOps report author confirming a different cost model or metric basis for the 72% and $2,803 figures.",
+    "A 90-day or longer usage window including peak events, with memory p95 and per-node request distribution, to size both the immediate node cut and later right-sizing.",
+    "Pod request-size distribution showing large pods that fragment badly on 4-vCPU nodes, which would strengthen the bin-packing case for n4.xlarge.",
+    "Nimbus documentation on kubelet/system-reserved formulas, autoscaler support and commitment pricing.",
+    "Cluster PDB, zone and replica inventory, plus the change-freeze calendar for this month."
+  ]
+}

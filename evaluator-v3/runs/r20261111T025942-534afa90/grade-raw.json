@@ -1,0 +1,89 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "The output covers the decision and all three mustFlag issues: identical cost, requested vs used, and right-sizing/autoscaling. It also covers blast radius, migration risk and commitments. The reference's alternative of spot pricing is never mentioned, and there is some repetition between sections.",
+      "quotes": [
+        "Do not approve the 40 x n4.large to 20 x n4.xlarge migration as a cost-saving measure this month.",
+        "Committed-use or reserved pricing: Lowers the unit price instead of capacity."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "All numeric claims check out (7.68/h implied, 5,606.40/month, 31%/44%, 5 vCPU daemonset), and the conflict between the two sources is handled correctly. One minor sourcing slip: E11 is a search result but is labelled INFERRED, and E7 calls an AKS GitHub issue CORROBORATED for autoscaler defaults. E5 also says '1.3' where the rest of the output says 1.25 n4.large equivalents.",
+      "quotes": [
+        "Current fleet: 40 x 0.192 x 730 = 5,606.40 USD/month. Proposed fleet: 20 x 0.384 x 730 = 5,606.40 USD/month.",
+        "| E11 | INFERRED | search_result |"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why the numbers come out as they do: linear per-vCPU pricing, request-based scheduling, and the autoscaler's 50% threshold. It quantifies daemonset savings, N+1 headroom and node-reduction options, and covers edge cases such as PDBs, zone spread, bin-packing and memory becoming the limit.",
+      "quotes": [
+        "The n4 family is priced linearly at 0.048 USD per vCPU-hour",
+        "Lowering CPU requests alone stops paying off at about 33 nodes under the same N+1 rule, because memory requests would then be the limit."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It treats both the FinOps and SRE claims as premises to test, and explains the likely source of the $2,803 error. It presents counterarguments fairly, including bin-packing and negotiated discounts, and states what would change the conclusion.",
+      "quotes": [
+        "The claimed 50% / ~$2,800 saving and the 72% utilization figure are premises to test, not facts to accept.",
+        "One thing could change the cost result: an account-specific discount that applies to n4.large and n4.xlarge differently."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The verdict is clear and comes with conditions and concrete next steps: correct the FinOps estimate, pull peak request data, cut nodes carefully, run VPA right-sizing, then look at the autoscaler and commitments.",
+      "quotes": [
+        "Reject or withdraw the migration as a cost measure. Ask FinOps to correct the saving estimate to 0 USD/month",
+        "Start a request right-sizing exercise (for example VPA in recommendation mode)"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised. Each claim cites an evidence ID and calculations are re-executed in a table. Uncertainty and the illustrative assumptions are labelled clearly, though the text is long.",
+      "quotes": [
+        "| K2 | Monthly list cost of proposed fleet: 20 n4.xlarge at 0.384 USD/h for 730 h (USD) | `20 * 0.384 * 730` | 5606.4 | 5606.4 | yes |",
+        "That figure has low confidence."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "At Nimbus list prices both fleets cost 5,606.40 USD/month, so the net change is zero, not the claimed 50% / ~$2,803 saving."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The 72% 'utilization' matches CPU requested of allocatable. Actual CPU use is 31% on average and 44% at p95."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Right-size requests toward observed p95 use plus headroom, then remove more n4.large nodes"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts that consolidating to 20 n4.xlarge halves cost or saves ~$2,800/month",
+      "triggered": false,
+      "evidence": "The output explicitly rejects the claim: 'The list-price saving is 0 USD/month.'"
+    },
+    {
+      "condition": "Treats 72% requested CPU as actual utilization",
+      "triggered": false,
+      "evidence": "The output separates the two metrics: '72% matches CPU requested of allocatable (30d avg). Actual CPU used is 31% avg / 44% p95'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "This is a strong output. I scored accuracy 0.75 rather than 1.0 for minor evidence-classification issues: E11 labelled INFERRED despite being a search result, a weak AKS-issue source for E7, and 1.3 vs 1.25 in E5. I scored scope 0.75 because spot pricing, an alternative named in the reference summary, is never mentioned. Reasonable graders might give 1.0 on either category."
+}

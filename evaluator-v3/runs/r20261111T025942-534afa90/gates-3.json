@@ -1,0 +1,219 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "traceability",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [calculations K16, K17, K19; CL15; CL12] Draft-3 adds N+1 node counts (35 nodes at 85%, 37 at 80%, 33 as the memory floor). These counts appear only in the purpose text of K16, K17 and K19. The claimedResult of each calculation is still the steady-state value (33.88, 32, 36). The rounding step, n = ceil(steady-state) + 1, has no calculation entry of its own. A checker that recomputes the K expressions therefore cannot confirm the counts that drive the headline 3-5 node / 420.48-700.80 USD figure. The derivation is correct: (n-1) >= 33.88 gives 35, (n-1) >= 36 gives 37, and (n-1) >= 32 gives 33. K21 checks the 35-node case at 84.71%. There is no matching check for 37 nodes at 80% or 33 nodes at 85% memory, although both work out to exactly the ceiling (2880/36 = 80%, 2720/32 = 85%)."
+        }
+      ]
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "40 * 0.192 * 730",
+      "claimed": 5606.4,
+      "actual": 5606.4,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "20 * 0.384 * 730",
+      "claimed": 5606.4,
+      "actual": 5606.4,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "(20 * 0.384 * 730) / (40 * 0.192 * 730)",
+      "claimed": 1,
+      "actual": 1,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "40 * 0.192 * 730 / 2",
+      "claimed": 2803.2,
+      "actual": 2803.2,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "0.192 / 4",
+      "claimed": 0.048,
+      "actual": 0.048,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.384 / 8",
+      "claimed": 0.048,
+      "actual": 0.048,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "72 - 44",
+      "claimed": 28,
+      "actual": 28,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "0.25 * 20",
+      "claimed": 5,
+      "actual": 5,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "0.25 * 20 / 160 * 100",
+      "claimed": 3.125,
+      "actual": 3.125,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "0.25 * 20 / 4",
+      "claimed": 1.25,
+      "actual": 1.25,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "100 / 40",
+      "claimed": 2.5,
+      "actual": 2.5,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "100 / 20",
+      "claimed": 5,
+      "actual": 5,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "72 / (100 - 2.5) * 100",
+      "claimed": 73.8,
+      "actual": 73.84615384615385,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "72 / (100 - 5) * 100",
+      "claimed": 75.8,
+      "actual": 75.78947368421053,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "0.192 * 730",
+      "claimed": 140.16,
+      "actual": 140.16,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "40 * 72 / 85",
+      "claimed": 33.88,
+      "actual": 33.88235294117647,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "40 * 68 / 85",
+      "claimed": 32,
+      "actual": 32,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "5 * 0.192 * 730",
+      "claimed": 700.8,
+      "actual": 700.8,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "40 * 72 / 80",
+      "claimed": 36,
+      "actual": 36,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "3 * 0.192 * 730",
+      "claimed": 420.48,
+      "actual": 420.4800000000001,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "40 * 72 / 34",
+      "claimed": 84.71,
+      "actual": 84.70588235294117,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "5 / 40 * 100",
+      "claimed": 12.5,
+      "actual": 12.5,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "3 / 40 * 100",
+      "claimed": 7.5,
+      "actual": 7.5,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "7 * 0.192 * 730",
+      "claimed": 981.12,
+      "actual": 981.12,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "20 * 0.384 * 24",
+      "claimed": 184.32,
+      "actual": 184.32,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "Do invoices or the billing export show a different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?"
+  ]
+}

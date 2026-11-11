@@ -1,0 +1,557 @@
+{
+  "runId": "r20261111T025942-534afa90",
+  "generatedAt": "2026-11-11T03:12:48.795Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "Kubernetes scheduler ensures sum of resource requests of scheduled containers is less than node capacity",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "GKE reserved resources kube-reserved CPU per node larger nodes allocatable percentage",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "Kubernetes fewer larger nodes vs many smaller nodes trade-offs node failure impact blast radius",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "Kubernetes right-sizing resource requests overprovisioning cost savings cluster autoscaler bin packing requests vs usage",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "cluster autoscaler FAQ scale-down sum of cpu and memory requests of all pods below 50% of node allocatable",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Kubernetes PodDisruptionBudget node drain topology spread constraints zones voluntary disruptions",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND kubernetes.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n"
+      },
+      {
+        "url": "https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND kubernetes.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n"
+      },
+      {
+        "url": "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/plan-node-sizes?hl=en",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.cloud.google.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o"
+      }
+    ],
+    "fixturesRead": [
+      "finops-report.md",
+      "nimbus-price-sheet.csv",
+      "sre-dashboard-export.csv"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-06 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 12796,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 36626,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 164
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 774,
+            "cache_read_input_tokens": 9021,
+            "output_tokens": 2999,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 774
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2999,
+                "cache_read_input_tokens": 9021,
+                "cache_creation_input_tokens": 774,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 774,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-06 researcher",
+        "ok": true,
+        "usage": {
+          "totalTokens": 33987,
+          "totalToolUseCount": 16,
+          "totalDurationMs": 104459,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 93
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 4227,
+            "cache_read_input_tokens": 23073,
+            "output_tokens": 6685,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4227
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 6685,
+                "cache_read_input_tokens": 23073,
+                "cache_creation_input_tokens": 4227,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 4227,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-06 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 36212,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 97560,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1092
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 19423,
+            "cache_read_input_tokens": 6133,
+            "output_tokens": 10654,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 19423
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10654,
+                "cache_read_input_tokens": 6133,
+                "cache_creation_input_tokens": 19423,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 19423,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-06 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 39910,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 59237,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2645
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 774,
+            "cache_read_input_tokens": 34516,
+            "output_tokens": 4618,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 774
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4618,
+                "cache_read_input_tokens": 34516,
+                "cache_creation_input_tokens": 774,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 774,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-06 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-06 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 58015,
+          "totalToolUseCount": 9,
+          "totalDurationMs": 53007,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 153
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 2002,
+            "cache_read_input_tokens": 53394,
+            "output_tokens": 2617,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 2002
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2617,
+                "cache_read_input_tokens": 53394,
+                "cache_creation_input_tokens": 2002,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 2002,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-06 analyst draft 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 48802,
+          "totalToolUseCount": 4,
+          "totalDurationMs": 119377,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 2102
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 26639,
+            "cache_read_input_tokens": 6199,
+            "output_tokens": 15962,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 26639
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 15962,
+                "cache_read_input_tokens": 6199,
+                "cache_creation_input_tokens": 26639,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 26639,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-06 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 61259,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 38306,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1230
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 52242,
+            "cache_read_input_tokens": 6082,
+            "output_tokens": 2933,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 52242
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2933,
+                "cache_read_input_tokens": 6082,
+                "cache_creation_input_tokens": 52242,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 52242,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-06 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 29811,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 27619,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 876
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 22040,
+            "cache_read_input_tokens": 5068,
+            "output_tokens": 2701,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 22040
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2701,
+                "cache_read_input_tokens": 5068,
+                "cache_creation_input_tokens": 22040,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 22040,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "finops-report.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "nimbus-price-sheet.csv",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "sre-dashboard-export.csv",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+    "https://github.com/Azure/AKS/issues/3348",
+    "https://docs.cloud.google.com/kubernetes-engine/docs/concepts/plan-node-sizes?hl=en",
+    "https://itnext.io/architecting-kubernetes-clusters-choosing-a-worker-node-size-b3729cc0c78f",
+    "https://oneuptime.com/blog/post/2026-02-20-kubernetes-pod-disruption-budgets/view",
+    "https://www.resumelens.org/blog/kubernetes/pod-disruption-budgets",
+    "https://oneuptime.com/blog/post/2026-01-06-kubernetes-right-size-cluster/view"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 14 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 40 * 0.192 * 730 = 5606.4 (claimed 5606.4) → match",
+    "Calculation K2 re-executed: 20 * 0.384 * 730 = 5606.4 (claimed 5606.4) → match",
+    "Calculation K3 re-executed: (20 * 0.384 * 730) / (40 * 0.192 * 730) = 1 (claimed 1) → match",
+    "Calculation K4 re-executed: 40 * 0.192 * 730 / 2 = 2803.2 (claimed 2803.2) → match",
+    "Calculation K5 re-executed: 0.192 / 4 = 0.048 (claimed 0.048) → match",
+    "Calculation K6 re-executed: 0.384 / 8 = 0.048 (claimed 0.048) → match",
+    "Calculation K7 re-executed: 72 - 44 = 28 (claimed 28) → match",
+    "Calculation K8 re-executed: 0.25 * 20 = 5 (claimed 5) → match",
+    "Calculation K9 re-executed: 0.25 * 20 / 160 * 100 = 3.125 (claimed 3.125) → match",
+    "Calculation K10 re-executed: 0.25 * 20 / 4 = 1.25 (claimed 1.25) → match",
+    "Calculation K11 re-executed: 100 / 40 = 2.5 (claimed 2.5) → match",
+    "Calculation K12 re-executed: 100 / 20 = 5 (claimed 5) → match",
+    "Calculation K13 re-executed: 72 / (100 - 2.5) * 100 = 73.84615384615385 (claimed 73.8) → match",
+    "Calculation K14 re-executed: 72 / (100 - 5) * 100 = 75.78947368421053 (claimed 75.8) → match",
+    "Calculation K15 re-executed: 0.192 * 730 = 140.16 (claimed 140.16) → match",
+    "Calculation K16 re-executed: 40 * 72 / 85 = 33.88235294117647 (claimed 33.88) → match",
+    "Calculation K17 re-executed: 40 * 68 / 85 = 32 (claimed 32) → match",
+    "Calculation K18 re-executed: 5 * 0.192 * 730 = 700.8 (claimed 700.8) → match",
+    "Calculation K19 re-executed: 40 * 72 / 80 = 36 (claimed 36) → match",
+    "Calculation K20 re-executed: 3 * 0.192 * 730 = 420.4800000000001 (claimed 420.48) → match",
+    "Calculation K21 re-executed: 40 * 72 / 34 = 84.70588235294117 (claimed 84.71) → match",
+    "Calculation K22 re-executed: 5 / 40 * 100 = 12.5 (claimed 12.5) → match",
+    "Calculation K23 re-executed: 3 / 40 * 100 = 7.5 (claimed 7.5) → match",
+    "Calculation K24 re-executed: 7 * 0.192 * 730 = 981.12 (claimed 981.12) → match",
+    "Calculation K25 re-executed: 20 * 0.384 * 24 = 184.32 (claimed 184.32) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ — getaddrinfo ENOTFOUND kubernetes.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n",
+    "Fetch failed: https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ — getaddrinfo ENOTFOUND kubernetes.io. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does n",
+    "Fetch failed: https://docs.cloud.google.com/kubernetes-engine/docs/concepts/plan-node-sizes?hl=en — getaddrinfo ENOTFOUND docs.cloud.google.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, o",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Account-specific discounts, CUDs and invoices were not supplied, and Nimbus Cloud pricing could not be checked publicly. The result is valid at list price only.",
+    "Knowledge gap G2 unresolved: No memory p95, no peak or max data, and no window longer than 30d. Node-pool coverage of the dashboard is unconfirmed, and so is which metric the FinOps report used (inferred from the matching value).",
+    "Knowledge gap G3 unresolved: Nimbus kubelet/system-reserved values and the pod-size distribution are unknown. The direct fetches of kubernetes.io and docs.cloud.google.com failed because the hosts are not in the session's allowed network domains, so official docs were seen only via snippets. Those hosts would need to be allowed to verify directly.",
+    "Knowledge gap G4 unresolved: The cluster's zones, PDBs, anti-affinity rules and replica counts were not supplied. Only general guidance is available.",
+    "Knowledge gap G5 unresolved: Savings for specific alternatives cannot be computed without memory p95, a headroom policy, autoscaler availability on Nimbus, and Nimbus CUD pricing.",
+    "Knowledge gap G6 unresolved: No information on change freezes, upcoming peaks or pending upgrades."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 88.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Account-specific discounts, CUDs or invoices could make the real costs differ from list price; none were supplied (E13).",
+    "Which metric the FinOps report used is inferred from the 72% value matching; the report does not state it (E1, E4).",
+    "There is no memory p95, no peak or max data, and only a 30-day window. Safe right-sizing depth and the savings below about 33 nodes are therefore unknown (E4).",
+    "The 80-85% request ceilings and the N+1 rule behind the immediate node-reduction estimate are illustrative assumptions, not an organizational headroom policy. Those estimates use 30-day average requests and assume an even spread; the request distribution and request peaks were not supplied, so the 3-5 node figure has low confidence (E4).",
+    "Nimbus kubelet/system-reserved values, total allocatable and the pod-size distribution are unknown, so the full consolidation gain and bin-packing effects are unquantified (E5, E8).",
+    "How long the dual-pool overlap would last is unknown, so the total transition cost of the migration cannot be computed.",
+    "Zone layout, PDBs, anti-affinity rules, replica counts, change freezes and upcoming peaks are unknown (E13).",
+    "Official Kubernetes and GKE docs were seen only through search snippets (E6, E8).",
+    "E13 UNKNOWN: No information was supplied on account-specific discounts, committed-use or reserved pricing, invoices, node-pool configuration, autoscaling history, zone layout, PDBs, change freezes or upcoming peak events.",
+    "Open question the reviewer judged decisive: Do invoices or the billing export show a different effective per-vCPU rate for n4.xlarge than for n4.large (negotiated discounts, CUDs, sustained-use pricing)?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T03:05:28.330Z",
+        "reasons": [
+          "[alternatives_counterarguments/major] D1 [CL5; criteriaAssessments C5; alternatives (no 'reduce n4.large count now' option); practicalImplications] The draft says that, until requests are lowered, nodes cannot safely be removed and autoscaling 'will remove few nodes'. From that it concludes that right-sizing must come first (CL5, C5 assessment, 'Right-size ... then remove' alternative). The draft's own numbers contradict this. CPU requests are 72% of allocatable, about 115 of 160 vCPU. Memory requests are 68%, about 435 of 640 GiB. CL9 already finds that single-node loss fits inside the 28% request headroom. So the cluster can drop some nodes now, before any right-sizing. At an illustrative 85% request ceiling, CPU needs about 34 nodes and memory about 32. That means about 6 n4.large nodes could go, roughly 6 x 140.16 = ~840 USD/month at list price, subject to N+1, zone and PDB checks. The decision objective names 'cutting node count' as a separate alternative. The draft never assesses a direct node reduction on the current shape, and it gives no cluster-specific estimate, even an illustrative one, for any alternative. It leans instead on a generic vendor figure of 30-50% (E12). The decision-maker is left without the one quantified, low-risk option that could be acted on this month.",
+          "D1 major alternatives_counterarguments (direct node reduction omitted), remedy reanalysis"
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T03:09:04.936Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict; CL15; CL12; criteriaAssessments C5; alternatives 'Reduce n4.large count now'; tradeoffs[1]; practicalImplications[1]; K16, K18, K21, K24] The new immediate node-cut estimate (CL15, C5 step 1, the 'Reduce n4.large count now' alternative, the verdict and practicalImplications) is inconsistent with its own safety condition. The draft sets an illustrative 85% request ceiling and sizes the fleet to the steady state: 40 x 72 / 85 = 33.88, so 34 nodes. It then shows (K21) that losing one node at 34 takes CPU requests to 87.3%, which breaches the ceiling the draft itself chose. It still presents 6 nodes / 840.96 USD/month as 'provided N+1 ... checks pass'. On the draft's own numbers, N+1 at 34 nodes fails an 85% ceiling. If the ceiling has to hold after losing one node, the fleet must satisfy (n-1) >= 33.88, so n = 35 and 5 nodes can go (700.80 USD/month). At 80%, (n-1) >= 36, so n = 37 and 3 nodes can go (420.48 USD/month). The N+1-consistent range is therefore 3-5 nodes, about 420-701 USD/month (7.5-12.5%), not 4-6 nodes and 561-841 USD/month (10-15%). The same flaw affects CL12's memory-bound floor: 32 nodes is exactly 85% memory requested at steady state, and N+1 at 31 nodes gives about 87.7%. The prior review (review-1 D1) proposed the ~6 nodes / ~840 USD figure without applying N+1, so the draft inherited the error by following it. The figure the review proposed was itself optimistic. Even so, the draft added and computed K21 and should have reconciled it. This is a production cluster, so the headline figure in the verdict overstates the safe immediate saving by about one node.",
+          "D1 major reasoning_validity (N+1 inconsistency), reanalysis; D3 minor needs internal request-peak data that web research cannot supply"
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [calculations K16, K17, K19; CL15; CL12] Draft-3 adds N+1 node counts (35 nodes at 85%, 37 at 80%, 33 as the memory floor). These counts appear only in the purpose text of K16, K17 and K19. The claimedResult of each calculation is still the steady-state value (33.88, 32, 36). The rounding step, n = ceil(steady-state) + 1, has no calculation entry of its own. A checker that recomputes the K expressions therefore cannot confirm the counts that drive the headline 3-5 node / 420.48-700.80 USD figure. The derivation is correct: (n-1) >= 33.88 gives 35, (n-1) >= 36 gives 37, and (n-1) >= 32 gives 33. K21 checks the 35-node case at 84.71%. There is no matching check for 37 nodes at 80% or 33 nodes at 85% memory, although both work out to exactly the ceiling (2880/36 = 80%, 2720/32 = 85%)."
+      ]
+    }
+  },
+  "certified": true
+}

@@ -1,0 +1,126 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The main recommendation is to prefer a Compute SP over the m7i-locked EC2 Instance SP, but the draft's own numbers do not back it. Committed spend under the Compute SP is 0.0511/0.0457 = 1.118, so it costs about 11.8% more for the same m7i usage. The draft calls this 'about 5.4 percentage points' (K5), which makes the premium sound smaller than it is. The hedge also buys little. If the workload moves to M8i and the Compute SP gives the same percentage discount, the cost per m7i-equivalent of performance is about 0.0511*1.05/1.2 = 0.0447/hr. A locked EC2 Instance SP costs 0.0457/hr. That is a gain of about 2%, set against paying about 12% more for every hour before migration. Graviton (m7g at $0.0816, so about 0.0414 under a Compute SP at the same discount) changes the picture only modestly. The draft never weighs migration timing or likelihood against the premium. It asserts that the flexible plan 'avoids being locked' without showing that the flexibility is worth the price. On these figures the EC2 Instance SP may well come out ahead unless the workload changes family, region or OS, or moves to Fargate or Lambda.",
+      "location": "verdict; C3 assessment; alternatives (Compute SP, EC2 Instance SP); counterarguments #2; tradeoffs #1; K5",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "In C3 the draft argues that an m7i lock is 'more of an opportunity cost than an outright loss' by comparing the locked m7i rate ($0.0457) with M8i ON-DEMAND (K22, about $0.088). That is the wrong comparison. The real alternative to a locked EC2 Instance SP is M8i under a commitment (Compute SP or an M8i EC2 Instance SP), which costs about $0.045 per m7i-equivalent. Against that alternative the two are nearly equal. The comparison chosen is a strawman, and it tells the reader nothing about how big the stranding risk is.",
+      "location": "C3 assessment; K22",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "major",
+      "description": "The price-cut stress test (K12-K14, CL8, counterargument #1) assumes 100% utilization. A 45% cut on day one would raise break-even utilization to 0.0511/0.05544 = 92% for the Compute SP and 0.0457/0.05544 = 82% for the EC2 Instance SP. So at realistic utilization, a cut combined with under-use would wipe out the discount. 'Even a GPU-style 45% cut leaves both plans slightly ahead' and 'the price-cut risk is small next to utilization risk' therefore overstate how robust the result is. The draft never examines how price-cut risk and utilization risk interact.",
+      "location": "verdict; CL8; K13; K14; counterarguments #1",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The draft cites agreement with m6i.large x 1.05 (K15, E8) as corroborating the $0.1008 baseline. E8's limitations say the 5% ratio 'was calculated in the search summary', which means it was derived from $0.1008 in the first place. Using it to support $0.1008 is circular. K17 (m7i.8xlarge/16) also relies on aggregator data, which may share an upstream source with E1. The baseline is probably correct, but the draft overstates how independent the support is.",
+      "location": "C1 strengths #1; CL3; remainingUncertainty (E1 vs E2 resolution)",
+      "remedy": "research"
+    },
+    {
+      "id": "D5",
+      "gate": "coverage",
+      "severity": "major",
+      "description": "The draft leaves out obvious alternatives that a FinOps expert would weigh. (1) m7i-flex and m8i-flex: E9 says M8i-flex offers 5% lower prices, and m7i-flex is likewise priced below m7i. (2) Graviton m7g/m8g treated as a real option rather than a footnote: m7g.large at $0.0816 is about 19% cheaper per instance than m7i.large and appears only in practicalImplications. (3) Spot for interruptible portions of the workload. All three could change both the size of the commitment and which instance it should be bought for.",
+      "location": "alternatives; C3",
+      "remedy": "both"
+    },
+    {
+      "id": "D6",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The draft models Compute SP utilization risk as identical to EC2 Instance SP risk. In practice, unused Compute SP commitment is absorbed by any eligible EC2 (any family or region), Fargate or Lambda usage in the account or organization. Its effective under-use risk is therefore lower in a mixed estate. This is the Compute SP's strongest real advantage, and the draft never states it.",
+      "location": "C1 mechanisms; C4 assessment; alternatives (Compute SP)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The sizing rule is inconsistent. The verdict says to commit usage you are confident will run 'at least about 18-24 months', while the counterargument response and practicalImplications say 'more than about 18 months'. 18.25 months is exactly break-even for the Compute SP, so the second rule commits with no margin of safety. The draft should give a single threshold with an explicit margin.",
+      "location": "verdict; counterarguments #4; practicalImplications #2",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D8",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The C6 strength 'Two corroborated secondary sources agree (E11, E12)' is wrong. E11 covers noncancellability and E12 covers Marketplace resale restrictions. They address different points and do not corroborate each other.",
+      "location": "C6 strengths",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D9",
+      "gate": "alternatives_counterarguments",
+      "severity": "minor",
+      "description": "The draft does not consider the option of delaying the purchase or staggering it (buying commitments in tranches over several months) to see how M8i/Graviton adoption and confirmed Price List rates turn out. Laddering appears only in passing as '1-year commitment or layered purchases', with no reasoning about the value of waiting.",
+      "location": "alternatives #6; practicalImplications #5",
+      "remedy": "reanalysis"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What are the official AWS Price List rates for m7i.large us-east-1 Linux across Compute SP, EC2 Instance SP, Standard RI and Convertible RI, for 1-year and 3-year terms and all payment options? The current figures come from one aggregator snippet.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the official Compute SP and EC2 Instance SP rates for m8i.large, m8i-flex.large, m7i-flex.large and m7g/m8g.large in us-east-1? These are needed to quantify whether the Compute SP's flexibility premium (about 12% more committed spend) pays off after a migration.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Does the requester run other compute (other EC2 families or regions, Fargate, Lambda) that could absorb unused Compute SP commitment? And what usage floor, and confidence in it, do they expect over 36 months?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Is there a systematic on-demand price history for m5, m6i and m7i, and has any general-purpose x86 type been cut since 2016?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": false,
+      "reason": "All six criteria are addressed, and the request's premises are corrected. However, the flex variants, Graviton as a primary option, and Spot are missing as alternatives (D5), and the Compute SP's ability to absorb other usage is never stated (D6)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Confidence is set to low, and the draft repeatedly flags single-snippet commitment rates, inference from absence and missing primary docs. Its claims are hedged in line with the weak packet evidence."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": false,
+      "reason": "All calculations K1-K22 recompute correctly. But the recommendation to prefer the Compute SP is not supported by the draft's own numbers (D1), the K22 comparison is a strawman (D2), and the price-cut stress test assumes full utilization (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": false,
+      "reason": "The strongest case for the EC2 Instance SP (about 12% cheaper, with little performance-equivalent gain from migrating) is dismissed rather than engaged. Waiting or staggering the purchase is not analysed (D9)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The draft rightly refuses a point forecast and gives a usable conditional break-even rule. However, the choice of plan type is weakly justified, and the sizing threshold is inconsistent (D7)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited evidence IDs exist and mostly match the packet text. There is a minor circular corroboration (D4) and a mischaracterised 'agreement' between E11 and E12 (D8). No injection was observed, and sources/ is empty as the packet states."
+    }
+  ]
+}

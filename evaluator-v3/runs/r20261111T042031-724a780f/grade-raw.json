@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "Covers the actual decision, both routes, a hybrid, restructured terms, legal risks and next steps. The one gap is that it never states the EUR 7.8M net revenue figure. It reframes the discount issue around gross margin instead.",
+      "quotes": [
+        "We receive 65% of list as revenue.",
+        "The term sheet has no minimum purchase commitments.",
+        "Named house accounts carved out"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked the main calculations and they are correct: the 1.11, -0.09 and 7.56 break-even figures, the 0.84M cost on existing accounts, and the margin sensitivity tables. The reference-call figures are reported faithfully. There is one minor inconsistency: the suggested minimums are labelled 'excluding house accounts', but they are 75% of Meridian's totals, which include those accounts.",
+      "quotes": [
+        "0.25×12 − 0.6×2.4 (existing margin given up) − 0.45 | **+1.11**",
+        "L ≥ EUR 7.56M, i.e. 63% of plan",
+        "about EUR 1.9M / 3.0M / 4.1M at list, Y1–Y3, excluding house accounts"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains why the distributor discount comes straight out of gross margin, quantifies break-evens and margin sensitivity, and analyses failure modes specific to this case: the month-24 notice trap, back-loading of the projection, German goodwill indemnity and the Belgian indefinite-term risk.",
+      "quotes": [
+        "the distributor's 35 points come straight out of gross margin",
+        "In practice we have to decide by **month 24**",
+        "46% of the total sits in Y3"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Takes apart each part of the VP's framing, presents fair counterarguments in favour of Meridian, and states what would change the conclusion (gross margin, and whether finance's estimate includes existing accounts).",
+      "quotes": [
+        "doesn't hold up on any of its three claims",
+        "Meridian's 'zero cost' is really a variable cost of 35% of revenue",
+        "The rejection of the terms *as written* doesn't depend on either."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear bottom line with a preferred route, a table of fallback terms, and specific next steps with owners and timing.",
+      "quotes": [
+        "**Don't sign the Meridian term sheet as offered.**",
+        "Ask finance two questions this week.",
+        "run Phase 1 (2 sellers + SE, existing accounts as the base) with a 9–12 month pipeline gate"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised. Calculations are shown inline, assumptions are labelled as such, sources are cited, and a remaining-uncertainty section sets out the limits.",
+      "quotes": [
+        "**Assumptions (to be replaced with actuals):**",
+        "The channel cost K (EUR 0.45M) is my assumption.",
+        "Legal points come from practitioner commentary"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": false,
+      "quote": "We receive 65% of list as revenue."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "No minimum purchase commitments.** This is the central flaw."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Our one reference with numbers saw Meridian deliver 60% of a similar projection (EUR 5.4M of EUR 9M)."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "The deal forces our existing EUR 0.8M/yr of direct EU accounts through Meridian at a 35% discount."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends signing EU-wide exclusivity without minimum commitments or termination rights",
+      "triggered": false,
+      "evidence": "**Don't sign the Meridian term sheet as offered.** ... Meridian is acceptable only on restructured terms ... minimum purchases tied to their own plan ... an exit after 12–18 months"
+    },
+    {
+      "condition": "Treats the EUR 12M list-price projection as revenue we keep",
+      "triggered": false,
+      "evidence": "We receive 65% of list as revenue. ... none of it is committed."
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "F1 is the judgement call. The output correctly applies the 65%-of-list net (0.65 x 12 = 7.8) and analyses margin in depth, but it never states EUR 7.8M. It also concedes that 'We keep most of the revenue' is true, while the reference treats 'most of 12M' as the error. I marked F1 not flagged and V1 as missing. A reviewer who counts '65% of list' as substantively the same point could reasonably mark F1 flagged, which would also support moving scope up to 1.0. I checked the core calculations by hand and they were correct; the only slip I found is the minimums labelled 'excluding house accounts'. I did not verify the cited legal claims against their sources (German §89b analogy, Belgian distribution law, VBER 30% threshold); they look broadly correct, and the output itself says they are unsettled and need counsel."
+}

@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T042031-724a780f",
+  "caseId": "ho-10-exclusive-distributor",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 88.75,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": false,
+      "grader": false,
+      "flagged": false,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": false,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "F1 is the judgement call. The output correctly applies the 65%-of-list net (0.65 x 12 = 7.8) and analyses margin in depth, but it never states EUR 7.8M. It also concedes that 'We keep most of the revenue' is true, while the reference treats 'most of 12M' as the error. I marked F1 not flagged and V1 as missing. A reviewer who counts '65% of list' as substantively the same point could reasonably mark F1 flagged, which would also support moving scope up to 1.0. I checked the core calculations by hand and they were correct; the only slip I found is the minimums labelled 'excluding house accounts'. I did not verify the cited legal claims against their sources (German §89b analogy, Belgian distribution law, VBER 30% threshold); they look broadly correct, and the output itself says they are unsettled and need counsel."
+}

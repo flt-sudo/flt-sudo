@@ -1,0 +1,44 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Net revenue after 35% discount is EUR 7.8M",
+    "pass": false,
+    "detail": "pattern /7\\.8\\s*(m|million)|7,?800/ not found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "No minimum commitments / exclusivity terms are risky",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Reference calls contradict projection (under-delivery)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Existing direct accounts would be locked out / carve-out needed",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Recommends signing the term sheet as drafted",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Net revenue to manufacturer if projection is met (EUR M)",
+    "pass": false,
+    "detail": "no number within ±0.01 of 7.8"
+  }
+]

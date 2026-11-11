@@ -1,0 +1,614 @@
+{
+  "records": [
+    {
+      "id": "E1",
+      "claim": "Internal strategy notes say total addressable fleets in Brazil are unknown. Estimates found range from 180k to 900k commercial fleets depending on definition. Market shares of the 3 local incumbents are not available. One incumbent is rumoured to bundle hardware free. Pricing has not been researched. ANATEL certification is required, with a timeline of 6-18 months (anecdotal). No local partner has been identified.",
+      "source": {
+        "kind": "fixture",
+        "ref": "brazil-market-notes.md",
+        "title": "Brazil market notes (strategy team, draft)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Establishes the internal baseline and its acknowledged unknowns for G1, G2, G5, G6 and G7.",
+      "limitations": "This is an internal draft. The figures are unsourced estimates and anecdotes.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G2",
+        "G5",
+        "G6",
+        "G7"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E2",
+      "claim": "The draft budget puts Year 1 at $2.4M (team of 9, certification, marketing). Break-even requires ~4,000 paying fleets and assumes current US pricing.",
+      "source": {
+        "kind": "fixture",
+        "ref": "expansion-budget-draft.md",
+        "title": "Draft budget: Brazil entry"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the break-even premise to recompute under Brazilian pricing (G5). It tests the Year-1 budget assumption.",
+      "limitations": "No unit price, cost structure, years 2-3 costs, hardware subsidy, FX or tax assumptions are given, so break-even cannot be recomputed from this document alone.",
+      "contradicts": [],
+      "gapIds": [
+        "G5",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E3",
+      "claim": "Survey question: 'Would you consider switching telematics provider to [us]?' There were 14 fleet-manager respondents, recruited at the company's booth at a Sao Paulo logistics trade show (Aug 2026). 9 of 14 (64%) said 'Yes, would consider'. Price was not mentioned.",
+      "source": {
+        "kind": "fixture",
+        "ref": "survey-summary.md",
+        "title": "Survey summary"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "This is the sole basis for the 64% and 15% claims (G4). The sample is self-selected (booth visitors), small (n=14), measures 'consider' rather than purchase, and stated no price.",
+      "limitations": "The plan cites a 95% CI of roughly 35-87% for 9/14. That is consistent with an exact binomial interval but was not taken from an external source. Selection bias is not quantifiable from the document.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "fixture_read",
+      "effectiveClassification": "VERIFIED",
+      "issues": []
+    },
+    {
+      "id": "E4",
+      "claim": "The CEO expects about 15% Brazil market share by year three, because 64% of Brazilian fleet managers in the survey said they would consider switching.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "This is the premise under test. On the 180k-900k denominator, 15% implies 27k-135k fleets.",
+      "limitations": "The 64% describes 14 booth respondents, not Brazilian fleet managers in general (see E3).",
+      "contradicts": [
+        "E3"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "user_input",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E5",
+      "claim": "A search snippet of a Berg Insight 'Fleet Management in Latin America, 2nd edition' listing puts the active installed base of commercial-vehicle fleet management systems in Latin America at roughly 10.2 million units in 2025, rising to about 20.6 million by 2030.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.gii.co.jp/report/ber2074816-fleet-management-latin-america-2nd-edition.html",
+        "title": "Berg Insight Fleet Management in Latin America 2nd edition (GII listing)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Gives regional scale for G1. Brazil is the largest share of LatAm but no Brazil split was obtained. The figure is in vehicles/units, not fleets, and the plan's denominator is fleets.",
+      "limitations": "Search snippet only. WebFetch failed for both gii.co.jp and giiresearch.com (host not resolvable). There is no Brazil-specific figure, and units are not fleets.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch attempted; host not allowed"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E6",
+      "claim": "Frost & Sullivan estimated Brazilian connected-truck telematics units at 1.12 million in 2021, a penetration rate of approximately 40.6% (trucks only). It also notes that a truck often carries several telematics devices from different providers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://insights.frost.com/pr_at_scuret_k80c_braziliantruckstelematics",
+        "title": "Brazilian Connected Trucks Telematics Growth Opportunities (Frost & Sullivan)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.marketresearch.com/Frost-Sullivan-v383/Brazilian-Connected-Trucks-Telematics-Growth-32309446"
+      ],
+      "applicability": "Suggests the heavy-truck segment is already substantially telematized, so it is a switching rather than greenfield market (G1). Multi-device installs mean installed-base shares overlap.",
+      "limitations": "Data is from 2021 and covers trucks only. Both refs are the same Frost study (not independent) and were seen as snippets only.",
+      "contradicts": [
+        "E7"
+      ],
+      "gapIds": [
+        "G1",
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E7",
+      "claim": "A December 2024 Geotab release reportedly says telematics adoption in Latin America is less than 20%. Ken Research cites LatAm active fleet-management penetration of 20.9% in 2024, forecast to approach 40% by 2029.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.geotab.com/es-latam/comunicado-de-prensa/300k-subscriptions-latam/",
+        "title": "Geotab surpasses 300,000 subscriptions in Latin America"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.kenresearch.com/industry-reports/brazil-fleet-management-solutions-market.md"
+      ],
+      "applicability": "Puts regional penetration at roughly 20% in 2024, which implies a large greenfield pool overall. Compare with ~40% for Brazilian trucks (E6). Penetration likely differs strongly by segment.",
+      "limitations": "Region-wide, not Brazil. Vendor and market-research claims seen in snippets only. The Geotab fetch failed. Definitions differ.",
+      "contradicts": [
+        "E6"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of geotab.com failed; search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E8",
+      "claim": "Statista reports roughly 5.7 million light commercial vehicles in circulation in Brazil in 2022, and more than 2.05 million heavy trucks in 2020.",
+      "source": {
+        "kind": "web",
+        "ref": "https://WWW.STATISTA.COM/statistics/831142/light-commercial-vehicle-fleet-size-units-brazil/",
+        "title": "Statista: LCV fleet size Brazil"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://statista.com/statistics/830621/heavy-truck-fleet-size-units-brazil"
+      ],
+      "applicability": "Vehicle-level denominator for G1. Fleets of different sizes must be mapped onto vehicles.",
+      "limitations": "Third-party estimates from 2020-2022, seen as snippets. Both refs are Statista (one publisher). These are vehicle counts, not fleet counts, and include owner-operators.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E9",
+      "claim": "Brazil's RNTRC freight-carrier registry, July 2022 per search snippet: 887,271 autonomous carriers (TAC), 283,393 transport companies (ETC) and 544 cooperatives. Another undated report gives 816.8k TAC vs 319.2k ETC. About 1.33 million registered carriers were subject to 2024 revalidation, with more than 240k ETCs not yet revalidated by Feb 2024. Reported vehicle counts vary: 2,603,878 (2022); ETC 1,971,232 and TAC 937,431; CNT 2024 1,736,120 associated with ETCs.",
+      "source": {
+        "kind": "web",
+        "ref": "https://agenciagov.ebc.com.br/noticias/202402/mais-de-240-mil-empresas-podem-ser-suspensas-de-realizar-frete",
+        "title": "Mais de 240 mil empresas podem ser suspensas de realizar frete"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://mercadoeconsumo.com.br/09/01/2024/logistica/antt-714-mil-transportadores-podem-ser-suspensos-de-realizar-frete-a-partir-de-marco/",
+        "https://mundologistica.com.br/noticias/empresas-transportam-seis-vezes-mais-cargas-rodovias-do-que-autonomos",
+        "https://data.cnt.org.br/wp-content/uploads/2025/07/Boletim%20Unificado%20-%20Abril%202025.pdf"
+      ],
+      "applicability": "Gives a defensible fleet-count denominator for road freight (G1). About 280k-320k registered freight companies sits within the 180k-900k internal range. Many are very small, and post-revalidation active counts may be lower. Non-freight fleets (services, utilities, rental, passenger) are excluded.",
+      "limitations": "Only the ~1.33M total and the 240k-not-revalidated figures are corroborated across sources. The individual ETC/TAC and vehicle counts each come from single snippets and conflict with one another. The ANTT Anuario TRC 2024 PDF could not be fetched (gov.br not resolvable).",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of gov.br ANTT yearbook failed; search snippets only"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E10",
+      "claim": "Berg Insight names Gurtam and Geotab as the largest fleet management solution providers in Latin America. Brazilian players Positron (Stoneridge), Autotrac and Omnilink sit just outside the top list, and Cobli is listed among significant providers. Frost & Sullivan names Sascar, Positron, Omnilink, Autotrac and OnixSat as traditional Brazilian truck TSPs. Sascar is part of Michelin Connected Fleet.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.marketresearch.com/Berg-Insight-v2702/Fleet-Management-Latin-America-Edition-41622994",
+        "title": "Berg Insight Fleet Management in Latin America 1st Edition"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.giiresearch.com/report/ber1769048-fleet-management-latin-america-1st-edition.html",
+        "https://insights.frost.com/hubfs/GON/2022/Sliders/November/AT/LPATSB4_Nov22.html?hsLang=en"
+      ],
+      "applicability": "For G2, the market is fragmented, with many established local and global players, Geotab among them. The 'three incumbents' framing in the internal notes likely understates competition.",
+      "limitations": "No Brazil-specific share or installed-base numbers. Snippets only. The Berg reports are paywalled.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E11",
+      "claim": "Ituran's Form 20-F reports about 814,000 subscribers in Brazil at 31 Dec 2025, versus 725,000 for the prior year, out of roughly 2.63 million total subscribers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://pubt.io/view/E8777D9C3C95BF4197E0BDE5900E17839C5EFFA3",
+        "title": "Ituran 20-F (Item 5 copy)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://stocktitan.net/sec-filings/ITRN/20-f-ituran-location-control-ltd-files-annual-report-foreign-issuer-e163bb580452.html"
+      ],
+      "applicability": "Shows the scale of one foreign-origin (Israeli) incumbent in Brazil, which has operated there for decades. For G2 and G3, this is a benchmark of what long-tenured entrants reach.",
+      "limitations": "Ituran's base is largely stolen-vehicle-recovery and insurance-driven consumer/OEM subscribers, not fleet-management fleets, so it is not directly comparable. Subscribers are vehicles, not fleets. The 725k prior-year figure comes only from the parsed table.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets of filing copies"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E12",
+      "claim": "Cobli (Brazilian fleet-management startup) supplies hardware on comodato (loaned free) and charges a monthly fee per vehicle. It raised a R$175M Series B led by SoftBank in July 2021, when it had more than 3,000 clients. Later reports say about 100k vehicles across about 5,000 corporate clients, ~85% with fleets under 250 vehicles. In 2023 it targeted 500k vehicles by 2026.",
+      "source": {
+        "kind": "web",
+        "ref": "https://startups.com.br/negocios/cobli-levanta-mais-r-175-mi-em-serie-b-liderada-pela-softbank-para-ampliar-leque-de-ofertas-na-gestao-de-frotas/",
+        "title": "Cobli levanta mais R$175 mi em Serie B"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://forbes.com.br/forbes-tech/2021/07/startup-de-gestao-de-frotas-capta-r-175-milhoes-em-serie-b/",
+        "https://www.mobiletime.com.br/?p=774449",
+        "https://convergenciadigital.com.br/mercado/cobli-aposta-em-videotelemetria-e-investe-r-20-milhoes-em-cameras-com-inteligencia-artificial/"
+      ],
+      "applicability": "Free-hardware (comodato) bundling is a standard Brazilian model, not just a rumour about one incumbent (G2, G5). For G3, a well-funded local SaaS-telematics player had ~5,000 clients after about seven years, which is a key anchor: the planned 4,000 fleets is close to Cobli's whole client base.",
+      "limitations": "Snippets only. The startups.com.br fetch failed. The 100k/5,000 figure is undated (likely 2024-2025). There is no evidence that the 500k target was met.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3",
+        "G5"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of startups.com.br failed; search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E13",
+      "claim": "A Brazilian vendor blog gives typical per-vehicle monthly telemetry fees for transport fleets of R$100-150 (basic) and R$180-250 (full, with CANBUS and cab camera). Hardware costs R$1,200-2,500 (basic) and R$3,500-8,000 (full), with installation R$200-400 and R$400-800 respectively. Separately, a guide says hardware is often provided on comodato, with price concentrated in the monthly fee.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.transp.net/blog/posts/telemetria-transportadoras-roi-reducao-custos/",
+        "title": "Telemetria transportadoras ROI"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Gives the only local price band for G5. It can be compared with US per-vehicle pricing to recompute break-even. Units are per vehicle, while the break-even is in fleets, so average fleet size is needed.",
+      "limitations": "Single vendor-blog snippet, so authority is low. A 2025 TRE-BA public tender lists tracking prices of about R$19-54.90 with unclear units, which may indicate much lower prices for basic tracking. Ituran lists US$24.99/month for a consumer plan. No USD/BRL conversion or tax was applied here.",
+      "contradicts": [
+        "E14"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E14",
+      "claim": "A 2025 TRE-BA public procurement price map lists vehicle-tracking prices from several suppliers of about R$19 to R$54.90. The unit of charge is unclear from the snippet.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.tre-ba.jus.br/transparencia-e-prestacao-de-contas/licitacoes/aditivos-e-contratos/arquivos/2025/ct-039-2025-mapa-de-preco",
+        "title": "TRE-BA CT 039 2025 mapa de preco"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "If these are monthly per-vehicle prices, basic tracking in Brazil is far cheaper than the R$100-250 band in E13 (G5). That would sharply raise break-even under local pricing.",
+      "limitations": "Single snippet with an unclear unit. Public-sector basic tracking may not match the product's segment.",
+      "contradicts": [
+        "E13"
+      ],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippet"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E15",
+      "claim": "Search snippets indicate that ANATEL homologation for foreign manufacturers requires a Brazilian-registered local representative or applicant (with a CNPJ), and that testing must be done in labs accredited by Inmetro or evaluated by ANATEL in Brazil. Foreign reports alone are reportedly insufficient. The process runs manufacturer, then OCD (designated certification body), then lab tests, then ANATEL issues the certificate. The governing regulation is Resolution 715/2019.",
+      "source": {
+        "kind": "web",
+        "ref": "https://ib-lenhardt.com/kb/anatel-requirements",
+        "title": "ANATEL Requirements - Overview"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.freyrsolutions.com/medical-devices/brazil-anatel-certification-compliance.md",
+        "https://www.legisweb.com.br/legislacao/?id=383825",
+        "https://www.tuv.com/content-media-files/brasil/about-us/regras-de-certifica%C3%A7%C3%A3o/708_rc_001_05___regra_de_certificao___telecomunicaes.pdf"
+      ],
+      "applicability": "For G6, a local entity or representative must exist before certification can start, and both run before revenue. This is directly relevant to the 'no local partner' gap.",
+      "limitations": "The ib-lenhardt fetch failed. Consultancy sources were seen as snippets. The exact rule set for cellular trackers in 2026 was not verified.",
+      "contradicts": [],
+      "gapIds": [
+        "G6",
+        "G7"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of ib-lenhardt.com failed; snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E16",
+      "claim": "ANATEL certification timelines found: 5mglobal gives an average type-approval lead time of 8 weeks. Freyr gives about 3 months for wireless medical devices. A Nov 2026 Fazcomex article says ANATEL is rolling out its 'Certifica' platform (replacing SCH) and expects shorter timelines in the medium term, with no figures. Canaltech cites a R$500 commercial homologation fee (Fistel), date unclear. Approval validity is reported as 2 years.",
+      "source": {
+        "kind": "web",
+        "ref": "https://5mglobal.com/?p=438",
+        "title": "5mglobal ANATEL"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "For G6, the formal process may take about 2-3 months, shorter than the internal 6-18 month anecdote. In practice, elapsed time also includes setting up the local entity or representative, lab queues, and possible design changes.",
+      "limitations": "Each figure comes from a single vendor snippet, and none is specific to vehicle trackers. Lab test costs were not found (the R$500 is the government fee only). No official ANATEL timeline was found.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "INFERRED",
+      "issues": []
+    },
+    {
+      "id": "E17",
+      "claim": "Geotab entered Brazil with a subsidiary (Geotable Telematica Ltda) in 2021, having served LatAm since 2012. In 2025 it said it had surpassed 300,000 active LatAm subscriptions, with 256% Brazil subscription growth over the prior two years. It previously announced 200,000 connected vehicles in LatAm.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.geotab.com/press-release/brazil-expansion/",
+        "title": "Geotab Enters Brazilian Market"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://one.busworld.org/news/geotab-surpasses-300000-subscriptions-and-reaffirms-its-dominance-of-the-telematics-market-in-latin-america",
+        "https://www.automotive-fleet.com/news/telematics-provider-geotab-inc-expands-into-brazil",
+        "https://mundologistica.com.br/noticias/geotab-ultrapassa-marca-de-200-mil-veiculos-conectados-na-america-latina"
+      ],
+      "applicability": "For G3 and G7, this is the closest comparable foreign entrant. Even a global leader with a reseller-partner model took years of regional presence before the Brazil subsidiary. No Brazil absolute count or share is disclosed, so the 256% growth may be from a small base.",
+      "limitations": "Self-reported vendor figures. No Brazil subscription count or fleet count. Geotab sells through resellers. The geotab.com fetch failed.",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G7"
+      ],
+      "verification": {
+        "status": "failed",
+        "method": "WebFetch of geotab.com failed; multiple snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E18",
+      "claim": "MiX Telematics opened a Sao Paulo subsidiary in 2013 to grow share in Brazil, building on existing channel-partner representation. Brazilian wins announced by 2022 include a public transport and waste company (352 vehicles plus a 1,000-vehicle proof of concept) and a bus operator expanding to 4,015 subscribers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.automotive-fleet.com/news/mix-telematics-opens-new-office-in-brazil",
+        "title": "MiX Telematics opens new office in Brazil"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://prnewswire.com/news-releases/leading-brazilian-passenger-transport-group-expands-sustainable-partnership-with-mix-telematics-301505121.html",
+        "https://www.powerfleet.com/mx/press-office/press-release/2022/leading-public-transport-company-in-brazil-partners-with-mix-telematics"
+      ],
+      "applicability": "For G3 and G7, a foreign entrant used channel partners and then a local subsidiary, and its public wins are a few large enterprise accounts. The pattern suggests acquisition by vehicles in large accounts, not thousands of small fleets.",
+      "limitations": "Dated (2013-2022). No total Brazil fleet count or share. No insurer channel evidence was found for Brazil.",
+      "contradicts": [],
+      "gapIds": [
+        "G3",
+        "G7"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E19",
+      "claim": "The ACNielsen BASES model reportedly assumes 75% of consumers who check the top purchase-intent box will buy, with lower rates for lower boxes, calibrated from tracked studies. Academic work treats intent-to-purchase as a probabilistic conversion rather than equivalence. Vendor sources note that top-box scores overpredict conversion through social-desirability bias and hypothetical optimism. No published B2B-specific conversion rate was found.",
+      "source": {
+        "kind": "web",
+        "ref": "https://marketingprofs.com/6/chandon1.asp",
+        "title": "MarketingProfs (Chandon) on intentions"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://english.ckgsb.edu.cn/wp-content/uploads/2017/12/intention.pdf",
+        "https://www.entropik.io/resources/blog-articles/say-do-gap-examples"
+      ],
+      "applicability": "For G4, even definite top-box purchase intent is discounted. 'Would consider' with no price is weaker than top-box 'definitely would buy', so a much steeper discount applies. The 64% cannot be mapped to share.",
+      "limitations": "Consumer-goods calibrations seen as snippets. A B2B conversion benchmark remains unknown.",
+      "contradicts": [
+        "E4"
+      ],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E20",
+      "claim": "Market-size estimates for Brazilian fleet management solutions: Ken Research gives USD 1,120 million in 2025, growing at a 13.50% CAGR to USD 2,395 million by 2031. Mobility Foresights gives USD 1.2 billion in 2026, reaching USD 2.3 billion by 2032.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.kenresearch.com/industry-reports/brazil-fleet-management-solutions-market.md",
+        "title": "Ken Research Brazil Fleet Management Solutions Market"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://mobilityforesights.com/product/brazil-fleet-management-market/"
+      ],
+      "applicability": "Gives a revenue-based denominator for C1. Even 15% would imply roughly USD 170M+ in revenue, far above a 4,000-fleet business.",
+      "limitations": "Low-authority market-research publishers seen as snippets. Scope definitions are unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Search snippets"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "search_result",
+      "effectiveClassification": "CORROBORATED",
+      "issues": []
+    },
+    {
+      "id": "E21",
+      "claim": "No evidence was found on the year-3 share achieved by any foreign telematics entrant in Brazil or Mexico. No Brazil-specific market shares for incumbents were found. No LGPD, NF-e tax/invoicing or entity-setup cost and time figures were retrieved.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "The core benchmark for G3 and the remaining parts of G6 are unresolved.",
+      "limitations": "Budget was exhausted. Paywalled reports (Berg Insight) would be needed.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3",
+        "G6"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Not found"
+      },
+      "untrustedInstructionsObserved": false,
+      "provenance": "none",
+      "effectiveClassification": "UNKNOWN",
+      "issues": []
+    }
+  ],
+  "rejected": [],
+  "violations": []
+}

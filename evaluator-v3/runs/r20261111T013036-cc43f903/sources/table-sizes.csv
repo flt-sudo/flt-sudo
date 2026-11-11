@@ -1,0 +1,7 @@
+table,total_size_gb,rows_millions,notes
+audit_events,1020,8900,append-only; rows older than 13 months = 780 GB
+orders,310,410,
+order_items,240,1300,
+shipment_events,150,620,includes Oct backfill
+customers,40,18,
+other (62 tables),80,,

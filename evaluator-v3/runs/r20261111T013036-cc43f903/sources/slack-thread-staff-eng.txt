@@ -1,0 +1,3 @@
+[staff-eng] We went from 1,760 to 1,840 last month, that's 80 GB/month. 160 GB free / 80 = 2 months. We need to shard, nothing else scales. Proposing 16 shards on customer_id via Citus-style routing.
+[sre-lead] fwiw the volume can be grown online
+[staff-eng] that's just kicking the can

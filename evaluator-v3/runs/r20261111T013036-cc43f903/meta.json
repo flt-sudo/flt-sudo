@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T013036-cc43f903",
+  "caseId": "ho-01-postgres-sharding",
+  "system": "agent",
+  "createdAt": "2026-11-11T01:30:36.718Z",
+  "request": "Our main Postgres cluster (orders platform) is at 92% disk. Our staff engineer says we are growing about 80 GB a month, which leaves us roughly two months before we hit the wall, and that the only durable fix is to shard the database into 16 shards by customer_id starting next sprint. That's a 2-3 quarter project that would freeze most feature work. Attached are the capacity report and the table-size breakdown. Should we commit to sharding now, and if not, what should we do instead? I need a recommendation I can take to the architecture review on Thursday.",
+  "fixtures": [
+    "capacity-report-2026-10.md",
+    "table-sizes.csv",
+    "data-retention-policy-excerpt.md",
+    "slack-thread-staff-eng.txt"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

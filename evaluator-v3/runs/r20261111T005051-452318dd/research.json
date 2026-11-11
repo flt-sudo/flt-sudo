@@ -1,0 +1,422 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "The on-demand Linux price of m7i.large (2 vCPU, 8 GiB) in us-east-1 is $0.1008/hr, about $73.58/month. Two independent third-party aggregators give this figure.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.doit.com/compute/spot/us-east-1/m7i.large",
+        "title": "AWS EC2 m7i.large - Spot, On-Demand & Savings Plan Pricing in us-east-1"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://calculator.holori.com/aws/ec2/m7i.large/us-east-1"
+      ],
+      "applicability": "G1 and the assumption that the remembered $0.1008/hr is current. It is the baseline for every discount and break-even calculation.",
+      "limitations": "Both sources are third-party aggregators, not the AWS Price List API, and the figure was seen only in search snippets. The fetch to calculator.holori.com failed with a DNS/network-policy error. The page collection date is unknown. Confirm against the AWS Price List API before purchase.",
+      "contradicts": [
+        "E2"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets from two domains; WebFetch blocked"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "A Holori m7i.large us-east-1 page shows per-AZ hourly prices of about $0.0383 to $0.0445/hr over 24 hours, described as an on-demand range. This is far below $0.1008 and is probably Spot pricing.",
+      "source": {
+        "kind": "web",
+        "ref": "https://calculator.holori.com/aws/ec2/m7i.large/us-east-1",
+        "title": "AWS m7i.large Price"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G1. Shows that aggregator labelling is unreliable, so official SKUs are needed.",
+      "limitations": "Single snippet. The label is ambiguous and the range most likely reflects Spot history. Not a list price.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "For m7i.large in us-east-1, Holori lists a 3-year No Upfront Compute Savings Plan rate of $0.0511/hr (about $37.32/mo, 49% saving) and a 3-year No Upfront EC2 Instance Savings Plan rate of $0.0457/hr (about $33.38/mo, 55% saving).",
+      "source": {
+        "kind": "web",
+        "ref": "https://calculator.holori.com/aws/ec2/m7i.large/us-east-1",
+        "title": "AWS m7i.large Price"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G1, C1 and C3. Gives indicative 3-year discounts and the gap between flexible and family-locked plans, roughly 6 percentage points.",
+      "limitations": "Single third-party source seen as a search snippet. An earlier snippet said no m7i.large reserved figure was found, so the search summaries are inconsistent. No figures were found for Partial or All Upfront payment, or for Standard or Convertible RIs, in us-east-1. Must be verified against the AWS Savings Plans pricing page or Price List API.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "aws-pricing.com gives monthly m7i.large 3-year All Upfront prices across all AWS locations, not us-east-1 alone. Standard RI: 29.06 min, 34.28 avg, 46.14 max. Convertible RI: 33.86 min, 41.49 avg, 55.22 max. The prices are for instances with a free operating system.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws-pricing.com/m7i.large.html",
+        "title": "Amazon EC2 Instance Type m7i.large"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G1, C3 and C5. Shows the order of magnitude of the gap between Standard and Convertible RIs.",
+      "limitations": "These are multi-region figures, not us-east-1 specific. The currency unit is assumed to be USD per month. Single snippet, page date unknown.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "AWS cut On-Demand prices for NVIDIA GPU instances from June 1, 2025: up to 45% for P5, up to 26% for P5en and up to 33% for P4d/P4de. The lower rates applied to Savings Plan purchases made after June 4, 2025. Measured against May 31, 2025 prices, the plain On-Demand cut for P5 was 44%.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/about-aws/whats-new/2025/06/pricing-usage-model-ec2-instances-nvidia-gpus",
+        "title": "Pricing and usage model updates for Amazon EC2 instances accelerated by NVIDIA GPUs"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.networkworld.com/article/4003551/aws-cuts-prices-of-some-ec2-nvidia-gpu-accelerated-instances.html?utm=hybrid_search",
+        "https://www.datacenterdynamics.com/en/news/aws-quietly-increases-prices-for-h200-ec2-instances-by-15/",
+        "https://aws.amazon.com/blogs/aws/announcing-up-to-45-price-reduction-for-amazon-ec2-nvidia-gpu-accelerated-instances"
+      ],
+      "applicability": "G2 and C2. AWS still cuts on-demand prices on existing instance types, but the recent cut was for supply-constrained GPU instances, not general-purpose x86 instances like m7i. Savings Plans bought before the cut kept their old rates, which illustrates the lock-in risk.",
+      "limitations": "The cut was for the GPU category, so it is weak evidence for general-purpose families. Snippet-level only.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets across aws.amazon.com, networkworld.com and datacenterdynamics.com"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "DCD reported that AWS later raised EC2 Capacity Blocks pricing for H200 instances by about 15%, calling that pricing dynamic. AWS reportedly said it would not raise On-Demand or Savings Plan prices.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.datacenterdynamics.com/en/news/aws-quietly-increases-prices-for-h200-ec2-instances-by-15/",
+        "title": "aws quietly increases prices for h200 ec2 instances by 15"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G2. Prices can also move upward on some products, which gives an upside scenario bound. It applies to Capacity Blocks, not On-Demand.",
+      "limitations": "Single snippet. The date is not visible, though it is after June 2025.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "In January 2016, AWS cut On-Demand, Reserved and Dedicated Host prices for C4 and M4 Linux instances by 5% in all regions except South America. Price reductions for M4 and T2 instances took effect in December 2016.",
+      "source": {
+        "kind": "web",
+        "ref": "https://awsinsider.net/Articles/2016/01/05/AWS-EC2-Price-Cuts.aspx",
+        "title": "AWS EC2 Price Cuts"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://aws.amazon.com/about-aws/whats-new/2016/12/price-reductions-for-amazon-ec2-4-m4-and-t2-instances-are-now-effective"
+      ],
+      "applicability": "G2 and C2. The most recent general-purpose (M-family) on-demand cuts found are from about 2016. No cuts to m5, m6i or m7i on-demand prices were found, which suggests a base rate near zero for general-purpose x86 cuts in the past roughly 9 years. That is an inference from absence.",
+      "limitations": "Absence of evidence comes from a limited search budget. A 2017 SQL Server licensing cut was also found but is licence-related. AWS's count of '107 price reductions' is undated.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets, two domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "m6i.large on-demand in us-east-1 is listed at $0.0960/hr, so m7i.large at $0.1008/hr is 5% more expensive than its predecessor. New generations have launched at higher list prices rather than prompting cuts to older ones.",
+      "source": {
+        "kind": "web",
+        "ref": "https://cloudprice.net/aws/ec2/compare/m6id.large-vs-m7i.large",
+        "title": "m7i.large vs m6id.large"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G2 and G3. It suggests the m6i price stayed in place after m7i launched, and that successors cost more per instance while offering better price-performance.",
+      "limitations": "The m6i figure comes from a single aggregator snippet, and the 5% ratio was calculated in the search summary. The m5.large price was not found. The snippet did not show which exact cloudprice.net page held the m6i figure; the URL here is one of the returned m6i comparison pages.",
+      "contradicts": [],
+      "gapIds": [
+        "G2",
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "Amazon EC2 M8i and M8i-flex (custom Intel Xeon 6) became generally available on August 28, 2025, in US East (N. Virginia) and other regions. AWS claims up to 15% better price-performance and up to 20% higher performance than M7i/M7i-flex, with 2.5x memory bandwidth. M8i-flex offers 5% better price-performance at 5% lower prices. They can be bought On-Demand, through Savings Plans or as Spot.",
+      "source": {
+        "kind": "web",
+        "ref": "https://aws.amazon.com/about-aws/whats-new/2025/08/amazon-ec2-m8i-and-m8i-flex-instances-generally-available",
+        "title": "New General Purpose Amazon EC2 M8i and M8i-flex instances"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://aws.amazon.com/blogs/aws/new-general-purpose-amazon-ec2-m8i-and-m8i-flex-instances-are-now-available",
+        "https://www.ciodive.com/spons/new-general-purpose-amazon-ec2-m8i-and-m8i-flex-instances-are-now-available/805426/"
+      ],
+      "applicability": "G3 and C3. A successor with better price-performance is already available in us-east-1. This raises the obsolescence risk of an m7i-locked 3-year commitment (Standard RI or EC2 Instance Savings Plan) and favours a Compute Savings Plan or Convertible RI.",
+      "limitations": "These are vendor performance claims ('up to'). The ciodive item is sponsored, republished AWS content, so it is not fully independent. The snippet lists purchase options without Reserved Instances.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "Third-party listings show m8i.8xlarge at $1.6934/hr and m7i.8xlarge at $1.6128/hr on-demand in us-east-1. That makes M8i about 5% more per vCPU-hour, consistent with a 15% price-performance gain coming from a roughly 20% performance gain.",
+      "source": {
+        "kind": "web",
+        "ref": "https://cloudprice.net/aws/ec2/compare/m7a.8xlarge-vs-m8i.8xlarge",
+        "title": "m8i.8xlarge vs m7a.8xlarge"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://calculator.holori.com/aws/ec2/m7i.8xlarge/us-east-1"
+      ],
+      "applicability": "G3. A successor is cheaper per unit of performance but not per instance-hour, which matters if the workload does not scale with CPU performance.",
+      "limitations": "Each figure comes from a different aggregator, and the comparison is inferred. A conflicting Holori m8i figure ($0.6471/hr, probably Spot) was reported. The m8i.large on-demand price was not confirmed. The m7g.large on-demand price is listed at $0.0816/hr by DoiT (https://www.doit.com/compute/spot/us-east-1/m7g.large, single snippet). m8g.large was not confirmed.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "Savings Plans and EC2 Reserved Instances are noncancellable under the AWS Service Terms, and payments are nonrefundable apart from narrow exceptions. An active Savings Plan cannot be cancelled for convenience, and Savings Plans cannot be resold.",
+      "source": {
+        "kind": "web",
+        "ref": "https://conductatlas.com/platform/aws-bedrock/aws-service-terms/non-cancellable-reserved-instance-and-capacity-block-commitments/",
+        "title": "AWS Service Terms (mirror)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://oneuptime.com/blog/post/2026-07-28-cancel-modify-transfer-return-aws-savings-plan/markdown"
+      ],
+      "applicability": "G5 and C6. The downside of an unused commitment is the full remaining commitment.",
+      "limitations": "Both are secondary sources, a terms mirror and a blog dated 2026-07-28. The primary AWS docs fetch failed because docs.aws.amazon.com is blocked by network policy.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets, two domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "Only EC2 Standard RIs can be sold on the Reserved Instance Marketplace. Since January 15, 2024, AWS restricts resale of RIs bought at a discount, for example through private pricing; discounted RIs bought before October 1, 2023 could still be resold until January 15, 2024. From June 1, 2025, RIs and Savings Plans are limited to a single end customer, so partners cannot share or resell them across customers.",
+      "source": {
+        "kind": "web",
+        "ref": "https://vantage.sh/blog/aws-reserved-instances-resellers-updates",
+        "title": "aws reserved instances resellers updates"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "CORROBORATED",
+      "corroboratingRefs": [
+        "https://www.perfectscale.io/blog/aws-ri-reselling-ban",
+        "https://cast.ai/blog/how-to-deal-with-aws-ban-on-reserved-instances-resale/",
+        "https://holori.com/aws-policy-update-reserved-instances-and-savings-plans-resellers-impacted/"
+      ],
+      "applicability": "G5 and C6. Resale is the only exit route and is available only for Standard RIs bought at list price, with Marketplace restrictions. Convertible RIs and Savings Plans cannot be resold.",
+      "limitations": "Secondary vendor blogs. The current AWS RI Marketplace documentation could not be fetched. Exactly which 'discounted' RIs are excluded should be confirmed in AWS docs.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippets, multiple domains"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E13",
+      "claim": "Convertible RIs can be exchanged during their term for other Convertible RIs with a different instance family, instance type, tenancy or platform. They cannot be sold on the RI Marketplace.",
+      "source": {
+        "kind": "web",
+        "ref": "https://zesty.co/?p=376",
+        "title": "AWS Reserved Instances VS Savings Plans"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G5 and C3. A Convertible RI could be moved to M8i during the term, which reduces obsolescence risk.",
+      "limitations": "The snippet attribution is unclear because the search summary did not tie this point to a specific URL; the URL is the most likely source. AWS's exchange rule that the new reservation must be of equal or greater value was not verified.",
+      "contradicts": [],
+      "gapIds": [
+        "G5"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E14",
+      "claim": "AWS documentation still lists M4 among supported previous-generation EC2 instance types. This suggests general-purpose families stay purchasable for years after successors launch: M4 launched in 2015, and M5, M6i, M7i and M8i followed.",
+      "source": {
+        "kind": "web",
+        "ref": "https://docs.aws.eu/ec2/latest/instancetypes/pg.html",
+        "title": "Specifications for Amazon EC2 previous generation instances"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Assumption that m7i.large remains available through the term. A family is unlikely to be withdrawn within 3 years, but the availability of m4 does not guarantee the same for m7i.",
+      "limitations": "Single snippet. The page date is unknown. The 2015 launch year for M4 is background knowledge, not retrieved. RDS has retired M4, R4 and T2, but EC2 has not been shown to.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "search snippet only"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E15",
+      "claim": "AWS does not publish future on-demand prices, so the January 2028 on-demand price for m7i.large cannot be known. No source found gives a forecast. RI and Savings Plan rates are fixed at purchase for the whole term, so the decision depends on usage across all 36 months, not on the price at one date.",
+      "source": {
+        "kind": "none",
+        "ref": "none"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "UNKNOWN",
+      "corroboratingRefs": [],
+      "applicability": "The user's assumptions that the 2028 price can be forecast and that one date is the right basis. Scenarios should use the E5, E7 and E8 base rates: no cut likely for general-purpose x86, about 5% historical cuts circa 2016, and GPU cuts of 25-45% under supply conditions.",
+      "limitations": "Any single 2028 figure would be speculation.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "no source found; reasoning from commitment mechanics"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E16",
+      "claim": "The request says the requester wants to decide on a 3-year commitment based on the January 2028 on-demand price for m7i.large in us-east-1. It gives no usage level, confidence, OS, tenancy or cost of capital.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "G4, G6 and the OS assumption. Without these inputs, recommendations can only be conditional.",
+      "limitations": "Requester inputs are missing.",
+      "contradicts": [],
+      "gapIds": [
+        "G4",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G1",
+      "reason": "Official AWS Price List API and pricing pages could not be inspected. WebFetch failed with DNS/network-policy errors for calculator.holori.com and docs.aws.amazon.com; those hosts would need to be allowed. Only aggregator snippets were available. No us-east-1 figures were found for 1-year rates, Standard or Convertible RI rates, or Partial/All Upfront options for m7i.large. The supplied run directory has no sources/ folder."
+    },
+    {
+      "gapId": "G2",
+      "reason": "No systematic price history for m5, m6i or m7i was retrieved. The conclusion that no general-purpose on-demand cut has occurred since about 2016 rests on absence of evidence within a 12-search budget."
+    },
+    {
+      "gapId": "G3",
+      "reason": "On-demand prices for m8i.large and m8g.large in us-east-1 were not confirmed. Graviton (m8g) price-performance was not researched."
+    },
+    {
+      "gapId": "G4",
+      "reason": "This is a requester input and cannot be researched. Steady-state usage and confidence over 36 months are not given in the request."
+    },
+    {
+      "gapId": "G6",
+      "reason": "This is a requester input. Their cost of capital or discount rate is not given."
+    },
+    {
+      "gapId": "G5",
+      "reason": "Partially resolved from secondary sources only. Primary AWS documentation on RI Marketplace eligibility and Convertible RI exchange rules could not be fetched."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

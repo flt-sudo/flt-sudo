@@ -1,0 +1,25 @@
+{
+  "runId": "r20261111T042031-724a780f",
+  "caseId": "ho-10-exclusive-distributor",
+  "system": "baseline",
+  "createdAt": "2026-11-11T04:20:31.020Z",
+  "request": "We make industrial air-quality sensors and want to grow in the EU. Meridian Supply has offered a 3-year exclusive distribution agreement for the whole EU and projects EUR 12M of sales of our products over the term. The alternative is building our own small direct sales team. Our sales VP likes Meridian because 'we keep most of that revenue with zero headcount'. Attached: Meridian's term sheet, their projection, our reference-call notes, and the internal direct-team estimate. Which route should we take, and if Meridian, on what terms?",
+  "fixtures": [
+    "meridian-term-sheet.md",
+    "meridian-projection.md",
+    "reference-call-notes.md",
+    "direct-team-estimate.md"
+  ],
+  "budgets": {
+    "maxWebSearches": 12,
+    "maxWebFetches": 8,
+    "maxRevisions": 2
+  },
+  "promptVersion": "v5",
+  "environment": {
+    "claudeCodeVersion": "2.1.42",
+    "model": null,
+    "webFetchAvailable": false,
+    "notes": []
+  }
+}

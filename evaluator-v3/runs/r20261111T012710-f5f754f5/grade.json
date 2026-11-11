@@ -1,0 +1,44 @@
+{
+  "runId": "r20261111T012710-f5f754f5",
+  "caseId": "dev-05-queue-throughput",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v4",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The source documents were not opened. Accuracy was judged against the reference summary, which agrees with every key figure in the output. Statements the reference does not cover, such as StreamCore being CPU-bound on replication and fsync being per batch, were not checked against the sources. A self-assessed score appears at the end of the output and was ignored. The output cites an external mqperf link for methodology only, and it does not affect the conclusions."
+}

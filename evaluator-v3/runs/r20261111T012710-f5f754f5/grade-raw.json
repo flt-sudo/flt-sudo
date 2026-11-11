@@ -1,0 +1,93 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output addresses the actual decision and covers all three mustFlag issues: the non-comparable vendor test, StreamCore's 220k result and QueueForge's rebalancing dip. It also covers the criteria an expert would expect: node cap, latency, failure behaviour, operations and licensing.",
+      "quotes": [
+        "The vendor's \"1 million msg/s\" figure comes from a test that does not resemble your workload",
+        "measured it at 220,000 msg/s",
+        "throughput can drop by up to 40% for 10–20 minutes during rebalancing"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "The numbers match the reference: 220k, 410k at p99 61 ms, 340k at p99 under 50 ms, and 246k and 204k under a 40% rebalancing drop. The derived figures are also correct: 27% below target versus a 36% increase needed, and 5/6 scaling. Estimates are labelled as estimates, and no fabrication is evident.",
+      "quotes": [
+        "410k × 0.6 ≈ 246k",
+        "340k × 0.6 ≈ 204k",
+        "These are my estimates, not measurements."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains mechanisms: the byte rate (100 MB/s versus 300 MB/s, about 900 MB/s at RF3) and replication being StreamCore's CPU bottleneck. It quantifies headroom and failure scenarios, and works through edge cases such as rolling upgrades, consumer reads and fsync semantics.",
+      "quotes": [
+        "At RF=3 that becomes about **900 MB/s** of durable writes across the cluster",
+        "the benchmark reports it was CPU-bound on replication",
+        "Rolling upgrades could cause repeated throughput dips"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It challenges the vendor claim and the meaning of 'sustains'. It notes that neither option survives a node failure, presents counterarguments fairly, and states what would change the conclusion.",
+      "quotes": [
+        "Neither product, as documented, holds 300,000 msg/s on 6 nodes through a node failure.",
+        "*\"One benchmark isn't enough.\"* True.",
+        "This is only worth considering if the vendor shows a result with RF=3, persistence on, 1 KB messages and 6 nodes or fewer at 300k or more."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The verdict is clear and conditional, with concrete next steps: a proof of concept, a node-kill test at 300k, setting a p99 target, and sizing for about 500k.",
+      "quotes": [
+        "**Recommendation: QueueForge 2.3, on the condition that a proof of concept and a failure test on your own hardware confirm it.**",
+        "Kill a node at 300k msg/s. Measure how deep the throughput dip goes, how long it lasts, the backlog, and p99"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised, with tables. Claims are tied to named documents, calculations are shown, and there is a dedicated section on remaining uncertainty.",
+      "quotes": [
+        "## 11. Remaining uncertainty",
+        "From the QueueForge operations guide:"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "| Persistence | Disabled (in-memory) | Persisted |"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The only benchmark that matches your workload measured it at 220,000 msg/s. That is about 27% short of 300,000."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "throughput can drop by up to 40% for 10–20 minutes during rebalancing. In that window it would fall below 300,000 msg/s."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the vendor's 1M msg/s claim as applicable to the requirement",
+      "triggered": false,
+      "evidence": "\"It does not support the claim that StreamCore can handle your workload, and you cannot scale it to your case.\""
+    },
+    {
+      "condition": "Recommends StreamCore as meeting 300k durable msg/s",
+      "triggered": false,
+      "evidence": "\"StreamCore 4.0 does not meet the requirement.\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The source documents were not opened. Accuracy was judged against the reference summary, which agrees with every key figure in the output. Statements the reference does not cover, such as StreamCore being CPU-bound on replication and fsync being per batch, were not checked against the sources. A self-assessed score appears at the end of the output and was ignored. The output cites an external mqperf link for methodology only, and it does not affect the conclusions."
+}

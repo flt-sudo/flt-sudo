@@ -1,0 +1,179 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict] The verdict says 'The external trials with positive wellbeing results ran at full pay (E20, E23, E24, E11)' with no hedge. E23 (Microsoft Japan) reports productivity and a satisfaction poll, not a wellbeing outcome. E23, E24 and E20 are each INFERRED from a single search summary. Fan et al.'s no-pay-cut term rests on E11 alone, and E21 did not restate it. C6 and CL13 hedge E11 ('per one summary'), but the verdict states all of this as settled."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict; CL13; tradeoffs (pay terms)] The verdict says 'At full pay, cost per paid hour rises 25% (K12), and that is the main cost line.' A decision-maker reading only the verdict could take this as a 25% payroll increase. It is not one. C6 itself notes that headcount-neutral payroll is unchanged at full pay, and that the 25% applies only to hours bought back to protect coverage (375 vs 300 FTE). At full pay and constant headcount, the real cost is the 20% loss of agent-hours, which shows up as service risk or as buy-back cost. A 25% higher rate per hour is not itself a cost line. The previous review's D1 framed it as 'the main cost line' in similar terms, so the draft partly inherited this framing. The verdict should state the mechanism the way C6 does. Also, 'cost per paid hour' would be clearer as 'cost per hour worked'."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": false,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "major",
+          "source": "reviewer",
+          "detail": "D1 [alternatives 'Randomised, staggered pilot'; practicalImplications (selection, go/no-go rules); CL14] The resized pilot (about 60 agents in randomly assigned teams vs about 60 in control, at least 6 months) gets a power check for attrition (K16, K17) but none for the metrics that actually gate the decision. At typical support team sizes, 60 agents is only about 5 to 8 teams per arm. Nordvik needed 112 randomised teams to get a total-output CI of about +/-5 points. A cluster-randomised comparison with about 6 teams per arm would have a much wider interval, so 'tickets resolved per team ... materially worse than control' and first-response-time differences of the size Nordvik reports (+11%, CI +4% to +18%) may not be distinguishable from noise. The draft correctly concludes that attrition cannot gate the decision, but it does not apply the same reasoning to throughput and FRT. Either the pilot is underpowered for its own go/no-go rules, or the analysis needs a stated design (for example, weekly difference-in-differences with pre-period baselines, or more or smaller clusters). This material is new in draft 2."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.98 / 0.80",
+      "claimed": 1.225,
+      "actual": 1.2249999999999999,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(13.0 - 9.1) / 13.0",
+      "claimed": 0.3,
+      "actual": 0.30000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.93 / 0.80",
+      "claimed": 1.1625,
+      "actual": 1.1625,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "1.03 / 0.80",
+      "claimed": 1.2875,
+      "actual": 1.2874999999999999,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "1 - 32 / 40",
+      "claimed": 0.2,
+      "actual": 0.19999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(40 - 36) / 40",
+      "claimed": 0.1,
+      "actual": 0.1,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "300 * 40 / 32",
+      "claimed": 375,
+      "actual": 375,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "300 / 0.98",
+      "claimed": 306.12,
+      "actual": 306.12244897959187,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "300 * (13.0 - 9.1) / 100",
+      "claimed": 11.7,
+      "actual": 11.7,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "17 / 68",
+      "claimed": 0.25,
+      "actual": 0.25,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "40 / 32",
+      "claimed": 1.25,
+      "actual": 1.25,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "300 * 0.07",
+      "claimed": 21,
+      "actual": 21.000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(8 - 6) / 8",
+      "claimed": 0.25,
+      "actual": 0.25,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(68 + 17) * 6 / (68 * 8)",
+      "claimed": 0.9375,
+      "actual": 0.9375,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "60 * 0.13 * 0.5",
+      "claimed": 3.9,
+      "actual": 3.9000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "60 * 0.091 * 0.5",
+      "claimed": 2.73,
+      "actual": 2.73,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": false,
+  "revisionRecommended": true,
+  "revisionTargets": [
+    {
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "source": "reviewer",
+      "detail": "D1 [alternatives 'Randomised, staggered pilot'; practicalImplications (selection, go/no-go rules); CL14] The resized pilot (about 60 agents in randomly assigned teams vs about 60 in control, at least 6 months) gets a power check for attrition (K16, K17) but none for the metrics that actually gate the decision. At typical support team sizes, 60 agents is only about 5 to 8 teams per arm. Nordvik needed 112 randomised teams to get a total-output CI of about +/-5 points. A cluster-randomised comparison with about 6 teams per arm would have a much wider interval, so 'tickets resolved per team ... materially worse than control' and first-response-time differences of the size Nordvik reports (+11%, CI +4% to +18%) may not be distinguishable from noise. The draft correctly concludes that attrition cannot gate the decision, but it does not apply the same reasoning to throughput and FRT. Either the pilot is underpowered for its own go/no-go rules, or the analysis needs a stated design (for example, weekly difference-in-differences with pre-period baselines, or more or smaller clusters). This material is new in draft 2."
+    }
+  ],
+  "openDecisiveGaps": [
+    "Was pay held constant in the Nordvik 32-hour arm? Is the 0.4 SD wellbeing figure a between-arm difference? Is the 9.1% vs 13.0% attrition gap statistically significant?",
+    "What is Nordvik's first-response-time effect for customer-service teams on staggered schedules, was staggering randomised, and what was the subgroup's output result?",
+    "What are the org's SLA headroom, utilisation vs demand, current voluntary attrition, cost per hire and intended pay terms?"
+  ]
+}

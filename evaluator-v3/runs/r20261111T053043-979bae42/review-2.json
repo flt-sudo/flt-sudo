@@ -1,0 +1,115 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "decision_usefulness",
+      "severity": "major",
+      "description": "The resized pilot (about 60 agents in randomly assigned teams vs about 60 in control, at least 6 months) gets a power check for attrition (K16, K17) but none for the metrics that actually gate the decision. At typical support team sizes, 60 agents is only about 5 to 8 teams per arm. Nordvik needed 112 randomised teams to get a total-output CI of about +/-5 points. A cluster-randomised comparison with about 6 teams per arm would have a much wider interval, so 'tickets resolved per team ... materially worse than control' and first-response-time differences of the size Nordvik reports (+11%, CI +4% to +18%) may not be distinguishable from noise. The draft correctly concludes that attrition cannot gate the decision, but it does not apply the same reasoning to throughput and FRT. Either the pilot is underpowered for its own go/no-go rules, or the analysis needs a stated design (for example, weekly difference-in-differences with pre-period baselines, or more or smaller clusters). This material is new in draft 2.",
+      "location": "alternatives 'Randomised, staggered pilot'; practicalImplications (selection, go/no-go rules); CL14",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The verdict says 'At full pay, cost per paid hour rises 25% (K12), and that is the main cost line.' A decision-maker reading only the verdict could take this as a 25% payroll increase. It is not one. C6 itself notes that headcount-neutral payroll is unchanged at full pay, and that the 25% applies only to hours bought back to protect coverage (375 vs 300 FTE). At full pay and constant headcount, the real cost is the 20% loss of agent-hours, which shows up as service risk or as buy-back cost. A 25% higher rate per hour is not itself a cost line. The previous review's D1 framed it as 'the main cost line' in similar terms, so the draft partly inherited this framing. The verdict should state the mechanism the way C6 does. Also, 'cost per paid hour' would be clearer as 'cost per hour worked'.",
+      "location": "verdict; CL13; tradeoffs (pay terms)",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The verdict says 'The external trials with positive wellbeing results ran at full pay (E20, E23, E24, E11)' with no hedge. E23 (Microsoft Japan) reports productivity and a satisfaction poll, not a wellbeing outcome. E23, E24 and E20 are each INFERRED from a single search summary. Fan et al.'s no-pay-cut term rests on E11 alone, and E21 did not restate it. C6 and CL13 hedge E11 ('per one summary'), but the verdict states all of this as settled.",
+      "location": "verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Pay terms are now central. The verdict, C6, CL13, the tradeoffs and the alternatives cover full pay vs pro rata. They note that none of the four sources states pay terms (verified against sources A to D) and that the external positive trials ran at full pay. Contract, consultation and legal review are added to C6, practicalImplications and remainingUncertainty. One residual framing issue is raised as new minor D2."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "'Two benefits look real' is replaced with 'possible benefits of unknown reliability, not established effects'. The between-arm vs within-arm ambiguity, the missing CIs and significance tests, the unlabelled arms and the point that 'validated' describes the scale are now stated in the verdict, C4, C5, CL5 and CL6. The do-not-proceed alternative no longer leans on them as established. This matches source-B, which gives no CI or arm labels for these lines."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The verdict and C2 now flag the assumed 20% cut, pooling with non-support billable output, the missing subgroup output, and the -7% lower bound as about 21 FTE (K13: 300*0.07 = 21, correct). The C2 strength now says the CI rules out a 40% gain only across the pooled sample. K8 is relabelled as an optimistic bound."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "The pilot is resized (about 60 vs 60, at least 6 months) and teams are randomly assigned, not volunteers. Q2 is used to collect baselines and launch the pilot. The draft adds pre-registered go/no-go rules, a stepped-wedge scale-up and protection against contamination. The attrition power check (K16 = 3.9, K17 = 2.73, both correct) moves attrition to a monitored outcome. Pilot power for throughput and FRT is still unaddressed; this is raised as new D1 because the material changed."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "'Presumably used rostering design' is removed. The South Cambs contradiction is now explicitly unresolved, with E24 and E25 cited."
+    },
+    {
+      "id": "D6",
+      "status": "fixed",
+      "note": "K14 (0.25) and K15 ((85*6)/(68*8) = 0.9375) are added with the baseline assumption flagged, and K8 is corrected to 306.12. Recomputed: both correct."
+    },
+    {
+      "id": "D7",
+      "status": "fixed",
+      "note": "CL1 and the verdict now call 'uncontrolled' an inference, citing E22. Fan et al. peer review is described as inferred from the venue (E21)."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Was pay held constant in the Nordvik 32-hour arm? Is the 0.4 SD wellbeing figure a between-arm difference? Is the 9.1% vs 13.0% attrition gap statistically significant?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is Nordvik's first-response-time effect for customer-service teams on staggered schedules, was staggering randomised, and what was the subgroup's output result?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the org's SLA headroom, utilisation vs demand, current voluntary attrition, cost per hire and intended pay terms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How many support teams of what size are available for randomisation, and what minimum detectable effect on FRT and tickets resolved would a pilot of the proposed size give?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed, and pay terms and legal or consultation issues are now covered. Internal-data gaps are explicitly flagged."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Uncertainty about Nordvik's wellbeing and attrition results and the search-summary provenance are now stated accurately. One minor unhedged statement about full pay remains in the verdict (D3)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All recomputed calculations (K1 to K17) are correct, and the pooled vs support caveats are now applied. The verdict's 'main cost line' framing is imprecise but is clarified in C6 (D2, minor)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Four options are compared fairly, including do-not-proceed on revised grounds. The counterarguments are strengthened, and the South Cambs contradiction is left honestly unresolved."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": false,
+      "reason": "The pilot design is much improved, but its go/no-go metrics (throughput, FRT) get no power or detectability check, even though the draft applied exactly that reasoning to attrition (D1)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "The cited IDs exist and match the packet and sources. Claims about what sources A to D omit (pay terms, arm labels, CIs) match the fixture text. No injected instructions were found or followed."
+    }
+  ]
+}

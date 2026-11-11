@@ -1,0 +1,338 @@
+{
+  "evidence": [
+    {
+      "id": "E1",
+      "claim": "The memo states: peak load = 4,000 logins/min; each bcrypt verify = 250 ms CPU; '4,000 x 0.25 s = 1,000 core-seconds per second -> ~1,000 cores at peak'. It also states 'bcrypt output is 184 bits; SHA-256 is 256 bits, so SHA-256 is strictly stronger', SHA-256 verify = 0.0004 ms, and proposes migration 'on next login, verify bcrypt and re-store as sha256(salt + password)'. Memo dated 2026-10-28.",
+      "source": {
+        "kind": "fixture",
+        "ref": "hashing-proposal-memo.md",
+        "title": "Proposal: move password hashing to SHA-256"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "The claims under evaluation (C2, C4, G1, G6).",
+      "limitations": "The memo multiplies a per-minute rate (4,000/min) by seconds of CPU and labels the result per second, which suggests a 60x unit error (see E4).",
+      "contradicts": [
+        "E4",
+        "E5"
+      ],
+      "gapIds": [
+        "G1",
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E2",
+      "claim": "Auth service metrics (Oct 2026): peak password logins 4,000 per minute; auth cluster 48 vCPU with peak CPU 41%; 2025 incident: credential-stuffing burst of ~30,000 attempts/min mitigated by rate limiting at the edge.",
+      "source": {
+        "kind": "fixture",
+        "ref": "auth-service-metrics.md",
+        "title": "Auth service metrics (Oct 2026)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Observed telemetry for checking the core count (G1) and attack load (G5).",
+      "limitations": "Does not separate hashing CPU from other work. Covers one month only. Does not say how many of the ~30,000 attempts/min reached the hashing tier after edge rate limiting, and gives no rate-limit configuration.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E3",
+      "claim": "Internal benchmark of CPU ms per verify on a prod core: bcrypt cost=12: 250; bcrypt cost=11: 125; argon2id m=64MiB t=3 p=1: 180; sha256 salted single iteration: 0.0004.",
+      "source": {
+        "kind": "fixture",
+        "ref": "auth-benchmark.csv",
+        "title": "auth benchmark"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [],
+      "applicability": "Per-verify costs for recomputing cores for each option (G1, G4).",
+      "limitations": "Hardware, library versions and method are not stated. 250 ms for cost 12 was not checked against external CPU benchmarks.",
+      "contradicts": [],
+      "gapIds": [
+        "G1",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read supplied fixture"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E4",
+      "claim": "Recomputed from E2 and E3: 4,000 logins/min is 4,000/60 = about 66.7 verifies/s. At 0.25 CPU-s each that is about 16.7 cores busy at peak, not about 1,000. Observed busy capacity is 48 vCPU x 0.41 = about 19.7 vCPU, which fits the corrected figure. With the same arithmetic, bcrypt-11 at 0.125 s needs about 8.3 cores and Argon2id at 0.18 s needs about 12 cores. A 30,000/min burst at bcrypt-12, if it all reached the hashing tier, would need 500 verifies/s x 0.25 s = about 125 cores.",
+      "source": {
+        "kind": "fixture",
+        "ref": "auth-benchmark.csv"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "auth-service-metrics.md",
+        "hashing-proposal-memo.md"
+      ],
+      "applicability": "Central to C2 and C5. The memo's 1,000-core figure appears to be a 60x per-minute/per-second error.",
+      "limitations": "Arithmetic derived from fixtures and should be re-checked by the analysis stage. vCPU is not the same as a physical core. Assumes hashing dominates the cluster's CPU, which the metrics do not confirm. The burst figure assumes no rate limiting.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G1",
+        "G4",
+        "G5"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Arithmetic on fixture values"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E5",
+      "claim": "OWASP Password Storage Cheat Sheet (markdown source) says fast general-purpose hashes such as SHA-256 are 'not suitable for password storage because they allow attackers to perform large numbers of guesses quickly'. Recommended options: Argon2id first choice, minimum 'm=19456 (19 MiB), t=2, p=1'; scrypt 'N=2^17 (128 MiB), r=8 (1024 bytes), p=1'; bcrypt for legacy systems, 'work factor should be as large as verification server performance will allow, with a minimum of 10'; PBKDF2 for FIPS-140, 'PBKDF2-HMAC-SHA256: 600,000 iterations'. Rule of thumb: 'calculating a hash should take less than one second'. It also warns that too high a work factor can enable denial-of-service.",
+      "source": {
+        "kind": "web",
+        "ref": "https://raw.githubusercontent.com/OWASP/CheatSheetSeries/master/cheatsheets/Password_Storage_Cheat_Sheet.md",
+        "title": "OWASP Password Storage Cheat Sheet (GitHub source)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "https://www.encryptionconsulting.com/password-storage-done-right-hashing-salting-and-bcrypt-vs-argon2-vs-pbkdf2/"
+      ],
+      "applicability": "C3, C4, C1. Rules out single-iteration SHA-256 and supports the view that strength comes from work factor rather than digest length. Both bcrypt cost 11 and the benchmarked Argon2id (64 MiB, t=3) meet OWASP minimums.",
+      "limitations": "Fetched from the GitHub master branch, not the rendered site; the cheatsheetseries.owasp.org host could not be resolved in this environment. The quotes were extracted by a summarising fetch model. The corroborating refs are search-result entries only.",
+      "contradicts": [
+        "E1"
+      ],
+      "gapIds": [
+        "G3",
+        "G2",
+        "G4"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of OWASP cheat sheet markdown"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E6",
+      "claim": "OWASP upgrading legacy hashes: the usual way to raise a work factor is to wait for the user's next login and re-hash 'their password with the new work factor'. Layering (using the existing hash as input to a stronger algorithm, e.g. bcrypt(md5)) 'avoids the need to know the original password; however, it can make the hashes easier to crack', and layered hashes 'should be replaced with direct hashes of the users' passwords next time the user logs in'.",
+      "source": {
+        "kind": "web",
+        "ref": "https://raw.githubusercontent.com/OWASP/CheatSheetSeries/master/cheatsheets/Password_Storage_Cheat_Sheet.md",
+        "title": "OWASP Password Storage Cheat Sheet (GitHub source)"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://docs.duendesoftware.com/identityserver/usermanagement/reference/password-hashing/"
+      ],
+      "applicability": "G6. The memo uses the same rehash-on-login mechanism but in the downgrade direction: each active user's strong hash is replaced with a fast one. The recommended pattern is rehash-on-login upward, e.g. to Argon2id, with no layering needed because the current hashes are already bcrypt.",
+      "limitations": "The point that the memo's migration weakens active users' hashes, and that a breach mid-migration would expose a mixed bcrypt/SHA-256 database, is inference, not OWASP text. The Duende ref is a search-result entry only.",
+      "contradicts": [],
+      "gapIds": [
+        "G6"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of OWASP cheat sheet markdown"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E7",
+      "claim": "RTX 4090 hashcat v6.2.6 benchmark (Chick3nman gist, created Oct 14 2022): Mode 1400 SHA2-256 '21975.5 MH/s'; Mode 1410 sha256($pass.$salt) '21960.3 MH/s'; Mode 1420 sha256($salt.$pass) '19450.8 MH/s'; Mode 3200 bcrypt [Iterations: 32] '184.0 kH/s'.",
+      "source": {
+        "kind": "web",
+        "ref": "https://gist.github.com/Chick3nman/32e662a5bb63bc4f51b847bb422222fd",
+        "title": "Chick3nman RTX 4090 hashcat benchmark gist"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "VERIFIED",
+      "corroboratingRefs": [
+        "https://hashcat.net/forum/post-56468.html",
+        "https://hashcat.net/forum/printthread.php?tid=13338"
+      ],
+      "applicability": "G2, C1, C4. Mode 1420 matches the proposed sha256(salt + password) construction. About 19.45 billion guesses/s per consumer GPU against the proposed scheme.",
+      "limitations": "The bcrypt figure is at Iterations 32, which is cost 5 (hashcat's default benchmark), not cost 12. 2022 hardware and hashcat version, so newer GPUs (e.g. RTX 5090) are faster. Stock clocks on a single GPU. Forum snippets report 21188.1 MH/s and 22138.4 MH/s for mode 1400 on other 4090 runs, which is consistent. A third-party table claims 63.0 GH/s SHA-256 and ~14 kH/s bcrypt; it is inconsistent with these and lower weight.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "WebFetch of gist; corroborated by hashcat forum search snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E8",
+      "claim": "Scaling E7 to cost 12: bcrypt work doubles per cost step, so cost 12 (4,096 iterations) is 2^7 = 128x the cost-5 work. That gives roughly 184.0/128 = about 1.44 kH/s per RTX 4090. Against about 19,450.8 MH/s for sha256($salt.$pass), the per-GPU attacker speed-up from the switch is on the order of 10^7 (about 13 million x). The memo's own CPU figures give 250/0.0004 = 625,000x per core.",
+      "source": {
+        "kind": "web",
+        "ref": "https://gist.github.com/Chick3nman/32e662a5bb63bc4f51b847bb422222fd"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "auth-benchmark.csv"
+      ],
+      "applicability": "G2 and C1. Quantifies how much offline-cracking protection would be lost.",
+      "limitations": "Extrapolation, not a measured cost-12 benchmark; actual hashcat scaling may not be exactly linear. To be re-checked by the analysis stage.",
+      "contradicts": [],
+      "gapIds": [
+        "G2"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "Arithmetic extrapolation from verified benchmark"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E9",
+      "claim": "NIST SP 800-63B-4: 'Verifiers SHALL store passwords in a form that is resistant to offline attacks. Passwords SHALL be salted and hashed using a suitable password hashing scheme.' 'Password hashing schemes take a password, a salt, and a cost factor as inputs.' 'The chosen cost factor SHOULD be as high as practical without negatively impacting verifier performance. It SHOULD be increased over time.' Their purpose is 'to make each password guess more expensive for an attacker who has obtained a hashed password file'. An approved scheme from the latest SP 800-132 or updated NIST guidelines SHOULD be used.",
+      "source": {
+        "kind": "web",
+        "ref": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators",
+        "title": "NIST SP 800-63B-4 Authenticators"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://pages.nist.gov/800-63-4/sp800-63b/passwords",
+        "https://github.com/usnistgov/800-63-3/blob/nist-pages/sp800-63b/sec5_authenticators.md"
+      ],
+      "applicability": "C3, C4. A single-iteration SHA-256 has no cost factor, so it does not appear to meet the 'password hashing scheme with cost factor' expectation.",
+      "limitations": "Search snippets only; pages.nist.gov could not be resolved for WebFetch. NIST does not set a numeric cost. Sources disagree on whether Argon2 or bcrypt count as NIST-'approved' (one source says SP 800-132 means PBKDF2), which matters if FIPS alignment is required. The 800-63-3 text named PBKDF2 and Balloon as examples.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippets of NIST pages"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E10",
+      "claim": "PCI DSS 4.x Requirement 8.3.2 requires strong cryptography to render all authentication factors unreadable during transmission and storage. The PCI SSC FAQ says: 'Yes. Using strong cryptography to hash the password meets the intent of the PCI DSS Requirement 8.3.2.' Requirement 3.5.1.1 (keyed hashes) applies to PAN, not passwords.",
+      "source": {
+        "kind": "web",
+        "ref": "https://www.pcisecuritystandards.org/faq/articles/Frequently_Asked_Question/does-hashing-of-passwords-meet-the-intent-of-pci-dss-requirement-8-3-2",
+        "title": "PCI SSC FAQ"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://withpci.pages.dev/requirements/8/8.3/8.3.2",
+        "https://help.vanta.com/en/articles/11345805-pci-requirement-changes"
+      ],
+      "applicability": "C3. PCI does not explicitly name a KDF or ban SHA-256, so the compliance risk rests on auditor reading of 'strong cryptography' and on OWASP/NIST norms.",
+      "limitations": "Search snippets only; the FAQ was not fetched. Whether PCI scope applies to this service's customer passwords is unknown. No SOC 2 evidence was gathered.",
+      "contradicts": [],
+      "gapIds": [
+        "G3"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippets"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E11",
+      "claim": "AWS c7i.xlarge (4 vCPU) on-demand in us-east-1 is about $0.1785/hour (about $130/month), per pricing aggregators. Spot was about $0.05 to $0.07/hour.",
+      "source": {
+        "kind": "web",
+        "ref": "https://calculator.holori.com/aws/ec2/c7i.xlarge/us-east-1",
+        "title": "AWS c7i.xlarge Price"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [
+        "https://www.doit.com/compute/spot/us-east-1/c7i.xlarge",
+        "https://aws-pricing.com/c7i.xlarge.html"
+      ],
+      "applicability": "G4 and C2. An order-of-magnitude dollar estimate: 48 vCPU is about 12 such instances, roughly $1,560/month on-demand. That suggests the whole auth cluster costs low thousands of dollars per month, so savings from any change are small.",
+      "limitations": "Search snippet only. The company's actual cloud, instance type and pricing (reserved or savings plans) are unknown. The dollar extrapolation is inference.",
+      "contradicts": [],
+      "gapIds": [
+        "G4"
+      ],
+      "verification": {
+        "status": "unchecked",
+        "method": "WebSearch snippet"
+      },
+      "untrustedInstructionsObserved": false
+    },
+    {
+      "id": "E12",
+      "claim": "The request states that finance wants to approve the switch to cut compute spend, and that the lead calls SHA-256 'a stronger, more modern 256-bit algorithm'.",
+      "source": {
+        "kind": "user_input",
+        "ref": "request"
+      },
+      "retrievedAt": "2026-11-11",
+      "classification": "INFERRED",
+      "corroboratingRefs": [],
+      "applicability": "Decision context.",
+      "limitations": "Restates the user's request; this is not evidence for any claim.",
+      "contradicts": [],
+      "gapIds": [
+        "G1"
+      ],
+      "verification": {
+        "status": "checked",
+        "method": "Read request.md"
+      },
+      "untrustedInstructionsObserved": false
+    }
+  ],
+  "unresolvedGaps": [
+    {
+      "gapId": "G5",
+      "reason": "No data on how many verifies per minute reached the hashing tier during the 2025 burst after edge rate limiting, and no rate-limit configuration was supplied. The metrics say only that the burst was 'mitigated'. Unmitigated worst case at bcrypt-12 is about 125 cores (E4, inferred)."
+    },
+    {
+      "gapId": "G1",
+      "reason": "Partly unresolved. The metrics do not separate hashing CPU from other auth-service work, and do not show whether October's peak represents the year."
+    },
+    {
+      "gapId": "G3",
+      "reason": "OWASP was read via the GitHub raw source because cheatsheetseries.owasp.org and pages.nist.gov could not be resolved (both hosts need to be allowed in network settings). NIST and PCI text are from search snippets only. No SOC 2 guidance was retrieved."
+    },
+    {
+      "gapId": "G4",
+      "reason": "The real dollar cost of the cluster is unknown. Only public AWS list prices were found, as an order-of-magnitude proxy. No external check of the 250 ms bcrypt-12 CPU timing was done."
+    },
+    {
+      "gapId": "G2",
+      "reason": "No measured hashcat cost-12 bcrypt figure was retrieved; the cost-12 rate is extrapolated from the cost-5 benchmark. No current-generation (e.g. RTX 5090) benchmark was verified."
+    }
+  ],
+  "injectionAttemptsObserved": []
+}

@@ -1,0 +1,234 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "deterministic",
+          "detail": "1 evidence classification violation(s) downgraded by registry"
+        },
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict; CL5; CL15; alternatives b3; C6 assessment; K25 purpose; remainingUncertainty] Draft 3 adds a range of 'realistically roughly 8-12 months' around the 9.67-month DELETE-and-reuse runway (K25) in the verdict, CL5, CL15, b3, C6 and remainingUncertainty. Nothing derives it: there is no sensitivity calculation and no K entry for it. Working backwards, 160/8 = 20 GB/month and 160/12 = 13.3 GB/month of non-audit growth. That implies audit growth of roughly 15 to 21.7 GB/month, against the 18.5 GB/month central estimate (K23), and the draft never states or justifies those bounds. Giving a range is the right direction, and it is what review 2 asked for. But as written it reads as a computed interval when it is a judgment call. It should either be labelled as judgment or backed by an explicit sensitivity calculation, for example audit growth of 15-22 GB/month."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [verdict (sentence beginning 'Any rewrite (pg_repack or VACUUM FULL) requires it')] The rewritten verdict says 'Any rewrite (pg_repack or VACUUM FULL) requires it, because every estimate of pg_repack's free-space need exceeds the 160 GB free (K5, K18, K19)'. This uses pg_repack's figures to justify the claim for VACUUM FULL too. VACUUM FULL also needs room for a full new copy of the retained heap plus rebuilt indexes, at least about 240 GB by K18, so the conclusion still holds. The stated reason just doesn't cover VACUUM FULL. One clause should give the VACUUM FULL space need directly."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "1725 - 1690",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "1760 - 1725",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "1840 - 1760",
+      "claimed": 80,
+      "actual": 80,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "80 - 45",
+      "claimed": 35,
+      "actual": 35,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "2000 - 1840",
+      "claimed": 160,
+      "actual": 160,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "1840 / 2000 * 100",
+      "claimed": 92,
+      "actual": 92,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "160 / 35",
+      "claimed": 4.57,
+      "actual": 4.571428571428571,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "160 / 80",
+      "claimed": 2,
+      "actual": 2,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "(2000 * 0.95 - 1840) / 35",
+      "claimed": 1.71,
+      "actual": 1.7142857142857142,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "1840 - 780",
+      "claimed": 1060,
+      "actual": 1060,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "(1840 - 780) / 2000 * 100",
+      "claimed": 53,
+      "actual": 53,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "(2000 - (1840 - 780)) / 35",
+      "claimed": 26.9,
+      "actual": 26.857142857142858,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "9000 / 2150",
+      "claimed": 4.19,
+      "actual": 4.186046511627907,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "410 / 1000 * 100",
+      "claimed": 41,
+      "actual": 41,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(16000 - 1840) / 35 / 12",
+      "claimed": 33.7,
+      "actual": 33.714285714285715,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "1020 + 310 + 240 + 150 + 40 + 80",
+      "claimed": 1840,
+      "actual": 1840,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "1020 / 1840 * 100",
+      "claimed": 55.4,
+      "actual": 55.434782608695656,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "1020 - 780",
+      "claimed": 240,
+      "actual": 240,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "2 * (1020 - 780)",
+      "claimed": 480,
+      "actual": 480,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "(4000 - 1840) / 35",
+      "claimed": 61.7,
+      "actual": 61.714285714285715,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "(2000 - (1840 - 780)) / 80",
+      "claimed": 11.75,
+      "actual": 11.75,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "(16000 - 1840) / 105 / 12",
+      "claimed": 11.2,
+      "actual": 11.238095238095239,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "(1020 - 780) / 13",
+      "claimed": 18.5,
+      "actual": 18.46153846153846,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "35 - (1020 - 780) / 13",
+      "claimed": 16.5,
+      "actual": 16.53846153846154,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "160 / (35 - (1020 - 780) / 13)",
+      "claimed": 9.67,
+      "actual": 9.674418604651162,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "Is audit_events time-range partitioned, and does any application, report or foreign key read rows older than 12 months (pg_stat_statements or query logs)?",
+    "Which platform and deployment (self-managed EBS, RDS Single-AZ or Multi-AZ, other) hosts prod-orders-pg and its 2 replicas? Are the replica volumes provisioned separately, and can they be resized online?",
+    "What does a 12-24 month per-table storage history show about organic growth and the audit/non-audit split, and is growth accelerating?"
+  ]
+}

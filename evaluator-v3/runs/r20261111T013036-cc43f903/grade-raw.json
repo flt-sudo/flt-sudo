@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the sharding decision directly and covers all four mustFlag issues: the corrected growth rate, storage as the only bottleneck, archiving audit_events and online resize. It also covers what an expert would expect beyond those: replicas, WAL, pg_repack space needs, opportunity cost and triggers for revisiting sharding. The extra material is long but stays on the decision.",
+      "quotes": [
+        "Recommend option (b). Do not commit to the 16-shard customer_id project starting next sprint.",
+        "Soon, grow the primary volume online, and grow the two read-replica volumes",
+        "take audit_events rows older than 12 months off the primary under retention policy v3"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "All 25 calculations shown are correct, and assumptions such as the 90%/95% thresholds are labelled. The headline rate is the 35 GB/month organic figure, which gives 4.57 months of runway. The output never states the reference's 50 GB/month Jul-Oct average or its 3.2-month runway. The reference does accept ~35 GB/month excluding the backfill, so this is not a material error, but the runway figure is more optimistic than the reference's main one. Some external claims rest on search results only, such as the 2026 AWS RDS modification change, and one evidence class is mixed ('INFERRED (claimed CORROBORATED)').",
+      "quotes": [
+        "organic growth is about 35 GB/month, not 80 (K1-K4)",
+        "At that rate the 160 GB free lasts about 4.57 months to 100%, not 2",
+        "E13 | INFERRED (claimed CORROBORATED)"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "The output explains how PostgreSQL gives space back (partition drop vs DELETE plus VACUUM vs a rewrite), the WAL load on replicas, and why sharding fixes throughput limits rather than disk limits. It quantifies runway under several scenarios and lists specific edge cases and failure modes.",
+      "quotes": [
+        "PostgreSQL returns space to the operating system only when relation files are dropped or rewritten.",
+        "a pg_repack that runs out of space fails partway (E14)",
+        "Sharding solves throughput, compute and working-set limits, and none of those is near."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "The output corrects the 80 GB/month and two-month premises and the 'nothing else scales' claim. It argues the strongest counterarguments fairly, including acceleration and 'kicking the can', and lists what new evidence would change the conclusion.",
+      "quotes": [
+        "The staff engineer took the one month that contained a documented one-off load and treated it as the run rate.",
+        "The staff engineer's 'nothing else scales' (E3) conflicts with this measured data.",
+        "Working-set, vacuum or wraparound, or TPS trend data showing a non-storage limit within about 12-18 months, which would strengthen the case for starting sharding"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear. Next steps are ordered and specific, there are concrete revisit triggers, the open questions are spelled out, and there is guidance for presenting at Thursday's review.",
+      "quotes": [
+        "At Thursday's review, present the corrected growth figures (35 GB/month, about 4.57 months raw runway)",
+        "Proposed revisit triggers for sharding... sustained write TPS p95 above about 50% of the tested 9,000"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised. Each material claim points to an evidence ID or a recomputed calculation, and uncertainty and assumptions are explicitly labelled. The verdict paragraph is dense and the document is very long, but traceability is excellent.",
+      "quotes": [
+        "## Calculations (re-executed by code)",
+        "The 90% and 95% thresholds are assumptions, not sourced operating limits."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "October's 80 GB included a one-off 45 GB backfill (ORD-2231); the other two deltas were 35 GB each."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "Measured compute, write throughput and connections have more than 3x headroom, and storage is the only resource trending toward a limit."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Policy v3 section 4.2 allows audit events older than 12 months to move to cold object-storage archive ... So at least 780 GB is eligible now"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Soon, grow the primary volume online, and grow the two read-replica volumes"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends starting the 16-shard project now on the basis of the 80 GB/month / two-month runway figure",
+      "triggered": false,
+      "evidence": "Do not commit to the 16-shard customer_id project starting next sprint. ... The urgency premise is wrong."
+    },
+    {
+      "condition": "Fails to notice that compute and write throughput have ample headroom, i.e. treats the problem as a throughput scaling problem",
+      "triggered": false,
+      "evidence": "Compute is far from any limit: write TPS headroom is about 4.19x, connections are at 41% and CPU p95 is 34%"
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "The reference's numeric targets are V1 = 50 GB/month (Jul-Oct average) and V2 = 3.2 months of runway. The output never states either. It uses the backfill-excluded organic rate of 35 GB/month and a 4.57-month runway instead, which the reference summary also accepts ('~35 GB/month excluding the backfill'). A strict numeric check would mark V1 and V2 as missed. I treated this as a minor accuracy issue and scored accuracy 0.75, not lower. Neither mustNotClaim pattern appears in the output. Clarity got 1.0 for traceability despite the length; a reviewer who weighs length more heavily could fairly give 0.75."
+}

@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T013036-cc43f903",
+  "caseId": "ho-01-postgres-sharding",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "medium",
+  "notes": "The reference's numeric targets are V1 = 50 GB/month (Jul-Oct average) and V2 = 3.2 months of runway. The output never states either. It uses the backfill-excluded organic rate of 35 GB/month and a 4.57-month runway instead, which the reference summary also accepts ('~35 GB/month excluding the backfill'). A strict numeric check would mark V1 and V2 as missed. I treated this as a minor accuracy issue and scored accuracy 0.75, not lower. Neither mustNotClaim pattern appears in the output. Clarity got 1.0 for traceability despite the length; a reviewer who weighs length more heavily could fairly give 0.75."
+}

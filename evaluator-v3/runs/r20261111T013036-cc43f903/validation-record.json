@@ -1,0 +1,352 @@
+{
+  "runId": "r20261111T013036-cc43f903",
+  "generatedAt": "2026-11-11T01:45:32.943Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "EBS Elastic Volumes modify volume size online wait 6 hours between modifications gp3 16 TiB",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "PostgreSQL documentation VACUUM does not return space to operating system VACUUM FULL exclusive lock",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "PostgreSQL partitioning DETACH PARTITION CONCURRENTLY drop old data bulk removal documentation",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "pg_repack online reclaim bloat requires free disk space double table size",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 13
+      },
+      {
+        "query": "postgresql.org docs ddl-partitioning \"bulk loads and deletes\" dropping partition avoids VACUUM overhead",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 16
+      },
+      {
+        "query": "Amazon RDS PostgreSQL increase allocated storage no downtime 6 hours storage optimization max 64 TiB",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Citus migrating multi-tenant application distribution column tenant_id reference tables cross-tenant queries effort",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "Notion sharding Postgres how long did it take engineering blog",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Amazon RDS now supports up to four storage modifications in 24 hours July 2026",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "PostgreSQL autovacuum anti-wraparound freeze large append-only table insert-only autovacuum_vacuum_insert_threshold",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or "
+      }
+    ],
+    "fixturesRead": [
+      "capacity-report-2026-10.md",
+      "table-sizes.csv",
+      "data-retention-policy-excerpt.md",
+      "slack-thread-staff-eng.txt"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-01 planner",
+        "ok": true
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-01 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-01 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-01 adversary review 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-01 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-01 adversary review 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-01 analyst draft 3 final",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-01 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 65184,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 32123,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 977
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 56229,
+            "cache_read_input_tokens": 6083,
+            "output_tokens": 2870,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 56229
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2870,
+                "cache_read_input_tokens": 6083,
+                "cache_creation_input_tokens": 56229,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 56229,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-01 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 32358,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 27991,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 690
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 24528,
+            "cache_read_input_tokens": 5061,
+            "output_tokens": 2767,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 24528
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2767,
+                "cache_read_input_tokens": 5061,
+                "cache_creation_input_tokens": 24528,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 24528,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "capacity-report-2026-10.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "table-sizes.csv",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "data-retention-policy-excerpt.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "slack-thread-staff-eng.txt",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html",
+    "https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/APIReference/API_ModifyVolume.html",
+    "https://aws.amazon.com/about-aws/whats-new/2026/07/amazon-rds-upto-four-storage-modifications-24-hours",
+    "https://www.postgresql.org/docs/13/sql-vacuum.html",
+    "https://www.postgresql.org/docs/18/ddl-partitioning.html",
+    "https://www.pgxn.org/dist/pg_repack/doc/pg_repack.html",
+    "https://docs.citusdata.com/en/v12.1/develop/migration_mt_schema.html",
+    "https://notion.com/blog/sharding-postgres-at-notion",
+    "https://www.cybertec-postgresql.com/en/?p=14916"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 18 accepted, 0 rejected (source never retrieved / schema), 1 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: 1725 - 1690 = 35 (claimed 35) → match",
+    "Calculation K2 re-executed: 1760 - 1725 = 35 (claimed 35) → match",
+    "Calculation K3 re-executed: 1840 - 1760 = 80 (claimed 80) → match",
+    "Calculation K4 re-executed: 80 - 45 = 35 (claimed 35) → match",
+    "Calculation K5 re-executed: 2000 - 1840 = 160 (claimed 160) → match",
+    "Calculation K6 re-executed: 1840 / 2000 * 100 = 92 (claimed 92) → match",
+    "Calculation K7 re-executed: 160 / 35 = 4.571428571428571 (claimed 4.57) → match",
+    "Calculation K8 re-executed: 160 / 80 = 2 (claimed 2) → match",
+    "Calculation K9 re-executed: (2000 * 0.95 - 1840) / 35 = 1.7142857142857142 (claimed 1.71) → match",
+    "Calculation K10 re-executed: 1840 - 780 = 1060 (claimed 1060) → match",
+    "Calculation K11 re-executed: (1840 - 780) / 2000 * 100 = 53 (claimed 53) → match",
+    "Calculation K12 re-executed: (2000 - (1840 - 780)) / 35 = 26.857142857142858 (claimed 26.9) → match",
+    "Calculation K13 re-executed: 9000 / 2150 = 4.186046511627907 (claimed 4.19) → match",
+    "Calculation K14 re-executed: 410 / 1000 * 100 = 41 (claimed 41) → match",
+    "Calculation K15 re-executed: (16000 - 1840) / 35 / 12 = 33.714285714285715 (claimed 33.7) → match",
+    "Calculation K16 re-executed: 1020 + 310 + 240 + 150 + 40 + 80 = 1840 (claimed 1840) → match",
+    "Calculation K17 re-executed: 1020 / 1840 * 100 = 55.434782608695656 (claimed 55.4) → match",
+    "Calculation K18 re-executed: 1020 - 780 = 240 (claimed 240) → match",
+    "Calculation K19 re-executed: 2 * (1020 - 780) = 480 (claimed 480) → match",
+    "Calculation K20 re-executed: (4000 - 1840) / 35 = 61.714285714285715 (claimed 61.7) → match",
+    "Calculation K21 re-executed: (2000 - (1840 - 780)) / 80 = 11.75 (claimed 11.75) → match",
+    "Calculation K22 re-executed: (16000 - 1840) / 105 / 12 = 11.238095238095239 (claimed 11.2) → match",
+    "Calculation K23 re-executed: (1020 - 780) / 13 = 18.46153846153846 (claimed 18.5) → match",
+    "Calculation K24 re-executed: 35 - (1020 - 780) / 13 = 16.53846153846154 (claimed 16.5) → match",
+    "Calculation K25 re-executed: 160 / (35 - (1020 - 780) / 13) = 9.674418604651162 (claimed 9.67) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html — getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or ",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G1 unresolved: Only 4 month-end data points were supplied, so there is no longer history to test for acceleration. Ticket ORD-2231, which would confirm the backfill does not recur, was not available.",
+    "Knowledge gap G2 unresolved: It is unknown whether audit_events is partitioned by time, and the size of the 12-to-13-month band is not given. No query logs or pg_stat_statements were available to confirm that nothing reads rows older than 12 months, and no foreign-key information was available.",
+    "Knowledge gap G3 unresolved: The cloud platform is not named ('gp-ssd'). docs.aws.amazon.com could not be fetched because WebFetch is blocked (ENOTFOUND); the domain would need to be allowed in the session's network settings. Volume cost, IOPS/throughput scaling, and the effect on backup, restore and replica rebuild times were not established.",
+    "Knowledge gap G4 unresolved: No data was supplied on working set versus RAM, vacuum durations, XID or freeze age, or trends for the CPU and TPS figures.",
+    "Knowledge gap G5 unresolved: No schema, cross-customer query inventory or customer_id skew data was available. No public source quantifies Citus migration effort for a comparable schema.",
+    "Knowledge gap G6 unresolved: No bloat estimates, unused-index statistics, or WAL and replication-slot retention figures were supplied. Table sizes add up to exactly 1,840 GB, which suggests 'used' may exclude WAL and slots or that they were not measured."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 93.75/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Only 3 monthly deltas, so no evidence on acceleration or seasonality (E1).",
+    "ORD-2231 was not inspected. Recurrence of similar backfills is possible (E2).",
+    "Whether audit_events is partitioned, and the size of the 12-13 month band (E5).",
+    "Whether anything reads old audit_events (E6).",
+    "The platform identity, the cost of a larger volume, IOPS and throughput scaling, and the effect on backup, restore, PITR and replica rebuild times (E8, E9).",
+    "Replica type (physical streaming or other), replica and backup volume sizes, and replica disk usage are not in the packet (E1, E7).",
+    "The WAL volume, vacuum load and replica-lag impact of deleting about 780 GB is not quantified.",
+    "The split of the 35 GB/month between audit_events and other tables is estimated from a 13-month average, not measured (K23, K24). It assumes even accumulation and ignores the unquantified 12-13 month band, so the DELETE-and-reuse runway (K25, about 9.7 months central) is only approximate, roughly 8-12 months. A per-table growth query would settle it.",
+    "Team size, needed to put the feature-freeze cost in person-months, is not in the packet.",
+    "The 90% and 95% thresholds are assumed, not given.",
+    "Possible brief downtime on Single-AZ RDS (E11).",
+    "Working set versus RAM, vacuum and freeze age, PostgreSQL version, and metric trends (E7, E17).",
+    "Bloat, unused-index and WAL or slot figures (E5).",
+    "Real sharding effort and how sound customer_id is as a shard key (E15, E16).",
+    "Open question the reviewer judged decisive: Is audit_events time-range partitioned, and does any application, report or foreign key read rows older than 12 months (pg_stat_statements or query logs)?",
+    "Open question the reviewer judged decisive: Which platform and deployment (self-managed EBS, RDS Single-AZ or Multi-AZ, other) hosts prod-orders-pg and its 2 replicas? Are the replica volumes provisioned separately, and can they be resized online?",
+    "Open question the reviewer judged decisive: What does a 12-24 month per-table storage history show about organic growth and the audit/non-audit split, and is growth accelerating?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T01:37:12.777Z",
+        "reasons": [
+          "[coverage/major] D1 [criteriaAssessments C3; practicalImplications[0]; alternatives b1/b2; edgeCasesAndFailureModes] The capacity report covers the primary only ('prod-orders-pg, primary'), and E7 records 2 read replicas. A streaming physical replica holds the same data, so it fills at the same rate unless its volume is grown too. The draft's resize plan (verdict, C3, practicalImplications item 1, alternative b1) talks only about 'the volume'. It never says the two replica volumes, and any standby or backup target, must be grown first or at the same time. It also never says that a mass DELETE, pg_repack or partition export produces a WAL burst that has to fit on both the primary and the replicas. G3 in the packet asks about 'effects on replicas and backups', and the draft only touches this through the unresearched 'replica rebuild times'. A team that follows the plan as written could resize the primary and still lose a replica to a full disk.",
+          "[alternatives_counterarguments/major] D2 [alternatives b3; CL8; criteriaAssessments C2 mechanisms; tradeoffs[2]] Alternative b3 ('archive only, without a resize') is rejected because pg_repack needs about 480 GB free. That reasoning assumes the freed space has to be returned to the OS. audit_events is append-only (E5). The draft's own E12 says plain VACUUM keeps freed space for reuse within the same table. So exporting and then batch-DELETEing the old rows, with no rewrite at all, would let new audit inserts reuse roughly 780 GB inside the table. That stops audit_events from growing on disk for years and cuts net disk growth to only the non-audit tables, with no exclusive lock and no extra free space for a rewrite. The draft never weighs this cheaper option. It also never weighs the option's real risks: WAL volume from a 780 GB DELETE on a disk that is 92% full, vacuum load, and replica lag. Those risks, not the pg_repack space need, are what should drive the order of resize and archival. The fair comparison and the case for resizing first are therefore not properly argued.",
+          "D1 research part (replica volume layout) is internal infrastructure data not obtainable by web search"
+        ],
+        "action": "reanalysis"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T01:40:58.847Z",
+        "reasons": [
+          "[reasoning_validity/major] D1 [verdict (sentence beginning 'The resize should come first')] The verdict sentence added in draft 2 reads: 'The resize should come first. A rewrite does not strictly need it, but the archival steps generate WAL...'. That contradicts the draft's own CL8 ('Every reading exceeds the 160 GB free, so a rewrite would need the resize first'), the C2 path (3) analysis, tradeoffs[2], and edgeCasesAndFailureModes ('A pg_repack that runs out of space fails partway (E14), so any rewrite must happen after the resize'). The path that does not strictly need the resize is DELETE-and-reuse, not a rewrite. The verdict is the part that goes to Thursday's review, so this wording could lead someone to start pg_repack or VACUUM FULL on a disk that is 92% full, which is the exact failure the draft warns about elsewhere."
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/deterministic] 1 evidence classification violation(s) downgraded by registry",
+        "[minor/reviewer] D1 [verdict; CL5; CL15; alternatives b3; C6 assessment; K25 purpose; remainingUncertainty] Draft 3 adds a range of 'realistically roughly 8-12 months' around the 9.67-month DELETE-and-reuse runway (K25) in the verdict, CL5, CL15, b3, C6 and remainingUncertainty. Nothing derives it: there is no sensitivity calculation and no K entry for it. Working backwards, 160/8 = 20 GB/month and 160/12 = 13.3 GB/month of non-audit growth. That implies audit growth of roughly 15 to 21.7 GB/month, against the 18.5 GB/month central estimate (K23), and the draft never states or justifies those bounds. Giving a range is the right direction, and it is what review 2 asked for. But as written it reads as a computed interval when it is a judgment call. It should either be labelled as judgment or backed by an explicit sensitivity calculation, for example audit growth of 15-22 GB/month."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [verdict (sentence beginning 'Any rewrite (pg_repack or VACUUM FULL) requires it')] The rewritten verdict says 'Any rewrite (pg_repack or VACUUM FULL) requires it, because every estimate of pg_repack's free-space need exceeds the 160 GB free (K5, K18, K19)'. This uses pg_repack's figures to justify the claim for VACUUM FULL too. VACUUM FULL also needs room for a full new copy of the retained heap plus rebuilt indexes, at least about 240 GB by K18, so the conclusion still holds. The stated reason just doesn't cover VACUUM FULL. One clause should give the VACUUM FULL space need directly."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

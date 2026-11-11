@@ -1,0 +1,77 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Draft 3 adds a range of 'realistically roughly 8-12 months' around the 9.67-month DELETE-and-reuse runway (K25) in the verdict, CL5, CL15, b3, C6 and remainingUncertainty. Nothing derives it: there is no sensitivity calculation and no K entry for it. Working backwards, 160/8 = 20 GB/month and 160/12 = 13.3 GB/month of non-audit growth. That implies audit growth of roughly 15 to 21.7 GB/month, against the 18.5 GB/month central estimate (K23), and the draft never states or justifies those bounds. Giving a range is the right direction, and it is what review 2 asked for. But as written it reads as a computed interval when it is a judgment call. It should either be labelled as judgment or backed by an explicit sensitivity calculation, for example audit growth of 15-22 GB/month.",
+      "location": "verdict; CL5; CL15; alternatives b3; C6 assessment; K25 purpose; remainingUncertainty",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The rewritten verdict says 'Any rewrite (pg_repack or VACUUM FULL) requires it, because every estimate of pg_repack's free-space need exceeds the 160 GB free (K5, K18, K19)'. This uses pg_repack's figures to justify the claim for VACUUM FULL too. VACUUM FULL also needs room for a full new copy of the retained heap plus rebuilt indexes, at least about 240 GB by K18, so the conclusion still holds. The stated reason just doesn't cover VACUUM FULL. One clause should give the VACUUM FULL space need directly.",
+      "location": "verdict (sentence beginning 'Any rewrite (pg_repack or VACUUM FULL) requires it')",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The verdict now says a rewrite (pg_repack or VACUUM FULL) requires the resize and warns 'Do not start a rewrite on the 92%-full disk'. It correctly names DELETE-and-reuse as the only removal path that does not strictly need the resize. This now matches CL8, C2 path (3), tradeoffs[2] and the edge cases. (Review-2 D2 and D3 were minor. Both have also been addressed: CL8, CL15 and CL16 are now material: true, and K25 is presented as a central estimate with a range.)"
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "Is audit_events time-range partitioned, and does any application, report or foreign key read rows older than 12 months (pg_stat_statements or query logs)?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which platform and deployment (self-managed EBS, RDS Single-AZ or Multi-AZ, other) hosts prod-orders-pg and its 2 replicas? Are the replica volumes provisioned separately, and can they be resized online?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does a 12-24 month per-table storage history show about organic growth and the audit/non-audit split, and is growth accelerating?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How much WAL would a batched 780 GB DELETE or a partition export generate, and is WAL or replication-slot retention excluded from the 'used' figure?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed in depth, including replica and backup volumes, WAL effects, the opportunity-cost frame and revisit triggers."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Claims trace to VERIFIED fixtures or to caveated snippet evidence. Assumed thresholds and the estimated growth split are labelled. The new 8-12 month range is not derived (D1, minor)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "I recomputed K1-K25 and all fall within tolerance (160/35 = 4.571, 60/35 = 1.714, 940/35 = 26.86, 240/13 = 18.46, 160/16.54 = 9.67, 14160/35/12 = 33.71, 14160/105/12 = 11.24). The resize-before-rewrite contradiction in the verdict is fixed. One justification is slightly incomplete (D2, minor)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Sharding, resize only, resize plus archival, archive only, and a readiness study are all weighed. The staff engineer's 'kicking the can' and acceleration objections get substantive answers, and the operational limits of a very large single node are acknowledged."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The recommendation for Thursday is clear and correctly ordered: resize the primary and replicas first, then archival under retention, then a recurring job. It includes judgment-labelled triggers, an opportunity-cost formula and a moderate confidence level that fits the open unknowns."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "All cited E and K IDs exist and match the packet. Materiality flags now reflect what the verdict relies on. No document instructions were followed and no injection was observed."
+    }
+  ]
+}

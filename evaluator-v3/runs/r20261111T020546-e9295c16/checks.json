@@ -1,0 +1,58 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "Gateway alone does not satisfy east-west mTLS requirement",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "Vendor benchmark had mTLS disabled / conflicts with internal test",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Sidecar mode exceeds 10 ms budget on 5 hops (13 ms)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Node-proxy mode (0.9 ms / 4.5 ms) as viable option",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses vendor's 0.4 ms as the realistic latency",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "N2",
+    "kind": "mustNotClaim",
+    "description": "Recommends gateway alone as satisfying all requirements",
+    "pass": true,
+    "detail": "absent"
+  },
+  {
+    "id": "V1",
+    "kind": "numeric",
+    "description": "Sidecar-mode added p99 over 5-hop checkout path (ms)",
+    "pass": true,
+    "detail": "value ≈ 13 present"
+  },
+  {
+    "id": "V2",
+    "kind": "numeric",
+    "description": "Node-proxy-mode added p99 over 5-hop checkout path (ms)",
+    "pass": true,
+    "detail": "value ≈ 4.5 present"
+  }
+]

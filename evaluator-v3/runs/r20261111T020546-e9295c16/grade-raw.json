@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the actual decision and covers all four mustFlag issues: the gateway's R1 gap, the vendor benchmark run without mTLS, sidecar mode breaking the budget, and node-proxy as a viable option. It also covers R2 partial coverage, team capacity and audit evidence, without padding.",
+      "quotes": [
+        "Neither option, as you framed it, meets your approved requirements.",
+        "Recommendation: choose Lattice this quarter, but deploy it in node-proxy mode, not sidecar mode."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "I checked every source-derived fact and figure against the four supplied documents and all are correct: 2.6/0.9 ms, 13/4.5 ms, 0.8 ms, the 2027-06-30 deadline, GA since 3.2, per-route ingress limits, and the derived 6.5x, 23% and 47%. One product-specific claim, that services can be onboarded without restarts, has no support in the sources and only falls under a blanket 'general engineering knowledge' disclaimer.",
+      "quotes": [
+        "Your own load test measured 2.6 ms p99 per hop, which comes to about 13 ms over 5 hops against a 10 ms budget.",
+        "services can be onboarded without restarting them for injection"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains why the vendor and internal numbers differ (mTLS, payload size, telemetry, load). Quantifies every configuration, discusses whether p99s add up across hops, and covers specific failure modes: node-proxy blast radius, same-node encryption, connection churn, retries, growth.",
+      "quotes": [
+        "Adding p99s together is a deliberately conservative heuristic.",
+        "A crash or overload of one node proxy affects every pod on that node."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Rejects the user's 'latency shouldn't be a concern' premise and questions the two-option framing. It answers counterarguments fairly, including that summing p99s may overstate latency, and says what would change the conclusion: an end-to-end test, or library-level mTLS if the mesh is blocked.",
+      "quotes": [
+        "The claim that \"latency shouldn't be a concern\" rests on a vendor benchmark run with **mTLS disabled**.",
+        "\"Node-proxy wasn't one of the two options.\" It is the same product, it is GA, and it is in your own test."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear bottom line, conditional fallbacks and concrete next steps: an end-to-end checkout test, a vendor check on per-tenant limits, collecting audit evidence, and recording the decision in the architecture log.",
+      "quotes": [
+        "Run an end-to-end checkout load test (edge plus 5 hops, real payloads, at or above peak rps) to replace the sum-of-p99s estimate.",
+        "Check with Lattice whether its ingress can rate-limit per tenant"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised, with a requirement table, a quantitative table and the arithmetic shown. Sources are listed with what each supports, and remaining uncertainty and limitations have their own labelled section.",
+      "quotes": [
+        "## Remaining uncertainty",
+        "The internal results come from a single test with no variance or confidence interval reported"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "Portcullis fails R1, the compliance requirement for east-west mTLS. Its datasheet says it \"does not proxy service-to-service traffic.\""
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "rests on a vendor benchmark run with **mTLS disabled**"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "which comes to about 13 ms over 5 hops against a 10 ms budget"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Node-proxy mode meets R1... about 4.5 ms over 5 hops"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends Portcullis gateway alone, leaving east-west mTLS (compliance requirement) unmet",
+      "triggered": false,
+      "evidence": "Says Portcullis 'fails R1' and that 'Portcullis alone is only acceptable if you also build mTLS into the Go services themselves'; it recommends Lattice node-proxy instead."
+    },
+    {
+      "condition": "Accepts the vendor 0.4 ms/hop figure and recommends sidecar mode without noticing it breaks the 10 ms checkout budget",
+      "triggered": false,
+      "evidence": "'Your test is the relevant number. The vendor figure should be set aside for this decision.'; 'Lattice sidecar, as proposed. Not recommended. It fails R3 on your own data.'"
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked the output against the four supplied source files in the run directory. All facts drawn from them are accurate, and both numeric checks match the reference: V1 = 13.0 ms and V2 = 4.5 ms. No mustNotClaim pattern appears; the 0.4 ms figure is explicitly rejected and Portcullis is never said to meet all requirements. I set accuracy one notch down, to 0.75, because the output claims Lattice node-proxy lets services be onboarded without restarts, which the sources do not support and which is covered only by a blanket general-knowledge disclaimer. 1.0 would also be defensible. The recommendation matches the reference: node-proxy mode, with Portcullis or Lattice ingress at the edge, and library-level mTLS as the fallback."
+}

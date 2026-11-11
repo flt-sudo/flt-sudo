@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T020546-e9295c16",
+  "caseId": "ho-02-gateway-vs-mesh",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 93.75,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked the output against the four supplied source files in the run directory. All facts drawn from them are accurate, and both numeric checks match the reference: V1 = 13.0 ms and V2 = 4.5 ms. No mustNotClaim pattern appears; the 0.4 ms figure is explicitly rejected and Portcullis is never said to meet all requirements. I set accuracy one notch down, to 0.75, because the output claims Lattice node-proxy lets services be onboarded without restarts, which the sources do not support and which is covered only by a blanket general-knowledge disclaimer. 1.0 would also be defensible. The recommendation matches the reference: node-proxy mode, with Portcullis or Lattice ingress at the edge, and library-level mTLS as the fallback."
+}

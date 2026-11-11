@@ -1,0 +1,85 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The K19/CL15 detectability check is new in draft 3 and uses the wrong benchmark effect. Source-B reports the +11% first-response penalty (CI +4% to +18%) only for customer-service teams on non-staggered schedules ('unless staggered schedules used'). The recommended pilot is staggered by design. So the effect it has to detect is the unreported staggered effect, which is presumably smaller, not +11%. CL15's line 'a first-response effect of Nordvik's size (+11%) would be barely distinguishable from zero' therefore overstates what the pilot can show on response time. The scaling also assumes all 31 customer-service teams sit behind that CI. If the 'unless staggered' figure comes from a non-staggered subset of those teams, the per-team variance and the scaled half-width change as well. The draft calls the scaling rough, but it should say plainly that a staggered pilot is mostly unable to detect a realistic staggered first-response effect, and that its value on response time lies in the SLA safety thresholds. K18 = 5*sqrt(112/12) = 15.28 and K19 = 7*sqrt(31/12) = 11.25 are both arithmetically correct.",
+      "location": "CL15; K19; verdict (pilot detectability sentence); alternatives 'Randomised, staggered pilot'",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The new pilot design says to randomise 'the smallest units that can be rostered independently (for example pods rather than whole teams)' 'within comparable queues' in order to get more clusters. First-response time and SLA attainment are usually queue-level measures. If pilot and control pods serve the same queue, they share one first-response figure, so randomising pods adds no independent first-response observations and builds in contamination. The draft notes that contamination 'rises as clusters get smaller' but does not say that the randomised unit must own its queue or channel, or else have its first-response time attributed per agent, for the extra-clusters fix to work on response time. As written, the main remedy for the power problem may not work for the metric that matters most.",
+      "location": "practicalImplications (Selection and design); alternatives 'Randomised, staggered pilot'",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The rewritten verdict cost sentence says 'The real cost is losing 20% of agent-hours (K5)' and quotes 375 FTE to hold hours constant (K7). It does not mention that, on Nordvik's pooled estimate, output per hour rises, so the loss of agent-hours does not translate one-for-one into lost throughput. C6 and CL10 give the 306 optimistic bound (K8). With only the 375 figure, a reader of the verdict could take 75 extra FTE as the expected buy-back need rather than an upper bound. One clause in the verdict giving the 306 to 375 range, with its caveats, would fix this.",
+      "location": "verdict (full-pay cost sentences)",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "Draft 3 adds a detectability check for throughput and first-response time (K18 = 15.28 and K19 = 11.25, both recomputed and correct) and states the assumptions behind it (about 10-agent teams, similar variance). It separates safety rules, which are checked against the org's own SLAs and need no statistical power, from a scale-up rule based on difference-in-differences intervals. It also requires minimum detectable effects to be computed from internal data before launch, with a fallback of extending the pilot or adding units. Remaining issues in the new material are raised as minor D1 and D2."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is Nordvik's first-response-time effect for customer-service teams on staggered schedules, was staggering randomised, and what was the subgroup's output result?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Was pay held constant in the Nordvik 32-hour arm, is the 0.4 SD wellbeing figure a between-arm difference, and is the 9.1% vs 13.0% attrition gap statistically significant?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What are the org's SLA headroom, utilisation against demand, current voluntary attrition, cost per hire and intended pay terms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "How are the org's queues and channels structured: can pods or teams own separate queues so that first-response time can be measured per randomised unit?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria, pay terms, legal and consultation issues and pilot power are covered, and the internal-data gaps are flagged explicitly."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The verdict and CL13 now hedge the full-pay claims as resting on single search summaries and separate out Microsoft Japan's non-wellbeing outcomes. Uncertainty about Nordvik and the search-summary provenance are stated accurately."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All calculations K1 to K19 recompute correctly, and the full-pay cost mechanism is now stated correctly. Minor issues remain: the benchmark effect used in K19 (D1) and the unbalanced cost framing in the verdict (D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Four options are compared fairly, the counterarguments are substantive, and the South Cambs contradiction is left unresolved."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict makes a clear call for a pilot. The pilot has power-aware safety and scale-up rules and a minimum-detectable-effect check before launch. The design detail on queue-level metrics (D2) is minor."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Cited IDs exist and match the packet. The new claims (CL15, K18, K19) trace to E2, E3 and E17, and the source-B wording was checked. No injected instructions were found or followed."
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "It answers the actual decision and covers every mustFlag issue: where the 40% comes from, the RCT null on output, the support coverage and FRT risk, and a pilot with metrics. It also covers what an expert would expect for a support org (WFM, SLA, cost, legal and accrual details). The external context it adds is relevant, not padding.",
+      "quotes": [
+        "The COO's claim that \"the research is clear: a four-day week raises productivity by 40%\" is not supported by the evidence you collected.",
+        "Run a pilot from Q2, not a rollout.",
+        "Support is coverage-bound, not just output-bound."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "I checked every figure against the supplied sources and all are correct (n=60 engineering/design, 112 teams, 9 firms, 31 CS teams, 9 months, -2% CI -7 to +3, FRT +11% CI +4 to +18, 0.4 SD, 9.1% vs 13.0%, 71% of 4,000, 40 to 36 hours, overtime +6%). The derived arithmetic is also correct: per-hour 16-29%, 75 extra 32h agents, about 12 fewer leavers, Phi(-0.4) about 0.34. External figures and its own assumptions are explicitly labelled as unverified.",
+      "quotes": [
+        "Single firm, n=60, before/after, no control",
+        "0.98 / 0.80 = **1.225, i.e. +22.5% per hour**",
+        "*Assumption, not from the sources:*",
+        "I did not verify primary documents for these; they come from secondary reporting."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains mechanisms: self-report bias, Erlang-type queueing non-linearity, everyone taking the same day off as the failure mode, and hidden capacity transfer through overtime. It quantifies per-hour output, the capacity gap, attrition savings and overtime exposure, and gives a dedicated section on edge cases and failure modes.",
+      "quotes": [
+        "Queueing is non-linear. In Erlang-type staffing, a small fall in staffed agents at a given interval can raise wait times sharply",
+        "Hidden capacity transfer. Varmland's overtime increase shows how gaps get filled quietly.",
+        "Tiered support. Tier 2/3 specialists are scarce."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It directly corrects the COO's premise and critiques even the strongest source (not peer-reviewed, subgroup fragility, contamination, unblinded burnout scores, no CI on attrition). It presents counterarguments fairly and states the decision rules that would change the conclusion.",
+      "quotes": [
+        "If it was not pre-specified, it may be a post-hoc finding and could be noise.",
+        "control teams may have absorbed treatment teams' overflow work or coverage gaps",
+        "Set guardrails and a decision rule. For example, pause or adjust if FRT worsens by more than X%"
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (no org-wide Q2 rollout; run a staggered stepped-wedge pilot), with concrete next steps, pre-registered metrics, guardrails, and a step to verify the Nordvik paper.",
+      "quotes": [
+        "do not roll out to all 300 people in Q2 on the strength of the 40% claim",
+        "Pre-register the metrics.",
+        "Verify the Nordvik paper. Get the full working paper and check its clustering adjustments"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The output is well organised, with source and outcome tables. Each claim is tied to Source A, B, C or D or to an explicit calculation, and uncertainty and assumptions are labelled throughout.",
+      "quotes": [
+        "| **Voluntary attrition** | Likely falls substantially (about 30% relative) | Moderate-low (no CI) | B; consistent with UK pilot employer reports |",
+        "## 12. Remaining Uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "a single software company's blog reporting self-rated productivity, with no comparison group"
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "total output was roughly unchanged (-2%, 95% CI -7% to +3%) on 20% fewer hours"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "first-response time got **11% slower** (CI +4% to +18%) unless teams used staggered schedules"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Use Q2 to **start a structured, staggered-schedule pilot** (randomised or stepped-wedge) with service-level guardrails and a pre-agreed decision rule."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the 40% productivity gain as supported by the research",
+      "triggered": false,
+      "evidence": "\"+40% productivity\" | **Not supported** | High confidence the claim is overstated"
+    },
+    {
+      "condition": "Recommends org-wide rollout for the support org without addressing coverage/response-time risk",
+      "triggered": false,
+      "evidence": "do not roll out to all 300 people in Q2 ... Run a pilot from Q2, not a rollout."
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "I checked all source-derived figures against the four supplied source files and they match. The output adds outside context (UK 2022 pilot, Iceland, Microsoft Japan), clearly labelled as unverified secondary reporting; I did not independently verify those outside figures. There is one small internal tension: it says 9 months is 'long enough to get past the first novelty period' but later says 'Nine months of data is still short.' I judged this immaterial. The mustNotClaim pattern N1 does not appear."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "F1",
+    "kind": "mustFlag",
+    "description": "40% is self-reported, single company, no control",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F2",
+    "kind": "mustFlag",
+    "description": "RCT shows output roughly unchanged (-2%)",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F3",
+    "kind": "mustFlag",
+    "description": "Support-specific coverage risk: response times slower / staggering",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "F4",
+    "kind": "mustFlag",
+    "description": "Recommends a pilot with metrics",
+    "pass": true,
+    "detail": "pattern found"
+  },
+  {
+    "id": "N1",
+    "kind": "mustNotClaim",
+    "description": "Endorses 40% productivity gain as established",
+    "pass": true,
+    "detail": "absent"
+  }
+]

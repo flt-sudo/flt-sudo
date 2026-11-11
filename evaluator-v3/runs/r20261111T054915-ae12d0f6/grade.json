@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T054915-ae12d0f6",
+  "caseId": "ho-15-four-day-week-evidence",
+  "system": "baseline",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "I checked all source-derived figures against the four supplied source files and they match. The output adds outside context (UK 2022 pilot, Iceland, Microsoft Japan), clearly labelled as unverified secondary reporting; I did not independently verify those outside figures. There is one small internal tension: it says 9 months is 'long enough to get past the first novelty period' but later says 'Nine months of data is still short.' I judged this immaterial. The mustNotClaim pattern N1 does not appear."
+}

@@ -1,0 +1,51 @@
+{
+  "runId": "r20261111T053043-979bae42",
+  "caseId": "ho-15-four-day-week-evidence",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [],
+  "needsHumanAdjudication": false,
+  "graderConfidence": "high",
+  "notes": "The output matches the reference closely on every point. Beyond the four supplied documents it draws on external web-sourced material (Microsoft Japan, UK pilot, Svartedalen, South Cambridgeshire, Fan/Schor). The grader did not check these, but the output labels them CORROBORATED/INFERRED and as resting on search summaries only. One possible deduction under clarity: the output is very long and dense, especially the single-paragraph verdict, even though traceability is excellent. Nothing in the output matches the mustNotClaim N1 pattern."
+}

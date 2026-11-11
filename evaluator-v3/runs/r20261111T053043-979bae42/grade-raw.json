@@ -1,0 +1,96 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output deals with the actual decision (org-wide rollout, pilot or don't proceed). It covers productivity, wellbeing, retention, how strong each source is, and coverage risk specific to support, so every mustFlag issue is addressed. The external analogues it adds bear on the decision and are not padding.",
+      "quotes": [
+        "Decide, ahead of the leadership offsite, whether to roll out a 32-hour four-day week across all 300 support staff from Q2, run a limited and measured pilot first",
+        "This is the main org-specific risk."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Every figure from the supplied sources matches the reference: -2% (CI -7% to +3%), +11% first-response time (CI +4% to +18%), 0.4 SD, 9.1% vs 13.0%, Varmland 40 to 36 hours with overtime up 6%, Kestrel self-rated 40%, and the 71% intention survey. The calculations were recomputed. Material from outside the packet is labelled as search-summary or inferred, and the output's own gaps (pay terms, arm labels) are stated rather than invented.",
+      "quotes": [
+        "Output per team (objective: tickets resolved, billable output) -2% (95% CI -7% to +3%)",
+        "Kestrel (E1) is a self-rated, uncontrolled company blog about 60 engineering and design staff",
+        "Workforce Pulse (E6) measures hypothetical intent, not an effect"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains mechanisms: per-hour versus total output, why coverage-bound work can't shift demand into fewer days, and the biases in self-rated measures. It quantifies throughout (21 FTE at the lower CI bound, 375 FTE to hold hours, 25% cost per hour) and works through edge cases and failure modes such as Goodhart effects, contamination, 24/7 queues and pay-cut reversal.",
+      "quotes": [
+        "Coverage-bound work cannot shift demand into fewer days, so any shortfall in agent-hours at peak times is filled by overtime, new hires or slower service",
+        "A Goodhart effect: agents might close tickets faster at the expense of resolution quality or reopen rates"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It treats the COO's 40% as a premise to test and shows it rests on self-rated and uncontrolled figures. It also critiques the strongest source (unverified, no CIs on wellbeing or attrition, arms unlabelled), answers counterarguments fairly, and says what would change the conclusion.",
+      "quotes": [
+        "It should not rest on the COO's claim of a 40% productivity gain, which is treated here as a premise to test.",
+        "Output per hour rises about 22.5%, so the COO is directionally right that productivity goes up.",
+        "A large response-time penalty even with staggering, or a non-significant between-arm wellbeing or attrition effect, would argue against proceeding."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear: no org-wide rollout, run a randomised staggered pilot. It gives concrete next steps (baselines, pay decision, safety and scale-up rules set before launch, a stepped rollout) and says how to settle the open questions.",
+      "quotes": [
+        "Instead, start Q2 with a measured pilot: randomly assigned (not volunteer) teams, staggered days off, concurrent control teams, pay terms fixed in advance, and go/no-go rules set before launch.",
+        "Pre-register two kinds of rules."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised, every material claim is tied to an evidence ID or a calculation ID in a registry, and uncertainty is explicitly labelled (UNKNOWN entries, a section on remaining uncertainty). It is very dense, though, and the verdict paragraph is long.",
+      "quotes": [
+        "E8 UNKNOWN: A web search found no trace of a 2026 working paper by Nordvik",
+        "| K13 | FTE-equivalents of throughput lost at 300 staff at Nordvik's -7% lower CI bound |"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "One is a self-rated survey of 60 engineering and design staff at Kestrel (E1)."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "It reports pooled team output of -2% (95% CI -7% to +3%) across 112 teams"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "In the 31 customer-service teams, first-response time was 11% slower (95% CI +4% to +18%) unless schedules were staggered (E3)."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Instead, start Q2 with a measured pilot: randomly assigned (not volunteer) teams, staggered days off, concurrent control teams"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Accepts the 40% productivity gain as supported by the research",
+      "triggered": false,
+      "evidence": "\"No source shows a controlled 40% gain in total output.\""
+    },
+    {
+      "condition": "Recommends org-wide rollout for the support org without addressing coverage/response-time risk",
+      "triggered": false,
+      "evidence": "\"Do not roll out a 32-hour four-day week to all 300 support staff from Q2 on the strength of the COO's '40% productivity' claim.\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output matches the reference closely on every point. Beyond the four supplied documents it draws on external web-sourced material (Microsoft Japan, UK pilot, Svartedalen, South Cambridgeshire, Fan/Schor). The grader did not check these, but the output labels them CORROBORATED/INFERRED and as resting on search summaries only. One possible deduction under clarity: the output is very long and dense, especially the single-paragraph verdict, even though traceability is excellent. Nothing in the output matches the mustNotClaim N1 pattern."
+}

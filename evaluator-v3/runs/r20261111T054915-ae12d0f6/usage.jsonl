@@ -1,0 +1,2 @@
+{"ts":"2026-11-11T05:51:16.733Z","stage":"eval-baseline","output":"report.md","agentId":"a9a8e3920ee5d1497","models":["claude-opus-5-5"],"inputTokens":8,"outputTokens":10137,"cacheReadTokens":26507,"cacheCreationTokens":14427,"webSearchRequests":0,"assistantMessages":4}
+{"ts":"2026-11-11T05:52:07.401Z","stage":"eval-grader","output":"grade-raw.json","agentId":"a31e3c4e83f6347f0","models":["claude-opus-5-5"],"inputTokens":8,"outputTokens":3473,"cacheReadTokens":48389,"cacheCreationTokens":17321,"webSearchRequests":0,"assistantMessages":4}

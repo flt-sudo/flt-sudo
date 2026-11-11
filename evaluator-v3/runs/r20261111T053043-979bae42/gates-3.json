@@ -1,0 +1,185 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [CL15; K19; verdict (pilot detectability sentence); alternatives 'Randomised, staggered pilot'] The K19/CL15 detectability check is new in draft 3 and uses the wrong benchmark effect. Source-B reports the +11% first-response penalty (CI +4% to +18%) only for customer-service teams on non-staggered schedules ('unless staggered schedules used'). The recommended pilot is staggered by design. So the effect it has to detect is the unreported staggered effect, which is presumably smaller, not +11%. CL15's line 'a first-response effect of Nordvik's size (+11%) would be barely distinguishable from zero' therefore overstates what the pilot can show on response time. The scaling also assumes all 31 customer-service teams sit behind that CI. If the 'unless staggered' figure comes from a non-staggered subset of those teams, the per-team variance and the scaled half-width change as well. The draft calls the scaling rough, but it should say plainly that a staggered pilot is mostly unable to detect a realistic staggered first-response effect, and that its value on response time lies in the SLA safety thresholds. K18 = 5*sqrt(112/12) = 15.28 and K19 = 7*sqrt(31/12) = 11.25 are both arithmetically correct."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [verdict (full-pay cost sentences)] The rewritten verdict cost sentence says 'The real cost is losing 20% of agent-hours (K5)' and quotes 375 FTE to hold hours constant (K7). It does not mention that, on Nordvik's pooled estimate, output per hour rises, so the loss of agent-hours does not translate one-for-one into lost throughput. C6 and CL10 give the 306 optimistic bound (K8). With only the 375 figure, a reader of the verdict could take 75 extra FTE as the expected buy-back need rather than an upper bound. One clause in the verdict giving the 306 to 375 range, with its caveats, would fix this."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [practicalImplications (Selection and design); alternatives 'Randomised, staggered pilot'] The new pilot design says to randomise 'the smallest units that can be rostered independently (for example pods rather than whole teams)' 'within comparable queues' in order to get more clusters. First-response time and SLA attainment are usually queue-level measures. If pilot and control pods serve the same queue, they share one first-response figure, so randomising pods adds no independent first-response observations and builds in contamination. The draft notes that contamination 'rises as clusters get smaller' but does not say that the randomised unit must own its queue or channel, or else have its first-response time attributed per agent, for the extra-clusters fix to work on response time. As written, the main remedy for the power problem may not work for the metric that matters most."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.98 / 0.80",
+      "claimed": 1.225,
+      "actual": 1.2249999999999999,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(13.0 - 9.1) / 13.0",
+      "claimed": 0.3,
+      "actual": 0.30000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "0.93 / 0.80",
+      "claimed": 1.1625,
+      "actual": 1.1625,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "1.03 / 0.80",
+      "claimed": 1.2875,
+      "actual": 1.2874999999999999,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "1 - 32 / 40",
+      "claimed": 0.2,
+      "actual": 0.19999999999999996,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "(40 - 36) / 40",
+      "claimed": 0.1,
+      "actual": 0.1,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "300 * 40 / 32",
+      "claimed": 375,
+      "actual": 375,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "300 / 0.98",
+      "claimed": 306.12,
+      "actual": 306.12244897959187,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "300 * (13.0 - 9.1) / 100",
+      "claimed": 11.7,
+      "actual": 11.7,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "17 / 68",
+      "claimed": 0.25,
+      "actual": 0.25,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "40 / 32",
+      "claimed": 1.25,
+      "actual": 1.25,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "300 * 0.07",
+      "claimed": 21,
+      "actual": 21.000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "(8 - 6) / 8",
+      "claimed": 0.25,
+      "actual": 0.25,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(68 + 17) * 6 / (68 * 8)",
+      "claimed": 0.9375,
+      "actual": 0.9375,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "60 * 0.13 * 0.5",
+      "claimed": 3.9,
+      "actual": 3.9000000000000004,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "60 * 0.091 * 0.5",
+      "claimed": 2.73,
+      "actual": 2.73,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "(3 + 7) / 2 * sqrt(112 / 12)",
+      "claimed": 15.28,
+      "actual": 15.275252316519467,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "(18 - 4) / 2 * sqrt(31 / 12)",
+      "claimed": 11.25,
+      "actual": 11.250925887825115,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What is Nordvik's first-response-time effect for customer-service teams on staggered schedules, was staggering randomised, and what was the subgroup's output result?",
+    "Was pay held constant in the Nordvik 32-hour arm, is the 0.4 SD wellbeing figure a between-arm difference, and is the 9.1% vs 13.0% attrition gap statistically significant?",
+    "What are the org's SLA headroom, utilisation against demand, current voluntary attrition, cost per hire and intended pay terms?"
+  ]
+}

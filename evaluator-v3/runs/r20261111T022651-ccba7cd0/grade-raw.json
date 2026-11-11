@@ -1,0 +1,95 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "Addresses the approve/reject decision directly. Covers all three mustFlag issues (fast hash unsuitable, per-minute/per-second error, digest length irrelevant) plus the areas an expert would expect: compliance, migration risk, DoS/rate limiting, cost-preserving alternatives. Nothing in it is padding.",
+      "quotes": [
+        "Reject the proposal as written.",
+        "The memo's 1,000-core figure comes from a 60x unit error",
+        "Password-storage strength comes from cost per guess (work factor or memory hardness), not digest length."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Every numeric claim checks out: 16.7 cores, 60x, 19.68 vCPU, 625,000x, 184/2^7 extrapolation. Search-snippet sources (NIST, PCI, AWS pricing) are classed as INFERRED, and estimates are labelled as extrapolations rather than overstated. I found no material errors.",
+      "quotes": [
+        "4,000 per minute is about 66.7 per second. At 0.25 CPU-s each that is about 16.7 cores",
+        "This is an estimate, not a measured cost-12 benchmark.",
+        "The NIST and PCI text come from search snippets only and were not fetched in full"
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "Explains the mechanisms: why a salt does not slow guessing, and why digest length is not what limits an attacker. Quantifies attacker speed-up, cost, burst load and Argon2id memory. Covers edge cases such as a breach mid-migration and rate-limit bypass.",
+      "quotes": [
+        "A per-user salt only stops guesses from being shared across users or precomputed. It does not make each guess slower.",
+        "Breach during the memo's migration: the database would hold bcrypt hashes for inactive users and fast SHA-256 hashes for active users",
+        "an unmitigated burst implies about 5.6 GiB of concurrent hashing memory"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "Challenges both premises in the memo and the finance framing. Takes the strongest counterarguments seriously, including DoS concerns and the GPU extrapolation. States what further evidence would change the conclusion.",
+      "quotes": [
+        "The hashcat bcrypt figure is only an extrapolation, so the GPU speed-up may be overstated. — That is true",
+        "uses OWASP's rehash-on-login mechanism in reverse",
+        "FIPS alignment would change the recommended fallback from Argon2id to PBKDF2-HMAC-SHA256."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "Gives a clear verdict with concrete, conditional next steps: return the memo with corrected numbers, choose between secure alternatives, measure hashing CPU and rate-limit pass-through, and confirm compliance scope.",
+      "quotes": [
+        "Do not approve the SHA-256 switch. Return the memo with the corrected core arithmetic",
+        "Instrument hashing CPU separately from other auth-service CPU",
+        "Measure how many burst attempts reach the hashing tier before right-sizing the 48 vCPU cluster."
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "Well organised. Claims are tied to evidence IDs and to calculations that were re-run, and uncertainty is explicitly labelled throughout.",
+      "quotes": [
+        "[E1, E2, E3, K1, K2, K12]",
+        "These are order-of-magnitude proxies, not the company's actual spend.",
+        "## Remaining uncertainty"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "OWASP explicitly calls fast hashes such as SHA-256 unsuitable for password storage."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "4,000 logins per minute at 0.25 CPU-s needs about 16.7 cores, not 1,000."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "Output digest length (256 vs 184 bits) does not determine password-hashing strength."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Recommends or accepts migrating password storage to single-iteration salted SHA-256",
+      "triggered": false,
+      "evidence": "\"Reject the proposal as written.\" / \"Do not choose any fast hash.\""
+    },
+    {
+      "condition": "Accepts the 1,000-core figure without correcting it",
+      "triggered": false,
+      "evidence": "\"The memo's core count is wrong by a factor of 60... about 16.7 cores at peak\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "Very strong output that matches the reference summary on every point. One small imprecision: it implies bcrypt has no memory hardness (\"which bcrypt and SHA-256 lack\"), when bcrypt uses a small fixed amount of memory. This is common phrasing and not material. I did not open the supplied fixture documents. The numbers it cites as coming from them match the request and the reference."
+}

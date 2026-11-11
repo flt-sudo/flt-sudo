@@ -1,0 +1,115 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The draft keeps saying the SHA-256 switch could save 'at most about $543/month' (K11), but it never says plainly that the saving only exists if the 48 vCPU cluster is actually shrunk. The cluster is paid for as provisioned capacity (about $1,564/month, K10). Switching the hash without resizing saves roughly $0. The draft says 'less if the cluster is not resized', which understates this. Resizing also cuts the burst headroom the draft relies on in C6. This weakens the finance case further and should be stated outright.",
+      "location": "verdict; C2 assessment; correctedUserAssumptions[3]; alternatives 'Proposed single-iteration salted SHA-256'; tradeoffs[0]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D2",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The packet asks for compute savings to be compared with breach and compliance exposure (assumptionsToVerify, 'bcrypt is burning too much CPU' and 'Approving the switch would meaningfully reduce compute spend'). The draft gives savings in dollars but treats breach exposure only qualitatively. It gives no order of magnitude, such as incident-response, notification or regulatory costs against about $543/month, for a finance audience. The conclusion is not in doubt, but finance's actual question is only half answered in its own terms.",
+      "location": "C2 / C5 assessments; tradeoffs[0]; practicalImplications",
+      "remedy": "both"
+    },
+    {
+      "id": "D3",
+      "gate": "traceability",
+      "severity": "minor",
+      "description": "The draft calls Argon2id (64 MiB, t=3, 180 ms) an 'upward' migration from bcrypt-12 and says memory hardness 'narrows the GPU advantage'. No cited evidence supports either point. E5 as quoted says Argon2id is OWASP's first choice and gives its minimum parameters. E7/E8 contain no Argon2id cracking rate. The draft also sets Argon2id's lower CPU cost (180 vs 250 ms) as a pure gain, without showing that its offline-cracking resistance is at least equal to bcrypt-12. That is plausible, but it is asserted, not evidenced. The claim should be hedged or sourced, since Argon2id is one of the two recommended fallbacks.",
+      "location": "C5 assessment; CL11; alternatives 'Argon2id'; practicalImplications[2]",
+      "remedy": "research"
+    },
+    {
+      "id": "D4",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "Edge rate limiting 'has already handled a 7.5x burst in practice' overstates E2, which says only that the burst was 'mitigated by rate limiting at the edge'. The source gives no outcome data, no cluster size at the time, and no count of attempts that reached hashing. The draft admits this elsewhere (CL13), but the C6 strength and the counterargument response ('the 2025 burst was handled by edge rate limiting') present it as an established fact.",
+      "location": "C6 strengths[0]; counterarguments[3].response",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D5",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "C1 says low-entropy customer passwords 'would fall to dictionary and rule-based attacks soon after a breach'. The packet has no data on the password policy or the entropy of the user population. The direction is sound, but the timing claim has no support.",
+      "location": "C1 assessment, last sentence",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D6",
+      "gate": "coverage",
+      "severity": "minor",
+      "description": "The memo's 'more modern' framing (in the request) is never addressed. Only the digest-length point is rebutted. Briefly noting that SHA-256 (2001) is not a password-hashing design at all, and that OWASP prefers the newer Argon2id, would complete the C4 rebuttal for stakeholders.",
+      "location": "C4 assessment; counterarguments[1]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D7",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "CL7, the dollar valuation of the hashing load, is marked material:false. It is the figure that answers finance's question ('cut compute spend'). Labelling it immaterial misstates where the decision's sensitivity lies, even though it does not change the reject verdict.",
+      "location": "CL7 material flag",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [],
+  "materialResearchGaps": [
+    {
+      "question": "What share of the auth cluster's roughly 19.7 busy vCPU at peak is password hashing, and is October 2026 a representative peak?",
+      "couldChangeVerdict": false
+    },
+    {
+      "question": "How many verifies per second reached the hashing tier during the 2025 credential-stuffing burst after edge rate limiting? This decides whether right-sizing the 48 vCPU cluster is safe.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Are PCI DSS, SOC 2 or FIPS-140 in scope? FIPS alignment would change the recommended fallback from Argon2id to PBKDF2-HMAC-SHA256.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Measured GPU cracking rates for bcrypt cost 12 and Argon2id (m=64 MiB, t=3) on current hardware, to confirm that Argon2id is not weaker than bcrypt-12 against offline attack.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What does the auth cluster actually cost per month, and could it be resized at all?",
+      "couldChangeVerdict": false
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and every user assumption are addressed, and alternatives and migration risk are covered. Only gaps: no breach-cost comparison for finance (D2) and the 'more modern' claim is not rebutted (D6)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The central claims rest on fixture data and fetched OWASP/hashcat sources, and snippet-only NIST/PCI evidence is hedged. Minor overstatements on rate-limit effectiveness and password entropy (D4, D5)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All calculations recompute correctly: K2 16.67, K3 19.68, K9 about 13.53M, K10 $1,563.66, K11 about $543, K15 about $271.5, K18 768 MiB, K19 5,760 MiB. The 60x unit-error diagnosis is right. The savings framing ignores that nothing is saved unless the cluster is resized (D1)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Status quo, bcrypt-11, Argon2id, PBKDF2, right-sizing and the proposal itself are compared, and counterarguments including DoS and the extrapolation caveat are fairly stated. Argon2id's superiority is asserted rather than evidenced (D3)."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "Clear reject, with corrected arithmetic, a quantified security loss, actionable fallbacks and a safe migration direction. High confidence in rejection is warranted. Materiality labelling of the cost claim is off (D7)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence and calculation IDs exist and generally support the claims. Quotes match the packet and the sources. The Argon2id GPU-resistance claim lacks support (D3). No sign of injected instructions; the source files contain none."
+    }
+  ]
+}

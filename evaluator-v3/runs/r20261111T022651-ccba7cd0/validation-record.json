@@ -1,0 +1,350 @@
+{
+  "runId": "r20261111T022651-ccba7cd0",
+  "generatedAt": "2026-11-11T02:34:15.639Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "OWASP Password Storage Cheat Sheet Argon2id 19 MiB bcrypt work factor 10 PBKDF2-HMAC-SHA256 600,000 iterations",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "NIST SP 800-63B-4 passwords SHALL be salted and hashed using a suitable password hashing scheme cost factor",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "hashcat RTX 4090 benchmark SHA-256 GH/s bcrypt H/s mode 3200",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "PCI DSS 4.0 requirement 8.3.2 strong cryptography passwords hashed keyed cryptographic hash 3.5.1.1",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      },
+      {
+        "query": "PCI SSC FAQ does hashing of passwords meet the intent of requirement 8.3.2 salt strong cryptography",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "Chick3nman RTX 4090 hashcat benchmark \"SHA2-256\" \"bcrypt $2*$, Blowfish (Unix)\" H/s",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "OWASP password storage upgrading legacy hashes layering bcrypt(md5) rehash on login",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "usnistgov 800-63-4 github sp800-63b passwords \"password hashing scheme\" \"cost factor\" Argon2 PBKDF2 salt at least 32 bits",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "AWS c7i.xlarge on-demand price per hour us-east-1 4 vCPU",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 20
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND cheatsheetseries.owasp.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai"
+      },
+      {
+        "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND pages.nist.gov. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does "
+      },
+      {
+        "url": "https://raw.githubusercontent.com/OWASP/CheatSheetSeries/master/cheatsheets/Password_Storage_Cheat_Sheet.md",
+        "ok": true
+      },
+      {
+        "url": "https://gist.github.com/Chick3nman/32e662a5bb63bc4f51b847bb422222fd",
+        "ok": true
+      }
+    ],
+    "fixturesRead": [
+      "hashing-proposal-memo.md",
+      "auth-benchmark.csv",
+      "auth-service-metrics.md"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-04 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13047,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 39000,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 93
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 834,
+            "cache_read_input_tokens": 9063,
+            "output_tokens": 3148,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 834
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3148,
+                "cache_read_input_tokens": 9063,
+                "cache_creation_input_tokens": 834,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 834,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-04 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-04 analyst draft 1",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-04 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 43787,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 57693,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1521
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 834,
+            "cache_read_input_tokens": 38812,
+            "output_tokens": 4139,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 834
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 4139,
+                "cache_read_input_tokens": 38812,
+                "cache_creation_input_tokens": 834,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 834,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-04 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 28229,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 22044,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 484
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 20944,
+            "cache_read_input_tokens": 5071,
+            "output_tokens": 2212,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 20944
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2212,
+                "cache_read_input_tokens": 5071,
+                "cache_creation_input_tokens": 20944,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 20944,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "https://raw.githubusercontent.com/OWASP/CheatSheetSeries/master/cheatsheets/Password_Storage_Cheat_Sheet.md",
+      "how": "fetched"
+    },
+    {
+      "ref": "https://gist.github.com/Chick3nman/32e662a5bb63bc4f51b847bb422222fd",
+      "how": "fetched"
+    },
+    {
+      "ref": "hashing-proposal-memo.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "auth-benchmark.csv",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "auth-service-metrics.md",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://pages.nist.gov/800-63-4/sp800-63b/authenticators",
+    "https://www.pcisecuritystandards.org/faq/articles/Frequently_Asked_Question/does-hashing-of-passwords-meet-the-intent-of-pci-dss-requirement-8-3-2",
+    "https://calculator.holori.com/aws/ec2/c7i.xlarge/us-east-1"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 12 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 1 draft(s)",
+    "Calculation K1 re-executed: 4000 * 0.25 = 1000 (claimed 1000) → match",
+    "Calculation K2 re-executed: 4000 / 60 * 0.25 = 16.666666666666668 (claimed 16.67) → match",
+    "Calculation K3 re-executed: 48 * 0.41 = 19.68 (claimed 19.68) → match",
+    "Calculation K4 re-executed: 4000 / 60 * 0.125 = 8.333333333333334 (claimed 8.333) → match",
+    "Calculation K5 re-executed: 4000 / 60 * 0.18 = 12 (claimed 12) → match",
+    "Calculation K6 re-executed: 30000 / 60 * 0.25 = 125 (claimed 125) → match",
+    "Calculation K7 re-executed: 250 / 0.0004 = 625000 (claimed 625000) → match",
+    "Calculation K8 re-executed: 184.0 / 2^7 = 1.4375 (claimed 1.4375) → match",
+    "Calculation K9 re-executed: 19450.8 * 10^6 / (184.0 * 10^3 / 2^7) = 13530991.304347826 (claimed 13531000) → match",
+    "Calculation K10 re-executed: 48 / 4 * 0.1785 * 730 = 1563.6599999999999 (claimed 1563.66) → match",
+    "Calculation K11 re-executed: (4000 / 60 * 0.25) / 4 * 0.1785 * 730 = 542.9375 (claimed 543) → match",
+    "Calculation K12 re-executed: 1000 / (4000 / 60 * 0.25) = 59.99999999999999 (claimed 60) → match",
+    "Calculation K13 re-executed: 30000 / 4000 = 7.5 (claimed 7.5) → match",
+    "Calculation K14 re-executed: 30000 / 60 * 0.125 = 62.5 (claimed 62.5) → match",
+    "Calculation K15 re-executed: (4000 / 60 * 0.125) / 4 * 0.1785 * 730 = 271.46875 (claimed 271.5) → match",
+    "Calculation K16 re-executed: 250 / 125 = 2 (claimed 2) → match",
+    "Calculation K17 re-executed: 48 - 48 * 0.41 = 28.32 (claimed 28.32) → match",
+    "Calculation K18 re-executed: 4000 / 60 * 0.18 * 64 = 768 (claimed 768) → match",
+    "Calculation K19 re-executed: 30000 / 60 * 0.18 * 64 = 5760 (claimed 5760) → match",
+    "Calculation K20 re-executed: 30000 / 60 * 0.18 = 90 (claimed 90) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html — getaddrinfo ENOTFOUND cheatsheetseries.owasp.org. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domai",
+    "Fetch failed: https://pages.nist.gov/800-63-4/sp800-63b.html — getaddrinfo ENOTFOUND pages.nist.gov. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does ",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G5 unresolved: No data on how many verifies per minute reached the hashing tier during the 2025 burst after edge rate limiting, and no rate-limit configuration was supplied. The metrics say only that the burst was 'mitigated'. Unmitigated worst case at bcrypt-12 is about 125 cores (E4, inferred).",
+    "Knowledge gap G1 unresolved: Partly unresolved. The metrics do not separate hashing CPU from other auth-service work, and do not show whether October's peak represents the year.",
+    "Knowledge gap G3 unresolved: OWASP was read via the GitHub raw source because cheatsheetseries.owasp.org and pages.nist.gov could not be resolved (both hosts need to be allowed in network settings). NIST and PCI text are from search snippets only. No SOC 2 guidance was retrieved.",
+    "Knowledge gap G4 unresolved: The real dollar cost of the cluster is unknown. Only public AWS list prices were found, as an order-of-magnitude proxy. No external check of the 250 ms bcrypt-12 CPU timing was done.",
+    "Knowledge gap G2 unresolved: No measured hashcat cost-12 bcrypt figure was retrieved; the cost-12 rate is extrapolated from the cost-5 benchmark. No current-generation (e.g. RTX 5090) benchmark was verified."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 100/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "How much of the cluster's CPU is password hashing as opposed to other auth work, and whether October 2026 is a representative peak.",
+    "How many of the about 30,000/min 2025 burst attempts reached the hashing tier after edge rate limiting, and the current rate-limit configuration.",
+    "The company's actual cloud provider, instance types and negotiated pricing. The dollar figures are list-price proxies.",
+    "The hardware and library context of the internal 250 ms bcrypt-12 benchmark, which was not externally validated.",
+    "The exact GPU cracking rate for bcrypt cost 12. The 13.5 million times figure is extrapolated from a cost-5 benchmark on 2022 hardware.",
+    "Full text of NIST SP 800-63B-4 and the PCI SSC FAQ (snippets only), whether PCI or SOC 2 scope applies, and whether FIPS alignment is required.",
+    "Open question the reviewer judged decisive: How many verifies per second reached the hashing tier during the 2025 credential-stuffing burst after edge rate limiting? This decides whether right-sizing the 48 vCPU cluster is safe.",
+    "Open question the reviewer judged decisive: Are PCI DSS, SOC 2 or FIPS-140 in scope? FIPS alignment would change the recommended fallback from Argon2id to PBKDF2-HMAC-SHA256.",
+    "Open question the reviewer judged decisive: Measured GPU cracking rates for bcrypt cost 12 and Argon2id (m=64 MiB, t=3) on current hardware, to confirm that Argon2id is not weaker than bcrypt-12 against offline attack."
+  ],
+  "revisions": {
+    "count": 0,
+    "entries": []
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D2 [C2 / C5 assessments; tradeoffs[0]; practicalImplications] The packet asks for compute savings to be compared with breach and compliance exposure (assumptionsToVerify, 'bcrypt is burning too much CPU' and 'Approving the switch would meaningfully reduce compute spend'). The draft gives savings in dollars but treats breach exposure only qualitatively. It gives no order of magnitude, such as incident-response, notification or regulatory costs against about $543/month, for a finance audience. The conclusion is not in doubt, but finance's actual question is only half answered in its own terms.",
+        "[minor/reviewer] D6 [C4 assessment; counterarguments[1]] The memo's 'more modern' framing (in the request) is never addressed. Only the digest-length point is rebutted. Briefly noting that SHA-256 (2001) is not a password-hashing design at all, and that OWASP prefers the newer Argon2id, would complete the C4 rebuttal for stakeholders."
+      ]
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D4 [C6 strengths[0]; counterarguments[3].response] Edge rate limiting 'has already handled a 7.5x burst in practice' overstates E2, which says only that the burst was 'mitigated by rate limiting at the edge'. The source gives no outcome data, no cluster size at the time, and no count of attempts that reached hashing. The draft admits this elsewhere (CL13), but the C6 strength and the counterargument response ('the 2025 burst was handled by edge rate limiting') present it as an established fact.",
+        "[minor/reviewer] D5 [C1 assessment, last sentence] C1 says low-entropy customer passwords 'would fall to dictionary and rule-based attacks soon after a breach'. The packet has no data on the password policy or the entropy of the user population. The direction is sound, but the timing claim has no support."
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D1 [verdict; C2 assessment; correctedUserAssumptions[3]; alternatives 'Proposed single-iteration salted SHA-256'; tradeoffs[0]] The draft keeps saying the SHA-256 switch could save 'at most about $543/month' (K11), but it never says plainly that the saving only exists if the 48 vCPU cluster is actually shrunk. The cluster is paid for as provisioned capacity (about $1,564/month, K10). Switching the hash without resizing saves roughly $0. The draft says 'less if the cluster is not resized', which understates this. Resizing also cuts the burst headroom the draft relies on in C6. This weakens the finance case further and should be stated outright."
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D7 [CL7 material flag] CL7, the dollar valuation of the hashing load, is marked material:false. It is the figure that answers finance's question ('cut compute spend'). Labelling it immaterial misstates where the decision's sensitivity lies, even though it does not change the reject verdict."
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": [
+        "[minor/reviewer] D3 [C5 assessment; CL11; alternatives 'Argon2id'; practicalImplications[2]] The draft calls Argon2id (64 MiB, t=3, 180 ms) an 'upward' migration from bcrypt-12 and says memory hardness 'narrows the GPU advantage'. No cited evidence supports either point. E5 as quoted says Argon2id is OWASP's first choice and gives its minimum parameters. E7/E8 contain no Argon2id cracking rate. The draft also sets Argon2id's lower CPU cost (180 vs 250 ms) as a pure gain, without showing that its offline-cracking resistance is at least equal to bcrypt-12. That is plausible, but it is asserted, not evidenced. The claim should be hedged or sourced, since Argon2id is one of the two recommended fallbacks."
+      ]
+    }
+  },
+  "certified": true
+}

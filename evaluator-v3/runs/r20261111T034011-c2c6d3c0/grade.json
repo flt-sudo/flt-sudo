@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T034011-c2c6d3c0",
+  "caseId": "ho-09-brazil-market-share",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 82.5,
+  "byCategory": {
+    "scope": 15,
+    "accuracy": 18.75,
+    "depth": 20,
+    "critical": 11.25,
+    "usefulness": 7.5,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": false,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"will reach around 15% market share\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "medium",
+  "notes": "The main judgement call is that the reference treats the question as unanswerable, while the output offers a numeric year-3 range (280-2,500 fleets, about 0.1-0.9%) and tells the board to present it. The range is clearly labelled low confidence and assumption-based, and it is used mainly to show that 15% and even break-even are implausible. So I did not trigger the first critical failure, and I marked F1 as flagged (substantively, though not stated outright for the share itself). A stricter reading could set F1 to false and lower scope, critical and usefulness. N1 (mustNotClaim) does not appear to be violated: there is no 'will reach X% share' phrasing."
+}

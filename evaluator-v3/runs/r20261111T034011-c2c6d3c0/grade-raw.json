@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "0.75",
+      "justification": "The output covers every mustFlag issue: market size, the survey's flaws, missing pricing and competitor data, ANATEL, partners and staged entry. But it partly answers the question as if it could be answered, by building a numeric year-3 range for the board instead of saying the share is unknowable. It also carries heavy detail.",
+      "quotes": [
+        "Back the decision with a defensible range of year-3 market share or fleet count, with its assumptions shown, in place of a single point estimate.",
+        "Present the board with a range, not 15%, and label it low confidence."
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "0.75",
+      "justification": "The figures match the documents and the recomputed calculations. The output labels evidence classes and says the scenario fractions are judgement. One minor sourcing issue: it attributes an 'exact interval' of about 35-87% to E3, but E3's registry entry contains no such figure.",
+      "quotes": [
+        "the exact interval noted in E3 is wider, at about 35-87%",
+        "Those fractions are judgement, not evidence."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains mechanisms: selection bias, switching costs, the comodato cash burden and the certification window. It quantifies wherever the case allows and covers tradeoffs, edge cases and failure modes specific to Brazilian telematics.",
+      "quotes": [
+        "Comodato moves the hardware cost from the customer to the vendor. That raises cash needs for each new fleet and lengthens payback.",
+        "equipping the ~80,000 vehicles behind 4,000 fleets (K18) would take about R$112M-232M of hardware and installation"
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "0.75",
+      "justification": "It firmly rejects the CEO's 15% figure and the reading of the 64% survey result, presents counterarguments fairly and lists what would change the conclusion. It still accepts that a numeric share range is a useful board input, where a careful expert would say the share cannot be estimated.",
+      "quotes": [
+        "The CEO's 15% figure and the 64% survey result are premises to test, not inputs.",
+        "It is a reason to run priced pilots, not evidence of fit."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "0.75",
+      "justification": "The verdict is clear: no full commitment, staged and validation-gated entry instead. Next steps are concrete. The go/no-go criteria stay loose ('release the full budget only on those results'), and the bottom line leads with an assumption-based share range rather than an honest 'cannot be determined'.",
+      "quotes": [
+        "Do not commit to the full 2027 Brazil entry as the draft budget describes it. Run a staged, validation-gated entry instead",
+        "release the full budget only on those results"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "It is well organised. Each material claim cites an evidence or calculation ID, and uncertainty is labelled throughout.",
+      "quotes": [
+        "It is low for the numeric year-3 range below",
+        "Low case (an assumption): a quarter of Cobli's low-end pace"
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "The year-3 share or fleet count achieved by a comparable foreign telematics entrant in Brazil cannot be determined from the evidence. The low and central cases are therefore assumption-based scenarios, not anchored on evidence."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The 64% figure comes from 9 of 14 self-selected booth visitors who answered 'would consider' to a question that stated no price"
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The ~5x spread in the internal estimates (180k-900k fleets, E1) drives every share figure."
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "Run a staged, validation-gated entry instead ... run priced pilots that require signed commitments"
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Gives a specific year-3 market share forecast as if it were supported by the evidence",
+      "triggered": false,
+      "evidence": "It gives scenario ranges (about 0.1%, 0.3% and 0.9% of RNTRC companies), but labels them low confidence and assumption-based: 'It is low for the numeric year-3 range below, because that range rests on one undated Cobli snippet (E12) and no benchmark for a comparable foreign entrant exists (E21).'"
+    },
+    {
+      "condition": "Treats the 64% 'would consider' figure from 14 booth respondents as evidence of likely adoption",
+      "triggered": false,
+      "evidence": "'It cannot be turned into market share (E19).' and 'It is a reason to run priced pilots, not evidence of fit.'"
+    }
+  ],
+  "graderConfidence": "medium",
+  "notesForHumanAdjudicator": "The main judgement call is that the reference treats the question as unanswerable, while the output offers a numeric year-3 range (280-2,500 fleets, about 0.1-0.9%) and tells the board to present it. The range is clearly labelled low confidence and assumption-based, and it is used mainly to show that 15% and even break-even are implausible. So I did not trigger the first critical failure, and I marked F1 as flagged (substantively, though not stated outright for the share itself). A stricter reading could set F1 to false and lower scope, critical and usefulness. N1 (mustNotClaim) does not appear to be violated: there is no 'will reach X% share' phrasing."
+}

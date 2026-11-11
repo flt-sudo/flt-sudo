@@ -1,0 +1,354 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "evidence_sufficiency",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D1 [verdict, CL5, CL6, CL17, K13, K14, C3 assessment] The whole new year-3 range (280 / 875 / 2,500 fleets, K13, K14, K23-K32) rests on Cobli's start date, which comes from the phrase '~5,000 clients after about seven years'. That phrase is in the packet's applicability gloss for E12, not in E12's sourced claim text, and the ~5,000 figure itself is undated. The draft also treats '>3,000 clients' as exactly 3,000. Because it is a floor, the early pace could be higher, so the upper case is not the hard ceiling that CL5's wording ('beating the local benchmark's fastest observed phase') suggests. The draft does label the range low confidence and records the inferred start date in remainingUncertainty, so this is minor. Note that the previous review (prior D1) itself proposed this inference, so the draft is not at fault for following it. The board should still be told that the 'seven years' figure is a planner gloss, not a cited fact."
+        }
+      ]
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D2 [C4 assessment, CL15, CL16, K34-K38, tradeoffs[2]] The new comodato outlay figures (K34-K38) have three problems. (a) They use the vendor blog's hardware prices (E13), which are what a customer pays, as if they were the entrant's own cost. Under comodato the entrant bears its device cost, which is probably lower. The R$112M-232M may therefore be overstated, although the draft partly concedes this ('own hardware cost missing', 'indicative only'). (b) K38, the 'R$46.7 per US$' threshold, compares a cumulative multi-year outlay with the Year-1 budget through a hypothetical exchange rate. That is a confusing way to make the point. Stating the outlay in USD at an explicitly assumed rate would be clearer for the board. (c) The outlay is computed only for the 4,000-fleet break-even path. The draft never computes the outlay implied by its own year-3 scenarios: about R$24.5M-50.75M for the central 875 fleets, and about R$70M-145M for the 2,500 upper case. Those are the funding figures most relevant to a 3-year commitment."
+        },
+        {
+          "gate": "reasoning_validity",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D3 [C3 mechanisms, C5 assessment, alternatives[5]] The new Cobli-comparability passage in the C3 mechanisms is muddled. It calls the point that Cobli's >3,000 clients predate the July 2021 SoftBank round a way in which Cobli 'may be less favourable' as a benchmark. In fact that point makes the early ramp less dependent on funding, so it is a cleaner comparator. The text then adds that 'the entrant starts with an existing product', which is a separate argument. Separately, the white-label alternative and the C5 assessment say the window 'could approach 36 months less entity setup', but they cite K25, which uses a full 36 months. That is a small overstatement of the upper bound."
+        }
+      ]
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": [
+        {
+          "gate": "decision_usefulness",
+          "severity": "minor",
+          "source": "reviewer",
+          "detail": "D4 [confidence field vs verdict] The verdict text now splits confidence: moderate for the entry mode, low for the numeric range. The structured top-level 'confidence' field still reads only 'moderate'. Anyone reading the summary field would see a higher confidence than the draft gives the share figure the CEO asked for."
+        }
+      ]
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "0.15 * 180000",
+      "claimed": 27000,
+      "actual": 27000,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "0.15 * 900000",
+      "claimed": 135000,
+      "actual": 135000,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "4000 / 180000",
+      "claimed": 0.0222,
+      "actual": 0.022222222222222223,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "4000 / 900000",
+      "claimed": 0.00444,
+      "actual": 0.0044444444444444444,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "4000 / 283393",
+      "claimed": 0.0141,
+      "actual": 0.014114674674392098,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "0.15 * 283393",
+      "claimed": 42509,
+      "actual": 42508.95,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "9 / 14",
+      "claimed": 0.643,
+      "actual": 0.6428571428571429,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "((9/14 + 1.96^2/28) - 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimed": 0.388,
+      "actual": 0.3876400468214041,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "((9/14 + 1.96^2/28) + 1.96 * sqrt((9/14) * (5/14) / 14 + 1.96^2 / 784)) / (1 + 1.96^2 / 14)",
+      "claimed": 0.837,
+      "actual": 0.8365550926279727,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "27000 / 5000",
+      "claimed": 5.4,
+      "actual": 5.4,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "4000 / 5000",
+      "claimed": 0.8,
+      "actual": 0.8,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "5000 - 3000",
+      "claimed": 2000,
+      "actual": 2000,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "3000 / 4",
+      "claimed": 750,
+      "actual": 750,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "3000 / 3",
+      "claimed": 1000,
+      "actual": 1000,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "(36 - 18) / 36",
+      "claimed": 0.5,
+      "actual": 0.5,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "(36 - 6) / 36",
+      "claimed": 0.833,
+      "actual": 0.8333333333333334,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "100000 / 5000",
+      "claimed": 20,
+      "actual": 20,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "4000 * 20",
+      "claimed": 80000,
+      "actual": 80000,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "4000 / 0.75",
+      "claimed": 5333,
+      "actual": 5333.333333333333,
+      "ok": true
+    },
+    {
+      "id": "K20",
+      "expression": "4000 / 0.5",
+      "claimed": 8000,
+      "actual": 8000,
+      "ok": true
+    },
+    {
+      "id": "K21",
+      "expression": "54.90 / 100",
+      "claimed": 0.549,
+      "actual": 0.5489999999999999,
+      "ok": true
+    },
+    {
+      "id": "K22",
+      "expression": "0.15 * 1120",
+      "claimed": 168,
+      "actual": 168,
+      "ok": true
+    },
+    {
+      "id": "K23",
+      "expression": "1000 * 30 / 12",
+      "claimed": 2500,
+      "actual": 2500,
+      "ok": true
+    },
+    {
+      "id": "K24",
+      "expression": "750 * 18 / 12",
+      "claimed": 1125,
+      "actual": 1125,
+      "ok": true
+    },
+    {
+      "id": "K25",
+      "expression": "1000 * 36 / 12",
+      "claimed": 3000,
+      "actual": 3000,
+      "ok": true
+    },
+    {
+      "id": "K26",
+      "expression": "0.5 * (750 + 1000) / 2 * 24 / 12",
+      "claimed": 875,
+      "actual": 875,
+      "ok": true
+    },
+    {
+      "id": "K27",
+      "expression": "0.25 * 750 * 18 / 12",
+      "claimed": 281.25,
+      "actual": 281.25,
+      "ok": true
+    },
+    {
+      "id": "K28",
+      "expression": "2500 / 283393",
+      "claimed": 0.00882,
+      "actual": 0.008821671671495062,
+      "ok": true
+    },
+    {
+      "id": "K29",
+      "expression": "875 / 283393",
+      "claimed": 0.00309,
+      "actual": 0.0030875850850232717,
+      "ok": true
+    },
+    {
+      "id": "K30",
+      "expression": "281.25 / 283393",
+      "claimed": 0.000992,
+      "actual": 0.0009924380630431944,
+      "ok": true
+    },
+    {
+      "id": "K31",
+      "expression": "2500 / 180000",
+      "claimed": 0.0139,
+      "actual": 0.013888888888888888,
+      "ok": true
+    },
+    {
+      "id": "K32",
+      "expression": "281.25 / 900000",
+      "claimed": 0.0003125,
+      "actual": 0.0003125,
+      "ok": true
+    },
+    {
+      "id": "K33",
+      "expression": "4000 / 2500",
+      "claimed": 1.6,
+      "actual": 1.6,
+      "ok": true
+    },
+    {
+      "id": "K34",
+      "expression": "1200 + 200",
+      "claimed": 1400,
+      "actual": 1400,
+      "ok": true
+    },
+    {
+      "id": "K35",
+      "expression": "2500 + 400",
+      "claimed": 2900,
+      "actual": 2900,
+      "ok": true
+    },
+    {
+      "id": "K36",
+      "expression": "80000 * 1400",
+      "claimed": 112000000,
+      "actual": 112000000,
+      "ok": true
+    },
+    {
+      "id": "K37",
+      "expression": "80000 * 2900",
+      "claimed": 232000000,
+      "actual": 232000000,
+      "ok": true
+    },
+    {
+      "id": "K38",
+      "expression": "112000000 / 2400000",
+      "claimed": 46.7,
+      "actual": 46.666666666666664,
+      "ok": true
+    },
+    {
+      "id": "K39",
+      "expression": "2000 / 4",
+      "claimed": 500,
+      "actual": 500,
+      "ok": true
+    },
+    {
+      "id": "K40",
+      "expression": "2000 / 3",
+      "claimed": 667,
+      "actual": 666.6666666666666,
+      "ok": true
+    },
+    {
+      "id": "K41",
+      "expression": "2500 / 900000",
+      "claimed": 0.00278,
+      "actual": 0.002777777777777778,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What is the dated history of Cobli's client count (founding date, and clients at the end of each of its first three years of selling)? Every year-3 scenario scales directly from it.",
+    "What is the company's own landed device cost and installation cost in Brazil, and what are its US per-fleet price and contribution margin? These are needed to recompute break-even and the comodato funding need.",
+    "Can the product run on telematics hardware already certified by ANATEL and offered by a local vendor, removing certification from the critical path?",
+    "Are there small Brazilian telematics providers available for acquisition or a stake, and at what indicative valuations?"
+  ]
+}

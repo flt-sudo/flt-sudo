@@ -1,0 +1,113 @@
+{
+  "defects": [
+    {
+      "id": "D1",
+      "gate": "evidence_sufficiency",
+      "severity": "minor",
+      "description": "The whole new year-3 range (280 / 875 / 2,500 fleets, K13, K14, K23-K32) rests on Cobli's start date, which comes from the phrase '~5,000 clients after about seven years'. That phrase is in the packet's applicability gloss for E12, not in E12's sourced claim text, and the ~5,000 figure itself is undated. The draft also treats '>3,000 clients' as exactly 3,000. Because it is a floor, the early pace could be higher, so the upper case is not the hard ceiling that CL5's wording ('beating the local benchmark's fastest observed phase') suggests. The draft does label the range low confidence and records the inferred start date in remainingUncertainty, so this is minor. Note that the previous review (prior D1) itself proposed this inference, so the draft is not at fault for following it. The board should still be told that the 'seven years' figure is a planner gloss, not a cited fact.",
+      "location": "verdict, CL5, CL6, CL17, K13, K14, C3 assessment",
+      "remedy": "research"
+    },
+    {
+      "id": "D2",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The new comodato outlay figures (K34-K38) have three problems. (a) They use the vendor blog's hardware prices (E13), which are what a customer pays, as if they were the entrant's own cost. Under comodato the entrant bears its device cost, which is probably lower. The R$112M-232M may therefore be overstated, although the draft partly concedes this ('own hardware cost missing', 'indicative only'). (b) K38, the 'R$46.7 per US$' threshold, compares a cumulative multi-year outlay with the Year-1 budget through a hypothetical exchange rate. That is a confusing way to make the point. Stating the outlay in USD at an explicitly assumed rate would be clearer for the board. (c) The outlay is computed only for the 4,000-fleet break-even path. The draft never computes the outlay implied by its own year-3 scenarios: about R$24.5M-50.75M for the central 875 fleets, and about R$70M-145M for the 2,500 upper case. Those are the funding figures most relevant to a 3-year commitment.",
+      "location": "C4 assessment, CL15, CL16, K34-K38, tradeoffs[2]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D3",
+      "gate": "reasoning_validity",
+      "severity": "minor",
+      "description": "The new Cobli-comparability passage in the C3 mechanisms is muddled. It calls the point that Cobli's >3,000 clients predate the July 2021 SoftBank round a way in which Cobli 'may be less favourable' as a benchmark. In fact that point makes the early ramp less dependent on funding, so it is a cleaner comparator. The text then adds that 'the entrant starts with an existing product', which is a separate argument. Separately, the white-label alternative and the C5 assessment say the window 'could approach 36 months less entity setup', but they cite K25, which uses a full 36 months. That is a small overstatement of the upper bound.",
+      "location": "C3 mechanisms, C5 assessment, alternatives[5]",
+      "remedy": "reanalysis"
+    },
+    {
+      "id": "D4",
+      "gate": "decision_usefulness",
+      "severity": "minor",
+      "description": "The verdict text now splits confidence: moderate for the entry mode, low for the numeric range. The structured top-level 'confidence' field still reads only 'moderate'. Anyone reading the summary field would see a higher confidence than the draft gives the share figure the CEO asked for.",
+      "location": "confidence field vs verdict",
+      "remedy": "reanalysis"
+    }
+  ],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The 2,000-fleet anchor based on Cobli's later phase has been replaced by an inferred early pace of 750-1,000 clients a year (K13, K14). The later pace (K39, K40) is shown for contrast. The draft engages the 'Cobli early ramp' counterargument, and C3 discusses whether Cobli's local advantages make it a more or less favourable benchmark. The residual issues with the time base are noted as new minor D1."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "Year-3 cases are now scaled to the 18-30 month effective selling window after 6-18 months of certification and setup (K23, K24, K26, K27). The full-window figure is shown separately (K25). The analysis is now internally consistent with CL12."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "Low, central and upper cases (about 280 / 875 / 2,500 fleets) are given, with their assumptions stated. They are expressed on the preferred RNTRC ETC denominator (about 0.1% / 0.3% / 0.9%) and across the internal range. All recomputed correctly: K26=875, K27=281.25, K28=0.00882, K29=0.00309, K30=0.000992, K31=0.0139, K32=0.0003125, K33=1.6."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "Acquisition or stake entry and software-only/white-label entry on certified third-party hardware are added as alternatives. Each has trade-offs, is checked against the evidence, and is linked to practical implications."
+    },
+    {
+      "id": "D5",
+      "status": "fixed",
+      "note": "The comodato outlay is quantified (R$1,400-2,900 per vehicle, R$112M-232M for 80,000 vehicles; K34-K37 all correct), and C4 now separates hardware cost from installation. Refinements are noted as new minor D2."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What is the dated history of Cobli's client count (founding date, and clients at the end of each of its first three years of selling)? Every year-3 scenario scales directly from it.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What is the company's own landed device cost and installation cost in Brazil, and what are its US per-fleet price and contribution margin? These are needed to recompute break-even and the comodato funding need.",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Can the product run on telematics hardware already certified by ANATEL and offered by a local vendor, removing certification from the critical path?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Are there small Brazilian telematics providers available for acquisition or a stake, and at what indicative valuations?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria are addressed, and the comodato cash requirement is now quantified. The scenario-level outlay is still missing (D2, minor)."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "Limitations are acknowledged and the numeric range is labelled low confidence. The start date for Cobli rests on a planner gloss (D1, minor)."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All 41 calculations recompute correctly, and the window scaling now matches the certification finding. The remaining problems are minor: the hardware-cost basis, the FX framing, and the muddled comparability point (D2, D3)."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Acquisition and certified-hardware entry are added, and the strongest counter-case (Cobli's early ramp) is engaged directly."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "There is a clear entry-mode verdict and a low/central/upper year-3 range on a stated denominator. The confidence field is not split (D4, minor)."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "Evidence and calculation IDs exist and support the claims. The prior Gurtam and 'several estimates' overstatements are corrected. There is no sign of injected instructions."
+    }
+  ]
+}

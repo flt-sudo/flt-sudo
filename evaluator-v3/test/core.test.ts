@@ -267,3 +267,12 @@ describe("limitation claims", () => {
     expect(deterministicFindings(PLAN, reg, fin, []).findings.some((f) => f.gate === "evidence_sufficiency" && f.severity === "major")).toBe(true);
   });
 });
+
+describe("numeric extraction", () => {
+  it("understands k/M suffixes without misreading units", () => {
+    const c = BenchCase.parse({ id: "n", split: "dev", domain: "d", difficulty: ["standard"], request: "r",
+      expected: { summary: "s", mustFlag: [], mustNotClaim: [], numeric: [{ id: "V1", description: "d", value: 246000, tolerance: 500 }, { id: "V2", description: "d", value: 1200000, tolerance: 1 }], criticalFailures: [], expectedAnswerability: "answerable" } });
+    expect(checkReport(c, "worst case ≈ 246k msg/s and 1.2M messages").every((r) => r.pass)).toBe(true);
+    expect(checkReport(c, "about 246 ms and 1.2 MB").filter((r) => r.kind === "numeric").every((r) => !r.pass)).toBe(true);
+  });
+});

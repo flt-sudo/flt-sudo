@@ -122,3 +122,8 @@ the PostToolUse/PostToolUseFailure hooks now also log Glob and Grep. Tests added
 The dev-04 grader returned anchors as numbers (1.0) instead of strings ("1.0"). The Grade schema now normalises
 numeric anchors to their canonical string before validation (a format fix; no judgement changed), and the grading
 packet states that anchors are strings.
+
+### Numeric extraction fix (2026-11-11, dev-05 baseline; before any held-out run)
+The dev-05 baseline wrote "≈ 246k"; the numeric check read 246 and reported a false negative. Number extraction
+now understands k/M/B suffixes (and does not treat units like "MB" or "ms" as multipliers). Numeric checks are
+informational and not part of the pass standard. Test added.

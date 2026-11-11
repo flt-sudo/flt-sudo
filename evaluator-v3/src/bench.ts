@@ -81,7 +81,11 @@ export function checkReport(c: BenchCase, reportText: string): CheckResult[] {
     const hit = new RegExp(m.pattern, "is").exec(reportText);
     out.push({ id: m.id, kind: "mustNotClaim", description: m.description, pass: !hit, detail: hit ? `forbidden claim matched: "${hit[0].slice(0, 120)}"` : "absent" });
   }
-  const numbers = [...reportText.matchAll(/-?\$?\d[\d,]*(?:\.\d+)?/g)].map((x) => Number(x[0].replace(/[$,]/g, ""))).filter((n) => Number.isFinite(n));
+  // Numbers with optional thousands separators and k/M/B suffixes ("246k", "1.2M", "$14,400").
+  const mult: Record<string, number> = { k: 1e3, K: 1e3, m: 1e6, M: 1e6, b: 1e9, B: 1e9 };
+  const numbers = [...reportText.matchAll(/-?\$?(\d[\d,]*(?:\.\d+)?)\s?([kKmMbB])?(?![a-zA-Z])/g)]
+    .map((x) => Number(x[1]!.replace(/,/g, "")) * (x[2] ? mult[x[2]]! : 1))
+    .filter((n) => Number.isFinite(n));
   for (const n of c.expected.numeric) {
     const hit = numbers.some((v) => Math.abs(v - n.value) <= n.tolerance);
     out.push({ id: n.id, kind: "numeric", description: n.description, pass: hit, detail: hit ? `value ≈ ${n.value} present` : `no number within ±${n.tolerance} of ${n.value}` });

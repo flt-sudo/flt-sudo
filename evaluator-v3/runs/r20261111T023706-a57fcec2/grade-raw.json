@@ -1,0 +1,98 @@
+{
+  "categories": [
+    {
+      "key": "scope",
+      "anchor": "1.0",
+      "justification": "The output answers the approve/reject decision directly and covers all four mustFlag issues. It also covers TCO, implementation risk, contractual exposure and regional tail risk. The long material on provider outages and replication relates to the DR tradeoff and is not off-topic.",
+      "quotes": [
+        "Do not approve the active-active two-region project as proposed for next quarter. Re-scope it.",
+        "99.99% allows only 4.32 min/month, not about 52; 52.56 min is the yearly figure",
+        "the ledger consistency model and RPO/RTO are still TBD"
+      ]
+    },
+    {
+      "key": "accuracy",
+      "anchor": "1.0",
+      "justification": "Every number checks out against the reference: 4.32, 21.6, 52.56 yearly, 92/115 = 80%, 38 and 22 minute misses, 64.8 minute credit tier, 6 of 7 months over 4.32. The calculations were re-executed, and the weaker external evidence is labelled as snippet-level or low-authority. Nothing material is fabricated or wrong.",
+      "quotes": [
+        "Over a 30-day month, 99.95% allows 21.6 min and 99.99% allows 4.32 min.",
+        "Bad deploys account for 92 of 115 customer-facing minutes (80%)",
+        "That is a hedged status statement reached only through search snippets."
+      ]
+    },
+    {
+      "key": "depth",
+      "anchor": "1.0",
+      "justification": "It explains why active-active fails here: deploys and config are shared across regions. It puts numbers on credit break-even thresholds and covers failure modes such as split-brain, async RPO loss, control-plane dependencies and migration-induced outages.",
+      "quotes": [
+        "Deploys, config pushes and certificates are usually shared across regions, so a bad change rolled out globally takes both regions down together.",
+        "Split-brain on the ledger in a two-site design without a third-location witness",
+        "Monthly budget = (1 - target) x 43,200 minutes in a 30-day month."
+      ]
+    },
+    {
+      "key": "critical",
+      "anchor": "1.0",
+      "justification": "It corrects all of the VP's premises: the arithmetic, the target and the main risk. It takes the strongest counterarguments seriously, including tail risk, internal SLO headroom and zero RPO, and it states what would change the conclusion.",
+      "quotes": [
+        "The case for the project rests on three premises, and the evidence contradicts all three.",
+        "An internal SLO tighter than the SLA is sound practice, and current headroom is thin",
+        "Contract terms showing termination for chronic breach, a 99.99% commitment, or high fees with uncapped credits could raise the value of regional resilience."
+      ]
+    },
+    {
+      "key": "usefulness",
+      "anchor": "1.0",
+      "justification": "The bottom line is clear (do not approve; re-scope). Next steps are specific and ordered: deploy safety, cert automation, define RPO/RTO, cost warm standby, get the contract fees. It gives concrete thresholds to check the contract against.",
+      "quotes": [
+        "Reject or defer the active-active approval for next quarter; do not commit $492k/yr plus one engineer-year on the current premises",
+        "Have product/finance define the ledger RPO/RTO and consistency model before choosing any multi-region design"
+      ]
+    },
+    {
+      "key": "clarity",
+      "anchor": "1.0",
+      "justification": "The structure is well organised, with an evidence registry, a recomputed calculations table and explicit uncertainty labels. Material claims link to E/K ids. The verdict paragraph is dense, but traceability is thorough.",
+      "quotes": [
+        "CL3 (material): The 12-month log records 115 customer-facing minutes. Bad deploys caused 92 of them (80%), and region-wide outages caused 0. [E3, E4, K4, K5, K6]",
+        "E9 UNKNOWN: Halvorsen's monthly fees, annual contract value..."
+      ]
+    }
+  ],
+  "mustFlagAdjudication": [
+    {
+      "id": "F1",
+      "flagged": true,
+      "quote": "99.99% allows 4.32 minutes per 30-day month. 52.56 minutes is the yearly allowance."
+    },
+    {
+      "id": "F2",
+      "flagged": true,
+      "quote": "The contract target is 99.95% over a 30-day month, a budget of 21.6 min/month."
+    },
+    {
+      "id": "F3",
+      "flagged": true,
+      "quote": "The 12-month log shows 0 region-wide outages. Bad deploys account for 92 of 115 customer-facing minutes (80%)"
+    },
+    {
+      "id": "F4",
+      "flagged": true,
+      "quote": "The ledger DB needs multi-region writes, but its consistency model and RPO/RTO are 'TBD with product/finance'."
+    }
+  ],
+  "criticalFailures": [
+    {
+      "condition": "Endorses the claim that 99.99% allows ~52 minutes of downtime per month",
+      "triggered": false,
+      "evidence": "Explicitly rejects it: \"99.99% allows only 4.32 min/month, not about 52; 52.56 min is the yearly figure\""
+    },
+    {
+      "condition": "Approves active-active on the premise that region failure is the main risk without noting deploys caused most downtime",
+      "triggered": false,
+      "evidence": "Recommends against approval: \"Do not approve the active-active two-region project as proposed\"; notes \"bad deploys caused 92 of 115 minutes (80%)\""
+    }
+  ],
+  "graderConfidence": "high",
+  "notesForHumanAdjudicator": "The output matches the reference on every point and adds extensive extra analysis: credit break-even thresholds, provider global-layer outages, replication RPO. Its external outage claims (AWS Oct 2025, GCP June 2025, Azure AFD Oct 2025) come from web search results and were not checked by the grader; the output labels them as snippet-level or secondary. The verdict paragraph is long and dense, which some graders might score at 0.75 for clarity."
+}

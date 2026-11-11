@@ -1,0 +1,79 @@
+{
+  "defects": [],
+  "priorDefects": [
+    {
+      "id": "D1",
+      "status": "fixed",
+      "note": "The verdict no longer calls it 'doubtful' that active-active would avoid a regional event. It now says the packet 'does not establish, either way, whether a same-provider second region would have stayed available during a region-scoped event like Oct 2025'. C3.mechanisms drops 'which E21/E22 cast doubt on' and now separates E21 (control-plane functions, not other regions' data planes) from E23/E24 ('a different failure class'). CL17 and a new remainingUncertainty item give the same caveat. The remaining text about global layers (C1.weaknesses, counterargument[0]) is limited to shared global-layer failures, which the evidence does support."
+    },
+    {
+      "id": "D2",
+      "status": "fixed",
+      "note": "K18, CL17, C3.mechanisms (b), the verdict, practicalImplications[5], remainingUncertainty[0] and furtherResearch[0] now call the $2.46M/yr churn figure an illustrative point estimate and 'not a bound'. They say the 1-in-5-years frequency is arbitrary, that a multi-year relationship lowers the figure and that margin accounting raises it. practicalImplications explicitly says not to use it as a pass/fail bar. The 'lower bound' label is now attached only to the credit thresholds, and the four reasons given (engineering cost excluded, uncapped credits and full unavailability, whole event avoided, cheaper hedges ignored) all push the threshold the stated way. The draft also correctly adds that the credit thresholds are not bounds with respect to frequency."
+    },
+    {
+      "id": "D3",
+      "status": "fixed",
+      "note": "The verdict's 'only if two things hold' is replaced with 'here is one example of how avoided credits could pay for the project'. It adds that more frequent events or multi-tier credits from shorter outages would lower the fee thresholds."
+    },
+    {
+      "id": "D4",
+      "status": "fixed",
+      "note": "CL20, edgeCasesAndFailureModes[3], C1.strengths[0] and C6.assessment now quote E21's hedged wording ('may also be experiencing issues') and say it was reached through secondary outlets or search snippets."
+    }
+  ],
+  "materialResearchGaps": [
+    {
+      "question": "What are Halvorsen's monthly fees, contract value, expected remaining relationship length, credit cap and any termination-for-chronic-breach or renewal terms?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What ledger RPO does product/finance require, and can a single-writer standby with synchronous or semi-synchronous replication meet it at acceptable commit latency for this database engine?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "Which provider and region does the company use, and what is that region's multi-year record of multi-hour region-scoped outages?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "During the Oct 2025 us-east-1 event, did workloads running active-active or warm standby in other AWS regions stay available at the data-plane level?",
+      "couldChangeVerdict": true
+    },
+    {
+      "question": "What end-to-end failover time does a rehearsed warm standby achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?",
+      "couldChangeVerdict": true
+    }
+  ],
+  "gateOpinions": [
+    {
+      "gate": "coverage",
+      "pass": true,
+      "reason": "All six criteria and every user premise are addressed. The sensitivity analysis, the warm-standby/pilot-light RTO and RPO tests and the internal-SLO reading are all present."
+    },
+    {
+      "gate": "evidence_sufficiency",
+      "pass": true,
+      "reason": "The claim that active-active would not avoid a regional event, which went beyond the evidence, has been withdrawn in favour of an explicit 'not established'. Snippet-level and hedged sources are labelled as such. The confidence level is moderate, and that is proportionate."
+    },
+    {
+      "gate": "reasoning_validity",
+      "pass": true,
+      "reason": "All 19 calculations recompute: 21.6, 4.32, 52.56, 115, 92, 0.8, 99.912, 99.949, 64.8, 492000, 410000, 0.4, 40.3, 1.964, 12.17, 258947, 1294737, 2460000 and 0.5056. Each bound now points the right way. The credit thresholds are lower bounds with respect to cost and credit assumptions but not with respect to frequency. The churn figure is a point estimate whose sensitivities are stated in the right direction. The 'only if' framing is gone."
+    },
+    {
+      "gate": "alternatives_counterarguments",
+      "pass": true,
+      "reason": "Each alternative is compared on its merits: warm standby and pilot light, deploy safety, deferral, and synchronous replication versus multi-writer replication. The strongest counterarguments (tail regional risk, async RPO for a ledger, and 99.99% as an internal SLO) are steelmanned and answered."
+    },
+    {
+      "gate": "decision_usefulness",
+      "pass": true,
+      "reason": "The verdict is clear: do not approve as proposed, and re-scope. It gives concrete next steps and correctly labelled thresholds to check against the real contract, and names the conditions that would change the conclusion."
+    },
+    {
+      "gate": "traceability",
+      "pass": true,
+      "reason": "The cited evidence IDs exist, and the wording now matches the hedging in E21. E10 is used for the regional trigger and the partial-impact caveat, consistent with the earlier fixes. No sign of any injected instruction being followed."
+    }
+  ]
+}

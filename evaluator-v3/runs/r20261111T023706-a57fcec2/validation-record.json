@@ -1,0 +1,536 @@
+{
+  "runId": "r20261111T023706-a57fcec2",
+  "generatedAt": "2026-11-11T02:57:06.340Z",
+  "generatedBy": "code (src/validation-record.ts) from tool-log.jsonl and run files — not written by the model",
+  "researchPerformed": {
+    "webSearches": [
+      {
+        "query": "availability table 99.95% 99.99% downtime per month 4.32 minutes 21.6 minutes",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "AWS us-east-1 outage October 2025 duration DynamoDB DNS post-event summary",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "AWS disaster recovery strategies backup restore pilot light warm standby multi-site active-active RTO RPO cost whitepaper",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "multi-region active-active database writes conflicts split-brain financial ledger strong consistency trade-offs latency",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      },
+      {
+        "query": "percentage of outages caused by changes deployments configuration Google SRE \"70%\" outages due to changes in a live system",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "AWS us-east-1 December 7 2021 outage duration hours post-event summary region-wide",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 17
+      },
+      {
+        "query": "AWS October 2025 us-east-1 outage IAM global services impact other regions",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 15
+      },
+      {
+        "query": "Aurora Global Database replication lag typically under 1 second RPO managed failover RTO",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "Google Cloud outage June 12 2025 Service Control global quota policy multiple regions incident report",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 19
+      },
+      {
+        "query": "Azure Front Door October 29 2025 global configuration change outage post incident review",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "warm standby pilot light regional failover actual time minutes detection decision DNS TTL Route 53 Application Recovery Controller",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 18
+      },
+      {
+        "query": "synchronous cross-region replication write latency cost zero RPO Spanner multi-region commit latency semi-synchronous MySQL",
+        "ok": true,
+        "agentType": "eval-researcher",
+        "resultCount": 10
+      }
+    ],
+    "webFetches": [
+      {
+        "url": "https://sre.google/sre-book/availability-table/",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND sre.google. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not "
+      },
+      {
+        "url": "https://aws.amazon.com/message/101925",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does "
+      },
+      {
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html",
+        "ok": false,
+        "error": "getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or "
+      }
+    ],
+    "fixturesRead": [
+      "contract-sla-clause.md",
+      "multi-region-estimate.md",
+      "incident-log-12m.csv"
+    ],
+    "deniedByGuard": [],
+    "subagentCalls": [
+      {
+        "agentType": "eval-planner",
+        "description": "ho-05 planner",
+        "ok": true,
+        "usage": {
+          "totalTokens": 13030,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 38901,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 407
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 832,
+            "cache_read_input_tokens": 9010,
+            "output_tokens": 3186,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 832
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 3186,
+                "cache_read_input_tokens": 9010,
+                "cache_creation_input_tokens": 832,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 832,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-05 researcher",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-05 analyst draft 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 38830,
+          "totalToolUseCount": 3,
+          "totalDurationMs": 100421,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 1343
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 21888,
+            "cache_read_input_tokens": 6135,
+            "output_tokens": 10805,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 21888
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 10805,
+                "cache_read_input_tokens": 6135,
+                "cache_creation_input_tokens": 21888,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 21888,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-05 adversary review 1",
+        "ok": true,
+        "usage": {
+          "totalTokens": 44271,
+          "totalToolUseCount": 8,
+          "totalDurationMs": 70751,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 3012
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 830,
+            "cache_read_input_tokens": 37359,
+            "output_tokens": 6080,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 830
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 6080,
+                "cache_read_input_tokens": 37359,
+                "cache_creation_input_tokens": 830,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 830,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-researcher",
+        "description": "ho-05 follow-up research",
+        "ok": true
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-05 analyst draft 2",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-05 adversary review 2",
+        "ok": true,
+        "usage": {
+          "totalTokens": 74348,
+          "totalToolUseCount": 7,
+          "totalDurationMs": 69661,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 3045
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 58242,
+            "cache_read_input_tokens": 9808,
+            "output_tokens": 6296,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 58242
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 6296,
+                "cache_read_input_tokens": 9808,
+                "cache_creation_input_tokens": 58242,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 58242,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-analyst",
+        "description": "ho-05 analyst draft 3",
+        "ok": true
+      },
+      {
+        "agentType": "eval-adversary",
+        "description": "ho-05 adversary review 3",
+        "ok": true,
+        "usage": {
+          "totalTokens": 36896,
+          "totalToolUseCount": 6,
+          "totalDurationMs": 39539,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 404
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 802,
+            "cache_read_input_tokens": 33825,
+            "output_tokens": 2267,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 802
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2267,
+                "cache_read_input_tokens": 33825,
+                "cache_creation_input_tokens": 802,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 802,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      },
+      {
+        "agentType": "eval-grader",
+        "description": "ho-05 agent grading",
+        "ok": true,
+        "usage": {
+          "totalTokens": 35253,
+          "totalToolUseCount": 2,
+          "totalDurationMs": 28339,
+          "usage": {
+            "output_tokens_details": {
+              "thinking_tokens": 625
+            },
+            "input_tokens": 2,
+            "cache_creation_input_tokens": 27611,
+            "cache_read_input_tokens": 5070,
+            "output_tokens": 2570,
+            "server_tool_use": {
+              "web_search_requests": 0,
+              "web_fetch_requests": 0
+            },
+            "service_tier": "standard",
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 27611
+            },
+            "inference_geo": "global",
+            "iterations": [
+              {
+                "input_tokens": 2,
+                "output_tokens": 2570,
+                "cache_read_input_tokens": 5070,
+                "cache_creation_input_tokens": 27611,
+                "cache_creation": {
+                  "ephemeral_5m_input_tokens": 27611,
+                  "ephemeral_1h_input_tokens": 0
+                },
+                "type": "message"
+              }
+            ],
+            "speed": "standard",
+            "fallback_credit": null
+          }
+        }
+      }
+    ]
+  },
+  "sourcesInspected": [
+    {
+      "ref": "contract-sla-clause.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "multi-region-estimate.md",
+      "how": "fixture_read"
+    },
+    {
+      "ref": "incident-log-12m.csv",
+      "how": "fixture_read"
+    }
+  ],
+  "sourcesCitedFromSearchSnippetsOnly": [
+    "https://hyperping.com/99.95",
+    "https://aws.amazon.com/message/101925",
+    "https://aws.amazon.com/message/12721",
+    "https://sre.google/sre-book/",
+    "https://docs.aws.amazon.com/wellarchitected/latest/framework/rel_planning_for_recovery_disaster_recovery.html",
+    "https://archman.dev/docs/cloud-native-and-runtime-topology/topologies/multi-region-active-active-vs-active-passive",
+    "https://www.itweb.co.za/article/aws-hit-by-global-outage/rxP3jMBEeay7A2ye",
+    "https://blog.incidenthub.cloud/definitive-aws-outage-report-2025-reliability",
+    "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW",
+    "https://www.thousandeyes.com/blog/microsoft-azure-front-door-outage-analysis-october-29-2025",
+    "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html",
+    "https://aws.amazon.com/blogs/database/managed-planned-failovers-with-amazon-aurora-global-database",
+    "https://oneuptime.com/blog/post/2026-03-20-aurora-global-databases-opentofu/view",
+    "https://oneuptime.com/blog/post/2026-02-12-multi-region-active-passive-pilot-light-aws/view",
+    "https://open-exam-prep.com/study-guides/aws-devops-pro/scalability-autoscaling-disaster-recovery/disaster-recovery-rto-rpo-tiers",
+    "https://docs.cloud.google.com/spanner/docs/replication",
+    "https://oneuptime.com/blog/post/2026-09-23-cross-region-single-leader-replication-latency/markdown"
+  ],
+  "checksExecuted": [
+    "Evidence registry validation: 33 accepted, 0 rejected (source never retrieved / schema), 0 classification downgrade(s)",
+    "Deterministic quality gates over 3 draft(s)",
+    "Calculation K1 re-executed: (1 - 0.9995) * 30 * 1440 = 21.59999999999762 (claimed 21.6) → match",
+    "Calculation K2 re-executed: (1 - 0.9999) * 30 * 1440 = 4.319999999999524 (claimed 4.32) → match",
+    "Calculation K3 re-executed: (1 - 0.9999) * 365 * 1440 = 52.55999999999421 (claimed 52.56) → match",
+    "Calculation K4 re-executed: 18 + 38 + 9 + 14 + 3 + 22 + 11 = 115 (claimed 115) → match",
+    "Calculation K5 re-executed: 18 + 38 + 14 + 22 = 92 (claimed 92) → match",
+    "Calculation K6 re-executed: 92 / 115 = 0.8 (claimed 0.8) → match",
+    "Calculation K7 re-executed: (1 - 38 / 43200) * 100 = 99.91203703703704 (claimed 99.912) → match",
+    "Calculation K8 re-executed: (1 - 22 / 43200) * 100 = 99.94907407407408 (claimed 99.949) → match",
+    "Calculation K9 re-executed: 21.6 + 0.001 * 43200 = 64.80000000000001 (claimed 64.8) → match",
+    "Calculation K10 re-executed: 41000 * 12 = 492000 (claimed 492000) → match",
+    "Calculation K11 re-executed: 41000 / 0.10 = 410000 (claimed 410000) → match",
+    "Calculation K12 re-executed: 22 - 21.6 = 0.3999999999999986 (claimed 0.4) → match",
+    "Calculation K13 re-executed: 14.5 * 60 / 21.6 = 40.27777777777778 (claimed 40.3) → match",
+    "Calculation K14 re-executed: 99.95 - (1 - 870 / 43200) * 100 = 1.9638888888888886 (claimed 1.964) → match",
+    "Calculation K15 re-executed: 52.56 / 4.32 = 12.166666666666666 (claimed 12.17) → match",
+    "Calculation K16 re-executed: 41000 * 12 / 1.9 = 258947.36842105264 (claimed 258947) → match",
+    "Calculation K17 re-executed: 41000 * 12 / (1.9 * 0.2) = 1294736.8421052631 (claimed 1294737) → match",
+    "Calculation K18 re-executed: 41000 * 12 * 5 = 2460000 (claimed 2460000) → match",
+    "Calculation K19 re-executed: 99.95 - (1 - 240 / 43200) * 100 = 0.50555555555556 (claimed 0.5056) → match",
+    "Context packet contradiction-retention assertion"
+  ],
+  "checksNotExecuted": [
+    "Fetch failed: https://sre.google/sre-book/availability-table/ — getaddrinfo ENOTFOUND sre.google. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does not ",
+    "Fetch failed: https://aws.amazon.com/message/101925 — getaddrinfo ENOTFOUND aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or does ",
+    "Fetch failed: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html — getaddrinfo ENOTFOUND docs.aws.amazon.com. In this cloud session a host fails to resolve like this when it is outside the session's allowed network domains, or ",
+    "Full-page web inspection: WebFetch is blocked by this environment's network policy; web sources are search snippets unless fetched",
+    "Knowledge gap G3 unresolved: Monthly fees, contract value and any termination, chronic-breach or renewal terms beyond the C.1/C.2 excerpt are not in the supplied documents and cannot be found publicly. The credit interpretation of 'full 0.1%' is inferred, not confirmed.",
+    "Knowledge gap G4 unresolved: The provider and region in use are unknown, and there is no authoritative base rate for regional outages. Primary post-event summaries (AWS 101925, Google incident report, Microsoft PIR YKYN-BWZ) were seen only through search snippets. aws.amazon.com and docs.aws.amazon.com fetches failed with ENOTFOUND and would need to be allowed in the session's network settings. Whether IAM authentication (as opposed to IAM updates) failed in other regions during Oct 2025 is not established. No documented certificate-issuance-driven multi-region outage was retrieved (search budget exhausted).",
+    "Knowledge gap G5 unresolved: No company-specific costs or downtime-reduction estimates exist for the targeted alternatives. End-to-end failover times for pilot light and warm standby come only from blogs and study guides, and they conflict (about 10-30 min vs 30-60 min vs 1-4 h). No official AWS measured figure was found.",
+    "Knowledge gap G6 unresolved: The ledger DB's consistency model, engine and RPO/RTO are TBD. Async replication RPO (seconds, typical lag under 1 s for Aurora) and synchronous-replication trade-offs are documented only qualitatively. No authoritative millisecond latency figures for synchronous or semi-synchronous cross-region commits (incl. MySQL semi-sync) were retrieved. The delivery timeline needs platform team confirmation.",
+    "Knowledge gap G1 unresolved: Downtime arithmetic is resolved, but whether the log minutes match the contractual measurement (exclusions, degraded states) is unverified. The canonical Google SRE availability table could not be fetched (sre.google not resolvable in session)."
+  ],
+  "independentValidationStatus": "Graded by separate grader process (eval-grader (native agent, claude-opus-5-5), prompts v5); total 100/100; critical failures: none. Grader is the same model family as the agent.",
+  "remainingUncertainty": [
+    "Monthly fees, contract value, remaining relationship length, credit cap and termination or chronic-breach terms are unknown (E9). The credit break-even thresholds are lower bounds that exclude engineering cost. The churn figure is an illustrative point estimate that depends on relationship length, margin and an arbitrary outage frequency, and it could move in either direction.",
+    "How 'full 0.1%' is applied in credit calculation is inferred, not confirmed",
+    "The provider, region and base rate of region-wide outages are unknown (E12). Regional event durations come from search snippets, and the Oct 2025 window included varying, partial impact (E10).",
+    "The packet does not establish whether workloads in other AWS regions stayed available at the data-plane level during the Oct 2025 event, as opposed to hedged reports of issues with global control-plane features (E21, E22). So it is unresolved how much of a region-scoped event a same-provider second region would avoid.",
+    "End-to-end failover times for pilot light and warm standby conflict (E28: about 10-30 min; E29: 30-60 min or 1-4 h). Neither source is authoritative, and no measured vendor figure exists (E32).",
+    "Whether Aurora-style managed unplanned failover exists is contested (E26 older AWS post vs E27 newer 2026 guide). E27 is more recent and E26 is likely superseded, and both imply data loss on unplanned async failover, so the RPO conclusion does not depend on which is right. The company's DB engine is unknown.",
+    "The ledger RPO requirement, and the commit-latency cost of synchronous cross-region replication for this stack, are unknown (E5, E30, E31, E32)",
+    "The cost of failover drills and standby maintenance is not in the packet",
+    "There are no internal cost or effectiveness estimates for the targeted alternatives (E17)",
+    "Log completeness and alignment with the contract's measurement are unverified (E19)",
+    "Whether 'next quarter' means start or completion is unconfirmed (E18)",
+    "Sources on active-active ledger conflict risk are low-authority snippets (E15)",
+    "E9 UNKNOWN: Halvorsen's monthly fees, annual contract value, and any termination-for-chronic-breach, renewal or escalation terms are not available in the supplied documents.",
+    "E12 UNKNOWN: The provider and region the company uses are not stated, and no rigorous annual frequency of full-region outages could be established. The log reports 0 region-wide outages affecting the company in 12 months.",
+    "E17 UNKNOWN: No cost figures or downtime-reduction estimates were found for this company's targeted alternatives (canary/progressive deploys with automated rollback, schema-migration discipline, config validation, certificate auto-renewal and monitoring, payment-API fallback, warm standby).",
+    "E19 UNKNOWN: It is not known whether the incident log is complete or whether its customer-facing minutes match the contract's availability measurement (e.g. degraded-but-up states, maintenance exclusions, calendar vs 30-day month).",
+    "E32 UNKNOWN: No authoritative figures were found for (a) MySQL semi-synchronous cross-region commit latency, (b) measured (as opposed to design-target) end-to-end warm standby failover times including human decision time, or (c) a vendor-published end-to-end regional failover time.",
+    "Open question the reviewer judged decisive: What are Halvorsen's monthly fees, contract value, expected remaining relationship length, credit cap and any termination-for-chronic-breach or renewal terms?",
+    "Open question the reviewer judged decisive: What ledger RPO does product/finance require, and can a single-writer standby with synchronous or semi-synchronous replication meet it at acceptable commit latency for this database engine?",
+    "Open question the reviewer judged decisive: Which provider and region does the company use, and what is that region's multi-year record of multi-hour region-scoped outages?",
+    "Open question the reviewer judged decisive: During the Oct 2025 us-east-1 event, did workloads running active-active or warm standby in other AWS regions stay available at the data-plane level?",
+    "Open question the reviewer judged decisive: What end-to-end failover time does a rehearsed warm standby achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?"
+  ],
+  "revisions": {
+    "count": 2,
+    "entries": [
+      {
+        "cycle": 1,
+        "ts": "2026-11-11T02:44:45.293Z",
+        "reasons": [
+          "[traceability/major] D1 [edgeCasesAndFailureModes[3]; compare criteriaAssessments C1.strengths[0], C6.assessment, CL10] The edge case says shared control-plane or global services (DNS, identity, certificate issuance) can 'fail and take down both regions, as the Oct 2025 DNS-automation event shows can happen'. E10 does not support this. It describes the Oct 2025 event as 'region-scoped': an empty DNS record for DynamoDB's regional endpoint in us-east-1. It says nothing about two regions going down together. The draft also uses the same event in C1, C3, C6 and CL10 as its main example of a single-region loss that multi-region would protect against. So one event is cited for two opposite points, and the cross-region claim has no support. This matters because a reader could take it as evidence that active-active would fail in exactly the tail scenario that is its main justification.",
+          "[coverage/major] D2 [criteriaAssessments C3.mechanisms, C6.mechanisms; CL8; furtherResearchThatCouldChangeConclusion] The main unknown, Halvorsen's fees and contract value, is left open. There is no threshold or sensitivity analysis to bound the decision. The only break-even (CL8) covers credits alone with a first-tier credit every month. That is a strawman: the real case for the project is losing the customer or a rare long regional outage, not routine credits. The draft could have computed: (a) the regional-outage frequency at which expected credits plus churn loss reach about $492k/yr plus one engineer-year, using CL10's 19-step credit per event; and (b) the annual contract value at which avoiding one customer-loss event every N years pays for the project. Without this the decision-maker cannot tell how big a fee or termination clause would flip the verdict, even though the draft lists those as research that could change the conclusion. C3 (20%) and C6 (8%) are therefore assessed only qualitatively.",
+          "[alternatives_counterarguments/major] D3 [alternatives[3]; C6.mechanisms; counterarguments[0].response; tradeoffs[0]] The recommended hedge, warm standby or pilot light, is presented with upsides only. The draft does not check whether warm standby's RTO ('in minutes'; pilot light 'tens of minutes', per E14), plus detection and decision time, would keep a regional failover inside the 21.6-minute monthly budget or under the 64.8-minute first credit tier. Pilot light at tens of minutes could plausibly breach both. The draft also calls 'keeps the ledger single-writer' a pure benefit, but it does not mention that async-replicated standby means RPO above zero, i.e. possible loss of committed financial ledger transactions on failover. For a ledger that is the strongest argument for active-active or synchronous replication, and the draft leaves it out. Failover-drill cost and the risk that a rarely used standby does not work when needed are also absent. The comparison with active-active is therefore one-sided.",
+          "D1 and D3 have remedy 'both' (Oct 2025 event scope; warm-standby RTO/RPO realism); D2/D4-D7 reanalysis"
+        ],
+        "action": "both"
+      },
+      {
+        "cycle": 2,
+        "ts": "2026-11-11T02:52:56.598Z",
+        "reasons": [
+          "[evidence_sufficiency/major] D1 [verdict (final sentences on lower bounds); C3.mechanisms ('which E21/E22 cast doubt on'); CL17] The verdict is new in draft-2. It says the break-even thresholds assume active-active would avoid the whole regional event, 'which is doubtful: recent large outages have spread through shared global layers that a second region at the same provider would still depend on.' The evidence does not support 'doubtful'. CL20 says 'the extent of data-plane impact in other regions is not established', and E21's own limitations say the snippets cover IAM 'updates' (control-plane changes), not authentication or data planes in other regions. The two other examples are not regional events. Google Cloud June 2025 (E23) and Azure Front Door Oct 2025 (E24) were global-layer failures, so they say nothing about whether a second region would have survived a region-scoped trigger like us-east-1 Oct 2025. That scenario is exactly what active-active is built for. E33 also describes itself as 'anecdotes, not a base rate'. Using global-outage anecdotes to discount active-active's main benefit against regional outages mixes two failure classes, and states the conclusion with more confidence than the snippet-level evidence allows. A decision-maker could undervalue regional redundancy as a result. The verdict does not need this point: it holds on C1, C2 and C5 alone.",
+          "[reasoning_validity/major] D2 [CL17; K18; C3.mechanisms (b); practicalImplications[5]; furtherResearchThatCouldChangeConclusion[0]; verdict] The new sensitivity analysis calls all its thresholds 'lower bounds'. That holds for the credit thresholds (K16, K17): they assume uncapped credits, full unavailability and no engineering cost, and each relaxation raises the threshold. It does not hold for the churn threshold (K18, about $2.46M/yr). K18 assumes losing Halvorsen forfeits exactly one year of contract value. If the customer would otherwise stay several years, the forfeited value is larger and the threshold falls (about $820k/yr for a 3-year remaining lifetime). Using revenue rather than margin pushes the other way. The 'one loss every 5 years' frequency is arbitrary and not tied to any evidence (E12 gives no base rate). So $2.46M/yr is an illustrative point estimate under arbitrary assumptions, not a bound. Yet practicalImplications and furtherResearchThatCouldChangeConclusion tell the decision-maker to compare the real contract value against it. A contract worth, say, $1.5M/yr with a multi-year relationship could wrongly look as if it fails to clear the bar.",
+          "D1/D2 major (overstated 'doubtful'; churn threshold mislabelled lower bound), remedy reanalysis"
+        ],
+        "action": "reanalysis"
+      }
+    ]
+  },
+  "finalQualityGates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "certified": true
+}

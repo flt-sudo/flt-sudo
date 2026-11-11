@@ -1,0 +1,174 @@
+{
+  "gates": {
+    "coverage": {
+      "pass": true,
+      "findings": []
+    },
+    "evidence_sufficiency": {
+      "pass": true,
+      "findings": []
+    },
+    "reasoning_validity": {
+      "pass": true,
+      "findings": []
+    },
+    "alternatives_counterarguments": {
+      "pass": true,
+      "findings": []
+    },
+    "decision_usefulness": {
+      "pass": true,
+      "findings": []
+    },
+    "traceability": {
+      "pass": true,
+      "findings": []
+    }
+  },
+  "calcChecks": [
+    {
+      "id": "K1",
+      "expression": "(1 - 0.9995) * 30 * 1440",
+      "claimed": 21.6,
+      "actual": 21.59999999999762,
+      "ok": true
+    },
+    {
+      "id": "K2",
+      "expression": "(1 - 0.9999) * 30 * 1440",
+      "claimed": 4.32,
+      "actual": 4.319999999999524,
+      "ok": true
+    },
+    {
+      "id": "K3",
+      "expression": "(1 - 0.9999) * 365 * 1440",
+      "claimed": 52.56,
+      "actual": 52.55999999999421,
+      "ok": true
+    },
+    {
+      "id": "K4",
+      "expression": "18 + 38 + 9 + 14 + 3 + 22 + 11",
+      "claimed": 115,
+      "actual": 115,
+      "ok": true
+    },
+    {
+      "id": "K5",
+      "expression": "18 + 38 + 14 + 22",
+      "claimed": 92,
+      "actual": 92,
+      "ok": true
+    },
+    {
+      "id": "K6",
+      "expression": "92 / 115",
+      "claimed": 0.8,
+      "actual": 0.8,
+      "ok": true
+    },
+    {
+      "id": "K7",
+      "expression": "(1 - 38 / 43200) * 100",
+      "claimed": 99.912,
+      "actual": 99.91203703703704,
+      "ok": true
+    },
+    {
+      "id": "K8",
+      "expression": "(1 - 22 / 43200) * 100",
+      "claimed": 99.949,
+      "actual": 99.94907407407408,
+      "ok": true
+    },
+    {
+      "id": "K9",
+      "expression": "21.6 + 0.001 * 43200",
+      "claimed": 64.8,
+      "actual": 64.80000000000001,
+      "ok": true
+    },
+    {
+      "id": "K10",
+      "expression": "41000 * 12",
+      "claimed": 492000,
+      "actual": 492000,
+      "ok": true
+    },
+    {
+      "id": "K11",
+      "expression": "41000 / 0.10",
+      "claimed": 410000,
+      "actual": 410000,
+      "ok": true
+    },
+    {
+      "id": "K12",
+      "expression": "22 - 21.6",
+      "claimed": 0.4,
+      "actual": 0.3999999999999986,
+      "ok": true
+    },
+    {
+      "id": "K13",
+      "expression": "14.5 * 60 / 21.6",
+      "claimed": 40.3,
+      "actual": 40.27777777777778,
+      "ok": true
+    },
+    {
+      "id": "K14",
+      "expression": "99.95 - (1 - 870 / 43200) * 100",
+      "claimed": 1.964,
+      "actual": 1.9638888888888886,
+      "ok": true
+    },
+    {
+      "id": "K15",
+      "expression": "52.56 / 4.32",
+      "claimed": 12.17,
+      "actual": 12.166666666666666,
+      "ok": true
+    },
+    {
+      "id": "K16",
+      "expression": "41000 * 12 / 1.9",
+      "claimed": 258947,
+      "actual": 258947.36842105264,
+      "ok": true
+    },
+    {
+      "id": "K17",
+      "expression": "41000 * 12 / (1.9 * 0.2)",
+      "claimed": 1294737,
+      "actual": 1294736.8421052631,
+      "ok": true
+    },
+    {
+      "id": "K18",
+      "expression": "41000 * 12 * 5",
+      "claimed": 2460000,
+      "actual": 2460000,
+      "ok": true
+    },
+    {
+      "id": "K19",
+      "expression": "99.95 - (1 - 240 / 43200) * 100",
+      "claimed": 0.5056,
+      "actual": 0.50555555555556,
+      "ok": true
+    }
+  ],
+  "criticalCount": 0,
+  "certified": true,
+  "revisionRecommended": false,
+  "revisionTargets": [],
+  "openDecisiveGaps": [
+    "What are Halvorsen's monthly fees, contract value, expected remaining relationship length, credit cap and any termination-for-chronic-breach or renewal terms?",
+    "What ledger RPO does product/finance require, and can a single-writer standby with synchronous or semi-synchronous replication meet it at acceptable commit latency for this database engine?",
+    "Which provider and region does the company use, and what is that region's multi-year record of multi-hour region-scoped outages?",
+    "During the Oct 2025 us-east-1 event, did workloads running active-active or warm standby in other AWS regions stay available at the data-plane level?",
+    "What end-to-end failover time does a rehearsed warm standby achieve for this stack, compared with the 21.6-minute budget and the 64.8-minute first credit tier?"
+  ]
+}

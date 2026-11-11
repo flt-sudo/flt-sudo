@@ -1,0 +1,53 @@
+{
+  "runId": "r20261111T023706-a57fcec2",
+  "caseId": "ho-05-active-active-region",
+  "system": "agent",
+  "grader": "eval-grader (native agent, claude-opus-5-5), prompts v5",
+  "total": 100,
+  "byCategory": {
+    "scope": 20,
+    "accuracy": 25,
+    "depth": 20,
+    "critical": 15,
+    "usefulness": 10,
+    "clarity": 10
+  },
+  "criticalFailures": [],
+  "mustFlag": [
+    {
+      "id": "F1",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F2",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F3",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    },
+    {
+      "id": "F4",
+      "deterministic": true,
+      "grader": true,
+      "flagged": true,
+      "disagreement": false
+    }
+  ],
+  "pass": true,
+  "disputes": [
+    "mustNotClaim N1 regex hit not confirmed by grader (forbidden claim matched: \"99.99% availability 'still gives us around 52 minutes of downtime a month\"); human to decide if it is an endorsement or a quoted rejection"
+  ],
+  "needsHumanAdjudication": true,
+  "graderConfidence": "high",
+  "notes": "The output matches the reference on every point and adds extensive extra analysis: credit break-even thresholds, provider global-layer outages, replication RPO. Its external outage claims (AWS Oct 2025, GCP June 2025, Azure AFD Oct 2025) come from web search results and were not checked by the grader; the output labels them as snippet-level or secondary. The verdict paragraph is long and dense, which some graders might score at 0.75 for clarity."
+}
